@@ -1,109 +1,136 @@
 'use client'
 
-import { useState } from 'react'
-import Image from 'next/image'
+import { useMemo, useState } from 'react'
+import { divisionLabel } from '../lib/match'
+import { evaluateSquad } from '../lib/squad'
+import { GameProvider, useGame } from './GameProvider'
+import ClubTab from './tabs/ClubTab'
+import GachaTab from './tabs/GachaTab'
+import MatchTab from './tabs/MatchTab'
+import SquadTab from './tabs/SquadTab'
 
-const rarityColors: Record<string, string> = {
-  Normal: 'bg-gray-300',
-  Rare: 'bg-blue-400',
-  Legend: 'bg-yellow-400',
-  Live: 'bg-red-500',
-  World: 'bg-green-500',
-}
+const TABS = [
+  { key: 'gacha', label: '뽑기' },
+  { key: 'squad', label: '스쿼드' },
+  { key: 'club', label: '선수단' },
+  { key: 'match', label: '경기' },
+] as const
 
-const rarityEffects: Record<string, string> = {
-  Legend: 'animate-ping',
-  Live: 'animate-bounce',
-  World: 'animate-spin',
-}
+type TabKey = (typeof TABS)[number]['key']
 
 export default function GachaGame() {
-  const [gold, setGold] = useState(1200)
-  const [card, setCard] = useState<null | {
-    name: string
-    rarity: string
-    position: string
-    image: string
-  }>(null)
-  const [isSpinning, setIsSpinning] = useState(false)
-  const [reelImage, setReelImage] = useState('/player1.png')
+  return (
+    <GameProvider>
+      <Shell />
+    </GameProvider>
+  )
+}
 
-  const fetchCard = async () => {
-    const res = await fetch('/api/gacha')
-    const data = await res.json()
-    return data
-  }
-
-  const mockDraw = async () => {
-    if (gold < 100 || isSpinning) return
-
-    setGold((prev) => prev - 100)
-    setIsSpinning(true)
-
-    let counter = 0
-    const spin = setInterval(() => {
-      counter++
-      const randomIndex = Math.floor(Math.random() * 5)
-      const randomImage = [`/player1.png`, `/player2.png`, `/legend.png`, `/live.png`, `/world.png`][randomIndex]
-      setReelImage(randomImage)
-    }, 100)
-
-    const result = await fetchCard()
-
-    setTimeout(() => {
-      clearInterval(spin)
-      setCard(result)
-      setReelImage(result.image)
-      setIsSpinning(false)
-    }, 2000)
-  }
+function Shell() {
+  const { state, ready, renameClub, reset } = useGame()
+  const [tab, setTab] = useState<TabKey>('gacha')
+  const [editingClub, setEditingClub] = useState(false)
+  const rating = useMemo(() => evaluateSquad(state.cards, state.squad), [state.cards, state.squad])
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-white text-black overflow-hidden">
-      <div className="text-2xl font-bold mb-4">Gold: {gold}</div>
-      <button
-        onClick={mockDraw}
-        className="bg-black text-white px-6 py-3 rounded-xl text-lg shadow hover:bg-gray-800 disabled:opacity-50"
-        disabled={isSpinning}
-      >
-        Draw Card
-      </button>
+    <main className="min-h-screen bg-slate-950 text-slate-100">
+      <header className="sticky top-0 z-30 border-b border-white/10 bg-slate-950/85 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-4 px-4 py-3">
+          <div className="flex items-center gap-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400 text-lg font-black text-slate-900">
+              FD
+            </span>
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">
+                Football Day
+              </div>
+              {editingClub ? (
+                <input
+                  autoFocus
+                  defaultValue={state.club}
+                  onBlur={(event) => {
+                    renameClub(event.target.value)
+                    setEditingClub(false)
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter') event.currentTarget.blur()
+                  }}
+                  className="w-40 rounded bg-white/10 px-2 py-0.5 text-sm font-bold text-white outline-none"
+                />
+              ) : (
+                <button
+                  onClick={() => setEditingClub(true)}
+                  className="text-sm font-bold text-white hover:text-emerald-300"
+                  title="클럽 이름 변경"
+                >
+                  {state.club} ✎
+                </button>
+              )}
+            </div>
+          </div>
 
-      {/* 애니메이션 이미지 */}
-      <div className="h-40 w-40 mt-8 relative">
-        <Image
-          src={reelImage}
-          alt="reel"
-          fill
-          className="object-contain animate-pulse"
-        />
+          <div className="ml-auto flex items-center gap-2 text-sm">
+            <Stat label="전력" value={rating.overall} />
+            <Stat label="리그" value={divisionLabel(state.division)} />
+            <div className="rounded-xl bg-amber-400/15 px-3 py-2 text-right">
+              <div className="text-[10px] font-bold uppercase text-amber-300/80">Gold</div>
+              <div className="font-black text-amber-300">{state.gold.toLocaleString()}</div>
+            </div>
+          </div>
+        </div>
+
+        <nav className="mx-auto flex max-w-6xl gap-1 px-4">
+          {TABS.map((item) => (
+            <button
+              key={item.key}
+              onClick={() => setTab(item.key)}
+              className={`-mb-px border-b-2 px-4 py-2 text-sm font-bold transition ${
+                tab === item.key
+                  ? 'border-emerald-400 text-emerald-300'
+                  : 'border-transparent text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
+      </header>
+
+      <div className="mx-auto max-w-6xl px-4 py-6">
+        {!ready ? (
+          <p className="py-20 text-center text-sm text-slate-500">저장된 클럽을 불러오는 중...</p>
+        ) : (
+          <>
+            {tab === 'gacha' && <GachaTab />}
+            {tab === 'squad' && <SquadTab />}
+            {tab === 'club' && <ClubTab />}
+            {tab === 'match' && <MatchTab />}
+          </>
+        )}
       </div>
 
-      {card && !isSpinning && (
-        <div
-          className={`relative mt-6 w-60 p-4 rounded-xl shadow-lg text-center text-white ${
-            rarityColors[card.rarity] || 'bg-gray-500'
-          }`}
-        >
-          {['Legend', 'Live', 'World'].includes(card.rarity) && (
-            <div
-              className={`absolute inset-0 rounded-xl border-4 border-white pointer-events-none z-10 ${
-                rarityEffects[card.rarity] || ''
-              }`}
-            />
-          )}
-          <Image
-            src={card.image}
-            alt={card.name}
-            width={100}
-            height={100}
-            className="mx-auto mb-2 object-contain z-20"
-          />
-          <div className="text-xl font-bold z-20 relative">{card.name}</div>
-          <div className="text-sm z-20 relative">Position: {card.position}</div>
-          <div className="text-md font-semibold z-20 relative">Rarity: {card.rarity}</div>
+      <footer className="mx-auto max-w-6xl px-4 pb-10 text-xs text-slate-600">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-4">
+          <span>진행 상황은 이 브라우저에 자동 저장됩니다.</span>
+          <button
+            onClick={() => {
+              if (window.confirm('모든 진행 상황을 지우고 처음부터 시작할까요?')) reset()
+            }}
+            className="rounded-lg bg-white/5 px-3 py-1.5 font-bold text-slate-400 hover:bg-white/10 hover:text-slate-200"
+          >
+            게임 초기화
+          </button>
         </div>
-      )}
+      </footer>
+    </main>
+  )
+}
+
+function Stat({ label, value }: { label: string; value: string | number }) {
+  return (
+    <div className="hidden rounded-xl bg-white/5 px-3 py-2 text-right sm:block">
+      <div className="text-[10px] font-bold uppercase text-slate-500">{label}</div>
+      <div className="font-black text-white">{value}</div>
     </div>
   )
 }

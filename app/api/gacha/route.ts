@@ -1,40 +1,28 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server'
+import { DRAW_TEN_SIZE, drawMany } from '../../../lib/gacha'
+import { RARITY_WEIGHTS } from '../../../lib/rarity'
 
-export async function GET() {
-  const rarities = ['Normal', 'Rare', 'Legend', 'Live', 'World'];
-  const weights = [70, 20, 5, 3, 2];
-  const names = {
-    Normal: '김준성',
-    Rare: '쏘니',
-    Legend: '두 개의 심장',
-    Live: '류상민',
-    World: '차영진',
-  };
-  const images = {
-    Normal: '/player1.png',
-    Rare: '/player2.png',
-    Legend: '/legend.png',
-    Live: '/live.png',
-    World: '/world.png',
-  };
+export const dynamic = 'force-dynamic'
 
-  const rand = Math.random() * 100;
-  let sum = 0;
-  let rarity = 'Normal';
-  for (let i = 0; i < rarities.length; i++) {
-    sum += weights[i];
-    if (rand < sum) {
-      rarity = rarities[i];
-      break;
-    }
-  }
+/**
+ * Rolls one or more cards. `?count=10` runs the ten pull, which guarantees a
+ * Rare or better.
+ */
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url)
+  const requested = Number.parseInt(searchParams.get('count') ?? '1', 10)
+  const count = Number.isFinite(requested) ? Math.min(Math.max(requested, 1), DRAW_TEN_SIZE) : 1
 
-  const card = {
-    name: names[rarity],
-    rarity,
-    position: 'ST',
-    image: images[rarity],
-  };
+  const cards = drawMany(count).map((player) => ({
+    id: player.id,
+    name: player.name,
+    rarity: player.rarity,
+    position: player.position,
+    ovr: player.ovr,
+    nation: player.nation,
+    club: player.club,
+    stats: player.stats,
+  }))
 
-  return NextResponse.json(card);
+  return NextResponse.json({ count, rates: RARITY_WEIGHTS, cards })
 }

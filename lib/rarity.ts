@@ -1,0 +1,89 @@
+import type { Rarity } from './types'
+
+export const RARITIES: Rarity[] = ['Normal', 'Rare', 'Legend', 'Live', 'World']
+
+/** Pull rates, in percent. Must sum to 100. */
+export const RARITY_WEIGHTS: Record<Rarity, number> = {
+  Normal: 70,
+  Rare: 20,
+  Legend: 5,
+  Live: 3,
+  World: 2,
+}
+
+interface RarityStyle {
+  label: string
+  /** Card face gradient. */
+  face: string
+  /** Card border colour. */
+  border: string
+  /** Text colour on the card face. */
+  ink: string
+  /** Small badge used in lists and filters. */
+  chip: string
+  /** Outer glow shown while revealing a pull. */
+  glow: string
+  /** Gold you get for selling a spare copy. */
+  sell: number
+  /** Base cost of one training level. */
+  trainCost: number
+}
+
+export const RARITY_STYLES: Record<Rarity, RarityStyle> = {
+  Normal: {
+    label: '노멀',
+    face: 'from-slate-300 via-slate-200 to-slate-400',
+    border: 'border-slate-500',
+    ink: 'text-slate-900',
+    chip: 'bg-slate-200 text-slate-800',
+    glow: 'shadow-slate-400/40',
+    sell: 60,
+    trainCost: 150,
+  },
+  Rare: {
+    label: '레어',
+    face: 'from-sky-300 via-sky-200 to-blue-500',
+    border: 'border-blue-700',
+    ink: 'text-blue-950',
+    chip: 'bg-sky-200 text-blue-900',
+    glow: 'shadow-sky-400/50',
+    sell: 220,
+    trainCost: 320,
+  },
+  Legend: {
+    label: '레전드',
+    face: 'from-amber-200 via-yellow-300 to-amber-500',
+    border: 'border-amber-700',
+    ink: 'text-amber-950',
+    chip: 'bg-amber-200 text-amber-900',
+    glow: 'shadow-amber-400/60',
+    sell: 900,
+    trainCost: 700,
+  },
+  Live: {
+    label: '라이브',
+    face: 'from-rose-300 via-red-400 to-rose-700',
+    border: 'border-rose-900',
+    ink: 'text-rose-50',
+    chip: 'bg-rose-200 text-rose-900',
+    glow: 'shadow-rose-500/60',
+    sell: 1500,
+    trainCost: 1000,
+  },
+  World: {
+    label: '월드',
+    face: 'from-emerald-200 via-teal-300 to-emerald-600',
+    border: 'border-emerald-900',
+    ink: 'text-emerald-950',
+    chip: 'bg-emerald-200 text-emerald-900',
+    glow: 'shadow-emerald-400/70',
+    sell: 3000,
+    trainCost: 1600,
+  },
+}
+
+export const MAX_LEVEL = 10
+
+export function trainCost(rarity: Rarity, level: number): number {
+  return RARITY_STYLES[rarity].trainCost * level
+}
