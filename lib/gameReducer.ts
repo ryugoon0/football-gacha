@@ -34,7 +34,7 @@ import { getPlayer, levelCap } from './players'
 import { autoFill } from './squad'
 import { releaseValue, type ShardOffer } from './shards'
 import { TOTAL_MATCHDAYS } from './schedule'
-import type { TacticKey } from './tactics'
+import type { TacticSetup } from './tactics'
 import { initialState, newCard, newUid } from './storage'
 import type { Card, FormationKey, GameState, MatchResult, PlayerDef, Squad } from './types'
 
@@ -65,7 +65,7 @@ export type Action =
   | { type: 'assignBench'; index: number; uid: string }
   | { type: 'clearBench'; index: number }
   | { type: 'setFormation'; formation: FormationKey }
-  | { type: 'setTactic'; tactic: TacticKey }
+  | { type: 'setTactic'; tactic: TacticSetup }
   | { type: 'setAutoSub'; enabled: boolean }
   | { type: 'autoFill' }
   | {

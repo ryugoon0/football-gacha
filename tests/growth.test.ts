@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { DEFAULT_TACTIC } from '../lib/tactics'
 import { addExperience, applyExperience, expForLevel, matchRatings } from '../lib/growth'
 import { PLAYERS, PLAYERS_BY_RARITY, getPlayer, seededRandom } from '../lib/players'
 import { subStatsOf } from '../lib/subStats'
@@ -238,7 +239,7 @@ describe('hidden attributes in a match', () => {
           opponent,
           division: 5,
           venue: 'home',
-          tactic: 'balanced',
+          tactic: DEFAULT_TACTIC,
           traits: base.traits,
           rng,
         })

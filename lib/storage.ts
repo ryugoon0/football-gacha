@@ -6,6 +6,7 @@ import { newCardLevel } from './growth'
 import { BOTTOM_DIVISION, createSeason } from './league'
 import { emptyMarket } from './market'
 import { getPlayer } from './players'
+import { DEFAULT_TACTIC, normalizeTactic } from './tactics'
 import { BENCH_SIZE } from './squad'
 import type { Card, GameState } from './types'
 
@@ -14,7 +15,7 @@ import type { Card, GameState } from './types'
  * older games start fresh rather than loading into a broken state.
  */
 export const SAVE_KEY = 'football-day-save-v2'
-export const SAVE_VERSION = 6
+export const SAVE_VERSION = 7
 export const STARTING_GOLD = 3000
 export const DEFAULT_CLUB = '내 클럽 FC'
 
@@ -104,7 +105,7 @@ export function initialState(): GameState {
     gold: STARTING_GOLD,
     cards,
     squad: { formation: '4-3-3', slots, bench },
-    tactic: 'balanced',
+    tactic: DEFAULT_TACTIC,
     autoSub: true,
     season: createSeason(BOTTOM_DIVISION, 1, DEFAULT_CLUB),
     cup: createCup(BOTTOM_DIVISION, 1, DEFAULT_CLUB),
@@ -134,11 +135,17 @@ export function loadState(): GameState {
     const raw = window.localStorage.getItem(SAVE_KEY)
     if (!raw) return initialState()
     const parsed = JSON.parse(raw) as Partial<GameState> & { version?: number }
-    if (!parsed || !Array.isArray(parsed.cards) || parsed.version !== SAVE_VERSION) {
-      return initialState()
-    }
+    if (!parsed || !Array.isArray(parsed.cards)) return initialState()
+    // Version 6 stored the tactic as a single string; everything else matches.
+    if (parsed.version !== SAVE_VERSION && parsed.version !== 6) return initialState()
+
     const state = { ...initialState(), ...parsed } as GameState
-    return { ...state, cards: normalizeCards(state.cards) }
+    return {
+      ...state,
+      version: SAVE_VERSION,
+      cards: normalizeCards(state.cards),
+      tactic: normalizeTactic(state.tactic),
+    }
   } catch {
     return initialState()
   }

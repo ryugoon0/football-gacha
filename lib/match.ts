@@ -1,55 +1,9 @@
-import { BOTTOM_DIVISION, type LeagueTeam } from './league'
-import { POSITION_GROUP } from './players'
-import type { SlotEvaluation, SquadRating } from './squad'
-import { TACTICS, type TacticKey } from './tactics'
-import { NO_TRAIT_EFFECTS, type TraitEffects } from './traits'
-import type { MatchEvent, MatchResult } from './types'
+import { BOTTOM_DIVISION } from './league'
+import { runToEnd, toResult, type MatchSetup, type Venue } from './matchEngine'
+import type { MatchResult } from './types'
 
-const OPPONENT_PLAYERS = [
-  '카를로스',
-  '반더스',
-  '오카다',
-  '실바',
-  '뮐러',
-  '두산',
-  '페레즈',
-  '리베로',
-  '가브리엘',
-  '노바크',
-]
-
-/** Rating bump for playing at home. */
-export const HOME_ADVANTAGE = 3
-
-interface Scorer {
-  name: string
-  uid: string | null
-}
-
-function pickScorer(evaluations: SlotEvaluation[], rng: () => number): Scorer {
-  const candidates = evaluations.filter(
-    (item) => item.player && !item.injured && POSITION_GROUP[item.slotPosition] !== 'GK',
-  )
-  if (candidates.length === 0) return { name: '유스 선수', uid: null }
-  const weights = candidates.map((item) => {
-    const group = POSITION_GROUP[item.slotPosition]
-    const bias = group === 'FW' ? 6 : group === 'MF' ? 3 : 1
-    return bias * (item.player!.stats.sho / 50 + 0.4)
-  })
-  const total = weights.reduce((sum, weight) => sum + weight, 0)
-  let roll = rng() * total
-  for (let i = 0; i < candidates.length; i++) {
-    roll -= weights[i]
-    if (roll <= 0) return { name: candidates[i].player!.name, uid: candidates[i].card!.uid }
-  }
-  const last = candidates[candidates.length - 1]
-  return { name: last.player!.name, uid: last.card!.uid }
-}
-
-function keeperName(evaluations: SlotEvaluation[]): string {
-  const keeper = evaluations.find((item) => item.slotPosition === 'GK')
-  return keeper?.player?.name ?? '유스 골키퍼'
-}
+export { HOME_ADVANTAGE } from './matchEngine'
+export type { Venue, MatchSetup }
 
 export function matchReward(result: 'W' | 'D' | 'L', division: number, scoreFor: number): number {
   const base = result === 'W' ? 420 : result === 'D' ? 180 : 70
@@ -58,141 +12,16 @@ export function matchReward(result: 'W' | 'D' | 'L', division: number, scoreFor:
   return base + share + scoreFor * 30
 }
 
-const clamp = (n: number, min: number, max: number) => Math.max(min, Math.min(max, n))
-
-export type Venue = 'home' | 'away' | 'neutral'
-
-export interface MatchOptions {
-  team: SquadRating
-  teamName: string
-  opponent: LeagueTeam
-  division: number
-  venue: Venue
-  tactic: TacticKey
-  /** What the squad's traits add on top of the ratings. */
-  traits?: TraitEffects
+export interface MatchOptions extends MatchSetup {
   rng?: () => number
 }
 
-export function simulateMatch({
-  team,
-  teamName,
-  opponent,
-  division,
-  venue,
-  tactic,
-  traits = NO_TRAIT_EFFECTS,
-  rng = Math.random,
-}: MatchOptions): MatchResult {
-  const plan = TACTICS[tactic] ?? TACTICS.balanced
-  const homeBonus = venue === 'home' ? HOME_ADVANTAGE : 0
-  const awayBonus = venue === 'away' ? HOME_ADVANTAGE : 0
-
-  const bigGame = venue === 'neutral' ? traits.cup : 0
-  // Hidden attributes are never shown, but they are why two 99 cards differ.
-  const hiddenEdge = team.hidden / 2
-  const myAtt = team.att * plan.att + homeBonus + bigGame + hiddenEdge
-  const myDef = team.def * plan.def + homeBonus + bigGame + hiddenEdge
-  const myMid = team.mid + homeBonus + bigGame + hiddenEdge
-
-  const oppAtt = opponent.rating + awayBonus + (rng() * 6 - 3)
-  const oppMid = opponent.rating + awayBonus + (rng() * 6 - 3)
-  const oppDef = opponent.rating + awayBonus + (rng() * 6 - 3)
-
-  const possessionShare = myMid / (myMid + oppMid)
-  const venueLabel = venue === 'home' ? '홈' : venue === 'away' ? '원정' : '중립'
-  const events: MatchEvent[] = [
-    {
-      minute: 0,
-      type: 'kickoff',
-      side: 'home',
-      text: `${teamName} 대 ${opponent.name} (${venueLabel}), 킥오프!`,
-    },
-  ]
-
-  let scoreFor = 0
-  let scoreAgainst = 0
-  let shotsFor = 0
-  let shotsAgainst = 0
-  const scorerUids: string[] = []
-
-  for (let minute = 1; minute <= 90; minute++) {
-    if (minute === 45) {
-      events.push({
-        minute,
-        type: 'half',
-        side: 'home',
-        text: `전반 종료 — ${scoreFor} : ${scoreAgainst}`,
-      })
-    }
-    if (rng() > 0.13 * plan.tempo * traits.tempo) continue
-
-    const weAttack = rng() < possessionShare
-    const att = weAttack ? myAtt : oppAtt
-    const def = weAttack ? oppDef : myDef
-    const side: 'home' | 'away' = weAttack ? 'home' : 'away'
-    if (weAttack) shotsFor++
-    else shotsAgainst++
-
-    // Our finishers help us score; our defenders make the opponent's job harder.
-    const swing = weAttack ? traits.goal + team.hidden * 0.002 : -traits.concede
-    const goalChance = clamp(0.22 + (att - def) / 150 + swing, 0.06, 0.6)
-    const shooter = weAttack
-      ? pickScorer(team.evaluations, rng)
-      : { name: OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)], uid: null }
-
-    if (rng() < goalChance) {
-      if (weAttack) {
-        scoreFor++
-        if (shooter.uid) scorerUids.push(shooter.uid)
-      } else {
-        scoreAgainst++
-      }
-      events.push({
-        minute,
-        type: 'goal',
-        side,
-        text: `⚽ ${shooter.name} 골! ${scoreFor} : ${scoreAgainst}`,
-      })
-    } else if (rng() < 0.5) {
-      const keeper = weAttack ? `${opponent.name} 골키퍼` : keeperName(team.evaluations)
-      events.push({
-        minute,
-        type: 'save',
-        side,
-        text: `${shooter.name}의 슈팅, ${keeper}가 선방합니다.`,
-      })
-    } else {
-      events.push({
-        minute,
-        type: 'chance',
-        side,
-        text: `${shooter.name}의 슈팅이 골대를 살짝 빗나갑니다.`,
-      })
-    }
-  }
-
-  const result: 'W' | 'D' | 'L' =
-    scoreFor > scoreAgainst ? 'W' : scoreFor === scoreAgainst ? 'D' : 'L'
-
-  events.push({
-    minute: 90,
-    type: 'full',
-    side: 'home',
-    text: `경기 종료 — ${teamName} ${scoreFor} : ${scoreAgainst} ${opponent.name}`,
-  })
-
-  return {
-    opponent: opponent.name,
-    scorerUids,
-    opponentRating: opponent.rating,
-    scoreFor,
-    scoreAgainst,
-    result,
-    events,
-    reward: matchReward(result, division, scoreFor),
-    possession: Math.round(possessionShare * 100),
-    shotsFor,
-    shotsAgainst,
-  }
+/**
+ * Plays a whole match in one go. The live engine drives it tick by tick, so the
+ * text mode and the spectator mode share exactly the same rules.
+ */
+export function simulateMatch({ rng = Math.random, ...setup }: MatchOptions): MatchResult {
+  const state = runToEnd(setup, rng)
+  const result = toResult(state, setup)
+  return { ...result, reward: matchReward(result.result, setup.division, result.scoreFor) }
 }

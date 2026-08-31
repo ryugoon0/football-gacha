@@ -7,7 +7,7 @@ import { getPlayer } from '../../lib/players'
 import { BENCH_SIZE, positionFit, ratingInSlot } from '../../lib/squad'
 import { evaluateSquad } from '../../lib/squad'
 import { colorName } from '../../lib/teamColor'
-import { TACTICS, TACTIC_KEYS } from '../../lib/tactics'
+import { LINES, PLANS, PRESSINGS, TEMPOS, tacticSummary } from '../../lib/tactics'
 import { TRAITS, traitsOf } from '../../lib/traits'
 import type { Card, FormationKey, Position } from '../../lib/types'
 import { useGame } from '../GameProvider'
@@ -240,22 +240,40 @@ export default function SquadTab() {
 
         <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">전술</h3>
-          <div className="mt-3 grid grid-cols-3 gap-2">
-            {TACTIC_KEYS.map((key) => (
-              <button
-                key={key}
-                onClick={() => setTactic(key)}
-                className={`rounded-lg px-2 py-2 text-xs font-bold transition ${
-                  state.tactic === key
-                    ? 'bg-emerald-400 text-slate-900'
-                    : 'bg-white/5 text-slate-300 hover:bg-white/10'
-                }`}
-              >
-                {TACTICS[key].label}
-              </button>
+          <p className="mt-1 text-[11px] text-slate-500">{tacticSummary(state.tactic)}</p>
+
+          <div className="mt-3 space-y-3">
+            {[
+              { label: '기본 전술', field: 'plan' as const, options: PLANS },
+              { label: '압박', field: 'pressing' as const, options: PRESSINGS },
+              { label: '수비 라인', field: 'line' as const, options: LINES },
+              { label: '템포', field: 'tempo' as const, options: TEMPOS },
+            ].map(({ label, field, options }) => (
+              <div key={field}>
+                <div className="mb-1 text-[11px] font-bold text-slate-400">{label}</div>
+                <div className="grid grid-cols-3 gap-1.5">
+                  {options.map((option) => (
+                    <button
+                      key={option.key}
+                      onClick={() => setTactic({ ...state.tactic, [field]: option.key })}
+                      title={`${option.description} (단축키 ${option.hotkey})`}
+                      className={`rounded-lg px-1.5 py-1.5 text-[11px] font-bold transition ${
+                        state.tactic[field] === option.key
+                          ? 'bg-emerald-400 text-slate-900'
+                          : 'bg-white/5 text-slate-300 hover:bg-white/10'
+                      }`}
+                    >
+                      {option.label.replace(/^(압박|수비 라인|템포) /, '')}
+                      <span className="ml-1 opacity-50">{option.hotkey}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
-          <p className="mt-2 text-[11px] text-slate-500">{TACTICS[state.tactic].description}</p>
+          <p className="mt-2 text-[11px] text-slate-500">
+            경기 중에도 중단된 순간에 단축키로 바꿀 수 있습니다.
+          </p>
 
           <button
             onClick={() => setAutoSub(!state.autoSub)}

@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { applyAutoSubs, type SubEvent } from '../../lib/autoSub'
 import { isInjured, TIRED_CONDITION } from '../../lib/condition'
 import { CUP_ROUND_LABELS, cupTeamOf, myTie, tiesOfRound, type CupTie } from '../../lib/cup'
+import type { LeagueTeam } from '../../lib/league'
 import {
   MY_TEAM_ID,
   PROMOTION_RANK,
@@ -17,14 +18,58 @@ import {
   standings,
   teamOf,
 } from '../../lib/league'
-import { simulateMatch } from '../../lib/match'
 import { SEASON_SCHEDULE, TOTAL_MATCHDAYS } from '../../lib/schedule'
 import { evaluateSquad } from '../../lib/squad'
-import { TACTICS } from '../../lib/tactics'
 import type { Squad } from '../../lib/types'
-import MatchBroadcast from '../MatchBroadcast'
+import { matchReward } from '../../lib/match'
+import { shapeFromSquad, toResult, type MatchSetup } from '../../lib/matchEngine'
+import { getPlayer } from '../../lib/players'
+import type { SlotEvaluation } from '../../lib/squad'
+import {
+  LINES,
+  PLANS,
+  PRESSINGS,
+  TACTIC_HOTKEYS,
+  TEMPOS,
+  tacticSummary,
+  type TacticSetup,
+} from '../../lib/tactics'
+import type { Card } from '../../lib/types'
+import PitchView from '../PitchView'
 import { useGame, type RoundResult } from '../GameProvider'
-import { useLiveMatch } from '../useLiveMatch'
+import { TICK_SPEEDS, useLiveEngine } from '../useLiveEngine'
+
+interface PendingSub {
+  slotId: string
+  outUid: string
+  inUid: string
+}
+
+/** Swaps a bench player into a slot, returning the new squad and who came off. */
+function applySub(squad: Squad, slotId: string, inUid: string): { squad: Squad; outUid: string } | null {
+  const outUid = squad.slots[slotId]
+  const benchIndex = squad.bench.indexOf(inUid)
+  if (!outUid || benchIndex < 0) return null
+  const bench = [...squad.bench]
+  bench[benchIndex] = outUid
+  return { squad: { ...squad, slots: { ...squad.slots, [slotId]: inUid }, bench }, outUid }
+}
+
+function subEvent(
+  slotId: string,
+  outUid: string,
+  inUid: string,
+  nameOf: (uid: string) => string,
+): SubEvent {
+  return {
+    slotId,
+    outUid,
+    inUid,
+    outName: nameOf(outUid),
+    inName: nameOf(inUid),
+    reason: 'manual',
+  }
+}
 
 export default function MatchTab() {
   const { state } = useGame()
@@ -61,17 +106,21 @@ export default function MatchTab() {
 }
 
 function MatchDay() {
-  const { state, finishMatch, finishCupMatch, skipMatchday } = useGame()
+  const { state, finishMatch, finishCupMatch, skipMatchday, setTactic } = useGame()
   const day = SEASON_SCHEDULE[state.matchday] ?? null
   const division = state.season.division
 
-  const [pending, setPending] = useState<{ squad: Squad; others: RoundResult[] } | null>(null)
-  const [blocked, setBlocked] = useState<string | null>(null)
-
-  const rating = useMemo(
-    () => evaluateSquad(state.cards, state.squad, division),
-    [state.cards, state.squad, division],
-  )
+  const [mode, setMode] = useState<'watch' | 'text'>('watch')
+  const [liveSquad, setLiveSquad] = useState<Squad | null>(null)
+  const [subs, setSubs] = useState<SubEvent[]>([])
+  const [others, setOthers] = useState<RoundResult[]>([])
+  const [notice, setNotice] = useState<string | null>(null)
+  const [showSubs, setShowSubs] = useState(false)
+  // Orders can be given at any time; they only take effect at the next stoppage.
+  const [pendingTactic, setPendingTactic] = useState<TacticSetup | null>(null)
+  const [pendingSubs, setPendingSubs] = useState<PendingSub[]>([])
+  // The fixture moves on the moment a match is recorded, so remember who we played.
+  const [playedOpponent, setPlayedOpponent] = useState<LeagueTeam | null>(null)
 
   const fixture = useMemo(() => myFixture(state.season), [state.season])
   const tie = useMemo(() => myTie(state.cup), [state.cup])
@@ -87,25 +136,156 @@ function MatchDay() {
       ? teamOf(state.season, isHome ? fixture.away : fixture.home)
       : null
 
-  // Substitutions are worked out when the match starts; kept for the payload.
-  const [subs, setSubs] = useState<SubEvent[]>([])
+  const squadInPlay = liveSquad ?? state.squad
+  const rating = useMemo(
+    () => evaluateSquad(state.cards, squadInPlay, division),
+    [state.cards, squadInPlay, division],
+  )
 
-  const live = useLiveMatch((result) => {
-    if (!pending) return
-    const lineup = { squad: pending.squad, subs }
+  // What the squad will look like once the queued substitutions go through —
+  // the substitution panel works off this so orders stack sensibly.
+  const plannedSquad = useMemo(
+    () => pendingSubs.reduce((squad, item) => applySub(squad, item.slotId, item.inUid)?.squad ?? squad, squadInPlay),
+    [pendingSubs, squadInPlay],
+  )
+  const plannedRating = useMemo(
+    () => (pendingSubs.length ? evaluateSquad(state.cards, plannedSquad, division) : rating),
+    [pendingSubs.length, state.cards, plannedSquad, division, rating],
+  )
+  const shownTactic = pendingTactic ?? state.tactic
+
+  const setup: MatchSetup | null = opponent
+    ? {
+        team: rating,
+        teamName: state.club,
+        opponent,
+        division,
+        venue: isCupDay ? 'neutral' : isHome ? 'home' : 'away',
+        tactic: state.tactic,
+        traits: rating.traits,
+        homeShape:
+          mode === 'watch'
+            ? shapeFromSquad(squadInPlay.formation, rating.evaluations)
+            : undefined,
+      }
+    : null
+
+  const engine = useLiveEngine(setup, (final) => {
+    if (!setup) return
+    const base = toResult(final, setup)
+    const result = {
+      ...base,
+      reward: matchReward(base.result, division, base.scoreFor),
+    }
+    const lineup = { squad: squadInPlay, subs }
     if (isCupDay) finishCupMatch(result, rating.overall, lineup)
-    else if (fixture) finishMatch(result, fixture, pending.others, lineup)
+    else if (fixture) finishMatch(result, fixture, others, lineup)
   })
 
+  // Only a new season clears the board; the finished match stays on screen
+  // until the manager moves on to the next matchday.
   useEffect(() => {
-    live.reset()
-    setPending(null)
+    engine.reset()
+    setLiveSquad(null)
     setSubs([])
-    setBlocked(null)
+    setOthers([])
+    setNotice(null)
+    setShowSubs(false)
+    setPendingTactic(null)
+    setPendingSubs([])
+    setPlayedOpponent(null)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.matchday, state.season.index])
+  }, [state.season.index])
 
-  if (!day) return <p className="py-10 text-center text-sm text-slate-500">시즌 일정이 끝났습니다.</p>
+  // Hotkeys: give tactical orders at any time — they land at the next stoppage.
+  const onKeyRef = useRef<(event: KeyboardEvent) => void>(() => {})
+  onKeyRef.current = (event: KeyboardEvent) => {
+    if (event.target instanceof HTMLInputElement) return
+    if (event.code === 'Space') {
+      event.preventDefault()
+      engine.togglePause()
+      return
+    }
+    const hotkey = TACTIC_HOTKEYS.find(
+      (item) => item.key.toLowerCase() === event.key.toLowerCase(),
+    )
+    if (!hotkey) return
+    orderTactic({ ...shownTactic, [hotkey.field]: hotkey.value }, hotkey.label)
+  }
+
+  useEffect(() => {
+    if (!engine.running) return
+    const onKey = (event: KeyboardEvent) => onKeyRef.current(event)
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [engine.running])
+
+  const nameOf = (uid: string) => {
+    const card = state.cards.find((item) => item.uid === uid)
+    return (card && getPlayer(card.playerId)?.name) ?? '선수'
+  }
+
+  // Orders are always accepted; only the moment they take effect is restricted.
+  const orderTactic = (next: TacticSetup, label: string) => {
+    if (!engine.running || engine.canIntervene) {
+      setPendingTactic(null)
+      setTactic(next)
+      setNotice(`전술 변경 — ${label}`)
+      return
+    }
+    setPendingTactic(next)
+    setNotice(`전술 지시 — ${label} · 경기가 멈추면 적용됩니다`)
+  }
+
+  const orderSub = (slotId: string, inUid: string) => {
+    const outUid = plannedSquad.slots[slotId]
+    if (!outUid || !plannedSquad.bench.includes(inUid)) return
+    setShowSubs(false)
+
+    if (engine.canIntervene) {
+      const applied = applySub(squadInPlay, slotId, inUid)
+      if (!applied) return
+      setLiveSquad(applied.squad)
+      setSubs((current) => [...current, subEvent(slotId, applied.outUid, inUid, nameOf)])
+      setNotice(`교체 — ${nameOf(applied.outUid)} → ${nameOf(inUid)}`)
+      return
+    }
+
+    setPendingSubs((current) => [...current, { slotId, outUid, inUid }])
+    setNotice(`교체 지시 — ${nameOf(outUid)} → ${nameOf(inUid)} · 경기가 멈추면 투입됩니다`)
+  }
+
+  // The whistle goes: everything the manager queued up goes in now.
+  useEffect(() => {
+    if (!engine.canIntervene) return
+    if (!pendingTactic && pendingSubs.length === 0) return
+
+    if (pendingTactic) {
+      setTactic(pendingTactic)
+      setPendingTactic(null)
+    }
+    if (pendingSubs.length) {
+      let squad = squadInPlay
+      const applied: SubEvent[] = []
+      for (const item of pendingSubs) {
+        const result = applySub(squad, item.slotId, item.inUid)
+        if (!result) continue
+        squad = result.squad
+        applied.push(subEvent(item.slotId, result.outUid, item.inUid, nameOf))
+      }
+      if (applied.length) {
+        setLiveSquad(squad)
+        setSubs((current) => [...current, ...applied])
+      }
+      setPendingSubs([])
+    }
+    setNotice('휘슬 — 대기 중이던 지시를 적용했습니다.')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [engine.canIntervene, pendingTactic, pendingSubs])
+
+  if (!day) {
+    return <p className="py-10 text-center text-sm text-slate-500">시즌 일정이 끝났습니다.</p>
+  }
 
   if (isCupDay && cupOver) {
     const champion = state.cup.champion ? cupTeamOf(state.cup, state.cup.champion) : null
@@ -133,51 +313,46 @@ function MatchDay() {
   }
 
   const start = () => {
-    if (!opponent || live.playing) return
+    if (!opponent || engine.running) return
     if (rating.overCap) {
-      setBlocked(
-        `선발 레벨 합계가 ${rating.levelTotal}로 상한 ${rating.levelCap}을 넘었습니다. 스쿼드에서 낮은 레벨 선수로 바꿔주세요.`,
+      setNotice(
+        `선발 레벨 합계가 ${rating.levelTotal}로 상한 ${rating.levelCap}을 넘었습니다. 스쿼드를 조정하세요.`,
       )
       return
     }
-    setBlocked(null)
+    setNotice(null)
+    setPlayedOpponent(opponent)
 
     const auto = state.autoSub
       ? applyAutoSubs(state.cards, state.squad, division)
       : { squad: state.squad, subs: [] }
+    setLiveSquad(auto.squad)
     setSubs(auto.subs)
 
-    const matchRating = evaluateSquad(state.cards, auto.squad, division)
-    const others = isCupDay
-      ? []
-      : fixturesOfRound(state.season, state.season.round)
-          .filter((item) => item !== fixture)
-          .map((item) => {
-            const [homeGoals, awayGoals] = simulateAiMatch(
-              teamOf(state.season, item.home),
-              teamOf(state.season, item.away),
-            )
-            return { home: item.home, away: item.away, homeGoals, awayGoals }
-          })
-
-    setPending({ squad: auto.squad, others })
-    live.start(
-      simulateMatch({
-        team: matchRating,
-        teamName: state.club,
-        opponent,
-        division,
-        venue: isCupDay ? 'neutral' : isHome ? 'home' : 'away',
-        tactic: state.tactic,
-        traits: matchRating.traits,
-      }),
+    setOthers(
+      isCupDay
+        ? []
+        : fixturesOfRound(state.season, state.season.round)
+            .filter((item) => item !== fixture)
+            .map((item) => {
+              const [homeGoals, awayGoals] = simulateAiMatch(
+                teamOf(state.season, item.home),
+                teamOf(state.season, item.away),
+              )
+              return { home: item.home, away: item.away, homeGoals, awayGoals }
+            }),
     )
+
+    // The engine reads the setup fresh each tick, so it picks up the new squad.
+    window.setTimeout(() => engine.start(), 0)
   }
 
+  const live = engine.state
   const injured = state.cards.filter(isInjured).length
   const tired = state.cards.filter(
     (card) => !isInjured(card) && card.condition < TIRED_CONDITION,
   ).length
+  const events = live ? [...live.events].reverse() : []
 
   return (
     <>
@@ -192,86 +367,250 @@ function MatchDay() {
             {isCupDay ? `FA컵 ${CUP_ROUND_LABELS[state.cup.round]}` : divisionLabel(division)}
           </div>
           <h2 className="text-lg font-bold text-white">
-            {isCupDay
-              ? `FA컵 ${CUP_ROUND_LABELS[state.cup.round]}`
-              : `리그 ${state.season.round + 1} / ${ROUNDS_PER_SEASON} 라운드`}
+            {engine.finished
+              ? '경기 종료 — 결과를 확인하고 다음 경기일로 넘어가세요'
+              : isCupDay
+                ? `FA컵 ${CUP_ROUND_LABELS[state.cup.round]}`
+                : `리그 ${state.season.round + 1} / ${ROUNDS_PER_SEASON} 라운드`}
           </h2>
         </div>
-        <div className="flex gap-2">
-          <span className="rounded-lg bg-white/5 px-3 py-1.5 text-xs font-bold text-slate-300">
-            전술 {TACTICS[state.tactic].label}
-          </span>
-          <span
-            className={`rounded-lg px-3 py-1.5 text-xs font-bold ${
-              state.autoSub ? 'bg-emerald-400/15 text-emerald-300' : 'bg-white/5 text-slate-400'
-            }`}
-          >
-            자동 교체 {state.autoSub ? 'ON' : 'OFF'}
-          </span>
+        <div className="flex gap-1.5">
+          {(['watch', 'text'] as const).map((key) => (
+            <button
+              key={key}
+              onClick={() => setMode(key)}
+              className={`rounded-lg px-3 py-1.5 text-xs font-bold transition ${
+                mode === key
+                  ? 'bg-emerald-400 text-slate-900'
+                  : 'bg-white/5 text-slate-300 hover:bg-white/10'
+              }`}
+            >
+              {key === 'watch' ? '관전 모드' : '텍스트 모드'}
+            </button>
+          ))}
         </div>
       </div>
 
-      <MatchBroadcast
-        home={{
-          name: state.club,
-          detail: `전력 ${rating.overall} · ${isCupDay ? '중립' : isHome ? '홈' : '원정'}`,
-        }}
-        away={{
-          name: live.result?.opponent ?? opponent?.name ?? '상대 미정',
-          detail: `전력 ${live.result?.opponentRating ?? opponent?.rating ?? '-'}`,
-        }}
-        live={live}
-        emptyLabel="경기를 시작하면 중계가 표시됩니다."
-      />
+      <div className="flex items-center justify-between gap-4 rounded-xl bg-slate-950/70 p-4">
+        <div className="min-w-0 flex-1 text-center">
+          <div className="truncate text-sm font-bold text-white">{state.club}</div>
+          <div className="text-xs text-slate-400">
+            전력 {rating.overall} · {isCupDay ? '중립' : isHome ? '홈' : '원정'}
+          </div>
+        </div>
+        <div className="shrink-0 text-center">
+          <div className="text-3xl font-black text-white">
+            {live ? `${live.scoreFor} : ${live.scoreAgainst}` : '- : -'}
+          </div>
+          <div className="text-xs font-semibold text-emerald-300">
+            {live ? `${live.minute}분` : '킥오프 대기'}
+          </div>
+        </div>
+        <div className="min-w-0 flex-1 text-center">
+          <div className="truncate text-sm font-bold text-white">
+            {(engine.finished ? playedOpponent : opponent)?.name ?? '상대 미정'}
+          </div>
+          <div className="text-xs text-slate-400">
+            전력 {(engine.finished ? playedOpponent : opponent)?.rating ?? '-'}
+          </div>
+        </div>
+      </div>
 
-      <button
-        onClick={start}
-        disabled={live.playing || !opponent}
-        className={`mt-4 w-full rounded-xl px-4 py-3 font-bold text-slate-900 transition disabled:opacity-40 ${
-          isCupDay ? 'bg-amber-400 hover:bg-amber-300' : 'bg-emerald-400 hover:bg-emerald-300'
-        }`}
-      >
-        {live.playing ? '경기 진행 중...' : live.finished ? '다음 경기일로' : '경기 시작'}
-      </button>
+      {mode === 'watch' && live && (
+        <div className="mx-auto mt-4 w-full max-w-sm">
+          <PitchView
+            state={live}
+            homeName={state.club}
+            awayName={(engine.finished ? playedOpponent : opponent)?.name ?? '상대'}
+          />
+        </div>
+      )}
+
+      {engine.running && (
+        <div className="mt-3 flex flex-wrap items-center gap-2 rounded-xl bg-white/5 p-2">
+          <button
+            onClick={engine.togglePause}
+            className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-bold text-white hover:bg-white/20"
+          >
+            {engine.paused ? '재개 (Space)' : '일시정지 (Space)'}
+          </button>
+          {TICK_SPEEDS.map((item, index) => (
+            <button
+              key={item.label}
+              onClick={() => engine.setSpeed(index)}
+              className={`rounded-lg px-2.5 py-1.5 text-xs font-bold transition ${
+                engine.speed === index
+                  ? 'bg-emerald-400 text-slate-900'
+                  : 'bg-white/5 text-slate-300 hover:bg-white/10'
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+          <button
+            onClick={() => engine.setAutoPause(!engine.autoPause)}
+            className={`rounded-lg px-2.5 py-1.5 text-xs font-bold transition ${
+              engine.autoPause
+                ? 'bg-amber-400/20 text-amber-200'
+                : 'bg-white/5 text-slate-400 hover:bg-white/10'
+            }`}
+            title="파울 · 골 · 아웃 · 하프타임에 자동으로 시계를 멈춥니다"
+          >
+            중단 시 자동 정지 {engine.autoPause ? 'ON' : 'OFF'}
+          </button>
+          <button
+            onClick={() => setShowSubs((value) => !value)}
+            className={`ml-auto rounded-lg px-3 py-1.5 text-xs font-bold transition ${
+              engine.canIntervene
+                ? 'bg-amber-400 text-slate-900 hover:bg-amber-300'
+                : 'bg-white/10 text-white hover:bg-white/20'
+            }`}
+          >
+            선수 교체{engine.canIntervene ? '' : ' 지시'}
+          </button>
+        </div>
+      )}
+
+      {engine.running && (
+        <InMatchTactics
+          tactic={shownTactic}
+          live={engine.canIntervene}
+          queued={Boolean(pendingTactic)}
+          onChange={(next, label) => orderTactic(next, label)}
+        />
+      )}
+
+      {showSubs && engine.running && (
+        <SubPanel
+          squad={plannedSquad}
+          cards={state.cards}
+          evaluations={plannedRating.evaluations}
+          immediate={engine.canIntervene}
+          onSubstitute={orderSub}
+          onClose={() => setShowSubs(false)}
+        />
+      )}
+
+      {engine.running && (pendingTactic || pendingSubs.length > 0) && (
+        <div className="mt-2 rounded-xl bg-amber-400/10 p-3 ring-1 ring-amber-400/30">
+          <div className="mb-1.5 flex items-center justify-between">
+            <span className="text-xs font-bold text-amber-200">
+              대기 중인 지시 · 다음 중단(파울 · 골 · 아웃 · 하프타임)에 적용
+            </span>
+            <button
+              onClick={() => {
+                setPendingTactic(null)
+                setPendingSubs([])
+                setNotice('대기 중인 지시를 취소했습니다.')
+              }}
+              className="text-[11px] font-bold text-slate-400 hover:text-slate-200"
+            >
+              전체 취소
+            </button>
+          </div>
+          <ul className="space-y-1 text-[11px] text-slate-200">
+            {pendingTactic && <li>· 전술 {tacticSummary(pendingTactic)}</li>}
+            {pendingSubs.map((item, index) => (
+              <li key={`${item.slotId}-${item.inUid}-${index}`}>
+                · 교체 {nameOf(item.outUid)} → {nameOf(item.inUid)}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {notice && (
+        <p className="mt-2 rounded-lg bg-sky-500/15 px-3 py-2 text-xs font-semibold text-sky-200">
+          {notice}
+        </p>
+      )}
+
+      {!engine.running && (
+        <button
+          onClick={() => {
+            if (engine.finished) {
+              // Clear the finished match and line the next one up.
+              engine.reset()
+              setLiveSquad(null)
+              setSubs([])
+              setOthers([])
+              setPlayedOpponent(null)
+              setNotice(null)
+              return
+            }
+            start()
+          }}
+          disabled={!opponent && !engine.finished}
+          className={`mt-4 w-full rounded-xl px-4 py-3 font-bold text-slate-900 transition disabled:opacity-40 ${
+            isCupDay ? 'bg-amber-400 hover:bg-amber-300' : 'bg-emerald-400 hover:bg-emerald-300'
+          }`}
+        >
+          {engine.finished ? '다음 경기일로' : '경기 시작'}
+        </button>
+      )}
 
       {rating.overCap && (
         <p className="mt-2 text-xs font-semibold text-rose-400">
           선발 레벨 합계 {rating.levelTotal} / 상한 {rating.levelCap} — 라인업을 등록할 수 없습니다.
         </p>
       )}
-      {blocked && <p className="mt-2 text-xs font-semibold text-rose-400">{blocked}</p>}
-      {(injured > 0 || tired > 0) && (
+      {(injured > 0 || tired > 0) && !engine.running && (
         <p className="mt-2 text-xs font-semibold text-amber-400">
           부상 {injured}명 · 체력 저하 {tired}명
           {state.autoSub && ' — 자동 교체가 벤치에서 대체 선수를 투입합니다.'}
         </p>
       )}
 
-      {live.finished && state.lastSubs.length > 0 && (
+      {subs.length > 0 && (
         <div className="mt-4 rounded-xl bg-sky-500/10 p-3">
-          <h3 className="mb-1 text-xs font-bold uppercase tracking-wide text-sky-300">
-            자동 교체
-          </h3>
-          {state.lastSubs.map((sub) => (
-            <div key={sub.slotId} className="text-xs text-slate-300">
+          <h3 className="mb-1 text-xs font-bold uppercase tracking-wide text-sky-300">교체 기록</h3>
+          {subs.map((sub, index) => (
+            <div key={`${sub.slotId}-${index}`} className="text-xs text-slate-300">
               {sub.outName} → <span className="font-bold text-white">{sub.inName}</span>{' '}
               <span className="text-slate-500">
-                ({sub.reason === 'injury' ? '부상' : '체력 저하'})
+                (
+                {sub.reason === 'injury' ? '부상' : sub.reason === 'fatigue' ? '체력 저하' : '감독 교체'}
+                )
               </span>
             </div>
           ))}
         </div>
       )}
 
-      {live.finished && <MatchRatings />}
+      {engine.finished && <MatchRatings />}
 
-      {live.finished && pending && pending.others.length > 0 && (
+      <div className="scrollbar-thin mt-4 max-h-[280px] space-y-2 overflow-y-auto pr-1">
+        {events.length === 0 && (
+          <p className="py-8 text-center text-sm text-slate-500">
+            경기를 시작하면 중계가 표시됩니다.
+          </p>
+        )}
+        {events.map((event, index) => (
+          <div
+            key={`${event.minute}-${index}`}
+            className={`rise-in flex gap-3 rounded-lg px-3 py-2 text-sm ${
+              event.type !== 'goal'
+                ? 'bg-white/5 text-slate-300'
+                : event.side === 'home'
+                  ? 'bg-emerald-500/10 font-bold text-emerald-200'
+                  : 'bg-rose-500/10 font-bold text-rose-200'
+            }`}
+          >
+            <span className="w-10 shrink-0 text-xs font-bold text-slate-500">
+              {event.minute}분
+            </span>
+            <span className="min-w-0 flex-1">{event.text}</span>
+          </div>
+        ))}
+      </div>
+
+      {engine.finished && others.length > 0 && (
         <div className="mt-4 rounded-xl bg-white/5 p-3">
           <h3 className="mb-2 text-xs font-bold uppercase tracking-wide text-slate-400">
             같은 라운드 다른 경기
           </h3>
           <div className="grid gap-1 sm:grid-cols-2">
-            {pending.others.map((item, index) => (
+            {others.map((item, index) => (
               <div key={index} className="text-xs text-slate-300">
                 {teamOf(state.season, item.home).name}{' '}
                 <span className="font-bold text-white">
@@ -284,6 +623,146 @@ function MatchDay() {
         </div>
       )}
     </>
+  )
+}
+
+function InMatchTactics({
+  tactic,
+  live,
+  queued,
+  onChange,
+}: {
+  tactic: TacticSetup
+  /** True while play is halted, so a change lands immediately. */
+  live: boolean
+  queued: boolean
+  onChange: (next: TacticSetup, label: string) => void
+}) {
+  const groups = [
+    { field: 'plan' as const, options: PLANS },
+    { field: 'pressing' as const, options: PRESSINGS },
+    { field: 'line' as const, options: LINES },
+    { field: 'tempo' as const, options: TEMPOS },
+  ]
+
+  return (
+    <div
+      className={`mt-3 rounded-xl p-3 transition ${
+        live ? 'bg-amber-400/10 ring-1 ring-amber-400/40' : 'bg-white/5'
+      }`}
+    >
+      <div className="mb-2 flex items-center justify-between">
+        <span className="text-xs font-bold text-slate-300">
+          경기 중 전술{' '}
+          {live ? '— 지금 바로 적용됩니다' : queued ? '— 지시 대기 중' : '— 언제든 지시, 중단 시 적용'}
+        </span>
+        <span className="text-[10px] text-slate-500">{tacticSummary(tactic)}</span>
+      </div>
+      <div className="grid gap-1.5 sm:grid-cols-2">
+        {groups.map(({ field, options }) => (
+          <div key={field} className="flex gap-1">
+            {options.map((option) => (
+              <button
+                key={option.key}
+                onClick={() => onChange({ ...tactic, [field]: option.key }, option.label)}
+                title={option.description}
+                className={`flex-1 rounded-lg px-1 py-1 text-[10px] font-bold transition ${
+                  tactic[field] === option.key
+                    ? live
+                      ? 'bg-emerald-400 text-slate-900'
+                      : 'bg-amber-300 text-slate-900'
+                    : 'bg-white/10 text-slate-300 hover:bg-white/20'
+                }`}
+              >
+                {option.label.replace(/^(압박|수비 라인|템포) /, '')}
+                <span className="ml-0.5 opacity-60">{option.hotkey}</span>
+              </button>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function SubPanel({
+  squad,
+  cards,
+  evaluations,
+  immediate,
+  onSubstitute,
+  onClose,
+}: {
+  squad: Squad
+  cards: Card[]
+  evaluations: SlotEvaluation[]
+  /** True while play is halted — the change goes in at once instead of queuing. */
+  immediate: boolean
+  onSubstitute: (slotId: string, inUid: string) => void
+  onClose: () => void
+}) {
+  const [slotId, setSlotId] = useState<string | null>(null)
+  const benchCards = squad.bench
+    .filter(Boolean)
+    .map((uid) => cards.find((card) => card.uid === uid))
+    .filter((card): card is Card => Boolean(card) && !isInjured(card!))
+
+  return (
+    <div className="mt-3 rounded-xl bg-slate-950/70 p-3" data-testid="sub-panel">
+      <div className="mb-2 flex items-center justify-between">
+        <span className="text-xs font-bold text-slate-300">
+          {slotId ? '투입할 벤치 선수를 고르세요' : '빼낼 선발을 고르세요'}
+          <span className="ml-1 font-semibold text-slate-500">
+            {immediate ? '(지금 투입)' : '(중단 시 투입)'}
+          </span>
+        </span>
+        <button onClick={onClose} className="text-[11px] font-bold text-slate-500 hover:text-slate-300">
+          닫기
+        </button>
+      </div>
+
+      {!slotId ? (
+        <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3">
+          {evaluations
+            .filter((item) => item.card)
+            .map((item) => (
+              <button
+                key={item.slotId}
+                onClick={() => setSlotId(item.slotId)}
+                data-testid="sub-out"
+                className="rounded-lg bg-white/5 px-2 py-1.5 text-left text-[11px] hover:bg-white/10"
+              >
+                <span className="block truncate font-bold text-white">{item.player?.name}</span>
+                <span className="text-slate-400">
+                  {item.slotPosition} · 체력 {item.condition}
+                </span>
+              </button>
+            ))}
+        </div>
+      ) : benchCards.length === 0 ? (
+        <p className="text-xs text-slate-500">투입할 수 있는 벤치 선수가 없습니다.</p>
+      ) : (
+        <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3">
+          {benchCards.map((card) => {
+            const player = getPlayer(card.playerId)
+            if (!player) return null
+            return (
+              <button
+                key={card.uid}
+                onClick={() => onSubstitute(slotId, card.uid)}
+                data-testid="sub-in"
+                className="rounded-lg bg-emerald-400/15 px-2 py-1.5 text-left text-[11px] hover:bg-emerald-400/25"
+              >
+                <span className="block truncate font-bold text-white">{player.name}</span>
+                <span className="text-slate-400">
+                  {player.position} · Lv.{card.level} · 체력 {card.condition}
+                </span>
+              </button>
+            )
+          })}
+        </div>
+      )}
+    </div>
   )
 }
 

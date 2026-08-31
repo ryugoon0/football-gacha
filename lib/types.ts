@@ -4,7 +4,7 @@ import type { DailyState } from './daily'
 import type { PlayerRating } from './growth'
 import type { Season } from './league'
 import type { MarketState } from './market'
-import type { TacticKey } from './tactics'
+import type { TacticSetup } from './tactics'
 
 export type Rarity = 'Normal' | 'Rare' | 'Legend' | 'Live' | 'World'
 
@@ -104,7 +104,7 @@ export interface GameState {
   gold: number
   cards: Card[]
   squad: Squad
-  tactic: TacticKey
+  tactic: TacticSetup
   /** Pull injured or exhausted starters automatically before kick-off. */
   autoSub: boolean
   season: Season

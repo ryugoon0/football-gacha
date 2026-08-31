@@ -15,7 +15,7 @@ export interface SubEvent {
   inUid: string
   outName: string
   inName: string
-  reason: 'injury' | 'fatigue'
+  reason: 'injury' | 'fatigue' | 'manual'
 }
 
 /**

@@ -1,14 +1,15 @@
 import { describe, expect, it } from 'vitest'
 import { matchReward, simulateMatch } from '../lib/match'
+import { DEFAULT_TACTIC } from '../lib/tactics'
 import { seededRandom } from '../lib/players'
 import { evaluateSquad } from '../lib/squad'
 import { initialState } from '../lib/storage'
 import type { LeagueTeam } from '../lib/league'
-import type { TacticKey } from '../lib/tactics'
+import type { PlanKey } from '../lib/tactics'
 
 const team = (rating: number): LeagueTeam => ({ id: 'x', name: '상대', badge: 'XX', rating })
 
-function run(opponentRating: number, tactic: TacticKey = 'balanced', seed = 42, runs = 300) {
+function run(opponentRating: number, tactic: PlanKey = 'balanced', seed = 42, runs = 300) {
   const state = initialState()
   const rating = evaluateSquad(state.cards, state.squad)
   const rng = seededRandom(seed)
@@ -22,7 +23,7 @@ function run(opponentRating: number, tactic: TacticKey = 'balanced', seed = 42, 
       opponent: team(opponentRating),
       division: 5,
       venue: 'home',
-      tactic,
+      tactic: { ...DEFAULT_TACTIC, plan: tactic },
       rng,
     })
     if (result.result === 'W') wins++
@@ -41,7 +42,7 @@ describe('match simulation', () => {
       opponent: team(60),
       division: 5,
       venue: 'home',
-      tactic: 'balanced',
+      tactic: DEFAULT_TACTIC,
       rng: seededRandom(3),
     })
 
