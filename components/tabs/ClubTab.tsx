@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from 'react'
 import { FUSION_FEE, FUSION_SIZE, checkFusion } from '../../lib/fusion'
-import { DEFAULT_SPARE_RARITIES, findSpares } from '../../lib/gameReducer'
 import { addExperience, expForLevel, materialExp, trainingFee } from '../../lib/growth'
 import {
   PLAYERS,
@@ -41,8 +40,7 @@ const MODES: { id: Mode; label: string }[] = [
 ]
 
 export default function ClubTab() {
-  const { state, sell, sellDuplicates, trainCard, limitBreakCard, fuse, treatInjury, restoreCondition } =
-    useGame()
+  const { state, sell, trainCard, limitBreakCard, fuse, treatInjury, restoreCondition } = useGame()
   const [mode, setMode] = useState<Mode>('manage')
   const [rarityFilter, setRarityFilter] = useState<RarityFilter>('all')
   const [groupFilter, setGroupFilter] = useState<GroupFilter>('all')
@@ -54,8 +52,6 @@ export default function ClubTab() {
   const [fused, setFused] = useState<PlayerDef | null>(null)
   const [releaseUids, setReleaseUids] = useState<string[]>([])
   const [detailUid, setDetailUid] = useState<string | null>(null)
-  // 중복 방출은 기본적으로 일반 등급만 내보냅니다.
-  const [spareRarities, setSpareRarities] = useState<Rarity[]>(DEFAULT_SPARE_RARITIES)
 
   const inUse = useMemo(
     () =>
@@ -105,15 +101,15 @@ export default function ClubTab() {
   /** Cards that can be let go: anything not in the eleven or on the bench. */
   const releasable = state.cards.filter((card) => !inUse.has(card.uid))
 
-  const spareUids = findSpares(state.cards, state.squad, spareRarities)
-  const allSpareUids = findSpares(state.cards, state.squad, RARITIES)
-
-  const toggleSpareRarity = (rarity: Rarity) =>
-    setSpareRarities((current) =>
-      current.includes(rarity)
-        ? current.filter((item) => item !== rarity)
-        : [...current, rarity],
-    )
+  /**
+   * Cards whose player you already own another copy of. They are limit break
+   * material, so the release screen flags them instead of offering to dump them.
+   */
+  const breakMaterial = new Set(
+    releasable
+      .filter((card) => state.cards.filter((item) => item.playerId === card.playerId).length > 1)
+      .map((card) => card.uid),
+  )
 
   const onCardClick = (card: Card) => {
     if (mode === 'manage') {
@@ -197,9 +193,6 @@ export default function ClubTab() {
         {mode === 'release' && (
           <div className="mb-3 flex flex-wrap items-center gap-2 rounded-lg bg-white/5 p-2">
             <span className="text-xs text-slate-400">빠른 선택</span>
-            <QuickPick onClick={() => setReleaseUids(spareUids)}>
-              중복 카드 {spareUids.length}장
-            </QuickPick>
             <QuickPick
               onClick={() =>
                 setReleaseUids(
@@ -284,7 +277,9 @@ export default function ClubTab() {
                       ? Object.values(state.squad.slots).includes(card.uid)
                         ? '선발'
                         : '벤치'
-                      : undefined
+                      : mode === 'release' && breakMaterial.has(card.uid)
+                        ? '돌파 재료'
+                        : undefined
                 }
                 onClick={() => onCardClick(card)}
               />
@@ -307,61 +302,18 @@ export default function ClubTab() {
             />
           </div>
           <div className="mt-3 text-xs text-slate-400">
-            보유 카드 {state.cards.length}장 · 중복 {allSpareUids.length}장 · 조각 {state.shards}개
+            보유 카드 {state.cards.length}장 · 조각 {state.shards}개
           </div>
-
-          <div className="mt-3 rounded-lg bg-white/5 p-2">
-            <div className="text-[11px] font-bold text-slate-400">중복 방출할 등급</div>
-            <div className="mt-1.5 flex flex-wrap gap-1">
-              {RARITIES.map((rarity) => {
-                const on = spareRarities.includes(rarity)
-                const count = findSpares(state.cards, state.squad, [rarity]).length
-                return (
-                  <button
-                    key={rarity}
-                    onClick={() => toggleSpareRarity(rarity)}
-                    className={`rounded-lg px-2 py-1 text-[11px] font-bold transition ${
-                      on
-                        ? RARITY_STYLES[rarity].chip
-                        : 'bg-white/5 text-slate-500 hover:bg-white/10'
-                    }`}
-                  >
-                    {RARITY_STYLES[rarity].label}
-                    <span className="ml-1 opacity-70">{count}</span>
-                  </button>
-                )
-              })}
-            </div>
-            <p className="mt-1.5 text-[10px] text-slate-500">
-              기본값은 일반 등급만입니다. 상위 등급은 직접 켜야 방출됩니다.
-            </p>
-          </div>
-
-          <button
-            onClick={() => {
-              if (spareUids.length === 0) return
-              const labels = spareRarities.map((rarity) => RARITY_STYLES[rarity].label).join(' · ')
-              if (
-                !window.confirm(
-                  `${labels} 등급 중복 카드 ${spareUids.length}장을 방출할까요? 되돌릴 수 없습니다.`,
-                )
-              ) {
-                return
-              }
-              sellDuplicates(spareRarities)
-            }}
-            disabled={spareUids.length === 0}
-            className="mt-3 w-full rounded-lg bg-white/10 px-3 py-2 text-sm font-bold text-white transition hover:bg-white/20 disabled:opacity-40"
-          >
-            중복 {spareUids.length}장 방출 (+{releaseValue(
-              state.cards.filter((card) => spareUids.includes(card.uid)),
-            ).gold.toLocaleString()}G)
-          </button>
+          <p className="mt-2 text-[11px] leading-relaxed text-slate-500">
+            같은 선수 카드는 한계 돌파 재료입니다. 중복이라고 무턱대고 내보내지 말고, 한계
+            돌파에 쓰고 남는 것만 방출하세요.
+          </p>
         </section>
 
         {mode === 'release' ? (
           <ReleasePanel
             cards={state.cards.filter((card) => releaseUids.includes(card.uid))}
+            materialCount={releaseUids.filter((uid) => breakMaterial.has(uid)).length}
             onClear={() => setReleaseUids([])}
             onRelease={() => {
               const count = releaseUids.length
@@ -474,10 +426,13 @@ function QuickPick({ onClick, children }: { onClick: () => void; children: React
 
 function ReleasePanel({
   cards,
+  materialCount,
   onRelease,
   onClear,
 }: {
   cards: Card[]
+  /** How many of the picked cards are duplicates you could break a limit with. */
+  materialCount: number
   onRelease: () => void
   onClear: () => void
 }) {
@@ -489,6 +444,13 @@ function ReleasePanel({
       <p className="text-sm text-slate-400">
         여러 명을 한 번에 정리합니다. 선발과 벤치에 있는 선수는 선택할 수 없습니다.
       </p>
+
+      {materialCount > 0 && (
+        <p className="rounded-lg bg-amber-500/15 p-2 text-xs font-semibold text-amber-300">
+          선택한 카드 중 {materialCount}장은 같은 선수를 이미 가지고 있는 카드입니다. 한계 돌파
+          재료로 쓸 수 있으니 방출 전에 한 번 더 확인하세요.
+        </p>
+      )}
 
       <div className="rounded-lg bg-white/5 p-3 text-sm">
         <div className="flex justify-between text-slate-300">

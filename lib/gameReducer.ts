@@ -36,15 +36,7 @@ import { releaseValue, type ShardOffer } from './shards'
 import { TOTAL_MATCHDAYS } from './schedule'
 import type { TacticKey } from './tactics'
 import { initialState, newCard, newUid } from './storage'
-import type {
-  Card,
-  FormationKey,
-  GameState,
-  MatchResult,
-  PlayerDef,
-  Rarity,
-  Squad,
-} from './types'
+import type { Card, FormationKey, GameState, MatchResult, PlayerDef, Squad } from './types'
 
 export interface RoundResult {
   home: string
@@ -65,7 +57,6 @@ export type Action =
   | { type: 'addCards'; cards: Card[]; cost: number; free?: boolean; pity?: number }
   | { type: 'exchangeShards'; offer: ShardOffer; player: PlayerDef }
   | { type: 'sell'; uids: string[] }
-  | { type: 'sellSpares'; rarities?: Rarity[] }
   | { type: 'trainCard'; uid: string; materialUids: string[] }
   | { type: 'limitBreak'; uid: string; materialUid: string }
   | { type: 'fuse'; uids: string[]; player: PlayerDef }
@@ -224,9 +215,6 @@ export function reducer(state: GameState, action: Action): GameState {
       const next = withoutCards(state, uids)
       return { ...next, gold: state.gold + gold, shards: state.shards + shards }
     }
-
-    case 'sellSpares':
-      return sellSpares(state, action.rarities)
 
     case 'trainCard': {
       const target = state.cards.find((item) => item.uid === action.uid)
@@ -552,51 +540,4 @@ export function reducer(state: GameState, action: Action): GameState {
     default:
       return state
   }
-}
-
-/** Grades cleared out by default: only 일반 cards go without being asked for. */
-export const DEFAULT_SPARE_RARITIES: Rarity[] = ['Normal']
-
-/**
- * Spare copies of a player, keeping the best one. Cards in the eleven or on the
- * bench are never spares, and only the requested grades are returned.
- */
-export function findSpares(
-  cards: Card[],
-  squad: GameState['squad'],
-  rarities: Rarity[] = DEFAULT_SPARE_RARITIES,
-): string[] {
-  const inUse = new Set(
-    [...Object.values(squad.slots), ...squad.bench].filter(Boolean) as string[],
-  )
-  const wanted = new Set(rarities)
-  const keptByPlayer = new Map<string, Card>()
-  const spares: string[] = []
-
-  for (const card of cards) {
-    if (inUse.has(card.uid)) keptByPlayer.set(card.playerId, card)
-  }
-  for (const card of cards) {
-    if (inUse.has(card.uid)) continue
-    const kept = keptByPlayer.get(card.playerId)
-    if (!kept) {
-      keptByPlayer.set(card.playerId, card)
-      continue
-    }
-    // The better copy stays; the other one is the spare.
-    const spare = !inUse.has(kept.uid) && card.level > kept.level ? kept : card
-    if (spare === kept) keptByPlayer.set(card.playerId, card)
-
-    const rarity = getPlayer(spare.playerId)?.rarity
-    if (rarity && wanted.has(rarity)) spares.push(spare.uid)
-  }
-
-  return spares
-}
-
-/** Sells the spare copies of the requested grades. */
-export function sellSpares(state: GameState, rarities?: Rarity[]): GameState {
-  const spares = findSpares(state.cards, state.squad, rarities)
-  if (spares.length === 0) return state
-  return reducer(state, { type: 'sell', uids: spares })
 }

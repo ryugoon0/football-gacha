@@ -18,14 +18,7 @@ import { REFRESH_COST, rollListings, type Listing } from '../lib/market'
 import { exchangeResult, type ShardOffer } from '../lib/shards'
 import type { TacticKey } from '../lib/tactics'
 import { clearSave, initialState, loadState, newCard, saveState } from '../lib/storage'
-import type {
-  Card,
-  FormationKey,
-  GameState,
-  MatchResult,
-  PlayerDef,
-  Rarity,
-} from '../lib/types'
+import type { Card, FormationKey, GameState, MatchResult, PlayerDef } from '../lib/types'
 
 export interface GameApi {
   state: GameState
@@ -33,7 +26,6 @@ export interface GameApi {
   addCards: (players: PlayerDef[], options?: AddCardsOptions) => Card[]
   exchangeShards: (offer: ShardOffer) => PlayerDef | null
   sell: (uids: string[]) => void
-  sellDuplicates: (rarities?: Rarity[]) => void
   trainCard: (uid: string, materialUids: string[]) => void
   limitBreakCard: (uid: string, materialUid: string) => void
   fuse: (uids: string[]) => PlayerDef | null
@@ -126,7 +118,6 @@ export function GameProvider({ children }: { children: ReactNode }) {
         return player
       },
       sell: (uids: string[]) => dispatch({ type: 'sell', uids }),
-      sellDuplicates: (rarities?: Rarity[]) => dispatch({ type: 'sellSpares', rarities }),
       trainCard: (uid: string, materialUids: string[]) =>
         dispatch({ type: 'trainCard', uid, materialUids }),
       limitBreakCard: (uid: string, materialUid: string) =>
