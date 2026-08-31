@@ -1,6 +1,13 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import {
+  MAX_CONDITION,
+  TIRED_CONDITION,
+  isInjured,
+  recoveryCost,
+  treatmentCost,
+} from '../../lib/condition'
 import { FUSION_FEE, FUSION_SIZE, checkFusion } from '../../lib/fusion'
 import { PLAYERS, POSITION_GROUP, effectiveOvr, getPlayer } from '../../lib/players'
 import { MAX_LEVEL, RARITIES, RARITY_STYLES, trainCost } from '../../lib/rarity'
@@ -21,7 +28,7 @@ const GROUP_LABELS: Record<GroupFilter, string> = {
 }
 
 export default function ClubTab() {
-  const { state, sell, sellDuplicates, train, fuse } = useGame()
+  const { state, sell, sellDuplicates, train, fuse, treatInjury, restoreCondition } = useGame()
   const [rarityFilter, setRarityFilter] = useState<RarityFilter>('all')
   const [groupFilter, setGroupFilter] = useState<GroupFilter>('all')
   const [sortKey, setSortKey] = useState<SortKey>('ovr')
@@ -140,6 +147,8 @@ export default function ClubTab() {
                 player={player}
                 level={card.level}
                 size="md"
+                condition={card.condition}
+                injuredFor={card.injuredFor}
                 selected={fusing ? fuseUids.includes(card.uid) : selectedUid === card.uid}
                 dimmed={fusing && inSquad.has(card.uid)}
                 badge={inSquad.has(card.uid) ? '선발' : undefined}
@@ -214,8 +223,57 @@ export default function ClubTab() {
           ) : (
             <div className="mt-3 space-y-3">
               <div className="flex justify-center">
-                <PlayerCard player={selected.player} level={selected.card.level} size="lg" />
+                <PlayerCard
+                  player={selected.player}
+                  level={selected.card.level}
+                  size="lg"
+                  condition={selected.card.condition}
+                  injuredFor={selected.card.injuredFor}
+                />
               </div>
+
+              <div className="rounded-lg bg-white/5 p-3 text-sm text-slate-300">
+                <div className="flex items-center justify-between">
+                  <span>체력</span>
+                  <span
+                    className={`font-bold ${
+                      selected.card.condition < TIRED_CONDITION ? 'text-rose-300' : 'text-white'
+                    }`}
+                  >
+                    {selected.card.condition} / {MAX_CONDITION}
+                  </span>
+                </div>
+                <div className="mt-1 h-1.5 rounded-full bg-white/10">
+                  <div
+                    className={`h-1.5 rounded-full ${
+                      selected.card.condition < TIRED_CONDITION ? 'bg-rose-500' : 'bg-emerald-400'
+                    }`}
+                    style={{ width: `${selected.card.condition}%` }}
+                  />
+                </div>
+                <div className="mt-1 text-xs text-slate-500">
+                  경기에 나가면 체력이 떨어지고, 벤치에서 쉬면 회복됩니다.
+                </div>
+              </div>
+
+              {isInjured(selected.card) && (
+                <button
+                  onClick={() => treatInjury(selected.card.uid)}
+                  disabled={state.gold < treatmentCost(selected.card)}
+                  className="w-full rounded-lg bg-rose-500 px-3 py-2 text-sm font-bold text-white transition hover:bg-rose-400 disabled:opacity-40"
+                >
+                  부상 치료 ({treatmentCost(selected.card)}G · {selected.card.injuredFor}경기 결장)
+                </button>
+              )}
+              {selected.card.condition < MAX_CONDITION && (
+                <button
+                  onClick={() => restoreCondition(selected.card.uid)}
+                  disabled={state.gold < recoveryCost(selected.card)}
+                  className="w-full rounded-lg bg-sky-500/80 px-3 py-2 text-sm font-bold text-white transition hover:bg-sky-400 disabled:opacity-40"
+                >
+                  체력 회복 ({recoveryCost(selected.card)}G)
+                </button>
+              )}
               <div className="rounded-lg bg-white/5 p-3 text-sm text-slate-300">
                 강화 레벨 <span className="font-bold text-white">{selected.card.level}</span> /{' '}
                 {MAX_LEVEL}

@@ -3,9 +3,10 @@
 import { useMemo, useState } from 'react'
 import { FORMATIONS, FORMATION_KEYS } from '../../lib/formations'
 import { effectiveOvr, getPlayer } from '../../lib/players'
+import { conditionFactor, isInjured } from '../../lib/condition'
 import { evaluateSquad, positionPenalty } from '../../lib/squad'
 import { TACTICS, TACTIC_KEYS } from '../../lib/tactics'
-import type { FormationKey, Position } from '../../lib/types'
+import type { Card, FormationKey, Position } from '../../lib/types'
 import { useGame } from '../GameProvider'
 import PlayerCard from '../PlayerCard'
 
@@ -15,6 +16,7 @@ const FIT_RING: Record<string, string> = {
   poor: 'ring-rose-500',
   empty: 'ring-white/20',
 }
+const INJURED_RING = 'ring-rose-600'
 
 export default function SquadTab() {
   const { state, assign, clearSlot, setFormation, setTactic, autoFillSquad } = useGame()
@@ -29,25 +31,27 @@ export default function SquadTab() {
   const candidates = useMemo(() => {
     if (!activeSlotPosition) return []
     const onPitch = new Set(Object.values(state.squad.slots).filter(Boolean) as string[])
-    return state.cards
-      .map((card) => {
-        const player = getPlayer(card.playerId)
-        if (!player) return null
-        const ovr = effectiveOvr(player, card.level)
-        return {
+    const rows = state.cards.flatMap((card: Card) => {
+      const player = getPlayer(card.playerId)
+      if (!player) return []
+      const ovr = effectiveOvr(player, card.level)
+      return [
+        {
           card,
           player,
-          score: ovr - positionPenalty(player.position, activeSlotPosition),
+          score: Math.round(
+            (ovr - positionPenalty(player.position, activeSlotPosition)) *
+              conditionFactor(card.condition),
+          ),
           inSquad: onPitch.has(card.uid),
-        }
-      })
-      .filter(Boolean)
-      .sort((a, b) => b!.score - a!.score) as {
-      card: { uid: string; level: number; playerId: string }
-      player: NonNullable<ReturnType<typeof getPlayer>>
-      score: number
-      inSquad: boolean
-    }[]
+        },
+      ]
+    })
+    // Injured players sink to the bottom of the list.
+    return rows.sort(
+      (a, b) =>
+        Number(isInjured(a.card)) - Number(isInjured(b.card)) || b.score - a.score,
+    )
   }, [activeSlotPosition, state.cards, state.squad.slots])
 
   return (
@@ -92,7 +96,7 @@ export default function SquadTab() {
                 onClick={() => setActiveSlot(isActive ? null : slot.id)}
                 style={{ left: `${slot.x}%`, bottom: `${slot.y}%` }}
                 className={`absolute -translate-x-1/2 translate-y-1/2 rounded-xl ring-2 transition ${
-                  FIT_RING[evaluation?.fit ?? 'empty']
+                  evaluation?.injured ? INJURED_RING : FIT_RING[evaluation?.fit ?? 'empty']
                 } ${isActive ? 'scale-110 ring-4 ring-white' : 'hover:scale-105'}`}
               >
                 {player && evaluation?.card ? (
@@ -100,6 +104,8 @@ export default function SquadTab() {
                     player={player}
                     level={evaluation.card.level}
                     size="sm"
+                    condition={evaluation.card.condition}
+                    injuredFor={evaluation.card.injuredFor}
                     badge={slot.position}
                   />
                 ) : (
@@ -165,7 +171,7 @@ export default function SquadTab() {
           </div>
           <p className="mt-4 text-[11px] leading-relaxed text-slate-500">
             포지션이 맞으면 초록, 비슷하면 노랑, 어울리지 않으면 빨강 테두리로 표시됩니다.
-            케미가 높을수록 팀 전력이 올라갑니다.
+            케미가 높을수록 팀 전력이 올라가고, 체력이 낮거나 부상인 선수는 제 실력을 내지 못합니다.
           </p>
         </section>
 
@@ -202,12 +208,23 @@ export default function SquadTab() {
                   }}
                   className="flex w-full items-center gap-3 rounded-xl bg-white/5 p-2 text-left transition hover:bg-white/10"
                 >
-                  <PlayerCard player={player} level={card.level} size="sm" />
+                  <PlayerCard
+                    player={player}
+                    level={card.level}
+                    size="sm"
+                    condition={card.condition}
+                    injuredFor={card.injuredFor}
+                  />
                   <div className="min-w-0 flex-1">
                     <div className="truncate text-sm font-bold text-white">{player.name}</div>
                     <div className="text-xs text-slate-400">
                       {player.position} · 이 자리 능력치 {score}
                     </div>
+                    {card.injuredFor > 0 && (
+                      <div className="mt-1 inline-block rounded bg-rose-500/20 px-1.5 py-0.5 text-[10px] font-bold text-rose-300">
+                        부상 {card.injuredFor}경기
+                      </div>
+                    )}
                     {inSquad && (
                       <div className="mt-1 inline-block rounded bg-emerald-500/20 px-1.5 py-0.5 text-[10px] font-bold text-emerald-300">
                         선발 중 (교체됨)

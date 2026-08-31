@@ -21,7 +21,7 @@ function run(opponentRating: number, tactic: TacticKey = 'balanced', seed = 42, 
       teamName: state.club,
       opponent: team(opponentRating),
       division: 5,
-      isHome: true,
+      venue: 'home',
       tactic,
       rng,
     })
@@ -40,7 +40,7 @@ describe('match simulation', () => {
       teamName: state.club,
       opponent: team(60),
       division: 5,
-      isHome: true,
+      venue: 'home',
       tactic: 'balanced',
       rng: seededRandom(3),
     })

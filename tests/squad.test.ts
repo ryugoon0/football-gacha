@@ -36,11 +36,49 @@ describe('squad rating', () => {
   })
 })
 
+describe('fitness', () => {
+  it('rates a tired player below a fresh one', () => {
+    const state = initialState()
+    const fresh = evaluateSquad(state.cards, state.squad)
+    const tired = evaluateSquad(
+      state.cards.map((card) => ({ ...card, condition: 30 })),
+      state.squad,
+    )
+    expect(tired.overall).toBeLessThan(fresh.overall)
+  })
+
+  it('treats an injured player as unavailable', () => {
+    const state = initialState()
+    const gk = state.squad.slots.gk!
+    const injured = state.cards.map((card) =>
+      card.uid === gk ? { ...card, injuredFor: 2 } : card,
+    )
+    const rating = evaluateSquad(injured, state.squad)
+
+    expect(rating.filled).toBe(10)
+    expect(rating.evaluations.find((item) => item.slotId === 'gk')!.injured).toBe(true)
+    expect(rating.def).toBeLessThan(evaluateSquad(state.cards, state.squad).def)
+  })
+
+  it('leaves injured players out of the auto line-up', () => {
+    const state = initialState()
+    const cards = state.cards.map((card, index) => (index < 3 ? { ...card, injuredFor: 1 } : card))
+    const squad = autoFill(cards, state.squad)
+    const picked = Object.values(squad.slots).filter(Boolean) as string[]
+    for (const card of cards.filter((item) => item.injuredFor > 0)) {
+      expect(picked).not.toContain(card.uid)
+    }
+  })
+})
+
 describe('auto fill', () => {
   it('fills every slot with a different card and prefers stronger players', () => {
     const state = initialState()
     const world = PLAYERS_BY_RARITY.World[0]
-    const cards: Card[] = [...state.cards, { uid: 'star', playerId: world.id, level: 1 }]
+    const cards: Card[] = [
+      ...state.cards,
+      { uid: 'star', playerId: world.id, level: 1, condition: 100, injuredFor: 0 },
+    ]
     const squad = autoFill(cards, state.squad)
 
     const used = Object.values(squad.slots).filter(Boolean) as string[]

@@ -7,11 +7,13 @@ import { GameProvider, useGame } from './GameProvider'
 import GuideOverlay from './GuideOverlay'
 import ClubTab from './tabs/ClubTab'
 import GachaTab from './tabs/GachaTab'
+import MarketTab from './tabs/MarketTab'
 import MatchTab from './tabs/MatchTab'
 import SquadTab from './tabs/SquadTab'
 
 const TABS = [
   { key: 'gacha', label: '뽑기' },
+  { key: 'market', label: '이적시장' },
   { key: 'squad', label: '스쿼드' },
   { key: 'club', label: '선수단' },
   { key: 'match', label: '경기' },
@@ -99,7 +101,7 @@ function Shell() {
             <button
               key={item.key}
               onClick={() => setTab(item.key)}
-              className={`-mb-px border-b-2 px-4 py-2 text-sm font-bold transition ${
+              className={`-mb-px border-b-2 px-3 py-2 text-sm font-bold transition sm:px-4 ${
                 tab === item.key
                   ? 'border-emerald-400 text-emerald-300'
                   : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -117,6 +119,7 @@ function Shell() {
         ) : (
           <>
             {tab === 'gacha' && <GachaTab />}
+            {tab === 'market' && <MarketTab />}
             {tab === 'squad' && <SquadTab />}
             {tab === 'club' && <ClubTab />}
             {tab === 'match' && <MatchTab />}

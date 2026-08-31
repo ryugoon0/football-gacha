@@ -53,12 +53,14 @@ export function matchReward(result: 'W' | 'D' | 'L', division: number, scoreFor:
 
 const clamp = (n: number, min: number, max: number) => Math.max(min, Math.min(max, n))
 
+export type Venue = 'home' | 'away' | 'neutral'
+
 export interface MatchOptions {
   team: SquadRating
   teamName: string
   opponent: LeagueTeam
   division: number
-  isHome: boolean
+  venue: Venue
   tactic: TacticKey
   rng?: () => number
 }
@@ -68,13 +70,13 @@ export function simulateMatch({
   teamName,
   opponent,
   division,
-  isHome,
+  venue,
   tactic,
   rng = Math.random,
 }: MatchOptions): MatchResult {
   const plan = TACTICS[tactic] ?? TACTICS.balanced
-  const homeBonus = isHome ? HOME_ADVANTAGE : 0
-  const awayBonus = isHome ? 0 : HOME_ADVANTAGE
+  const homeBonus = venue === 'home' ? HOME_ADVANTAGE : 0
+  const awayBonus = venue === 'away' ? HOME_ADVANTAGE : 0
 
   const myAtt = team.att * plan.att + homeBonus
   const myDef = team.def * plan.def + homeBonus
@@ -85,13 +87,13 @@ export function simulateMatch({
   const oppDef = opponent.rating + awayBonus + (rng() * 6 - 3)
 
   const possessionShare = myMid / (myMid + oppMid)
-  const venue = isHome ? '홈' : '원정'
+  const venueLabel = venue === 'home' ? '홈' : venue === 'away' ? '원정' : '중립'
   const events: MatchEvent[] = [
     {
       minute: 0,
       type: 'kickoff',
       side: 'home',
-      text: `${teamName} 대 ${opponent.name} (${venue}), 킥오프!`,
+      text: `${teamName} 대 ${opponent.name} (${venueLabel}), 킥오프!`,
     },
   ]
 

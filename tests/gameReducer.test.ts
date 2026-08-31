@@ -1,16 +1,25 @@
 import { describe, expect, it } from 'vitest'
 import { DAILY_MISSIONS, freshDaily, missionClaimable, rollOver, todayKey } from '../lib/daily'
 import { FUSION_FEE, FUSION_SIZE, checkFusion, nextRarity } from '../lib/fusion'
+import { MAX_CONDITION, treatmentCost, recoveryCost } from '../lib/condition'
+import { createCup, myTie } from '../lib/cup'
 import { reducer } from '../lib/gameReducer'
 import { MY_TEAM_ID, ROUNDS_PER_SEASON, createSeason, myFixture } from '../lib/league'
 import { PLAYERS_BY_RARITY, getPlayer } from '../lib/players'
+import { rollListings, transferPrice } from '../lib/market'
 import { RARITY_STYLES, trainCost } from '../lib/rarity'
 import { initialState } from '../lib/storage'
 import type { Card, GameState, MatchResult } from '../lib/types'
 
 const start = (): GameState => ({ ...initialState(), daily: freshDaily(todayKey()) })
 
-const card = (uid: string, playerId: string, level = 1): Card => ({ uid, playerId, level })
+const card = (uid: string, playerId: string, level = 1): Card => ({
+  uid,
+  playerId,
+  level,
+  condition: 100,
+  injuredFor: 0,
+})
 
 const matchResult = (scoreFor: number, scoreAgainst: number): MatchResult => ({
   opponent: '상대',
@@ -171,6 +180,7 @@ describe('playing a season', () => {
     expect(next.season.table[opponentId].played).toBe(1)
     expect(next.daily.progress.win).toBe(1)
     expect(next.history).toHaveLength(1)
+    expect(next.history[0].competition).toBe('league')
   })
 
   it('keeps the score the right way round when away', () => {
@@ -208,6 +218,156 @@ describe('playing a season', () => {
   it('ignores a new season request mid-season', () => {
     const state = start()
     expect(reducer(state, { type: 'newSeason' })).toBe(state)
+  })
+})
+
+describe('fitness after a match', () => {
+  it('tires the starters and rests the bench', () => {
+    const state = start()
+    const fixture = myFixture(state.season)!
+    const starter = state.squad.slots.gk!
+    const benched = state.cards.find(
+      (card) => !Object.values(state.squad.slots).includes(card.uid),
+    )!
+    const rested = { ...state, cards: state.cards.map((card) => ({ ...card, condition: 70 })) }
+
+    const next = reducer(rested, { type: 'match', result: matchResult(1, 0), fixture, others: [] })
+    expect(next.cards.find((card) => card.uid === starter)!.condition).toBeLessThan(70)
+    expect(next.cards.find((card) => card.uid === benched.uid)!.condition).toBeGreaterThan(70)
+  })
+
+  it('treats an injury and restores condition for gold', () => {
+    const state = start()
+    const uid = state.cards[0].uid
+    const hurt = {
+      ...state,
+      cards: state.cards.map((card) =>
+        card.uid === uid ? { ...card, injuredFor: 2, condition: 40 } : card,
+      ),
+    }
+    const injuredCard = hurt.cards.find((card) => card.uid === uid)!
+
+    const treated = reducer(hurt, { type: 'treat', uid })
+    expect(treated.gold).toBe(hurt.gold - treatmentCost(injuredCard))
+    expect(treated.cards.find((card) => card.uid === uid)!.injuredFor).toBe(0)
+
+    const recovered = reducer(treated, { type: 'recover', uid })
+    expect(recovered.gold).toBe(treated.gold - recoveryCost(injuredCard))
+    expect(recovered.cards.find((card) => card.uid === uid)!.condition).toBe(MAX_CONDITION)
+  })
+
+  it('refuses treatment nobody needs or can afford', () => {
+    const state = start()
+    expect(reducer(state, { type: 'treat', uid: state.cards[0].uid })).toBe(state)
+    expect(reducer(state, { type: 'recover', uid: state.cards[0].uid })).toBe(state)
+
+    const broke = {
+      ...state,
+      gold: 0,
+      cards: state.cards.map((card, index) =>
+        index === 0 ? { ...card, injuredFor: 3 } : card,
+      ),
+    }
+    expect(reducer(broke, { type: 'treat', uid: broke.cards[0].uid })).toBe(broke)
+  })
+})
+
+describe('the cup', () => {
+  it('advances, pays out and logs the tie', () => {
+    const state = start()
+    const next = reducer(state, { type: 'cupMatch', result: matchResult(2, 0), myRating: 80 })
+
+    expect(next.cup.round).toBe(1)
+    expect(next.cup.eliminated).toBe(false)
+    expect(next.gold).toBeGreaterThan(state.gold)
+    expect(next.record.w).toBe(1)
+    expect(next.history[0].competition).toBe('cup')
+    expect(myTie(next.cup)).not.toBeNull()
+  })
+
+  it('ends the run on a defeat and keeps a champion', () => {
+    const state = start()
+    const next = reducer(state, { type: 'cupMatch', result: matchResult(0, 3), myRating: 80 })
+
+    expect(next.cup.eliminated).toBe(true)
+    expect(next.cup.champion).toBeTruthy()
+    expect(next.trophies.cup).toBe(0)
+    // A knocked out club cannot keep playing cup ties.
+    expect(reducer(next, { type: 'cupMatch', result: matchResult(1, 0), myRating: 80 })).toBe(next)
+  })
+
+  it('counts a trophy when the final is won', () => {
+    let state = start()
+    for (let round = 0; round < 3; round++) {
+      state = reducer(state, { type: 'cupMatch', result: matchResult(3, 0), myRating: 95 })
+    }
+    expect(state.cup.champion).toBe(MY_TEAM_ID)
+    expect(state.trophies.cup).toBe(1)
+  })
+
+  it('starts a fresh cup with the new season', () => {
+    let state = start()
+    state = reducer(state, { type: 'cupMatch', result: matchResult(0, 1), myRating: 80 })
+    for (let round = 0; round < ROUNDS_PER_SEASON; round++) {
+      const fixture = myFixture(state.season)!
+      state = reducer(state, { type: 'match', result: matchResult(2, 0), fixture, others: [] })
+    }
+    const next = reducer(state, { type: 'newSeason' })
+
+    expect(next.cup.eliminated).toBe(false)
+    expect(next.cup.round).toBe(0)
+    expect(next.cup.index).toBe(next.season.index)
+    expect(next.trophies.promotions).toBe(1)
+    // Squads come back fresh.
+    expect(next.cards.every((card) => card.condition === MAX_CONDITION)).toBe(true)
+    expect(next.cards.every((card) => card.injuredFor === 0)).toBe(true)
+  })
+})
+
+describe('transfer market', () => {
+  it('rolls the daily list once per day', () => {
+    const state = start()
+    const first = reducer(state, { type: 'ensureMarket', date: '2026-05-05' })
+    expect(first.market.listings.length).toBeGreaterThan(0)
+    expect(reducer(first, { type: 'ensureMarket', date: '2026-05-05' })).toBe(first)
+    expect(
+      reducer(first, { type: 'ensureMarket', date: '2026-05-06' }).market.listings,
+    ).not.toEqual(first.market.listings)
+  })
+
+  it('buys a listing and removes it from the shelf', () => {
+    const state = reducer({ ...start(), gold: 99999 }, { type: 'ensureMarket', date: '2026-05-05' })
+    const listing = state.market.listings[0]
+    const next = reducer(state, { type: 'buy', listing })
+
+    expect(next.gold).toBe(state.gold - listing.price)
+    expect(next.cards.some((card) => card.playerId === listing.playerId)).toBe(true)
+    expect(next.market.listings.some((item) => item.id === listing.id)).toBe(false)
+    expect(next.collected).toContain(listing.playerId)
+    // The same listing cannot be bought twice.
+    expect(reducer(next, { type: 'buy', listing })).toBe(next)
+  })
+
+  it('refuses a signing the club cannot afford', () => {
+    const state = reducer({ ...start(), gold: 0 }, { type: 'ensureMarket', date: '2026-05-05' })
+    expect(reducer(state, { type: 'buy', listing: state.market.listings[0] })).toBe(state)
+  })
+
+  it('charges for a manual refresh', () => {
+    const state = reducer(start(), { type: 'ensureMarket', date: '2026-05-05' })
+    const listings = rollListings(state.season.division)
+    const next = reducer(state, { type: 'refreshMarket', listings, cost: 300 })
+
+    expect(next.gold).toBe(state.gold - 300)
+    expect(next.market.listings).toEqual(listings)
+    expect(reducer({ ...state, gold: 10 }, { type: 'refreshMarket', listings, cost: 300 }).gold).toBe(10)
+  })
+
+  it('prices a listing from the player it sells', () => {
+    const state = reducer(start(), { type: 'ensureMarket', date: '2026-05-05' })
+    for (const listing of state.market.listings) {
+      expect(listing.price).toBe(transferPrice(getPlayer(listing.playerId)!))
+    }
   })
 })
 

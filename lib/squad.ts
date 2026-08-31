@@ -1,3 +1,4 @@
+import { conditionFactor, isInjured } from './condition'
 import { FORMATIONS, emptySlots } from './formations'
 import { POSITION_GROUP, effectiveOvr, getPlayer } from './players'
 import type { Card, PlayerDef, Position, Squad } from './types'
@@ -12,9 +13,11 @@ export interface SlotEvaluation {
   player: PlayerDef | null
   /** Overall after training, before the position penalty. */
   baseOvr: number
-  /** What the player is actually worth in this slot. */
+  /** What the player is actually worth in this slot, after fitness. */
   rating: number
   fit: 'perfect' | 'ok' | 'poor' | 'empty'
+  condition: number
+  injured: boolean
 }
 
 export interface SquadRating {
@@ -62,17 +65,32 @@ export function evaluateSquad(cards: Card[], squad: Squad): SquadRating {
         baseOvr: 0,
         rating: EMPTY_SLOT_RATING,
         fit: 'empty',
+        condition: 0,
+        injured: false,
       }
     }
     const baseOvr = effectiveOvr(player, card.level)
+    const injured = isInjured(card)
+    // An injured player cannot take the pitch: a youth stand-in plays instead.
+    const rating = injured
+      ? EMPTY_SLOT_RATING
+      : Math.max(
+          20,
+          Math.round(
+            (baseOvr - positionPenalty(player.position, slot.position)) *
+              conditionFactor(card.condition),
+          ),
+        )
     return {
       slotId: slot.id,
       slotPosition: slot.position,
       card,
       player,
       baseOvr,
-      rating: Math.max(20, baseOvr - positionPenalty(player.position, slot.position)),
+      rating,
       fit: fitOf(player.position, slot.position),
+      condition: card.condition,
+      injured,
     }
   })
 
@@ -100,7 +118,7 @@ export function evaluateSquad(cards: Card[], squad: Squad): SquadRating {
     mid,
     def,
     chemistry,
-    filled: evaluations.filter((item) => item.card).length,
+    filled: evaluations.filter((item) => item.card && !item.injured).length,
     evaluations,
   }
 }
@@ -110,7 +128,7 @@ function chemistryOf(evaluations: SlotEvaluation[]): number {
   let points = 0
   const nations: Record<string, number> = {}
   for (const item of evaluations) {
-    if (!item.player) continue
+    if (!item.player || item.injured) continue
     points += item.fit === 'perfect' ? 9 : item.fit === 'ok' ? 5 : 1
     nations[item.player.nation] = (nations[item.player.nation] ?? 0) + 1
   }
@@ -128,11 +146,14 @@ export function autoFill(cards: Card[], squad: Squad): Squad {
   for (const slot of formation.slots) {
     for (const card of cards) {
       const player = getPlayer(card.playerId)
-      if (!player) continue
+      // Injured players are left out of the line-up entirely.
+      if (!player || isInjured(card)) continue
       pairs.push({
         slotId: slot.id,
         uid: card.uid,
-        score: effectiveOvr(player, card.level) - positionPenalty(player.position, slot.position),
+        score:
+          (effectiveOvr(player, card.level) - positionPenalty(player.position, slot.position)) *
+          conditionFactor(card.condition),
       })
     }
   }

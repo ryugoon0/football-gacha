@@ -1,5 +1,7 @@
+import type { CupState } from './cup'
 import type { DailyState } from './daily'
 import type { Season } from './league'
+import type { MarketState } from './market'
 import type { TacticKey } from './tactics'
 
 export type Rarity = 'Normal' | 'Rare' | 'Legend' | 'Live' | 'World'
@@ -47,6 +49,10 @@ export interface Card {
   uid: string
   playerId: string
   level: number
+  /** Match fitness, 0-100. Tired players underperform. */
+  condition: number
+  /** Matches left on the sidelines; 0 means available. */
+  injuredFor: number
 }
 
 export interface Squad {
@@ -57,6 +63,7 @@ export interface Squad {
 
 export interface MatchSummary {
   id: string
+  competition: 'league' | 'cup'
   opponent: string
   scoreFor: number
   scoreAgainst: number
@@ -73,6 +80,9 @@ export interface GameState {
   squad: Squad
   tactic: TacticKey
   season: Season
+  cup: CupState
+  market: MarketState
+  trophies: { cup: number; promotions: number }
   daily: DailyState
   guideDone: boolean
   record: { w: number; d: number; l: number }

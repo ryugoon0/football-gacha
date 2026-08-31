@@ -6,14 +6,25 @@ import {
   type DailyState,
   type MissionId,
 } from './daily'
+import { applyMatchWear, recoveryCost, treatmentCost, MAX_CONDITION } from './condition'
+import { createCup, cupReward, resolveCupRound } from './cup'
 import { emptySlots } from './formations'
 import { FUSION_FEE, checkFusion } from './fusion'
-import { MY_TEAM_ID, ROUNDS_PER_SEASON, createSeason, recordResult, seasonOutcome, type Fixture } from './league'
+import {
+  MY_TEAM_ID,
+  ROUNDS_PER_SEASON,
+  createSeason,
+  recordResult,
+  seasonOutcome,
+  simulateAiMatch,
+  type Fixture,
+} from './league'
+import { dailyMarket, type Listing } from './market'
 import { getPlayer } from './players'
 import { MAX_LEVEL, RARITY_STYLES, trainCost } from './rarity'
 import { autoFill } from './squad'
 import type { TacticKey } from './tactics'
-import { initialState, newUid } from './storage'
+import { initialState, newCard, newUid } from './storage'
 import type { Card, FormationKey, GameState, MatchResult, PlayerDef } from './types'
 
 export interface RoundResult {
@@ -37,7 +48,13 @@ export type Action =
   | { type: 'setTactic'; tactic: TacticKey }
   | { type: 'autoFill' }
   | { type: 'match'; result: MatchResult; fixture: Fixture; others: RoundResult[] }
+  | { type: 'cupMatch'; result: MatchResult; myRating: number }
   | { type: 'newSeason' }
+  | { type: 'ensureMarket'; date: string }
+  | { type: 'refreshMarket'; listings: Listing[]; cost: number }
+  | { type: 'buy'; listing: Listing }
+  | { type: 'treat'; uid: string }
+  | { type: 'recover'; uid: string }
   | { type: 'claimMission'; id: MissionId }
   | { type: 'finishGuide' }
   | { type: 'renameClub'; club: string }
@@ -50,6 +67,32 @@ function today(state: GameState): DailyState {
 function bumpMission(state: GameState, id: MissionId, amount: number): DailyState {
   const daily = today(state)
   return { ...daily, progress: { ...daily.progress, [id]: (daily.progress[id] ?? 0) + amount } }
+}
+
+function logMatch(
+  state: GameState,
+  competition: 'league' | 'cup',
+  result: MatchResult,
+  reward: number,
+): GameState['history'] {
+  return [
+    {
+      id: newUid(),
+      competition,
+      opponent: result.opponent,
+      scoreFor: result.scoreFor,
+      scoreAgainst: result.scoreAgainst,
+      result: result.result,
+      reward,
+      at: Date.now(),
+    },
+    ...state.history,
+  ].slice(0, 20)
+}
+
+/** Starting eleven, used to work out who tires and who rests. */
+function startingUids(state: GameState): string[] {
+  return Object.values(state.squad.slots).filter(Boolean) as string[]
 }
 
 function withoutCards(state: GameState, uids: Set<string>): GameState {
@@ -126,7 +169,7 @@ export function reducer(state: GameState, action: Action): GameState {
       const check = checkFusion(state.cards, action.uids, state.squad, state.gold)
       if (!check.ok) return state
       const next = withoutCards(state, new Set(action.uids))
-      const card: Card = { uid: newUid(), playerId: action.player.id, level: 1 }
+      const card = newCard(action.player.id)
       return {
         ...next,
         gold: state.gold - FUSION_FEE,
@@ -189,36 +232,128 @@ export function reducer(state: GameState, action: Action): GameState {
       const round = season.round + 1
       season = { ...season, round, finished: round >= ROUNDS_PER_SEASON }
 
+      const { cards } = applyMatchWear(state.cards, startingUids(state))
+
       return {
         ...state,
         gold: state.gold + result.reward,
+        cards,
         record,
         gf: state.gf + result.scoreFor,
         ga: state.ga + result.scoreAgainst,
         season,
         daily: result.result === 'W' ? bumpMission(state, 'win', 1) : today(state),
-        history: [
-          {
-            id: newUid(),
-            opponent: result.opponent,
-            scoreFor: result.scoreFor,
-            scoreAgainst: result.scoreAgainst,
-            result: result.result,
-            reward: result.reward,
-            at: Date.now(),
-          },
-          ...state.history,
-        ].slice(0, 20),
+        history: logMatch(state, 'league', result, result.reward),
+      }
+    }
+
+    case 'cupMatch': {
+      const { result, myRating } = action
+      if (state.cup.eliminated || state.cup.champion) return state
+
+      const round = state.cup.round
+      const { cup, advanced } = resolveCupRound(
+        state.cup,
+        result.scoreFor,
+        result.scoreAgainst,
+        myRating,
+        simulateAiMatch,
+      )
+      const reward = cupReward(round, advanced)
+      const wonTheCup = cup.champion === MY_TEAM_ID
+      const record = { ...state.record }
+      if (result.result === 'W') record.w += 1
+      else if (result.result === 'D') record.d += 1
+      else record.l += 1
+
+      const { cards } = applyMatchWear(state.cards, startingUids(state))
+
+      return {
+        ...state,
+        gold: state.gold + reward,
+        cards,
+        cup,
+        record,
+        gf: state.gf + result.scoreFor,
+        ga: state.ga + result.scoreAgainst,
+        trophies: wonTheCup ? { ...state.trophies, cup: state.trophies.cup + 1 } : state.trophies,
+        daily: result.result === 'W' ? bumpMission(state, 'win', 1) : today(state),
+        history: logMatch(state, 'cup', result, reward),
+      }
+    }
+
+    case 'ensureMarket':
+      if (state.market.date === action.date) return state
+      return { ...state, market: dailyMarket(action.date, state.season.division) }
+
+    case 'refreshMarket': {
+      if (state.gold < action.cost) return state
+      return {
+        ...state,
+        gold: state.gold - action.cost,
+        market: { ...state.market, listings: action.listings },
+      }
+    }
+
+    case 'buy': {
+      const { listing } = action
+      if (state.gold < listing.price) return state
+      if (!state.market.listings.some((item) => item.id === listing.id)) return state
+      return {
+        ...state,
+        gold: state.gold - listing.price,
+        cards: [...state.cards, newCard(listing.playerId)],
+        collected: Array.from(new Set([...state.collected, listing.playerId])),
+        market: {
+          ...state.market,
+          listings: state.market.listings.filter((item) => item.id !== listing.id),
+        },
+      }
+    }
+
+    case 'treat': {
+      const card = state.cards.find((item) => item.uid === action.uid)
+      if (!card || card.injuredFor === 0) return state
+      const cost = treatmentCost(card)
+      if (state.gold < cost) return state
+      return {
+        ...state,
+        gold: state.gold - cost,
+        cards: state.cards.map((item) =>
+          item.uid === action.uid ? { ...item, injuredFor: 0 } : item,
+        ),
+      }
+    }
+
+    case 'recover': {
+      const card = state.cards.find((item) => item.uid === action.uid)
+      if (!card || card.condition >= MAX_CONDITION) return state
+      const cost = recoveryCost(card)
+      if (state.gold < cost) return state
+      return {
+        ...state,
+        gold: state.gold - cost,
+        cards: state.cards.map((item) =>
+          item.uid === action.uid ? { ...item, condition: MAX_CONDITION } : item,
+        ),
       }
     }
 
     case 'newSeason': {
       if (!state.season.finished) return state
       const outcome = seasonOutcome(state.season)
+      const index = state.season.index + 1
       return {
         ...state,
         gold: state.gold + outcome.reward,
-        season: createSeason(outcome.nextDivision, state.season.index + 1, state.club),
+        season: createSeason(outcome.nextDivision, index, state.club),
+        cup: createCup(outcome.nextDivision, index, state.club),
+        market: { ...state.market, date: '' },
+        trophies: outcome.promoted
+          ? { ...state.trophies, promotions: state.trophies.promotions + 1 }
+          : state.trophies,
+        // Everyone comes back fresh for the new campaign.
+        cards: state.cards.map((card) => ({ ...card, condition: MAX_CONDITION, injuredFor: 0 })),
       }
     }
 
@@ -240,10 +375,14 @@ export function reducer(state: GameState, action: Action): GameState {
 
     case 'renameClub': {
       const club = action.club.trim().slice(0, 20) || state.club
-      const teams = state.season.teams.map((team) =>
-        team.id === MY_TEAM_ID ? { ...team, name: club } : team,
-      )
-      return { ...state, club, season: { ...state.season, teams } }
+      const rename = <T extends { id: string; name: string }>(team: T): T =>
+        team.id === MY_TEAM_ID ? { ...team, name: club } : team
+      return {
+        ...state,
+        club,
+        season: { ...state.season, teams: state.season.teams.map(rename) },
+        cup: { ...state.cup, teams: state.cup.teams.map(rename) },
+      }
     }
 
     case 'reset':

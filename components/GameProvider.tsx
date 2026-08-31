@@ -10,12 +10,13 @@ import {
   useState,
   type ReactNode,
 } from 'react'
-import { type MissionId } from '../lib/daily'
+import { todayKey, type MissionId } from '../lib/daily'
 import { FUSION_FEE, FUSION_SIZE, checkFusion, fusionResult } from '../lib/fusion'
 import { reducer, type RoundResult } from '../lib/gameReducer'
 import type { Fixture } from '../lib/league'
+import { REFRESH_COST, rollListings, type Listing } from '../lib/market'
 import type { TacticKey } from '../lib/tactics'
-import { clearSave, initialState, loadState, newUid, saveState } from '../lib/storage'
+import { clearSave, initialState, loadState, newCard, saveState } from '../lib/storage'
 import type { Card, FormationKey, GameState, MatchResult, PlayerDef } from '../lib/types'
 
 export interface GameApi {
@@ -32,7 +33,12 @@ export interface GameApi {
   setTactic: (tactic: TacticKey) => void
   autoFillSquad: () => void
   finishMatch: (result: MatchResult, fixture: Fixture, others: RoundResult[]) => void
+  finishCupMatch: (result: MatchResult, myRating: number) => void
   startNewSeason: () => void
+  buyListing: (listing: Listing) => void
+  refreshMarket: () => void
+  treatInjury: (uid: string) => void
+  restoreCondition: (uid: string) => void
   claimMission: (id: MissionId) => void
   finishGuide: () => void
   renameClub: (club: string) => void
@@ -50,6 +56,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     dispatch({ type: 'hydrate', state: loadState() })
     dispatch({ type: 'refreshDaily' })
+    dispatch({ type: 'ensureMarket', date: todayKey() })
     setReady(true)
   }, [])
 
@@ -58,7 +65,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
   }, [state, ready])
 
   const addCards = useCallback((players: PlayerDef[], cost: number, free = false) => {
-    const cards = players.map((player) => ({ uid: newUid(), playerId: player.id, level: 1 }))
+    const cards = players.map((player) => newCard(player.id))
     dispatch({ type: 'addCards', cards, cost, free })
     return cards
   }, [])
@@ -90,7 +97,18 @@ export function GameProvider({ children }: { children: ReactNode }) {
       autoFillSquad: () => dispatch({ type: 'autoFill' }),
       finishMatch: (result: MatchResult, fixture: Fixture, others: RoundResult[]) =>
         dispatch({ type: 'match', result, fixture, others }),
+      finishCupMatch: (result: MatchResult, myRating: number) =>
+        dispatch({ type: 'cupMatch', result, myRating }),
       startNewSeason: () => dispatch({ type: 'newSeason' }),
+      buyListing: (listing: Listing) => dispatch({ type: 'buy', listing }),
+      refreshMarket: () =>
+        dispatch({
+          type: 'refreshMarket',
+          listings: rollListings(state.season.division),
+          cost: REFRESH_COST,
+        }),
+      treatInjury: (uid: string) => dispatch({ type: 'treat', uid }),
+      restoreCondition: (uid: string) => dispatch({ type: 'recover', uid }),
       claimMission: (id: MissionId) => dispatch({ type: 'claimMission', id }),
       finishGuide: () => dispatch({ type: 'finishGuide' }),
       renameClub: (club: string) => dispatch({ type: 'renameClub', club }),
