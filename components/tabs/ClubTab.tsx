@@ -1,9 +1,10 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import { FUSION_FEE, FUSION_SIZE, checkFusion } from '../../lib/fusion'
 import { PLAYERS, POSITION_GROUP, effectiveOvr, getPlayer } from '../../lib/players'
 import { MAX_LEVEL, RARITIES, RARITY_STYLES, trainCost } from '../../lib/rarity'
-import type { PositionGroup, Rarity } from '../../lib/types'
+import type { PlayerDef, PositionGroup, Rarity } from '../../lib/types'
 import { useGame } from '../GameProvider'
 import PlayerCard from '../PlayerCard'
 
@@ -20,11 +21,14 @@ const GROUP_LABELS: Record<GroupFilter, string> = {
 }
 
 export default function ClubTab() {
-  const { state, sell, sellDuplicates, train } = useGame()
+  const { state, sell, sellDuplicates, train, fuse } = useGame()
   const [rarityFilter, setRarityFilter] = useState<RarityFilter>('all')
   const [groupFilter, setGroupFilter] = useState<GroupFilter>('all')
   const [sortKey, setSortKey] = useState<SortKey>('ovr')
   const [selectedUid, setSelectedUid] = useState<string | null>(null)
+  const [fusing, setFusing] = useState(false)
+  const [fuseUids, setFuseUids] = useState<string[]>([])
+  const [fused, setFused] = useState<PlayerDef | null>(null)
 
   const inSquad = useMemo(
     () => new Set(Object.values(state.squad.slots).filter(Boolean) as string[]),
@@ -66,6 +70,31 @@ export default function ClubTab() {
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
       <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+        <div className="mb-4 flex gap-2">
+          <button
+            onClick={() => {
+              setFusing(false)
+              setFuseUids([])
+            }}
+            className={`rounded-lg px-3 py-1.5 text-sm font-bold transition ${
+              !fusing ? 'bg-emerald-400 text-slate-900' : 'bg-white/5 text-slate-300 hover:bg-white/10'
+            }`}
+          >
+            선수 관리
+          </button>
+          <button
+            onClick={() => {
+              setFusing(true)
+              setSelectedUid(null)
+              setFused(null)
+            }}
+            className={`rounded-lg px-3 py-1.5 text-sm font-bold transition ${
+              fusing ? 'bg-emerald-400 text-slate-900' : 'bg-white/5 text-slate-300 hover:bg-white/10'
+            }`}
+          >
+            승급 합성
+          </button>
+        </div>
         <div className="mb-4 flex flex-wrap items-center gap-2">
           <FilterChip active={rarityFilter === 'all'} onClick={() => setRarityFilter('all')}>
             전체 등급
@@ -111,9 +140,24 @@ export default function ClubTab() {
                 player={player}
                 level={card.level}
                 size="md"
-                selected={selectedUid === card.uid}
+                selected={fusing ? fuseUids.includes(card.uid) : selectedUid === card.uid}
+                dimmed={fusing && inSquad.has(card.uid)}
                 badge={inSquad.has(card.uid) ? '선발' : undefined}
-                onClick={() => setSelectedUid(card.uid === selectedUid ? null : card.uid)}
+                onClick={() => {
+                  if (!fusing) {
+                    setSelectedUid(card.uid === selectedUid ? null : card.uid)
+                    return
+                  }
+                  if (inSquad.has(card.uid)) return
+                  setFused(null)
+                  setFuseUids((current) =>
+                    current.includes(card.uid)
+                      ? current.filter((uid) => uid !== card.uid)
+                      : current.length >= FUSION_SIZE
+                        ? current
+                        : [...current, card.uid],
+                  )
+                }}
               />
             ))}
           </div>
@@ -145,6 +189,24 @@ export default function ClubTab() {
           </button>
         </section>
 
+        {fusing ? (
+          <FusionPanel
+            uids={fuseUids}
+            check={checkFusion(state.cards, fuseUids, state.squad, state.gold)}
+            result={fused}
+            onClear={() => {
+              setFuseUids([])
+              setFused(null)
+            }}
+            onFuse={() => {
+              const player = fuse(fuseUids)
+              if (player) {
+                setFused(player)
+                setFuseUids([])
+              }
+            }}
+          />
+        ) : (
         <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">선수 관리</h3>
           {!selected ? (
@@ -185,8 +247,83 @@ export default function ClubTab() {
             </div>
           )}
         </section>
+        )}
       </div>
     </div>
+  )
+}
+
+function FusionPanel({
+  uids,
+  check,
+  result,
+  onFuse,
+  onClear,
+}: {
+  uids: string[]
+  check: ReturnType<typeof checkFusion>
+  result: PlayerDef | null
+  onFuse: () => void
+  onClear: () => void
+}) {
+  return (
+    <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+      <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">승급 합성</h3>
+      <p className="mt-2 text-sm text-slate-400">
+        같은 등급 카드 {FUSION_SIZE}장과 {FUSION_FEE}G로 한 단계 위 등급 카드 1장을 만듭니다.
+        선발 명단의 카드는 사용할 수 없습니다.
+      </p>
+
+      <div className="mt-3 flex gap-2">
+        {Array.from({ length: FUSION_SIZE }).map((_, index) => (
+          <div
+            key={index}
+            className={`flex h-16 flex-1 items-center justify-center rounded-lg border border-dashed text-xs font-bold ${
+              uids[index]
+                ? 'border-emerald-400 bg-emerald-400/10 text-emerald-300'
+                : 'border-white/20 text-slate-600'
+            }`}
+          >
+            {uids[index] ? '선택됨' : index + 1}
+          </div>
+        ))}
+      </div>
+
+      {check.from && check.to && (
+        <div className="mt-3 rounded-lg bg-white/5 p-3 text-center text-sm text-slate-300">
+          <span className="font-bold text-white">{RARITY_STYLES[check.from].label}</span> ×{' '}
+          {FUSION_SIZE} →{' '}
+          <span className="font-bold text-amber-300">{RARITY_STYLES[check.to].label}</span> 1장
+        </div>
+      )}
+      {!check.ok && check.reason && !(result && uids.length === 0) && (
+        <p className="mt-2 text-xs font-semibold text-amber-400">{check.reason}</p>
+      )}
+
+      <div className="mt-3 flex gap-2">
+        <button
+          onClick={onFuse}
+          disabled={!check.ok}
+          className="flex-1 rounded-lg bg-amber-400 px-3 py-2 text-sm font-bold text-slate-900 transition hover:bg-amber-300 disabled:opacity-40"
+        >
+          합성하기 ({FUSION_FEE}G)
+        </button>
+        <button
+          onClick={onClear}
+          disabled={uids.length === 0}
+          className="rounded-lg bg-white/10 px-3 py-2 text-sm font-bold text-white transition hover:bg-white/20 disabled:opacity-40"
+        >
+          선택 해제
+        </button>
+      </div>
+
+      {result && (
+        <div className="card-pop mt-4 flex flex-col items-center gap-2">
+          <span className="text-xs font-bold text-emerald-300">합성 성공!</span>
+          <PlayerCard player={result} size="lg" />
+        </div>
+      )}
+    </section>
   )
 }
 

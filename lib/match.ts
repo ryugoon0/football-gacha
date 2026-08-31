@@ -1,33 +1,11 @@
+import { BOTTOM_DIVISION, type LeagueTeam } from './league'
 import { POSITION_GROUP } from './players'
 import type { SlotEvaluation, SquadRating } from './squad'
+import { TACTICS, type TacticKey } from './tactics'
 import type { MatchEvent, MatchResult } from './types'
-
-export interface Opponent {
-  id: string
-  name: string
-  rating: number
-  /** Two-letter crest text. */
-  badge: string
-}
-
-const OPPONENT_NAMES = [
-  ['청담 클래식', 'CD'],
-  ['성수 워리어스', 'SS'],
-  ['망원 시티', 'MW'],
-  ['해운대 웨이브', 'HD'],
-  ['광안 브릿지', 'GA'],
-  ['한라 화산', 'HL'],
-  ['금정 타이거즈', 'GJ'],
-  ['남산 타워스', 'NS'],
-  ['여의도 캐피탈', 'YD'],
-  ['영종 에어포트', 'YJ'],
-  ['태백 마운틴', 'TB'],
-  ['동해 크라켄', 'DH'],
-]
 
 const OPPONENT_PLAYERS = [
   '카를로스',
-  '무리뉴',
   '반더스',
   '오카다',
   '실바',
@@ -36,34 +14,11 @@ const OPPONENT_PLAYERS = [
   '페레즈',
   '리베로',
   '가브리엘',
+  '노바크',
 ]
 
-/** Division 5 is the bottom tier, division 1 the top. */
-export const TOP_DIVISION = 1
-export const BOTTOM_DIVISION = 5
-export const PROMOTION_POINTS = 15
-
-export function divisionLabel(division: number): string {
-  return division === 1 ? '1부 리그' : `${division}부 리그`
-}
-
-export function divisionBaseRating(division: number): number {
-  return 52 + (BOTTOM_DIVISION - division) * 9
-}
-
-/** Three opponents to choose from, easiest first. */
-export function opponentsFor(division: number, seed = 0): Opponent[] {
-  const base = divisionBaseRating(division)
-  return [0, 1, 2].map((index) => {
-    const pick = OPPONENT_NAMES[(seed + index * 4 + division * 3) % OPPONENT_NAMES.length]
-    return {
-      id: `d${division}-${index}`,
-      name: pick[0],
-      badge: pick[1],
-      rating: base + index * 5,
-    }
-  })
-}
+/** Rating bump for playing at home. */
+export const HOME_ADVANTAGE = 3
 
 function pickScorer(evaluations: SlotEvaluation[], rng: () => number): string {
   const candidates = evaluations.filter(
@@ -89,15 +44,7 @@ function keeperName(evaluations: SlotEvaluation[]): string {
   return keeper?.player?.name ?? '유스 골키퍼'
 }
 
-function opponentPlayer(rng: () => number): string {
-  return OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)]
-}
-
-export function matchReward(
-  result: 'W' | 'D' | 'L',
-  division: number,
-  scoreFor: number,
-): number {
+export function matchReward(result: 'W' | 'D' | 'L', division: number, scoreFor: number): number {
   const base = result === 'W' ? 420 : result === 'D' ? 180 : 70
   const divisionBonus = (BOTTOM_DIVISION + 1 - division) * 60
   const share = result === 'W' ? divisionBonus : Math.round(divisionBonus / 3)
@@ -106,20 +53,46 @@ export function matchReward(
 
 const clamp = (n: number, min: number, max: number) => Math.max(min, Math.min(max, n))
 
-export function simulateMatch(
-  team: SquadRating,
-  teamName: string,
-  opponent: Opponent,
-  division: number,
-  rng: () => number = Math.random,
-): MatchResult {
-  const oppAtt = opponent.rating + (rng() * 6 - 3)
-  const oppMid = opponent.rating + (rng() * 6 - 3)
-  const oppDef = opponent.rating + (rng() * 6 - 3)
+export interface MatchOptions {
+  team: SquadRating
+  teamName: string
+  opponent: LeagueTeam
+  division: number
+  isHome: boolean
+  tactic: TacticKey
+  rng?: () => number
+}
 
-  const possessionShare = team.mid / (team.mid + oppMid)
+export function simulateMatch({
+  team,
+  teamName,
+  opponent,
+  division,
+  isHome,
+  tactic,
+  rng = Math.random,
+}: MatchOptions): MatchResult {
+  const plan = TACTICS[tactic] ?? TACTICS.balanced
+  const homeBonus = isHome ? HOME_ADVANTAGE : 0
+  const awayBonus = isHome ? 0 : HOME_ADVANTAGE
+
+  const myAtt = team.att * plan.att + homeBonus
+  const myDef = team.def * plan.def + homeBonus
+  const myMid = team.mid + homeBonus
+
+  const oppAtt = opponent.rating + awayBonus + (rng() * 6 - 3)
+  const oppMid = opponent.rating + awayBonus + (rng() * 6 - 3)
+  const oppDef = opponent.rating + awayBonus + (rng() * 6 - 3)
+
+  const possessionShare = myMid / (myMid + oppMid)
+  const venue = isHome ? '홈' : '원정'
   const events: MatchEvent[] = [
-    { minute: 0, type: 'kickoff', side: 'home', text: `${teamName} 대 ${opponent.name}, 킥오프!` },
+    {
+      minute: 0,
+      type: 'kickoff',
+      side: 'home',
+      text: `${teamName} 대 ${opponent.name} (${venue}), 킥오프!`,
+    },
   ]
 
   let scoreFor = 0
@@ -136,22 +109,22 @@ export function simulateMatch(
         text: `전반 종료 — ${scoreFor} : ${scoreAgainst}`,
       })
     }
-    if (rng() > 0.13) continue
+    if (rng() > 0.13 * plan.tempo) continue
 
-    const homeAttacks = rng() < possessionShare
-    const att = homeAttacks ? team.att : oppAtt
-    const def = homeAttacks ? oppDef : team.def
-    const side: 'home' | 'away' = homeAttacks ? 'home' : 'away'
-    if (homeAttacks) shotsFor++
+    const weAttack = rng() < possessionShare
+    const att = weAttack ? myAtt : oppAtt
+    const def = weAttack ? oppDef : myDef
+    const side: 'home' | 'away' = weAttack ? 'home' : 'away'
+    if (weAttack) shotsFor++
     else shotsAgainst++
 
     const goalChance = clamp(0.22 + (att - def) / 150, 0.06, 0.55)
-    const shooter = homeAttacks
+    const shooter = weAttack
       ? pickScorer(team.evaluations, rng)
-      : opponentPlayer(rng)
+      : OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)]
 
     if (rng() < goalChance) {
-      if (homeAttacks) scoreFor++
+      if (weAttack) scoreFor++
       else scoreAgainst++
       events.push({
         minute,
@@ -160,7 +133,7 @@ export function simulateMatch(
         text: `⚽ ${shooter} 골! ${scoreFor} : ${scoreAgainst}`,
       })
     } else if (rng() < 0.5) {
-      const keeper = homeAttacks ? `${opponent.name} 골키퍼` : keeperName(team.evaluations)
+      const keeper = weAttack ? `${opponent.name} 골키퍼` : keeperName(team.evaluations)
       events.push({
         minute,
         type: 'save',

@@ -1,9 +1,10 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { divisionLabel } from '../lib/match'
+import { divisionLabel } from '../lib/league'
 import { evaluateSquad } from '../lib/squad'
 import { GameProvider, useGame } from './GameProvider'
+import GuideOverlay from './GuideOverlay'
 import ClubTab from './tabs/ClubTab'
 import GachaTab from './tabs/GachaTab'
 import MatchTab from './tabs/MatchTab'
@@ -27,15 +28,18 @@ export default function GachaGame() {
 }
 
 function Shell() {
-  const { state, ready, renameClub, reset } = useGame()
+  const { state, ready, renameClub, reset, finishGuide } = useGame()
   const [tab, setTab] = useState<TabKey>('gacha')
   const [editingClub, setEditingClub] = useState(false)
+  const [helpOpen, setHelpOpen] = useState(false)
   const rating = useMemo(() => evaluateSquad(state.cards, state.squad), [state.cards, state.squad])
+
+  const showGuide = helpOpen || (ready && !state.guideDone)
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
       <header className="sticky top-0 z-30 border-b border-white/10 bg-slate-950/85 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-4 px-4 py-3">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-3 px-4 py-3">
           <div className="flex items-center gap-3">
             <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400 text-lg font-black text-slate-900">
               FD
@@ -71,11 +75,22 @@ function Shell() {
 
           <div className="ml-auto flex items-center gap-2 text-sm">
             <Stat label="전력" value={rating.overall} />
-            <Stat label="리그" value={divisionLabel(state.division)} />
+            <Stat label="리그" value={divisionLabel(state.season.division)} />
+            <Stat
+              label="시즌"
+              value={state.season.finished ? '종료' : `${state.season.round + 1}R`}
+            />
             <div className="rounded-xl bg-amber-400/15 px-3 py-2 text-right">
               <div className="text-[10px] font-bold uppercase text-amber-300/80">Gold</div>
               <div className="font-black text-amber-300">{state.gold.toLocaleString()}</div>
             </div>
+            <button
+              onClick={() => setHelpOpen(true)}
+              className="rounded-xl bg-white/5 px-3 py-2 text-xs font-bold text-slate-300 hover:bg-white/10 hover:text-white"
+              title="게임 방법"
+            >
+              도움말
+            </button>
           </div>
         </div>
 
@@ -122,6 +137,16 @@ function Shell() {
           </button>
         </div>
       </footer>
+
+      {showGuide && (
+        <GuideOverlay
+          onClose={() => {
+            setHelpOpen(false)
+            finishGuide()
+          }}
+          onJump={(key) => setTab(key as TabKey)}
+        />
+      )}
     </main>
   )
 }

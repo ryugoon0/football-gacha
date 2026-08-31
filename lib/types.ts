@@ -1,3 +1,7 @@
+import type { DailyState } from './daily'
+import type { Season } from './league'
+import type { TacticKey } from './tactics'
+
 export type Rarity = 'Normal' | 'Rare' | 'Legend' | 'Live' | 'World'
 
 export type Position =
@@ -67,11 +71,13 @@ export interface GameState {
   gold: number
   cards: Card[]
   squad: Squad
+  tactic: TacticKey
+  season: Season
+  daily: DailyState
+  guideDone: boolean
   record: { w: number; d: number; l: number }
   gf: number
   ga: number
-  points: number
-  division: number
   collected: string[]
   history: MatchSummary[]
 }

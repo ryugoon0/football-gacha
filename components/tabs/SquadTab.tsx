@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { FORMATIONS, FORMATION_KEYS } from '../../lib/formations'
 import { effectiveOvr, getPlayer } from '../../lib/players'
 import { evaluateSquad, positionPenalty } from '../../lib/squad'
+import { TACTICS, TACTIC_KEYS } from '../../lib/tactics'
 import type { FormationKey, Position } from '../../lib/types'
 import { useGame } from '../GameProvider'
 import PlayerCard from '../PlayerCard'
@@ -16,7 +17,7 @@ const FIT_RING: Record<string, string> = {
 }
 
 export default function SquadTab() {
-  const { state, assign, clearSlot, setFormation, autoFillSquad } = useGame()
+  const { state, assign, clearSlot, setFormation, setTactic, autoFillSquad } = useGame()
   const [activeSlot, setActiveSlot] = useState<string | null>(null)
 
   const formation = FORMATIONS[state.squad.formation] ?? FORMATIONS['4-3-3']
@@ -114,6 +115,26 @@ export default function SquadTab() {
       </section>
 
       <div className="space-y-4">
+        <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+          <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">전술</h3>
+          <div className="mt-3 grid grid-cols-3 gap-2">
+            {TACTIC_KEYS.map((key) => (
+              <button
+                key={key}
+                onClick={() => setTactic(key)}
+                className={`rounded-lg px-2 py-2 text-xs font-bold transition ${
+                  state.tactic === key
+                    ? 'bg-emerald-400 text-slate-900'
+                    : 'bg-white/5 text-slate-300 hover:bg-white/10'
+                }`}
+              >
+                {TACTICS[key].label}
+              </button>
+            ))}
+          </div>
+          <p className="mt-2 text-[11px] text-slate-500">{TACTICS[state.tactic].description}</p>
+        </section>
+
         <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">팀 전력</h3>
           <div className="mt-3 flex items-end gap-3">

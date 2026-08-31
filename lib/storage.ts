@@ -1,9 +1,12 @@
+import { freshDaily } from './daily'
 import { emptySlots } from './formations'
+import { BOTTOM_DIVISION, createSeason } from './league'
 import type { Card, GameState } from './types'
 
 export const SAVE_KEY = 'football-day-save-v1'
-export const SAVE_VERSION = 1
+export const SAVE_VERSION = 2
 export const STARTING_GOLD = 3000
+export const DEFAULT_CLUB = '내 클럽 FC'
 
 let uidCounter = 0
 
@@ -46,17 +49,56 @@ export function initialState(): GameState {
 
   return {
     version: SAVE_VERSION,
-    club: '내 클럽 FC',
+    club: DEFAULT_CLUB,
     gold: STARTING_GOLD,
     cards,
     squad: { formation: '4-3-3', slots },
+    tactic: 'balanced',
+    season: createSeason(BOTTOM_DIVISION, 1, DEFAULT_CLUB),
+    // The real day is stamped on the client after hydration, so server and
+    // browser render the same empty mission board.
+    daily: freshDaily(''),
+    guideDone: false,
     record: { w: 0, d: 0, l: 0 },
     gf: 0,
     ga: 0,
-    points: 0,
-    division: 5,
     collected: Array.from(new Set(cards.map((card) => card.playerId))),
     history: [],
+  }
+}
+
+interface LegacySave {
+  version: 1
+  club?: string
+  gold?: number
+  cards?: Card[]
+  squad?: GameState['squad']
+  record?: GameState['record']
+  gf?: number
+  ga?: number
+  division?: number
+  collected?: string[]
+  history?: GameState['history']
+}
+
+/** Version 1 saves had a points ladder instead of a league season. */
+function migrateFromV1(save: LegacySave): GameState {
+  const base = initialState()
+  const club = save.club ?? base.club
+  const division = Math.min(BOTTOM_DIVISION, Math.max(1, save.division ?? BOTTOM_DIVISION))
+  return {
+    ...base,
+    club,
+    gold: save.gold ?? base.gold,
+    cards: save.cards?.length ? save.cards : base.cards,
+    squad: save.squad ?? base.squad,
+    season: createSeason(division, 1, club),
+    guideDone: true,
+    record: save.record ?? base.record,
+    gf: save.gf ?? 0,
+    ga: save.ga ?? 0,
+    collected: save.collected ?? base.collected,
+    history: save.history ?? [],
   }
 }
 
@@ -65,10 +107,10 @@ export function loadState(): GameState {
   try {
     const raw = window.localStorage.getItem(SAVE_KEY)
     if (!raw) return initialState()
-    const parsed = JSON.parse(raw) as Partial<GameState>
-    if (!parsed || parsed.version !== SAVE_VERSION || !Array.isArray(parsed.cards)) {
-      return initialState()
-    }
+    const parsed = JSON.parse(raw) as Partial<GameState> & { version?: number }
+    if (!parsed || !Array.isArray(parsed.cards)) return initialState()
+    if (parsed.version === 1) return migrateFromV1(parsed as unknown as LegacySave)
+    if (parsed.version !== SAVE_VERSION) return initialState()
     return { ...initialState(), ...parsed } as GameState
   } catch {
     return initialState()

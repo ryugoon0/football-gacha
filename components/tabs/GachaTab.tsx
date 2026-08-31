@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { DAILY_MISSIONS, missionClaimable, missionDone } from '../../lib/daily'
 import { DRAW_COST, DRAW_TEN_COST, DRAW_TEN_SIZE, drawMany } from '../../lib/gacha'
 import { getPlayer } from '../../lib/players'
 import { RARITIES, RARITY_STYLES, RARITY_WEIGHTS } from '../../lib/rarity'
@@ -11,7 +12,7 @@ import PlayerCard from '../PlayerCard'
 const SPIN_MS = 1400
 
 export default function GachaTab() {
-  const { state, addCards } = useGame()
+  const { state, addCards, claimMission } = useGame()
   const [spinning, setSpinning] = useState(false)
   const [reel, setReel] = useState<Rarity>('Normal')
   const [results, setResults] = useState<{ player: PlayerDef; isNew: boolean }[]>([])
@@ -32,11 +33,11 @@ export default function GachaTab() {
     return () => clearTimeout(timer)
   }, [results, revealed])
 
-  const draw = async (count: number) => {
-    const cost = count >= DRAW_TEN_SIZE ? DRAW_TEN_COST : DRAW_COST * count
+  const draw = async (count: number, free = false) => {
+    const cost = free ? 0 : count >= DRAW_TEN_SIZE ? DRAW_TEN_COST : DRAW_COST * count
     if (spinning) return
     if (state.gold < cost) {
-      setError('골드가 부족합니다. 경기를 뛰거나 여분 선수를 방출해 보세요.')
+      setError('골드가 부족합니다. 리그 경기를 뛰거나 여분 선수를 방출해 보세요.')
       return
     }
 
@@ -63,11 +64,12 @@ export default function GachaTab() {
     window.setTimeout(() => {
       setSpinning(false)
       setResults(players.map((player) => ({ player, isNew: !owned.has(player.id) })))
-      addCards(players, cost)
+      addCards(players, cost, free)
     }, SPIN_MS)
   }
 
   const reelStyle = RARITY_STYLES[reel]
+  const freeAvailable = !state.daily.freeDrawUsed
 
   return (
     <div className="space-y-6">
@@ -75,11 +77,19 @@ export default function GachaTab() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h2 className="text-xl font-bold text-white">카드팩 뽑기</h2>
-            <p className="text-sm text-slate-400">
-              10연차는 레어 이상 1장을 보장합니다.
-            </p>
+            <p className="text-sm text-slate-400">10연차는 레어 이상 1장을 보장합니다.</p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => draw(1, true)}
+              disabled={spinning || !freeAvailable}
+              className="rounded-xl bg-sky-400 px-5 py-3 font-bold text-slate-900 shadow-lg shadow-sky-500/20 transition hover:bg-sky-300 disabled:opacity-40"
+            >
+              무료 뽑기
+              <span className="ml-2 text-xs font-semibold opacity-70">
+                {freeAvailable ? '1일 1회' : '내일 다시'}
+              </span>
+            </button>
             <button
               onClick={() => draw(1)}
               disabled={spinning}
@@ -131,9 +141,53 @@ export default function GachaTab() {
       </section>
 
       <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
-        <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">
-          등급별 확률
-        </h3>
+        <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">일일 미션</h3>
+        <div className="grid gap-3 sm:grid-cols-3">
+          {DAILY_MISSIONS.map((mission) => {
+            const progress = Math.min(
+              mission.target,
+              state.daily.progress[mission.id] ?? 0,
+            )
+            const claimed = state.daily.claimed.includes(mission.id)
+            const claimable = missionClaimable(state.daily, mission)
+            return (
+              <div key={mission.id} className="rounded-xl bg-white/5 p-3">
+                <div className="text-sm font-bold text-white">{mission.label}</div>
+                <div className="text-[11px] text-slate-500">{mission.hint}</div>
+                <div className="mt-2 h-1.5 rounded-full bg-white/10">
+                  <div
+                    className={`h-1.5 rounded-full ${
+                      missionDone(state.daily, mission) ? 'bg-emerald-400' : 'bg-sky-400'
+                    }`}
+                    style={{ width: `${(progress / mission.target) * 100}%` }}
+                  />
+                </div>
+                <div className="mt-2 flex items-center justify-between">
+                  <span className="text-xs text-slate-400">
+                    {progress} / {mission.target}
+                  </span>
+                  <button
+                    onClick={() => claimMission(mission.id)}
+                    disabled={!claimable}
+                    className={`rounded-lg px-2.5 py-1 text-xs font-bold transition ${
+                      claimed
+                        ? 'bg-white/5 text-slate-500'
+                        : claimable
+                          ? 'bg-amber-400 text-slate-900 hover:bg-amber-300'
+                          : 'bg-white/5 text-slate-500'
+                    }`}
+                  >
+                    {claimed ? '수령 완료' : `+${mission.reward}G`}
+                  </button>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </section>
+
+      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
+        <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">등급별 확률</h3>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
           {RARITIES.map((rarity) => {
             const style = RARITY_STYLES[rarity]
@@ -144,9 +198,7 @@ export default function GachaTab() {
               >
                 <div className="text-sm font-bold">{style.label}</div>
                 <div className="text-2xl font-black">{RARITY_WEIGHTS[rarity]}%</div>
-                <div className="text-[10px] font-semibold opacity-70">
-                  방출 {style.sell}G
-                </div>
+                <div className="text-[10px] font-semibold opacity-70">방출 {style.sell}G</div>
               </div>
             )
           })}
