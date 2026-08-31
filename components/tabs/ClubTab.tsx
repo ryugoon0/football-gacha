@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import { FUSION_FEE, FUSION_SIZE, checkFusion } from '../../lib/fusion'
+import { DEFAULT_SPARE_RARITIES, findSpares } from '../../lib/gameReducer'
 import { addExperience, expForLevel, materialExp, trainingFee } from '../../lib/growth'
 import {
   PLAYERS,
@@ -53,6 +54,8 @@ export default function ClubTab() {
   const [fused, setFused] = useState<PlayerDef | null>(null)
   const [releaseUids, setReleaseUids] = useState<string[]>([])
   const [detailUid, setDetailUid] = useState<string | null>(null)
+  // 중복 방출은 기본적으로 일반 등급만 내보냅니다.
+  const [spareRarities, setSpareRarities] = useState<Rarity[]>(DEFAULT_SPARE_RARITIES)
 
   const inUse = useMemo(
     () =>
@@ -90,7 +93,6 @@ export default function ClubTab() {
         return card && player ? { card, player } : null
       })()
     : null
-  const spares = state.cards.length - new Set(state.cards.map((card) => card.playerId)).size
 
   const resetPicks = () => {
     setMaterialUids([])
@@ -103,27 +105,15 @@ export default function ClubTab() {
   /** Cards that can be let go: anything not in the eleven or on the bench. */
   const releasable = state.cards.filter((card) => !inUse.has(card.uid))
 
-  const duplicateUids = () => {
-    const kept = new Map<string, Card>()
-    for (const card of state.cards) {
-      if (inUse.has(card.uid)) kept.set(card.playerId, card)
-    }
-    const spare: string[] = []
-    for (const card of releasable) {
-      const best = kept.get(card.playerId)
-      if (!best) {
-        kept.set(card.playerId, card)
-        continue
-      }
-      if (!inUse.has(best.uid) && card.level > best.level) {
-        kept.set(card.playerId, card)
-        spare.push(best.uid)
-      } else {
-        spare.push(card.uid)
-      }
-    }
-    return spare
-  }
+  const spareUids = findSpares(state.cards, state.squad, spareRarities)
+  const allSpareUids = findSpares(state.cards, state.squad, RARITIES)
+
+  const toggleSpareRarity = (rarity: Rarity) =>
+    setSpareRarities((current) =>
+      current.includes(rarity)
+        ? current.filter((item) => item !== rarity)
+        : [...current, rarity],
+    )
 
   const onCardClick = (card: Card) => {
     if (mode === 'manage') {
@@ -207,7 +197,9 @@ export default function ClubTab() {
         {mode === 'release' && (
           <div className="mb-3 flex flex-wrap items-center gap-2 rounded-lg bg-white/5 p-2">
             <span className="text-xs text-slate-400">빠른 선택</span>
-            <QuickPick onClick={() => setReleaseUids(duplicateUids())}>중복 카드</QuickPick>
+            <QuickPick onClick={() => setReleaseUids(spareUids)}>
+              중복 카드 {spareUids.length}장
+            </QuickPick>
             <QuickPick
               onClick={() =>
                 setReleaseUids(
@@ -315,14 +307,55 @@ export default function ClubTab() {
             />
           </div>
           <div className="mt-3 text-xs text-slate-400">
-            보유 카드 {state.cards.length}장 · 중복 {spares}장 · 조각 {state.shards}개
+            보유 카드 {state.cards.length}장 · 중복 {allSpareUids.length}장 · 조각 {state.shards}개
           </div>
+
+          <div className="mt-3 rounded-lg bg-white/5 p-2">
+            <div className="text-[11px] font-bold text-slate-400">중복 방출할 등급</div>
+            <div className="mt-1.5 flex flex-wrap gap-1">
+              {RARITIES.map((rarity) => {
+                const on = spareRarities.includes(rarity)
+                const count = findSpares(state.cards, state.squad, [rarity]).length
+                return (
+                  <button
+                    key={rarity}
+                    onClick={() => toggleSpareRarity(rarity)}
+                    className={`rounded-lg px-2 py-1 text-[11px] font-bold transition ${
+                      on
+                        ? RARITY_STYLES[rarity].chip
+                        : 'bg-white/5 text-slate-500 hover:bg-white/10'
+                    }`}
+                  >
+                    {RARITY_STYLES[rarity].label}
+                    <span className="ml-1 opacity-70">{count}</span>
+                  </button>
+                )
+              })}
+            </div>
+            <p className="mt-1.5 text-[10px] text-slate-500">
+              기본값은 일반 등급만입니다. 상위 등급은 직접 켜야 방출됩니다.
+            </p>
+          </div>
+
           <button
-            onClick={sellDuplicates}
-            disabled={spares === 0}
+            onClick={() => {
+              if (spareUids.length === 0) return
+              const labels = spareRarities.map((rarity) => RARITY_STYLES[rarity].label).join(' · ')
+              if (
+                !window.confirm(
+                  `${labels} 등급 중복 카드 ${spareUids.length}장을 방출할까요? 되돌릴 수 없습니다.`,
+                )
+              ) {
+                return
+              }
+              sellDuplicates(spareRarities)
+            }}
+            disabled={spareUids.length === 0}
             className="mt-3 w-full rounded-lg bg-white/10 px-3 py-2 text-sm font-bold text-white transition hover:bg-white/20 disabled:opacity-40"
           >
-            중복 카드 일괄 방출
+            중복 {spareUids.length}장 방출 (+{releaseValue(
+              state.cards.filter((card) => spareUids.includes(card.uid)),
+            ).gold.toLocaleString()}G)
           </button>
         </section>
 

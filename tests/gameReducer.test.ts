@@ -8,7 +8,7 @@ import { reducer } from '../lib/gameReducer'
 import { MY_TEAM_ID, ROUNDS_PER_SEASON, createSeason, myFixture } from '../lib/league'
 import { PLAYERS_BY_RARITY, getPlayer, levelCap } from '../lib/players'
 import { rollListings, transferPrice } from '../lib/market'
-import { RARITY_STYLES, trainCost } from '../lib/rarity'
+import { RARITIES as RARITIES_ALL, RARITY_STYLES, trainCost } from '../lib/rarity'
 import { initialState } from '../lib/storage'
 import type { Card, GameState, MatchResult } from '../lib/types'
 
@@ -190,7 +190,7 @@ describe('selling', () => {
       ...state,
       cards: [...state.cards, card('dup1', 'n01'), card('dup2', 'n01'), card('dup3', 'n15')],
     }
-    const next = reducer(duplicated, { type: 'sellSpares' })
+    const next = reducer(duplicated, { type: 'sellSpares', rarities: ['Normal'] })
 
     const onPitch = Object.values(state.squad.slots).filter(Boolean) as string[]
     for (const uid of onPitch) {
@@ -668,5 +668,74 @@ describe('bulk release', () => {
     const fresh = card('a', 'lg01', 4)
     const trained = card('b', 'lg01', 8)
     expect(sellPrice(trained)).toBeGreaterThan(sellPrice(fresh))
+  })
+})
+
+describe('duplicate release by grade', () => {
+  it('only clears 일반 duplicates by default', async () => {
+    const { DEFAULT_SPARE_RARITIES, findSpares } = await import('../lib/gameReducer')
+    expect(DEFAULT_SPARE_RARITIES).toEqual(['Normal'])
+
+    const base = start()
+    const state = {
+      ...base,
+      cards: [
+        ...base.cards,
+        card('n-dup', 'n01'),
+        card('r-dup', 'r01'),
+        card('r-dup2', 'r01'),
+        card('lg-dup', 'lg01'),
+        card('lg-dup2', 'lg01'),
+      ],
+    }
+
+    const spares = findSpares(state.cards, state.squad)
+    const kept = new Set(spares)
+    expect(kept.has('n-dup')).toBe(true)
+    // 상위 등급은 기본값에서 빠집니다.
+    expect(kept.has('r-dup2')).toBe(false)
+    expect(kept.has('lg-dup2')).toBe(false)
+
+    const next = reducer(state, { type: 'sellSpares' })
+    expect(next.cards.some((item) => item.uid === 'r-dup2')).toBe(true)
+    expect(next.cards.some((item) => item.uid === 'lg-dup2')).toBe(true)
+    expect(next.cards.some((item) => item.uid === 'n-dup')).toBe(false)
+  })
+
+  it('clears the grades that are asked for', async () => {
+    const { findSpares } = await import('../lib/gameReducer')
+    const base = start()
+    const state = {
+      ...base,
+      cards: [...base.cards, card('r-dup', 'r01'), card('r-dup2', 'r01')],
+    }
+
+    expect(findSpares(state.cards, state.squad, ['Rare'])).toHaveLength(1)
+    const next = reducer(state, { type: 'sellSpares', rarities: ['Rare'] })
+    expect(next.cards.filter((item) => item.playerId === 'r01')).toHaveLength(1)
+    expect(next.gold).toBeGreaterThan(state.gold)
+  })
+
+  it('never lists a card that is in the eleven or on the bench', async () => {
+    const { findSpares } = await import('../lib/gameReducer')
+    const state = start()
+    const inUse = new Set(
+      [...Object.values(state.squad.slots), ...state.squad.bench].filter(Boolean) as string[],
+    )
+    // Give every starter a duplicate so the spare must be the new copy, not the starter.
+    const withCopies = {
+      ...state,
+      cards: [
+        ...state.cards,
+        ...Array.from(inUse).map((uid, index) => {
+          const original = state.cards.find((item) => item.uid === uid)!
+          return card(`copy-${index}`, original.playerId)
+        }),
+      ],
+    }
+
+    for (const uid of findSpares(withCopies.cards, withCopies.squad, RARITIES_ALL)) {
+      expect(inUse.has(uid)).toBe(false)
+    }
   })
 })
