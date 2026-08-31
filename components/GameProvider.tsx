@@ -15,6 +15,7 @@ import { FUSION_FEE, FUSION_SIZE, checkFusion, fusionResult } from '../lib/fusio
 import { reducer, type RoundResult } from '../lib/gameReducer'
 import type { Fixture } from '../lib/league'
 import { REFRESH_COST, rollListings, type Listing } from '../lib/market'
+import { exchangeResult, type ShardOffer } from '../lib/shards'
 import type { TacticKey } from '../lib/tactics'
 import { clearSave, initialState, loadState, newCard, saveState } from '../lib/storage'
 import type { Card, FormationKey, GameState, MatchResult, PlayerDef } from '../lib/types'
@@ -22,7 +23,8 @@ import type { Card, FormationKey, GameState, MatchResult, PlayerDef } from '../l
 export interface GameApi {
   state: GameState
   ready: boolean
-  addCards: (players: PlayerDef[], cost: number, free?: boolean) => Card[]
+  addCards: (players: PlayerDef[], options?: AddCardsOptions) => Card[]
+  exchangeShards: (offer: ShardOffer) => PlayerDef | null
   sell: (uids: string[]) => void
   sellDuplicates: () => void
   train: (uid: string) => void
@@ -45,6 +47,13 @@ export interface GameApi {
   reset: () => void
 }
 
+export interface AddCardsOptions {
+  cost?: number
+  free?: boolean
+  /** Pity counter after this pull. */
+  pity?: number
+}
+
 const GameContext = createContext<GameApi | null>(null)
 
 export function GameProvider({ children }: { children: ReactNode }) {
@@ -64,9 +73,15 @@ export function GameProvider({ children }: { children: ReactNode }) {
     if (ready) saveState(state)
   }, [state, ready])
 
-  const addCards = useCallback((players: PlayerDef[], cost: number, free = false) => {
+  const addCards = useCallback((players: PlayerDef[], options: AddCardsOptions = {}) => {
     const cards = players.map((player) => newCard(player.id))
-    dispatch({ type: 'addCards', cards, cost, free })
+    dispatch({
+      type: 'addCards',
+      cards,
+      cost: options.cost ?? 0,
+      free: options.free,
+      pity: options.pity,
+    })
     return cards
   }, [])
 
@@ -87,6 +102,12 @@ export function GameProvider({ children }: { children: ReactNode }) {
       ready,
       addCards,
       fuse,
+      exchangeShards: (offer: ShardOffer) => {
+        if (state.shards < offer.cost) return null
+        const player = exchangeResult(offer.rarity)
+        dispatch({ type: 'exchangeShards', offer, player })
+        return player
+      },
       sell: (uids: string[]) => dispatch({ type: 'sell', uids }),
       sellDuplicates: () => dispatch({ type: 'sellSpares' }),
       train: (uid: string) => dispatch({ type: 'train', uid }),

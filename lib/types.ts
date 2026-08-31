@@ -87,6 +87,12 @@ export interface GameState {
   cup: CupState
   market: MarketState
   trophies: { cup: number; promotions: number }
+  /** Card shards from released players. */
+  shards: number
+  /** Pulls since the last Legend or better. */
+  pity: number
+  /** Lifetime pull counts, for the odds page. */
+  pulls: { total: number; byRarity: Record<Rarity, number> }
   /** Player marks from the most recent match. */
   lastRatings: PlayerRating[]
   daily: DailyState

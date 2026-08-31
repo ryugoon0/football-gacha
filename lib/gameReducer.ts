@@ -21,6 +21,7 @@ import {
   type Fixture,
 } from './league'
 import { dailyMarket, type Listing } from './market'
+import { shardsFor, type ShardOffer } from './shards'
 import { FORMATIONS } from './formations'
 import { getPlayer } from './players'
 import { RARITY_STYLES, trainCost } from './rarity'
@@ -39,7 +40,8 @@ export interface RoundResult {
 export type Action =
   | { type: 'hydrate'; state: GameState }
   | { type: 'refreshDaily' }
-  | { type: 'addCards'; cards: Card[]; cost: number; free?: boolean }
+  | { type: 'addCards'; cards: Card[]; cost: number; free?: boolean; pity?: number }
+  | { type: 'exchangeShards'; offer: ShardOffer; player: PlayerDef }
   | { type: 'sell'; uids: string[] }
   | { type: 'sellSpares' }
   | { type: 'train'; uid: string }
@@ -159,24 +161,42 @@ export function reducer(state: GameState, action: Action): GameState {
 
     case 'addCards': {
       const collected = new Set(state.collected)
-      for (const card of action.cards) collected.add(card.playerId)
+      const byRarity = { ...state.pulls.byRarity }
+      for (const card of action.cards) {
+        collected.add(card.playerId)
+        const player = getPlayer(card.playerId)
+        if (player) byRarity[player.rarity] += 1
+      }
       const daily = bumpMission(state, 'draw', action.cards.length)
       return {
         ...state,
         gold: Math.max(0, state.gold - action.cost),
         cards: [...state.cards, ...action.cards],
         collected: Array.from(collected),
+        pity: action.pity ?? state.pity,
+        pulls: { total: state.pulls.total + action.cards.length, byRarity },
         daily: action.free ? { ...daily, freeDrawUsed: true } : daily,
+      }
+    }
+
+    case 'exchangeShards': {
+      const { offer, player } = action
+      if (state.shards < offer.cost) return state
+      return {
+        ...state,
+        shards: state.shards - offer.cost,
+        cards: [...state.cards, newCard(player.id)],
+        collected: Array.from(new Set([...state.collected, player.id])),
       }
     }
 
     case 'sell': {
       const uids = new Set(action.uids)
-      const income = state.cards
-        .filter((card) => uids.has(card.uid))
-        .reduce((sum, card) => sum + sellPrice(card), 0)
+      const released = state.cards.filter((card) => uids.has(card.uid))
+      const income = released.reduce((sum, card) => sum + sellPrice(card), 0)
+      const shards = released.reduce((sum, card) => sum + shardsFor(card), 0)
       const next = withoutCards(state, uids)
-      return { ...next, gold: state.gold + income }
+      return { ...next, gold: state.gold + income, shards: state.shards + shards }
     }
 
     case 'sellSpares':

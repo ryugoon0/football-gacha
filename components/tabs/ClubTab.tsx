@@ -176,7 +176,7 @@ export default function ClubTab() {
             />
           </div>
           <div className="mt-3 text-xs text-slate-400">
-            보유 카드 {state.cards.length}장 · 중복 {spares}장
+            보유 카드 {state.cards.length}장 · 중복 {spares}장 · 조각 {state.shards}개
           </div>
           <button
             onClick={sellDuplicates}

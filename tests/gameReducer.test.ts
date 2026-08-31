@@ -129,6 +129,53 @@ describe('selling', () => {
   })
 })
 
+describe('shards and pull records', () => {
+  it('records what came out of a pull and moves the pity counter', () => {
+    const state = start()
+    const next = reducer(state, {
+      type: 'addCards',
+      cards: [card('a', 'n01'), card('b', 'lg01')],
+      cost: 600,
+      pity: 0,
+    })
+
+    expect(next.pulls.total).toBe(2)
+    expect(next.pulls.byRarity.Normal).toBe(1)
+    expect(next.pulls.byRarity.Legend).toBe(1)
+    expect(next.pity).toBe(0)
+
+    const later = reducer(next, { type: 'addCards', cards: [card('c', 'n02')], cost: 300, pity: 7 })
+    expect(later.pity).toBe(7)
+    expect(later.pulls.total).toBe(3)
+  })
+
+  it('pays shards when a card is released', async () => {
+    const { shardsFor } = await import('../lib/shards')
+    const state = start()
+    const target = state.cards[0]
+    const next = reducer(state, { type: 'sell', uids: [target.uid] })
+
+    expect(next.shards).toBe(state.shards + shardsFor(target))
+    expect(next.gold).toBeGreaterThan(state.gold)
+  })
+
+  it('exchanges shards for a card of the promised rarity', async () => {
+    const { SHARD_OFFERS } = await import('../lib/shards')
+    const { PLAYERS_BY_RARITY: pool } = await import('../lib/players')
+    const offer = SHARD_OFFERS[1]
+    const reward = pool[offer.rarity][0]
+    const rich = { ...start(), shards: offer.cost }
+
+    const next = reducer(rich, { type: 'exchangeShards', offer, player: reward })
+    expect(next.shards).toBe(0)
+    expect(next.cards.some((item) => item.playerId === reward.id)).toBe(true)
+    expect(next.collected).toContain(reward.id)
+
+    // Not enough shards left for a second go.
+    expect(reducer(next, { type: 'exchangeShards', offer, player: reward })).toBe(next)
+  })
+})
+
 describe('fusion', () => {
   const spares = (rarity: 'Normal' | 'Rare') =>
     PLAYERS_BY_RARITY[rarity].slice(0, FUSION_SIZE).map((player, index) => card(`f${index}`, player.id))

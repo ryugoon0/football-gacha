@@ -7,7 +7,7 @@ import { emptyMarket } from './market'
 import type { Card, GameState } from './types'
 
 export const SAVE_KEY = 'football-day-save-v1'
-export const SAVE_VERSION = 4
+export const SAVE_VERSION = 5
 export const STARTING_GOLD = 3000
 export const DEFAULT_CLUB = '내 클럽 FC'
 
@@ -84,6 +84,9 @@ export function initialState(): GameState {
     cup: createCup(BOTTOM_DIVISION, 1, DEFAULT_CLUB),
     market: emptyMarket(),
     trophies: { cup: 0, promotions: 0 },
+    shards: 0,
+    pity: 0,
+    pulls: { total: 0, byRarity: { Normal: 0, Rare: 0, Legend: 0, Live: 0, World: 0 } },
     lastRatings: [],
     // The real day is stamped on the client after hydration, so server and
     // browser render the same empty mission board.
@@ -98,7 +101,7 @@ export function initialState(): GameState {
 }
 
 interface LegacySave {
-  version: 1 | 2 | 3
+  version: 1 | 2 | 3 | 4
   club?: string
   gold?: number
   cards?: Card[]
@@ -119,9 +122,10 @@ interface LegacySave {
 }
 
 /**
- * Version 1 had a points ladder instead of a league season, version 2 had no
- * cup, market or player fitness, and version 3 had no experience on cards.
- * Every one of them keeps its club, cards and gold.
+ * Older saves are carried forward rather than wiped: version 1 had a points
+ * ladder instead of a league season, version 2 had no cup, market or player
+ * fitness, version 3 had no experience on cards, and version 4 had no shards
+ * or pity counter. All of them keep their club, cards and gold.
  */
 function migrate(save: LegacySave): GameState {
   const base = initialState()
@@ -161,7 +165,7 @@ export function loadState(): GameState {
     if (!raw) return initialState()
     const parsed = JSON.parse(raw) as Partial<GameState> & { version?: number }
     if (!parsed || !Array.isArray(parsed.cards)) return initialState()
-    if (parsed.version === 1 || parsed.version === 2 || parsed.version === 3) {
+    if (parsed.version && parsed.version >= 1 && parsed.version < SAVE_VERSION) {
       return migrate(parsed as unknown as LegacySave)
     }
     if (parsed.version !== SAVE_VERSION) return initialState()

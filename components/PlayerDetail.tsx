@@ -11,6 +11,7 @@ import {
 import { expForLevel, maxLevelOf } from '../lib/growth'
 import { effectiveOvr } from '../lib/players'
 import { RARITY_STYLES, trainCost } from '../lib/rarity'
+import { shardsFor } from '../lib/shards'
 import { STAT_GROUPS, SUB_STATS, subStatLabel, subStatsOf } from '../lib/subStats'
 import { GK_STAT_LABELS, STAT_LABELS } from '../lib/players'
 import { TRAITS, traitsOf } from '../lib/traits'
@@ -201,7 +202,7 @@ export default function PlayerDetail({
         onClick={onSell}
         className="w-full rounded-lg bg-rose-500/20 px-3 py-2 text-sm font-bold text-rose-200 transition hover:bg-rose-500/30"
       >
-        방출하기 (+{sellValue}G)
+        방출하기 (+{sellValue}G · +{shardsFor(card)}조각)
       </button>
 
       {inSquad && (

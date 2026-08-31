@@ -74,6 +74,23 @@ describe('migrations', () => {
     expect(loaded.guideDone).toBe(true)
   })
 
+  it('keeps a version 4 save and adds shards, pity and pull records', () => {
+    const store = useFakeBrowser()
+    const base = initialState()
+    const v4: Record<string, unknown> = { ...base, version: 4, gold: 4321 }
+    delete v4.shards
+    delete v4.pity
+    delete v4.pulls
+    store.set(SAVE_KEY, JSON.stringify(v4))
+
+    const loaded = loadState()
+    expect(loaded.version).toBe(SAVE_VERSION)
+    expect(loaded.gold).toBe(4321)
+    expect(loaded.shards).toBe(0)
+    expect(loaded.pity).toBe(0)
+    expect(loaded.pulls.total).toBe(0)
+  })
+
   it('keeps a version 3 save and adds experience to its cards', () => {
     const store = useFakeBrowser()
     const base = initialState()

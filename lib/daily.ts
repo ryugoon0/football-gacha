@@ -28,6 +28,16 @@ export function todayKey(now: Date = new Date()): string {
   return `${now.getFullYear()}-${month}-${day}`
 }
 
+/** Key that changes once a week, used to rotate the featured player. */
+export function weekKey(now: Date = new Date()): string {
+  const date = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  const day = (date.getDay() + 6) % 7
+  date.setDate(date.getDate() - day)
+  const month = `${date.getMonth() + 1}`.padStart(2, '0')
+  const dayOfMonth = `${date.getDate()}`.padStart(2, '0')
+  return `${date.getFullYear()}-${month}-${dayOfMonth}`
+}
+
 export function freshDaily(date: string = todayKey()): DailyState {
   return { date, progress: { draw: 0, win: 0, train: 0 }, claimed: [], freeDrawUsed: false }
 }
