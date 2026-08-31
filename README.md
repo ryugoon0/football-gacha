@@ -62,6 +62,8 @@ npm run build && npm start
 3. 환경 변수 없이 **Deploy**
 4. 개발 브랜치를 그대로 보고 싶다면 Settings → Git → **Production Branch**를 해당 브랜치로 변경
 
+친구들에게 공유해 테스트를 받는 방법은 [TESTING.md](./TESTING.md)에 정리해 두었습니다.
+
 이후 푸시할 때마다 자동으로 다시 배포됩니다. 빌드 명령은 기본값(`npm run build`)을 쓰고,
 설치는 `npm ci`로 이루어지므로 `package-lock.json`이 저장소에 있어야 합니다.
 

@@ -21,6 +21,12 @@ const TABS = [
 
 type TabKey = (typeof TABS)[number]['key']
 
+/**
+ * Shown in the footer so a tester can say which build they were looking at.
+ * Vercel fills the commit in at build time; local runs just say "local".
+ */
+const BUILD_ID = (process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA ?? 'local').slice(0, 7)
+
 export default function GachaGame() {
   return (
     <GameProvider>
@@ -129,7 +135,10 @@ function Shell() {
 
       <footer className="mx-auto max-w-6xl px-4 pb-10 text-xs text-slate-600">
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-4">
-          <span>진행 상황은 이 브라우저에 자동 저장됩니다.</span>
+          <span>
+            진행 상황은 이 브라우저에 자동 저장됩니다.
+            <span className="ml-2 text-slate-700">빌드 {BUILD_ID}</span>
+          </span>
           <button
             onClick={() => {
               if (window.confirm('모든 진행 상황을 지우고 처음부터 시작할까요?')) reset()
