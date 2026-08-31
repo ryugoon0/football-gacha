@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { DRAW_TEN_SIZE, drawCost, drawMany, drawOne, rollRarity } from '../lib/gacha'
 import { PLAYERS, PLAYERS_BY_RARITY, effectiveOvr, getPlayer } from '../lib/players'
-import { RARITIES, RARITY_WEIGHTS } from '../lib/rarity'
+import { RARITIES } from '../lib/rarity'
 import { seededRandom } from '../lib/players'
 
 describe('roster', () => {
@@ -33,17 +33,32 @@ describe('roster', () => {
 })
 
 describe('gacha rates', () => {
-  it('rolls rarities close to the published table', () => {
-    const rng = seededRandom(1234)
-    const counts: Record<string, number> = {}
-    const runs = 20000
-    for (let i = 0; i < runs; i++) {
-      const rarity = rollRarity(rng)
-      counts[rarity] = (counts[rarity] ?? 0) + 1
+  it('rolls each pack close to its own published table', async () => {
+    const { PACK_RATES } = await import('../lib/gacha')
+    for (const family of ['basic', 'premium'] as const) {
+      const rates = PACK_RATES[family]
+      const rng = seededRandom(1234)
+      const counts: Record<string, number> = {}
+      const runs = 20000
+      for (let i = 0; i < runs; i++) {
+        const rarity = rollRarity(rng, null, rates)
+        counts[rarity] = (counts[rarity] ?? 0) + 1
+      }
+      for (const rarity of RARITIES) {
+        const percent = ((counts[rarity] ?? 0) / runs) * 100
+        expect(Math.abs(percent - rates[rarity])).toBeLessThan(2)
+      }
     }
-    for (const rarity of RARITIES) {
-      const percent = ((counts[rarity] ?? 0) / runs) * 100
-      expect(Math.abs(percent - RARITY_WEIGHTS[rarity])).toBeLessThan(2)
+  })
+
+  it('gives the premium pack much better odds than the basic one', async () => {
+    const { PACK_RATES } = await import('../lib/gacha')
+    const high = (rates: (typeof PACK_RATES)['basic']) =>
+      rates.Legend + rates.Live + rates.World
+    expect(high(PACK_RATES.premium)).toBeGreaterThan(high(PACK_RATES.basic) * 3)
+    for (const rates of Object.values(PACK_RATES)) {
+      const total = RARITIES.reduce((sum, rarity) => sum + rates[rarity], 0)
+      expect(total).toBeCloseTo(100)
     }
   })
 
@@ -109,15 +124,33 @@ describe('packs and pity', () => {
     }
   })
 
-  it('never drops below the pack floor', async () => {
+  it('honours a pack guarantee in a multi pull', async () => {
     const { drawSession, packOf } = await import('../lib/gacha')
-    const pack = packOf('rarePlus')
+    const pack = packOf('premiumTen')
+    expect(pack.guarantee).toBe('Legend')
+
+    // An rng that always rolls into the lowest band still has to produce one.
     const outcome = drawSession({
-      count: 20,
-      minRarity: pack.minRarity,
-      rng: seededRandom(5),
+      count: pack.count,
+      guarantee: pack.guarantee,
+      rates: pack.rates,
+      rng: () => 0.001,
     })
-    expect(outcome.players.some((player) => player.rarity === 'Normal')).toBe(false)
+    expect(outcome.players).toHaveLength(pack.count)
+    expect(
+      outcome.players.some((player) => ['Legend', 'Live', 'World'].includes(player.rarity)),
+    ).toBe(true)
+  })
+
+  it('splits packs into a basic and a premium family', async () => {
+    const { PACKS, packsOfFamily } = await import('../lib/gacha')
+    expect(PACKS).toHaveLength(4)
+    expect(packsOfFamily('basic').map((pack) => pack.id)).toEqual(['basic', 'basicTen'])
+    expect(packsOfFamily('premium').map((pack) => pack.id)).toEqual(['premium', 'premiumTen'])
+    for (const pack of packsOfFamily('premium')) {
+      const cheaper = packsOfFamily('basic').find((item) => item.count === pack.count)!
+      expect(pack.cost).toBeGreaterThan(cheaper.cost)
+    }
   })
 
   it('rotates the featured player weekly and favours them', async () => {

@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
 import { weekKey } from '../../../lib/daily'
 import { PACKS, PITY_LIMIT, drawSession, featuredPlayer, packOf, type PackId } from '../../../lib/gacha'
-import { RARITY_WEIGHTS } from '../../../lib/rarity'
 import type { PositionGroup } from '../../../lib/types'
 
 export const dynamic = 'force-dynamic'
@@ -33,15 +32,16 @@ export async function GET(request: Request) {
     count,
     pity,
     featured,
-    group: pack.id === 'position' ? group : null,
-    minRarity: pack.minRarity ?? null,
-    guaranteeRare: pack.guaranteeRare,
+    // Position targeting is a switch on the shop, not a pack of its own.
+    group,
+    guarantee: pack.guarantee ?? null,
+    rates: pack.rates,
   })
 
   return NextResponse.json({
     pack: pack.id,
     count,
-    rates: RARITY_WEIGHTS,
+    rates: pack.rates,
     pity: outcome.pity,
     pityHit: outcome.pityHit,
     pityLimit: PITY_LIMIT,

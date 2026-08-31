@@ -2,9 +2,18 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { DAILY_MISSIONS, missionClaimable, missionDone, weekKey } from '../../lib/daily'
-import { PACKS, PITY_LIMIT, drawSession, featuredPlayer, type PackDef } from '../../lib/gacha'
+import {
+  PACKS,
+  PACK_RATES,
+  PITY_LIMIT,
+  drawSession,
+  featuredPlayer,
+  packsOfFamily,
+  type PackDef,
+  type PackFamily,
+} from '../../lib/gacha'
 import { getPlayer } from '../../lib/players'
-import { RARITIES, RARITY_STYLES, RARITY_WEIGHTS } from '../../lib/rarity'
+import { RARITIES, RARITY_STYLES } from '../../lib/rarity'
 import { SHARD_OFFERS, offerLabel } from '../../lib/shards'
 import type { PlayerDef, PositionGroup, Rarity } from '../../lib/types'
 import { useGame } from '../GameProvider'
@@ -25,7 +34,8 @@ export default function GachaTab() {
   const [reel, setReel] = useState<Rarity>('Normal')
   const [results, setResults] = useState<{ player: PlayerDef; isNew: boolean }[]>([])
   const [revealed, setRevealed] = useState(0)
-  const [group, setGroup] = useState<PositionGroup>('FW')
+  const [group, setGroup] = useState<PositionGroup | 'all'>('all')
+  const [family, setFamily] = useState<PackFamily>('basic')
   const [error, setError] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
 
@@ -70,7 +80,7 @@ export default function GachaTab() {
         pity: String(state.pity),
         week: weekKey(),
       })
-      if (pack.id === 'position') query.set('group', group)
+      if (group !== 'all') query.set('group', group)
       const response = await fetch(`/api/gacha?${query}`, { cache: 'no-store' })
       if (!response.ok) throw new Error('draw failed')
       const data = (await response.json()) as {
@@ -90,9 +100,9 @@ export default function GachaTab() {
         count: pack.count,
         pity: state.pity,
         featured,
-        group: pack.id === 'position' ? group : null,
-        minRarity: pack.minRarity ?? null,
-        guaranteeRare: pack.guaranteeRare,
+        group: group === 'all' ? null : group,
+        guarantee: pack.guarantee ?? null,
+        rates: pack.rates,
       })
       players = outcome.players
       pity = outcome.pity
@@ -155,51 +165,94 @@ export default function GachaTab() {
         </div>
 
         <div className="mt-5 flex flex-wrap gap-2">
+          {(['basic', 'premium'] as PackFamily[]).map((key) => (
+            <button
+              key={key}
+              onClick={() => setFamily(key)}
+              className={`rounded-lg px-4 py-2 text-sm font-bold transition ${
+                family === key
+                  ? key === 'premium'
+                    ? 'bg-violet-400 text-slate-900'
+                    : 'bg-emerald-400 text-slate-900'
+                  : 'bg-white/5 text-slate-300 hover:bg-white/10'
+              }`}
+            >
+              {key === 'basic' ? '일반팩' : '프리미엄팩'}
+            </button>
+          ))}
           <button
             onClick={() => openPack(PACKS[0], true)}
             disabled={spinning || !freeAvailable}
-            className="rounded-xl bg-sky-400 px-4 py-3 text-sm font-bold text-slate-900 transition hover:bg-sky-300 disabled:opacity-40"
+            className="ml-auto rounded-lg bg-sky-400 px-4 py-2 text-sm font-bold text-slate-900 transition hover:bg-sky-300 disabled:opacity-40"
           >
             무료 뽑기
-            <span className="ml-2 text-xs opacity-70">{freeAvailable ? '1일 1회' : '내일 다시'}</span>
+            <span className="ml-2 text-xs opacity-70">
+              {freeAvailable ? '1일 1회 · 일반팩' : '내일 다시'}
+            </span>
           </button>
-          {PACKS.map((pack) => (
+        </div>
+
+        <div className="mt-3 grid gap-2 sm:grid-cols-2">
+          {packsOfFamily(family).map((pack) => (
             <button
               key={pack.id}
               onClick={() => openPack(pack)}
               disabled={spinning || state.gold < pack.cost}
               className={`rounded-xl px-4 py-3 text-left text-sm font-bold text-slate-900 transition disabled:opacity-40 ${
-                pack.id === 'ten'
-                  ? 'bg-emerald-400 hover:bg-emerald-300'
-                  : pack.id === 'rarePlus'
-                    ? 'bg-violet-400 hover:bg-violet-300'
-                    : 'bg-amber-400 hover:bg-amber-300'
+                family === 'premium'
+                  ? 'bg-violet-400 hover:bg-violet-300'
+                  : 'bg-emerald-400 hover:bg-emerald-300'
               }`}
             >
               <span className="block">{pack.name}</span>
-              <span className="block text-[10px] font-semibold opacity-70">
-                {pack.description} · {pack.cost}G
+              <span className="block text-[11px] font-semibold opacity-70">
+                {pack.description} · {pack.cost.toLocaleString()}G
               </span>
             </button>
           ))}
         </div>
 
-        <div className="mt-3 flex flex-wrap items-center gap-2">
-          <span className="text-xs font-bold text-slate-500">포지션 지정 팩 자리</span>
-          {GROUPS.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => setGroup(item.id)}
-              className={`rounded-lg px-2.5 py-1 text-xs font-bold transition ${
-                group === item.id
-                  ? 'bg-white text-slate-900'
-                  : 'bg-white/5 text-slate-300 hover:bg-white/10'
+        <div className="mt-3 rounded-xl bg-white/5 p-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-bold text-slate-400">포지션 지정</span>
+            {(['all', ...GROUPS.map((item) => item.id)] as (PositionGroup | 'all')[]).map((id) => (
+              <button
+                key={id}
+                onClick={() => setGroup(id)}
+                className={`rounded-lg px-2.5 py-1 text-xs font-bold transition ${
+                  group === id
+                    ? 'bg-white text-slate-900'
+                    : 'bg-white/5 text-slate-300 hover:bg-white/10'
+                }`}
+              >
+                {id === 'all' ? '전체' : GROUPS.find((item) => item.id === id)!.label}
+              </button>
+            ))}
+          </div>
+          <p className="mt-1.5 text-[11px] text-slate-500">
+            자리를 고르면 그 자리의 선수만 나옵니다. 등급 확률은 그대로입니다.
+          </p>
+        </div>
+
+        <div className="mt-3 grid grid-cols-5 gap-1.5">
+          {RARITIES.map((rarity) => (
+            <div
+              key={rarity}
+              className={`rounded-lg border px-2 py-1.5 text-center ${
+                family === 'premium' ? 'border-violet-400/40' : 'border-emerald-400/30'
               }`}
             >
-              {item.label}
-            </button>
+              <div className="text-[10px] font-bold text-slate-400">
+                {RARITY_STYLES[rarity].label}
+              </div>
+              <div className="text-sm font-black text-white">{PACK_RATES[family][rarity]}%</div>
+            </div>
           ))}
         </div>
+        <p className="mt-1.5 text-[11px] text-amber-400/80">
+          확률은 테스트 중이라 고급 카드가 잘 나오도록 맞춰 두었습니다. 최종 수치는 추후
+          조정됩니다.
+        </p>
 
         {error && <p className="mt-3 text-sm font-semibold text-rose-400">{error}</p>}
         {notice && <p className="mt-3 text-sm font-semibold text-amber-300">{notice}</p>}
@@ -311,7 +364,7 @@ export default function GachaTab() {
       <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">
-            등급별 확률과 내 기록
+            내 뽑기 기록
           </h3>
           <span className="text-xs text-slate-500">지금까지 {state.pulls.total}장 뽑음</span>
         </div>
@@ -326,9 +379,9 @@ export default function GachaTab() {
                 className={`rounded-xl border-2 bg-gradient-to-b p-3 text-center ${style.face} ${style.border} ${style.ink}`}
               >
                 <div className="text-sm font-bold">{style.label}</div>
-                <div className="text-2xl font-black">{RARITY_WEIGHTS[rarity]}%</div>
+                <div className="text-2xl font-black">{pulled}장</div>
                 <div className="text-[10px] font-semibold opacity-70">
-                  내 기록 {pulled}장 ({actual.toFixed(1)}%)
+                  전체의 {actual.toFixed(1)}%
                 </div>
                 <div className="text-[10px] font-semibold opacity-70">방출 {style.sell}G</div>
               </div>
