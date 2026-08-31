@@ -141,6 +141,56 @@ export function normalizeTactic(value: unknown): TacticSetup {
   return DEFAULT_TACTIC
 }
 
+/**
+ * One-tap tactic sets. The four dials are for fine tuning; on a phone most
+ * changes are "go for it" / "shut it down", so those get a single big button.
+ */
+export interface TacticPreset {
+  key: string
+  label: string
+  hint: string
+  setup: TacticSetup
+}
+
+export const TACTIC_PRESETS: TacticPreset[] = [
+  {
+    key: 'allOut',
+    label: '총공세',
+    hint: '공격적 · 높은 압박 · 높은 라인 · 빠른 템포',
+    setup: { plan: 'attack', pressing: 'high', line: 'high', tempo: 'fast' },
+  },
+  {
+    key: 'balanced',
+    label: '균형',
+    hint: '기본 전술',
+    setup: { ...DEFAULT_TACTIC },
+  },
+  {
+    key: 'counter',
+    label: '역습',
+    hint: '수비적 · 높은 압박 · 낮은 라인 · 빠른 템포',
+    setup: { plan: 'defend', pressing: 'high', line: 'deep', tempo: 'fast' },
+  },
+  {
+    key: 'lock',
+    label: '잠그기',
+    hint: '수비적 · 낮은 압박 · 낮은 라인 · 느린 템포',
+    setup: { plan: 'defend', pressing: 'low', line: 'deep', tempo: 'slow' },
+  },
+]
+
+/** Which preset the current dials add up to, if any. */
+export function presetOf(setup: TacticSetup): string | null {
+  const match = TACTIC_PRESETS.find(
+    (preset) =>
+      preset.setup.plan === setup.plan &&
+      preset.setup.pressing === setup.pressing &&
+      preset.setup.line === setup.line &&
+      preset.setup.tempo === setup.tempo,
+  )
+  return match?.key ?? null
+}
+
 /** Everything a hotkey can change mid match, in one lookup table. */
 export const TACTIC_HOTKEYS: {
   key: string

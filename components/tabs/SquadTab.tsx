@@ -7,7 +7,15 @@ import { getPlayer } from '../../lib/players'
 import { BENCH_SIZE, positionFit, ratingInSlot } from '../../lib/squad'
 import { evaluateSquad } from '../../lib/squad'
 import { colorName } from '../../lib/teamColor'
-import { LINES, PLANS, PRESSINGS, TEMPOS, tacticSummary } from '../../lib/tactics'
+import {
+  LINES,
+  PLANS,
+  PRESSINGS,
+  TACTIC_PRESETS,
+  TEMPOS,
+  presetOf,
+  tacticSummary,
+} from '../../lib/tactics'
 import { TRAITS, traitsOf } from '../../lib/traits'
 import type { Card, FormationKey, Position } from '../../lib/types'
 import { useGame } from '../GameProvider'
@@ -242,6 +250,23 @@ export default function SquadTab() {
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">전술</h3>
           <p className="mt-1 text-[11px] text-slate-500">{tacticSummary(state.tactic)}</p>
 
+          <div className="mt-3 grid grid-cols-2 gap-1.5">
+            {TACTIC_PRESETS.map((preset) => (
+              <button
+                key={preset.key}
+                onClick={() => setTactic(preset.setup)}
+                title={preset.hint}
+                className={`min-h-[44px] rounded-xl px-2 text-xs font-black transition ${
+                  presetOf(state.tactic) === preset.key
+                    ? 'bg-emerald-400 text-slate-900'
+                    : 'bg-white/10 text-slate-200 active:bg-white/20 sm:hover:bg-white/20'
+                }`}
+              >
+                {preset.label}
+              </button>
+            ))}
+          </div>
+
           <div className="mt-3 space-y-3">
             {[
               { label: '기본 전술', field: 'plan' as const, options: PLANS },
@@ -257,14 +282,14 @@ export default function SquadTab() {
                       key={option.key}
                       onClick={() => setTactic({ ...state.tactic, [field]: option.key })}
                       title={`${option.description} (단축키 ${option.hotkey})`}
-                      className={`rounded-lg px-1.5 py-1.5 text-[11px] font-bold transition ${
+                      className={`min-h-[40px] rounded-lg px-1.5 py-1.5 text-[11px] font-bold transition ${
                         state.tactic[field] === option.key
                           ? 'bg-emerald-400 text-slate-900'
-                          : 'bg-white/5 text-slate-300 hover:bg-white/10'
+                          : 'bg-white/5 text-slate-300 active:bg-white/10 sm:hover:bg-white/10'
                       }`}
                     >
                       {option.label.replace(/^(압박|수비 라인|템포) /, '')}
-                      <span className="ml-1 opacity-50">{option.hotkey}</span>
+                      <span className="ml-1 hidden opacity-50 sm:inline">{option.hotkey}</span>
                     </button>
                   ))}
                 </div>
@@ -272,7 +297,8 @@ export default function SquadTab() {
             ))}
           </div>
           <p className="mt-2 text-[11px] text-slate-500">
-            경기 중에도 중단된 순간에 단축키로 바꿀 수 있습니다.
+            경기 중에도 화면 아래 버튼으로 바꿀 수 있고, 지시는 경기가 멈추는 순간 적용됩니다.
+            PC에서는 단축키(플랜 1 2 3 · 압박 Q W E · 라인 A S D · 템포 Z X C)도 씁니다.
           </p>
 
           <button

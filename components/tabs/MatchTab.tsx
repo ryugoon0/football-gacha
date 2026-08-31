@@ -30,7 +30,9 @@ import {
   PLANS,
   PRESSINGS,
   TACTIC_HOTKEYS,
+  TACTIC_PRESETS,
   TEMPOS,
+  presetOf,
   tacticSummary,
   type TacticSetup,
 } from '../../lib/tactics'
@@ -153,6 +155,7 @@ function MatchDay() {
     [pendingSubs.length, state.cards, plannedSquad, division, rating],
   )
   const shownTactic = pendingTactic ?? state.tactic
+  const pendingCount = (pendingTactic ? 1 : 0) + pendingSubs.length
 
   const setup: MatchSetup | null = opponent
     ? {
@@ -219,6 +222,12 @@ function MatchDay() {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [engine.running])
+
+  // On a phone the substitution panel sits above the fold, so bring it into view.
+  const subPanelRef = useRef<HTMLDivElement | null>(null)
+  useEffect(() => {
+    if (showSubs) subPanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }, [showSubs])
 
   const nameOf = (uid: string) => {
     const card = state.cards.find((item) => item.uid === uid)
@@ -480,6 +489,7 @@ function MatchDay() {
         />
       )}
 
+      <div ref={subPanelRef} />
       {showSubs && engine.running && (
         <SubPanel
           squad={plannedSquad}
@@ -495,7 +505,7 @@ function MatchDay() {
         <div className="mt-2 rounded-xl bg-amber-400/10 p-3 ring-1 ring-amber-400/30">
           <div className="mb-1.5 flex items-center justify-between">
             <span className="text-xs font-bold text-amber-200">
-              대기 중인 지시 · 다음 중단(파울 · 골 · 아웃 · 하프타임)에 적용
+              대기 중인 지시 · 다음 중단에 적용
             </span>
             <button
               onClick={() => {
@@ -503,7 +513,7 @@ function MatchDay() {
                 setPendingSubs([])
                 setNotice('대기 중인 지시를 취소했습니다.')
               }}
-              className="text-[11px] font-bold text-slate-400 hover:text-slate-200"
+              className="shrink-0 whitespace-nowrap text-[11px] font-bold text-slate-400 active:text-slate-200 sm:hover:text-slate-200"
             >
               전체 취소
             </button>
@@ -523,6 +533,59 @@ function MatchDay() {
         <p className="mt-2 rounded-lg bg-sky-500/15 px-3 py-2 text-xs font-semibold text-sky-200">
           {notice}
         </p>
+      )}
+
+      {/* Phone controls: everything you need mid match, within thumb reach. */}
+      {engine.running && (
+        <>
+          <div className="h-36 sm:hidden" />
+          <div
+            data-testid="mobile-bar"
+            className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-slate-950/95 px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur sm:hidden"
+          >
+            <div className="mb-1 flex items-center justify-between px-1 text-[10px] font-bold">
+              <span className={engine.canIntervene ? 'text-amber-300' : 'text-slate-500'}>
+                {engine.canIntervene ? '경기 중단 — 지금 바로 적용' : '지시하면 중단될 때 적용'}
+              </span>
+              {pendingCount > 0 && (
+                <span className="rounded-full bg-amber-400 px-2 py-0.5 text-slate-900">
+                  대기 {pendingCount}
+                </span>
+              )}
+            </div>
+            <div className="grid grid-cols-4 gap-1.5">
+              {TACTIC_PRESETS.map((preset) => (
+                <button
+                  key={preset.key}
+                  onClick={() => orderTactic(preset.setup, preset.label)}
+                  className={`min-h-[44px] rounded-xl text-xs font-black transition ${
+                    presetOf(shownTactic) === preset.key
+                      ? pendingTactic
+                        ? 'bg-amber-300 text-slate-900'
+                        : 'bg-emerald-400 text-slate-900'
+                      : 'bg-white/10 text-slate-200 active:bg-white/20'
+                  }`}
+                >
+                  {preset.label}
+                </button>
+              ))}
+            </div>
+            <div className="mt-1.5 flex gap-1.5">
+              <button
+                onClick={() => setShowSubs((value) => !value)}
+                className="min-h-[44px] flex-1 rounded-xl bg-amber-400 text-xs font-black text-slate-900 active:bg-amber-300"
+              >
+                선수 교체
+              </button>
+              <button
+                onClick={engine.togglePause}
+                className="min-h-[44px] w-24 rounded-xl bg-white/10 text-xs font-bold text-white active:bg-white/20"
+              >
+                {engine.paused ? '재개' : '일시정지'}
+              </button>
+            </div>
+          </div>
+        </>
       )}
 
       {!engine.running && (
@@ -638,12 +701,15 @@ function InMatchTactics({
   queued: boolean
   onChange: (next: TacticSetup, label: string) => void
 }) {
+  // The dials are fine tuning; presets are what a thumb reaches for.
+  const [showDials, setShowDials] = useState(false)
   const groups = [
     { field: 'plan' as const, options: PLANS },
     { field: 'pressing' as const, options: PRESSINGS },
     { field: 'line' as const, options: LINES },
     { field: 'tempo' as const, options: TEMPOS },
   ]
+  const active = presetOf(tactic)
 
   return (
     <div
@@ -651,36 +717,67 @@ function InMatchTactics({
         live ? 'bg-amber-400/10 ring-1 ring-amber-400/40' : 'bg-white/5'
       }`}
     >
-      <div className="mb-2 flex items-center justify-between">
+      <div className="mb-2 flex items-center justify-between gap-2">
         <span className="text-xs font-bold text-slate-300">
           경기 중 전술{' '}
           {live ? '— 지금 바로 적용됩니다' : queued ? '— 지시 대기 중' : '— 언제든 지시, 중단 시 적용'}
         </span>
-        <span className="text-[10px] text-slate-500">{tacticSummary(tactic)}</span>
+        <span className="truncate text-[10px] text-slate-500">{tacticSummary(tactic)}</span>
       </div>
-      <div className="grid gap-1.5 sm:grid-cols-2">
-        {groups.map(({ field, options }) => (
-          <div key={field} className="flex gap-1">
-            {options.map((option) => (
-              <button
-                key={option.key}
-                onClick={() => onChange({ ...tactic, [field]: option.key }, option.label)}
-                title={option.description}
-                className={`flex-1 rounded-lg px-1 py-1 text-[10px] font-bold transition ${
-                  tactic[field] === option.key
-                    ? live
-                      ? 'bg-emerald-400 text-slate-900'
-                      : 'bg-amber-300 text-slate-900'
-                    : 'bg-white/10 text-slate-300 hover:bg-white/20'
-                }`}
-              >
-                {option.label.replace(/^(압박|수비 라인|템포) /, '')}
-                <span className="ml-0.5 opacity-60">{option.hotkey}</span>
-              </button>
-            ))}
-          </div>
+
+      <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-4">
+        {TACTIC_PRESETS.map((preset) => (
+          <button
+            key={preset.key}
+            data-testid="tactic-preset"
+            onClick={() => onChange(preset.setup, preset.label)}
+            title={preset.hint}
+            className={`min-h-[44px] rounded-xl px-2 py-2 text-xs font-black transition ${
+              active === preset.key
+                ? queued
+                  ? 'bg-amber-300 text-slate-900'
+                  : 'bg-emerald-400 text-slate-900'
+                : 'bg-white/10 text-slate-200 active:bg-white/20 sm:hover:bg-white/20'
+            }`}
+          >
+            {preset.label}
+          </button>
         ))}
       </div>
+
+      <button
+        onClick={() => setShowDials((value) => !value)}
+        className="mt-2 w-full rounded-lg bg-white/5 py-2 text-[11px] font-bold text-slate-400 active:bg-white/10 sm:hover:bg-white/10"
+      >
+        세부 조정 {showDials ? '닫기' : '열기'} · 플랜 · 압박 · 라인 · 템포
+      </button>
+
+      {showDials && (
+        <div className="mt-2 grid gap-1.5 sm:grid-cols-2">
+          {groups.map(({ field, options }) => (
+            <div key={field} className="flex gap-1">
+              {options.map((option) => (
+                <button
+                  key={option.key}
+                  onClick={() => onChange({ ...tactic, [field]: option.key }, option.label)}
+                  title={option.description}
+                  className={`min-h-[40px] flex-1 rounded-lg px-1 py-1 text-[10px] font-bold transition ${
+                    tactic[field] === option.key
+                      ? queued
+                        ? 'bg-amber-300 text-slate-900'
+                        : 'bg-emerald-400 text-slate-900'
+                      : 'bg-white/10 text-slate-300 active:bg-white/20 sm:hover:bg-white/20'
+                  }`}
+                >
+                  {option.label.replace(/^(압박|수비 라인|템포) /, '')}
+                  {/* Shortcuts are a desktop convenience; phones never see them. */}
+                  <span className="ml-0.5 hidden opacity-60 sm:inline">{option.hotkey}</span>
+                </button>
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
