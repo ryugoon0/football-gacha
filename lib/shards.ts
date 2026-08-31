@@ -32,6 +32,24 @@ export function shardsFor(card: Card): number {
   return SHARD_VALUES[player.rarity] + Math.floor((card.level - 1) / 2)
 }
 
+/** Gold a released card pays out; trained cards are worth more. */
+export function sellPrice(card: Card): number {
+  const player = getPlayer(card.playerId)
+  if (!player) return 0
+  const style = RARITY_STYLES[player.rarity]
+  return style.sell + (card.level - 1) * Math.round(style.sell * 0.3)
+}
+
+export function releaseValue(cards: Card[]): { gold: number; shards: number } {
+  return cards.reduce(
+    (total, card) => ({
+      gold: total.gold + sellPrice(card),
+      shards: total.shards + shardsFor(card),
+    }),
+    { gold: 0, shards: 0 },
+  )
+}
+
 export function offerLabel(offer: ShardOffer): string {
   return `${RARITY_STYLES[offer.rarity].label} 확정`
 }

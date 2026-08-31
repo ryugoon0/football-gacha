@@ -11,15 +11,17 @@ import {
   levelCap,
 } from '../../lib/players'
 import { RARITIES, RARITY_STYLES } from '../../lib/rarity'
+import { releaseValue, sellPrice, shardsFor } from '../../lib/shards'
 import type { Card, PlayerDef, PositionGroup, Rarity } from '../../lib/types'
 import { useGame } from '../GameProvider'
 import PlayerCard from '../PlayerCard'
 import PlayerDetail from '../PlayerDetail'
+import PlayerDetailModal from '../PlayerDetailModal'
 
 type RarityFilter = Rarity | 'all'
 type GroupFilter = PositionGroup | 'all'
 type SortKey = 'ovr' | 'rarity' | 'level'
-type Mode = 'manage' | 'train' | 'break' | 'fuse'
+type Mode = 'manage' | 'train' | 'break' | 'fuse' | 'release'
 
 const GROUP_LABELS: Record<GroupFilter, string> = {
   all: '전체',
@@ -34,6 +36,7 @@ const MODES: { id: Mode; label: string }[] = [
   { id: 'train', label: '훈련(경험치)' },
   { id: 'break', label: '한계 돌파' },
   { id: 'fuse', label: '승급 합성' },
+  { id: 'release', label: '일괄 방출' },
 ]
 
 export default function ClubTab() {
@@ -48,6 +51,8 @@ export default function ClubTab() {
   const [breakUid, setBreakUid] = useState<string | null>(null)
   const [fuseUids, setFuseUids] = useState<string[]>([])
   const [fused, setFused] = useState<PlayerDef | null>(null)
+  const [releaseUids, setReleaseUids] = useState<string[]>([])
+  const [detailUid, setDetailUid] = useState<string | null>(null)
 
   const inUse = useMemo(
     () =>
@@ -78,6 +83,13 @@ export default function ClubTab() {
   }, [state.cards, rarityFilter, groupFilter, sortKey])
 
   const selected = rows.find((row) => row.card.uid === selectedUid) ?? null
+  const detailCard = detailUid
+    ? (() => {
+        const card = state.cards.find((item) => item.uid === detailUid)
+        const player = card ? getPlayer(card.playerId) : undefined
+        return card && player ? { card, player } : null
+      })()
+    : null
   const spares = state.cards.length - new Set(state.cards.map((card) => card.playerId)).size
 
   const resetPicks = () => {
@@ -85,11 +97,46 @@ export default function ClubTab() {
     setBreakUid(null)
     setFuseUids([])
     setFused(null)
+    setReleaseUids([])
+  }
+
+  /** Cards that can be let go: anything not in the eleven or on the bench. */
+  const releasable = state.cards.filter((card) => !inUse.has(card.uid))
+
+  const duplicateUids = () => {
+    const kept = new Map<string, Card>()
+    for (const card of state.cards) {
+      if (inUse.has(card.uid)) kept.set(card.playerId, card)
+    }
+    const spare: string[] = []
+    for (const card of releasable) {
+      const best = kept.get(card.playerId)
+      if (!best) {
+        kept.set(card.playerId, card)
+        continue
+      }
+      if (!inUse.has(best.uid) && card.level > best.level) {
+        kept.set(card.playerId, card)
+        spare.push(best.uid)
+      } else {
+        spare.push(card.uid)
+      }
+    }
+    return spare
   }
 
   const onCardClick = (card: Card) => {
     if (mode === 'manage') {
       setSelectedUid(card.uid === selectedUid ? null : card.uid)
+      return
+    }
+    if (mode === 'release') {
+      if (inUse.has(card.uid)) return
+      setReleaseUids((current) =>
+        current.includes(card.uid)
+          ? current.filter((uid) => uid !== card.uid)
+          : [...current, card.uid],
+      )
       return
     }
     if (mode === 'fuse') {
@@ -125,13 +172,15 @@ export default function ClubTab() {
   }
 
   const isPicked = (card: Card) => {
+    if (mode === 'release') return releaseUids.includes(card.uid)
     if (mode === 'fuse') return fuseUids.includes(card.uid)
     if (mode === 'train') return materialUids.includes(card.uid)
     if (mode === 'break') return breakUid === card.uid
     return selectedUid === card.uid
   }
 
-  const isTarget = (card: Card) => mode !== 'fuse' && card.uid === selectedUid
+  const isTarget = (card: Card) =>
+    mode !== 'fuse' && mode !== 'release' && card.uid === selectedUid
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
@@ -155,7 +204,29 @@ export default function ClubTab() {
           ))}
         </div>
 
-        {mode !== 'manage' && mode !== 'fuse' && (
+        {mode === 'release' && (
+          <div className="mb-3 flex flex-wrap items-center gap-2 rounded-lg bg-white/5 p-2">
+            <span className="text-xs text-slate-400">빠른 선택</span>
+            <QuickPick onClick={() => setReleaseUids(duplicateUids())}>중복 카드</QuickPick>
+            <QuickPick
+              onClick={() =>
+                setReleaseUids(
+                  releasable
+                    .filter((card) => getPlayer(card.playerId)?.rarity === 'Normal')
+                    .map((card) => card.uid),
+                )
+              }
+            >
+              일반 등급 전부
+            </QuickPick>
+            <QuickPick onClick={() => setReleaseUids(releasable.map((card) => card.uid))}>
+              선발·벤치 제외 전부
+            </QuickPick>
+            <QuickPick onClick={() => setReleaseUids([])}>선택 해제</QuickPick>
+          </div>
+        )}
+
+        {mode !== 'manage' && mode !== 'fuse' && mode !== 'release' && (
           <p className="mb-3 rounded-lg bg-white/5 p-2 text-xs text-slate-400">
             {selected
               ? mode === 'train'
@@ -255,7 +326,19 @@ export default function ClubTab() {
           </button>
         </section>
 
-        {mode === 'fuse' ? (
+        {mode === 'release' ? (
+          <ReleasePanel
+            cards={state.cards.filter((card) => releaseUids.includes(card.uid))}
+            onClear={() => setReleaseUids([])}
+            onRelease={() => {
+              const count = releaseUids.length
+              if (count === 0) return
+              if (!window.confirm(`선수 ${count}명을 방출할까요? 되돌릴 수 없습니다.`)) return
+              sell(releaseUids)
+              setReleaseUids([])
+            }}
+          />
+        ) : mode === 'fuse' ? (
           <FusionPanel
             uids={fuseUids}
             check={checkFusion(state.cards, fuseUids, state.squad, state.gold)}
@@ -302,21 +385,135 @@ export default function ClubTab() {
             </p>
           </section>
         ) : (
-          <PlayerDetail
-            card={selected.card}
-            player={selected.player}
-            gold={state.gold}
-            inSquad={inUse.has(selected.card.uid)}
-            onTreat={() => treatInjury(selected.card.uid)}
-            onRecover={() => restoreCondition(selected.card.uid)}
-            onSell={() => {
-              sell([selected.card.uid])
-              setSelectedUid(null)
-            }}
-          />
+          <div className="space-y-3">
+            <button
+              onClick={() => setDetailUid(selected.card.uid)}
+              className="w-full rounded-xl bg-sky-500/80 px-3 py-2.5 text-sm font-bold text-white transition hover:bg-sky-400"
+            >
+              상세 보기 — 능력치 · 경험치 · 성장 여지
+            </button>
+            <PlayerDetail
+              card={selected.card}
+              player={selected.player}
+              gold={state.gold}
+              inSquad={inUse.has(selected.card.uid)}
+              onTreat={() => treatInjury(selected.card.uid)}
+              onRecover={() => restoreCondition(selected.card.uid)}
+              onSell={() => {
+                sell([selected.card.uid])
+                setSelectedUid(null)
+              }}
+            />
+          </div>
         )}
       </div>
+
+      {detailCard && (
+        <PlayerDetailModal
+          card={detailCard.card}
+          player={detailCard.player}
+          gold={state.gold}
+          inSquad={inUse.has(detailCard.card.uid)}
+          onClose={() => setDetailUid(null)}
+          onTreat={() => treatInjury(detailCard.card.uid)}
+          onRecover={() => restoreCondition(detailCard.card.uid)}
+          onSell={() => {
+            sell([detailCard.card.uid])
+            setDetailUid(null)
+            setSelectedUid(null)
+          }}
+        />
+      )}
     </div>
+  )
+}
+
+function QuickPick({ onClick, children }: { onClick: () => void; children: React.ReactNode }) {
+  return (
+    <button
+      onClick={onClick}
+      className="rounded-lg bg-white/10 px-2.5 py-1 text-xs font-bold text-slate-200 transition hover:bg-white/20"
+    >
+      {children}
+    </button>
+  )
+}
+
+function ReleasePanel({
+  cards,
+  onRelease,
+  onClear,
+}: {
+  cards: Card[]
+  onRelease: () => void
+  onClear: () => void
+}) {
+  const { gold, shards } = releaseValue(cards)
+
+  return (
+    <section className="space-y-3 rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+      <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">일괄 방출</h3>
+      <p className="text-sm text-slate-400">
+        여러 명을 한 번에 정리합니다. 선발과 벤치에 있는 선수는 선택할 수 없습니다.
+      </p>
+
+      <div className="rounded-lg bg-white/5 p-3 text-sm">
+        <div className="flex justify-between text-slate-300">
+          <span>선택</span>
+          <span className="font-bold text-white">{cards.length}명</span>
+        </div>
+        <div className="mt-1 flex justify-between text-slate-300">
+          <span>받는 골드</span>
+          <span className="font-bold text-amber-300">+{gold.toLocaleString()}G</span>
+        </div>
+        <div className="mt-1 flex justify-between text-slate-300">
+          <span>받는 조각</span>
+          <span className="font-bold text-sky-300">+{shards}</span>
+        </div>
+      </div>
+
+      {cards.length > 0 && (
+        <div className="scrollbar-thin max-h-40 space-y-1 overflow-y-auto pr-1">
+          {cards.map((card) => {
+            const player = getPlayer(card.playerId)
+            if (!player) return null
+            return (
+              <div
+                key={card.uid}
+                className="flex items-center justify-between rounded bg-white/5 px-2 py-1 text-xs"
+              >
+                <span className="min-w-0 flex-1 truncate text-slate-300">
+                  {player.name}{' '}
+                  <span className="text-slate-500">
+                    {RARITY_STYLES[player.rarity].label} Lv.{card.level}
+                  </span>
+                </span>
+                <span className="shrink-0 font-bold text-amber-300">
+                  +{sellPrice(card)}G · +{shardsFor(card)}
+                </span>
+              </div>
+            )
+          })}
+        </div>
+      )}
+
+      <div className="flex gap-2">
+        <button
+          onClick={onRelease}
+          disabled={cards.length === 0}
+          className="flex-1 rounded-lg bg-rose-500 px-3 py-2 text-sm font-bold text-white transition hover:bg-rose-400 disabled:opacity-40"
+        >
+          {cards.length}명 방출하기
+        </button>
+        <button
+          onClick={onClear}
+          disabled={cards.length === 0}
+          className="rounded-lg bg-white/10 px-3 py-2 text-sm font-bold text-white transition hover:bg-white/20 disabled:opacity-40"
+        >
+          선택 해제
+        </button>
+      </div>
+    </section>
   )
 }
 

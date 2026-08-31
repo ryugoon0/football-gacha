@@ -31,9 +31,8 @@ import {
 } from './league'
 import { dailyMarket, type Listing } from './market'
 import { getPlayer, levelCap } from './players'
-import { RARITY_STYLES } from './rarity'
 import { autoFill } from './squad'
-import { shardsFor, type ShardOffer } from './shards'
+import { releaseValue, type ShardOffer } from './shards'
 import { TOTAL_MATCHDAYS } from './schedule'
 import type { TacticKey } from './tactics'
 import { initialState, newCard, newUid } from './storage'
@@ -133,13 +132,6 @@ function withoutCards(state: GameState, uids: Set<string>): GameState {
   }
 }
 
-function sellPrice(card: Card): number {
-  const player = getPlayer(card.playerId)
-  if (!player) return 0
-  const style = RARITY_STYLES[player.rarity]
-  return style.sell + (card.level - 1) * Math.round(style.sell * 0.3)
-}
-
 /** Marks the starters, banks their experience and tires them out. */
 function afterMatch(
   state: GameState,
@@ -220,10 +212,9 @@ export function reducer(state: GameState, action: Action): GameState {
     case 'sell': {
       const uids = new Set(action.uids)
       const released = state.cards.filter((card) => uids.has(card.uid))
-      const income = released.reduce((sum, card) => sum + sellPrice(card), 0)
-      const shards = released.reduce((sum, card) => sum + shardsFor(card), 0)
+      const { gold, shards } = releaseValue(released)
       const next = withoutCards(state, uids)
-      return { ...next, gold: state.gold + income, shards: state.shards + shards }
+      return { ...next, gold: state.gold + gold, shards: state.shards + shards }
     }
 
     case 'sellSpares':

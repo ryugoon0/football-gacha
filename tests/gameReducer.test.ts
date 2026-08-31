@@ -637,3 +637,36 @@ describe('save shape', () => {
     expect(createSeason(5, 1, state.club).teams[0].id).toBe(MY_TEAM_ID)
   })
 })
+
+describe('bulk release', () => {
+  it('pays out gold and shards for every card at once', async () => {
+    const { releaseValue } = await import('../lib/shards')
+    const state = { ...start(), cards: [...start().cards, card('x1', 'n03'), card('x2', 'r01')] }
+    const uids = ['x1', 'x2']
+    const expected = releaseValue(state.cards.filter((item) => uids.includes(item.uid)))
+
+    const next = reducer(state, { type: 'sell', uids })
+
+    expect(next.gold).toBe(state.gold + expected.gold)
+    expect(next.shards).toBe(state.shards + expected.shards)
+    expect(next.cards).toHaveLength(state.cards.length - 2)
+    expect(next.cards.some((item) => uids.includes(item.uid))).toBe(false)
+  })
+
+  it('empties the slot and the bench place of anyone released', () => {
+    const state = start()
+    const starter = state.squad.slots.gk!
+    const benched = state.squad.bench.find(Boolean)!
+
+    const next = reducer(state, { type: 'sell', uids: [starter, benched] })
+    expect(next.squad.slots.gk).toBeNull()
+    expect(next.squad.bench).not.toContain(benched)
+  })
+
+  it('prices a trained card above a fresh one', async () => {
+    const { sellPrice } = await import('../lib/shards')
+    const fresh = card('a', 'lg01', 4)
+    const trained = card('b', 'lg01', 8)
+    expect(sellPrice(trained)).toBeGreaterThan(sellPrice(fresh))
+  })
+})
