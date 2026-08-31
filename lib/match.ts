@@ -2,6 +2,7 @@ import { BOTTOM_DIVISION, type LeagueTeam } from './league'
 import { POSITION_GROUP } from './players'
 import type { SlotEvaluation, SquadRating } from './squad'
 import { TACTICS, type TacticKey } from './tactics'
+import { NO_TRAIT_EFFECTS, type TraitEffects } from './traits'
 import type { MatchEvent, MatchResult } from './types'
 
 const OPPONENT_PLAYERS = [
@@ -20,11 +21,16 @@ const OPPONENT_PLAYERS = [
 /** Rating bump for playing at home. */
 export const HOME_ADVANTAGE = 3
 
-function pickScorer(evaluations: SlotEvaluation[], rng: () => number): string {
+interface Scorer {
+  name: string
+  uid: string | null
+}
+
+function pickScorer(evaluations: SlotEvaluation[], rng: () => number): Scorer {
   const candidates = evaluations.filter(
-    (item) => item.player && POSITION_GROUP[item.slotPosition] !== 'GK',
+    (item) => item.player && !item.injured && POSITION_GROUP[item.slotPosition] !== 'GK',
   )
-  if (candidates.length === 0) return '유스 선수'
+  if (candidates.length === 0) return { name: '유스 선수', uid: null }
   const weights = candidates.map((item) => {
     const group = POSITION_GROUP[item.slotPosition]
     const bias = group === 'FW' ? 6 : group === 'MF' ? 3 : 1
@@ -34,9 +40,10 @@ function pickScorer(evaluations: SlotEvaluation[], rng: () => number): string {
   let roll = rng() * total
   for (let i = 0; i < candidates.length; i++) {
     roll -= weights[i]
-    if (roll <= 0) return candidates[i].player!.name
+    if (roll <= 0) return { name: candidates[i].player!.name, uid: candidates[i].card!.uid }
   }
-  return candidates[candidates.length - 1].player!.name
+  const last = candidates[candidates.length - 1]
+  return { name: last.player!.name, uid: last.card!.uid }
 }
 
 function keeperName(evaluations: SlotEvaluation[]): string {
@@ -62,6 +69,8 @@ export interface MatchOptions {
   division: number
   venue: Venue
   tactic: TacticKey
+  /** What the squad's traits add on top of the ratings. */
+  traits?: TraitEffects
   rng?: () => number
 }
 
@@ -72,15 +81,17 @@ export function simulateMatch({
   division,
   venue,
   tactic,
+  traits = NO_TRAIT_EFFECTS,
   rng = Math.random,
 }: MatchOptions): MatchResult {
   const plan = TACTICS[tactic] ?? TACTICS.balanced
   const homeBonus = venue === 'home' ? HOME_ADVANTAGE : 0
   const awayBonus = venue === 'away' ? HOME_ADVANTAGE : 0
 
-  const myAtt = team.att * plan.att + homeBonus
-  const myDef = team.def * plan.def + homeBonus
-  const myMid = team.mid + homeBonus
+  const bigGame = venue === 'neutral' ? traits.cup : 0
+  const myAtt = team.att * plan.att + homeBonus + bigGame
+  const myDef = team.def * plan.def + homeBonus + bigGame
+  const myMid = team.mid + homeBonus + bigGame
 
   const oppAtt = opponent.rating + awayBonus + (rng() * 6 - 3)
   const oppMid = opponent.rating + awayBonus + (rng() * 6 - 3)
@@ -101,6 +112,7 @@ export function simulateMatch({
   let scoreAgainst = 0
   let shotsFor = 0
   let shotsAgainst = 0
+  const scorerUids: string[] = []
 
   for (let minute = 1; minute <= 90; minute++) {
     if (minute === 45) {
@@ -111,7 +123,7 @@ export function simulateMatch({
         text: `전반 종료 — ${scoreFor} : ${scoreAgainst}`,
       })
     }
-    if (rng() > 0.13 * plan.tempo) continue
+    if (rng() > 0.13 * plan.tempo * traits.tempo) continue
 
     const weAttack = rng() < possessionShare
     const att = weAttack ? myAtt : oppAtt
@@ -120,19 +132,25 @@ export function simulateMatch({
     if (weAttack) shotsFor++
     else shotsAgainst++
 
-    const goalChance = clamp(0.22 + (att - def) / 150, 0.06, 0.55)
+    // Our finishers help us score; our defenders make the opponent's job harder.
+    const swing = weAttack ? traits.goal : -traits.concede
+    const goalChance = clamp(0.22 + (att - def) / 150 + swing, 0.06, 0.6)
     const shooter = weAttack
       ? pickScorer(team.evaluations, rng)
-      : OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)]
+      : { name: OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)], uid: null }
 
     if (rng() < goalChance) {
-      if (weAttack) scoreFor++
-      else scoreAgainst++
+      if (weAttack) {
+        scoreFor++
+        if (shooter.uid) scorerUids.push(shooter.uid)
+      } else {
+        scoreAgainst++
+      }
       events.push({
         minute,
         type: 'goal',
         side,
-        text: `⚽ ${shooter} 골! ${scoreFor} : ${scoreAgainst}`,
+        text: `⚽ ${shooter.name} 골! ${scoreFor} : ${scoreAgainst}`,
       })
     } else if (rng() < 0.5) {
       const keeper = weAttack ? `${opponent.name} 골키퍼` : keeperName(team.evaluations)
@@ -140,14 +158,14 @@ export function simulateMatch({
         minute,
         type: 'save',
         side,
-        text: `${shooter}의 슈팅, ${keeper}가 선방합니다.`,
+        text: `${shooter.name}의 슈팅, ${keeper}가 선방합니다.`,
       })
     } else {
       events.push({
         minute,
         type: 'chance',
         side,
-        text: `${shooter}의 슈팅이 골대를 살짝 빗나갑니다.`,
+        text: `${shooter.name}의 슈팅이 골대를 살짝 빗나갑니다.`,
       })
     }
   }
@@ -164,6 +182,7 @@ export function simulateMatch({
 
   return {
     opponent: opponent.name,
+    scorerUids,
     opponentRating: opponent.rating,
     scoreFor,
     scoreAgainst,

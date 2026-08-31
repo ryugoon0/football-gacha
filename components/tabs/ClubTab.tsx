@@ -1,19 +1,13 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import {
-  MAX_CONDITION,
-  TIRED_CONDITION,
-  isInjured,
-  recoveryCost,
-  treatmentCost,
-} from '../../lib/condition'
 import { FUSION_FEE, FUSION_SIZE, checkFusion } from '../../lib/fusion'
 import { PLAYERS, POSITION_GROUP, effectiveOvr, getPlayer } from '../../lib/players'
-import { MAX_LEVEL, RARITIES, RARITY_STYLES, trainCost } from '../../lib/rarity'
+import { RARITIES, RARITY_STYLES } from '../../lib/rarity'
 import type { PlayerDef, PositionGroup, Rarity } from '../../lib/types'
 import { useGame } from '../GameProvider'
 import PlayerCard from '../PlayerCard'
+import PlayerDetail from '../PlayerDetail'
 
 type RarityFilter = Rarity | 'all'
 type GroupFilter = PositionGroup | 'all'
@@ -67,11 +61,6 @@ export default function ClubTab() {
   }, [state.cards, rarityFilter, groupFilter, sortKey])
 
   const selected = rows.find((row) => row.card.uid === selectedUid) ?? null
-  const selectedStyle = selected ? RARITY_STYLES[selected.player.rarity] : null
-  const upgradeCost = selected ? trainCost(selected.player.rarity, selected.card.level) : 0
-  const sellValue = selected
-    ? selectedStyle!.sell + (selected.card.level - 1) * Math.round(selectedStyle!.sell * 0.3)
-    : 0
   const spares = state.cards.length - new Set(state.cards.map((card) => card.playerId)).size
 
   return (
@@ -215,96 +204,27 @@ export default function ClubTab() {
               }
             }}
           />
+        ) : !selected ? (
+          <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+            <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">선수 상세</h3>
+            <p className="mt-3 text-sm text-slate-500">
+              카드를 선택하면 세부 능력치와 특성을 보고 강화·방출할 수 있습니다.
+            </p>
+          </section>
         ) : (
-        <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
-          <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">선수 관리</h3>
-          {!selected ? (
-            <p className="mt-3 text-sm text-slate-500">카드를 선택하면 강화와 방출을 할 수 있습니다.</p>
-          ) : (
-            <div className="mt-3 space-y-3">
-              <div className="flex justify-center">
-                <PlayerCard
-                  player={selected.player}
-                  level={selected.card.level}
-                  size="lg"
-                  condition={selected.card.condition}
-                  injuredFor={selected.card.injuredFor}
-                />
-              </div>
-
-              <div className="rounded-lg bg-white/5 p-3 text-sm text-slate-300">
-                <div className="flex items-center justify-between">
-                  <span>체력</span>
-                  <span
-                    className={`font-bold ${
-                      selected.card.condition < TIRED_CONDITION ? 'text-rose-300' : 'text-white'
-                    }`}
-                  >
-                    {selected.card.condition} / {MAX_CONDITION}
-                  </span>
-                </div>
-                <div className="mt-1 h-1.5 rounded-full bg-white/10">
-                  <div
-                    className={`h-1.5 rounded-full ${
-                      selected.card.condition < TIRED_CONDITION ? 'bg-rose-500' : 'bg-emerald-400'
-                    }`}
-                    style={{ width: `${selected.card.condition}%` }}
-                  />
-                </div>
-                <div className="mt-1 text-xs text-slate-500">
-                  경기에 나가면 체력이 떨어지고, 벤치에서 쉬면 회복됩니다.
-                </div>
-              </div>
-
-              {isInjured(selected.card) && (
-                <button
-                  onClick={() => treatInjury(selected.card.uid)}
-                  disabled={state.gold < treatmentCost(selected.card)}
-                  className="w-full rounded-lg bg-rose-500 px-3 py-2 text-sm font-bold text-white transition hover:bg-rose-400 disabled:opacity-40"
-                >
-                  부상 치료 ({treatmentCost(selected.card)}G · {selected.card.injuredFor}경기 결장)
-                </button>
-              )}
-              {selected.card.condition < MAX_CONDITION && (
-                <button
-                  onClick={() => restoreCondition(selected.card.uid)}
-                  disabled={state.gold < recoveryCost(selected.card)}
-                  className="w-full rounded-lg bg-sky-500/80 px-3 py-2 text-sm font-bold text-white transition hover:bg-sky-400 disabled:opacity-40"
-                >
-                  체력 회복 ({recoveryCost(selected.card)}G)
-                </button>
-              )}
-              <div className="rounded-lg bg-white/5 p-3 text-sm text-slate-300">
-                강화 레벨 <span className="font-bold text-white">{selected.card.level}</span> /{' '}
-                {MAX_LEVEL}
-                <div className="mt-1 text-xs text-slate-500">
-                  강화 1단계마다 전 능력치가 1씩 오릅니다.
-                </div>
-              </div>
-              <button
-                onClick={() => train(selected.card.uid)}
-                disabled={selected.card.level >= MAX_LEVEL || state.gold < upgradeCost}
-                className="w-full rounded-lg bg-amber-400 px-3 py-2 text-sm font-bold text-slate-900 transition hover:bg-amber-300 disabled:opacity-40"
-              >
-                {selected.card.level >= MAX_LEVEL ? '최대 강화' : `강화하기 (${upgradeCost}G)`}
-              </button>
-              <button
-                onClick={() => {
-                  sell([selected.card.uid])
-                  setSelectedUid(null)
-                }}
-                className="w-full rounded-lg bg-rose-500/20 px-3 py-2 text-sm font-bold text-rose-200 transition hover:bg-rose-500/30"
-              >
-                방출하기 (+{sellValue}G)
-              </button>
-              {inSquad.has(selected.card.uid) && (
-                <p className="text-xs font-semibold text-amber-400">
-                  선발 명단에 있는 선수입니다. 방출하면 자리가 비워집니다.
-                </p>
-              )}
-            </div>
-          )}
-        </section>
+          <PlayerDetail
+            card={selected.card}
+            player={selected.player}
+            gold={state.gold}
+            inSquad={inSquad.has(selected.card.uid)}
+            onTrain={() => train(selected.card.uid)}
+            onTreat={() => treatInjury(selected.card.uid)}
+            onRecover={() => restoreCondition(selected.card.uid)}
+            onSell={() => {
+              sell([selected.card.uid])
+              setSelectedUid(null)
+            }}
+          />
         )}
       </div>
     </div>

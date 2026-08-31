@@ -1,5 +1,6 @@
 import type { CupState } from './cup'
 import type { DailyState } from './daily'
+import type { PlayerRating } from './growth'
 import type { Season } from './league'
 import type { MarketState } from './market'
 import type { TacticKey } from './tactics'
@@ -53,6 +54,8 @@ export interface Card {
   condition: number
   /** Matches left on the sidelines; 0 means available. */
   injuredFor: number
+  /** Experience banked towards the next level. */
+  exp: number
 }
 
 export interface Squad {
@@ -83,6 +86,8 @@ export interface GameState {
   cup: CupState
   market: MarketState
   trophies: { cup: number; promotions: number }
+  /** Player marks from the most recent match. */
+  lastRatings: PlayerRating[]
   daily: DailyState
   guideDone: boolean
   record: { w: number; d: number; l: number }
@@ -103,6 +108,8 @@ export interface MatchEvent {
 
 export interface MatchResult {
   opponent: string
+  /** Card uids of our scorers, one entry per goal. */
+  scorerUids: string[]
   opponentRating: number
   scoreFor: number
   scoreAgainst: number

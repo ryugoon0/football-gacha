@@ -16,6 +16,7 @@ const card = (uid: string, condition = MAX_CONDITION, injuredFor = 0): Card => (
   level: 1,
   condition,
   injuredFor,
+  exp: 0,
 })
 
 describe('condition', () => {

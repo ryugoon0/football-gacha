@@ -77,7 +77,7 @@ describe('auto fill', () => {
     const world = PLAYERS_BY_RARITY.World[0]
     const cards: Card[] = [
       ...state.cards,
-      { uid: 'star', playerId: world.id, level: 1, condition: 100, injuredFor: 0 },
+      { uid: 'star', playerId: world.id, level: 1, condition: 100, injuredFor: 0, exp: 0 },
     ]
     const squad = autoFill(cards, state.squad)
 

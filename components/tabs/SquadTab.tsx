@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { FORMATIONS, FORMATION_KEYS } from '../../lib/formations'
 import { effectiveOvr, getPlayer } from '../../lib/players'
 import { conditionFactor, isInjured } from '../../lib/condition'
+import { TRAITS, traitsOf } from '../../lib/traits'
 import { evaluateSquad, positionPenalty } from '../../lib/squad'
 import { TACTICS, TACTIC_KEYS } from '../../lib/tactics'
 import type { Card, FormationKey, Position } from '../../lib/types'
@@ -27,6 +28,18 @@ export default function SquadTab() {
   const activeSlotPosition: Position | undefined = formation.slots.find(
     (slot) => slot.id === activeSlot,
   )?.position
+
+  const squadTraits = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          rating.evaluations
+            .filter((item) => item.player && !item.injured)
+            .flatMap((item) => traitsOf(item.player!)),
+        ),
+      ),
+    [rating.evaluations],
+  )
 
   const candidates = useMemo(() => {
     if (!activeSlotPosition) return []
@@ -169,6 +182,40 @@ export default function SquadTab() {
               </div>
             ))}
           </div>
+          {squadTraits.length > 0 && (
+            <div className="mt-4 rounded-lg bg-white/5 p-2 text-[11px] text-slate-300">
+              <div className="mb-1 font-bold text-slate-400">선발 특성 효과</div>
+              <div className="flex flex-wrap gap-x-3 gap-y-0.5">
+                {rating.traits.goal > 0 && (
+                  <span>득점 확률 +{(rating.traits.goal * 100).toFixed(1)}%p</span>
+                )}
+                {rating.traits.concede > 0 && (
+                  <span>실점 확률 -{(rating.traits.concede * 100).toFixed(1)}%p</span>
+                )}
+                {rating.traits.tempo > 1 && (
+                  <span>공격 빈도 +{Math.round((rating.traits.tempo - 1) * 100)}%</span>
+                )}
+                {rating.traits.chemistry > 0 && <span>케미 +{rating.traits.chemistry}</span>}
+                {rating.traits.cup > 0 && <span>컵 경기 전력 +{rating.traits.cup}</span>}
+              </div>
+              <div className="mt-1.5 flex flex-wrap gap-1">
+                {squadTraits.map((id) => (
+                  <span
+                    key={id}
+                    title={TRAITS[id].description}
+                    className={`rounded px-1.5 py-0.5 text-[10px] font-bold ${
+                      TRAITS[id].tone === 'good'
+                        ? 'bg-emerald-500/15 text-emerald-300'
+                        : 'bg-rose-500/15 text-rose-300'
+                    }`}
+                  >
+                    {TRAITS[id].name}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
           <p className="mt-4 text-[11px] leading-relaxed text-slate-500">
             포지션이 맞으면 초록, 비슷하면 노랑, 어울리지 않으면 빨강 테두리로 표시됩니다.
             케미가 높을수록 팀 전력이 올라가고, 체력이 낮거나 부상인 선수는 제 실력을 내지 못합니다.

@@ -7,7 +7,7 @@ import { emptyMarket } from './market'
 import type { Card, GameState } from './types'
 
 export const SAVE_KEY = 'football-day-save-v1'
-export const SAVE_VERSION = 3
+export const SAVE_VERSION = 4
 export const STARTING_GOLD = 3000
 export const DEFAULT_CLUB = '내 클럽 FC'
 
@@ -21,7 +21,7 @@ export function newUid(): string {
 }
 
 export function newCard(playerId: string, level = 1): Card {
-  return { uid: newUid(), playerId, level, condition: MAX_CONDITION, injuredFor: 0 }
+  return { uid: newUid(), playerId, level, condition: MAX_CONDITION, injuredFor: 0, exp: 0 }
 }
 
 /** Older saves stored cards without fitness, so fill it in. */
@@ -32,6 +32,7 @@ export function normalizeCards(cards: Card[]): Card[] {
     level: card.level ?? 1,
     condition: typeof card.condition === 'number' ? card.condition : MAX_CONDITION,
     injuredFor: typeof card.injuredFor === 'number' ? card.injuredFor : 0,
+    exp: typeof card.exp === 'number' ? card.exp : 0,
   }))
 }
 
@@ -58,7 +59,7 @@ export function initialState(): GameState {
 
   STARTER_SLOTS.forEach(([slotId, playerId], index) => {
     const uid = `starter-${index + 1}`
-    cards.push({ uid, playerId, level: 1, condition: MAX_CONDITION, injuredFor: 0 })
+    cards.push({ uid, playerId, level: 1, condition: MAX_CONDITION, injuredFor: 0, exp: 0 })
     slots[slotId] = uid
   })
   STARTER_BENCH.forEach((playerId, index) => {
@@ -68,6 +69,7 @@ export function initialState(): GameState {
       level: 1,
       condition: MAX_CONDITION,
       injuredFor: 0,
+      exp: 0,
     })
   })
 
@@ -82,6 +84,7 @@ export function initialState(): GameState {
     cup: createCup(BOTTOM_DIVISION, 1, DEFAULT_CLUB),
     market: emptyMarket(),
     trophies: { cup: 0, promotions: 0 },
+    lastRatings: [],
     // The real day is stamped on the client after hydration, so server and
     // browser render the same empty mission board.
     daily: freshDaily(''),
@@ -95,7 +98,7 @@ export function initialState(): GameState {
 }
 
 interface LegacySave {
-  version: 1 | 2
+  version: 1 | 2 | 3
   club?: string
   gold?: number
   cards?: Card[]
@@ -106,6 +109,9 @@ interface LegacySave {
   division?: number
   tactic?: GameState['tactic']
   season?: GameState['season']
+  cup?: GameState['cup']
+  market?: GameState['market']
+  trophies?: GameState['trophies']
   daily?: GameState['daily']
   guideDone?: boolean
   collected?: string[]
@@ -113,8 +119,9 @@ interface LegacySave {
 }
 
 /**
- * Version 1 had a points ladder instead of a league season; version 2 had no
- * cup, market or player fitness. Both keep their club, cards and gold.
+ * Version 1 had a points ladder instead of a league season, version 2 had no
+ * cup, market or player fitness, and version 3 had no experience on cards.
+ * Every one of them keeps its club, cards and gold.
  */
 function migrate(save: LegacySave): GameState {
   const base = initialState()
@@ -123,7 +130,8 @@ function migrate(save: LegacySave): GameState {
     BOTTOM_DIVISION,
     Math.max(1, save.season?.division ?? save.division ?? BOTTOM_DIVISION),
   )
-  const season = save.version === 2 && save.season ? save.season : createSeason(division, 1, club)
+  const season =
+    save.version !== 1 && save.season ? save.season : createSeason(division, 1, club)
 
   return {
     ...base,
@@ -133,7 +141,9 @@ function migrate(save: LegacySave): GameState {
     squad: save.squad ?? base.squad,
     tactic: save.tactic ?? base.tactic,
     season,
-    cup: createCup(division, season.index, club),
+    cup: save.cup ?? createCup(division, season.index, club),
+    market: save.market ?? base.market,
+    trophies: save.trophies ?? base.trophies,
     daily: save.daily ?? base.daily,
     guideDone: true,
     record: save.record ?? base.record,
@@ -151,7 +161,7 @@ export function loadState(): GameState {
     if (!raw) return initialState()
     const parsed = JSON.parse(raw) as Partial<GameState> & { version?: number }
     if (!parsed || !Array.isArray(parsed.cards)) return initialState()
-    if (parsed.version === 1 || parsed.version === 2) {
+    if (parsed.version === 1 || parsed.version === 2 || parsed.version === 3) {
       return migrate(parsed as unknown as LegacySave)
     }
     if (parsed.version !== SAVE_VERSION) return initialState()

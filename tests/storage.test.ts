@@ -74,6 +74,32 @@ describe('migrations', () => {
     expect(loaded.guideDone).toBe(true)
   })
 
+  it('keeps a version 3 save and adds experience to its cards', () => {
+    const store = useFakeBrowser()
+    const base = initialState()
+    const v3 = {
+      ...base,
+      version: 3,
+      gold: 555,
+      season: { ...base.season, round: 2 },
+      cards: base.cards.map(({ uid, playerId, level, condition, injuredFor }) => ({
+        uid,
+        playerId,
+        level,
+        condition,
+        injuredFor,
+      })),
+    }
+    store.set(SAVE_KEY, JSON.stringify(v3))
+
+    const loaded = loadState()
+    expect(loaded.version).toBe(SAVE_VERSION)
+    expect(loaded.gold).toBe(555)
+    expect(loaded.season.round).toBe(2)
+    expect(loaded.cards.every((card) => card.exp === 0)).toBe(true)
+    expect(loaded.lastRatings).toEqual([])
+  })
+
   it('keeps a version 2 season and adds the cup, market and fitness', () => {
     const store = useFakeBrowser()
     const base = initialState()

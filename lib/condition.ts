@@ -1,3 +1,5 @@
+import { getPlayer } from './players'
+import { playerTraitFactors } from './traits'
 import type { Card } from './types'
 
 export const MAX_CONDITION = 100
@@ -59,9 +61,12 @@ export function applyMatchWear(
       }
     }
 
-    const condition = Math.max(0, card.condition - (5 + Math.floor(rng() * 7)))
+    const factors = playerTraitFactors(getPlayer(card.playerId))
+    const drain = Math.round((5 + Math.floor(rng() * 7)) * factors.conditionDrain)
+    const condition = Math.max(0, card.condition - drain)
     // A tired player is likelier to break down.
-    const risk = 0.02 + ((MAX_CONDITION - card.condition) / MAX_CONDITION) * 0.05
+    const risk =
+      (0.02 + ((MAX_CONDITION - card.condition) / MAX_CONDITION) * 0.05) * factors.injuryRisk
     let injuredFor = Math.max(0, card.injuredFor - 1)
     if (rng() < risk) {
       injuredFor = 1 + Math.floor(rng() * 3)

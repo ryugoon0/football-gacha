@@ -3,6 +3,7 @@ import { DAILY_MISSIONS, freshDaily, missionClaimable, rollOver, todayKey } from
 import { FUSION_FEE, FUSION_SIZE, checkFusion, nextRarity } from '../lib/fusion'
 import { MAX_CONDITION, treatmentCost, recoveryCost } from '../lib/condition'
 import { createCup, myTie } from '../lib/cup'
+import { maxLevelOf } from '../lib/growth'
 import { reducer } from '../lib/gameReducer'
 import { MY_TEAM_ID, ROUNDS_PER_SEASON, createSeason, myFixture } from '../lib/league'
 import { PLAYERS_BY_RARITY, getPlayer } from '../lib/players'
@@ -19,10 +20,16 @@ const card = (uid: string, playerId: string, level = 1): Card => ({
   level,
   condition: 100,
   injuredFor: 0,
+  exp: 0,
 })
 
-const matchResult = (scoreFor: number, scoreAgainst: number): MatchResult => ({
+const matchResult = (
+  scoreFor: number,
+  scoreAgainst: number,
+  scorerUids: string[] = [],
+): MatchResult => ({
   opponent: '상대',
+  scorerUids,
   opponentRating: 55,
   scoreFor,
   scoreAgainst,
@@ -218,6 +225,64 @@ describe('playing a season', () => {
   it('ignores a new season request mid-season', () => {
     const state = start()
     expect(reducer(state, { type: 'newSeason' })).toBe(state)
+  })
+})
+
+describe('growth after a match', () => {
+  it('marks the starters and banks their experience', () => {
+    const state = start()
+    const fixture = myFixture(state.season)!
+    const scorer = state.squad.slots.f2!
+    const next = reducer(state, {
+      type: 'match',
+      result: matchResult(2, 0, [scorer, scorer]),
+      fixture,
+      others: [],
+    })
+
+    expect(next.lastRatings).toHaveLength(11)
+    const striker = next.lastRatings.find((rating) => rating.uid === scorer)!
+    expect(striker.goals).toBe(2)
+    expect(striker.rating).toBeGreaterThan(7)
+    // Everyone who played banked something.
+    expect(next.lastRatings.every((rating) => rating.exp > 0)).toBe(true)
+    const before = state.cards.find((card) => card.uid === scorer)!
+    const after = next.cards.find((card) => card.uid === scorer)!
+    expect(after.exp + (after.level - before.level) * 100).toBeGreaterThan(0)
+  })
+
+  it('does not mark a player who is injured', () => {
+    const state = start()
+    const benched = state.squad.slots.gk!
+    const withInjury = {
+      ...state,
+      cards: state.cards.map((card) =>
+        card.uid === benched ? { ...card, injuredFor: 2 } : card,
+      ),
+    }
+    const next = reducer(withInjury, {
+      type: 'match',
+      result: matchResult(1, 0),
+      fixture: myFixture(state.season)!,
+      others: [],
+    })
+    expect(next.lastRatings).toHaveLength(10)
+    expect(next.lastRatings.some((rating) => rating.uid === benched)).toBe(false)
+  })
+
+  it('will not train a card past its potential', () => {
+    const state = start()
+    const target = state.cards[0]
+    const player = getPlayer(target.playerId)!
+    const ceiling = maxLevelOf(player)
+    const maxed = {
+      ...state,
+      gold: 999999,
+      cards: state.cards.map((card) =>
+        card.uid === target.uid ? { ...card, level: ceiling } : card,
+      ),
+    }
+    expect(reducer(maxed, { type: 'train', uid: target.uid })).toBe(maxed)
   })
 })
 

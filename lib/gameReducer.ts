@@ -10,6 +10,7 @@ import { applyMatchWear, recoveryCost, treatmentCost, MAX_CONDITION } from './co
 import { createCup, cupReward, resolveCupRound } from './cup'
 import { emptySlots } from './formations'
 import { FUSION_FEE, checkFusion } from './fusion'
+import { applyExperience, matchRatings, maxLevelOf, type PlayerRating } from './growth'
 import {
   MY_TEAM_ID,
   ROUNDS_PER_SEASON,
@@ -20,8 +21,9 @@ import {
   type Fixture,
 } from './league'
 import { dailyMarket, type Listing } from './market'
+import { FORMATIONS } from './formations'
 import { getPlayer } from './players'
-import { MAX_LEVEL, RARITY_STYLES, trainCost } from './rarity'
+import { RARITY_STYLES, trainCost } from './rarity'
 import { autoFill } from './squad'
 import type { TacticKey } from './tactics'
 import { initialState, newCard, newUid } from './storage'
@@ -90,9 +92,40 @@ function logMatch(
   ].slice(0, 20)
 }
 
-/** Starting eleven, used to work out who tires and who rests. */
-function startingUids(state: GameState): string[] {
-  return Object.values(state.squad.slots).filter(Boolean) as string[]
+/** Marks the starters, banks their experience and tires them out. */
+function afterMatch(
+  state: GameState,
+  result: MatchResult,
+): { cards: Card[]; ratings: PlayerRating[] } {
+  const formation = FORMATIONS[state.squad.formation] ?? FORMATIONS['4-3-3']
+  const byUid = new Map(state.cards.map((card) => [card.uid, card]))
+
+  const starters = formation.slots.flatMap((slot) => {
+    const uid = state.squad.slots[slot.id]
+    const card = uid ? byUid.get(uid) : undefined
+    const player = card ? getPlayer(card.playerId) : undefined
+    // An injured player did not actually take the pitch.
+    if (!card || !player || card.injuredFor > 0) return []
+    return [{ uid: card.uid, player, position: slot.position as string }]
+  })
+
+  const ratings = matchRatings(
+    starters,
+    { result: result.result, scoreAgainst: result.scoreAgainst },
+    result.scorerUids,
+  )
+  const grown = applyExperience(state.cards, ratings)
+  const worn = applyMatchWear(
+    grown.cards,
+    starters.map((starter) => starter.uid),
+  )
+  return {
+    cards: worn.cards,
+    ratings: ratings.map((rating) => ({
+      ...rating,
+      levelUp: grown.levelUps.some((levelUp) => levelUp.uid === rating.uid),
+    })),
+  }
 }
 
 function withoutCards(state: GameState, uids: Set<string>): GameState {
@@ -152,7 +185,8 @@ export function reducer(state: GameState, action: Action): GameState {
     case 'train': {
       const card = state.cards.find((item) => item.uid === action.uid)
       const player = card ? getPlayer(card.playerId) : undefined
-      if (!card || !player || card.level >= MAX_LEVEL) return state
+      // Potential caps how far a card can be trained.
+      if (!card || !player || card.level >= maxLevelOf(player)) return state
       const cost = trainCost(player.rarity, card.level)
       if (state.gold < cost) return state
       return {
@@ -232,12 +266,13 @@ export function reducer(state: GameState, action: Action): GameState {
       const round = season.round + 1
       season = { ...season, round, finished: round >= ROUNDS_PER_SEASON }
 
-      const { cards } = applyMatchWear(state.cards, startingUids(state))
+      const { cards, ratings } = afterMatch(state, result)
 
       return {
         ...state,
         gold: state.gold + result.reward,
         cards,
+        lastRatings: ratings,
         record,
         gf: state.gf + result.scoreFor,
         ga: state.ga + result.scoreAgainst,
@@ -266,12 +301,13 @@ export function reducer(state: GameState, action: Action): GameState {
       else if (result.result === 'D') record.d += 1
       else record.l += 1
 
-      const { cards } = applyMatchWear(state.cards, startingUids(state))
+      const { cards, ratings } = afterMatch(state, result)
 
       return {
         ...state,
         gold: state.gold + reward,
         cards,
+        lastRatings: ratings,
         cup,
         record,
         gf: state.gf + result.scoreFor,
@@ -354,6 +390,7 @@ export function reducer(state: GameState, action: Action): GameState {
           : state.trophies,
         // Everyone comes back fresh for the new campaign.
         cards: state.cards.map((card) => ({ ...card, condition: MAX_CONDITION, injuredFor: 0 })),
+        lastRatings: [],
       }
     }
 

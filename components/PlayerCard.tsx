@@ -2,6 +2,7 @@
 
 import { MAX_CONDITION, TIRED_CONDITION } from '../lib/condition'
 import { GK_STAT_LABELS, STAT_LABELS, effectiveOvr, effectiveStats } from '../lib/players'
+import { TRAITS, traitsOf } from '../lib/traits'
 import { RARITY_STYLES } from '../lib/rarity'
 import type { PlayerDef, Stats } from '../lib/types'
 import PlayerAvatar from './PlayerAvatar'
@@ -50,6 +51,7 @@ export default function PlayerCard({
   const stats = effectiveStats(player, level)
   const ovr = effectiveOvr(player, level)
   const labels = player.position === 'GK' ? GK_STAT_LABELS : STAT_LABELS
+  const traits = size === 'lg' ? traitsOf(player) : []
   const Wrapper = onClick ? 'button' : 'div'
 
   return (
@@ -106,6 +108,21 @@ export default function PlayerCard({
           {style.label} · {player.club}
         </div>
       </div>
+
+      {traits.length > 0 && (
+        <div className="flex flex-wrap justify-center gap-1 bg-black/10 px-1.5 pb-1">
+          {traits.map((id) => (
+            <span
+              key={id}
+              className={`rounded px-1 py-0.5 text-[9px] font-bold ${
+                TRAITS[id].tone === 'good' ? 'bg-black/25 text-white' : 'bg-rose-900/70 text-rose-100'
+              }`}
+            >
+              {TRAITS[id].name}
+            </span>
+          ))}
+        </div>
+      )}
 
       {size !== 'sm' && (
         <div className="grid grid-cols-3 gap-x-1 gap-y-0.5 bg-black/10 px-1.5 py-1.5 text-center">

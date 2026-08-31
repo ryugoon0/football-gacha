@@ -1,5 +1,6 @@
 import { conditionFactor, isInjured } from './condition'
 import { FORMATIONS, emptySlots } from './formations'
+import { teamTraitEffects, type TraitEffects } from './traits'
 import { POSITION_GROUP, effectiveOvr, getPlayer } from './players'
 import type { Card, PlayerDef, Position, Squad } from './types'
 
@@ -28,6 +29,8 @@ export interface SquadRating {
   chemistry: number
   filled: number
   evaluations: SlotEvaluation[]
+  /** What the starting eleven's traits add in a match. */
+  traits: TraitEffects
 }
 
 export function positionPenalty(playerPosition: Position, slotPosition: Position): number {
@@ -105,7 +108,11 @@ export function evaluateSquad(cards: Card[], squad: Squad): SquadRating {
   const mf = groupAverage('MF')
   const fw = groupAverage('FW')
 
-  const chemistry = chemistryOf(evaluations)
+  const onPitch = evaluations
+    .filter((item) => item.player && !item.injured)
+    .map((item) => item.player!)
+  const traits = teamTraitEffects(onPitch)
+  const chemistry = Math.min(100, chemistryOf(evaluations) + traits.chemistry)
   const boost = 0.92 + (chemistry / 100) * 0.14
 
   const att = Math.round((fw * 0.6 + mf * 0.3 + df * 0.1) * boost)
@@ -120,6 +127,7 @@ export function evaluateSquad(cards: Card[], squad: Squad): SquadRating {
     chemistry,
     filled: evaluations.filter((item) => item.card && !item.injured).length,
     evaluations,
+    traits,
   }
 }
 

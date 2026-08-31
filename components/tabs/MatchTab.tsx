@@ -98,11 +98,12 @@ function LeaguePanel({ rating }: { rating: ReturnType<typeof evaluateSquad> }) {
   })
 
   useEffect(() => {
+    // Only a brand new season clears the board; the round that just finished
+    // stays on screen so the result and the player marks can be read.
     live.reset()
     setOthers([])
-    // A new round means the previous scoreboard is stale.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [season.round, season.index])
+  }, [season.index])
 
   const outcome = season.finished ? seasonOutcome(season) : null
 
@@ -146,6 +147,7 @@ function LeaguePanel({ rating }: { rating: ReturnType<typeof evaluateSquad> }) {
 
   const start = () => {
     if (!fixture || !opponent || live.playing) return
+    live.reset()
     setOthers(
       fixturesOfRound(season, season.round)
         .filter((item) => item !== fixture)
@@ -165,6 +167,7 @@ function LeaguePanel({ rating }: { rating: ReturnType<typeof evaluateSquad> }) {
         division: season.division,
         venue: isHome ? 'home' : 'away',
         tactic: state.tactic,
+        traits: rating.traits,
       }),
     )
   }
@@ -187,7 +190,10 @@ function LeaguePanel({ rating }: { rating: ReturnType<typeof evaluateSquad> }) {
 
       <MatchBroadcast
         home={{ name: state.club, detail: `전력 ${rating.overall} · ${isHome ? '홈' : '원정'}` }}
-        away={{ name: opponent?.name ?? '상대 미정', detail: `전력 ${opponent?.rating ?? '-'}` }}
+        away={{
+          name: live.result?.opponent ?? opponent?.name ?? '상대 미정',
+          detail: `전력 ${live.result?.opponentRating ?? opponent?.rating ?? '-'}`,
+        }}
         live={live}
       />
 
@@ -196,7 +202,11 @@ function LeaguePanel({ rating }: { rating: ReturnType<typeof evaluateSquad> }) {
         disabled={live.playing || !fixture}
         className="mt-4 w-full rounded-xl bg-emerald-400 px-4 py-3 font-bold text-slate-900 transition hover:bg-emerald-300 disabled:opacity-40"
       >
-        {live.playing ? '경기 진행 중...' : live.finished ? '이번 라운드 완료' : '경기 시작'}
+        {live.playing
+          ? '경기 진행 중...'
+          : live.finished
+            ? `${season.round + 1}라운드 경기 시작`
+            : '경기 시작'}
       </button>
       {rating.filled < 11 && !live.playing && (
         <p className="mt-2 text-xs font-semibold text-amber-400">
@@ -223,6 +233,8 @@ function LeaguePanel({ rating }: { rating: ReturnType<typeof evaluateSquad> }) {
           </div>
         </div>
       )}
+
+      {live.finished && <MatchRatings />}
 
       {live.finished && others.length > 0 && (
         <div className="mt-4 rounded-xl bg-white/5 p-3">
@@ -258,7 +270,7 @@ function CupPanel({ rating }: { rating: ReturnType<typeof evaluateSquad> }) {
   useEffect(() => {
     live.reset()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cup.round, cup.index, cup.eliminated])
+  }, [cup.index])
 
   const done = cup.eliminated || Boolean(cup.champion)
 
@@ -286,6 +298,7 @@ function CupPanel({ rating }: { rating: ReturnType<typeof evaluateSquad> }) {
 
   const start = () => {
     if (!tie || !opponent || live.playing) return
+    live.reset()
     live.start(
       simulateMatch({
         team: rating,
@@ -294,6 +307,7 @@ function CupPanel({ rating }: { rating: ReturnType<typeof evaluateSquad> }) {
         division: state.season.division,
         venue: 'neutral',
         tactic: state.tactic,
+        traits: rating.traits,
       }),
     )
   }
@@ -312,7 +326,10 @@ function CupPanel({ rating }: { rating: ReturnType<typeof evaluateSquad> }) {
 
       <MatchBroadcast
         home={{ name: state.club, detail: `전력 ${rating.overall} · 중립` }}
-        away={{ name: opponent?.name ?? '상대 미정', detail: `전력 ${opponent?.rating ?? '-'}` }}
+        away={{
+          name: live.result?.opponent ?? opponent?.name ?? '상대 미정',
+          detail: `전력 ${live.result?.opponentRating ?? opponent?.rating ?? '-'}`,
+        }}
         live={live}
         emptyLabel="컵 경기를 시작하면 중계가 표시됩니다."
       />
@@ -322,10 +339,52 @@ function CupPanel({ rating }: { rating: ReturnType<typeof evaluateSquad> }) {
         disabled={live.playing || !tie}
         className="mt-4 w-full rounded-xl bg-amber-400 px-4 py-3 font-bold text-slate-900 transition hover:bg-amber-300 disabled:opacity-40"
       >
-        {live.playing ? '경기 진행 중...' : '컵 경기 시작'}
+        {live.playing
+          ? '경기 진행 중...'
+          : live.finished
+            ? `${CUP_ROUND_LABELS[cup.round]} 경기 시작`
+            : '컵 경기 시작'}
       </button>
       <SquadAlert />
+      {live.finished && <MatchRatings />}
     </>
+  )
+}
+
+function MatchRatings() {
+  const { state } = useGame()
+  const ratings = [...state.lastRatings].sort((a, b) => b.rating - a.rating)
+  if (ratings.length === 0) return null
+
+  return (
+    <div className="mt-4 rounded-xl bg-white/5 p-3">
+      <h3 className="mb-2 text-xs font-bold uppercase tracking-wide text-slate-400">경기 평점</h3>
+      <div className="grid gap-1 sm:grid-cols-2">
+        {ratings.map((item) => (
+          <div key={item.uid} className="flex items-center gap-2 text-xs">
+            <span
+              className={`w-9 shrink-0 rounded px-1 py-0.5 text-center font-bold ${
+                item.rating >= 8
+                  ? 'bg-emerald-500/20 text-emerald-300'
+                  : item.rating >= 6.5
+                    ? 'bg-white/10 text-slate-200'
+                    : 'bg-rose-500/15 text-rose-300'
+              }`}
+            >
+              {item.rating.toFixed(1)}
+            </span>
+            <span className="min-w-0 flex-1 truncate text-slate-300">{item.name}</span>
+            {item.goals > 0 && <span className="shrink-0 text-[10px]">⚽{item.goals}</span>}
+            <span className="shrink-0 text-[10px] text-sky-300">+{item.exp}exp</span>
+            {item.levelUp && (
+              <span className="shrink-0 rounded bg-amber-400 px-1 text-[10px] font-black text-slate-900">
+                LV UP
+              </span>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
 
