@@ -1,5 +1,6 @@
 import { conditionFactor, isInjured } from './condition'
 import { FORMATIONS, emptySlots } from './formations'
+import { teamColors, type TeamColors } from './teamColor'
 import { teamTraitEffects, type TraitEffects } from './traits'
 import { POSITION_GROUP, effectiveOvr, getPlayer } from './players'
 import type { Card, PlayerDef, Position, Squad } from './types'
@@ -31,6 +32,8 @@ export interface SquadRating {
   evaluations: SlotEvaluation[]
   /** What the starting eleven's traits add in a match. */
   traits: TraitEffects
+  /** Club, league and country bonuses the eleven triggers. */
+  colors: TeamColors
 }
 
 export function positionPenalty(playerPosition: Position, slotPosition: Position): number {
@@ -112,12 +115,17 @@ export function evaluateSquad(cards: Card[], squad: Squad): SquadRating {
     .filter((item) => item.player && !item.injured)
     .map((item) => item.player!)
   const traits = teamTraitEffects(onPitch)
-  const chemistry = Math.min(100, chemistryOf(evaluations) + traits.chemistry)
+  const colors = teamColors(onPitch)
+  const chemistry = Math.min(
+    100,
+    chemistryOf(evaluations) + traits.chemistry + colors.bonus.chemistry,
+  )
   const boost = 0.92 + (chemistry / 100) * 0.14
+  const colorBonus = colors.bonus.rating
 
-  const att = Math.round((fw * 0.6 + mf * 0.3 + df * 0.1) * boost)
-  const mid = Math.round((mf * 0.7 + fw * 0.15 + df * 0.15) * boost)
-  const def = Math.round((df * 0.6 + gk * 0.3 + mf * 0.1) * boost)
+  const att = Math.round((fw * 0.6 + mf * 0.3 + df * 0.1) * boost) + colorBonus
+  const mid = Math.round((mf * 0.7 + fw * 0.15 + df * 0.15) * boost) + colorBonus
+  const def = Math.round((df * 0.6 + gk * 0.3 + mf * 0.1) * boost) + colorBonus
 
   return {
     overall: Math.round((att + mid + def) / 3),
@@ -128,22 +136,19 @@ export function evaluateSquad(cards: Card[], squad: Squad): SquadRating {
     filled: evaluations.filter((item) => item.card && !item.injured).length,
     evaluations,
     traits,
+    colors,
   }
 }
 
 function chemistryOf(evaluations: SlotEvaluation[]): number {
   if (evaluations.length === 0) return 0
   let points = 0
-  const nations: Record<string, number> = {}
   for (const item of evaluations) {
     if (!item.player || item.injured) continue
     points += item.fit === 'perfect' ? 9 : item.fit === 'ok' ? 5 : 1
-    nations[item.player.nation] = (nations[item.player.nation] ?? 0) + 1
   }
-  const strongestNation = Math.max(0, ...Object.values(nations))
-  const nationBonus = strongestNation >= 8 ? 15 : strongestNation >= 5 ? 8 : 0
   const base = (points / (evaluations.length * 9)) * 100
-  return Math.max(0, Math.min(100, Math.round(base + nationBonus)))
+  return Math.max(0, Math.min(100, Math.round(base)))
 }
 
 /** Rebuilds the whole line-up, giving every slot the best card available for it. */

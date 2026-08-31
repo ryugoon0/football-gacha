@@ -127,20 +127,40 @@ const NATIONS = [
   '일본',
 ]
 
-const CLUBS = [
-  '한강 FC',
-  '서울 유나이티드',
-  '부산 마린스',
-  '대구 다이너모',
-  '인천 하버스',
-  '전주 피닉스',
-  '울산 아이언',
-  '마드리드 로얄',
-  '런던 크라운',
-  '밀라노 네로',
-  '파리 루미에르',
-  '리우 삼바',
+export interface ClubDef {
+  name: string
+  league: string
+}
+
+export const CLUBS: ClubDef[] = [
+  { name: '한강 FC', league: 'K리그' },
+  { name: '서울 유나이티드', league: 'K리그' },
+  { name: '부산 마린스', league: 'K리그' },
+  { name: '대구 다이너모', league: 'K리그' },
+  { name: '인천 하버스', league: 'K리그' },
+  { name: '전주 피닉스', league: 'K리그' },
+  { name: '울산 아이언', league: 'K리그' },
+  { name: '마드리드 로얄', league: '유로 리그' },
+  { name: '런던 크라운', league: '유로 리그' },
+  { name: '밀라노 네로', league: '유로 리그' },
+  { name: '파리 루미에르', league: '유로 리그' },
+  { name: '뮌헨 알펜', league: '유로 리그' },
+  { name: '암스테르담 카날', league: '유로 리그' },
+  { name: '리우 삼바', league: '아메리카 리그' },
+  { name: '부에노스 스타스', league: '아메리카 리그' },
+  { name: '뉴욕 리버티', league: '아메리카 리그' },
+  { name: '산티아고 안데스', league: '아메리카 리그' },
 ]
+
+export const LEAGUE_OF_CLUB: Record<string, string> = CLUBS.reduce(
+  (map, club) => {
+    map[club.name] = club.league
+    return map
+  },
+  {} as Record<string, string>,
+)
+
+export const LEAGUES = Array.from(new Set(CLUBS.map((club) => club.league)))
 
 type RosterRow = [name: string, position: Position, ovr: number]
 
@@ -233,13 +253,15 @@ function buildRoster(): PlayerDef[] {
       const id = `${RARITY_PREFIX[rarity]}${String(index + 1).padStart(2, '0')}`
       const stats = buildStats(id, position, ovr)
       const rng = seededRandom(hashString(id + name))
+      const club = CLUBS[Math.floor(rng() * CLUBS.length)]
       players.push({
         id,
         name,
         position,
         rarity,
         nation: NATIONS[Math.floor(rng() * NATIONS.length)],
-        club: CLUBS[Math.floor(rng() * CLUBS.length)],
+        club: club.name,
+        league: club.league,
         stats,
         ovr: computeOvr(stats, position),
       })

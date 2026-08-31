@@ -41,6 +41,7 @@ export interface PlayerDef {
   rarity: Rarity
   nation: string
   club: string
+  league: string
   stats: Stats
   ovr: number
 }
