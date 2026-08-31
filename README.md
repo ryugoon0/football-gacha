@@ -42,6 +42,18 @@ npm run build && npm start
 
 푸시하면 GitHub Actions(`.github/workflows/ci.yml`)가 타입 검사 → 린트 → 테스트 → 빌드를 자동으로 돌립니다.
 
+## 배포 (Vercel)
+
+서버나 데이터베이스가 필요 없어서 별도 설정 없이 배포됩니다.
+
+1. [vercel.com](https://vercel.com)에 GitHub 계정으로 로그인
+2. **Add New → Project**에서 이 저장소를 **Import** (프레임워크는 Next.js로 자동 인식)
+3. 환경 변수 없이 **Deploy**
+4. 개발 브랜치를 그대로 보고 싶다면 Settings → Git → **Production Branch**를 해당 브랜치로 변경
+
+이후 푸시할 때마다 자동으로 다시 배포됩니다. 빌드 명령은 기본값(`npm run build`)을 쓰고,
+설치는 `npm ci`로 이루어지므로 `package-lock.json`이 저장소에 있어야 합니다.
+
 ## 구조
 
 ```
