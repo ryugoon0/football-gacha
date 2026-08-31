@@ -117,7 +117,8 @@ describe('team colours', () => {
       const cards = mates.map((player, index) => ({
         uid: `c${index}`,
         playerId: player.id,
-        level: 1,
+        level: 2,
+        limit: 3,
         condition: 100,
         injuredFor: 0,
         exp: 0,

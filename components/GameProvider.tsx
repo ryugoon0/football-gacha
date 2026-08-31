@@ -12,7 +12,7 @@ import {
 } from 'react'
 import { todayKey, type MissionId } from '../lib/daily'
 import { FUSION_FEE, FUSION_SIZE, checkFusion, fusionResult } from '../lib/fusion'
-import { reducer, type RoundResult } from '../lib/gameReducer'
+import { reducer, type MatchLineup, type RoundResult } from '../lib/gameReducer'
 import type { Fixture } from '../lib/league'
 import { REFRESH_COST, rollListings, type Listing } from '../lib/market'
 import { exchangeResult, type ShardOffer } from '../lib/shards'
@@ -27,15 +27,25 @@ export interface GameApi {
   exchangeShards: (offer: ShardOffer) => PlayerDef | null
   sell: (uids: string[]) => void
   sellDuplicates: () => void
-  train: (uid: string) => void
+  trainCard: (uid: string, materialUids: string[]) => void
+  limitBreakCard: (uid: string, materialUid: string) => void
   fuse: (uids: string[]) => PlayerDef | null
   assign: (slotId: string, uid: string) => void
   clearSlot: (slotId: string) => void
   setFormation: (formation: FormationKey) => void
   setTactic: (tactic: TacticKey) => void
+  setAutoSub: (enabled: boolean) => void
+  assignBench: (index: number, uid: string) => void
+  clearBench: (index: number) => void
   autoFillSquad: () => void
-  finishMatch: (result: MatchResult, fixture: Fixture, others: RoundResult[]) => void
-  finishCupMatch: (result: MatchResult, myRating: number) => void
+  finishMatch: (
+    result: MatchResult,
+    fixture: Fixture,
+    others: RoundResult[],
+    lineup: MatchLineup,
+  ) => void
+  finishCupMatch: (result: MatchResult, myRating: number, lineup: MatchLineup) => void
+  skipMatchday: () => void
   startNewSeason: () => void
   buyListing: (listing: Listing) => void
   refreshMarket: () => void
@@ -110,16 +120,27 @@ export function GameProvider({ children }: { children: ReactNode }) {
       },
       sell: (uids: string[]) => dispatch({ type: 'sell', uids }),
       sellDuplicates: () => dispatch({ type: 'sellSpares' }),
-      train: (uid: string) => dispatch({ type: 'train', uid }),
+      trainCard: (uid: string, materialUids: string[]) =>
+        dispatch({ type: 'trainCard', uid, materialUids }),
+      limitBreakCard: (uid: string, materialUid: string) =>
+        dispatch({ type: 'limitBreak', uid, materialUid }),
       assign: (slotId: string, uid: string) => dispatch({ type: 'assign', slotId, uid }),
       clearSlot: (slotId: string) => dispatch({ type: 'clearSlot', slotId }),
       setFormation: (formation: FormationKey) => dispatch({ type: 'setFormation', formation }),
       setTactic: (tactic: TacticKey) => dispatch({ type: 'setTactic', tactic }),
+      setAutoSub: (enabled: boolean) => dispatch({ type: 'setAutoSub', enabled }),
+      assignBench: (index: number, uid: string) => dispatch({ type: 'assignBench', index, uid }),
+      clearBench: (index: number) => dispatch({ type: 'clearBench', index }),
       autoFillSquad: () => dispatch({ type: 'autoFill' }),
-      finishMatch: (result: MatchResult, fixture: Fixture, others: RoundResult[]) =>
-        dispatch({ type: 'match', result, fixture, others }),
-      finishCupMatch: (result: MatchResult, myRating: number) =>
-        dispatch({ type: 'cupMatch', result, myRating }),
+      finishMatch: (
+        result: MatchResult,
+        fixture: Fixture,
+        others: RoundResult[],
+        lineup: MatchLineup,
+      ) => dispatch({ type: 'match', result, fixture, others, lineup }),
+      finishCupMatch: (result: MatchResult, myRating: number, lineup: MatchLineup) =>
+        dispatch({ type: 'cupMatch', result, myRating, lineup }),
+      skipMatchday: () => dispatch({ type: 'skipMatchday' }),
       startNewSeason: () => dispatch({ type: 'newSeason' }),
       buyListing: (listing: Listing) => dispatch({ type: 'buy', listing }),
       refreshMarket: () =>

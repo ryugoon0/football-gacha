@@ -3,10 +3,10 @@ import { DAILY_MISSIONS, freshDaily, missionClaimable, rollOver, todayKey } from
 import { FUSION_FEE, FUSION_SIZE, checkFusion, nextRarity } from '../lib/fusion'
 import { MAX_CONDITION, treatmentCost, recoveryCost } from '../lib/condition'
 import { createCup, myTie } from '../lib/cup'
-import { maxLevelOf } from '../lib/growth'
+import { addExperience, expForLevel, materialExp, trainingFee } from '../lib/growth'
 import { reducer } from '../lib/gameReducer'
 import { MY_TEAM_ID, ROUNDS_PER_SEASON, createSeason, myFixture } from '../lib/league'
-import { PLAYERS_BY_RARITY, getPlayer } from '../lib/players'
+import { PLAYERS_BY_RARITY, getPlayer, levelCap } from '../lib/players'
 import { rollListings, transferPrice } from '../lib/market'
 import { RARITY_STYLES, trainCost } from '../lib/rarity'
 import { initialState } from '../lib/storage'
@@ -18,10 +18,13 @@ const card = (uid: string, playerId: string, level = 1): Card => ({
   uid,
   playerId,
   level,
+  limit: level + 1,
   condition: 100,
   injuredFor: 0,
   exp: 0,
 })
+
+const lineupOf = (state: GameState) => ({ squad: state.squad, subs: [] })
 
 const matchResult = (
   scoreFor: number,
@@ -74,27 +77,96 @@ describe('drawing', () => {
 })
 
 describe('training', () => {
-  it('spends gold and raises the level', () => {
-    const state = start()
-    const target = state.cards[0]
-    const player = getPlayer(target.playerId)!
-    const next = reducer(state, { type: 'train', uid: target.uid })
+  it('turns material cards into experience and levels the card up', () => {
+    const base = start()
+    const target = base.cards[0]
+    const materials = [card('m1', 'n03'), card('m2', 'n04')]
+    const state = { ...base, cards: [...base.cards, ...materials], gold: 99999 }
 
-    expect(next.gold).toBe(state.gold - trainCost(player.rarity, 1))
-    expect(next.cards.find((item) => item.uid === target.uid)!.level).toBe(2)
+    const exp = materials.reduce((sum, item) => sum + materialExp(item), 0)
+    const fee = trainingFee(target) * materials.length
+    const expected = addExperience(target, exp)
+
+    const next = reducer(state, {
+      type: 'trainCard',
+      uid: target.uid,
+      materialUids: ['m1', 'm2'],
+    })
+
+    expect(next.gold).toBe(state.gold - fee)
+    // Materials are consumed.
+    expect(next.cards.some((item) => item.uid === 'm1' || item.uid === 'm2')).toBe(false)
+    const trained = next.cards.find((item) => item.uid === target.uid)!
+    expect(trained.level).toBe(expected.card.level)
+    expect(trained.exp).toBe(expected.card.exp)
     expect(next.daily.progress.train).toBe(1)
   })
 
-  it('refuses when the player cannot afford it', () => {
-    const state = { ...start(), gold: 0 }
-    const next = reducer(state, { type: 'train', uid: state.cards[0].uid })
-    expect(next).toBe(state)
+  it('stops levelling at the card limit', () => {
+    const base = start()
+    const target = { ...base.cards[0], limit: base.cards[0].level }
+    const state = {
+      ...base,
+      gold: 99999,
+      cards: [target, ...base.cards.slice(1), card('m1', 'w01')],
+    }
+
+    const next = reducer(state, { type: 'trainCard', uid: target.uid, materialUids: ['m1'] })
+    const trained = next.cards.find((item) => item.uid === target.uid)!
+    expect(trained.level).toBe(target.level)
+    expect(trained.exp).toBeLessThan(expForLevel(target.level))
   })
 
-  it('stops at the maximum level', () => {
-    const state = start()
-    const maxed = { ...state, cards: [{ ...state.cards[0], level: 10 }], gold: 99999 }
-    expect(reducer(maxed, { type: 'train', uid: maxed.cards[0].uid })).toBe(maxed)
+  it('refuses a training session with no materials or not enough gold', () => {
+    const base = start()
+    const target = base.cards[0]
+    const state = { ...base, cards: [...base.cards, card('m1', 'n03')] }
+
+    expect(reducer(state, { type: 'trainCard', uid: target.uid, materialUids: [] })).toBe(state)
+    expect(
+      reducer({ ...state, gold: 0 }, { type: 'trainCard', uid: target.uid, materialUids: ['m1'] })
+        .cards.length,
+    ).toBe(state.cards.length)
+    // A card cannot eat itself.
+    expect(
+      reducer(state, { type: 'trainCard', uid: target.uid, materialUids: [target.uid] }),
+    ).toBe(state)
+  })
+})
+
+describe('limit break', () => {
+  it('raises the ceiling using a copy of the same player', () => {
+    const base = start()
+    const target = base.cards[0]
+    const copy = card('dup', target.playerId)
+    const state = { ...base, cards: [...base.cards, copy] }
+
+    const next = reducer(state, { type: 'limitBreak', uid: target.uid, materialUid: 'dup' })
+    const raised = next.cards.find((item) => item.uid === target.uid)!
+
+    expect(raised.limit).toBe(target.limit + 1)
+    expect(next.cards.some((item) => item.uid === 'dup')).toBe(false)
+  })
+
+  it('refuses a different player as material', () => {
+    const base = start()
+    const target = base.cards[0]
+    const other = card('other', 'n22')
+    const state = { ...base, cards: [...base.cards, other] }
+
+    expect(reducer(state, { type: 'limitBreak', uid: target.uid, materialUid: 'other' })).toBe(
+      state,
+    )
+  })
+
+  it('never goes past the rarity cap', () => {
+    const base = start()
+    const player = getPlayer(base.cards[0].playerId)!
+    const capped = { ...base.cards[0], limit: levelCap(player) }
+    const copy = card('dup', capped.playerId)
+    const state = { ...base, cards: [capped, ...base.cards.slice(1), copy] }
+
+    expect(reducer(state, { type: 'limitBreak', uid: capped.uid, materialUid: 'dup' })).toBe(state)
   })
 })
 
@@ -103,7 +175,8 @@ describe('selling', () => {
     const state = start()
     const starter = state.squad.slots.gk!
     const sold = state.cards.find((item) => item.uid === starter)!
-    const price = RARITY_STYLES[getPlayer(sold.playerId)!.rarity].sell
+    const style = RARITY_STYLES[getPlayer(sold.playerId)!.rarity]
+    const price = style.sell + (sold.level - 1) * Math.round(style.sell * 0.3)
 
     const next = reducer(state, { type: 'sell', uids: [starter] })
     expect(next.gold).toBe(state.gold + price)
@@ -222,6 +295,7 @@ describe('playing a season', () => {
       result: matchResult(2, 1),
       fixture,
       others: [],
+      lineup: lineupOf(state),
     })
 
     expect(next.gold).toBe(state.gold + 500)
@@ -242,7 +316,13 @@ describe('playing a season', () => {
     const away = state.season.fixtures.find((fixture) => fixture.away === MY_TEAM_ID)!
     const next = reducer(
       { ...state, season: { ...state.season, round: away.round } },
-      { type: 'match', result: matchResult(3, 0), fixture: away, others: [] },
+      {
+        type: 'match',
+        result: matchResult(3, 0),
+        fixture: away,
+        others: [],
+        lineup: lineupOf(state),
+      },
     )
     expect(next.season.table[MY_TEAM_ID]).toMatchObject({ gf: 3, ga: 0, w: 1 })
     expect(next.season.table[away.home]).toMatchObject({ gf: 0, ga: 3, l: 1 })
@@ -252,7 +332,13 @@ describe('playing a season', () => {
     let state = start()
     for (let round = 0; round < ROUNDS_PER_SEASON; round++) {
       const fixture = myFixture(state.season)!
-      state = reducer(state, { type: 'match', result: matchResult(2, 0), fixture, others: [] })
+      state = reducer(state, {
+        type: 'match',
+        result: matchResult(2, 0),
+        fixture,
+        others: [],
+        lineup: lineupOf(state),
+      })
     }
     expect(state.season.finished).toBe(true)
     expect(state.season.table[MY_TEAM_ID].played).toBe(ROUNDS_PER_SEASON)
@@ -285,6 +371,7 @@ describe('growth after a match', () => {
       result: matchResult(2, 0, [scorer, scorer]),
       fixture,
       others: [],
+      lineup: lineupOf(state),
     })
 
     expect(next.lastRatings).toHaveLength(11)
@@ -312,25 +399,12 @@ describe('growth after a match', () => {
       result: matchResult(1, 0),
       fixture: myFixture(state.season)!,
       others: [],
+      lineup: lineupOf(state),
     })
     expect(next.lastRatings).toHaveLength(10)
     expect(next.lastRatings.some((rating) => rating.uid === benched)).toBe(false)
   })
 
-  it('will not train a card past its potential', () => {
-    const state = start()
-    const target = state.cards[0]
-    const player = getPlayer(target.playerId)!
-    const ceiling = maxLevelOf(player)
-    const maxed = {
-      ...state,
-      gold: 999999,
-      cards: state.cards.map((card) =>
-        card.uid === target.uid ? { ...card, level: ceiling } : card,
-      ),
-    }
-    expect(reducer(maxed, { type: 'train', uid: target.uid })).toBe(maxed)
-  })
 })
 
 describe('fitness after a match', () => {
@@ -343,7 +417,13 @@ describe('fitness after a match', () => {
     )!
     const rested = { ...state, cards: state.cards.map((card) => ({ ...card, condition: 70 })) }
 
-    const next = reducer(rested, { type: 'match', result: matchResult(1, 0), fixture, others: [] })
+    const next = reducer(rested, {
+      type: 'match',
+      result: matchResult(1, 0),
+      fixture,
+      others: [],
+      lineup: lineupOf(rested),
+    })
     expect(next.cards.find((card) => card.uid === starter)!.condition).toBeLessThan(70)
     expect(next.cards.find((card) => card.uid === benched.uid)!.condition).toBeGreaterThan(70)
   })
@@ -387,7 +467,7 @@ describe('fitness after a match', () => {
 describe('the cup', () => {
   it('advances, pays out and logs the tie', () => {
     const state = start()
-    const next = reducer(state, { type: 'cupMatch', result: matchResult(2, 0), myRating: 80 })
+    const next = reducer(state, { type: 'cupMatch', result: matchResult(2, 0), myRating: 80, lineup: lineupOf(state) })
 
     expect(next.cup.round).toBe(1)
     expect(next.cup.eliminated).toBe(false)
@@ -399,19 +479,20 @@ describe('the cup', () => {
 
   it('ends the run on a defeat and keeps a champion', () => {
     const state = start()
-    const next = reducer(state, { type: 'cupMatch', result: matchResult(0, 3), myRating: 80 })
+    const next = reducer(state, { type: 'cupMatch', result: matchResult(0, 3), myRating: 80, lineup: lineupOf(state) })
 
     expect(next.cup.eliminated).toBe(true)
     expect(next.cup.champion).toBeTruthy()
     expect(next.trophies.cup).toBe(0)
     // A knocked out club cannot keep playing cup ties.
-    expect(reducer(next, { type: 'cupMatch', result: matchResult(1, 0), myRating: 80 })).toBe(next)
+    expect(reducer(next, { type: 'cupMatch', result: matchResult(1, 0), myRating: 80, lineup: lineupOf(state) })).toBe(next)
   })
 
-  it('counts a trophy when the final is won', () => {
+  it('counts a trophy when the final is won', async () => {
+    const { CUP_ROUNDS } = await import('../lib/cup')
     let state = start()
-    for (let round = 0; round < 3; round++) {
-      state = reducer(state, { type: 'cupMatch', result: matchResult(3, 0), myRating: 95 })
+    for (let round = 0; round < CUP_ROUNDS; round++) {
+      state = reducer(state, { type: 'cupMatch', result: matchResult(3, 0), myRating: 95, lineup: lineupOf(state) })
     }
     expect(state.cup.champion).toBe(MY_TEAM_ID)
     expect(state.trophies.cup).toBe(1)
@@ -419,10 +500,16 @@ describe('the cup', () => {
 
   it('starts a fresh cup with the new season', () => {
     let state = start()
-    state = reducer(state, { type: 'cupMatch', result: matchResult(0, 1), myRating: 80 })
+    state = reducer(state, { type: 'cupMatch', result: matchResult(0, 1), myRating: 80, lineup: lineupOf(state) })
     for (let round = 0; round < ROUNDS_PER_SEASON; round++) {
       const fixture = myFixture(state.season)!
-      state = reducer(state, { type: 'match', result: matchResult(2, 0), fixture, others: [] })
+      state = reducer(state, {
+        type: 'match',
+        result: matchResult(2, 0),
+        fixture,
+        others: [],
+        lineup: lineupOf(state),
+      })
     }
     const next = reducer(state, { type: 'newSeason' })
 

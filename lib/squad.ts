@@ -1,23 +1,59 @@
 import { conditionFactor, isInjured } from './condition'
 import { FORMATIONS, emptySlots } from './formations'
+import { BOTTOM_DIVISION } from './league'
+import { POSITION_GROUP, effectiveOvr, getPlayer, hiddenPower } from './players'
 import { teamColors, type TeamColors } from './teamColor'
 import { teamTraitEffects, type TraitEffects } from './traits'
-import { POSITION_GROUP, effectiveOvr, getPlayer } from './players'
 import type { Card, PlayerDef, Position, Squad } from './types'
 
 /** Rating used for a slot nobody is assigned to — an academy stand-in. */
 export const EMPTY_SLOT_RATING = 38
+/** Bench places available for substitutions. */
+export const BENCH_SIZE = 7
+
+/**
+ * Total starting level a division allows. Registering a stronger line-up is
+ * blocked, so promotion means rebuilding rather than steamrolling.
+ */
+export const LINEUP_LEVEL_CAPS: Record<number, number> = {
+  5: 55,
+  4: 66,
+  3: 77,
+  2: 89,
+  1: 110,
+}
+
+export function lineupCapOf(division: number): number {
+  return LINEUP_LEVEL_CAPS[division] ?? LINEUP_LEVEL_CAPS[BOTTOM_DIVISION]
+}
+
+export type PositionFit = 'main' | 'sub' | 'out' | 'empty'
+
+/** Playing away from a listed position wrecks a player's rating. */
+export const OUT_OF_POSITION_FACTOR = 0.55
+const SUB_POSITION_PENALTY = 4
+
+export function positionFit(player: PlayerDef, slotPosition: Position): PositionFit {
+  if (player.position === slotPosition) return 'main'
+  return player.positions.includes(slotPosition) ? 'sub' : 'out'
+}
+
+export function ratingInSlot(player: PlayerDef, level: number, slotPosition: Position): number {
+  const base = effectiveOvr(player, level)
+  const fit = positionFit(player, slotPosition)
+  if (fit === 'main') return base
+  if (fit === 'sub') return Math.max(20, base - SUB_POSITION_PENALTY)
+  return Math.max(15, Math.round(base * OUT_OF_POSITION_FACTOR))
+}
 
 export interface SlotEvaluation {
   slotId: string
   slotPosition: Position
   card: Card | null
   player: PlayerDef | null
-  /** Overall after training, before the position penalty. */
   baseOvr: number
-  /** What the player is actually worth in this slot, after fitness. */
   rating: number
-  fit: 'perfect' | 'ok' | 'poor' | 'empty'
+  fit: PositionFit
   condition: number
   injured: boolean
 }
@@ -30,31 +66,22 @@ export interface SquadRating {
   chemistry: number
   filled: number
   evaluations: SlotEvaluation[]
-  /** What the starting eleven's traits add in a match. */
   traits: TraitEffects
-  /** Club, league and country bonuses the eleven triggers. */
   colors: TeamColors
+  /** Hidden attribute average of the eleven, 0-12. */
+  hidden: number
+  /** Sum of the starting levels. */
+  levelTotal: number
+  /** What this division allows. */
+  levelCap: number
+  overCap: boolean
 }
 
-export function positionPenalty(playerPosition: Position, slotPosition: Position): number {
-  if (playerPosition === slotPosition) return 0
-  const playerGroup = POSITION_GROUP[playerPosition]
-  const slotGroup = POSITION_GROUP[slotPosition]
-  if (playerGroup === 'GK' || slotGroup === 'GK') return 22
-  if (playerGroup === slotGroup) return 4
-  const distance = Math.abs(
-    ['GK', 'DF', 'MF', 'FW'].indexOf(playerGroup) - ['GK', 'DF', 'MF', 'FW'].indexOf(slotGroup),
-  )
-  return distance === 1 ? 9 : 16
-}
-
-function fitOf(playerPosition: Position, slotPosition: Position): SlotEvaluation['fit'] {
-  const penalty = positionPenalty(playerPosition, slotPosition)
-  if (penalty === 0) return 'perfect'
-  return penalty <= 9 ? 'ok' : 'poor'
-}
-
-export function evaluateSquad(cards: Card[], squad: Squad): SquadRating {
+export function evaluateSquad(
+  cards: Card[],
+  squad: Squad,
+  division: number = BOTTOM_DIVISION,
+): SquadRating {
   const byUid = new Map(cards.map((card) => [card.uid, card]))
   const formation = FORMATIONS[squad.formation] ?? FORMATIONS['4-3-3']
 
@@ -75,18 +102,13 @@ export function evaluateSquad(cards: Card[], squad: Squad): SquadRating {
         injured: false,
       }
     }
-    const baseOvr = effectiveOvr(player, card.level)
+
     const injured = isInjured(card)
-    // An injured player cannot take the pitch: a youth stand-in plays instead.
+    const baseOvr = effectiveOvr(player, card.level)
     const rating = injured
       ? EMPTY_SLOT_RATING
-      : Math.max(
-          20,
-          Math.round(
-            (baseOvr - positionPenalty(player.position, slot.position)) *
-              conditionFactor(card.condition),
-          ),
-        )
+      : Math.round(ratingInSlot(player, card.level, slot.position) * conditionFactor(card.condition))
+
     return {
       slotId: slot.id,
       slotPosition: slot.position,
@@ -94,7 +116,7 @@ export function evaluateSquad(cards: Card[], squad: Squad): SquadRating {
       player,
       baseOvr,
       rating,
-      fit: fitOf(player.position, slot.position),
+      fit: positionFit(player, slot.position),
       condition: card.condition,
       injured,
     }
@@ -120,12 +142,20 @@ export function evaluateSquad(cards: Card[], squad: Squad): SquadRating {
     100,
     chemistryOf(evaluations) + traits.chemistry + colors.bonus.chemistry,
   )
-  const boost = 0.92 + (chemistry / 100) * 0.14
+  // Chemistry swings the squad hard, the way the original game does.
+  const boost = 0.86 + (chemistry / 100) * 0.28
   const colorBonus = colors.bonus.rating
+  const hidden =
+    onPitch.length > 0
+      ? onPitch.reduce((sum, player) => sum + hiddenPower(player), 0) / onPitch.length
+      : 0
 
   const att = Math.round((fw * 0.6 + mf * 0.3 + df * 0.1) * boost) + colorBonus
   const mid = Math.round((mf * 0.7 + fw * 0.15 + df * 0.15) * boost) + colorBonus
   const def = Math.round((df * 0.6 + gk * 0.3 + mf * 0.1) * boost) + colorBonus
+
+  const levelTotal = evaluations.reduce((sum, item) => sum + (item.card?.level ?? 0), 0)
+  const levelCap = lineupCapOf(division)
 
   return {
     overall: Math.round((att + mid + def) / 3),
@@ -137,6 +167,10 @@ export function evaluateSquad(cards: Card[], squad: Squad): SquadRating {
     evaluations,
     traits,
     colors,
+    hidden,
+    levelTotal,
+    levelCap,
+    overCap: levelTotal > levelCap,
   }
 }
 
@@ -145,43 +179,78 @@ function chemistryOf(evaluations: SlotEvaluation[]): number {
   let points = 0
   for (const item of evaluations) {
     if (!item.player || item.injured) continue
-    points += item.fit === 'perfect' ? 9 : item.fit === 'ok' ? 5 : 1
+    points += item.fit === 'main' ? 9 : item.fit === 'sub' ? 6 : 0
   }
   const base = (points / (evaluations.length * 9)) * 100
   return Math.max(0, Math.min(100, Math.round(base)))
 }
 
-/** Rebuilds the whole line-up, giving every slot the best card available for it. */
-export function autoFill(cards: Card[], squad: Squad): Squad {
-  const formation = FORMATIONS[squad.formation] ?? FORMATIONS['4-3-3']
+function usableCards(cards: Card[]): Card[] {
+  return cards.filter((card) => !isInjured(card) && getPlayer(card.playerId))
+}
 
-  const pairs: { slotId: string; uid: string; score: number }[] = []
+/**
+ * Rebuilds the whole line-up, giving every slot the best card available for it
+ * while staying inside the division's level budget.
+ */
+export function autoFill(cards: Card[], squad: Squad, division: number = BOTTOM_DIVISION): Squad {
+  const formation = FORMATIONS[squad.formation] ?? FORMATIONS['4-3-3']
+  const pool = usableCards(cards)
+  const cap = lineupCapOf(division)
+
+  const pairs: { slotId: string; uid: string; level: number; score: number }[] = []
   for (const slot of formation.slots) {
-    for (const card of cards) {
-      const player = getPlayer(card.playerId)
-      // Injured players are left out of the line-up entirely.
-      if (!player || isInjured(card)) continue
+    for (const card of pool) {
+      const player = getPlayer(card.playerId)!
+      // Never auto-select someone who cannot play the position.
+      if (positionFit(player, slot.position) === 'out') continue
       pairs.push({
         slotId: slot.id,
         uid: card.uid,
-        score:
-          (effectiveOvr(player, card.level) - positionPenalty(player.position, slot.position)) *
-          conditionFactor(card.condition),
+        level: card.level,
+        score: ratingInSlot(player, card.level, slot.position) * conditionFactor(card.condition),
       })
     }
   }
-  // Best pairing first, so the strongest cards claim the slots that suit them.
   pairs.sort((a, b) => b.score - a.score)
 
   const slots = emptySlots(formation.key)
   const takenSlots = new Set<string>()
   const takenCards = new Set<string>()
+  let total = 0
+
   for (const pair of pairs) {
     if (takenSlots.has(pair.slotId) || takenCards.has(pair.uid)) continue
+    if (total + pair.level > cap) continue
     slots[pair.slotId] = pair.uid
     takenSlots.add(pair.slotId)
     takenCards.add(pair.uid)
+    total += pair.level
   }
 
-  return { ...squad, slots }
+  // Anything still empty gets the cheapest body that fits the budget.
+  for (const slot of formation.slots) {
+    if (slots[slot.id]) continue
+    const candidate = pairs
+      .filter((pair) => pair.slotId === slot.id && !takenCards.has(pair.uid))
+      .sort((a, b) => a.level - b.level || b.score - a.score)
+      .find((pair) => total + pair.level <= cap)
+    if (candidate) {
+      slots[slot.id] = candidate.uid
+      takenCards.add(candidate.uid)
+      total += candidate.level
+    }
+  }
+
+  const bench = pool
+    .filter((card) => !takenCards.has(card.uid))
+    .sort((a, b) => b.level - a.level)
+    .slice(0, BENCH_SIZE)
+    .map((card) => card.uid)
+
+  return {
+    ...squad,
+    slots,
+    bench: [...bench, ...Array(Math.max(0, BENCH_SIZE - bench.length)).fill(null)],
+  }
 }

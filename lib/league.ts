@@ -1,6 +1,6 @@
 import { seededRandom } from './players'
 
-export const TEAMS_PER_LEAGUE = 8
+export const TEAMS_PER_LEAGUE = 20
 export const ROUNDS_PER_SEASON = TEAMS_PER_LEAGUE - 1
 export const MY_TEAM_ID = 'me'
 export const TOP_DIVISION = 1
@@ -8,7 +8,7 @@ export const BOTTOM_DIVISION = 5
 /** Finishing this high or better goes up a division. */
 export const PROMOTION_RANK = 2
 /** Finishing this low or worse goes down a division. */
-export const RELEGATION_RANK = 7
+export const RELEGATION_RANK = 18
 
 export interface LeagueTeam {
   id: string
@@ -63,8 +63,18 @@ const CLUB_POOL: [name: string, badge: string][] = [
   ['영종 에어포트', 'YJ'],
   ['태백 마운틴', 'TB'],
   ['동해 크라켄', 'DH'],
-  ['소백 레인저스', 'SB'],
-  ['월미 시걸스', 'WM'],
+  ['광화문 킹스', 'GH'],
+  ['수리산 이글스', 'SR'],
+  ['낙동강 리버스', 'ND'],
+  ['설악 스톤즈', 'SA'],
+  ['서귀포 마린', 'SG'],
+  ['구미 스파크', 'GM'],
+  ['춘천 레이크', 'CC'],
+  ['평택 포트', 'PT'],
+  ['익산 로얄즈', 'IS'],
+  ['제천 하이랜드', 'JC'],
+  ['보령 머드', 'BR'],
+  ['통영 씨걸스', 'TY'],
 ]
 
 export function divisionLabel(division: number): string {

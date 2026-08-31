@@ -80,13 +80,15 @@ export default function PlayerCard({
         <div className="flex w-8 shrink-0 flex-col items-center leading-none">
           <span className={`font-black ${dimensions.ovr}`}>{ovr}</span>
           <span className="mt-0.5 text-[10px] font-bold">{player.position}</span>
-          <span className="mt-1 h-px w-4 bg-current opacity-40" />
-          <span className="mt-1 text-[8px] font-semibold opacity-80">{player.nation}</span>
-          {level > 1 && (
-            <span className="mt-1 rounded bg-black/25 px-1 text-[8px] font-bold text-white">
-              +{level - 1}
-            </span>
+          {size !== 'sm' && (
+            <>
+              <span className="mt-1 h-px w-4 bg-current opacity-40" />
+              <span className="mt-1 text-[8px] font-semibold opacity-80">{player.nation}</span>
+            </>
           )}
+          <span className="mt-0.5 rounded bg-black/25 px-1 text-[8px] font-bold text-white">
+            Lv.{level}
+          </span>
         </div>
         <PlayerAvatar player={player} className="min-w-0 flex-1" />
       </div>
@@ -104,9 +106,11 @@ export default function PlayerCard({
 
       <div className="bg-black/15 px-1.5 py-1 text-center">
         <div className={`truncate font-extrabold ${dimensions.name}`}>{player.name}</div>
-        <div className={`truncate font-medium opacity-70 ${dimensions.meta}`}>
-          {style.label} · {player.club}
-        </div>
+        {size !== 'sm' && (
+          <div className={`truncate font-medium opacity-70 ${dimensions.meta}`}>
+            {style.label} · {player.club}
+          </div>
+        )}
       </div>
 
       {traits.length > 0 && (

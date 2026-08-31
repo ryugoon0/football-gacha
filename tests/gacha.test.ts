@@ -22,9 +22,13 @@ describe('roster', () => {
     }
   })
 
-  it('raises every stat by one per training level', () => {
-    const player = PLAYERS[0]
-    expect(effectiveOvr(player, 3)).toBe(player.ovr + 2)
+  it('grows a card towards 99 as it levels', async () => {
+    const { levelCap, startLevel } = await import('../lib/players')
+    const player = PLAYERS_BY_RARITY.Legend[0]
+    const start = startLevel(player)
+    expect(effectiveOvr(player, start)).toBeLessThan(effectiveOvr(player, start + 2))
+    expect(effectiveOvr(player, levelCap(player))).toBeGreaterThan(effectiveOvr(player, start))
+    expect(effectiveOvr(player, levelCap(player))).toBeLessThanOrEqual(99)
   })
 })
 
@@ -149,7 +153,7 @@ describe('packs and pity', () => {
 describe('shards', () => {
   it('pays more for rarer cards', async () => {
     const { SHARD_VALUES, shardsFor } = await import('../lib/shards')
-    const normal = { uid: 'a', playerId: 'n01', level: 1, condition: 100, injuredFor: 0, exp: 0 }
+    const normal = { uid: 'a', playerId: 'n01', level: 2, limit: 3, condition: 100, injuredFor: 0, exp: 0 }
     const world = { ...normal, playerId: 'w01' }
     expect(shardsFor(world)).toBeGreaterThan(shardsFor(normal))
     expect(shardsFor(normal)).toBe(SHARD_VALUES.Normal)

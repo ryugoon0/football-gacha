@@ -101,7 +101,7 @@ describe('season outcome', () => {
       else s = recordResult(s, fixture.home, fixture.away, 2, 1)
     }
     const outcome = seasonOutcome(s)
-    expect(outcome.rank).toBe(8)
+    expect(outcome.rank).toBe(TEAMS_PER_LEAGUE)
     expect(outcome.relegated).toBe(false)
     expect(outcome.nextDivision).toBe(5)
   })

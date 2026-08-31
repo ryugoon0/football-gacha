@@ -1,18 +1,33 @@
 import { describe, expect, it } from 'vitest'
 import { FORMATIONS } from '../lib/formations'
-import { PLAYERS_BY_RARITY } from '../lib/players'
-import { autoFill, evaluateSquad, positionPenalty } from '../lib/squad'
+import { PLAYERS, PLAYERS_BY_RARITY } from '../lib/players'
+import { autoFill, evaluateSquad, positionFit, ratingInSlot } from '../lib/squad'
 import { initialState } from '../lib/storage'
 import type { Card } from '../lib/types'
 
 describe('position fit', () => {
-  it('has no penalty for an exact match', () => {
-    expect(positionPenalty('ST', 'ST')).toBe(0)
+  it('rates a player highest in their own position', () => {
+    const player = PLAYERS_BY_RARITY.Legend.find((item) => item.position === 'ST')!
+    expect(positionFit(player, 'ST')).toBe('main')
+    expect(ratingInSlot(player, 5, 'ST')).toBeGreaterThan(ratingInSlot(player, 5, 'GK'))
   })
 
-  it('punishes an outfielder in goal hardest', () => {
-    expect(positionPenalty('ST', 'GK')).toBeGreaterThan(positionPenalty('ST', 'CM'))
-    expect(positionPenalty('CB', 'CDM')).toBeLessThan(positionPenalty('CB', 'ST'))
+  it('collapses the rating outside the listed positions', () => {
+    const player = PLAYERS_BY_RARITY.Legend[0]
+    const impossible = (['GK', 'CB', 'ST'] as const).find(
+      (position) => !player.positions.includes(position),
+    )!
+    expect(positionFit(player, impossible)).toBe('out')
+    expect(ratingInSlot(player, 5, impossible)).toBeLessThan(
+      ratingInSlot(player, 5, player.position) * 0.7,
+    )
+  })
+
+  it('only lightly penalises a listed alternative position', () => {
+    const player = PLAYERS.find((item) => item.positions.length > 1)!
+    const alt = player.positions[1]
+    expect(positionFit(player, alt)).toBe('sub')
+    expect(ratingInSlot(player, 4, alt)).toBeGreaterThan(ratingInSlot(player, 4, player.position) * 0.9)
   })
 })
 
@@ -77,7 +92,7 @@ describe('auto fill', () => {
     const world = PLAYERS_BY_RARITY.World[0]
     const cards: Card[] = [
       ...state.cards,
-      { uid: 'star', playerId: world.id, level: 1, condition: 100, injuredFor: 0, exp: 0 },
+      { uid: 'star', playerId: world.id, level: 5, limit: 6, condition: 100, injuredFor: 0, exp: 0 },
     ]
     const squad = autoFill(cards, state.squad)
 

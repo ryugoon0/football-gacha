@@ -37,7 +37,7 @@ describe('cup progress', () => {
     expect(advanced).toBe(true)
     expect(next.eliminated).toBe(false)
     expect(next.round).toBe(1)
-    expect(tiesOfRound(next, 1)).toHaveLength(2)
+    expect(tiesOfRound(next, 1)).toHaveLength(CUP_TEAMS / 4)
     expect(myTie(next)).not.toBeNull()
     // Every first round tie now has a winner.
     expect(tiesOfRound(next, 0).every((tie) => tie.winner)).toBe(true)

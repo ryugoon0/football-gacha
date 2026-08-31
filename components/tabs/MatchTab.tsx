@@ -1,14 +1,9 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import { applyAutoSubs, type SubEvent } from '../../lib/autoSub'
 import { isInjured, TIRED_CONDITION } from '../../lib/condition'
-import {
-  CUP_ROUND_LABELS,
-  cupTeamOf,
-  myTie,
-  tiesOfRound,
-  type CupTie,
-} from '../../lib/cup'
+import { CUP_ROUND_LABELS, cupTeamOf, myTie, tiesOfRound, type CupTie } from '../../lib/cup'
 import {
   MY_TEAM_ID,
   PROMOTION_RANK,
@@ -23,232 +18,266 @@ import {
   teamOf,
 } from '../../lib/league'
 import { simulateMatch } from '../../lib/match'
+import { SEASON_SCHEDULE, TOTAL_MATCHDAYS } from '../../lib/schedule'
 import { evaluateSquad } from '../../lib/squad'
 import { TACTICS } from '../../lib/tactics'
+import type { Squad } from '../../lib/types'
 import MatchBroadcast from '../MatchBroadcast'
 import { useGame, type RoundResult } from '../GameProvider'
 import { useLiveMatch } from '../useLiveMatch'
 
-type View = 'league' | 'cup'
-
 export default function MatchTab() {
   const { state } = useGame()
-  const [view, setView] = useState<View>('league')
-  const rating = useMemo(() => evaluateSquad(state.cards, state.squad), [state.cards, state.squad])
+  const [side, setSide] = useState<'table' | 'cup'>('table')
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
       <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
-        <div className="mb-4 flex gap-2">
-          {(['league', 'cup'] as View[]).map((key) => (
+        {state.season.finished ? <SeasonEnd /> : <MatchDay />}
+      </section>
+
+      <div className="space-y-4">
+        <Schedule />
+        <div className="flex gap-2">
+          {(['table', 'cup'] as const).map((key) => (
             <button
               key={key}
-              onClick={() => setView(key)}
-              className={`rounded-lg px-4 py-1.5 text-sm font-bold transition ${
-                view === key
+              onClick={() => setSide(key)}
+              className={`flex-1 rounded-lg px-3 py-1.5 text-sm font-bold transition ${
+                side === key
                   ? 'bg-emerald-400 text-slate-900'
                   : 'bg-white/5 text-slate-300 hover:bg-white/10'
               }`}
             >
-              {key === 'league' ? '리그' : 'FA컵'}
+              {key === 'table' ? '리그 순위' : 'FA컵 대진'}
             </button>
           ))}
         </div>
-        {view === 'league' ? <LeaguePanel rating={rating} /> : <CupPanel rating={rating} />}
-      </section>
-
-      <div className="space-y-4">
-        {view === 'league' ? <LeagueTable /> : <CupBracket />}
+        {side === 'table' ? <LeagueTable /> : <CupBracket />}
         <ClubForm />
       </div>
     </div>
   )
 }
 
-function SquadAlert() {
-  const { state } = useGame()
-  const injured = state.cards.filter(isInjured).length
-  const tired = state.cards.filter(
-    (card) => !isInjured(card) && card.condition < TIRED_CONDITION,
-  ).length
-  const starters = new Set(Object.values(state.squad.slots).filter(Boolean) as string[])
-  const injuredStarters = state.cards.filter(
-    (card) => starters.has(card.uid) && isInjured(card),
-  ).length
+function MatchDay() {
+  const { state, finishMatch, finishCupMatch, skipMatchday } = useGame()
+  const day = SEASON_SCHEDULE[state.matchday] ?? null
+  const division = state.season.division
 
-  if (injured + tired === 0) return null
-  return (
-    <p className="mt-2 text-xs font-semibold text-amber-400">
-      부상 {injured}명 · 체력 저하 {tired}명
-      {injuredStarters > 0 && ` — 선발에 부상 선수가 ${injuredStarters}명 있습니다. 교체하세요.`}
-    </p>
+  const [pending, setPending] = useState<{ squad: Squad; others: RoundResult[] } | null>(null)
+  const [blocked, setBlocked] = useState<string | null>(null)
+
+  const rating = useMemo(
+    () => evaluateSquad(state.cards, state.squad, division),
+    [state.cards, state.squad, division],
   )
-}
 
-function LeaguePanel({ rating }: { rating: ReturnType<typeof evaluateSquad> }) {
-  const { state, finishMatch, startNewSeason } = useGame()
-  const season = state.season
-  const fixture = useMemo(() => myFixture(season), [season])
-  const isHome = fixture?.home === MY_TEAM_ID
-  const opponent = fixture ? teamOf(season, isHome ? fixture.away : fixture.home) : null
-  const [others, setOthers] = useState<RoundResult[]>([])
+  const fixture = useMemo(() => myFixture(state.season), [state.season])
+  const tie = useMemo(() => myTie(state.cup), [state.cup])
+  const isCupDay = day?.kind === 'cup'
+  const cupOver = state.cup.eliminated || Boolean(state.cup.champion)
+
+  const isHome = isCupDay ? false : fixture?.home === MY_TEAM_ID
+  const opponent = isCupDay
+    ? tie
+      ? cupTeamOf(state.cup, tie.home === MY_TEAM_ID ? tie.away : tie.home)
+      : null
+    : fixture
+      ? teamOf(state.season, isHome ? fixture.away : fixture.home)
+      : null
+
+  // Substitutions are worked out when the match starts; kept for the payload.
+  const [subs, setSubs] = useState<SubEvent[]>([])
 
   const live = useLiveMatch((result) => {
-    if (fixture) finishMatch(result, fixture, others)
+    if (!pending) return
+    const lineup = { squad: pending.squad, subs }
+    if (isCupDay) finishCupMatch(result, rating.overall, lineup)
+    else if (fixture) finishMatch(result, fixture, pending.others, lineup)
   })
 
   useEffect(() => {
-    // Only a brand new season clears the board; the round that just finished
-    // stays on screen so the result and the player marks can be read.
     live.reset()
-    setOthers([])
+    setPending(null)
+    setSubs([])
+    setBlocked(null)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [season.index])
+  }, [state.matchday, state.season.index])
 
-  const outcome = season.finished ? seasonOutcome(season) : null
+  if (!day) return <p className="py-10 text-center text-sm text-slate-500">시즌 일정이 끝났습니다.</p>
 
-  if (season.finished && outcome) {
+  if (isCupDay && cupOver) {
+    const champion = state.cup.champion ? cupTeamOf(state.cup, state.cup.champion) : null
     return (
       <div className="rise-in rounded-xl bg-slate-950/70 p-6 text-center">
         <div className="text-xs font-bold uppercase tracking-widest text-slate-500">
-          시즌 {season.index} 종료 · {divisionLabel(season.division)}
+          {state.matchday + 1}번째 경기일 · FA컵
         </div>
-        <div className="mt-2 text-4xl font-black text-white">{outcome.rank}위</div>
-        <div
-          className={`mt-2 text-sm font-bold ${
-            outcome.promoted
-              ? 'text-emerald-300'
-              : outcome.relegated
-                ? 'text-rose-300'
-                : 'text-slate-300'
-          }`}
-        >
-          {outcome.promoted
-            ? `승격! 다음 시즌은 ${divisionLabel(outcome.nextDivision)}입니다`
-            : outcome.relegated
-              ? `강등... 다음 시즌은 ${divisionLabel(outcome.nextDivision)}입니다`
-              : '리그 잔류'}
+        <div className="mt-2 text-2xl font-black text-white">
+          {state.cup.champion === MY_TEAM_ID ? '컵 우승 🏆' : '컵 탈락'}
         </div>
-        <div className="mt-3 text-sm text-slate-400">
-          시즌 보상 <span className="font-bold text-amber-300">+{outcome.reward}G</span>
-        </div>
-        <p className="mt-2 text-xs text-slate-500">
-          새 시즌에는 모든 선수의 체력이 회복되고 부상도 낫습니다.
+        <p className="mt-2 text-sm text-slate-400">
+          {state.cup.champion === MY_TEAM_ID
+            ? '트로피를 들어올렸습니다.'
+            : `우승팀: ${champion?.name ?? '진행 중'}`}
         </p>
         <button
-          onClick={startNewSeason}
-          className="mt-5 rounded-xl bg-emerald-400 px-6 py-3 font-bold text-slate-900 transition hover:bg-emerald-300"
+          onClick={skipMatchday}
+          className="mt-5 rounded-xl bg-white/10 px-6 py-3 font-bold text-white transition hover:bg-white/20"
         >
-          새 시즌 시작
+          이 경기일 건너뛰기
         </button>
       </div>
     )
   }
 
   const start = () => {
-    if (!fixture || !opponent || live.playing) return
-    live.reset()
-    setOthers(
-      fixturesOfRound(season, season.round)
-        .filter((item) => item !== fixture)
-        .map((item) => {
-          const [homeGoals, awayGoals] = simulateAiMatch(
-            teamOf(season, item.home),
-            teamOf(season, item.away),
-          )
-          return { home: item.home, away: item.away, homeGoals, awayGoals }
-        }),
-    )
+    if (!opponent || live.playing) return
+    if (rating.overCap) {
+      setBlocked(
+        `선발 레벨 합계가 ${rating.levelTotal}로 상한 ${rating.levelCap}을 넘었습니다. 스쿼드에서 낮은 레벨 선수로 바꿔주세요.`,
+      )
+      return
+    }
+    setBlocked(null)
+
+    const auto = state.autoSub
+      ? applyAutoSubs(state.cards, state.squad, division)
+      : { squad: state.squad, subs: [] }
+    setSubs(auto.subs)
+
+    const matchRating = evaluateSquad(state.cards, auto.squad, division)
+    const others = isCupDay
+      ? []
+      : fixturesOfRound(state.season, state.season.round)
+          .filter((item) => item !== fixture)
+          .map((item) => {
+            const [homeGoals, awayGoals] = simulateAiMatch(
+              teamOf(state.season, item.home),
+              teamOf(state.season, item.away),
+            )
+            return { home: item.home, away: item.away, homeGoals, awayGoals }
+          })
+
+    setPending({ squad: auto.squad, others })
     live.start(
       simulateMatch({
-        team: rating,
+        team: matchRating,
         teamName: state.club,
         opponent,
-        division: season.division,
-        venue: isHome ? 'home' : 'away',
+        division,
+        venue: isCupDay ? 'neutral' : isHome ? 'home' : 'away',
         tactic: state.tactic,
-        traits: rating.traits,
+        traits: matchRating.traits,
       }),
     )
   }
+
+  const injured = state.cards.filter(isInjured).length
+  const tired = state.cards.filter(
+    (card) => !isInjured(card) && card.condition < TIRED_CONDITION,
+  ).length
 
   return (
     <>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <div>
-          <div className="text-xs font-bold uppercase tracking-widest text-emerald-400">
-            시즌 {season.index} · {divisionLabel(season.division)}
+          <div
+            className={`text-xs font-bold uppercase tracking-widest ${
+              isCupDay ? 'text-amber-400' : 'text-emerald-400'
+            }`}
+          >
+            {state.matchday + 1} / {TOTAL_MATCHDAYS} 경기일 ·{' '}
+            {isCupDay ? `FA컵 ${CUP_ROUND_LABELS[state.cup.round]}` : divisionLabel(division)}
           </div>
           <h2 className="text-lg font-bold text-white">
-            {season.round + 1} / {ROUNDS_PER_SEASON} 라운드
+            {isCupDay
+              ? `FA컵 ${CUP_ROUND_LABELS[state.cup.round]}`
+              : `리그 ${state.season.round + 1} / ${ROUNDS_PER_SEASON} 라운드`}
           </h2>
         </div>
-        <div className="rounded-lg bg-white/5 px-3 py-1.5 text-xs font-bold text-slate-300">
-          전술 {TACTICS[state.tactic].label}
+        <div className="flex gap-2">
+          <span className="rounded-lg bg-white/5 px-3 py-1.5 text-xs font-bold text-slate-300">
+            전술 {TACTICS[state.tactic].label}
+          </span>
+          <span
+            className={`rounded-lg px-3 py-1.5 text-xs font-bold ${
+              state.autoSub ? 'bg-emerald-400/15 text-emerald-300' : 'bg-white/5 text-slate-400'
+            }`}
+          >
+            자동 교체 {state.autoSub ? 'ON' : 'OFF'}
+          </span>
         </div>
       </div>
 
       <MatchBroadcast
-        home={{ name: state.club, detail: `전력 ${rating.overall} · ${isHome ? '홈' : '원정'}` }}
+        home={{
+          name: state.club,
+          detail: `전력 ${rating.overall} · ${isCupDay ? '중립' : isHome ? '홈' : '원정'}`,
+        }}
         away={{
           name: live.result?.opponent ?? opponent?.name ?? '상대 미정',
           detail: `전력 ${live.result?.opponentRating ?? opponent?.rating ?? '-'}`,
         }}
         live={live}
+        emptyLabel="경기를 시작하면 중계가 표시됩니다."
       />
 
       <button
         onClick={start}
-        disabled={live.playing || !fixture}
-        className="mt-4 w-full rounded-xl bg-emerald-400 px-4 py-3 font-bold text-slate-900 transition hover:bg-emerald-300 disabled:opacity-40"
+        disabled={live.playing || !opponent}
+        className={`mt-4 w-full rounded-xl px-4 py-3 font-bold text-slate-900 transition disabled:opacity-40 ${
+          isCupDay ? 'bg-amber-400 hover:bg-amber-300' : 'bg-emerald-400 hover:bg-emerald-300'
+        }`}
       >
-        {live.playing
-          ? '경기 진행 중...'
-          : live.finished
-            ? `${season.round + 1}라운드 경기 시작`
-            : '경기 시작'}
+        {live.playing ? '경기 진행 중...' : live.finished ? '다음 경기일로' : '경기 시작'}
       </button>
-      {rating.filled < 11 && !live.playing && (
-        <p className="mt-2 text-xs font-semibold text-amber-400">
-          출전 가능한 선발이 {rating.filled}명입니다. 빈 자리는 유스 선수가 대신 뜁니다.
+
+      {rating.overCap && (
+        <p className="mt-2 text-xs font-semibold text-rose-400">
+          선발 레벨 합계 {rating.levelTotal} / 상한 {rating.levelCap} — 라인업을 등록할 수 없습니다.
         </p>
       )}
-      <SquadAlert />
+      {blocked && <p className="mt-2 text-xs font-semibold text-rose-400">{blocked}</p>}
+      {(injured > 0 || tired > 0) && (
+        <p className="mt-2 text-xs font-semibold text-amber-400">
+          부상 {injured}명 · 체력 저하 {tired}명
+          {state.autoSub && ' — 자동 교체가 벤치에서 대체 선수를 투입합니다.'}
+        </p>
+      )}
 
-      {!live.result && (
-        <div className="mt-4 rounded-xl bg-white/5 p-3">
-          <h3 className="mb-2 text-xs font-bold uppercase tracking-wide text-slate-400">
-            이번 라운드 다른 경기
+      {live.finished && state.lastSubs.length > 0 && (
+        <div className="mt-4 rounded-xl bg-sky-500/10 p-3">
+          <h3 className="mb-1 text-xs font-bold uppercase tracking-wide text-sky-300">
+            자동 교체
           </h3>
-          <div className="grid gap-1 sm:grid-cols-3">
-            {fixturesOfRound(season, season.round)
-              .filter((item) => item !== fixture)
-              .map((item, index) => (
-                <div key={index} className="text-xs text-slate-300">
-                  {teamOf(season, item.home).name}
-                  <span className="px-1 text-slate-600">vs</span>
-                  {teamOf(season, item.away).name}
-                </div>
-              ))}
-          </div>
+          {state.lastSubs.map((sub) => (
+            <div key={sub.slotId} className="text-xs text-slate-300">
+              {sub.outName} → <span className="font-bold text-white">{sub.inName}</span>{' '}
+              <span className="text-slate-500">
+                ({sub.reason === 'injury' ? '부상' : '체력 저하'})
+              </span>
+            </div>
+          ))}
         </div>
       )}
 
       {live.finished && <MatchRatings />}
 
-      {live.finished && others.length > 0 && (
+      {live.finished && pending && pending.others.length > 0 && (
         <div className="mt-4 rounded-xl bg-white/5 p-3">
           <h3 className="mb-2 text-xs font-bold uppercase tracking-wide text-slate-400">
             같은 라운드 다른 경기
           </h3>
-          <div className="grid gap-1 sm:grid-cols-3">
-            {others.map((item, index) => (
+          <div className="grid gap-1 sm:grid-cols-2">
+            {pending.others.map((item, index) => (
               <div key={index} className="text-xs text-slate-300">
-                {teamOf(season, item.home).name}{' '}
+                {teamOf(state.season, item.home).name}{' '}
                 <span className="font-bold text-white">
                   {item.homeGoals}:{item.awayGoals}
                 </span>{' '}
-                {teamOf(season, item.away).name}
+                {teamOf(state.season, item.away).name}
               </div>
             ))}
           </div>
@@ -258,96 +287,79 @@ function LeaguePanel({ rating }: { rating: ReturnType<typeof evaluateSquad> }) {
   )
 }
 
-function CupPanel({ rating }: { rating: ReturnType<typeof evaluateSquad> }) {
-  const { state, finishCupMatch } = useGame()
-  const cup = state.cup
-  const tie = useMemo(() => myTie(cup), [cup])
-  const iAmHome = tie?.home === MY_TEAM_ID
-  const opponent = tie ? cupTeamOf(cup, iAmHome ? tie.away : tie.home) : null
-
-  const live = useLiveMatch((result) => finishCupMatch(result, rating.overall))
-
-  useEffect(() => {
-    live.reset()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cup.index])
-
-  const done = cup.eliminated || Boolean(cup.champion)
-
-  if (done) {
-    const champion = cup.champion ? cupTeamOf(cup, cup.champion) : null
-    const won = cup.champion === MY_TEAM_ID
-    return (
-      <div className="rise-in rounded-xl bg-slate-950/70 p-6 text-center">
-        <div className="text-xs font-bold uppercase tracking-widest text-slate-500">
-          FA컵 {cup.index}회
-        </div>
-        <div className="mt-2 text-3xl font-black text-white">{won ? '우승! 🏆' : '탈락'}</div>
-        <div className="mt-2 text-sm text-slate-300">
-          {won ? '트로피를 들어올렸습니다.' : `우승팀: ${champion?.name ?? '미정'}`}
-        </div>
-        <p className="mt-3 text-xs text-slate-500">
-          다음 시즌이 시작되면 새로운 컵 대회에 다시 출전합니다.
-        </p>
-        <div className="mt-4 text-sm text-slate-400">
-          통산 우승 <span className="font-bold text-amber-300">{state.trophies.cup}회</span>
-        </div>
-      </div>
-    )
-  }
-
-  const start = () => {
-    if (!tie || !opponent || live.playing) return
-    live.reset()
-    live.start(
-      simulateMatch({
-        team: rating,
-        teamName: state.club,
-        opponent,
-        division: state.season.division,
-        venue: 'neutral',
-        tactic: state.tactic,
-        traits: rating.traits,
-      }),
-    )
-  }
+function SeasonEnd() {
+  const { state, startNewSeason } = useGame()
+  const outcome = seasonOutcome(state.season)
 
   return (
-    <>
-      <div className="mb-4">
-        <div className="text-xs font-bold uppercase tracking-widest text-amber-400">
-          FA컵 {cup.index}회 · 녹아웃
-        </div>
-        <h2 className="text-lg font-bold text-white">{CUP_ROUND_LABELS[cup.round]}</h2>
-        <p className="text-xs text-slate-500">
-          비기면 승부차기로 승자를 가립니다. 지면 이번 시즌 컵은 끝입니다.
-        </p>
+    <div className="rise-in rounded-xl bg-slate-950/70 p-6 text-center">
+      <div className="text-xs font-bold uppercase tracking-widest text-slate-500">
+        시즌 {state.season.index} 종료 · {divisionLabel(state.season.division)}
       </div>
-
-      <MatchBroadcast
-        home={{ name: state.club, detail: `전력 ${rating.overall} · 중립` }}
-        away={{
-          name: live.result?.opponent ?? opponent?.name ?? '상대 미정',
-          detail: `전력 ${live.result?.opponentRating ?? opponent?.rating ?? '-'}`,
-        }}
-        live={live}
-        emptyLabel="컵 경기를 시작하면 중계가 표시됩니다."
-      />
-
-      <button
-        onClick={start}
-        disabled={live.playing || !tie}
-        className="mt-4 w-full rounded-xl bg-amber-400 px-4 py-3 font-bold text-slate-900 transition hover:bg-amber-300 disabled:opacity-40"
+      <div className="mt-2 text-4xl font-black text-white">{outcome.rank}위</div>
+      <div
+        className={`mt-2 text-sm font-bold ${
+          outcome.promoted
+            ? 'text-emerald-300'
+            : outcome.relegated
+              ? 'text-rose-300'
+              : 'text-slate-300'
+        }`}
       >
-        {live.playing
-          ? '경기 진행 중...'
-          : live.finished
-            ? `${CUP_ROUND_LABELS[cup.round]} 경기 시작`
-            : '컵 경기 시작'}
+        {outcome.promoted
+          ? `승격! 다음 시즌은 ${divisionLabel(outcome.nextDivision)}입니다`
+          : outcome.relegated
+            ? `강등... 다음 시즌은 ${divisionLabel(outcome.nextDivision)}입니다`
+            : '리그 잔류'}
+      </div>
+      <div className="mt-3 text-sm text-slate-400">
+        시즌 보상 <span className="font-bold text-amber-300">+{outcome.reward}G</span>
+      </div>
+      <p className="mt-2 text-xs text-slate-500">
+        새 시즌에는 모든 선수의 체력이 회복되고 부상도 낫습니다.
+      </p>
+      <button
+        onClick={startNewSeason}
+        className="mt-5 rounded-xl bg-emerald-400 px-6 py-3 font-bold text-slate-900 transition hover:bg-emerald-300"
+      >
+        새 시즌 시작
       </button>
-      <SquadAlert />
-      {live.finished && <MatchRatings />}
-    </>
+    </div>
+  )
+}
+
+function Schedule() {
+  const { state } = useGame()
+  const upcoming = SEASON_SCHEDULE.slice(state.matchday, state.matchday + 6)
+
+  return (
+    <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+      <h3 className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-400">다음 일정</h3>
+      <div className="space-y-1">
+        {upcoming.map((day, index) => (
+          <div
+            key={day.index}
+            className={`flex items-center justify-between rounded-lg px-2.5 py-1.5 text-xs ${
+              index === 0 ? 'bg-emerald-400/10 font-bold text-white' : 'text-slate-400'
+            }`}
+          >
+            <span>{day.index + 1}경기일</span>
+            <span
+              className={
+                day.kind === 'cup' ? 'font-bold text-amber-300' : 'text-slate-300'
+              }
+            >
+              {day.kind === 'cup'
+                ? `FA컵 ${CUP_ROUND_LABELS[day.round] ?? ''}`
+                : `리그 ${day.round + 1}R`}
+            </span>
+          </div>
+        ))}
+      </div>
+      <p className="mt-2 text-[11px] text-slate-500">
+        리그와 컵 일정이 섞여 있습니다. 체력 관리를 못 하면 두 대회를 함께 치를 수 없습니다.
+      </p>
+    </section>
   )
 }
 
@@ -394,50 +406,54 @@ function LeagueTable() {
 
   return (
     <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
-      <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">순위표</h3>
-      <table className="w-full text-xs">
-        <thead>
-          <tr className="text-slate-500">
-            <th className="py-1 text-left font-semibold">순위</th>
-            <th className="py-1 text-left font-semibold">팀</th>
-            <th className="py-1 text-center font-semibold">경기</th>
-            <th className="py-1 text-center font-semibold">득실</th>
-            <th className="py-1 text-right font-semibold">승점</th>
-          </tr>
-        </thead>
-        <tbody>
-          {table.map((row) => (
-            <tr
-              key={row.team.id}
-              className={`border-t border-white/5 ${
-                row.team.id === MY_TEAM_ID
-                  ? 'bg-emerald-400/10 font-bold text-white'
-                  : 'text-slate-300'
-              }`}
-            >
-              <td className="py-1.5">
-                <span
-                  className={`inline-flex h-5 w-5 items-center justify-center rounded ${
-                    row.rank <= PROMOTION_RANK
-                      ? 'bg-emerald-500/25 text-emerald-300'
-                      : row.rank >= RELEGATION_RANK
-                        ? 'bg-rose-500/20 text-rose-300'
-                        : 'text-slate-500'
-                  }`}
-                >
-                  {row.rank}
-                </span>
-              </td>
-              <td className="max-w-[110px] truncate py-1.5">{row.team.name}</td>
-              <td className="py-1.5 text-center">{row.played}</td>
-              <td className="py-1.5 text-center">{row.gd > 0 ? `+${row.gd}` : row.gd}</td>
-              <td className="py-1.5 text-right">{row.points}</td>
+      <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">
+        {divisionLabel(state.season.division)} 순위표
+      </h3>
+      <div className="scrollbar-thin max-h-[420px] overflow-y-auto">
+        <table className="w-full text-xs">
+          <thead className="sticky top-0 bg-slate-900">
+            <tr className="text-slate-500">
+              <th className="py-1 text-left font-semibold">순위</th>
+              <th className="py-1 text-left font-semibold">팀</th>
+              <th className="py-1 text-center font-semibold">경기</th>
+              <th className="py-1 text-center font-semibold">득실</th>
+              <th className="py-1 text-right font-semibold">승점</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {table.map((row) => (
+              <tr
+                key={row.team.id}
+                className={`border-t border-white/5 ${
+                  row.team.id === MY_TEAM_ID
+                    ? 'bg-emerald-400/10 font-bold text-white'
+                    : 'text-slate-300'
+                }`}
+              >
+                <td className="py-1.5">
+                  <span
+                    className={`inline-flex h-5 w-5 items-center justify-center rounded ${
+                      row.rank <= PROMOTION_RANK
+                        ? 'bg-emerald-500/25 text-emerald-300'
+                        : row.rank >= RELEGATION_RANK
+                          ? 'bg-rose-500/20 text-rose-300'
+                          : 'text-slate-500'
+                    }`}
+                  >
+                    {row.rank}
+                  </span>
+                </td>
+                <td className="max-w-[110px] truncate py-1.5">{row.team.name}</td>
+                <td className="py-1.5 text-center">{row.played}</td>
+                <td className="py-1.5 text-center">{row.gd > 0 ? `+${row.gd}` : row.gd}</td>
+                <td className="py-1.5 text-right">{row.points}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <p className="mt-3 text-[11px] leading-relaxed text-slate-500">
-        시즌 종료 시 {PROMOTION_RANK}위 안에 들면 승격, {RELEGATION_RANK}위 아래면 강등됩니다.
+        {PROMOTION_RANK}위 안에 들면 승격, {RELEGATION_RANK}위 아래면 강등됩니다.
       </p>
     </section>
   )
@@ -475,8 +491,10 @@ function CupBracket() {
 
   return (
     <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
-      <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">컵 대진표</h3>
-      <div className="space-y-3">
+      <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">
+        FA컵 {cup.index}회 대진
+      </h3>
+      <div className="scrollbar-thin max-h-[420px] space-y-3 overflow-y-auto">
         {CUP_ROUND_LABELS.map((label, round) => {
           const ties = tiesOfRound(cup, round)
           if (ties.length === 0) return null

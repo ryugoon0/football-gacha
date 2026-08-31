@@ -13,7 +13,8 @@ import type { Card } from '../lib/types'
 const card = (uid: string, condition = MAX_CONDITION, injuredFor = 0): Card => ({
   uid,
   playerId: 'n01',
-  level: 1,
+  level: 2,
+  limit: 3,
   condition,
   injuredFor,
   exp: 0,

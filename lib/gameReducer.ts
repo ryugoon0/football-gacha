@@ -1,3 +1,6 @@
+import type { SubEvent } from './autoSub'
+import { applyMatchWear, recoveryCost, treatmentCost, MAX_CONDITION } from './condition'
+import { createCup, cupReward, resolveCupRound } from './cup'
 import {
   DAILY_MISSIONS,
   missionClaimable,
@@ -6,11 +9,17 @@ import {
   type DailyState,
   type MissionId,
 } from './daily'
-import { applyMatchWear, recoveryCost, treatmentCost, MAX_CONDITION } from './condition'
-import { createCup, cupReward, resolveCupRound } from './cup'
-import { emptySlots } from './formations'
+import { FORMATIONS, emptySlots } from './formations'
 import { FUSION_FEE, checkFusion } from './fusion'
-import { applyExperience, matchRatings, maxLevelOf, type PlayerRating } from './growth'
+import {
+  addExperience,
+  applyExperience,
+  limitBreak as raiseLimit,
+  materialExp,
+  matchRatings,
+  trainingFee,
+  type PlayerRating,
+} from './growth'
 import {
   MY_TEAM_ID,
   ROUNDS_PER_SEASON,
@@ -21,20 +30,26 @@ import {
   type Fixture,
 } from './league'
 import { dailyMarket, type Listing } from './market'
-import { shardsFor, type ShardOffer } from './shards'
-import { FORMATIONS } from './formations'
-import { getPlayer } from './players'
-import { RARITY_STYLES, trainCost } from './rarity'
+import { getPlayer, levelCap } from './players'
+import { RARITY_STYLES } from './rarity'
 import { autoFill } from './squad'
+import { shardsFor, type ShardOffer } from './shards'
+import { TOTAL_MATCHDAYS } from './schedule'
 import type { TacticKey } from './tactics'
 import { initialState, newCard, newUid } from './storage'
-import type { Card, FormationKey, GameState, MatchResult, PlayerDef } from './types'
+import type { Card, FormationKey, GameState, MatchResult, PlayerDef, Squad } from './types'
 
 export interface RoundResult {
   home: string
   away: string
   homeGoals: number
   awayGoals: number
+}
+
+/** What the UI played the match with, after any automatic substitutions. */
+export interface MatchLineup {
+  squad: Squad
+  subs: SubEvent[]
 }
 
 export type Action =
@@ -44,15 +59,26 @@ export type Action =
   | { type: 'exchangeShards'; offer: ShardOffer; player: PlayerDef }
   | { type: 'sell'; uids: string[] }
   | { type: 'sellSpares' }
-  | { type: 'train'; uid: string }
+  | { type: 'trainCard'; uid: string; materialUids: string[] }
+  | { type: 'limitBreak'; uid: string; materialUid: string }
   | { type: 'fuse'; uids: string[]; player: PlayerDef }
   | { type: 'assign'; slotId: string; uid: string }
   | { type: 'clearSlot'; slotId: string }
+  | { type: 'assignBench'; index: number; uid: string }
+  | { type: 'clearBench'; index: number }
   | { type: 'setFormation'; formation: FormationKey }
   | { type: 'setTactic'; tactic: TacticKey }
+  | { type: 'setAutoSub'; enabled: boolean }
   | { type: 'autoFill' }
-  | { type: 'match'; result: MatchResult; fixture: Fixture; others: RoundResult[] }
-  | { type: 'cupMatch'; result: MatchResult; myRating: number }
+  | {
+      type: 'match'
+      result: MatchResult
+      fixture: Fixture
+      others: RoundResult[]
+      lineup: MatchLineup
+    }
+  | { type: 'cupMatch'; result: MatchResult; myRating: number; lineup: MatchLineup }
+  | { type: 'skipMatchday' }
   | { type: 'newSeason' }
   | { type: 'ensureMarket'; date: string }
   | { type: 'refreshMarket'; listings: Listing[]; cost: number }
@@ -94,19 +120,39 @@ function logMatch(
   ].slice(0, 20)
 }
 
+function withoutCards(state: GameState, uids: Set<string>): GameState {
+  const slots = { ...state.squad.slots }
+  for (const slotId of Object.keys(slots)) {
+    if (slots[slotId] && uids.has(slots[slotId]!)) slots[slotId] = null
+  }
+  const bench = state.squad.bench.map((uid) => (uid && uids.has(uid) ? null : uid))
+  return {
+    ...state,
+    cards: state.cards.filter((card) => !uids.has(card.uid)),
+    squad: { ...state.squad, slots, bench },
+  }
+}
+
+function sellPrice(card: Card): number {
+  const player = getPlayer(card.playerId)
+  if (!player) return 0
+  const style = RARITY_STYLES[player.rarity]
+  return style.sell + (card.level - 1) * Math.round(style.sell * 0.3)
+}
+
 /** Marks the starters, banks their experience and tires them out. */
 function afterMatch(
   state: GameState,
   result: MatchResult,
+  lineup: MatchLineup,
 ): { cards: Card[]; ratings: PlayerRating[] } {
-  const formation = FORMATIONS[state.squad.formation] ?? FORMATIONS['4-3-3']
+  const formation = FORMATIONS[lineup.squad.formation] ?? FORMATIONS['4-3-3']
   const byUid = new Map(state.cards.map((card) => [card.uid, card]))
 
   const starters = formation.slots.flatMap((slot) => {
-    const uid = state.squad.slots[slot.id]
+    const uid = lineup.squad.slots[slot.id]
     const card = uid ? byUid.get(uid) : undefined
     const player = card ? getPlayer(card.playerId) : undefined
-    // An injured player did not actually take the pitch.
     if (!card || !player || card.injuredFor > 0) return []
     return [{ uid: card.uid, player, position: slot.position as string }]
   })
@@ -128,25 +174,6 @@ function afterMatch(
       levelUp: grown.levelUps.some((levelUp) => levelUp.uid === rating.uid),
     })),
   }
-}
-
-function withoutCards(state: GameState, uids: Set<string>): GameState {
-  const slots = { ...state.squad.slots }
-  for (const slotId of Object.keys(slots)) {
-    if (slots[slotId] && uids.has(slots[slotId]!)) slots[slotId] = null
-  }
-  return {
-    ...state,
-    cards: state.cards.filter((card) => !uids.has(card.uid)),
-    squad: { ...state.squad, slots },
-  }
-}
-
-function sellPrice(card: Card): number {
-  const player = getPlayer(card.playerId)
-  if (!player) return 0
-  const style = RARITY_STYLES[player.rarity]
-  return style.sell + (card.level - 1) * Math.round(style.sell * 0.3)
 }
 
 export function reducer(state: GameState, action: Action): GameState {
@@ -202,19 +229,47 @@ export function reducer(state: GameState, action: Action): GameState {
     case 'sellSpares':
       return sellSpares(state)
 
-    case 'train': {
-      const card = state.cards.find((item) => item.uid === action.uid)
-      const player = card ? getPlayer(card.playerId) : undefined
-      // Potential caps how far a card can be trained.
-      if (!card || !player || card.level >= maxLevelOf(player)) return state
-      const cost = trainCost(player.rarity, card.level)
-      if (state.gold < cost) return state
+    case 'trainCard': {
+      const target = state.cards.find((item) => item.uid === action.uid)
+      if (!target || action.materialUids.length === 0) return state
+      if (action.materialUids.includes(action.uid)) return state
+
+      const materials = state.cards.filter((card) => action.materialUids.includes(card.uid))
+      if (materials.length !== action.materialUids.length) return state
+
+      const fee = trainingFee(target) * materials.length
+      if (state.gold < fee) return state
+
+      const exp = materials.reduce((sum, card) => sum + materialExp(card), 0)
+      const trained = addExperience(target, exp)
+      const consumed = new Set(action.materialUids)
+      const next = withoutCards(state, consumed)
+
       return {
-        ...state,
-        gold: state.gold - cost,
-        cards: state.cards.map((item) =>
-          item.uid === action.uid ? { ...item, level: item.level + 1 } : item,
-        ),
+        ...next,
+        gold: state.gold - fee,
+        cards: next.cards.map((card) => (card.uid === action.uid ? trained.card : card)),
+        daily: bumpMission(state, 'train', 1),
+      }
+    }
+
+    case 'limitBreak': {
+      const target = state.cards.find((item) => item.uid === action.uid)
+      const material = state.cards.find((item) => item.uid === action.materialUid)
+      if (!target || !material || target.uid === material.uid) return state
+      // Only a copy of the very same player can raise the ceiling.
+      if (target.playerId !== material.playerId) return state
+
+      const player = getPlayer(target.playerId)
+      if (!player || target.limit >= levelCap(player)) return state
+
+      const raised = raiseLimit(target)
+      if (!raised.raised) return state
+
+      const next = withoutCards(state, new Set([material.uid]))
+      return {
+        ...next,
+        cards: next.cards.map((card) => (card.uid === action.uid ? raised.card : card)),
         daily: bumpMission(state, 'train', 1),
       }
     }
@@ -234,39 +289,78 @@ export function reducer(state: GameState, action: Action): GameState {
 
     case 'assign': {
       const slots = { ...state.squad.slots }
+      const bench = [...state.squad.bench]
       const previousSlot = Object.keys(slots).find((slotId) => slots[slotId] === action.uid)
+      const benchIndex = bench.indexOf(action.uid)
       const displaced = slots[action.slotId] ?? null
+
       slots[action.slotId] = action.uid
-      // Moving a player already on the pitch swaps the two slots.
       if (previousSlot && previousSlot !== action.slotId) slots[previousSlot] = displaced
-      return { ...state, squad: { ...state.squad, slots } }
+      else if (benchIndex >= 0) bench[benchIndex] = displaced
+
+      return { ...state, squad: { ...state.squad, slots, bench } }
     }
 
-    case 'clearSlot':
+    case 'clearSlot': {
+      const uid = state.squad.slots[action.slotId]
+      const bench = [...state.squad.bench]
+      const free = bench.indexOf(null)
+      if (uid && free >= 0) bench[free] = uid
       return {
         ...state,
-        squad: { ...state.squad, slots: { ...state.squad.slots, [action.slotId]: null } },
+        squad: { ...state.squad, slots: { ...state.squad.slots, [action.slotId]: null }, bench },
       }
+    }
+
+    case 'assignBench': {
+      const bench = [...state.squad.bench]
+      const slots = { ...state.squad.slots }
+      const previousIndex = bench.indexOf(action.uid)
+      const startingSlot = Object.keys(slots).find((slotId) => slots[slotId] === action.uid)
+      const displaced = bench[action.index] ?? null
+
+      bench[action.index] = action.uid
+      if (previousIndex >= 0 && previousIndex !== action.index) bench[previousIndex] = displaced
+      else if (startingSlot) slots[startingSlot] = displaced
+
+      return { ...state, squad: { ...state.squad, slots, bench } }
+    }
+
+    case 'clearBench': {
+      const bench = [...state.squad.bench]
+      bench[action.index] = null
+      return { ...state, squad: { ...state.squad, bench } }
+    }
 
     case 'setFormation': {
       if (action.formation === state.squad.formation) return state
       const slots = emptySlots(action.formation)
-      // Keep whoever was already lined up in a slot the new shape still has.
+      const bench = [...state.squad.bench]
       for (const slotId of Object.keys(slots)) {
         const existing = state.squad.slots[slotId]
         if (existing && state.cards.some((card) => card.uid === existing)) slots[slotId] = existing
       }
-      return { ...state, squad: { formation: action.formation, slots } }
+      // Anyone who lost their slot drops to the bench if there is room.
+      const kept = new Set(Object.values(slots).filter(Boolean) as string[])
+      for (const uid of Object.values(state.squad.slots)) {
+        if (!uid || kept.has(uid) || bench.includes(uid)) continue
+        const free = bench.indexOf(null)
+        if (free >= 0) bench[free] = uid
+      }
+      return { ...state, squad: { formation: action.formation, slots, bench } }
     }
 
     case 'setTactic':
       return { ...state, tactic: action.tactic }
 
+    case 'setAutoSub':
+      return { ...state, autoSub: action.enabled }
+
     case 'autoFill':
-      return { ...state, squad: autoFill(state.cards, state.squad) }
+      return { ...state, squad: autoFill(state.cards, state.squad, state.season.division) }
 
     case 'match': {
-      const { result, fixture, others } = action
+      const { result, fixture, others, lineup } = action
       const record = { ...state.record }
       if (result.result === 'W') record.w += 1
       else if (result.result === 'D') record.d += 1
@@ -286,24 +380,27 @@ export function reducer(state: GameState, action: Action): GameState {
       const round = season.round + 1
       season = { ...season, round, finished: round >= ROUNDS_PER_SEASON }
 
-      const { cards, ratings } = afterMatch(state, result)
+      const withLineup = { ...state, squad: lineup.squad }
+      const { cards, ratings } = afterMatch(withLineup, result, lineup)
 
       return {
-        ...state,
+        ...withLineup,
         gold: state.gold + result.reward,
         cards,
         lastRatings: ratings,
+        lastSubs: lineup.subs,
         record,
         gf: state.gf + result.scoreFor,
         ga: state.ga + result.scoreAgainst,
         season,
+        matchday: Math.min(TOTAL_MATCHDAYS, state.matchday + 1),
         daily: result.result === 'W' ? bumpMission(state, 'win', 1) : today(state),
         history: logMatch(state, 'league', result, result.reward),
       }
     }
 
     case 'cupMatch': {
-      const { result, myRating } = action
+      const { result, myRating, lineup } = action
       if (state.cup.eliminated || state.cup.champion) return state
 
       const round = state.cup.round
@@ -321,20 +418,47 @@ export function reducer(state: GameState, action: Action): GameState {
       else if (result.result === 'D') record.d += 1
       else record.l += 1
 
-      const { cards, ratings } = afterMatch(state, result)
+      const withLineup = { ...state, squad: lineup.squad }
+      const { cards, ratings } = afterMatch(withLineup, result, lineup)
 
       return {
-        ...state,
+        ...withLineup,
         gold: state.gold + reward,
         cards,
         lastRatings: ratings,
+        lastSubs: lineup.subs,
         cup,
         record,
         gf: state.gf + result.scoreFor,
         ga: state.ga + result.scoreAgainst,
+        matchday: Math.min(TOTAL_MATCHDAYS, state.matchday + 1),
         trophies: wonTheCup ? { ...state.trophies, cup: state.trophies.cup + 1 } : state.trophies,
         daily: result.result === 'W' ? bumpMission(state, 'win', 1) : today(state),
         history: logMatch(state, 'cup', result, reward),
+      }
+    }
+
+    case 'skipMatchday':
+      // Used when a cup date comes round after the club is already out.
+      return { ...state, matchday: Math.min(TOTAL_MATCHDAYS, state.matchday + 1) }
+
+    case 'newSeason': {
+      if (!state.season.finished) return state
+      const outcome = seasonOutcome(state.season)
+      const index = state.season.index + 1
+      return {
+        ...state,
+        gold: state.gold + outcome.reward,
+        season: createSeason(outcome.nextDivision, index, state.club),
+        cup: createCup(outcome.nextDivision, index, state.club),
+        matchday: 0,
+        market: { ...state.market, date: '' },
+        trophies: outcome.promoted
+          ? { ...state.trophies, promotions: state.trophies.promotions + 1 }
+          : state.trophies,
+        cards: state.cards.map((card) => ({ ...card, condition: MAX_CONDITION, injuredFor: 0 })),
+        lastRatings: [],
+        lastSubs: [],
       }
     }
 
@@ -395,25 +519,6 @@ export function reducer(state: GameState, action: Action): GameState {
       }
     }
 
-    case 'newSeason': {
-      if (!state.season.finished) return state
-      const outcome = seasonOutcome(state.season)
-      const index = state.season.index + 1
-      return {
-        ...state,
-        gold: state.gold + outcome.reward,
-        season: createSeason(outcome.nextDivision, index, state.club),
-        cup: createCup(outcome.nextDivision, index, state.club),
-        market: { ...state.market, date: '' },
-        trophies: outcome.promoted
-          ? { ...state.trophies, promotions: state.trophies.promotions + 1 }
-          : state.trophies,
-        // Everyone comes back fresh for the new campaign.
-        cards: state.cards.map((card) => ({ ...card, condition: MAX_CONDITION, injuredFor: 0 })),
-        lastRatings: [],
-      }
-    }
-
     case 'claimMission': {
       const daily = today(state)
       const mission = DAILY_MISSIONS.find((item) => item.id === action.id)
@@ -450,23 +555,25 @@ export function reducer(state: GameState, action: Action): GameState {
   }
 }
 
-/** Sells every spare copy that is not in the starting eleven. */
+/** Sells every spare copy that is not in the starting eleven or on the bench. */
 export function sellSpares(state: GameState): GameState {
-  const inSquad = new Set(Object.values(state.squad.slots).filter(Boolean) as string[])
+  const inUse = new Set(
+    [...Object.values(state.squad.slots), ...state.squad.bench].filter(Boolean) as string[],
+  )
   const keptByPlayer = new Map<string, Card>()
   const spares: string[] = []
 
   for (const card of state.cards) {
-    if (inSquad.has(card.uid)) keptByPlayer.set(card.playerId, card)
+    if (inUse.has(card.uid)) keptByPlayer.set(card.playerId, card)
   }
   for (const card of state.cards) {
-    if (inSquad.has(card.uid)) continue
+    if (inUse.has(card.uid)) continue
     const kept = keptByPlayer.get(card.playerId)
     if (!kept) {
       keptByPlayer.set(card.playerId, card)
       continue
     }
-    if (!inSquad.has(kept.uid) && card.level > kept.level) {
+    if (!inUse.has(kept.uid) && card.level > kept.level) {
       keptByPlayer.set(card.playerId, card)
       spares.push(kept.uid)
     } else {

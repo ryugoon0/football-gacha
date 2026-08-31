@@ -1,3 +1,4 @@
+import { hashString, pickInRange } from './random'
 import type { Rarity } from './types'
 
 export const RARITIES: Rarity[] = ['Normal', 'Rare', 'Legend', 'Live', 'World']
@@ -31,7 +32,7 @@ interface RarityStyle {
 
 export const RARITY_STYLES: Record<Rarity, RarityStyle> = {
   Normal: {
-    label: '노멀',
+    label: '일반',
     face: 'from-slate-300 via-slate-200 to-slate-400',
     border: 'border-slate-500',
     ink: 'text-slate-900',
@@ -41,7 +42,7 @@ export const RARITY_STYLES: Record<Rarity, RarityStyle> = {
     trainCost: 150,
   },
   Rare: {
-    label: '레어',
+    label: '실버',
     face: 'from-sky-300 via-sky-200 to-blue-500',
     border: 'border-blue-700',
     ink: 'text-blue-950',
@@ -51,7 +52,7 @@ export const RARITY_STYLES: Record<Rarity, RarityStyle> = {
     trainCost: 320,
   },
   Legend: {
-    label: '레전드',
+    label: '골드',
     face: 'from-amber-200 via-yellow-300 to-amber-500',
     border: 'border-amber-700',
     ink: 'text-amber-950',
@@ -82,7 +83,36 @@ export const RARITY_STYLES: Record<Rarity, RarityStyle> = {
   },
 }
 
+/** Nothing can be trained past this. */
 export const MAX_LEVEL = 10
+
+interface RarityTier {
+  /** Level a fresh card of this rarity starts on. */
+  startLevel: [min: number, max: number]
+  /** Highest level this rarity can ever reach. */
+  levelCap: number
+}
+
+/**
+ * Rarity decides both where a card starts and how far it can go, so a 일반 card
+ * never catches a 골드 one even when both are fully trained.
+ */
+export const RARITY_TIERS: Record<Rarity, RarityTier> = {
+  Normal: { startLevel: [2, 2], levelCap: 8 },
+  Rare: { startLevel: [3, 3], levelCap: 9 },
+  Legend: { startLevel: [4, 5], levelCap: MAX_LEVEL },
+  Live: { startLevel: [4, 5], levelCap: MAX_LEVEL },
+  World: { startLevel: [5, 5], levelCap: MAX_LEVEL },
+}
+
+export function startLevelOf(rarity: Rarity, playerId: string): number {
+  const [min, max] = RARITY_TIERS[rarity].startLevel
+  return min === max ? min : pickInRange(hashString(`${playerId}:start`), min, max)
+}
+
+export function levelCapOf(rarity: Rarity): number {
+  return RARITY_TIERS[rarity].levelCap
+}
 
 export function trainCost(rarity: Rarity, level: number): number {
   return RARITY_STYLES[rarity].trainCost * level

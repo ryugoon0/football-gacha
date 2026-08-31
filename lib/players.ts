@@ -1,4 +1,8 @@
-import type { PlayerDef, Position, PositionGroup, Rarity, Stats } from './types'
+import { hashString, pickInRange, seededRandom } from './random'
+import { RARITY_TIERS, startLevelOf, MAX_LEVEL } from './rarity'
+import type { HiddenStats, PlayerDef, Position, PositionGroup, Rarity, Stats } from './types'
+
+export { hashString, seededRandom }
 
 export const POSITION_GROUP: Record<Position, PositionGroup> = {
   GK: 'GK',
@@ -68,26 +72,6 @@ export const GK_STAT_LABELS: Record<keyof Stats, string> = {
   phy: '위치선정',
 }
 
-function hashString(value: string): number {
-  let h = 2166136261
-  for (let i = 0; i < value.length; i++) {
-    h ^= value.charCodeAt(i)
-    h = Math.imul(h, 16777619)
-  }
-  return h >>> 0
-}
-
-/** Small deterministic PRNG so a player's stats never change between renders. */
-export function seededRandom(seed: number): () => number {
-  let t = seed >>> 0
-  return () => {
-    t = (t + 0x6d2b79f5) >>> 0
-    let r = Math.imul(t ^ (t >>> 15), 1 | t)
-    r = (r + Math.imul(r ^ (r >>> 7), 61 | r)) ^ r
-    return ((r ^ (r >>> 14)) >>> 0) / 4294967296
-  }
-}
-
 const clamp = (n: number, min: number, max: number) => Math.max(min, Math.min(max, n))
 
 export function computeOvr(stats: Stats, position: Position): number {
@@ -112,6 +96,54 @@ function buildStats(id: string, position: Position, target: number): Stats {
     stats[key] = clamp(Math.round(raw[key] + shift), 24, 99)
   }
   return stats
+}
+
+/** Positions a player can cover besides their main one. */
+const NEARBY_POSITIONS: Record<Position, Position[]> = {
+  GK: [],
+  CB: ['CDM'],
+  LB: ['LM', 'CB'],
+  RB: ['RM', 'CB'],
+  CDM: ['CM', 'CB'],
+  CM: ['CDM', 'CAM'],
+  CAM: ['CM', 'LM', 'RM'],
+  LM: ['LW', 'LB'],
+  RM: ['RW', 'RB'],
+  LW: ['LM', 'ST'],
+  RW: ['RM', 'ST'],
+  ST: ['CAM', 'LW', 'RW'],
+}
+
+/** Hidden attribute range per rarity: the gap that survives maxed out stats. */
+const HIDDEN_RANGE: Record<Rarity, [min: number, max: number]> = {
+  Normal: [0, 3],
+  Rare: [2, 5],
+  Legend: [5, 8],
+  Live: [7, 10],
+  World: [9, 12],
+}
+
+export const HIDDEN_MAX = 12
+
+function buildPositions(id: string, position: Position, rarity: Rarity): Position[] {
+  if (position === 'GK') return ['GK']
+  const nearby = NEARBY_POSITIONS[position]
+  // Better cards are likelier to be comfortable in more than one role.
+  const extra = pickInRange(hashString(`${id}:pos`), 0, rarity === 'Normal' ? 1 : 2)
+  return [position, ...nearby.slice(0, Math.min(extra, nearby.length))]
+}
+
+function buildHidden(id: string, rarity: Rarity): HiddenStats {
+  const [min, max] = HIDDEN_RANGE[rarity]
+  const rng = seededRandom(hashString(`${id}:hidden`))
+  const roll = () => min + Math.round(rng() * (max - min))
+  return { clutch: roll(), stamina: roll(), bigMatch: roll(), consistency: roll() }
+}
+
+/** Average of the hidden attributes, 0-12. */
+export function hiddenPower(player: PlayerDef): number {
+  const { clutch, stamina, bigMatch, consistency } = player.hidden
+  return (clutch + stamina + bigMatch + consistency) / 4
 }
 
 const NATIONS = [
@@ -258,11 +290,13 @@ function buildRoster(): PlayerDef[] {
         id,
         name,
         position,
+        positions: buildPositions(id, position, rarity),
         rarity,
         nation: NATIONS[Math.floor(rng() * NATIONS.length)],
         club: club.name,
         league: club.league,
         stats,
+        hidden: buildHidden(id, rarity),
         ovr: computeOvr(stats, position),
       })
     })
@@ -292,14 +326,42 @@ export function getPlayer(id: string): PlayerDef | undefined {
   return PLAYERS_BY_ID[id]
 }
 
-/** Training adds one point to every stat per level above 1. */
+/** The three attributes that matter most in a position. */
+export function keyStatsOf(position: Position): (keyof Stats)[] {
+  const weights = OVR_WEIGHTS[position]
+  return [...STAT_KEYS].sort((a, b) => weights[b] - weights[a]).slice(0, 3)
+}
+
+/** How far along the growth curve a card is, 0 at its start level, 1 at ten. */
+export function growthProgress(player: PlayerDef, level: number): number {
+  const start = startLevelOf(player.rarity, player.id)
+  const span = MAX_LEVEL - start
+  if (span <= 0) return 1
+  return clamp((level - start) / span, 0, 1)
+}
+
+/**
+ * Levelling pushes the position's key attributes towards 99 — reached only at
+ * level 10, which the lower rarities can never get to.
+ */
 export function effectiveStats(player: PlayerDef, level: number): Stats {
-  const bonus = Math.max(0, level - 1)
+  const progress = growthProgress(player, level)
+  const keys = new Set(keyStatsOf(player.position))
   const stats = {} as Stats
   for (const key of STAT_KEYS) {
-    stats[key] = Math.min(99, player.stats[key] + bonus)
+    const base = player.stats[key]
+    const reach = keys.has(key) ? progress : progress * 0.55
+    stats[key] = Math.min(99, Math.round(base + (99 - base) * reach))
   }
   return stats
+}
+
+export function startLevel(player: PlayerDef): number {
+  return startLevelOf(player.rarity, player.id)
+}
+
+export function levelCap(player: PlayerDef): number {
+  return RARITY_TIERS[player.rarity].levelCap
 }
 
 export function effectiveOvr(player: PlayerDef, level: number): number {

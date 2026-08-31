@@ -1,15 +1,16 @@
 import { describe, expect, it } from 'vitest'
-import { applyExperience, expForLevel, matchRatings, maxLevelOf } from '../lib/growth'
+import { addExperience, applyExperience, expForLevel, matchRatings } from '../lib/growth'
 import { PLAYERS, PLAYERS_BY_RARITY, getPlayer, seededRandom } from '../lib/players'
 import { subStatsOf } from '../lib/subStats'
 import { STAT_GROUPS } from '../lib/subStats'
 import { TRAITS, playerTraitFactors, teamTraitEffects, traitsOf } from '../lib/traits'
 import type { Card } from '../lib/types'
 
-const card = (uid: string, playerId: string, level = 1, exp = 0): Card => ({
+const card = (uid: string, playerId: string, level = 2, exp = 0, limit = level + 1): Card => ({
   uid,
   playerId,
   level,
+  limit,
   condition: 100,
   injuredFor: 0,
   exp,
@@ -70,20 +71,61 @@ describe('traits', () => {
   })
 })
 
-describe('potential', () => {
-  it('never exceeds ten and rewards the better cards', () => {
-    for (const player of PLAYERS) {
-      expect(maxLevelOf(player)).toBeGreaterThanOrEqual(5)
-      expect(maxLevelOf(player)).toBeLessThanOrEqual(10)
-    }
-    expect(maxLevelOf(PLAYERS_BY_RARITY.World[0])).toBe(10)
-    const normalAverage =
-      PLAYERS_BY_RARITY.Normal.reduce((sum, player) => sum + maxLevelOf(player), 0) /
-      PLAYERS_BY_RARITY.Normal.length
-    const legendAverage =
-      PLAYERS_BY_RARITY.Legend.reduce((sum, player) => sum + maxLevelOf(player), 0) /
-      PLAYERS_BY_RARITY.Legend.length
-    expect(legendAverage).toBeGreaterThan(normalAverage)
+describe('levels and limits', () => {
+  it('starts each rarity where the tier says and caps it there', async () => {
+    const { PLAYERS_BY_RARITY: pool, startLevel, levelCap } = await import('../lib/players')
+    expect(pool.Normal.every((player) => startLevel(player) === 2)).toBe(true)
+    expect(pool.Rare.every((player) => startLevel(player) === 3)).toBe(true)
+    expect(pool.Legend.every((player) => [4, 5].includes(startLevel(player)))).toBe(true)
+    expect(pool.Live.every((player) => [4, 5].includes(startLevel(player)))).toBe(true)
+
+    expect(levelCap(pool.Normal[0])).toBe(8)
+    expect(levelCap(pool.Rare[0])).toBe(9)
+    expect(levelCap(pool.Legend[0])).toBe(10)
+    expect(levelCap(pool.Live[0])).toBe(10)
+    expect(levelCap(pool.World[0])).toBe(10)
+  })
+
+  it('pushes the key attributes to 99 only at level ten', async () => {
+    const { PLAYERS_BY_RARITY: pool, effectiveStats, keyStatsOf, levelCap } = await import(
+      '../lib/players'
+    )
+    const gold = pool.Legend[0]
+    const maxed = effectiveStats(gold, levelCap(gold))
+    for (const key of keyStatsOf(gold.position)) expect(maxed[key]).toBe(99)
+
+    // 일반 카드는 상한이 8이라 99 근처에도 가지 못한다.
+    const normal = pool.Normal[0]
+    const normalMax = effectiveStats(normal, levelCap(normal))
+    const normalKeys = keyStatsOf(normal.position)
+    expect(normalMax[normalKeys[0]]).toBeLessThan(95)
+    expect(normalMax[normalKeys[0]]).toBeGreaterThan(normal.stats[normalKeys[0]])
+  })
+
+  it('keeps a rarity gap through the hidden attributes', async () => {
+    const { PLAYERS_BY_RARITY: pool, hiddenPower } = await import('../lib/players')
+    const average = (players: { hidden: unknown }[]) =>
+      players.reduce((sum, player) => sum + hiddenPower(player as never), 0) / players.length
+
+    expect(average(pool.Live)).toBeGreaterThan(average(pool.Legend))
+    expect(average(pool.Legend)).toBeGreaterThan(average(pool.Rare))
+    expect(average(pool.World)).toBeGreaterThan(average(pool.Live))
+  })
+
+  it('stops experience at the limit until a duplicate raises it', async () => {
+    const { limitBreak } = await import('../lib/growth')
+    const { PLAYERS_BY_RARITY: pool } = await import('../lib/players')
+    const player = pool.Rare[0]
+    const stuck = card('a', player.id, 3, 0, 3)
+
+    const trained = addExperience(stuck, 9999)
+    expect(trained.card.level).toBe(3)
+    expect(trained.wasted).toBeGreaterThan(0)
+
+    const raised = limitBreak(stuck)
+    expect(raised.raised).toBe(true)
+    expect(raised.card.limit).toBe(4)
+    expect(addExperience(raised.card, 9999).card.level).toBe(4)
   })
 })
 
@@ -132,29 +174,28 @@ describe('match ratings', () => {
 })
 
 describe('experience', () => {
-  it('levels a card up once it banks enough', () => {
-    const player = PLAYERS_BY_RARITY.Rare[0]
-    const cards = [card('a', player.id, 1, expForLevel(1) - 5)]
+  it('levels a card up once it banks enough', async () => {
+    const { PLAYERS_BY_RARITY: pool } = await import('../lib/players')
+    const player = pool.Rare[0]
+    const cards = [card('a', player.id, 3, expForLevel(3) - 5, 6)]
     const { cards: next, levelUps } = applyExperience(cards, [
       { uid: 'a', name: player.name, rating: 8, goals: 1, exp: 30 },
     ])
 
-    expect(next[0].level).toBe(2)
-    expect(next[0].exp).toBeLessThan(expForLevel(2))
+    expect(next[0].level).toBe(4)
     expect(levelUps).toHaveLength(1)
     expect(levelUps[0].name).toBe(player.name)
   })
 
-  it('stops at the potential ceiling', () => {
-    const player = PLAYERS_BY_RARITY.Normal.find((item) => maxLevelOf(item) < 10)!
-    const ceiling = maxLevelOf(player)
-    const cards = [card('a', player.id, ceiling, 0)]
+  it('does not push a card past its limit', async () => {
+    const { PLAYERS_BY_RARITY: pool } = await import('../lib/players')
+    const player = pool.Normal[0]
+    const cards = [card('a', player.id, 4, 0, 4)]
     const { cards: next, levelUps } = applyExperience(cards, [
       { uid: 'a', name: player.name, rating: 10, goals: 3, exp: 9999 },
     ])
 
-    expect(next[0].level).toBe(ceiling)
-    expect(next[0].exp).toBe(0)
+    expect(next[0].level).toBe(4)
     expect(levelUps).toHaveLength(0)
   })
 
@@ -165,5 +206,48 @@ describe('experience', () => {
     ])
     expect(next[1]).toBe(cards[1])
     expect(next[0].exp).toBe(20)
+  })
+})
+
+describe('hidden attributes in a match', () => {
+  it('rates the higher rarities higher on the hidden scale', async () => {
+    const { PLAYERS_BY_RARITY: pool, hiddenPower } = await import('../lib/players')
+    const average = (rarity: 'Normal' | 'Rare' | 'Legend' | 'Live' | 'World') =>
+      pool[rarity].reduce((sum, player) => sum + hiddenPower(player), 0) / pool[rarity].length
+
+    expect(average('Live')).toBeGreaterThan(average('Legend'))
+    expect(average('World')).toBeGreaterThan(average('Live'))
+  })
+
+  it('wins more matches with the same visible rating but better hidden stats', async () => {
+    const { simulateMatch } = await import('../lib/match')
+    const { evaluateSquad } = await import('../lib/squad')
+    const { initialState } = await import('../lib/storage')
+
+    const state = initialState()
+    const base = evaluateSquad(state.cards, state.squad, 5)
+    const opponent = { id: 'x', name: '상대', badge: 'XX', rating: base.overall }
+
+    const run = (hidden: number) => {
+      const rng = seededRandom(9)
+      let wins = 0
+      for (let i = 0; i < 400; i++) {
+        const result = simulateMatch({
+          team: { ...base, hidden },
+          teamName: '팀',
+          opponent,
+          division: 5,
+          venue: 'home',
+          tactic: 'balanced',
+          traits: base.traits,
+          rng,
+        })
+        if (result.result === 'W') wins++
+      }
+      return wins
+    }
+
+    // Same attack, midfield and defence on paper; only the hidden gap differs.
+    expect(run(11)).toBeGreaterThan(run(1))
   })
 })

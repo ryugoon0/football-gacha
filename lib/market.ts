@@ -23,15 +23,17 @@ export function transferPrice(player: PlayerDef, level = 1): number {
   return Math.round(RARITY_STYLES[player.rarity].sell * 2.2 + (ovr * ovr) / 8)
 }
 
-/** Better divisions attract better players onto the market. */
+/**
+ * Only 일반 and 실버 players are ever transfer listed — 골드 이상은 카드팩과
+ * 합성으로만 손에 넣습니다. Higher divisions see more 실버 listings.
+ */
+export const MARKET_RARITIES: Rarity[] = ['Normal', 'Rare']
+
 function rarityOdds(division: number): [Rarity, number][] {
   const tier = BOTTOM_DIVISION - division // 0 at the bottom, 4 at the top
   return [
-    ['Normal', Math.max(20, 60 - tier * 10)],
-    ['Rare', 28 + tier * 2],
-    ['Legend', 8 + tier * 4],
-    ['Live', 3 + tier * 2],
-    ['World', 1 + tier * 2],
+    ['Normal', Math.max(25, 70 - tier * 10)],
+    ['Rare', 30 + tier * 10],
   ]
 }
 

@@ -8,12 +8,12 @@ import {
   recoveryCost,
   treatmentCost,
 } from '../lib/condition'
-import { expForLevel, maxLevelOf } from '../lib/growth'
-import { effectiveOvr } from '../lib/players'
-import { RARITY_STYLES, trainCost } from '../lib/rarity'
+import { expForLevel } from '../lib/growth'
+import { GK_STAT_LABELS, STAT_LABELS, effectiveOvr, levelCap } from '../lib/players'
+import { RARITY_STYLES } from '../lib/rarity'
 import { shardsFor } from '../lib/shards'
+import { OUT_OF_POSITION_FACTOR, ratingInSlot } from '../lib/squad'
 import { STAT_GROUPS, SUB_STATS, subStatLabel, subStatsOf } from '../lib/subStats'
-import { GK_STAT_LABELS, STAT_LABELS } from '../lib/players'
 import { TRAITS, traitsOf } from '../lib/traits'
 import type { Card, PlayerDef } from '../lib/types'
 import PlayerCard from './PlayerCard'
@@ -23,7 +23,6 @@ export default function PlayerDetail({
   player,
   gold,
   inSquad,
-  onTrain,
   onTreat,
   onRecover,
   onSell,
@@ -32,21 +31,19 @@ export default function PlayerDetail({
   player: PlayerDef
   gold: number
   inSquad: boolean
-  onTrain: () => void
   onTreat: () => void
   onRecover: () => void
   onSell: () => void
 }) {
   const [showStats, setShowStats] = useState(true)
   const style = RARITY_STYLES[player.rarity]
-  const ceiling = maxLevelOf(player)
-  const maxed = card.level >= ceiling
-  const upgradeCost = trainCost(player.rarity, card.level)
-  const sellValue = style.sell + (card.level - 1) * Math.round(style.sell * 0.3)
+  const cap = levelCap(player)
   const isKeeper = player.position === 'GK'
   const labels = isKeeper ? GK_STAT_LABELS : STAT_LABELS
   const traits = traitsOf(player)
   const expNeeded = expForLevel(card.level)
+  const atLimit = card.level >= card.limit
+  const maxed = card.level >= cap
 
   return (
     <section className="space-y-3 rounded-2xl border border-white/10 bg-slate-900/60 p-4">
@@ -80,24 +77,61 @@ export default function PlayerDetail({
         </div>
       )}
 
+      <div className="rounded-lg bg-white/5 p-3">
+        <div className="text-xs font-bold text-slate-400">가능 포지션</div>
+        <div className="mt-2 space-y-1">
+          {player.positions.map((position) => (
+            <div key={position} className="flex items-center gap-2 text-xs">
+              <span
+                className={`w-12 shrink-0 rounded px-1 py-0.5 text-center font-bold ${
+                  position === player.position
+                    ? 'bg-emerald-400 text-slate-900'
+                    : 'bg-white/10 text-slate-200'
+                }`}
+              >
+                {position}
+              </span>
+              <span className="h-1.5 flex-1 rounded-full bg-white/10">
+                <span
+                  className="block h-1.5 rounded-full bg-emerald-400/80"
+                  style={{ width: `${ratingInSlot(player, card.level, position)}%` }}
+                />
+              </span>
+              <span className="w-7 shrink-0 text-right font-bold text-white">
+                {ratingInSlot(player, card.level, position)}
+              </span>
+            </div>
+          ))}
+        </div>
+        <p className="mt-2 text-[10px] leading-relaxed text-slate-500">
+          위 포지션이 아닌 자리에 넣으면 능력치가 {Math.round((1 - OUT_OF_POSITION_FACTOR) * 100)}%
+          가까이 깎입니다. (주 포지션 {player.position} 기준 최고치)
+        </p>
+      </div>
+
       <div className="rounded-lg bg-white/5 p-3 text-sm text-slate-300">
         <div className="flex items-center justify-between">
           <span>성장</span>
           <span className="font-bold text-white">
             Lv.{card.level}
-            <span className="text-slate-500"> / 잠재력 {ceiling}</span>
+            <span className="text-slate-500">
+              {' '}
+              / 한계 {card.limit} · {style.label} 상한 {cap}
+            </span>
           </span>
         </div>
         <div className="mt-1 h-1.5 rounded-full bg-white/10">
           <div
-            className="h-1.5 rounded-full bg-sky-400"
-            style={{ width: `${maxed ? 100 : Math.min(100, ((card.exp ?? 0) / expNeeded) * 100)}%` }}
+            className={`h-1.5 rounded-full ${atLimit ? 'bg-rose-400' : 'bg-sky-400'}`}
+            style={{ width: `${atLimit ? 100 : Math.min(100, (card.exp / expNeeded) * 100)}%` }}
           />
         </div>
         <div className="mt-1 text-xs text-slate-500">
           {maxed
-            ? '잠재력을 모두 채웠습니다.'
-            : `경험치 ${card.exp ?? 0} / ${expNeeded} — 경기에 나가면 평점만큼 쌓입니다.`}
+            ? '등급 상한까지 올라간 카드입니다.'
+            : atLimit
+              ? '한계에 도달했습니다. 같은 선수 카드로 한계를 돌파하세요.'
+              : `경험치 ${card.exp} / ${expNeeded} — 훈련이나 경기로 채웁니다.`}
         </div>
       </div>
 
@@ -167,16 +201,9 @@ export default function PlayerDetail({
       )}
 
       <div className="text-center text-xs text-slate-500">
-        현재 오버롤 {effectiveOvr(player, card.level)} · {player.nation} · {player.club}
+        현재 오버롤 {effectiveOvr(player, card.level)} · {player.nation} · {player.club} ·{' '}
+        {player.league}
       </div>
-
-      <button
-        onClick={onTrain}
-        disabled={maxed || gold < upgradeCost}
-        className="w-full rounded-lg bg-amber-400 px-3 py-2 text-sm font-bold text-slate-900 transition hover:bg-amber-300 disabled:opacity-40"
-      >
-        {maxed ? '잠재력 한계' : `강화하기 (${upgradeCost}G)`}
-      </button>
 
       {isInjured(card) && (
         <button
@@ -202,12 +229,13 @@ export default function PlayerDetail({
         onClick={onSell}
         className="w-full rounded-lg bg-rose-500/20 px-3 py-2 text-sm font-bold text-rose-200 transition hover:bg-rose-500/30"
       >
-        방출하기 (+{sellValue}G · +{shardsFor(card)}조각)
+        방출하기 (+{style.sell + (card.level - 1) * Math.round(style.sell * 0.3)}G · +
+        {shardsFor(card)}조각)
       </button>
 
       {inSquad && (
         <p className="text-xs font-semibold text-amber-400">
-          선발 명단에 있는 선수입니다. 방출하면 자리가 비워집니다.
+          선발 또는 벤치에 있는 선수입니다. 방출하면 자리가 비워집니다.
         </p>
       )}
     </section>

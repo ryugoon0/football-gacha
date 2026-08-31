@@ -2,12 +2,19 @@ import { MAX_CONDITION } from './condition'
 import { createCup } from './cup'
 import { freshDaily } from './daily'
 import { emptySlots } from './formations'
+import { newCardLevel } from './growth'
 import { BOTTOM_DIVISION, createSeason } from './league'
 import { emptyMarket } from './market'
+import { getPlayer } from './players'
+import { BENCH_SIZE } from './squad'
 import type { Card, GameState } from './types'
 
-export const SAVE_KEY = 'football-day-save-v1'
-export const SAVE_VERSION = 5
+/**
+ * The card and season model changed shape, so this save lives under a new key:
+ * older games start fresh rather than loading into a broken state.
+ */
+export const SAVE_KEY = 'football-day-save-v2'
+export const SAVE_VERSION = 6
 export const STARTING_GOLD = 3000
 export const DEFAULT_CLUB = '내 클럽 FC'
 
@@ -20,20 +27,35 @@ export function newUid(): string {
   ).toString(36)}`
 }
 
-export function newCard(playerId: string, level = 1): Card {
-  return { uid: newUid(), playerId, level, condition: MAX_CONDITION, injuredFor: 0, exp: 0 }
+export function newCard(playerId: string): Card {
+  const player = getPlayer(playerId)
+  const { level, limit } = player ? newCardLevel(player) : { level: 1, limit: 2 }
+  return {
+    uid: newUid(),
+    playerId,
+    level,
+    limit,
+    condition: MAX_CONDITION,
+    injuredFor: 0,
+    exp: 0,
+  }
 }
 
-/** Older saves stored cards without fitness, so fill it in. */
+/** Older saves are missing fields; fill them in defensively. */
 export function normalizeCards(cards: Card[]): Card[] {
-  return cards.map((card) => ({
-    uid: card.uid,
-    playerId: card.playerId,
-    level: card.level ?? 1,
-    condition: typeof card.condition === 'number' ? card.condition : MAX_CONDITION,
-    injuredFor: typeof card.injuredFor === 'number' ? card.injuredFor : 0,
-    exp: typeof card.exp === 'number' ? card.exp : 0,
-  }))
+  return cards.map((card) => {
+    const player = getPlayer(card.playerId)
+    const defaults = player ? newCardLevel(player) : { level: 1, limit: 2 }
+    return {
+      uid: card.uid,
+      playerId: card.playerId,
+      level: typeof card.level === 'number' ? card.level : defaults.level,
+      limit: typeof card.limit === 'number' ? card.limit : defaults.limit,
+      condition: typeof card.condition === 'number' ? card.condition : MAX_CONDITION,
+      injuredFor: typeof card.injuredFor === 'number' ? card.injuredFor : 0,
+      exp: typeof card.exp === 'number' ? card.exp : 0,
+    }
+  })
 }
 
 /** The squad every new manager starts with, so a first match is playable. */
@@ -51,43 +73,49 @@ const STARTER_SLOTS: [slotId: string, playerId: string][] = [
   ['f3', 'n19'],
 ]
 
-const STARTER_BENCH = ['n01', 'n15', 'n21']
+const STARTER_BENCH = ['n01', 'n15', 'n21', 'n03', 'n16']
+
+function starterCard(playerId: string, uid: string): Card {
+  const player = getPlayer(playerId)
+  const { level, limit } = player ? newCardLevel(player) : { level: 2, limit: 3 }
+  return { uid, playerId, level, limit, condition: MAX_CONDITION, injuredFor: 0, exp: 0 }
+}
 
 export function initialState(): GameState {
   const cards: Card[] = []
   const slots = emptySlots('4-3-3')
+  const bench: (string | null)[] = []
 
   STARTER_SLOTS.forEach(([slotId, playerId], index) => {
     const uid = `starter-${index + 1}`
-    cards.push({ uid, playerId, level: 1, condition: MAX_CONDITION, injuredFor: 0, exp: 0 })
+    cards.push(starterCard(playerId, uid))
     slots[slotId] = uid
   })
   STARTER_BENCH.forEach((playerId, index) => {
-    cards.push({
-      uid: `starter-b${index + 1}`,
-      playerId,
-      level: 1,
-      condition: MAX_CONDITION,
-      injuredFor: 0,
-      exp: 0,
-    })
+    const uid = `starter-b${index + 1}`
+    cards.push(starterCard(playerId, uid))
+    bench.push(uid)
   })
+  while (bench.length < BENCH_SIZE) bench.push(null)
 
   return {
     version: SAVE_VERSION,
     club: DEFAULT_CLUB,
     gold: STARTING_GOLD,
     cards,
-    squad: { formation: '4-3-3', slots },
+    squad: { formation: '4-3-3', slots, bench },
     tactic: 'balanced',
+    autoSub: true,
     season: createSeason(BOTTOM_DIVISION, 1, DEFAULT_CLUB),
     cup: createCup(BOTTOM_DIVISION, 1, DEFAULT_CLUB),
+    matchday: 0,
     market: emptyMarket(),
     trophies: { cup: 0, promotions: 0 },
     shards: 0,
     pity: 0,
     pulls: { total: 0, byRarity: { Normal: 0, Rare: 0, Legend: 0, Live: 0, World: 0 } },
     lastRatings: [],
+    lastSubs: [],
     // The real day is stamped on the client after hydration, so server and
     // browser render the same empty mission board.
     daily: freshDaily(''),
@@ -100,75 +128,15 @@ export function initialState(): GameState {
   }
 }
 
-interface LegacySave {
-  version: 1 | 2 | 3 | 4
-  club?: string
-  gold?: number
-  cards?: Card[]
-  squad?: GameState['squad']
-  record?: GameState['record']
-  gf?: number
-  ga?: number
-  division?: number
-  tactic?: GameState['tactic']
-  season?: GameState['season']
-  cup?: GameState['cup']
-  market?: GameState['market']
-  trophies?: GameState['trophies']
-  daily?: GameState['daily']
-  guideDone?: boolean
-  collected?: string[]
-  history?: GameState['history']
-}
-
-/**
- * Older saves are carried forward rather than wiped: version 1 had a points
- * ladder instead of a league season, version 2 had no cup, market or player
- * fitness, version 3 had no experience on cards, and version 4 had no shards
- * or pity counter. All of them keep their club, cards and gold.
- */
-function migrate(save: LegacySave): GameState {
-  const base = initialState()
-  const club = save.club ?? base.club
-  const division = Math.min(
-    BOTTOM_DIVISION,
-    Math.max(1, save.season?.division ?? save.division ?? BOTTOM_DIVISION),
-  )
-  const season =
-    save.version !== 1 && save.season ? save.season : createSeason(division, 1, club)
-
-  return {
-    ...base,
-    club,
-    gold: save.gold ?? base.gold,
-    cards: save.cards?.length ? normalizeCards(save.cards) : base.cards,
-    squad: save.squad ?? base.squad,
-    tactic: save.tactic ?? base.tactic,
-    season,
-    cup: save.cup ?? createCup(division, season.index, club),
-    market: save.market ?? base.market,
-    trophies: save.trophies ?? base.trophies,
-    daily: save.daily ?? base.daily,
-    guideDone: true,
-    record: save.record ?? base.record,
-    gf: save.gf ?? 0,
-    ga: save.ga ?? 0,
-    collected: save.collected ?? base.collected,
-    history: save.history ?? [],
-  }
-}
-
 export function loadState(): GameState {
   if (typeof window === 'undefined') return initialState()
   try {
     const raw = window.localStorage.getItem(SAVE_KEY)
     if (!raw) return initialState()
     const parsed = JSON.parse(raw) as Partial<GameState> & { version?: number }
-    if (!parsed || !Array.isArray(parsed.cards)) return initialState()
-    if (parsed.version && parsed.version >= 1 && parsed.version < SAVE_VERSION) {
-      return migrate(parsed as unknown as LegacySave)
+    if (!parsed || !Array.isArray(parsed.cards) || parsed.version !== SAVE_VERSION) {
+      return initialState()
     }
-    if (parsed.version !== SAVE_VERSION) return initialState()
     const state = { ...initialState(), ...parsed } as GameState
     return { ...state, cards: normalizeCards(state.cards) }
   } catch {

@@ -1,9 +1,9 @@
 import { MY_TEAM_ID, divisionBaseRating, type LeagueTeam } from './league'
 import { seededRandom } from './players'
 
-export const CUP_ROUND_LABELS = ['8강', '4강', '결승']
+export const CUP_ROUND_LABELS = ['16강', '8강', '4강', '결승']
 export const CUP_ROUNDS = CUP_ROUND_LABELS.length
-export const CUP_TEAMS = 8
+export const CUP_TEAMS = 16
 
 export interface CupTie {
   round: number
@@ -36,6 +36,14 @@ const CUP_CLUBS: [name: string, badge: string][] = [
   ['강릉 코스트', 'GN'],
   ['김해 가야', 'GH'],
   ['평창 스노우', 'PC'],
+  ['여수 오션스', 'YS'],
+  ['충주 사과', 'CJ'],
+  ['진주 실크', 'JN'],
+  ['군산 아일랜드', 'GS'],
+  ['남해 브릿지', 'NH'],
+  ['철원 프론티어', 'CW'],
+  ['거제 조선', 'GJ'],
+  ['영덕 크랩스', 'YD'],
 ]
 
 function tie(round: number, home: string, away: string): CupTie {
@@ -131,7 +139,7 @@ function settle(
 
 export function cupReward(round: number, won: boolean): number {
   if (!won) return 100 + round * 150
-  return [400, 900, 2500][round] ?? 400
+  return [300, 600, 1200, 3000][round] ?? 300
 }
 
 export interface CupProgress {

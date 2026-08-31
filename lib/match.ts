@@ -89,9 +89,11 @@ export function simulateMatch({
   const awayBonus = venue === 'away' ? HOME_ADVANTAGE : 0
 
   const bigGame = venue === 'neutral' ? traits.cup : 0
-  const myAtt = team.att * plan.att + homeBonus + bigGame
-  const myDef = team.def * plan.def + homeBonus + bigGame
-  const myMid = team.mid + homeBonus + bigGame
+  // Hidden attributes are never shown, but they are why two 99 cards differ.
+  const hiddenEdge = team.hidden / 2
+  const myAtt = team.att * plan.att + homeBonus + bigGame + hiddenEdge
+  const myDef = team.def * plan.def + homeBonus + bigGame + hiddenEdge
+  const myMid = team.mid + homeBonus + bigGame + hiddenEdge
 
   const oppAtt = opponent.rating + awayBonus + (rng() * 6 - 3)
   const oppMid = opponent.rating + awayBonus + (rng() * 6 - 3)
@@ -133,7 +135,7 @@ export function simulateMatch({
     else shotsAgainst++
 
     // Our finishers help us score; our defenders make the opponent's job harder.
-    const swing = weAttack ? traits.goal : -traits.concede
+    const swing = weAttack ? traits.goal + team.hidden * 0.002 : -traits.concede
     const goalChance = clamp(0.22 + (att - def) / 150 + swing, 0.06, 0.6)
     const shooter = weAttack
       ? pickScorer(team.evaluations, rng)
