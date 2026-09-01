@@ -1,7 +1,7 @@
 import { isInjured } from './condition'
 import { FORMATIONS } from './formations'
 import { getPlayer } from './players'
-import { lineupCapOf, positionFit, ratingInSlot } from './squad'
+import { lineupCapOf, ratingInSlot } from './squad'
 import type { Card, Squad } from './types'
 
 /** A starter this tired is pulled when auto substitution is on. */
@@ -63,9 +63,10 @@ export function applyAutoSubs(
       const player = candidate ? getPlayer(candidate.playerId) : undefined
       if (!candidate || !player) return
       if (isInjured(candidate) || conditionOf(candidate) < SUB_READY_CONDITION) return
-      if (positionFit(player, slot.position) === 'out') return
       if (levelTotal - starter.level + candidate.level > cap) return
 
+      // Out of position is a heavy penalty rather than a ban, so an injured
+      // starter is always replaced when the bench has anyone fit to run.
       const score = ratingInSlot(player, candidate.level, slot.position)
       if (score > bestScore) {
         bestScore = score

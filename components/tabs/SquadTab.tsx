@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { conditionFactor, isInjured } from '../../lib/condition'
 import { FORMATIONS, FORMATION_KEYS } from '../../lib/formations'
 import { getPlayer } from '../../lib/players'
@@ -51,6 +51,13 @@ export default function SquadTab() {
     [state.cards, state.squad, state.season.division],
   )
   const gaps = useMemo(() => missingSlots(rating.evaluations), [rating.evaluations])
+
+  // On a phone the candidate list sits far below the pitch, so selecting a slot
+  // has to bring it into view or nothing looks like it happened.
+  const pickerRef = useRef<HTMLElement | null>(null)
+  useEffect(() => {
+    if (target) pickerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [target])
 
   const targetPosition: Position | undefined =
     target?.kind === 'slot'
@@ -439,7 +446,10 @@ export default function SquadTab() {
           </p>
         </section>
 
-        <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+        <section
+          ref={pickerRef}
+          className="scroll-mt-24 rounded-2xl border border-white/10 bg-slate-900/60 p-4"
+        >
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">
               {target

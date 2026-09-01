@@ -212,21 +212,22 @@ export function autoFill(cards: Card[], squad: Squad, division: number = BOTTOM_
   const pool = usableCards(cards)
   const cap = lineupCapOf(division)
 
-  const pairs: { slotId: string; uid: string; level: number; score: number }[] = []
+  // Out of position is a penalty, not a ban: a full eleven beats an empty slot.
+  const pairs: { slotId: string; uid: string; level: number; score: number; out: boolean }[] = []
   for (const slot of formation.slots) {
     for (const card of pool) {
       const player = getPlayer(card.playerId)!
-      // Never auto-select someone who cannot play the position.
-      if (positionFit(player, slot.position) === 'out') continue
       pairs.push({
         slotId: slot.id,
         uid: card.uid,
         level: card.level,
         score: ratingInSlot(player, card.level, slot.position) * conditionFactor(card.condition),
+        out: positionFit(player, slot.position) === 'out',
       })
     }
   }
-  pairs.sort((a, b) => b.score - a.score)
+  // Every proper fit is placed before anyone is asked to play out of position.
+  pairs.sort((a, b) => Number(a.out) - Number(b.out) || b.score - a.score)
 
   const slots = emptySlots(formation.key)
   const takenSlots = new Set<string>()
@@ -242,13 +243,15 @@ export function autoFill(cards: Card[], squad: Squad, division: number = BOTTOM_
     total += pair.level
   }
 
-  // Anything still empty gets the cheapest body that fits the budget.
+  // Anything still empty gets the cheapest body that fits the budget, and if
+  // nobody fits, the cheapest body full stop — an over budget eleven is at
+  // least playable once the manager swaps someone down, an empty slot is not.
   for (const slot of formation.slots) {
     if (slots[slot.id]) continue
-    const candidate = pairs
+    const free = pairs
       .filter((pair) => pair.slotId === slot.id && !takenCards.has(pair.uid))
       .sort((a, b) => a.level - b.level || b.score - a.score)
-      .find((pair) => total + pair.level <= cap)
+    const candidate = free.find((pair) => total + pair.level <= cap) ?? free[0]
     if (candidate) {
       slots[slot.id] = candidate.uid
       takenCards.add(candidate.uid)

@@ -30,17 +30,29 @@ describe('lineup level cap', () => {
     expect(over.overCap).toBe(true)
   })
 
-  it('keeps the auto line-up inside the budget', () => {
+  it('keeps the auto line-up inside the budget when it can', () => {
     const state = initialState()
-    const strong: Card[] = state.cards.map((card) => ({ ...card, level: 8, limit: 8 }))
-    const squad = autoFill(strong, state.squad, 5)
-    const rating = evaluateSquad(strong, squad, 5)
+    const squad = autoFill(state.cards, state.squad, 5)
+    const rating = evaluateSquad(state.cards, squad, 5)
 
     expect(rating.levelTotal).toBeLessThanOrEqual(lineupCapOf(5))
     expect(squad.bench.length).toBe(BENCH_SIZE)
   })
 
-  it('never picks someone for a position they cannot play', () => {
+  it('still fields eleven when nobody fits the budget, and says so', () => {
+    const state = initialState()
+    const strong: Card[] = state.cards.map((card) => ({ ...card, level: 8, limit: 8 }))
+    const squad = autoFill(strong, state.squad, 5)
+    const rating = evaluateSquad(strong, squad, 5)
+
+    // An empty slot cannot play at all; an over budget eleven can be fixed by
+    // swapping one player down, and the screen warns about it.
+    expect(rating.evaluations.filter((item) => item.card)).toHaveLength(11)
+    expect(rating.overCap).toBe(true)
+    expect(squad.bench.length).toBe(BENCH_SIZE)
+  })
+
+  it('prefers proper fits and only asks anyone to play out of position last', () => {
     const state = initialState()
     const squad = autoFill(state.cards, state.squad, 5)
     const rating = evaluateSquad(state.cards, squad, 5)
@@ -48,6 +60,21 @@ describe('lineup level cap', () => {
       if (!slot.player) continue
       expect(slot.fit).not.toBe('out')
     }
+  })
+
+  it('fills a position nobody plays rather than leaving it empty', () => {
+    const state = initialState()
+    // Only two players left, neither a keeper: the eleven is still filled.
+    const outfield = state.cards
+      .filter((card) => getPlayer(card.playerId)?.position !== 'GK')
+      .slice(0, 11)
+    const squad = autoFill(outfield, state.squad, 5)
+    const rating = evaluateSquad(outfield, squad, 5)
+
+    expect(rating.evaluations.filter((item) => item.card)).toHaveLength(11)
+    const keeper = rating.evaluations.find((item) => item.slotPosition === 'GK')
+    expect(keeper?.card).toBeTruthy()
+    expect(keeper?.fit).toBe('out')
   })
 })
 
