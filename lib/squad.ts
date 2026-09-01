@@ -58,6 +58,20 @@ export interface SlotEvaluation {
   injured: boolean
 }
 
+/** Positions with nobody fit to play them — an empty slot or an injured starter. */
+export function missingSlots(evaluations: SlotEvaluation[]): {
+  empty: string[]
+  injured: string[]
+} {
+  const empty: string[] = []
+  const injured: string[] = []
+  for (const item of evaluations) {
+    if (!item.card) empty.push(item.slotPosition)
+    else if (item.injured) injured.push(item.slotPosition)
+  }
+  return { empty, injured }
+}
+
 export interface SquadRating {
   overall: number
   att: number

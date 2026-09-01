@@ -21,7 +21,7 @@ import {
   teamOf,
 } from '../../lib/league'
 import { SEASON_SCHEDULE, TOTAL_MATCHDAYS } from '../../lib/schedule'
-import { evaluateSquad } from '../../lib/squad'
+import { evaluateSquad, missingSlots } from '../../lib/squad'
 import type { MatchResult, Squad } from '../../lib/types'
 import { MINI_GAME_REWARD, matchReward, simulateMatch } from '../../lib/match'
 import {
@@ -165,6 +165,17 @@ function MatchDay() {
   )
   const shownTactic = pendingTactic ?? state.tactic
   const pendingCount = (pendingTactic ? 1 : 0) + pendingSubs.length
+
+  // What the eleven looks like once auto substitution has had its say — the
+  // lineup that would actually take the field.
+  const readiness = useMemo(() => {
+    const auto = state.autoSub
+      ? applyAutoSubs(state.cards, state.squad, division)
+      : { squad: state.squad, subs: [] }
+    const projected = evaluateSquad(state.cards, auto.squad, division)
+    return { ...missingSlots(projected.evaluations), overCap: projected.overCap }
+  }, [state.cards, state.squad, state.autoSub, division])
+  const lineupReady = readiness.empty.length === 0 && readiness.injured.length === 0
 
   const setup: MatchSetup | null = opponent
     ? {
@@ -359,6 +370,14 @@ function MatchDay() {
 
   const start = () => {
     if (!opponent || engine.running) return
+    if (!lineupReady) {
+      const parts = [
+        readiness.empty.length ? `빈 자리 ${readiness.empty.join(' · ')}` : '',
+        readiness.injured.length ? `부상 ${readiness.injured.join(' · ')}` : '',
+      ].filter(Boolean)
+      setNotice(`선발 11명을 채워야 경기를 시작할 수 있습니다 — ${parts.join(', ')}`)
+      return
+    }
     if (rating.overCap) {
       setNotice(
         `선발 레벨 합계가 ${rating.levelTotal}로 상한 ${rating.levelCap}을 넘었습니다. 스쿼드를 조정하세요.`,
@@ -659,7 +678,7 @@ function MatchDay() {
             }
             start()
           }}
-          disabled={!opponent && !engine.finished}
+          disabled={(!opponent && !engine.finished) || (!engine.finished && !lineupReady)}
           className={`mt-4 w-full rounded-xl px-4 py-3 font-bold text-slate-900 transition disabled:opacity-40 ${
             isCupDay ? 'bg-amber-400 hover:bg-amber-300' : 'bg-emerald-400 hover:bg-emerald-300'
           }`}
@@ -668,6 +687,15 @@ function MatchDay() {
         </button>
       )}
 
+      {!lineupReady && !engine.finished && (
+        <p className="mt-2 text-xs font-semibold text-rose-400">
+          선발 11명이 채워지지 않았습니다 —{' '}
+          {readiness.empty.length > 0 && `빈 자리 ${readiness.empty.join(' · ')}`}
+          {readiness.empty.length > 0 && readiness.injured.length > 0 && ', '}
+          {readiness.injured.length > 0 && `부상 ${readiness.injured.join(' · ')}`}. 스쿼드 탭에서
+          채운 뒤 경기를 시작하세요.
+        </p>
+      )}
       {rating.overCap && (
         <p className="mt-2 text-xs font-semibold text-rose-400">
           선발 레벨 합계 {rating.levelTotal} / 상한 {rating.levelCap} — 라인업을 등록할 수 없습니다.
@@ -986,8 +1014,13 @@ function MiniGamePanel() {
       ? applyAutoSubs(state.cards, state.squad, division)
       : { squad: state.squad, subs: [] }
     const lineup = evaluateSquad(state.cards, auto.squad, division)
-    if (lineup.filled < 11) {
-      setProblem('출전할 선발이 11명이 안 됩니다. 부상 선수를 치료하거나 스쿼드를 채워주세요.')
+    const gaps = missingSlots(lineup.evaluations)
+    if (gaps.empty.length > 0 || gaps.injured.length > 0) {
+      const parts = [
+        gaps.empty.length ? `빈 자리 ${gaps.empty.join(' · ')}` : '',
+        gaps.injured.length ? `부상 ${gaps.injured.join(' · ')}` : '',
+      ].filter(Boolean)
+      setProblem(`선발 11명을 채워야 합니다 — ${parts.join(', ')}`)
       return
     }
     setProblem(null)

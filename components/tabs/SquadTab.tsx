@@ -5,7 +5,7 @@ import { conditionFactor, isInjured } from '../../lib/condition'
 import { FORMATIONS, FORMATION_KEYS } from '../../lib/formations'
 import { getPlayer } from '../../lib/players'
 import { BENCH_SIZE, positionFit, ratingInSlot } from '../../lib/squad'
-import { evaluateSquad } from '../../lib/squad'
+import { evaluateSquad, missingSlots } from '../../lib/squad'
 import { colorName } from '../../lib/teamColor'
 import {
   LINES,
@@ -50,6 +50,7 @@ export default function SquadTab() {
     () => evaluateSquad(state.cards, state.squad, state.season.division),
     [state.cards, state.squad, state.season.division],
   )
+  const gaps = useMemo(() => missingSlots(rating.evaluations), [rating.evaluations])
 
   const targetPosition: Position | undefined =
     target?.kind === 'slot'
@@ -244,6 +245,15 @@ export default function SquadTab() {
             선발 11명의 레벨 합이 상한을 넘으면 경기에 등록할 수 없습니다. 상위 리그로 올라갈수록
             상한이 올라갑니다.
           </p>
+
+          {(gaps.empty.length > 0 || gaps.injured.length > 0) && (
+            <p className="mt-2 rounded-lg bg-rose-500/15 px-3 py-2 text-[11px] font-bold text-rose-200">
+              {gaps.empty.length > 0 && `빈 자리 ${gaps.empty.join(' · ')}`}
+              {gaps.empty.length > 0 && gaps.injured.length > 0 && ' · '}
+              {gaps.injured.length > 0 && `부상 ${gaps.injured.join(' · ')}`} — 11명을 채워야 경기를
+              시작할 수 있습니다.
+            </p>
+          )}
         </section>
 
         <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
