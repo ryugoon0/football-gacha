@@ -14,6 +14,7 @@ import {
 } from '../../lib/gacha'
 import { getPlayer } from '../../lib/players'
 import { RARITIES, RARITY_STYLES } from '../../lib/rarity'
+import { hasRoomFor } from '../../lib/vault'
 import { SHARD_OFFERS, offerLabel } from '../../lib/shards'
 import type { PlayerDef, PositionGroup, Rarity } from '../../lib/types'
 import { useGame } from '../GameProvider'
@@ -60,6 +61,12 @@ export default function GachaTab() {
     if (spinning) return
     if (state.gold < cost) {
       setError('골드가 부족합니다. 리그 경기를 뛰거나 여분 선수를 방출해 보세요.')
+      return
+    }
+    if (!hasRoomFor(state.cards.length, state.capacity, pack.count)) {
+      setError(
+        `보관함이 부족합니다 (${state.cards.length} / ${state.capacity}). 선수단 탭에서 증설하거나 선수를 방출하세요.`,
+      )
       return
     }
 
@@ -182,7 +189,7 @@ export default function GachaTab() {
           ))}
           <button
             onClick={() => openPack(PACKS[0], true)}
-            disabled={spinning || !freeAvailable}
+            disabled={spinning || !freeAvailable || !hasRoomFor(state.cards.length, state.capacity, 1)}
             className="ml-auto rounded-lg bg-sky-400 px-4 py-2 text-sm font-bold text-slate-900 transition hover:bg-sky-300 disabled:opacity-40"
           >
             무료 뽑기
@@ -192,12 +199,19 @@ export default function GachaTab() {
           </button>
         </div>
 
+        {!hasRoomFor(state.cards.length, state.capacity, 1) && (
+          <p className="mt-3 rounded-lg bg-rose-500/15 px-3 py-2 text-xs font-bold text-rose-200">
+            보관함이 가득 찼습니다 ({state.cards.length} / {state.capacity}). 선수단 탭에서 증설하거나
+            선수를 방출해야 새 카드를 받을 수 있습니다.
+          </p>
+        )}
+
         <div className="mt-3 grid gap-2 sm:grid-cols-2">
           {packsOfFamily(family).map((pack) => (
             <button
               key={pack.id}
               onClick={() => openPack(pack)}
-              disabled={spinning || state.gold < pack.cost}
+              disabled={spinning || state.gold < pack.cost || !hasRoomFor(state.cards.length, state.capacity, pack.count)}
               className={`rounded-xl px-4 py-3 text-left text-sm font-bold text-slate-900 transition disabled:opacity-40 ${
                 family === 'premium'
                   ? 'bg-violet-400 hover:bg-violet-300'
@@ -306,7 +320,7 @@ export default function GachaTab() {
                   setNotice(`${player.name} 카드를 교환했습니다.`)
                 }
               }}
-              disabled={state.shards < offer.cost}
+              disabled={state.shards < offer.cost || !hasRoomFor(state.cards.length, state.capacity, 1)}
               className={`rounded-xl border-2 bg-gradient-to-b p-3 text-center transition disabled:opacity-40 ${
                 RARITY_STYLES[offer.rarity].face
               } ${RARITY_STYLES[offer.rarity].border} ${RARITY_STYLES[offer.rarity].ink}`}

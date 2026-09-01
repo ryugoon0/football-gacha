@@ -3,6 +3,7 @@
 import { REFRESH_COST } from '../../lib/market'
 import { divisionLabel } from '../../lib/league'
 import { getPlayer } from '../../lib/players'
+import { hasRoomFor } from '../../lib/vault'
 import { useGame } from '../GameProvider'
 import PlayerCard from '../PlayerCard'
 
@@ -33,6 +34,13 @@ export default function MarketTab() {
           </button>
         </div>
 
+        {!hasRoomFor(state.cards.length, state.capacity, 1) && (
+          <p className="mt-4 rounded-lg bg-rose-500/15 px-3 py-2 text-xs font-bold text-rose-200">
+            보관함이 가득 찼습니다 ({state.cards.length} / {state.capacity}). 선수단 탭에서 증설하거나
+            선수를 방출해야 영입할 수 있습니다.
+          </p>
+        )}
+
         {listings.length === 0 ? (
           <p className="py-14 text-center text-sm text-slate-500">
             오늘의 매물이 모두 팔렸습니다. 새로고침하거나 내일 다시 오세요.
@@ -42,7 +50,8 @@ export default function MarketTab() {
             {listings.map((listing) => {
               const player = getPlayer(listing.playerId)
               if (!player) return null
-              const affordable = state.gold >= listing.price
+              const affordable =
+                state.gold >= listing.price && hasRoomFor(state.cards.length, state.capacity, 1)
               return (
                 <div key={listing.id} className="flex w-32 flex-col gap-2">
                   <PlayerCard player={player} size="md" dimmed={!affordable} />

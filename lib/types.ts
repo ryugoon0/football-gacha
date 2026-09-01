@@ -115,6 +115,8 @@ export interface GameState {
   trophies: { cup: number; promotions: number }
   /** Card shards from released players. */
   shards: number
+  /** How many player cards the vault can hold. */
+  capacity: number
   /** Pulls since the last Legend or better. */
   pity: number
   /** Lifetime pull counts, for the odds page. */

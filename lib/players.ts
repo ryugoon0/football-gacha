@@ -153,9 +153,14 @@ const NATIONS = [
   '스페인',
   '프랑스',
   '독일',
+  '이탈리아',
   '아르헨티나',
   '포르투갈',
   '네덜란드',
+  '벨기에',
+  '노르웨이',
+  '크로아티아',
+  '이집트',
   '일본',
 ]
 
@@ -164,24 +169,32 @@ export interface ClubDef {
   league: string
 }
 
+/**
+ * Clubs and leagues are invented, but named so you can tell which real side
+ * they are winking at. Nothing here uses a real club, league or player name.
+ */
 export const CLUBS: ClubDef[] = [
-  { name: '한강 FC', league: 'K리그' },
-  { name: '서울 유나이티드', league: 'K리그' },
-  { name: '부산 마린스', league: 'K리그' },
-  { name: '대구 다이너모', league: 'K리그' },
-  { name: '인천 하버스', league: 'K리그' },
-  { name: '전주 피닉스', league: 'K리그' },
-  { name: '울산 아이언', league: 'K리그' },
-  { name: '마드리드 로얄', league: '유로 리그' },
-  { name: '런던 크라운', league: '유로 리그' },
-  { name: '밀라노 네로', league: '유로 리그' },
-  { name: '파리 루미에르', league: '유로 리그' },
-  { name: '뮌헨 알펜', league: '유로 리그' },
-  { name: '암스테르담 카날', league: '유로 리그' },
-  { name: '리우 삼바', league: '아메리카 리그' },
-  { name: '부에노스 스타스', league: '아메리카 리그' },
-  { name: '뉴욕 리버티', league: '아메리카 리그' },
-  { name: '산티아고 안데스', league: '아메리카 리그' },
+  { name: '전북 모터스', league: '코리아 리그' },
+  { name: '울산 호랑', league: '코리아 리그' },
+  { name: '포항 스틸맨', league: '코리아 리그' },
+  { name: '서울 캐피탈', league: '코리아 리그' },
+  { name: '수원 블루버드', league: '코리아 리그' },
+  { name: '맨체스 레즈', league: '킹덤 리그' },
+  { name: '맨체스 블루', league: '킹덤 리그' },
+  { name: '리버 머지', league: '킹덤 리그' },
+  { name: '런던 블루스', league: '킹덤 리그' },
+  { name: '북런던 건너스', league: '킹덤 리그' },
+  { name: '북런던 화이트', league: '킹덤 리그' },
+  { name: '마드리드 블랑코', league: '이베리아 리가' },
+  { name: '카탈루냐 블라우', league: '이베리아 리가' },
+  { name: '마드리드 로히블랑', league: '이베리아 리가' },
+  { name: '세비야 로호', league: '이베리아 리가' },
+  { name: '발렌시아 바트', league: '이베리아 리가' },
+  { name: '밀라노 네로', league: '콘티넨탈 리그' },
+  { name: '토리노 비앙코', league: '콘티넨탈 리그' },
+  { name: '뮌헨 바바리안', league: '콘티넨탈 리그' },
+  { name: '파리 캐피탈', league: '콘티넨탈 리그' },
+  { name: '도르트 옐로우', league: '콘티넨탈 리그' },
 ]
 
 export const LEAGUE_OF_CLUB: Record<string, string> = CLUBS.reduce(
@@ -194,79 +207,90 @@ export const LEAGUE_OF_CLUB: Record<string, string> = CLUBS.reduce(
 
 export const LEAGUES = Array.from(new Set(CLUBS.map((club) => club.league)))
 
-type RosterRow = [name: string, position: Position, ovr: number]
+type RosterRow = [
+  name: string,
+  position: Position,
+  ovr: number,
+  club?: string,
+  nation?: string,
+]
 
+/**
+ * Every name is invented. The higher tiers are written to hint at the real
+ * player they are modelled on — same shirt, same country, a name one letter
+ * off — without borrowing anyone's actual name.
+ */
 const ROSTER: Record<Rarity, RosterRow[]> = {
   Normal: [
-    ['김준성', 'GK', 58],
-    ['박철벽', 'GK', 61],
-    ['이막내', 'CB', 55],
-    ['최수비', 'CB', 60],
-    ['정태클', 'CB', 57],
-    ['노장현', 'CB', 53],
-    ['한동네', 'LB', 56],
-    ['배후방', 'LB', 52],
-    ['오른발', 'RB', 58],
-    ['서포백', 'RB', 54],
-    ['강중원', 'CDM', 59],
-    ['도루묵', 'CDM', 55],
-    ['남기훈', 'CM', 62],
-    ['조패스', 'CM', 57],
-    ['윤드리', 'CAM', 63],
-    ['임측면', 'LM', 56],
-    ['백윙어', 'RM', 58],
-    ['신발끝', 'LW', 60],
-    ['황돌파', 'RW', 61],
-    ['문전앞', 'ST', 64],
-    ['유골넣', 'ST', 59],
-    ['차벤치', 'ST', 54],
+    ['김준성', 'GK', 58, '전북 모터스', '대한민국'],
+    ['박철벽', 'GK', 61, '울산 호랑', '대한민국'],
+    ['이막내', 'CB', 55, '포항 스틸맨', '대한민국'],
+    ['최수비', 'CB', 60, '서울 캐피탈', '대한민국'],
+    ['정태클', 'CB', 57, '수원 블루버드', '대한민국'],
+    ['노장현', 'CB', 53, '전북 모터스', '대한민국'],
+    ['한동네', 'LB', 56, '울산 호랑', '대한민국'],
+    ['배후방', 'LB', 52, '포항 스틸맨', '대한민국'],
+    ['오른발', 'RB', 58, '서울 캐피탈', '대한민국'],
+    ['서포백', 'RB', 54, '수원 블루버드', '대한민국'],
+    ['강중원', 'CDM', 59, '전북 모터스', '대한민국'],
+    ['도루묵', 'CDM', 55, '울산 호랑', '대한민국'],
+    ['남기훈', 'CM', 62, '포항 스틸맨', '대한민국'],
+    ['조패스', 'CM', 57, '서울 캐피탈', '대한민국'],
+    ['윤드리', 'CAM', 63, '수원 블루버드', '대한민국'],
+    ['임측면', 'LM', 56, '전북 모터스', '대한민국'],
+    ['백윙어', 'RM', 58, '울산 호랑', '대한민국'],
+    ['신발끝', 'LW', 60, '포항 스틸맨', '대한민국'],
+    ['황돌파', 'RW', 61, '서울 캐피탈', '대한민국'],
+    ['문전앞', 'ST', 64, '수원 블루버드', '대한민국'],
+    ['유골넣', 'ST', 59, '전북 모터스', '대한민국'],
+    ['차벤치', 'ST', 54, '울산 호랑', '일본'],
   ],
   Rare: [
-    ['박수문', 'GK', 75],
-    ['강키퍼', 'GK', 71],
-    ['이강철', 'CB', 73],
-    ['윤파워', 'CB', 69],
-    ['정왼발', 'LB', 70],
-    ['조태클', 'RB', 72],
-    ['한중앙', 'CDM', 71],
-    ['최미들', 'CM', 72],
-    ['백중원', 'CM', 75],
-    ['서라운드', 'CAM', 74],
-    ['황드리블', 'CAM', 78],
-    ['쏘니', 'LW', 76],
-    ['김번개', 'RW', 74],
-    ['임속도', 'RW', 73],
-    ['오프사', 'ST', 77],
-    ['남헤딩', 'ST', 72],
+    ['조현오', 'GK', 75, '울산 호랑', '대한민국'],
+    ['구성윤', 'GK', 71, '서울 캐피탈', '대한민국'],
+    ['김영건', 'CB', 73, '전북 모터스', '대한민국'],
+    ['권경언', 'CB', 69, '포항 스틸맨', '대한민국'],
+    ['김진서', 'LB', 70, '수원 블루버드', '대한민국'],
+    ['이용희', 'RB', 72, '서울 캐피탈', '대한민국'],
+    ['정우연', 'CDM', 71, '전북 모터스', '대한민국'],
+    ['황인법', 'CM', 72, '전북 모터스', '대한민국'],
+    ['백승훈', 'CM', 75, '런던 블루스', '대한민국'],
+    ['이재승', 'CAM', 74, '북런던 건너스', '대한민국'],
+    ['황희창', 'CAM', 78, '맨체스 레즈', '대한민국'],
+    ['손흥맨', 'LW', 76, '북런던 화이트', '대한민국'],
+    ['엄지창', 'RW', 74, '도르트 옐로우', '대한민국'],
+    ['정우빈', 'RW', 73, '포항 스틸맨', '대한민국'],
+    ['오현식', 'ST', 77, '세비야 로호', '대한민국'],
+    ['조규송', 'ST', 72, '발렌시아 바트', '대한민국'],
   ],
   Legend: [
-    ['강철수문장', 'GK', 83],
-    ['빗장수비', 'CB', 84],
-    ['헤딩왕', 'CB', 83],
-    ['그라운드의 사령관', 'CDM', 82],
-    ['카펫패스', 'CM', 85],
-    ['두 개의 심장', 'CAM', 84],
-    ['왼발의 마법사', 'LW', 86],
-    ['폭주기관차', 'RW', 85],
-    ['황금발', 'ST', 86],
-    ['침묵의 암살자', 'ST', 87],
+    ['지안루 부폰', 'GK', 83, '토리노 비앙코', '이탈리아'],
+    ['파올로 말디', 'CB', 84, '밀라노 네로', '이탈리아'],
+    ['세르히 라모', 'CB', 83, '마드리드 블랑코', '스페인'],
+    ['박지승', 'CDM', 82, '맨체스 레즈', '대한민국'],
+    ['사비 에르난', 'CM', 85, '카탈루냐 블라우', '스페인'],
+    ['지네 지단', 'CAM', 84, '마드리드 블랑코', '프랑스'],
+    ['아리엔 로벤', 'LW', 86, '뮌헨 바바리안', '네덜란드'],
+    ['차봄근', 'RW', 85, '도르트 옐로우', '대한민국'],
+    ['호나우 페노', 'ST', 86, '카탈루냐 블라우', '브라질'],
+    ['필리포 인자', 'ST', 87, '밀라노 네로', '이탈리아'],
   ],
   Live: [
-    ['라이브 수문장', 'GK', 85],
-    ['각성한 수비수', 'CB', 86],
-    ['미친 중원', 'CM', 89],
-    ['오늘의 히어로', 'CAM', 86],
-    ['폼미쳤다', 'LW', 87],
-    ['연승기관차', 'RW', 88],
-    ['류상민', 'ST', 88],
+    ['알리손 베카', 'GK', 85, '리버 머지', '브라질'],
+    ['김민제', 'CB', 86, '뮌헨 바바리안', '대한민국'],
+    ['주드 벨링', 'CM', 89, '마드리드 블랑코', '잉글랜드'],
+    ['이강윤', 'CAM', 86, '파리 캐피탈', '대한민국'],
+    ['비니시우', 'LW', 87, '마드리드 블랑코', '브라질'],
+    ['모 살라', 'RW', 88, '리버 머지', '이집트'],
+    ['엘링 홀란', 'ST', 88, '맨체스 블루', '노르웨이'],
   ],
   World: [
-    ['신의 손', 'GK', 92],
-    ['대륙의 벽', 'CB', 91],
-    ['무결점 미드', 'CM', 95],
-    ['월드클래스', 'CAM', 93],
-    ['은하계 윙어', 'LW', 93],
-    ['차영진', 'ST', 94],
+    ['얀 노이만', 'GK', 92, '뮌헨 바바리안', '독일'],
+    ['판 다이컨', 'CB', 91, '리버 머지', '네덜란드'],
+    ['케빈 더브라', 'CM', 95, '맨체스 블루', '벨기에'],
+    ['리오 메시아', 'CAM', 93, '카탈루냐 블라우', '아르헨티나'],
+    ['크리스 호날드', 'LW', 93, '마드리드 블랑코', '포르투갈'],
+    ['킬리안 음바피', 'ST', 94, '파리 캐피탈', '프랑스'],
   ],
 }
 
@@ -281,18 +305,20 @@ const RARITY_PREFIX: Record<Rarity, string> = {
 function buildRoster(): PlayerDef[] {
   const players: PlayerDef[] = []
   for (const rarity of Object.keys(ROSTER) as Rarity[]) {
-    ROSTER[rarity].forEach(([name, position, ovr], index) => {
+    ROSTER[rarity].forEach(([name, position, ovr, clubName, nation], index) => {
       const id = `${RARITY_PREFIX[rarity]}${String(index + 1).padStart(2, '0')}`
       const stats = buildStats(id, position, ovr)
+      // A roster row names the club and country; anything left blank falls back
+      // to a stable draw from the id so the data is never half filled.
       const rng = seededRandom(hashString(id + name))
-      const club = CLUBS[Math.floor(rng() * CLUBS.length)]
+      const club = CLUBS.find((item) => item.name === clubName) ?? CLUBS[Math.floor(rng() * CLUBS.length)]
       players.push({
         id,
         name,
         position,
         positions: buildPositions(id, position, rarity),
         rarity,
-        nation: NATIONS[Math.floor(rng() * NATIONS.length)],
+        nation: nation ?? NATIONS[Math.floor(rng() * NATIONS.length)],
         club: club.name,
         league: club.league,
         stats,

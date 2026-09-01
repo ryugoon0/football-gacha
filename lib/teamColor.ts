@@ -130,8 +130,15 @@ export function teamColors(players: PlayerDef[]): TeamColors {
   }
 }
 
+/** Names that already say what they are, so the suffix would read twice. */
+const SELF_LABELLED = ['리그', '리가', '컵']
+
 export function colorName(color: { kind: ColorKind; key: string }): string {
   const label = COLOR_LABELS[color.kind]
-  // "K리그 리그" reads badly, so skip the suffix when the name already has it.
-  return color.key.endsWith(label) ? color.key : `${color.key} ${label}`
+  // "코리아 리그 리그" reads badly, so skip the suffix when the name has one.
+  if (color.key.endsWith(label)) return color.key
+  if (color.kind === 'league' && SELF_LABELLED.some((word) => color.key.endsWith(word))) {
+    return color.key
+  }
+  return `${color.key} ${label}`
 }

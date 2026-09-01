@@ -135,3 +135,11 @@ describe('team colours', () => {
     expect(plain.colors).toBeDefined()
   })
 })
+
+describe('league naming', () => {
+  it('does not repeat the word league for a self labelled name', () => {
+    expect(colorName({ kind: 'league', key: '코리아 리그' })).toBe('코리아 리그')
+    expect(colorName({ kind: 'league', key: '이베리아 리가' })).toBe('이베리아 리가')
+    expect(colorName({ kind: 'league', key: '킹덤 리그' })).toBe('킹덤 리그')
+  })
+})

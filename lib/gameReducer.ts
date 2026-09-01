@@ -36,6 +36,7 @@ import { releaseValue, type ShardOffer } from './shards'
 import { TOTAL_MATCHDAYS } from './schedule'
 import type { TacticSetup } from './tactics'
 import { initialState, newCard, newUid } from './storage'
+import { CAPACITY_STEP, canExpand, expandCost, hasRoomFor } from './vault'
 import type { Card, FormationKey, GameState, MatchResult, PlayerDef, Squad } from './types'
 
 export interface RoundResult {
@@ -86,6 +87,7 @@ export type Action =
   | { type: 'claimMission'; id: MissionId }
   | { type: 'finishGuide' }
   | { type: 'renameClub'; club: string }
+  | { type: 'expandVault' }
   | { type: 'reset' }
 
 function today(state: GameState): DailyState {
@@ -178,6 +180,8 @@ export function reducer(state: GameState, action: Action): GameState {
     }
 
     case 'addCards': {
+      // The vault is the hard limit on how many cards can be held.
+      if (!hasRoomFor(state.cards.length, state.capacity, action.cards.length)) return state
       const collected = new Set(state.collected)
       const byRarity = { ...state.pulls.byRarity }
       for (const card of action.cards) {
@@ -200,6 +204,7 @@ export function reducer(state: GameState, action: Action): GameState {
     case 'exchangeShards': {
       const { offer, player } = action
       if (state.shards < offer.cost) return state
+      if (!hasRoomFor(state.cards.length, state.capacity, 1)) return state
       return {
         ...state,
         shards: state.shards - offer.cost,
@@ -465,6 +470,7 @@ export function reducer(state: GameState, action: Action): GameState {
     case 'buy': {
       const { listing } = action
       if (state.gold < listing.price) return state
+      if (!hasRoomFor(state.cards.length, state.capacity, 1)) return state
       if (!state.market.listings.some((item) => item.id === listing.id)) return state
       return {
         ...state,
@@ -521,6 +527,17 @@ export function reducer(state: GameState, action: Action): GameState {
 
     case 'finishGuide':
       return { ...state, guideDone: true }
+
+    case 'expandVault': {
+      if (!canExpand(state.capacity)) return state
+      const cost = expandCost(state.capacity)
+      if (state.gold < cost) return state
+      return {
+        ...state,
+        gold: state.gold - cost,
+        capacity: state.capacity + CAPACITY_STEP,
+      }
+    }
 
     case 'renameClub': {
       const club = action.club.trim().slice(0, 20) || state.club

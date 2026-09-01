@@ -53,6 +53,7 @@ export interface GameApi {
   claimMission: (id: MissionId) => void
   finishGuide: () => void
   renameClub: (club: string) => void
+  expandVault: () => void
   reset: () => void
 }
 
@@ -152,6 +153,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       claimMission: (id: MissionId) => dispatch({ type: 'claimMission', id }),
       finishGuide: () => dispatch({ type: 'finishGuide' }),
       renameClub: (club: string) => dispatch({ type: 'renameClub', club }),
+      expandVault: () => dispatch({ type: 'expandVault' }),
       reset: () => {
         clearSave()
         dispatch({ type: 'reset' })

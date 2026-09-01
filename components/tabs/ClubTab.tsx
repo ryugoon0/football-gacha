@@ -12,6 +12,7 @@ import {
 } from '../../lib/players'
 import { RARITIES, RARITY_STYLES } from '../../lib/rarity'
 import { releaseValue, sellPrice, shardsFor } from '../../lib/shards'
+import { CAPACITY_STEP, MAX_CAPACITY, canExpand, expandCost } from '../../lib/vault'
 import type { Card, PlayerDef, PositionGroup, Rarity } from '../../lib/types'
 import { useGame } from '../GameProvider'
 import PlayerCard from '../PlayerCard'
@@ -38,6 +39,53 @@ const MODES: { id: Mode; label: string }[] = [
   { id: 'fuse', label: '승급 합성' },
   { id: 'release', label: '일괄 방출' },
 ]
+
+/** Vault size, and buying ten more slots at a time. */
+function VaultPanel() {
+  const { state, expandVault } = useGame()
+  const held = state.cards.length
+  const capacity = state.capacity
+  const full = held >= capacity
+  const maxed = !canExpand(capacity)
+  const cost = expandCost(capacity)
+  const affordable = state.gold >= cost
+
+  return (
+    <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+      <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">보관함</h3>
+      <div className="mt-2 text-2xl font-black text-white">
+        {held}
+        <span className="text-base font-semibold text-slate-500"> / {capacity}</span>
+      </div>
+      <div className="mt-2 h-2 rounded-full bg-white/10">
+        <div
+          className={`h-2 rounded-full transition-all ${full ? 'bg-rose-400' : 'bg-emerald-400'}`}
+          style={{ width: `${Math.min(100, (held / capacity) * 100)}%` }}
+        />
+      </div>
+
+      {maxed ? (
+        <p className="mt-3 text-xs text-slate-500">
+          보관함이 최대 {MAX_CAPACITY}칸까지 확장되었습니다.
+        </p>
+      ) : (
+        <button
+          onClick={expandVault}
+          disabled={!affordable}
+          className="mt-3 w-full whitespace-nowrap rounded-xl bg-amber-400 py-2.5 text-sm font-black text-slate-900 transition disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-slate-500 sm:hover:bg-amber-300"
+        >
+          +{CAPACITY_STEP}칸 증설 · {cost.toLocaleString()}G
+        </button>
+      )}
+
+      <p className="mt-2 text-[11px] text-slate-500">
+        {full
+          ? '보관함이 가득 찼습니다. 증설하거나 선수를 방출해야 새 카드를 받을 수 있습니다.'
+          : `증설할수록 비용이 올라가고, 최대 ${MAX_CAPACITY}칸까지 늘릴 수 있습니다.`}
+      </p>
+    </section>
+  )
+}
 
 export default function ClubTab() {
   const { state, sell, trainCard, limitBreakCard, fuse, treatInjury, restoreCondition } = useGame()
@@ -289,6 +337,8 @@ export default function ClubTab() {
       </section>
 
       <div className="space-y-4">
+        <VaultPanel />
+
         <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">도감</h3>
           <div className="mt-2 text-2xl font-black text-white">
