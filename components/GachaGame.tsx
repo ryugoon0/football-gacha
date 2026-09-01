@@ -52,7 +52,7 @@ function Shell() {
             <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400 text-lg font-black text-slate-900">
               FD
             </span>
-            <div>
+            <div className="min-w-0">
               <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">
                 Football Day
               </div>
@@ -72,7 +72,7 @@ function Shell() {
               ) : (
                 <button
                   onClick={() => setEditingClub(true)}
-                  className="text-sm font-bold text-white hover:text-emerald-300"
+                  className="block max-w-[45vw] truncate whitespace-nowrap text-sm font-bold text-white hover:text-emerald-300 sm:max-w-xs"
                   title="클럽 이름 변경"
                 >
                   {state.club} ✎
@@ -88,13 +88,13 @@ function Shell() {
               label="시즌"
               value={state.season.finished ? '종료' : `${state.season.round + 1}R`}
             />
-            <div className="rounded-xl bg-amber-400/15 px-3 py-2 text-right">
+            <div className="whitespace-nowrap rounded-xl bg-amber-400/15 px-3 py-2 text-right">
               <div className="text-[10px] font-bold uppercase text-amber-300/80">Gold</div>
               <div className="font-black text-amber-300">{state.gold.toLocaleString()}</div>
             </div>
             <button
               onClick={() => setHelpOpen(true)}
-              className="rounded-xl bg-white/5 px-3 py-2 text-xs font-bold text-slate-300 hover:bg-white/10 hover:text-white"
+              className="whitespace-nowrap rounded-xl bg-white/5 px-3 py-2 text-xs font-bold text-slate-300 hover:bg-white/10 hover:text-white"
               title="게임 방법"
             >
               도움말
@@ -102,12 +102,13 @@ function Shell() {
           </div>
         </div>
 
-        <nav className="mx-auto flex max-w-6xl gap-1 px-4">
+        {/* Tab labels never wrap — the type shrinks on narrow phones instead. */}
+        <nav className="mx-auto flex max-w-6xl gap-1 overflow-x-auto px-4">
           {TABS.map((item) => (
             <button
               key={item.key}
               onClick={() => setTab(item.key)}
-              className={`-mb-px border-b-2 px-3 py-2 text-sm font-bold transition sm:px-4 ${
+              className={`-mb-px shrink-0 whitespace-nowrap border-b-2 px-2 py-2 text-xs font-bold transition min-[380px]:px-3 min-[380px]:text-[13px] sm:px-4 sm:text-sm ${
                 tab === item.key
                   ? 'border-emerald-400 text-emerald-300'
                   : 'border-transparent text-slate-400 hover:text-slate-200'

@@ -69,6 +69,8 @@ export interface LiveMatchState {
   possessionTicks: { home: number; away: number }
   events: MatchEvent[]
   scorerUids: string[]
+  /** How much each starter has left in the tank, 0-100, by card uid. */
+  stamina: Record<string, number>
   finished: boolean
 }
 
@@ -86,6 +88,37 @@ const OPPONENT_PLAYERS = [
 ]
 
 const clamp = (n: number, min: number, max: number) => Math.max(min, Math.min(max, n))
+
+/** Condition a starter loses per minute at a normal tempo. */
+const STAMINA_DRAIN = 0.65
+/** A keeper barely runs, so they hold their legs. */
+const KEEPER_DRAIN = 0.2
+/** Below this a starter is worth pulling off mid match. */
+export const LIVE_TIRED = 55
+
+/** Seeds the tank from each starter's pre match condition. */
+function seedStamina(evaluations: SlotEvaluation[], current: Record<string, number> = {}): Record<string, number> {
+  const stamina = { ...current }
+  for (const item of evaluations) {
+    if (!item.card) continue
+    if (stamina[item.card.uid] === undefined) stamina[item.card.uid] = item.condition
+  }
+  return stamina
+}
+
+/** Legs left across the eleven, 0-100. Used for the tiredness penalty. */
+export function averageStamina(state: LiveMatchState, evaluations: SlotEvaluation[]): number {
+  const values = evaluations
+    .filter((item) => item.card)
+    .map((item) => state.stamina[item.card!.uid] ?? item.condition)
+  if (values.length === 0) return 100
+  return values.reduce((sum, value) => sum + value, 0) / values.length
+}
+
+/** Tired legs cost up to 15% of our rating over a full match. */
+export function staminaFactor(average: number): number {
+  return 0.85 + 0.15 * clamp(average, 0, 100) / 100
+}
 
 /** Mirror of a 4-4-2 used to draw the opposition. */
 function awayShape(): DotAnchor[] {
@@ -203,6 +236,7 @@ export function createMatch(setup: MatchSetup): LiveMatchState {
       },
     ],
     scorerUids: [],
+    stamina: seedStamina(setup.team.evaluations),
     finished: false,
   }
 }
@@ -219,7 +253,7 @@ interface Strength {
 }
 
 /** Recomputed every tick so a tactical change takes effect immediately. */
-export function strengthOf(setup: MatchSetup, rng: () => number): Strength {
+export function strengthOf(setup: MatchSetup, rng: () => number, fitness = 1): Strength {
   const plan = tacticEffects(setup.tactic ?? DEFAULT_TACTIC)
   const traits = setup.traits ?? NO_TRAIT_EFFECTS
   const homeBonus = setup.venue === 'home' ? HOME_ADVANTAGE : 0
@@ -228,9 +262,9 @@ export function strengthOf(setup: MatchSetup, rng: () => number): Strength {
   const hiddenEdge = setup.team.hidden / 2
 
   return {
-    myAtt: setup.team.att * plan.att + homeBonus + bigGame + hiddenEdge,
-    myDef: setup.team.def * plan.def + homeBonus + bigGame + hiddenEdge,
-    myMid: setup.team.mid + homeBonus + bigGame + hiddenEdge,
+    myAtt: (setup.team.att * plan.att + homeBonus + bigGame + hiddenEdge) * fitness,
+    myDef: (setup.team.def * plan.def + homeBonus + bigGame + hiddenEdge) * fitness,
+    myMid: (setup.team.mid + homeBonus + bigGame + hiddenEdge) * fitness,
     oppAtt: setup.opponent.rating + awayBonus + plan.counterRisk + (rng() * 6 - 3),
     oppDef: setup.opponent.rating + awayBonus + (rng() * 6 - 3),
     oppMid: setup.opponent.rating + awayBonus + (rng() * 6 - 3),
@@ -267,7 +301,20 @@ export function advance(
   }
 
   const minute = state.minute + 1
-  const strength = strengthOf(setup, rng)
+  // Legs go first: every minute on the pitch costs condition, and a pressing,
+  // fast tempo costs more. Fresh substitutes lift the average straight away.
+  const fatigue = tacticEffects(setup.tactic ?? DEFAULT_TACTIC).fatigue
+  const stamina = seedStamina(setup.team.evaluations, state.stamina)
+  for (const item of setup.team.evaluations) {
+    if (!item.card) continue
+    const drain = (item.slotPosition === 'GK' ? KEEPER_DRAIN : STAMINA_DRAIN) * fatigue
+    stamina[item.card.uid] = clamp(stamina[item.card.uid] - drain, 5, 100)
+  }
+  const strength = strengthOf(
+    setup,
+    rng,
+    staminaFactor(averageStamina({ ...state, stamina }, setup.team.evaluations)),
+  )
   const traits = setup.traits ?? NO_TRAIT_EFFECTS
   const events = [...state.events]
   let { scoreFor, scoreAgainst, shotsFor, shotsAgainst, possession, ball } = state
@@ -384,6 +431,7 @@ export function advance(
     possessionTicks,
     events,
     scorerUids,
+    stamina,
   }
 }
 

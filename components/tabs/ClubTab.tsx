@@ -179,7 +179,7 @@ export default function ClubTab() {
                 setMode(item.id)
                 resetPicks()
               }}
-              className={`rounded-lg px-3 py-1.5 text-sm font-bold transition ${
+              className={`whitespace-nowrap rounded-lg px-2.5 py-1.5 text-[13px] font-bold transition sm:px-3 sm:text-sm ${
                 mode === item.id
                   ? 'bg-emerald-400 text-slate-900'
                   : 'bg-white/5 text-slate-300 hover:bg-white/10'

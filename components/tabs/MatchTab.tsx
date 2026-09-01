@@ -22,7 +22,13 @@ import { SEASON_SCHEDULE, TOTAL_MATCHDAYS } from '../../lib/schedule'
 import { evaluateSquad } from '../../lib/squad'
 import type { Squad } from '../../lib/types'
 import { matchReward } from '../../lib/match'
-import { shapeFromSquad, toResult, type MatchSetup } from '../../lib/matchEngine'
+import {
+  LIVE_TIRED,
+  averageStamina,
+  shapeFromSquad,
+  toResult,
+  type MatchSetup,
+} from '../../lib/matchEngine'
 import { getPlayer } from '../../lib/players'
 import type { SlotEvaluation } from '../../lib/squad'
 import {
@@ -264,6 +270,33 @@ function MatchDay() {
     setNotice(`교체 지시 — ${nameOf(outUid)} → ${nameOf(inUid)} · 경기가 멈추면 투입됩니다`)
   }
 
+  // Live legs: the engine's stamina if the match is running, else the stored
+  // condition. Substitutes come on with whatever they had in the tank.
+  const conditionOf = (card: Card) => engine.state?.stamina[card.uid] ?? card.condition
+
+  const orderTiredSubs = () => {
+    const auto = applyAutoSubs(state.cards, plannedSquad, division, conditionOf, LIVE_TIRED)
+    if (auto.subs.length === 0) {
+      setNotice('지금 빼야 할 만큼 지친 선수가 없습니다.')
+      return
+    }
+    setShowSubs(false)
+
+    if (engine.canIntervene) {
+      const applied = applyAutoSubs(state.cards, squadInPlay, division, conditionOf, LIVE_TIRED)
+      setLiveSquad(applied.squad)
+      setSubs((current) => [...current, ...applied.subs])
+      setNotice(`지친 선수 ${applied.subs.length}명 교체 — ${applied.subs.map((sub) => `${sub.outName} → ${sub.inName}`).join(', ')}`)
+      return
+    }
+
+    setPendingSubs((current) => [
+      ...current,
+      ...auto.subs.map((sub) => ({ slotId: sub.slotId, outUid: sub.outUid, inUid: sub.inUid })),
+    ])
+    setNotice(`지친 선수 ${auto.subs.length}명 교체 지시 · 경기가 멈추면 투입됩니다`)
+  }
+
   // The whistle goes: everything the manager queued up goes in now.
   useEffect(() => {
     if (!engine.canIntervene) return
@@ -357,6 +390,7 @@ function MatchDay() {
   }
 
   const live = engine.state
+  const squadStamina = live ? averageStamina(live, rating.evaluations) : 100
   const injured = state.cards.filter(isInjured).length
   const tired = state.cards.filter(
     (card) => !isInjured(card) && card.condition < TIRED_CONDITION,
@@ -388,7 +422,7 @@ function MatchDay() {
             <button
               key={key}
               onClick={() => setMode(key)}
-              className={`rounded-lg px-3 py-1.5 text-xs font-bold transition ${
+              className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-bold transition ${
                 mode === key
                   ? 'bg-emerald-400 text-slate-900'
                   : 'bg-white/5 text-slate-300 hover:bg-white/10'
@@ -406,6 +440,11 @@ function MatchDay() {
           <div className="text-xs text-slate-400">
             전력 {rating.overall} · {isCupDay ? '중립' : isHome ? '홈' : '원정'}
           </div>
+          {live && !engine.finished && (
+            <div className={`text-[11px] font-bold ${squadStamina < LIVE_TIRED ? 'text-amber-300' : 'text-slate-500'}`}>
+              평균 체력 {Math.round(squadStamina)}
+            </div>
+          )}
         </div>
         <div className="shrink-0 text-center">
           <div className="text-3xl font-black text-white">
@@ -468,8 +507,15 @@ function MatchDay() {
             중단 시 자동 정지 {engine.autoPause ? 'ON' : 'OFF'}
           </button>
           <button
+            onClick={orderTiredSubs}
+            className="ml-auto hidden whitespace-nowrap rounded-lg bg-white/10 px-3 py-1.5 text-xs font-bold text-white transition hover:bg-white/20 sm:block"
+            title="체력이 떨어진 선발을 벤치 최적 선수와 바꿉니다"
+          >
+            지친 선수 교체
+          </button>
+          <button
             onClick={() => setShowSubs((value) => !value)}
-            className={`ml-auto rounded-lg px-3 py-1.5 text-xs font-bold transition ${
+            className={`hidden whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-bold transition sm:block ${
               engine.canIntervene
                 ? 'bg-amber-400 text-slate-900 hover:bg-amber-300'
                 : 'bg-white/10 text-white hover:bg-white/20'
@@ -495,6 +541,7 @@ function MatchDay() {
           squad={plannedSquad}
           cards={state.cards}
           evaluations={plannedRating.evaluations}
+          conditionOf={conditionOf}
           immediate={engine.canIntervene}
           onSubstitute={orderSub}
           onClose={() => setShowSubs(false)}
@@ -572,16 +619,22 @@ function MatchDay() {
             </div>
             <div className="mt-1.5 flex gap-1.5">
               <button
-                onClick={() => setShowSubs((value) => !value)}
-                className="min-h-[44px] flex-1 rounded-xl bg-amber-400 text-xs font-black text-slate-900 active:bg-amber-300"
+                onClick={orderTiredSubs}
+                className="min-h-[44px] flex-1 whitespace-nowrap rounded-xl bg-sky-400 text-xs font-black text-slate-900 active:bg-sky-300"
               >
-                선수 교체
+                지친 선수 교체
+              </button>
+              <button
+                onClick={() => setShowSubs((value) => !value)}
+                className="min-h-[44px] flex-1 whitespace-nowrap rounded-xl bg-amber-400 text-xs font-black text-slate-900 active:bg-amber-300"
+              >
+                직접 교체
               </button>
               <button
                 onClick={engine.togglePause}
-                className="min-h-[44px] w-24 rounded-xl bg-white/10 text-xs font-bold text-white active:bg-white/20"
+                className="min-h-[44px] w-20 whitespace-nowrap rounded-xl bg-white/10 text-xs font-bold text-white active:bg-white/20"
               >
-                {engine.paused ? '재개' : '일시정지'}
+                {engine.paused ? '재개' : '정지'}
               </button>
             </div>
           </div>
@@ -782,10 +835,16 @@ function InMatchTactics({
   )
 }
 
+/** Amber once a player is worth pulling off. */
+function tiredClass(condition: number): string {
+  return condition < LIVE_TIRED ? 'text-amber-300' : 'text-slate-400'
+}
+
 function SubPanel({
   squad,
   cards,
   evaluations,
+  conditionOf,
   immediate,
   onSubstitute,
   onClose,
@@ -793,6 +852,8 @@ function SubPanel({
   squad: Squad
   cards: Card[]
   evaluations: SlotEvaluation[]
+  /** Live match stamina, so the numbers match what the pitch shows. */
+  conditionOf: (card: Card) => number
   /** True while play is halted — the change goes in at once instead of queuing. */
   immediate: boolean
   onSubstitute: (slotId: string, inUid: string) => void
@@ -830,8 +891,8 @@ function SubPanel({
                 className="rounded-lg bg-white/5 px-2 py-1.5 text-left text-[11px] hover:bg-white/10"
               >
                 <span className="block truncate font-bold text-white">{item.player?.name}</span>
-                <span className="text-slate-400">
-                  {item.slotPosition} · 체력 {item.condition}
+                <span className={tiredClass(item.card ? conditionOf(item.card) : item.condition)}>
+                  {item.slotPosition} · 체력 {Math.round(item.card ? conditionOf(item.card) : item.condition)}
                 </span>
               </button>
             ))}
@@ -851,8 +912,8 @@ function SubPanel({
                 className="rounded-lg bg-emerald-400/15 px-2 py-1.5 text-left text-[11px] hover:bg-emerald-400/25"
               >
                 <span className="block truncate font-bold text-white">{player.name}</span>
-                <span className="text-slate-400">
-                  {player.position} · Lv.{card.level} · 체력 {card.condition}
+                <span className={tiredClass(conditionOf(card))}>
+                  {player.position} · Lv.{card.level} · 체력 {Math.round(conditionOf(card))}
                 </span>
               </button>
             )

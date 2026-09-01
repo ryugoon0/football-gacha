@@ -1,13 +1,17 @@
 import { describe, expect, it } from 'vitest'
 import {
+  LIVE_TIRED,
   advance,
+  averageStamina,
   createMatch,
   possessionPercent,
   runToEnd,
   shapeFromSquad,
+  staminaFactor,
   toResult,
   type MatchSetup,
 } from '../lib/matchEngine'
+import { applyAutoSubs } from '../lib/autoSub'
 import { seededRandom } from '../lib/players'
 import { evaluateSquad } from '../lib/squad'
 import { initialState } from '../lib/storage'
@@ -151,5 +155,70 @@ describe('live engine', () => {
     const state = runToEnd(setup, seededRandom(2))
     expect(state.home).toHaveLength(0)
     expect(state.scoreFor).toBeGreaterThanOrEqual(0)
+  })
+})
+
+describe('live stamina', () => {
+  it('starts every starter on their pre match condition', () => {
+    const setup = setupOf()
+    const state = createMatch(setup)
+    for (const item of setup.team.evaluations) {
+      if (!item.card) continue
+      expect(state.stamina[item.card.uid]).toBe(item.condition)
+    }
+  })
+
+  it('drains legs over the ninety minutes, keepers least of all', () => {
+    const setup = setupOf()
+    const final = runToEnd(setup, seededRandom(11))
+    const keeper = setup.team.evaluations.find((item) => item.slotPosition === 'GK')!
+    const striker = setup.team.evaluations.find((item) => item.slotPosition !== 'GK')!
+
+    expect(averageStamina(final, setup.team.evaluations)).toBeLessThan(100)
+    expect(final.stamina[keeper.card!.uid]).toBeGreaterThan(final.stamina[striker.card!.uid])
+    expect(final.stamina[striker.card!.uid]).toBeGreaterThan(0)
+  })
+
+  it('burns more with a high press and a fast tempo', () => {
+    const calm = runToEnd(
+      setupOf({ tactic: { plan: 'balanced', pressing: 'low', line: 'normal', tempo: 'slow' } }),
+      seededRandom(4),
+    )
+    const frantic = runToEnd(
+      setupOf({ tactic: { plan: 'balanced', pressing: 'high', line: 'normal', tempo: 'fast' } }),
+      seededRandom(4),
+    )
+    const evaluations = setupOf().team.evaluations
+    expect(averageStamina(frantic, evaluations)).toBeLessThan(averageStamina(calm, evaluations))
+  })
+
+  it('costs at most 15% of the rating when the tank is empty', () => {
+    expect(staminaFactor(100)).toBe(1)
+    expect(staminaFactor(0)).toBeCloseTo(0.85)
+    expect(staminaFactor(50)).toBeGreaterThan(staminaFactor(20))
+  })
+
+  it('feeds the tired substitution rule with live legs', () => {
+    const state = initialState()
+    const setup = setupOf()
+    const final = runToEnd(setup, seededRandom(7))
+    // Pretend the match ran the legs down past the threshold.
+    const drained = Object.fromEntries(
+      Object.keys(final.stamina).map((uid) => [uid, LIVE_TIRED - 10]),
+    )
+    const auto = applyAutoSubs(
+      state.cards,
+      state.squad,
+      5,
+      (card) => drained[card.uid] ?? card.condition,
+      LIVE_TIRED,
+    )
+    expect(auto.subs.length).toBeGreaterThan(0)
+    for (const sub of auto.subs) {
+      expect(sub.reason).toBe('fatigue')
+      expect(drained[sub.inUid]).toBeUndefined()
+    }
+    // With everyone fresh nothing is swapped.
+    expect(applyAutoSubs(state.cards, state.squad, 5).subs).toHaveLength(0)
   })
 })

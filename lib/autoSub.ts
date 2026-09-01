@@ -21,11 +21,17 @@ export interface SubEvent {
 /**
  * Swaps injured or exhausted starters for the best bench player who can cover
  * the position, without breaking the division's level budget.
+ *
+ * `conditionOf` lets the caller pass live match stamina instead of the stored
+ * condition, and `tiredBelow` the point where a starter is worth pulling, so
+ * the same rule works before kick off and during a match.
  */
 export function applyAutoSubs(
   cards: Card[],
   squad: Squad,
   division: number,
+  conditionOf: (card: Card) => number = (card) => card.condition,
+  tiredBelow: number = TIRED_SUB_THRESHOLD,
 ): { squad: Squad; subs: SubEvent[] } {
   const formation = FORMATIONS[squad.formation] ?? FORMATIONS['4-3-3']
   const byUid = new Map(cards.map((card) => [card.uid, card]))
@@ -46,7 +52,7 @@ export function applyAutoSubs(
     if (!starter) continue
 
     const injured = isInjured(starter)
-    const tired = starter.condition < TIRED_SUB_THRESHOLD
+    const tired = conditionOf(starter) < tiredBelow
     if (!injured && !tired) continue
 
     let bestIndex = -1
@@ -56,7 +62,7 @@ export function applyAutoSubs(
       const candidate = byUid.get(benchUid)
       const player = candidate ? getPlayer(candidate.playerId) : undefined
       if (!candidate || !player) return
-      if (isInjured(candidate) || candidate.condition < SUB_READY_CONDITION) return
+      if (isInjured(candidate) || conditionOf(candidate) < SUB_READY_CONDITION) return
       if (positionFit(player, slot.position) === 'out') return
       if (levelTotal - starter.level + candidate.level > cap) return
 
