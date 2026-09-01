@@ -51,8 +51,16 @@ export function configStatus(): { url: boolean; key: boolean; message: string | 
         'NEXT_PUBLIC_SUPABASE_ANON_KEY는 있는데 NEXT_PUBLIC_SUPABASE_URL이 없습니다. Vercel 환경 변수에서 주소를 이 환경(Preview 포함)에도 추가하고 재배포해 주세요.',
     }
   }
-  return { url, key, message: null }
+  return {
+    url,
+    key,
+    message:
+      '이 빌드에는 NEXT_PUBLIC_SUPABASE_URL과 NEXT_PUBLIC_SUPABASE_ANON_KEY가 둘 다 없습니다. 두 변수를 이 환경(브랜치 미리보기는 Preview)에 추가한 뒤 새로 배포해야 합니다 — 값은 빌드할 때 페이지에 박히므로, 이미 만들어진 배포는 변수를 추가해도 바뀌지 않습니다.',
+  }
 }
+
+/** Which build the page came from, so a stale deployment is easy to spot. */
+export const BUILD_REF = (process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA ?? 'local').slice(0, 7)
 
 let client: SupabaseClient | null = null
 

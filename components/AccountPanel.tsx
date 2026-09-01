@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { summarize } from '../lib/cloudSave'
-import { checkConnection, configStatus } from '../lib/supabase'
+import { BUILD_REF, checkConnection, configStatus } from '../lib/supabase'
 import { useGame } from './GameProvider'
 
 /**
@@ -54,6 +54,10 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
                 {configStatus().message}
               </p>
             )}
+            <p className="text-[11px] text-slate-600">
+              보고 계신 빌드: {BUILD_REF} · 주소 {configStatus().url ? '있음' : '없음'} · 키{' '}
+              {configStatus().key ? '있음' : '없음'}
+            </p>
           </div>
         ) : cloud ? (
           <div className="space-y-3">
