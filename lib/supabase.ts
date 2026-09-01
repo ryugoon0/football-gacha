@@ -27,6 +27,33 @@ export function isSupabaseConfigured(): boolean {
   return Boolean(URL && ANON_KEY)
 }
 
+/**
+ * Which half of the setup is missing. Both values are inlined at build time and
+ * are set per environment, so a Preview build can easily end up with one of them.
+ */
+export function configStatus(): { url: boolean; key: boolean; message: string | null } {
+  const url = Boolean(URL)
+  const key = Boolean(ANON_KEY)
+  if (url && key) return { url, key, message: null }
+  if (url && !key) {
+    return {
+      url,
+      key,
+      message:
+        'NEXT_PUBLIC_SUPABASE_URL은 있는데 NEXT_PUBLIC_SUPABASE_ANON_KEY가 없습니다. Vercel 환경 변수에서 키를 이 환경(Preview 포함)에도 추가하고 재배포해 주세요.',
+    }
+  }
+  if (!url && key) {
+    return {
+      url,
+      key,
+      message:
+        'NEXT_PUBLIC_SUPABASE_ANON_KEY는 있는데 NEXT_PUBLIC_SUPABASE_URL이 없습니다. Vercel 환경 변수에서 주소를 이 환경(Preview 포함)에도 추가하고 재배포해 주세요.',
+    }
+  }
+  return { url, key, message: null }
+}
+
 let client: SupabaseClient | null = null
 
 export function getSupabase(): SupabaseClient | null {

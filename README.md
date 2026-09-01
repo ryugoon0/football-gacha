@@ -184,7 +184,11 @@ Supabase가 필요하고, 키를 넣지 않으면 그 기능만 꺼진 채로 �
      `NEXT_PUBLIC_SUPABASE_ANON_KEY`
    이 두 값은 브라우저에 노출되어도 되는 공개 키입니다. 반면 `service_role`(또는 `secret`) 키는
    **절대 넣지 말고 어디에도 공유하지 마세요.**
-4. Vercel → 프로젝트 → Settings → Environment Variables에 위 두 개를 등록하고 재배포합니다.
+4. Vercel → 프로젝트 → Settings → Environment Variables에 위 두 개를 등록합니다.
+   **두 변수 모두 Production · Preview · Development 전부에 체크**해야 합니다. 브랜치 미리보기
+   주소는 Preview 환경이라, 한쪽만 Preview에 없으면 그 배포에서는 로그인·게시판이 꺼집니다.
+   값은 **빌드할 때 페이지에 박히므로 등록 후 반드시 재배포**해야 반영됩니다
+   (Deployments → 맨 위 배포의 ⋯ → Redeploy).
    로컬에서 볼 때는 `.env.local` 파일에 같은 두 줄을 넣습니다(`.env.example` 참고).
 5. 배포 후 헤더의 **로그인 → 서버 연결 확인** 버튼을 누르면 연결 · 테이블 · 키 중 무엇이
    잘못됐는지 한 줄로 알려줍니다. 문제가 없으면 `✓ 서버 연결 정상`이 뜹니다.

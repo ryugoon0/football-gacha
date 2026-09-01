@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { summarize } from '../lib/cloudSave'
-import { checkConnection } from '../lib/supabase'
+import { checkConnection, configStatus } from '../lib/supabase'
 import { useGame } from './GameProvider'
 
 /**
@@ -49,6 +49,11 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
               키 두 개)을 마치면 자동으로 켜집니다. 설정 방법은 README의 &ldquo;계정과 게시판
               켜기&rdquo;에 적어 두었습니다.
             </p>
+            {configStatus().message && (
+              <p className="rounded-lg bg-amber-400/15 px-3 py-2 text-xs font-bold text-amber-200">
+                {configStatus().message}
+              </p>
+            )}
           </div>
         ) : cloud ? (
           <div className="space-y-3">

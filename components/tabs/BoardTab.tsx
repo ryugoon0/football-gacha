@@ -13,7 +13,7 @@ import {
   type Comment,
   type Post,
 } from '../../lib/board'
-import { friendlyError, getSupabase } from '../../lib/supabase'
+import { configStatus, friendlyError, getSupabase } from '../../lib/supabase'
 import { useGame } from '../GameProvider'
 
 interface PostRow {
@@ -94,6 +94,11 @@ export default function BoardTab() {
           등록하면 이 탭이 바로 켜집니다. 설정 방법은 README의 &ldquo;계정과 게시판 켜기&rdquo;에
           적어 두었습니다.
         </p>
+        {configStatus().message && (
+          <p className="mx-auto mt-3 max-w-md rounded-lg bg-amber-400/15 px-3 py-2 text-xs font-bold text-amber-200">
+            {configStatus().message}
+          </p>
+        )}
       </section>
     )
   }
