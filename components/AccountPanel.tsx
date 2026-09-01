@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { summarize } from '../lib/cloudSave'
+import { checkConnection } from '../lib/supabase'
 import { useGame } from './GameProvider'
 
 /**
@@ -13,6 +14,7 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
   const [mode, setMode] = useState<'signIn' | 'signUp'>('signIn')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [health, setHealth] = useState<{ ok: boolean; message: string } | null>(null)
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -144,6 +146,27 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
               그대로 즐길 수 있습니다.
             </p>
           </form>
+        )}
+
+        {account.configured && (
+          <div className="mt-4 border-t border-white/5 pt-3">
+            <button
+              onClick={async () => setHealth(await checkConnection())}
+              className="whitespace-nowrap text-[11px] font-bold text-slate-500 hover:text-slate-300"
+            >
+              서버 연결 확인
+            </button>
+            {health && (
+              <p
+                className={`mt-1 break-all text-[11px] font-semibold ${
+                  health.ok ? 'text-emerald-300' : 'text-amber-300'
+                }`}
+              >
+                {health.ok ? '✓ ' : '! '}
+                {health.message}
+              </p>
+            )}
+          </div>
         )}
 
         {account.error && (

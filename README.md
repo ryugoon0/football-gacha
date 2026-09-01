@@ -178,11 +178,17 @@ Supabase가 필요하고, 키를 넣지 않으면 그 기능만 꺼진 채로 �
    (세이브 · 게시글 · 댓글 테이블과 접근 권한이 한 번에 만들어집니다).
 3. **Project Settings → API**에서 두 값을 복사합니다.
    - `Project URL` → `NEXT_PUBLIC_SUPABASE_URL`
-   - `anon public` 키 → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   `service_role` 키는 브라우저에 노출되면 안 되므로 **넣지 마세요**.
+     (예: `https://xxxx.supabase.co`. 대시보드가 `.../rest/v1/`까지 보여줘도 그대로 붙여넣으면
+     됩니다 — 코드가 알아서 잘라 씁니다.)
+   - `anon public` 키(새 대시보드에서는 `publishable` 키, `sb_publishable_...`) →
+     `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   이 두 값은 브라우저에 노출되어도 되는 공개 키입니다. 반면 `service_role`(또는 `secret`) 키는
+   **절대 넣지 말고 어디에도 공유하지 마세요.**
 4. Vercel → 프로젝트 → Settings → Environment Variables에 위 두 개를 등록하고 재배포합니다.
    로컬에서 볼 때는 `.env.local` 파일에 같은 두 줄을 넣습니다(`.env.example` 참고).
-5. 처음에는 Supabase의 **이메일 인증 메일**이 켜져 있습니다. 친구들과 편하게 테스트하려면
+5. 배포 후 헤더의 **로그인 → 서버 연결 확인** 버튼을 누르면 연결 · 테이블 · 키 중 무엇이
+   잘못됐는지 한 줄로 알려줍니다. 문제가 없으면 `✓ 서버 연결 정상`이 뜹니다.
+6. 처음에는 Supabase의 **이메일 인증 메일**이 켜져 있습니다. 친구들과 편하게 테스트하려면
    Authentication → Providers → Email에서 *Confirm email*을 잠시 꺼도 됩니다.
 
 동작 방식:

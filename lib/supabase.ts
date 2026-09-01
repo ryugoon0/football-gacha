@@ -2,8 +2,21 @@
 
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
-const URL = process.env.NEXT_PUBLIC_SUPABASE_URL
-const ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+/**
+ * The dashboard shows several forms of the same address — the project URL, the
+ * REST endpoint, sometimes with a trailing slash. supabase-js wants the bare
+ * project URL, so trim the rest instead of failing on a copy-paste.
+ */
+export function normalizeSupabaseUrl(value: string | undefined): string {
+  if (!value) return ''
+  const trimmed = value.trim().replace(/\/+$/, '')
+  if (!trimmed) return ''
+  const withScheme = /^https?:\/\//.test(trimmed) ? trimmed : `https://${trimmed}`
+  return withScheme.replace(/\/(rest|auth|storage|realtime)\/v\d+$/, '')
+}
+
+const URL = normalizeSupabaseUrl(process.env.NEXT_PUBLIC_SUPABASE_URL)
+const ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim()
 
 /**
  * The game works with no server at all — accounts, cloud saves and the board
@@ -38,4 +51,29 @@ export function friendlyError(message: string): string {
   ]
   for (const [test, text] of table) if (test.test(message)) return text
   return message
+}
+
+/**
+ * A one-shot check a player can run when something is not working: does the
+ * browser reach the project, and are the tables and permissions in place.
+ */
+export async function checkConnection(): Promise<{ ok: boolean; message: string }> {
+  const supabase = getSupabase()
+  if (!supabase) {
+    return { ok: false, message: '키가 설정되지 않았습니다 (NEXT_PUBLIC_SUPABASE_URL / ANON_KEY).' }
+  }
+  try {
+    const { error } = await supabase.from('posts').select('id').limit(1)
+    if (!error) return { ok: true, message: `서버 연결 정상 · ${URL}` }
+    if (/relation .* does not exist|schema cache/i.test(error.message)) {
+      return { ok: false, message: 'posts 테이블이 없습니다. supabase/schema.sql을 실행해 주세요.' }
+    }
+    if (/JWT|api key|Invalid/i.test(error.message)) {
+      return { ok: false, message: '키가 올바르지 않습니다. anon(publishable) 키를 확인해 주세요.' }
+    }
+    return { ok: false, message: friendlyError(error.message) }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error)
+    return { ok: false, message: friendlyError(message) }
+  }
 }
