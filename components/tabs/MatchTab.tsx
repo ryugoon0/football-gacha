@@ -28,9 +28,12 @@ import {
   LIVE_TIRED,
   averageStamina,
   shapeFromSquad,
+  tacticalStates,
   toResult,
+  type LiveMatchState,
   type MatchSetup,
 } from '../../lib/matchEngine'
+import { buildReport } from '../../lib/tactics/report'
 import { getPlayer } from '../../lib/players'
 import type { SlotEvaluation } from '../../lib/squad'
 import {
@@ -724,6 +727,8 @@ function MatchDay() {
         </div>
       )}
 
+      {engine.finished && live && <TacticalReport state={live} setup={setup} />}
+
       {engine.finished && <MatchRatings />}
 
       <div className="scrollbar-thin mt-4 max-h-[280px] space-y-2 overflow-y-auto pr-1">
@@ -1121,6 +1126,51 @@ function Schedule() {
       <p className="mt-2 text-[11px] text-slate-500">
         리그와 컵 일정이 섞여 있습니다. 체력 관리를 못 하면 두 대회를 함께 치를 수 없습니다.
       </p>
+    </section>
+  )
+}
+
+/** Why the match looked the way it did, read off the tactical metrics. */
+function TacticalReport({ state, setup }: { state: LiveMatchState; setup: MatchSetup | null }) {
+  const report = useMemo(() => {
+    if (!setup) return null
+    const { ours, theirs } = tacticalStates(setup, 0.3)
+    return buildReport(state.metrics, ours, theirs)
+  }, [state.metrics, setup])
+
+  if (!report) return null
+
+  const stats: [label: string, value: string][] = [
+    ['점유율', `${Math.round(report.possession * 100)}%`],
+    ['패스 성공률', `${Math.round(report.passAccuracy * 100)}%`],
+    ['슈팅', `${report.shots} : ${report.shotsAgainst}`],
+    ['기대 득점', `${report.xg.toFixed(1)} : ${report.xgAgainst.toFixed(1)}`],
+    ['최종 3분의 1 진입', `${report.finalThirdEntries}`],
+    ['높은 위치 탈취', `${report.highTurnovers}`],
+    ['역습', `${report.counterAttacks}`],
+    ['압박 지표(PPDA)', report.ppda.toFixed(1)],
+  ]
+
+  return (
+    <section className="mt-4 rounded-xl bg-slate-950/70 p-3">
+      <h3 className="text-xs font-bold uppercase tracking-wide text-emerald-300">전술 리포트</h3>
+      <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1.5 sm:grid-cols-4">
+        {stats.map(([label, value]) => (
+          <div key={label}>
+            <div className="text-[10px] text-slate-500">{label}</div>
+            <div className="text-sm font-black text-white">{value}</div>
+          </div>
+        ))}
+      </div>
+      {report.story.length > 0 && (
+        <ul className="mt-3 space-y-1 border-t border-white/5 pt-2">
+          {report.story.map((line) => (
+            <li key={line} className="text-[11px] leading-relaxed text-slate-300">
+              · {line}
+            </li>
+          ))}
+        </ul>
+      )}
     </section>
   )
 }

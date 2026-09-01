@@ -3,6 +3,12 @@ import { POSITION_GROUP } from './players'
 import type { LeagueTeam } from './league'
 import type { SlotEvaluation, SquadRating } from './squad'
 import { DEFAULT_TACTIC, tacticEffects, type TacticSetup } from './tactics'
+import { opponentParams, opponentProfile, paramsFromSetup } from './tactics/bridge'
+import { emptyMetrics, type MatchMetrics } from './tactics/metrics'
+import type { TacticalParams } from './tactics/params'
+import { squadProfile, type SquadProfile } from './tactics/profile'
+import { resolveCounter, resolveSequence, type SideModel } from './tactics/sequence'
+import { deriveTacticalState } from './tactics/state'
 import { NO_TRAIT_EFFECTS, type TraitEffects } from './traits'
 import type { FormationKey, MatchEvent, MatchResult, Position } from './types'
 
@@ -45,6 +51,14 @@ export interface MatchSetup {
   traits?: TraitEffects
   /** Our eleven, for the pitch view. Empty when running headless. */
   homeShape?: DotAnchor[]
+  /**
+   * Full tactical parameters. Defaults to whatever the four dials in `tactic`
+   * translate to, so the game screen needs no changes; simulations and a future
+   * slider UI can pass the detail straight in.
+   */
+  params?: TacticalParams
+  /** Opponent style and squad shape, for calibration and balance runs. */
+  opponentTactics?: { params?: TacticalParams; profile?: SquadProfile }
   formationKey?: FormationKey
 }
 
@@ -71,6 +85,8 @@ export interface LiveMatchState {
   scorerUids: string[]
   /** How much each starter has left in the tank, 0-100, by card uid. */
   stamina: Record<string, number>
+  /** What the match produced, per side. The tactics engine fills this in. */
+  metrics: MatchMetrics
   finished: boolean
 }
 
@@ -237,6 +253,7 @@ export function createMatch(setup: MatchSetup): LiveMatchState {
     ],
     scorerUids: [],
     stamina: seedStamina(setup.team.evaluations),
+    metrics: emptyMetrics(),
     finished: false,
   }
 }
@@ -273,6 +290,41 @@ export function strengthOf(setup: MatchSetup, rng: () => number, fitness = 1): S
   }
 }
 
+interface Models {
+  home: SideModel
+  away: SideModel
+}
+
+/**
+ * Both sides as the tactics engine sees them. Ours comes from the eleven on
+ * the pitch; the opponent's from their rating and a style drawn from their
+ * name, so a league side plays the same way all season.
+ */
+function buildModels(setup: MatchSetup, strength: Strength, fatigue: number): Models {
+  const ourParams = setup.params ?? paramsFromSetup(setup.tactic ?? DEFAULT_TACTIC)
+  const ourProfile = squadProfile(setup.team.evaluations)
+  const theirParams = setup.opponentTactics?.params ?? opponentParams(setup.opponent)
+  const theirProfile = setup.opponentTactics?.profile ?? opponentProfile(setup.opponent)
+
+  return {
+    home: {
+      params: ourParams,
+      profile: ourProfile,
+      state: deriveTacticalState(ourParams, ourProfile, fatigue),
+      attack: strength.myAtt,
+      defence: strength.myDef,
+    },
+    away: {
+      params: theirParams,
+      profile: theirProfile,
+      // The opponent tires too, but we do not track their legs individually.
+      state: deriveTacticalState(theirParams, theirProfile, fatigue * 0.7),
+      attack: strength.oppAtt,
+      defence: strength.oppDef,
+    },
+  }
+}
+
 /**
  * Advances the match by one tick. Play stops on goals, fouls, the ball going
  * out and half time — the only moments a manager may step in.
@@ -301,14 +353,24 @@ export function advance(
   }
 
   const minute = state.minute + 1
-  // Legs go first: every minute on the pitch costs condition, and a pressing,
-  // fast tempo costs more. Fresh substitutes lift the average straight away.
-  const fatigue = tacticEffects(setup.tactic ?? DEFAULT_TACTIC).fatigue
+
+  // Tiredness is read from the tick just gone, so the tactical model and the
+  // legs it depends on stay in step without a circular calculation.
+  const teamFatigue = 1 - clamp(averageStamina(state, setup.team.evaluations) / 100, 0, 1)
+  const preStrength = strengthOf(setup, rng, staminaFactor(averageStamina(state, setup.team.evaluations)))
+  const models = buildModels(setup, preStrength, teamFatigue)
+
+  // Legs go first: every minute on the pitch costs condition, and pressing,
+  // sprinting and a fast tempo cost more. Fresh substitutes lift the average.
+  const fatigue = models.home.state.fatigueDraw
   const stamina = seedStamina(setup.team.evaluations, state.stamina)
+  let staminaSpent = 0
   for (const item of setup.team.evaluations) {
     if (!item.card) continue
     const drain = (item.slotPosition === 'GK' ? KEEPER_DRAIN : STAMINA_DRAIN) * fatigue
-    stamina[item.card.uid] = clamp(stamina[item.card.uid] - drain, 5, 100)
+    const before = stamina[item.card.uid]
+    stamina[item.card.uid] = clamp(before - drain, 5, 100)
+    staminaSpent += before - stamina[item.card.uid]
   }
   const strength = strengthOf(
     setup,
@@ -332,9 +394,27 @@ export function advance(
     return { ...state, minute: 90, phase: 'full', finished: true, events }
   }
 
-  const share = strength.myMid / (strength.myMid + strength.oppMid)
+  const metrics = {
+    home: { ...state.metrics.home },
+    away: { ...state.metrics.away },
+  }
+
+  // Who has the ball is a contest, not a rating comparison: a side that plays
+  // short and keeps its shape holds it, a side that hits it long gives it up.
+  const ratingShare = strength.myMid / (strength.myMid + strength.oppMid)
+  const tacticalShare = clamp(
+    0.5 +
+      (models.home.state.buildUpControl - models.away.state.buildUpControl) * 0.3 +
+      (models.home.params.buildUpShortness - models.away.params.buildUpShortness) / 100 * 0.2 -
+      (models.home.state.bypassPress - models.away.state.bypassPress) * 0.18,
+    0.15,
+    0.85,
+  )
+  const share = clamp(ratingShare * 0.55 + tacticalShare * 0.45, 0.18, 0.82)
   possession = rng() < share ? 'home' : 'away'
   possessionTicks[possession] += 1
+  metrics[possession].possessionTicks += 1
+  metrics.home.staminaUsed += staminaSpent
 
   // The ball drifts towards whoever is on the ball.
   const target = possession === 'home' ? 78 : 22
@@ -353,16 +433,36 @@ export function advance(
     stoppage = { kind: 'half', ticksLeft: STOPPAGE_TICKS.half, text: '하프타임' }
   }
 
-  if (!stoppage && rng() < strength.chanceRate) {
-    const weAttack = possession === 'home'
-    const att = weAttack ? strength.myAtt : strength.oppAtt
-    const def = weAttack ? strength.oppDef : strength.myDef
-    const side: 'home' | 'away' = weAttack ? 'home' : 'away'
+  // --- the tactical model runs the move ------------------------------------
+  const attackerSide: 'home' | 'away' = possession
+  const defenderSide: 'home' | 'away' = possession === 'home' ? 'away' : 'home'
+  const attacker = models[attackerSide]
+  const defender = models[defenderSide]
+
+  /** Turns one resolved move into events, metrics and, sometimes, a goal. */
+  const playShot = (
+    side: 'home' | 'away',
+    quality: number,
+    route: string,
+    counter: boolean,
+  ) => {
+    const weAttack = side === 'home'
     if (weAttack) shotsFor++
     else shotsAgainst++
+    metrics[side].shots += 1
+    metrics[side].xg += quality
+    if (counter) metrics[side].counterAttacks += 1
+    if (route === 'wide') metrics[side].crosses += 1
+    if (route === 'through') metrics[side].throughBalls += 1
 
+    const att = weAttack ? strength.myAtt : strength.oppAtt
+    const def = weAttack ? strength.oppDef : strength.myDef
+    const keeper = (weAttack ? models.away : models.home).profile.keeperShotStopping
     const swing = weAttack ? traits.goal + setup.team.hidden * 0.002 : -traits.concede
-    const goalChance = clamp(0.22 + (att - def) / 150 + swing, 0.06, 0.6)
+    // Player quality still decides the duel; the tactic decided the opening.
+    const ratingEdge = 1 + (att - def) / 160
+    const goalChance = clamp(quality * ratingEdge * (1.15 - keeper / 200) + swing, 0.02, 0.8)
+
     const shooter = weAttack
       ? pickScorer(setup.team.evaluations, rng)
       : { name: OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)], uid: null, slotId: null }
@@ -370,6 +470,7 @@ export function advance(
     ball = { x: clamp(ball.x + (rng() * 20 - 10), 20, 80), y: weAttack ? 94 : 6 }
 
     if (rng() < goalChance) {
+      metrics[side].shotsOnTarget += 1
       if (weAttack) {
         scoreFor++
         if (shooter.uid) scorerUids.push(shooter.uid)
@@ -383,36 +484,86 @@ export function advance(
         text: `⚽ ${shooter.name} 골! ${scoreFor} : ${scoreAgainst}`,
       })
       stoppage = { kind: 'goal', ticksLeft: STOPPAGE_TICKS.goal, text: '골! 경기 재개 준비' }
-    } else if (rng() < 0.5) {
-      const keeper = weAttack ? `${setup.opponent.name} 골키퍼` : keeperName(setup.team.evaluations)
+      return
+    }
+    if (rng() < 0.5) {
+      metrics[side].shotsOnTarget += 1
+      const keeperName_ = weAttack ? `${setup.opponent.name} 골키퍼` : keeperName(setup.team.evaluations)
       events.push({
         minute,
         type: 'save',
         side,
-        text: `${shooter.name}의 슈팅, ${keeper}가 선방합니다.`,
+        text: `${shooter.name}의 슈팅, ${keeperName_}가 선방합니다.`,
       })
       stoppage = { kind: 'out', ticksLeft: STOPPAGE_TICKS.out, text: '코너킥 준비' }
-    } else {
-      events.push({
-        minute,
-        type: 'chance',
-        side,
-        text: `${shooter.name}의 슈팅이 골대를 살짝 빗나갑니다.`,
-      })
-      stoppage = { kind: 'out', ticksLeft: STOPPAGE_TICKS.out, text: '골킥 준비' }
+      return
     }
-  } else if (!stoppage && rng() < strength.foulRate) {
-    const fouler =
-      possession === 'home'
-        ? OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)]
-        : (pickScorer(setup.team.evaluations, rng).name ?? '우리 선수')
     events.push({
       minute,
-      type: 'foul',
-      side: possession === 'home' ? 'away' : 'home',
-      text: `${fouler}의 파울, 경기가 잠시 멈춥니다.`,
+      type: 'chance',
+      side,
+      text: `${shooter.name}의 슈팅이 골대를 살짝 빗나갑니다.`,
     })
-    stoppage = { kind: 'foul', ticksLeft: STOPPAGE_TICKS.foul, text: '파울 — 프리킥 준비' }
+    stoppage = { kind: 'out', ticksLeft: STOPPAGE_TICKS.out, text: '골킥 준비' }
+  }
+
+  // A tick is a move only some of the time; the rest is circulation. How often
+  // a side actually goes for it is a tactical choice, not a fixed rate.
+  const moveGate = clamp((0.5 + attacker.state.chanceFrequency * 0.8) * traits.tempo, 0.25, 1.1)
+
+  if (!stoppage && rng() < moveGate) {
+    const sequence = resolveSequence(attacker, defender, rng)
+
+    metrics[attackerSide].passes += sequence.passes
+    metrics[attackerSide].passesCompleted += sequence.completed
+    metrics[attackerSide].longPasses += sequence.longPasses
+    metrics[defenderSide].pressures += sequence.pressures
+    metrics[defenderSide].defensiveActions += sequence.defensiveActions
+    if (sequence.finalThird) {
+      metrics[attackerSide].finalThirdEntries += 1
+      metrics[attackerSide].progressions += 1
+    }
+
+    if (sequence.kind === 'chance' && sequence.shot) {
+      playShot(attackerSide, sequence.shot.quality, sequence.shot.route, false)
+    } else if (sequence.kind === 'foul') {
+      const fouler =
+        attackerSide === 'home'
+          ? OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)]
+          : (pickScorer(setup.team.evaluations, rng).name ?? '우리 선수')
+      metrics[defenderSide].fouls += 1
+      events.push({
+        minute,
+        type: 'foul',
+        side: defenderSide,
+        text: `${fouler}의 파울, 경기가 잠시 멈춥니다.`,
+      })
+      stoppage = { kind: 'foul', ticksLeft: STOPPAGE_TICKS.foul, text: '파울 — 프리킥 준비' }
+    } else if (sequence.kind === 'out') {
+      stoppage = { kind: 'out', ticksLeft: STOPPAGE_TICKS.out, text: '스로인 준비' }
+    } else if (sequence.kind === 'turnover' && sequence.turnover) {
+      metrics[attackerSide].turnoversLost += 1
+      if (sequence.pressBeaten) metrics[attackerSide].pressBeaten += 1
+      if (sequence.turnover.counterPressed) {
+        // Won straight back by the counter press — the ball never really left.
+        metrics[attackerSide].highTurnovers += 1
+        metrics[attackerSide].defensiveActions += 1
+      } else if (sequence.turnover.high) {
+        metrics[defenderSide].highTurnovers += 1
+      }
+      // Won it high with the other side committed? That is a break, and its
+      // danger comes from the space they left, not from a counter bonus.
+      if (sequence.turnover.counterable) {
+        const counter = resolveCounter(defender, attacker, sequence.turnover.high, rng)
+        metrics[defenderSide].passes += counter.passes
+        metrics[defenderSide].passesCompleted += counter.completed
+        metrics[attackerSide].defensiveActions += counter.defensiveActions
+        if (counter.kind === 'chance' && counter.shot) {
+          metrics[defenderSide].finalThirdEntries += 1
+          playShot(defenderSide, counter.shot.quality, counter.shot.route, true)
+        }
+      }
+    }
   }
 
   return {
@@ -432,7 +583,14 @@ export function advance(
     events,
     scorerUids,
     stamina,
+    metrics,
   }
+}
+
+/** Both sides' derived tactical state, for the post match report. */
+export function tacticalStates(setup: MatchSetup, fatigue = 0) {
+  const models = buildModels(setup, strengthOf(setup, () => 0.5, 1), fatigue)
+  return { ours: models.home.state, theirs: models.away.state }
 }
 
 export function runToEnd(setup: MatchSetup, rng: () => number = Math.random): LiveMatchState {
