@@ -12,6 +12,18 @@ create table if not exists public.saves (
   updated_at timestamptz not null default now()
 );
 
+-- A save is a few hundred KB at most; the cap stops one account from filling
+-- the database. Safe to re-run: the constraint is added only when missing.
+do $$
+begin
+  if not exists (
+    select 1 from pg_constraint where conname = 'saves_data_size'
+  ) then
+    alter table public.saves
+      add constraint saves_data_size check (pg_column_size(data) <= 524288);
+  end if;
+end $$;
+
 alter table public.saves enable row level security;
 
 drop policy if exists "saves are private" on public.saves;

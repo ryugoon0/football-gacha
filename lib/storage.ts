@@ -131,25 +131,35 @@ export function initialState(): GameState {
   }
 }
 
+/**
+ * Turns anything claiming to be a save into one this build can run, or null if
+ * it is not a save at all. Every entry point — local storage and the cloud copy
+ * — goes through here, so a corrupt or hand edited payload cannot reach the UI.
+ */
+export function normalizeSave(value: unknown): GameState | null {
+  if (!value || typeof value !== 'object') return null
+  const parsed = value as Partial<GameState> & { version?: number }
+  if (!Array.isArray(parsed.cards)) return null
+  // Version 6 stored the tactic as a single string and 7 had no vault size;
+  // both migrate forward without losing a card.
+  if (![SAVE_VERSION, 7, 6].includes(parsed.version ?? 0)) return null
+
+  const state = { ...initialState(), ...parsed } as GameState
+  return {
+    ...state,
+    version: SAVE_VERSION,
+    cards: normalizeCards(state.cards),
+    tactic: normalizeTactic(state.tactic),
+    capacity: normalizeCapacity(state.capacity),
+  }
+}
+
 export function loadState(): GameState {
   if (typeof window === 'undefined') return initialState()
   try {
     const raw = window.localStorage.getItem(SAVE_KEY)
     if (!raw) return initialState()
-    const parsed = JSON.parse(raw) as Partial<GameState> & { version?: number }
-    if (!parsed || !Array.isArray(parsed.cards)) return initialState()
-    // Version 6 stored the tactic as a single string and 7 had no vault size;
-    // both migrate forward without losing a card.
-    if (![SAVE_VERSION, 7, 6].includes(parsed.version ?? 0)) return initialState()
-
-    const state = { ...initialState(), ...parsed } as GameState
-    return {
-      ...state,
-      version: SAVE_VERSION,
-      cards: normalizeCards(state.cards),
-      tactic: normalizeTactic(state.tactic),
-      capacity: normalizeCapacity(state.capacity),
-    }
+    return normalizeSave(JSON.parse(raw)) ?? initialState()
   } catch {
     return initialState()
   }

@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { planSync, type CloudSave } from '../lib/cloudSave'
+import { isSaveTooBig, planSync, readCloudSave, type CloudSave } from '../lib/cloudSave'
 import { friendlyError, getSupabase, isSupabaseConfigured } from '../lib/supabase'
 import type { GameState } from '../lib/types'
 
@@ -62,12 +62,17 @@ export function useAccountSync(
       .eq('user_id', userId)
       .maybeSingle()
     if (queryError || !data?.data) return null
-    return { state: data.data as GameState, updatedAt: data.updated_at as string }
+    // Never hand a raw row to the game: validate and migrate it first.
+    return readCloudSave(data.data, data.updated_at as string)
   }, [])
 
   const upload = useCallback(async (userId: string, value: GameState) => {
     const supabase = getSupabase()
     if (!supabase) return
+    if (isSaveTooBig(value)) {
+      setError('세이브가 너무 커서 계정에 저장하지 못했습니다. 보관함을 정리해 주세요.')
+      return
+    }
     setSyncing(true)
     const { error: writeError } = await supabase.from('saves').upsert(
       { user_id: userId, data: value, updated_at: new Date().toISOString() },

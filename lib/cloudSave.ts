@@ -1,4 +1,30 @@
+import { normalizeSave } from './storage'
 import type { GameState } from './types'
+
+/**
+ * A save is a few hundred KB at most. Anything larger is a corrupt or crafted
+ * payload, so it is neither uploaded nor trusted on the way back down.
+ */
+export const MAX_SAVE_BYTES = 512 * 1024
+
+export function saveSize(state: GameState): number {
+  try {
+    return new Blob([JSON.stringify(state)]).size
+  } catch {
+    return JSON.stringify(state).length
+  }
+}
+
+export function isSaveTooBig(state: GameState): boolean {
+  return saveSize(state) > MAX_SAVE_BYTES
+}
+
+/** Cloud rows are user writable, so they are validated like any other input. */
+export function readCloudSave(data: unknown, updatedAt: string): CloudSave | null {
+  const state = normalizeSave(data)
+  if (!state || isSaveTooBig(state)) return null
+  return { state, updatedAt }
+}
 
 /** A save as it is stored in the cloud, with the time it was written. */
 export interface CloudSave {

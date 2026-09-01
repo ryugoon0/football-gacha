@@ -1,5 +1,14 @@
 import { describe, expect, it } from 'vitest'
-import { isFreshSave, planSync, progressScore, summarize } from '../lib/cloudSave'
+import {
+  MAX_SAVE_BYTES,
+  isFreshSave,
+  isSaveTooBig,
+  planSync,
+  progressScore,
+  readCloudSave,
+  saveSize,
+  summarize,
+} from '../lib/cloudSave'
 import { initialState } from '../lib/storage'
 import type { GameState } from '../lib/types'
 
@@ -7,6 +16,8 @@ const played = (state: GameState, wins: number): GameState => ({
   ...state,
   record: { ...state.record, w: wins },
 })
+
+const NOW = '2026-09-01T00:00:00Z'
 
 describe('cloud save sync', () => {
   it('treats a brand new save as disposable', () => {
@@ -54,5 +65,40 @@ describe('cloud save sync', () => {
     expect(summary.record).toBe('3승 0무 0패')
     expect(summary.cards).toBeGreaterThan(0)
     expect(summary.club).toBe(initialState().club)
+  })
+})
+
+describe('cloud save hardening', () => {
+  it('rejects anything that is not a save', () => {
+    expect(readCloudSave(null, NOW)).toBeNull()
+    expect(readCloudSave('hello', NOW)).toBeNull()
+    expect(readCloudSave({ cards: 'not an array' }, NOW)).toBeNull()
+    expect(readCloudSave({ version: 999, cards: [] }, NOW)).toBeNull()
+  })
+
+  it('accepts and migrates a real save', () => {
+    const save = readCloudSave(initialState(), NOW)
+    expect(save?.state.club).toBe(initialState().club)
+    expect(save?.updatedAt).toBe(NOW)
+  })
+
+  it('refuses a save far larger than any real one', () => {
+    const bloated = {
+      ...initialState(),
+      history: Array.from({ length: 20000 }, (_, index) => ({
+        id: `h${index}`,
+        competition: 'league' as const,
+        opponent: '가짜 상대 이름을 길게 늘려 용량을 부풀립니다',
+        scoreFor: 1,
+        scoreAgainst: 0,
+        result: 'W' as const,
+        reward: 100,
+        at: 1_756_684_800_000,
+      })),
+    }
+    expect(isSaveTooBig(bloated)).toBe(true)
+    expect(readCloudSave(bloated, NOW)).toBeNull()
+    expect(isSaveTooBig(initialState())).toBe(false)
+    expect(saveSize(initialState())).toBeLessThan(MAX_SAVE_BYTES)
   })
 })
