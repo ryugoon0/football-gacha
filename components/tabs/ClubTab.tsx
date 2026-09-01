@@ -40,6 +40,30 @@ const MODES: { id: Mode; label: string }[] = [
   { id: 'release', label: '일괄 방출' },
 ]
 
+/** What each mode actually does, in one line plus the rule that trips people up. */
+const MODE_HELP: Record<Mode, { what: string; rule: string }> = {
+  manage: {
+    what: '카드를 골라 능력치와 성장 여지를 보고, 부상 치료와 체력 회복을 합니다.',
+    rule: '선발·벤치 선수도 모두 볼 수 있습니다.',
+  },
+  train: {
+    what: '다른 카드를 재료로 먹여 경험치를 쌓고 레벨을 올립니다. 레벨이 오르면 능력치가 오릅니다.',
+    rule: '키울 선수는 선발이어도 되지만, 재료로 넣는 카드는 선발·벤치에서 빼야 합니다. 레벨 한계까지만 오릅니다.',
+  },
+  break: {
+    what: '같은 선수 카드 1장을 소모해 레벨 한계를 1 올립니다. 한계가 막혀 훈련이 안 될 때 씁니다.',
+    rule: '돌파할 선수는 선발이어도 되지만, 재료는 같은 선수의 다른 카드여야 하고 선발·벤치는 쓸 수 없습니다.',
+  },
+  fuse: {
+    what: `같은 등급 카드 ${FUSION_SIZE}장과 ${FUSION_FEE.toLocaleString()}G로 한 단계 위 등급 카드 1장을 만듭니다.`,
+    rule: '어떤 선수가 나올지는 뽑기와 같습니다. 선발·벤치 카드는 재료로 쓸 수 없습니다.',
+  },
+  release: {
+    what: '여러 명을 한 번에 내보내고 골드와 조각을 받습니다. 조각은 등급 확정 교환에 씁니다.',
+    rule: '같은 선수 카드는 한계 돌파 재료이니, 남는 것만 내보내세요.',
+  },
+}
+
 /** Vault size, and buying ten more slots at a time. */
 function VaultPanel() {
   const { state, expandVault } = useGame()
@@ -191,7 +215,12 @@ export default function ClubTab() {
       return
     }
     if (mode === 'train') {
-      if (inUse.has(card.uid)) return
+      // A card that cannot be material is a request to grow that player instead.
+      if (inUse.has(card.uid)) {
+        setSelectedUid(card.uid)
+        resetPicks()
+        return
+      }
       setMaterialUids((current) =>
         current.includes(card.uid)
           ? current.filter((uid) => uid !== card.uid)
@@ -199,10 +228,14 @@ export default function ClubTab() {
       )
       return
     }
-    // 한계 돌파: only a copy of the same player counts.
+    // 한계 돌파: only a spare copy of the same player is material. Anything else
+    // becomes the new target, so a starter can be picked without clearing first.
     if (selected && card.playerId === selected.card.playerId && !inUse.has(card.uid)) {
       setBreakUid((current) => (current === card.uid ? null : card.uid))
+      return
     }
+    setSelectedUid(card.uid)
+    resetPicks()
   }
 
   const isPicked = (card: Card) => {
@@ -259,13 +292,18 @@ export default function ClubTab() {
           </div>
         )}
 
-        {mode !== 'manage' && mode !== 'fuse' && mode !== 'release' && (
-          <p className="mb-3 rounded-lg bg-white/5 p-2 text-xs text-slate-400">
+        <div className="mb-3 rounded-lg bg-white/5 p-3">
+          <p className="text-xs leading-relaxed text-slate-300">{MODE_HELP[mode].what}</p>
+          <p className="mt-1 text-[11px] leading-relaxed text-slate-500">{MODE_HELP[mode].rule}</p>
+        </div>
+
+        {(mode === 'train' || mode === 'break') && (
+          <p className="mb-3 rounded-lg bg-emerald-400/10 p-2 text-xs font-semibold text-emerald-200">
             {selected
               ? mode === 'train'
-                ? `${selected.player.name}에게 먹일 재료 카드를 고르세요. 선발·벤치 카드는 재료로 쓸 수 없습니다.`
-                : `${selected.player.name}과 같은 선수 카드를 고르면 한계가 1 올라갑니다.`
-              : '먼저 키울 카드를 고르세요.'}
+                ? `${selected.player.name}에게 먹일 재료 카드를 고르세요. 다른 카드를 누르면 그 선수가 대상이 됩니다.`
+                : `${selected.player.name}과 같은 선수 카드를 고르면 한계가 1 올라갑니다. 다른 카드를 누르면 그 선수가 대상이 됩니다.`
+              : '먼저 키울 카드를 고르세요. 선발 선수도 대상이 될 수 있습니다.'}
           </p>
         )}
 
@@ -317,7 +355,14 @@ export default function ClubTab() {
                 condition={card.condition}
                 injuredFor={card.injuredFor}
                 selected={isPicked(card) || isTarget(card)}
-                dimmed={mode !== 'manage' && inUse.has(card.uid)}
+                dimmed={
+                  mode !== 'manage' &&
+                  inUse.has(card.uid) &&
+                  !isTarget(card) &&
+                  // Before a target is chosen, a starter is a perfectly good
+                  // one — only grey it out once we are picking material.
+                  (mode === 'fuse' || mode === 'release' || selectedUid !== null)
+                }
                 badge={
                   isTarget(card)
                     ? '대상'
