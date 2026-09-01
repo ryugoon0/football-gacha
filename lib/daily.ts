@@ -19,7 +19,12 @@ export interface DailyState {
   progress: Record<MissionId, number>
   claimed: MissionId[]
   freeDrawUsed: boolean
+  /** Friendlies played today. Capped, and reset at the player's midnight. */
+  miniGames: number
 }
+
+/** Friendlies a manager may play in one day. */
+export const MINI_GAME_LIMIT = 10
 
 /** Local calendar day, so the reset happens at the player's midnight. */
 export function todayKey(now: Date = new Date()): string {
@@ -39,13 +44,24 @@ export function weekKey(now: Date = new Date()): string {
 }
 
 export function freshDaily(date: string = todayKey()): DailyState {
-  return { date, progress: { draw: 0, win: 0, train: 0 }, claimed: [], freeDrawUsed: false }
+  return {
+    date,
+    progress: { draw: 0, win: 0, train: 0 },
+    claimed: [],
+    freeDrawUsed: false,
+    miniGames: 0,
+  }
 }
 
 /** Returns a reset board when the saved one is from an earlier day. */
 export function rollOver(daily: DailyState | undefined, today: string = todayKey()): DailyState {
   if (!daily || daily.date !== today) return freshDaily(today)
-  return daily
+  // Saves from before friendlies existed have no counter.
+  return daily.miniGames === undefined ? { ...daily, miniGames: 0 } : daily
+}
+
+export function miniGamesLeft(daily: DailyState): number {
+  return Math.max(0, MINI_GAME_LIMIT - (daily.miniGames ?? 0))
 }
 
 export function missionDone(daily: DailyState, mission: MissionDef): boolean {

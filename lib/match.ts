@@ -5,6 +5,9 @@ import type { MatchResult } from './types'
 export { HOME_ADVANTAGE } from './matchEngine'
 export type { Venue, MatchSetup }
 
+/** Friendlies pay this share of a league match. */
+export const MINI_GAME_REWARD = 0.4
+
 export function matchReward(result: 'W' | 'D' | 'L', division: number, scoreFor: number): number {
   const base = result === 'W' ? 420 : result === 'D' ? 180 : 70
   const divisionBonus = (BOTTOM_DIVISION + 1 - division) * 60

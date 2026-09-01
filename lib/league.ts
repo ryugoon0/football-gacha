@@ -77,6 +77,21 @@ const CLUB_POOL: [name: string, badge: string][] = [
   ['여수 오션스', 'YS'],
 ]
 
+/**
+ * A one-off opponent for a friendly: drawn from the same pool as the league,
+ * at roughly the strength of the division you are in.
+ */
+export function friendlyOpponent(division: number, index: number): LeagueTeam {
+  const [name, badge] = CLUB_POOL[index % CLUB_POOL.length]
+  const swing = ((index * 7) % 9) - 4
+  return {
+    id: `friendly-${index}`,
+    name,
+    badge,
+    rating: Math.max(35, divisionBaseRating(division) + swing),
+  }
+}
+
 export function divisionLabel(division: number): string {
   return `${division}부 리그`
 }

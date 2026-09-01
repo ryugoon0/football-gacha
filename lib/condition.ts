@@ -48,6 +48,8 @@ export function applyMatchWear(
   cards: Card[],
   startingUids: string[],
   rng: () => number = Math.random,
+  /** Friendlies tire the legs but never break anyone. */
+  allowInjuries = true,
 ): MatchWear {
   const starters = new Set(startingUids)
   const injuries: { uid: string; matches: number }[] = []
@@ -68,7 +70,7 @@ export function applyMatchWear(
     const risk =
       (0.02 + ((MAX_CONDITION - card.condition) / MAX_CONDITION) * 0.05) * factors.injuryRisk
     let injuredFor = Math.max(0, card.injuredFor - 1)
-    if (rng() < risk) {
+    if (allowInjuries && rng() < risk) {
       injuredFor = 1 + Math.floor(rng() * 3)
       injuries.push({ uid: card.uid, matches: injuredFor })
     }

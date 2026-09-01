@@ -3,6 +3,7 @@ import { applyMatchWear, recoveryCost, treatmentCost, MAX_CONDITION } from './co
 import { createCup, cupReward, resolveCupRound } from './cup'
 import {
   DAILY_MISSIONS,
+  MINI_GAME_LIMIT,
   missionClaimable,
   rollOver,
   todayKey,
@@ -77,6 +78,7 @@ export type Action =
       lineup: MatchLineup
     }
   | { type: 'cupMatch'; result: MatchResult; myRating: number; lineup: MatchLineup }
+  | { type: 'miniGame'; result: MatchResult; lineup: MatchLineup }
   | { type: 'skipMatchday' }
   | { type: 'newSeason' }
   | { type: 'ensureMarket'; date: string }
@@ -101,7 +103,7 @@ function bumpMission(state: GameState, id: MissionId, amount: number): DailyStat
 
 function logMatch(
   state: GameState,
-  competition: 'league' | 'cup',
+  competition: 'league' | 'cup' | 'friendly',
   result: MatchResult,
   reward: number,
 ): GameState['history'] {
@@ -138,6 +140,8 @@ function afterMatch(
   state: GameState,
   result: MatchResult,
   lineup: MatchLineup,
+  /** Friendlies cost condition but never cause an injury. */
+  allowInjuries = true,
 ): { cards: Card[]; ratings: PlayerRating[] } {
   const formation = FORMATIONS[lineup.squad.formation] ?? FORMATIONS['4-3-3']
   const byUid = new Map(state.cards.map((card) => [card.uid, card]))
@@ -159,6 +163,8 @@ function afterMatch(
   const worn = applyMatchWear(
     grown.cards,
     starters.map((starter) => starter.uid),
+    Math.random,
+    allowInjuries,
   )
   return {
     cards: worn.cards,
@@ -388,6 +394,27 @@ export function reducer(state: GameState, action: Action): GameState {
         matchday: Math.min(TOTAL_MATCHDAYS, state.matchday + 1),
         daily: result.result === 'W' ? bumpMission(state, 'win', 1) : today(state),
         history: logMatch(state, 'league', result, result.reward),
+      }
+    }
+
+    case 'miniGame': {
+      // Friendlies never touch the league table; they pay gold and experience
+      // and cost condition, up to ten a day.
+      const daily = today(state)
+      if ((daily.miniGames ?? 0) >= MINI_GAME_LIMIT) return state
+
+      const { result, lineup } = action
+      const withLineup = { ...state, squad: lineup.squad }
+      const { cards, ratings } = afterMatch(withLineup, result, lineup, false)
+
+      return {
+        ...withLineup,
+        gold: state.gold + result.reward,
+        cards,
+        lastRatings: ratings,
+        lastSubs: lineup.subs,
+        daily: { ...daily, miniGames: (daily.miniGames ?? 0) + 1 },
+        history: logMatch(state, 'friendly', result, result.reward),
       }
     }
 
