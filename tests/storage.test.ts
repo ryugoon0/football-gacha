@@ -1,6 +1,8 @@
 import { afterEach, describe, expect, it } from 'vitest'
+import { FORMATION_KEYS } from '../lib/formations'
+import { BENCH_SIZE } from '../lib/squad'
 import { MAX_CONDITION } from '../lib/condition'
-import { SAVE_KEY, SAVE_VERSION, initialState, loadState, saveState } from '../lib/storage'
+import { SAVE_KEY, SAVE_VERSION, initialState, loadState, saveState, normalizeSave, normalizeSquad } from '../lib/storage'
 
 /** Minimal localStorage so the save code can run outside a browser. */
 function useFakeBrowser(): Map<string, string> {
@@ -77,5 +79,66 @@ describe('old saves', () => {
     expect(loaded.gold).toBe(777)
     expect(loaded.cards.every((card) => typeof card.limit === 'number')).toBe(true)
     expect(loaded.cards.every((card) => card.condition === MAX_CONDITION)).toBe(true)
+  })
+})
+
+describe('save hardening', () => {
+  const clean = initialState()
+
+  it('rebuilds a squad that is missing or the wrong shape', () => {
+    for (const broken of [null, undefined, 'squad', 42, { slots: null, bench: 'x' }]) {
+      const squad = normalizeSquad(broken)
+      expect(Object.keys(squad.slots).length).toBeGreaterThan(0)
+      expect(squad.bench).toHaveLength(BENCH_SIZE)
+      expect(FORMATION_KEYS).toContain(squad.formation)
+    }
+  })
+
+  it('keeps a real squad intact', () => {
+    expect(normalizeSquad(clean.squad)).toEqual(clean.squad)
+  })
+
+  it('drops slots the formation does not have and non-string uids', () => {
+    const squad = normalizeSquad({
+      formation: '4-4-2',
+      slots: { gk: 'keeper', notASlot: 'ghost', d1: 99 },
+      bench: ['a', 5, null, 'b'],
+    })
+    expect(squad.slots.gk).toBe('keeper')
+    expect(squad.slots).not.toHaveProperty('notASlot')
+    expect(squad.slots.d1).toBeNull()
+    expect(squad.bench).toHaveLength(BENCH_SIZE)
+    expect(squad.bench[1]).toBeNull()
+  })
+
+  it('survives a hand edited save without taking the screen down', () => {
+    const broken = {
+      ...clean,
+      squad: null,
+      gold: 'Infinity',
+      shards: NaN,
+      matchday: '<script>',
+      season: null,
+      cup: 'gone',
+      daily: 0,
+      market: [],
+      record: null,
+      history: 'nope',
+      collected: null,
+    }
+    const state = normalizeSave(broken)!
+    expect(state).not.toBeNull()
+    expect(state.squad.bench).toHaveLength(BENCH_SIZE)
+    expect(state.gold).toBe(clean.gold)
+    expect(state.shards).toBe(clean.shards)
+    expect(state.matchday).toBe(0)
+    expect(state.season.division).toBe(clean.season.division)
+    expect(Array.isArray(state.history)).toBe(true)
+    expect(Array.isArray(state.collected)).toBe(true)
+  })
+
+  it('still refuses something that is not a save at all', () => {
+    expect(normalizeSave(null)).toBeNull()
+    expect(normalizeSave({ cards: 'nope' })).toBeNull()
   })
 })

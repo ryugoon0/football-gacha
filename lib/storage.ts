@@ -1,7 +1,7 @@
 import { MAX_CONDITION } from './condition'
 import { createCup } from './cup'
 import { freshDaily } from './daily'
-import { emptySlots } from './formations'
+import { FORMATION_KEYS, emptySlots } from './formations'
 import { newCardLevel } from './growth'
 import { BOTTOM_DIVISION, createSeason } from './league'
 import { emptyMarket } from './market'
@@ -9,7 +9,7 @@ import { getPlayer } from './players'
 import { DEFAULT_TACTIC, normalizeTactic } from './tactics'
 import { BASE_CAPACITY, normalizeCapacity } from './vault'
 import { BENCH_SIZE } from './squad'
-import type { Card, GameState } from './types'
+import type { Card, FormationKey, GameState, Squad } from './types'
 
 /**
  * The card and season model changed shape, so this save lives under a new key:
@@ -132,6 +132,36 @@ export function initialState(): GameState {
 }
 
 /**
+ * Rebuilds a usable line-up out of whatever the save claims to hold. A missing
+ * or malformed squad used to render a blank screen with no way back, so every
+ * field is checked and anything unrecognised falls back to an empty sheet.
+ */
+export function normalizeSquad(value: unknown): Squad {
+  const fallback = { formation: '4-3-3' as FormationKey, slots: emptySlots('4-3-3'), bench: [] }
+  const squad = (value && typeof value === 'object' ? value : fallback) as Partial<Squad>
+
+  const formation = FORMATION_KEYS.includes(squad.formation as FormationKey)
+    ? (squad.formation as FormationKey)
+    : '4-3-3'
+
+  // Only the slots this formation actually has, and only string uids.
+  const slots = emptySlots(formation)
+  const saved = squad.slots && typeof squad.slots === 'object' ? squad.slots : {}
+  for (const slotId of Object.keys(slots)) {
+    const uid = (saved as Record<string, unknown>)[slotId]
+    slots[slotId] = typeof uid === 'string' ? uid : null
+  }
+
+  const savedBench = Array.isArray(squad.bench) ? squad.bench : []
+  const bench = Array.from({ length: BENCH_SIZE }, (_, index) => {
+    const uid = savedBench[index]
+    return typeof uid === 'string' ? uid : null
+  })
+
+  return { formation, slots, bench }
+}
+
+/**
  * Turns anything claiming to be a save into one this build can run, or null if
  * it is not a save at all. Every entry point — local storage and the cloud copy
  * — goes through here, so a corrupt or hand edited payload cannot reach the UI.
@@ -145,12 +175,29 @@ export function normalizeSave(value: unknown): GameState | null {
   if (![SAVE_VERSION, 7, 6].includes(parsed.version ?? 0)) return null
 
   const state = { ...initialState(), ...parsed } as GameState
+  const base = initialState()
   return {
     ...state,
     version: SAVE_VERSION,
     cards: normalizeCards(state.cards),
     tactic: normalizeTactic(state.tactic),
     capacity: normalizeCapacity(state.capacity),
+    squad: normalizeSquad(state.squad),
+    // The rest of the save is only ever written by the game, but a hand edited
+    // file should still not be able to take the screen down.
+    gold: Number.isFinite(state.gold) ? Math.max(0, Math.floor(state.gold)) : base.gold,
+    shards: Number.isFinite(state.shards) ? Math.max(0, Math.floor(state.shards)) : base.shards,
+    matchday: Number.isFinite(state.matchday) ? Math.max(0, Math.floor(state.matchday)) : 0,
+    season: state.season && typeof state.season === 'object' ? state.season : base.season,
+    cup: state.cup && typeof state.cup === 'object' ? state.cup : base.cup,
+    daily: state.daily && typeof state.daily === 'object' ? state.daily : base.daily,
+    market: state.market && typeof state.market === 'object' ? state.market : base.market,
+    record: state.record && typeof state.record === 'object' ? state.record : base.record,
+    trophies: state.trophies && typeof state.trophies === 'object' ? state.trophies : base.trophies,
+    history: Array.isArray(state.history) ? state.history : [],
+    collected: Array.isArray(state.collected) ? state.collected : [],
+    lastRatings: Array.isArray(state.lastRatings) ? state.lastRatings : [],
+    lastSubs: Array.isArray(state.lastSubs) ? state.lastSubs : [],
   }
 }
 
