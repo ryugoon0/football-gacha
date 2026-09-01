@@ -6,14 +6,17 @@ import { evaluateSquad } from '../lib/squad'
 import { GameProvider, useGame } from './GameProvider'
 import AccountPanel from './AccountPanel'
 import GuideOverlay from './GuideOverlay'
+import LoginScreen from './LoginScreen'
 import BoardTab from './tabs/BoardTab'
 import ClubTab from './tabs/ClubTab'
+import HomeTab from './tabs/HomeTab'
 import GachaTab from './tabs/GachaTab'
 import MarketTab from './tabs/MarketTab'
 import MatchTab from './tabs/MatchTab'
 import SquadTab from './tabs/SquadTab'
 
 const TABS = [
+  { key: 'home', label: '홈' },
   { key: 'gacha', label: '뽑기' },
   { key: 'market', label: '이적시장' },
   { key: 'squad', label: '스쿼드' },
@@ -40,13 +43,26 @@ export default function GachaGame() {
 
 function Shell() {
   const { state, ready, account, renameClub, reset, finishGuide } = useGame()
-  const [tab, setTab] = useState<TabKey>('gacha')
+  const [tab, setTab] = useState<TabKey>('home')
   const [editingClub, setEditingClub] = useState(false)
   const [helpOpen, setHelpOpen] = useState(false)
   const [accountOpen, setAccountOpen] = useState(false)
   const rating = useMemo(() => evaluateSquad(state.cards, state.squad), [state.cards, state.squad])
 
   const showGuide = helpOpen || (ready && !state.guideDone)
+
+  // With a server configured, the game lives behind a login. Without one there
+  // are no accounts to check, so the game runs locally as before.
+  if (account.configured && account.status !== 'signedIn') {
+    if (account.status === 'loading') {
+      return (
+        <main className="flex min-h-screen items-center justify-center bg-slate-950 text-sm text-slate-500">
+          불러오는 중...
+        </main>
+      )
+    }
+    return <LoginScreen />
+  }
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
@@ -119,7 +135,7 @@ function Shell() {
             <button
               key={item.key}
               onClick={() => setTab(item.key)}
-              className={`-mb-px shrink-0 whitespace-nowrap border-b-2 px-1.5 py-2 text-[11px] font-bold transition min-[400px]:px-2 min-[400px]:text-xs sm:px-4 sm:text-sm ${
+              className={`-mb-px shrink-0 whitespace-nowrap border-b-2 px-1 py-2 text-[11px] font-bold transition min-[400px]:px-2 min-[400px]:text-xs sm:px-3 sm:text-sm ${
                 tab === item.key
                   ? 'border-emerald-400 text-emerald-300'
                   : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -136,6 +152,7 @@ function Shell() {
           <p className="py-20 text-center text-sm text-slate-500">저장된 클럽을 불러오는 중...</p>
         ) : (
           <>
+            {tab === 'home' && <HomeTab onJump={(key) => setTab(key as TabKey)} />}
             {tab === 'gacha' && <GachaTab />}
             {tab === 'market' && <MarketTab />}
             {tab === 'squad' && <SquadTab />}
