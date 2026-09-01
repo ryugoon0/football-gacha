@@ -4,7 +4,9 @@ import { useMemo, useState } from 'react'
 import { divisionLabel } from '../lib/league'
 import { evaluateSquad } from '../lib/squad'
 import { GameProvider, useGame } from './GameProvider'
+import AccountPanel from './AccountPanel'
 import GuideOverlay from './GuideOverlay'
+import BoardTab from './tabs/BoardTab'
 import ClubTab from './tabs/ClubTab'
 import GachaTab from './tabs/GachaTab'
 import MarketTab from './tabs/MarketTab'
@@ -17,6 +19,7 @@ const TABS = [
   { key: 'squad', label: '스쿼드' },
   { key: 'club', label: '선수단' },
   { key: 'match', label: '경기' },
+  { key: 'board', label: '게시판' },
 ] as const
 
 type TabKey = (typeof TABS)[number]['key']
@@ -36,10 +39,11 @@ export default function GachaGame() {
 }
 
 function Shell() {
-  const { state, ready, renameClub, reset, finishGuide } = useGame()
+  const { state, ready, account, renameClub, reset, finishGuide } = useGame()
   const [tab, setTab] = useState<TabKey>('gacha')
   const [editingClub, setEditingClub] = useState(false)
   const [helpOpen, setHelpOpen] = useState(false)
+  const [accountOpen, setAccountOpen] = useState(false)
   const rating = useMemo(() => evaluateSquad(state.cards, state.squad), [state.cards, state.squad])
 
   const showGuide = helpOpen || (ready && !state.guideDone)
@@ -93,6 +97,13 @@ function Shell() {
               <div className="font-black text-amber-300">{state.gold.toLocaleString()}</div>
             </div>
             <button
+              onClick={() => setAccountOpen(true)}
+              className="whitespace-nowrap rounded-xl bg-white/5 px-3 py-2 text-xs font-bold text-slate-300 hover:bg-white/10 hover:text-white"
+              title={account.user ? account.user.email : '로그인하면 진행 상황이 계정에 저장됩니다'}
+            >
+              {account.status === 'signedIn' ? '내 계정' : '로그인'}
+            </button>
+            <button
               onClick={() => setHelpOpen(true)}
               className="whitespace-nowrap rounded-xl bg-white/5 px-3 py-2 text-xs font-bold text-slate-300 hover:bg-white/10 hover:text-white"
               title="게임 방법"
@@ -108,7 +119,7 @@ function Shell() {
             <button
               key={item.key}
               onClick={() => setTab(item.key)}
-              className={`-mb-px shrink-0 whitespace-nowrap border-b-2 px-2 py-2 text-xs font-bold transition min-[380px]:px-3 min-[380px]:text-[13px] sm:px-4 sm:text-sm ${
+              className={`-mb-px shrink-0 whitespace-nowrap border-b-2 px-1.5 py-2 text-[11px] font-bold transition min-[400px]:px-2 min-[400px]:text-xs sm:px-4 sm:text-sm ${
                 tab === item.key
                   ? 'border-emerald-400 text-emerald-300'
                   : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -130,6 +141,7 @@ function Shell() {
             {tab === 'squad' && <SquadTab />}
             {tab === 'club' && <ClubTab />}
             {tab === 'match' && <MatchTab />}
+            {tab === 'board' && <BoardTab />}
           </>
         )}
       </div>
@@ -150,6 +162,10 @@ function Shell() {
           </button>
         </div>
       </footer>
+
+      {(accountOpen || account.conflict) && (
+        <AccountPanel onClose={() => setAccountOpen(false)} />
+      )}
 
       {showGuide && (
         <GuideOverlay

@@ -127,12 +127,14 @@ components/
   GachaGame.tsx         헤더 + 탭 셸
   GameProvider.tsx      게임 상태 컨텍스트 · localStorage 저장
   GuideOverlay.tsx      첫 방문 안내 / 도움말
+  AccountPanel.tsx      회원가입 · 로그인 · 세이브 충돌 선택
+  useAccountSync.ts     세션 추적과 클라우드 세이브 업로드
   PitchView.tsx         관전 모드 경기장 (22명 + 공)
   useLiveEngine.ts      실시간 중계 구동 훅 (배속 · 일시정지 · 자동 정지)
   PlayerCard.tsx        카드 UI
   PlayerDetailModal.tsx 선수 상세 전체 화면 (능력치 · 경험치 · 성장 여지)
   PlayerAvatar.tsx      선수 ID 기반 SVG 초상
-  tabs/                 뽑기 · 이적시장 · 스쿼드 · 선수단 · 경기 화면
+  tabs/                 뽑기 · 이적시장 · 스쿼드 · 선수단 · 경기 · 게시판 화면
 lib/
   players.ts            선수 로스터와 능력치 생성
   gacha.ts              확률 · 천장 · 픽업 · 팩 종류 (API와 클라이언트 공용)
@@ -144,6 +146,9 @@ lib/
   teamColor.ts          클럽 · 리그 · 국가 시너지
   shards.ts             방출 조각과 교환소
   vault.ts              보관함 크기와 증설 비용
+  supabase.ts           Supabase 클라이언트 (키가 없으면 비활성)
+  cloudSave.ts          계정 세이브 동기화 규칙
+  board.ts              게시판 입력 규칙
   formations.ts         포메이션과 전술판 좌표
   tactics.ts            전술 4단(플랜·압박·라인·템포)과 단축키
   squad.ts              포지션 적합도 · 케미 · 팀 전력 계산
@@ -160,7 +165,33 @@ lib/
 tests/                  vitest 단위 테스트
 ```
 
-앞으로 반영할 내용(카드팩별 확률 개편, 실시간 경기 진행과 경기 개입)은
+## 계정과 게시판 켜기 (Supabase)
+
+게임 자체는 서버 없이 돌아갑니다. **회원가입 · 로그인 · 클라우드 세이브 · 게시판**만
+Supabase가 필요하고, 키를 넣지 않으면 그 기능만 꺼진 채로 나머지는 그대로 동작합니다.
+
+1. [supabase.com](https://supabase.com)에서 무료 프로젝트를 만듭니다.
+2. **SQL Editor**에 [`supabase/schema.sql`](./supabase/schema.sql) 내용을 붙여넣고 실행합니다
+   (세이브 · 게시글 · 댓글 테이블과 접근 권한이 한 번에 만들어집니다).
+3. **Project Settings → API**에서 두 값을 복사합니다.
+   - `Project URL` → `NEXT_PUBLIC_SUPABASE_URL`
+   - `anon public` 키 → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   `service_role` 키는 브라우저에 노출되면 안 되므로 **넣지 마세요**.
+4. Vercel → 프로젝트 → Settings → Environment Variables에 위 두 개를 등록하고 재배포합니다.
+   로컬에서 볼 때는 `.env.local` 파일에 같은 두 줄을 넣습니다(`.env.example` 참고).
+5. 처음에는 Supabase의 **이메일 인증 메일**이 켜져 있습니다. 친구들과 편하게 테스트하려면
+   Authentication → Providers → Email에서 *Confirm email*을 잠시 꺼도 됩니다.
+
+동작 방식:
+
+- 로그인하면 **이 브라우저의 진행 상황이 계정으로 올라가고**, 이후 변경은 몇 초 뒤 자동 저장됩니다.
+- 다른 기기에서 같은 계정으로 로그인하면 이어서 할 수 있습니다.
+- 양쪽 모두에 진행 상황이 있으면 **어느 쪽을 쓸지 물어봅니다**(고르지 않은 쪽은 사라집니다).
+- 게시판은 **읽기는 누구나**, 글·댓글 쓰기는 로그인한 사람만, 삭제는 본인 글만 됩니다.
+- 지금 구조에서는 세이브를 브라우저가 그대로 올리므로 수치 조작을 막지는 못합니다.
+  경쟁 요소(랭킹 등)를 넣을 때는 뽑기·경기 계산을 서버로 옮겨야 합니다.
+
+앞으로 반영할 내용(카드팩별 확률 개편, 실시간 경기 진행, 데일리 미니게임)은
 [ROADMAP.md](./ROADMAP.md)에 정리해 두었습니다.
 
 등장하는 선수 · 클럽 · 리그 이름은 **모두 가상**입니다. 어느 팀과 어느 선수를 염두에 둔

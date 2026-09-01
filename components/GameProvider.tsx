@@ -19,6 +19,7 @@ import { exchangeResult, type ShardOffer } from '../lib/shards'
 import type { TacticSetup } from '../lib/tactics'
 import { clearSave, initialState, loadState, newCard, saveState } from '../lib/storage'
 import type { Card, FormationKey, GameState, MatchResult, PlayerDef } from '../lib/types'
+import { useAccountSync, type AccountApi } from './useAccountSync'
 
 export interface GameApi {
   state: GameState
@@ -55,6 +56,8 @@ export interface GameApi {
   renameClub: (club: string) => void
   expandVault: () => void
   reset: () => void
+  /** Account, cloud save and board sign in. Off until Supabase is configured. */
+  account: AccountApi
 }
 
 export interface AddCardsOptions {
@@ -106,10 +109,14 @@ export function GameProvider({ children }: { children: ReactNode }) {
     [state.cards, state.squad, state.gold],
   )
 
+  const hydrate = useCallback((next: GameState) => dispatch({ type: 'hydrate', state: next }), [])
+  const account = useAccountSync(state, hydrate, ready)
+
   const api = useMemo<GameApi>(
     () => ({
       state,
       ready,
+      account,
       addCards,
       fuse,
       exchangeShards: (offer: ShardOffer) => {
@@ -159,7 +166,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         dispatch({ type: 'reset' })
       },
     }),
-    [state, ready, addCards, fuse],
+    [state, ready, account, addCards, fuse],
   )
 
   return <GameContext.Provider value={api}>{children}</GameContext.Provider>
