@@ -34,6 +34,16 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-02-draw-server-hardening',
+    date: '2026-09-02',
+    kind: 'fix',
+    title: '뽑기 서버 안정화',
+    detail: [
+      '서버 함수가 바깥 모듈을 하나도 불러오지 않도록 바꿨습니다. 모듈을 못 불러와 함수가 뜨지 못하는 경우가 사라집니다.',
+      '실패하면 무엇이 잘못됐는지 화면에 함께 나옵니다.',
+    ],
+  },
+  {
     id: '2026-09-02-draw-error-fix',
     date: '2026-09-02',
     kind: 'fix',

@@ -5,6 +5,7 @@ import { SIGNAL_LABELS, riskOf, type WatchRow } from '../../lib/monitor'
 import { friendlyError, getSupabase } from '../../lib/supabase'
 import { timeAgo } from '../../lib/board'
 import { buildLabel } from '../../lib/build'
+import { probeDrawServer } from '../../lib/serverDraw'
 
 interface Health {
   saves_24h?: number
@@ -40,6 +41,8 @@ export default function MonitorPanel() {
   const [health, setHealth] = useState<Health | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
+  const [probe, setProbe] = useState<string | null>(null)
+  const [probing, setProbing] = useState(false)
 
   const load = useCallback(async () => {
     const supabase = getSupabase()
@@ -76,12 +79,25 @@ export default function MonitorPanel() {
           </p>
           <p className="mt-0.5 text-[10px] text-slate-600">보고 계신 빌드 {buildLabel()}</p>
         </div>
-        <button
-          onClick={() => void load()}
-          className="shrink-0 whitespace-nowrap rounded-lg bg-white/10 px-2.5 py-1.5 text-[11px] font-bold text-white"
-        >
-          새로고침
-        </button>
+        <div className="flex shrink-0 gap-1.5">
+          <button
+            onClick={async () => {
+              setProbing(true)
+              setProbe(await probeDrawServer())
+              setProbing(false)
+            }}
+            disabled={probing}
+            className="whitespace-nowrap rounded-lg bg-white/5 px-2.5 py-1.5 text-[11px] font-bold text-slate-300 disabled:opacity-40"
+          >
+            {probing ? '확인 중...' : '뽑기 서버 점검'}
+          </button>
+          <button
+            onClick={() => void load()}
+            className="whitespace-nowrap rounded-lg bg-white/10 px-2.5 py-1.5 text-[11px] font-bold text-white"
+          >
+            새로고침
+          </button>
+        </div>
       </div>
 
       {health && (
@@ -99,6 +115,12 @@ export default function MonitorPanel() {
             tone={(health.watchlist_multi ?? 0) > 0 ? 'text-amber-300' : ''}
           />
         </div>
+      )}
+
+      {probe && (
+        <p className="mt-3 break-words rounded-lg bg-white/5 px-3 py-2 text-[11px] leading-relaxed text-slate-300">
+          뽑기 서버: {probe}
+        </p>
       )}
 
       {error && <p className="mt-3 text-[11px] font-semibold text-rose-400">{error}</p>}

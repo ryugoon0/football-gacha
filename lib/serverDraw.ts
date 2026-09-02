@@ -136,3 +136,26 @@ export async function seedEconomy(gold: number, pity: number): Promise<boolean> 
   if (error) return false
   return Boolean((data as { ok?: boolean } | null)?.ok)
 }
+
+/** Asks the pull server whether it is reachable and this account is ready. */
+export async function probeDrawServer(): Promise<string> {
+  const supabase = getSupabase()
+  if (!supabase) return '서버가 설정되지 않았습니다.'
+  const { data: session } = await supabase.auth.getSession()
+  if (!session.session) return '로그인이 필요합니다.'
+
+  try {
+    const { data, error } = await supabase.functions.invoke('draw-pack', { body: { probe: true } })
+    if (error) {
+      const dug = await reasonFromError(error)
+      return `연결 실패 — ${dug.detail}`
+    }
+    const result = data as { ok?: boolean; seeded?: boolean; pity?: number; reason?: string } | null
+    if (!result?.ok) return `서버가 거절 — ${result?.reason ?? '알 수 없음'}`
+    return result.seeded
+      ? `정상 · 계정 준비됨 · 천장 카운터 ${result.pity ?? 0}`
+      : '연결은 되지만 이 계정이 아직 원장으로 옮겨지지 않았습니다. 뽑기를 한 번 시도하면 자동으로 옮겨집니다.'
+  } catch (error) {
+    return `연결 실패 — ${error instanceof Error ? error.message : String(error)}`
+  }
+}
