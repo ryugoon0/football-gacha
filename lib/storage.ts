@@ -199,6 +199,10 @@ export function normalizeSave(value: unknown): GameState | null {
     // Anything the item list does not know about is dropped, so a hand-edited
     // save cannot invent an item the game has no rule for.
     items: normalizeInventory(state.items),
+    // Saves from before this setting existed have no value at all, which reads
+    // as off. Automatic substitution is the sensible default, so only an
+    // explicit "no" turns it off.
+    autoSub: state.autoSub !== false,
     matchday: Number.isFinite(state.matchday) ? Math.max(0, Math.floor(state.matchday)) : 0,
     season: state.season && typeof state.season === 'object' ? state.season : base.season,
     cup: state.cup && typeof state.cup === 'object' ? state.cup : base.cup,

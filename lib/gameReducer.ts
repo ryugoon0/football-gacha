@@ -403,11 +403,16 @@ export function reducer(state: GameState, action: Action): GameState {
       const round = season.round + 1
       season = { ...season, round, finished: round >= ROUNDS_PER_SEASON }
 
-      const withLineup = { ...state, squad: lineup.squad }
-      const { cards, ratings } = afterMatch(withLineup, result, lineup)
+      // Who actually took the field decides wear, injuries and ratings.
+      const played = { ...state, squad: lineup.squad }
+      const { cards, ratings } = afterMatch(played, result, lineup)
 
       return {
-        ...withLineup,
+        ...played,
+        // The manager comes back to the team sheet they set. A substitution is
+        // for that match, not a permanent change to the lineup — and auto
+        // substitution runs again at the next kick-off anyway.
+        squad: state.squad,
         gold: state.gold + result.reward,
         cards,
         lastRatings: ratings,
@@ -429,11 +434,16 @@ export function reducer(state: GameState, action: Action): GameState {
       if ((daily.miniGames ?? 0) >= MINI_GAME_LIMIT) return state
 
       const { result, lineup } = action
-      const withLineup = { ...state, squad: lineup.squad }
-      const { cards, ratings } = afterMatch(withLineup, result, lineup, false)
+      // Who actually took the field decides wear, injuries and ratings.
+      const played = { ...state, squad: lineup.squad }
+      const { cards, ratings } = afterMatch(played, result, lineup, false)
 
       return {
-        ...withLineup,
+        ...played,
+        // The manager comes back to the team sheet they set. A substitution is
+        // for that match, not a permanent change to the lineup — and auto
+        // substitution runs again at the next kick-off anyway.
+        squad: state.squad,
         gold: state.gold + result.reward,
         cards,
         lastRatings: ratings,
@@ -462,11 +472,16 @@ export function reducer(state: GameState, action: Action): GameState {
       else if (result.result === 'D') record.d += 1
       else record.l += 1
 
-      const withLineup = { ...state, squad: lineup.squad }
-      const { cards, ratings } = afterMatch(withLineup, result, lineup)
+      // Who actually took the field decides wear, injuries and ratings.
+      const played = { ...state, squad: lineup.squad }
+      const { cards, ratings } = afterMatch(played, result, lineup)
 
       return {
-        ...withLineup,
+        ...played,
+        // The manager comes back to the team sheet they set. A substitution is
+        // for that match, not a permanent change to the lineup — and auto
+        // substitution runs again at the next kick-off anyway.
+        squad: state.squad,
         gold: state.gold + reward,
         cards,
         lastRatings: ratings,

@@ -34,6 +34,17 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-02-lineup-and-items',
+    date: '2026-09-02',
+    kind: 'balance',
+    title: '경기 후 라인업 유지, 아이템 정리',
+    detail: [
+      '경기가 끝나면 감독이 짠 선발 라인업으로 돌아옵니다. 교체는 그 경기에만 적용됩니다.',
+      '지치거나 다친 선수는 킥오프 직전에 자동으로 교체됩니다. 기본으로 켜져 있습니다.',
+      '한계 돌파석, 훈련 교본, 특별 훈련서를 상점에서 뺐습니다.',
+    ],
+  },
+  {
     id: '2026-09-02-password-reset',
     date: '2026-09-02',
     kind: 'feature',

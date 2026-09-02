@@ -1,5 +1,4 @@
 import { MAX_CONDITION } from './condition'
-import { addExperience, limitBreak } from './growth'
 import { CAPACITY_STEP, MAX_CAPACITY } from './vault'
 import type { Card } from './types'
 
@@ -17,9 +16,6 @@ export type ItemId =
   | 'drink'
   | 'energyFull'
   | 'medkit'
-  | 'manual'
-  | 'manualBig'
-  | 'breaker'
   | 'marketTicket'
   | 'friendlyTicket'
   | 'vaultPermit'
@@ -73,36 +69,6 @@ export const ITEMS: Record<ItemId, ItemDef> = {
     gold: 1500,
     shards: 80,
     dailyLimit: 3,
-  },
-  manual: {
-    id: 'manual',
-    name: '훈련 교본',
-    note: '선수 한 명에게 경험치 300을 줍니다.',
-    target: 'card',
-    icon: '📘',
-    gold: 800,
-    shards: null,
-    dailyLimit: null,
-  },
-  manualBig: {
-    id: 'manualBig',
-    name: '특별 훈련서',
-    note: '선수 한 명에게 경험치 1200을 줍니다.',
-    target: 'card',
-    icon: '📕',
-    gold: 2800,
-    shards: 150,
-    dailyLimit: 3,
-  },
-  breaker: {
-    id: 'breaker',
-    name: '한계 돌파석',
-    note: '같은 카드 없이 한계를 1 올립니다. 등급 상한까지만 오릅니다.',
-    target: 'card',
-    icon: '💎',
-    gold: null,
-    shards: 400,
-    dailyLimit: 1,
   },
   marketTicket: {
     id: 'marketTicket',
@@ -272,14 +238,6 @@ export function applyToCard(id: ItemId, card: Card): Card | null {
       if (card.injuredFor <= 0) return null
       return { ...card, injuredFor: 0 }
     }
-    case 'manual':
-      return addExperience(card, 300).card
-    case 'manualBig':
-      return addExperience(card, 1200).card
-    case 'breaker': {
-      const result = limitBreak(card)
-      return result.raised ? result.card : null
-    }
     default:
       return null
   }
@@ -293,11 +251,6 @@ export function cardUseProblem(id: ItemId, card: Card): string | null {
       return card.condition >= MAX_CONDITION ? '이미 컨디션이 가득 찼습니다.' : null
     case 'medkit':
       return card.injuredFor > 0 ? null : '부상이 아닙니다.'
-    case 'breaker':
-      return limitBreak(card).raised ? null : '이미 등급 상한까지 올랐습니다.'
-    case 'manual':
-    case 'manualBig':
-      return null
     default:
       return '이 선수에게는 쓸 수 없습니다.'
   }

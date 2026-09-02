@@ -69,9 +69,13 @@ describe('buying', () => {
     expect(
       purchaseProblem({ item: ITEMS.drink, currency: 'shards', count: 1, gold: 0, shards: 999, buys: {} }),
     ).toContain('조각으로는')
-    expect(
-      purchaseProblem({ item: ITEMS.breaker, currency: 'gold', count: 1, gold: 1e9, shards: 0, buys: {} }),
-    ).toContain('골드로는')
+    // 조각 전용 상품이 남아 있어야 이 검사가 의미를 가진다.
+    const shardOnly = ITEM_IDS.map((id) => ITEMS[id]).find((item) => item.gold === null)
+    if (shardOnly) {
+      expect(
+        purchaseProblem({ item: shardOnly, currency: 'gold', count: 1, gold: 1e9, shards: 0, buys: {} }),
+      ).toContain('골드로는')
+    }
   })
 
   it('holds the daily limit and counts what was already bought', () => {
