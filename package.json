@@ -15,7 +15,8 @@
     "test:watch": "vitest",
     "build:functions": "node scripts/bundle-functions.mjs",
     "db:push": "supabase db push",
-    "db:diff": "supabase db diff --linked"
+    "db:diff": "supabase db diff --linked",
+    "build:roster": "node scripts/build-roster.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.112.4",

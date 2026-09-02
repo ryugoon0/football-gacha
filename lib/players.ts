@@ -1,4 +1,5 @@
 import { hashString, pickInRange, seededRandom } from './random'
+import { GENERATED_CLUBS, GENERATED_ROSTER } from './rosterData'
 import { RARITY_TIERS, startLevelOf, MAX_LEVEL } from './rarity'
 import type { HiddenStats, PlayerDef, Position, PositionGroup, Rarity, Stats } from './types'
 
@@ -177,7 +178,7 @@ export interface ClubDef {
  * Clubs and leagues are invented, but named so you can tell which real side
  * they are winking at. Nothing here uses a real club, league or player name.
  */
-export const CLUBS: ClubDef[] = [
+const HAND_WRITTEN_CLUBS: ClubDef[] = [
   { name: '전북 모터스', league: '코리아 리그' },
   { name: '울산 호랑', league: '코리아 리그' },
   { name: '포항 스틸맨', league: '코리아 리그' },
@@ -194,11 +195,23 @@ export const CLUBS: ClubDef[] = [
   { name: '마드리드 로히블랑', league: '이베리아 리가' },
   { name: '세비야 로호', league: '이베리아 리가' },
   { name: '발렌시아 바트', league: '이베리아 리가' },
-  { name: '밀라노 네로', league: '콘티넨탈 리그' },
-  { name: '토리노 비앙코', league: '콘티넨탈 리그' },
-  { name: '뮌헨 바바리안', league: '콘티넨탈 리그' },
+  { name: '밀라노 네로', league: '아주로 세리에' },
+  { name: '토리노 비앙코', league: '아주로 세리에' },
+  { name: '뮌헨 바바리안', league: '게르만 리가' },
   { name: '파리 캐피탈', league: '콘티넨탈 리그' },
-  { name: '도르트 옐로우', league: '콘티넨탈 리그' },
+  { name: '도르트 옐로우', league: '게르만 리가' },
+]
+
+/**
+ * Every club. The hand written ones keep their names; the generated leagues
+ * fill the rest out to twenty sides each. A club that appears in both lists
+ * is kept once — the generated file reuses several of the original names.
+ */
+export const CLUBS: ClubDef[] = [
+  ...HAND_WRITTEN_CLUBS.filter(
+    (club) => !GENERATED_CLUBS.some((other) => other.name === club.name),
+  ),
+  ...GENERATED_CLUBS,
 ]
 
 export const LEAGUE_OF_CLUB: Record<string, string> = CLUBS.reduce(
@@ -237,7 +250,7 @@ export type RosterRow = [
  * player they are modelled on — same shirt, same country, a name one letter
  * off — without borrowing anyone's actual name.
  */
-export const ROSTER: Record<Rarity, RosterRow[]> = {
+const HAND_WRITTEN: Record<Rarity, RosterRow[]> = {
   Normal: [
     ['김준성', 'GK', 58, '전북 모터스', '대한민국'],
     ['박철벽', 'GK', 61, '울산 호랑', '대한민국'],
@@ -309,6 +322,22 @@ export const ROSTER: Record<Rarity, RosterRow[]> = {
     ['크리스 호날드', 'LW', 93, '마드리드 블랑코', '포르투갈'],
     ['킬리안 음바피', 'ST', 94, '파리 캐피탈', '프랑스'],
   ],
+}
+
+/**
+ * The whole roster: the hand written cards first, then the generated squads.
+ *
+ * The order matters more than it looks. A card's id is its place in this list,
+ * and saves store that id — so anything new has to go on the end. Put one row
+ * in front of the others and every collection in the game quietly becomes a
+ * different set of players.
+ */
+export const ROSTER: Record<Rarity, RosterRow[]> = {
+  Normal: [...HAND_WRITTEN.Normal, ...GENERATED_ROSTER.Normal],
+  Rare: [...HAND_WRITTEN.Rare, ...GENERATED_ROSTER.Rare],
+  Legend: [...HAND_WRITTEN.Legend, ...GENERATED_ROSTER.Legend],
+  Live: [...HAND_WRITTEN.Live, ...GENERATED_ROSTER.Live],
+  World: [...HAND_WRITTEN.World, ...GENERATED_ROSTER.World],
 }
 
 export const RARITY_PREFIX: Record<Rarity, string> = {
