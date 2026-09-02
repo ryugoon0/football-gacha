@@ -34,6 +34,15 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-02-draw-error-fix',
+    date: '2026-09-02',
+    kind: 'fix',
+    title: '뽑기 실패 원인이 가려지던 문제 수정',
+    detail: [
+      '골드 부족이나 계정 준비 같은 이유가 "서버에 연결하지 못했습니다"로 뭉뚱그려지던 것을 고쳤습니다.',
+    ],
+  },
+  {
     id: '2026-09-02-operator-tools',
     date: '2026-09-02',
     kind: 'internal',

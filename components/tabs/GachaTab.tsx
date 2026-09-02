@@ -17,6 +17,7 @@ import { getPlayer } from '../../lib/players'
 import {
   DRAW_FAILURE_MESSAGE,
   drawOnServer,
+  lastDrawDetail,
   serverDrawAvailable,
 } from '../../lib/serverDraw'
 import { RARITIES, RARITY_STYLES } from '../../lib/rarity'
@@ -98,7 +99,11 @@ export default function GachaTab() {
       })
       if (!outcome.ok) {
         setSpinning(false)
-        setError(DRAW_FAILURE_MESSAGE[outcome.reason])
+        setError(
+          outcome.reason === 'unavailable' && lastDrawDetail
+            ? `${DRAW_FAILURE_MESSAGE.unavailable} (${lastDrawDetail})`
+            : DRAW_FAILURE_MESSAGE[outcome.reason],
+        )
         return
       }
       players = outcome.draw.cards

@@ -6,7 +6,7 @@
 //
 // 확률 로직은 이 파일에 다시 쓰지 않고 shared.js를 씁니다. 게임이 쓰는
 // lib/gacha.ts에서 그대로 만들어진 번들이라, 확률이 한 벌뿐입니다.
-import { createClient } from 'jsr:@supabase/supabase-js@2'
+import { createClient } from 'npm:@supabase/supabase-js@2'
 import { PACKS, PITY_LIMIT, drawSession, featuredPlayer, packOf, pickupWeekKey } from './shared.js'
 
 const GROUPS = ['GK', 'DF', 'MF', 'FW']
@@ -22,6 +22,17 @@ const json = (body: unknown, status = 200) =>
     status,
     headers: { ...cors, 'Content-Type': 'application/json' },
   })
+
+/**
+ * An answer the caller is meant to read.
+ *
+ * supabase-js turns any non-2xx into an error and throws the body away, so a
+ * refusal sent as 402 or 409 reaches the game as "could not connect" — the one
+ * thing it is not. Outcomes the player should hear about therefore go out as
+ * 200 with ok:false, and a real status code is kept for real failures.
+ */
+const refuse = (reason: string, extra: Record<string, unknown> = {}) =>
+  json({ ok: false, reason, ...extra })
 
 /**
  * A generator backed by the platform's cryptographic randomness.
@@ -59,7 +70,7 @@ Deno.serve(async (request) => {
   const asUser = createClient(url, anon, { global: { headers: { Authorization: authorization } } })
   const { data: auth } = await asUser.auth.getUser()
   const user = auth?.user
-  if (!user) return json({ ok: false, reason: 'not signed in' }, 401)
+  if (!user) return refuse('not signed in')
 
   let body: { pack?: string; group?: string } = {}
   try {
@@ -81,9 +92,7 @@ Deno.serve(async (request) => {
     .eq('user_id', user.id)
     .maybeSingle()
 
-  if (!snapshot?.seeded) {
-    return json({ ok: false, reason: 'not seeded' }, 409)
-  }
+  if (!snapshot?.seeded) return refuse('not seeded')
 
   const pityBefore = snapshot.pity ?? 0
   const { rng, seed } = serverRng()
@@ -116,8 +125,8 @@ Deno.serve(async (request) => {
     p_cards: cards,
   })
 
-  if (error) return json({ ok: false, reason: error.message }, 500)
-  if (!result?.ok) return json(result, 402)
+  if (error) return json({ ok: false, reason: 'commit failed', detail: error.message }, 500)
+  if (!result?.ok) return refuse(result?.reason ?? 'refused', { balance: result?.balance })
 
   return json({
     ok: true,

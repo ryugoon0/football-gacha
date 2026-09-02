@@ -33,6 +33,34 @@ export function serverDrawAvailable(): boolean {
 
 type DrawResult = { ok: true; draw: ServerDraw } | { ok: false; reason: DrawFailure }
 
+const KNOWN: DrawFailure[] = ['not enough gold', 'not seeded', 'not signed in']
+
+function known(reason: unknown): DrawFailure | null {
+  return KNOWN.find((item) => item === reason) ?? null
+}
+
+/**
+ * The reason hidden inside a failed invoke.
+ *
+ * supabase-js turns any non-2xx into an error and drops the body, so without
+ * digging it out every refusal looks like "could not connect". The body is on
+ * the error's response, when there is one.
+ */
+async function reasonFromError(error: unknown): Promise<{ reason: string | null; detail: string }> {
+  const response = (error as { context?: Response })?.context
+  const message = error instanceof Error ? error.message : String(error)
+  if (!response || typeof response.json !== 'function') return { reason: null, detail: message }
+  try {
+    const body = (await response.clone().json()) as { reason?: string; detail?: string }
+    return { reason: body?.reason ?? null, detail: body?.detail ?? body?.reason ?? message }
+  } catch {
+    return { reason: null, detail: `${response.status} ${message}` }
+  }
+}
+
+/** Set when a pull fails for a reason worth reporting, so it can be pasted back. */
+export let lastDrawDetail = ''
+
 async function askServer(pack: string, group: string | null): Promise<DrawResult> {
   const supabase = getSupabase()
   if (!supabase) return { ok: false, reason: 'offline' }
@@ -41,18 +69,23 @@ async function askServer(pack: string, group: string | null): Promise<DrawResult
     const { data, error } = await supabase.functions.invoke('draw-pack', {
       body: { pack, group },
     })
-    if (error) return { ok: false, reason: 'unavailable' }
+
+    if (error) {
+      const dug = await reasonFromError(error)
+      lastDrawDetail = dug.detail
+      const match = known(dug.reason)
+      return { ok: false, reason: match ?? 'unavailable' }
+    }
 
     const result = data as (ServerDraw & { ok?: boolean; reason?: string }) | null
     if (!result?.ok) {
-      const reason = result?.reason
-      if (reason === 'not enough gold' || reason === 'not seeded' || reason === 'not signed in') {
-        return { ok: false, reason }
-      }
-      return { ok: false, reason: 'unavailable' }
+      lastDrawDetail = result?.reason ?? '알 수 없는 응답'
+      return { ok: false, reason: known(result?.reason) ?? 'unavailable' }
     }
+    lastDrawDetail = ''
     return { ok: true, draw: result }
-  } catch {
+  } catch (error) {
+    lastDrawDetail = error instanceof Error ? error.message : String(error)
     return { ok: false, reason: 'unavailable' }
   }
 }
