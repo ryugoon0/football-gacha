@@ -14,7 +14,8 @@ import {
   type Comment,
   type Post,
 } from '../../lib/board'
-import { BUILD_REF, configStatus, friendlyError, getSupabase } from '../../lib/supabase'
+import { configStatus, friendlyError, getSupabase } from '../../lib/supabase'
+import { buildLabel } from '../../lib/build'
 import { useGame } from '../GameProvider'
 
 interface PostRow {
@@ -106,7 +107,7 @@ export default function BoardTab() {
           </p>
         )}
         <p className="mt-2 text-[11px] text-slate-600">
-          보고 계신 빌드: {BUILD_REF} · 주소 {configStatus().url ? '있음' : '없음'} · 키{' '}
+          보고 계신 빌드: {buildLabel()} · 주소 {configStatus().url ? '있음' : '없음'} · 키{' '}
           {configStatus().key ? '있음' : '없음'}
         </p>
       </section>

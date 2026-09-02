@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { SIGNAL_LABELS, riskOf, type WatchRow } from '../../lib/monitor'
 import { friendlyError, getSupabase } from '../../lib/supabase'
 import { timeAgo } from '../../lib/board'
+import { buildLabel } from '../../lib/build'
 
 interface Health {
   saves_24h?: number
@@ -73,6 +74,7 @@ export default function MonitorPanel() {
           <p className="mt-0.5 text-[11px] text-slate-500">
             서로 다른 신호가 겹치는 계정이 위로 올라옵니다.
           </p>
+          <p className="mt-0.5 text-[10px] text-slate-600">보고 계신 빌드 {buildLabel()}</p>
         </div>
         <button
           onClick={() => void load()}

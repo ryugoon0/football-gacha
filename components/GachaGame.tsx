@@ -5,6 +5,7 @@ import { divisionLabel } from '../lib/league'
 import { evaluateSquad } from '../lib/squad'
 import { GameProvider, useGame } from './GameProvider'
 import AccountPanel from './AccountPanel'
+import { buildLabel } from '../lib/build'
 import { CardStyleProvider, CardStyleToggle } from './CardStyle'
 import { TacticsModeProvider } from './TacticsMode'
 import { useAdmin } from './useAdmin'
@@ -37,7 +38,7 @@ type TabKey = (typeof TABS)[number]['key']
  * Shown in the footer so a tester can say which build they were looking at.
  * Vercel fills the commit in at build time; local runs just say "local".
  */
-const BUILD_ID = (process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA ?? 'local').slice(0, 7)
+
 
 export default function GachaGame() {
   return (
@@ -181,7 +182,7 @@ function Shell() {
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-4">
           <span>
             진행 상황은 이 브라우저에 자동 저장됩니다.
-            <span className="ml-2 text-slate-700">빌드 {BUILD_ID}</span>
+            <span className="ml-2 whitespace-nowrap text-slate-700">빌드 {buildLabel()}</span>
           </span>
           <button
             onClick={() => {

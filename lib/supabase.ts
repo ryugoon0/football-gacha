@@ -59,8 +59,7 @@ export function configStatus(): { url: boolean; key: boolean; message: string | 
   }
 }
 
-/** Which build the page came from, so a stale deployment is easy to spot. */
-export const BUILD_REF = (process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA ?? 'local').slice(0, 7)
+export { BUILD_REF, BUILD_TIME, buildLabel, buildStamp } from './build'
 
 let client: SupabaseClient | null = null
 

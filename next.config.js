@@ -16,6 +16,12 @@ const securityHeaders = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   poweredByHeader: false,
+  env: {
+    // Stamped when the bundle is built, so a screenshot always says which
+    // deploy it came from. The commit alone is not enough — the same commit
+    // can be redeployed, and then two builds look identical.
+    NEXT_PUBLIC_BUILD_TIME: new Date().toISOString(),
+  },
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }]
   },

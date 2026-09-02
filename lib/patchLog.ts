@@ -34,6 +34,15 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-02-build-stamp',
+    date: '2026-09-02',
+    kind: 'internal',
+    title: '화면 아래에 배포일시 표시',
+    detail: [
+      '같은 커밋을 다시 배포하면 커밋만으로는 구분이 되지 않아, 빌드 시각을 함께 찍습니다.',
+    ],
+  },
+  {
     id: '2026-09-02-server-gacha',
     date: '2026-09-02',
     kind: 'internal',
