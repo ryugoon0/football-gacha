@@ -34,6 +34,16 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-02-care-visible',
+    date: '2026-09-02',
+    kind: 'fix',
+    title: '부상 치료 · 체력 회복 버튼이 늘 보이게',
+    detail: [
+      '예전에는 부상이 있거나 체력이 닳았을 때만 나타나서, 기능이 있는지 알 수 없었습니다.',
+      '이제 항상 보이고, 지금 쓸 수 없으면 왜인지 버튼에 적힙니다.',
+    ],
+  },
+  {
     id: '2026-09-02-hidden-and-cards',
     date: '2026-09-02',
     kind: 'feature',

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import PlayerCareButtons from './PlayerCareButtons'
 import HiddenStatsView from './HiddenStatsView'
 import {
   MAX_CONDITION,
@@ -208,25 +209,7 @@ export default function PlayerDetail({
         {player.league}
       </div>
 
-      {isInjured(card) && (
-        <button
-          onClick={onTreat}
-          disabled={gold < treatmentCost(card)}
-          className="w-full rounded-lg bg-rose-500 px-3 py-2 text-sm font-bold text-white transition hover:bg-rose-400 disabled:opacity-40"
-        >
-          부상 치료 ({treatmentCost(card)}G · {card.injuredFor}경기 결장)
-        </button>
-      )}
-
-      {card.condition < MAX_CONDITION && (
-        <button
-          onClick={onRecover}
-          disabled={gold < recoveryCost(card)}
-          className="w-full rounded-lg bg-sky-500/80 px-3 py-2 text-sm font-bold text-white transition hover:bg-sky-400 disabled:opacity-40"
-        >
-          체력 회복 ({recoveryCost(card)}G)
-        </button>
-      )}
+      <PlayerCareButtons card={card} gold={gold} onTreat={onTreat} onRecover={onRecover} />
 
       <button
         onClick={onSell}
