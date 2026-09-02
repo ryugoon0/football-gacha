@@ -1,4 +1,5 @@
 import { hashString, pickInRange, seededRandom } from './random'
+import { PLAYER_OVERRIDES, type PlayerOverride } from './rosterOverrides'
 import { GENERATED_CLUBS, GENERATED_ROSTER } from './rosterData'
 import { RARITY_TIERS, startLevelOf, MAX_LEVEL } from './rarity'
 import type { HiddenStats, PlayerDef, Position, PositionGroup, Rarity, Stats } from './types'
@@ -88,9 +89,18 @@ export function computeOvr(stats: Stats, position: Position): number {
 export function buildStats(id: string, position: Position, target: number): Stats {
   const rng = seededRandom(hashString(id))
   const shape = ARCHETYPE[position]
+
+  // The shape of a position is a fixed offset, which read badly at the top of
+  // the game: a 78 centre back and a 55 centre back were both docked the same
+  // 40-odd points of shooting, so the gold defender's card showed numbers a
+  // bronze striker would beat. A better player is better at the parts of the
+  // game that are not their job too, so the offset eases off as the target
+  // rises. The overall is normalised back to the target below either way.
+  const easing = 1 - Math.min(0.35, Math.max(0, target - 58) / 100)
+
   const raw: Record<string, number> = {}
   for (const key of STAT_KEYS) {
-    raw[key] = target + shape[key] + (rng() * 8 - 4)
+    raw[key] = target + shape[key] * easing + (rng() * 8 - 4)
   }
   // Nudge everything so the weighted overall lands back on the target.
   const w = OVR_WEIGHTS[position]
@@ -98,7 +108,8 @@ export function buildStats(id: string, position: Position, target: number): Stat
   const shift = target - mean
   const stats = {} as Stats
   for (const key of STAT_KEYS) {
-    stats[key] = clamp(Math.round(raw[key] + shift), 24, 99)
+    // The floor rises with the card. Nobody at this level is a 24 at anything.
+    stats[key] = clamp(Math.round(raw[key] + shift), Math.max(24, Math.round(target * 0.36)), 99)
   }
   return stats
 }
@@ -348,33 +359,58 @@ export const RARITY_PREFIX: Record<Rarity, string> = {
   World: 'w',
 }
 
-function buildRoster(): PlayerDef[] {
-  const players: PlayerDef[] = []
-  for (const rarity of Object.keys(ROSTER) as Rarity[]) {
-    ROSTER[rarity].forEach(([name, position, ovr, clubName, nation, extras], index) => {
-      const id = `${RARITY_PREFIX[rarity]}${String(index + 1).padStart(2, '0')}`
-      // A row may pin any of the six; the rest are still generated around them.
-      const stats = { ...buildStats(id, position, ovr), ...(extras?.stats ?? {}) }
-      // A roster row names the club and country; anything left blank falls back
-      // to a stable draw from the id so the data is never half filled.
-      const rng = seededRandom(hashString(id + name))
-      const club = CLUBS.find((item) => item.name === clubName) ?? CLUBS[Math.floor(rng() * CLUBS.length)]
-      players.push({
-        id,
-        name,
-        position,
-        positions: buildPositions(id, position, rarity),
-        rarity,
-        nation: nation ?? NATIONS[Math.floor(rng() * NATIONS.length)],
-        club: club.name,
-        league: club.league,
-        stats,
-        hidden: { ...buildHidden(id, rarity), ...(extras?.hidden ?? {}) },
-        ovr: computeOvr(stats, position),
-      })
-    })
+/** Where a card's id comes from: its rarity list and its place in it. */
+const ROW_BY_ID: Record<string, { rarity: Rarity; row: RosterRow }> = {}
+for (const rarity of Object.keys(ROSTER) as Rarity[]) {
+  ROSTER[rarity].forEach((row, index) => {
+    ROW_BY_ID[`${RARITY_PREFIX[rarity]}${String(index + 1).padStart(2, '0')}`] = { rarity, row }
+  })
+}
+
+/**
+ * One card, built from its roster row.
+ *
+ * Exported so the operator's editor can show what a correction does before it
+ * is written into lib/rosterOverrides.ts — including what the card looks like
+ * with no correction at all, which is what `fix` being empty gives you.
+ */
+export function buildPlayer(id: string, fix: PlayerOverride = PLAYER_OVERRIDES[id] ?? {}): PlayerDef | null {
+  const entry = ROW_BY_ID[id]
+  if (!entry) return null
+  const { rarity, row } = entry
+  const [name, position, ovr, clubName, nation, extras] = row
+  // A roster row may pin values, and a hand correction may override those
+  // again — the correction is the last word because it is the one a person
+  // made on purpose after seeing the card.
+  const slot = fix.position ?? position
+  const stats = {
+    ...buildStats(id, slot, ovr),
+    ...(extras?.stats ?? {}),
+    ...(fix.stats ?? {}),
   }
-  return players
+  // A roster row names the club and country; anything left blank falls back
+  // to a stable draw from the id so the data is never half filled.
+  const rng = seededRandom(hashString(id + name))
+  const club = CLUBS.find((item) => item.name === clubName) ?? CLUBS[Math.floor(rng() * CLUBS.length)]
+  return {
+    id,
+    name,
+    position: slot,
+    positions: buildPositions(id, slot, rarity),
+    rarity,
+    nation: nation ?? NATIONS[Math.floor(rng() * NATIONS.length)],
+    club: club.name,
+    league: club.league,
+    stats,
+    hidden: { ...buildHidden(id, rarity), ...(extras?.hidden ?? {}), ...(fix.hidden ?? {}) },
+    ovr: computeOvr(stats, slot),
+  }
+}
+
+function buildRoster(): PlayerDef[] {
+  return Object.keys(ROW_BY_ID)
+    .map((id) => buildPlayer(id))
+    .filter((player): player is PlayerDef => player !== null)
 }
 
 export const PLAYERS: PlayerDef[] = buildRoster()

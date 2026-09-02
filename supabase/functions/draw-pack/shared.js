@@ -23,6 +23,11 @@ function pickInRange(seed, min, max) {
   return min + Math.floor(seededRandom(seed)() * (max - min + 1));
 }
 
+// lib/rosterOverrides.ts
+var PLAYER_OVERRIDES = {
+  // 예: 'lg42': { stats: { pac: 88 }, position: 'RB' },
+};
+
 // lib/rosterData.ts
 var GENERATED_CLUBS = [
   { name: "\uB9E8\uCCB4\uC2A4 \uB808\uC988", league: "\uD0B9\uB364 \uB9AC\uADF8" },
@@ -2975,16 +2980,17 @@ function computeOvr(stats, position) {
 function buildStats(id, position, target) {
   const rng = seededRandom(hashString(id));
   const shape = ARCHETYPE[position];
+  const easing = 1 - Math.min(0.35, Math.max(0, target - 58) / 100);
   const raw = {};
   for (const key of STAT_KEYS) {
-    raw[key] = target + shape[key] + (rng() * 8 - 4);
+    raw[key] = target + shape[key] * easing + (rng() * 8 - 4);
   }
   const w = OVR_WEIGHTS[position];
   const mean = STAT_KEYS.reduce((sum, key) => sum + raw[key] * w[key], 0);
   const shift = target - mean;
   const stats = {};
   for (const key of STAT_KEYS) {
-    stats[key] = clamp(Math.round(raw[key] + shift), 24, 99);
+    stats[key] = clamp(Math.round(raw[key] + shift), Math.max(24, Math.round(target * 0.36)), 99);
   }
   return stats;
 }
@@ -3162,30 +3168,41 @@ var RARITY_PREFIX = {
   Live: "lv",
   World: "w"
 };
+var ROW_BY_ID = {};
+for (const rarity of Object.keys(ROSTER)) {
+  ROSTER[rarity].forEach((row, index) => {
+    ROW_BY_ID[`${RARITY_PREFIX[rarity]}${String(index + 1).padStart(2, "0")}`] = { rarity, row };
+  });
+}
+function buildPlayer(id, fix = PLAYER_OVERRIDES[id] ?? {}) {
+  const entry = ROW_BY_ID[id];
+  if (!entry) return null;
+  const { rarity, row } = entry;
+  const [name, position, ovr, clubName, nation, extras] = row;
+  const slot = fix.position ?? position;
+  const stats = {
+    ...buildStats(id, slot, ovr),
+    ...extras?.stats ?? {},
+    ...fix.stats ?? {}
+  };
+  const rng = seededRandom(hashString(id + name));
+  const club = CLUBS.find((item) => item.name === clubName) ?? CLUBS[Math.floor(rng() * CLUBS.length)];
+  return {
+    id,
+    name,
+    position: slot,
+    positions: buildPositions(id, slot, rarity),
+    rarity,
+    nation: nation ?? NATIONS[Math.floor(rng() * NATIONS.length)],
+    club: club.name,
+    league: club.league,
+    stats,
+    hidden: { ...buildHidden(id, rarity), ...extras?.hidden ?? {}, ...fix.hidden ?? {} },
+    ovr: computeOvr(stats, slot)
+  };
+}
 function buildRoster() {
-  const players = [];
-  for (const rarity of Object.keys(ROSTER)) {
-    ROSTER[rarity].forEach(([name, position, ovr, clubName, nation, extras], index) => {
-      const id = `${RARITY_PREFIX[rarity]}${String(index + 1).padStart(2, "0")}`;
-      const stats = { ...buildStats(id, position, ovr), ...extras?.stats ?? {} };
-      const rng = seededRandom(hashString(id + name));
-      const club = CLUBS.find((item) => item.name === clubName) ?? CLUBS[Math.floor(rng() * CLUBS.length)];
-      players.push({
-        id,
-        name,
-        position,
-        positions: buildPositions(id, position, rarity),
-        rarity,
-        nation: nation ?? NATIONS[Math.floor(rng() * NATIONS.length)],
-        club: club.name,
-        league: club.league,
-        stats,
-        hidden: { ...buildHidden(id, rarity), ...extras?.hidden ?? {} },
-        ovr: computeOvr(stats, position)
-      });
-    });
-  }
-  return players;
+  return Object.keys(ROW_BY_ID).map((id) => buildPlayer(id)).filter((player) => player !== null);
 }
 var PLAYERS = buildRoster();
 var PLAYERS_BY_ID = PLAYERS.reduce(

@@ -229,9 +229,10 @@ describe('hidden attributes in a match', () => {
     const base = evaluateSquad(state.cards, state.squad, 5)
     const opponent = { id: 'x', name: '상대', badge: 'XX', rating: base.overall }
 
-    const run = (hidden: number) => {
-      const rng = seededRandom(9)
+    const points = (hidden: number, seed: number) => {
+      const rng = seededRandom(seed)
       let wins = 0
+      let draws = 0
       for (let i = 0; i < 400; i++) {
         const result = simulateMatch({
           team: { ...base, hidden },
@@ -244,11 +245,21 @@ describe('hidden attributes in a match', () => {
           rng,
         })
         if (result.result === 'W') wins++
+        else if (result.result === 'D') draws++
       }
-      return wins
+      return wins * 3 + draws
     }
 
-    // Same attack, midfield and defence on paper; only the hidden gap differs.
-    expect(run(11)).toBeGreaterThan(run(1))
+    // Counted in points over several seeds, not wins on one.
+    //
+    // Against an evenly matched side the hidden attributes mostly turn a bad
+    // day into a draw rather than a win — every seed shows the higher hidden
+    // squad drawing far more — so counting only wins measured the wrong thing
+    // and tied often enough to fail on any change to the roster.
+    const seeds = [9, 17, 33, 51, 77, 91, 123, 199]
+    const strong = seeds.reduce((sum, seed) => sum + points(11, seed), 0)
+    const weak = seeds.reduce((sum, seed) => sum + points(1, seed), 0)
+
+    expect(strong).toBeGreaterThan(weak)
   })
 })

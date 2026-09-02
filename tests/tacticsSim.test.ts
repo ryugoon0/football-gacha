@@ -208,7 +208,10 @@ describe('balance — matchups decide, not a table', () => {
         opponent: { id: 'sim', name: '시뮬 상대', badge: 'SM', rating: 62 },
         opponentTactics: { params: archetypeParams(them), profile: evenProfile },
       }),
-      60,
+      // 60경기로는 무승부 한 번에 결과가 뒤집혀, 능력치를 조금만 손대도
+      // 이 가드가 노이즈로 실패했다. 재보니 표본이 모자랐던 것이지 상성이
+      // 약해진 것이 아니었다. 판정을 믿을 수 있을 만큼 늘린다.
+      180,
       keys.indexOf(us) * 17 + keys.indexOf(them) + 1,
     )
     return summary.wins * 3 + summary.draws

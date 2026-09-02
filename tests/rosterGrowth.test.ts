@@ -65,6 +65,35 @@ describe('the roster after the leagues were added', () => {
     }
   })
 
+  // A tester's complaint: a gold centre back's card read like a bronze card,
+  // because the shape of a position was docked the same fixed points whether
+  // the player was a 55 or a 90. Defenders will always show fewer points than
+  // playmakers at the same overall — their rating leans on the two stats they
+  // are best at — but the gap had grown far past what the position explains.
+  it('does not make a gold defender read like a bronze card', () => {
+    const sums = new Map<string, number[]>()
+    for (const player of PLAYERS) {
+      if (player.rarity !== 'Legend') continue
+      const stats = player.stats
+      const sum = stats.pac + stats.sho + stats.pas + stats.dri + stats.def + stats.phy
+      const list = sums.get(player.position) ?? []
+      list.push(sum)
+      sums.set(player.position, list)
+    }
+    const mean = (list: number[]) => list.reduce((a, b) => a + b, 0) / list.length
+    const outfield = [...sums.entries()].filter(([position]) => position !== 'GK')
+    const best = Math.max(...outfield.map(([, list]) => mean(list)))
+    for (const [position, list] of outfield) {
+      expect(best - mean(list), `${position} 카드가 너무 낮게 보입니다`).toBeLessThan(60)
+    }
+    // And no single number on a gold card should look bronze.
+    for (const player of PLAYERS) {
+      if (player.rarity !== 'Legend' || player.position === 'GK') continue
+      const lowest = Math.min(...Object.values(player.stats))
+      expect(lowest, `${player.name} ${player.position}`).toBeGreaterThanOrEqual(30)
+    }
+  })
+
   it('never repeats a player name', () => {
     const names = PLAYERS.map((player) => player.name)
     expect(new Set(names).size).toBe(names.length)
