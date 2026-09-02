@@ -22,6 +22,7 @@ import { useGame } from '../GameProvider'
 import TacticsSliders from '../TacticsSliders'
 import TacticsCompare from '../TacticsCompare'
 import PlayerCard from '../PlayerCard'
+import PlayerStatsModal from '../PlayerStatsModal'
 
 const FIT_RING: Record<string, string> = {
   main: 'ring-emerald-400',
@@ -46,6 +47,9 @@ export default function SquadTab() {
     autoFillSquad,
   } = useGame()
   const [target, setTarget] = useState<Target | null>(null)
+  // Looking a player up is not the same as picking one. Selecting a slot still
+  // opens the swap list; this opens over it and changes nothing.
+  const [inspecting, setInspecting] = useState<string | null>(null)
 
   const formation = FORMATIONS[state.squad.formation] ?? FORMATIONS['4-3-3']
   const rating = useMemo(
@@ -111,6 +115,25 @@ export default function SquadTab() {
           b.score - a.score,
       )
   }, [target, targetPosition, state.cards, state.squad])
+
+  const inspected = useMemo(() => {
+    if (!inspecting) return null
+    const card = state.cards.find((item: Card) => item.uid === inspecting)
+    const player = card ? getPlayer(card.playerId) : undefined
+    return card && player ? { card, player } : null
+  }, [inspecting, state.cards])
+
+  // Whoever is in the selected slot right now, so their numbers are one tap away.
+  const occupant = useMemo(() => {
+    if (!target) return null
+    const uid =
+      target.kind === 'slot'
+        ? (state.squad.slots[target.id] ?? null)
+        : (state.squad.bench[target.index] ?? null)
+    const card = uid ? state.cards.find((item: Card) => item.uid === uid) : undefined
+    const player = card ? getPlayer(card.playerId) : undefined
+    return card && player ? { card, player } : null
+  }, [target, state.squad, state.cards])
 
   const pick = (uid: string) => {
     if (!target) return
@@ -477,67 +500,115 @@ export default function SquadTab() {
             )}
           </div>
 
+          {occupant && (
+            <div className="mt-3 flex items-center gap-3 rounded-xl bg-emerald-400/10 p-2">
+              <PlayerCard
+                player={occupant.player}
+                level={occupant.card.level}
+                size="sm"
+                condition={occupant.card.condition}
+                injuredFor={occupant.card.injuredFor}
+              />
+              <div className="min-w-0 flex-1">
+                <div className="text-[10px] font-bold uppercase tracking-wide text-emerald-300">
+                  지금 이 자리
+                </div>
+                <div className="truncate text-sm font-bold text-white">{occupant.player.name}</div>
+                <div className="truncate text-[10px] text-slate-400">
+                  {occupant.player.positions.join(' · ')} · Lv.{occupant.card.level}
+                </div>
+              </div>
+              <button
+                onClick={() => setInspecting(occupant.card.uid)}
+                className="shrink-0 rounded-lg bg-white/10 px-2.5 py-2 text-[11px] font-bold text-slate-200 hover:bg-white/20"
+              >
+                능력치 보기
+              </button>
+            </div>
+          )}
+
           {!target ? (
             <p className="mt-3 text-sm text-slate-500">
-              전술판이나 벤치에서 자리를 선택하면 배치할 수 있는 선수가 나타납니다.
+              전술판이나 벤치에서 자리를 선택하면 배치할 수 있는 선수가 나타납니다. 후보의 능력치
+              버튼을 누르면 세부 능력치를 볼 수 있습니다.
             </p>
           ) : (
             <div className="scrollbar-thin mt-3 max-h-[420px] space-y-2 overflow-y-auto pr-1">
               {candidates.map(({ card, player, score, fit, inSquad, onBench }) => (
-                <button
+                <div
                   key={card.uid}
-                  onClick={() => pick(card.uid)}
-                  className="flex w-full items-center gap-3 rounded-xl bg-white/5 p-2 text-left transition hover:bg-white/10"
+                  className="flex w-full items-center gap-2 rounded-xl bg-white/5 p-2 transition hover:bg-white/10"
                 >
-                  <PlayerCard
-                    player={player}
-                    level={card.level}
-                    size="sm"
-                    condition={card.condition}
-                    injuredFor={card.injuredFor}
-                  />
-                  <div className="min-w-0 flex-1">
-                    <div className="truncate text-sm font-bold text-white">{player.name}</div>
-                    <div className="text-xs text-slate-400">
-                      {player.positions.join(' · ')} · Lv.{card.level} · 이 자리 {score}
+                  <button
+                    onClick={() => pick(card.uid)}
+                    className="flex min-w-0 flex-1 items-center gap-3 text-left"
+                  >
+                    <PlayerCard
+                      player={player}
+                      level={card.level}
+                      size="sm"
+                      condition={card.condition}
+                      injuredFor={card.injuredFor}
+                    />
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate text-sm font-bold text-white">{player.name}</div>
+                      <div className="text-xs text-slate-400">
+                        {player.positions.join(' · ')} · Lv.{card.level} · 이 자리 {score}
+                      </div>
+                      <div className="truncate text-[10px] text-slate-500">
+                        {player.club} · {player.league} · {player.nation}
+                      </div>
+                      <div className="mt-1 flex flex-wrap gap-1">
+                        {target.kind === 'slot' && fit === 'out' && (
+                          <span className="rounded bg-rose-500/20 px-1.5 py-0.5 text-[10px] font-bold text-rose-300">
+                            불가능 포지션 — 능력치 급감
+                          </span>
+                        )}
+                        {target.kind === 'slot' && fit === 'sub' && (
+                          <span className="rounded bg-amber-500/20 px-1.5 py-0.5 text-[10px] font-bold text-amber-300">
+                            가능 포지션
+                          </span>
+                        )}
+                        {card.injuredFor > 0 && (
+                          <span className="rounded bg-rose-500/20 px-1.5 py-0.5 text-[10px] font-bold text-rose-300">
+                            부상 {card.injuredFor}경기
+                          </span>
+                        )}
+                        {inSquad && (
+                          <span className="rounded bg-emerald-500/20 px-1.5 py-0.5 text-[10px] font-bold text-emerald-300">
+                            선발
+                          </span>
+                        )}
+                        {onBench && (
+                          <span className="rounded bg-sky-500/20 px-1.5 py-0.5 text-[10px] font-bold text-sky-300">
+                            벤치
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <div className="truncate text-[10px] text-slate-500">
-                      {player.club} · {player.league} · {player.nation}
-                    </div>
-                    <div className="mt-1 flex flex-wrap gap-1">
-                      {target.kind === 'slot' && fit === 'out' && (
-                        <span className="rounded bg-rose-500/20 px-1.5 py-0.5 text-[10px] font-bold text-rose-300">
-                          불가능 포지션 — 능력치 급감
-                        </span>
-                      )}
-                      {target.kind === 'slot' && fit === 'sub' && (
-                        <span className="rounded bg-amber-500/20 px-1.5 py-0.5 text-[10px] font-bold text-amber-300">
-                          가능 포지션
-                        </span>
-                      )}
-                      {card.injuredFor > 0 && (
-                        <span className="rounded bg-rose-500/20 px-1.5 py-0.5 text-[10px] font-bold text-rose-300">
-                          부상 {card.injuredFor}경기
-                        </span>
-                      )}
-                      {inSquad && (
-                        <span className="rounded bg-emerald-500/20 px-1.5 py-0.5 text-[10px] font-bold text-emerald-300">
-                          선발
-                        </span>
-                      )}
-                      {onBench && (
-                        <span className="rounded bg-sky-500/20 px-1.5 py-0.5 text-[10px] font-bold text-sky-300">
-                          벤치
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </button>
+                  </button>
+                  <button
+                    onClick={() => setInspecting(card.uid)}
+                    aria-label={`${player.name} 능력치 보기`}
+                    className="shrink-0 self-stretch rounded-lg bg-white/10 px-2 text-[10px] font-bold text-slate-300 hover:bg-white/20"
+                  >
+                    능력치
+                  </button>
+                </div>
               ))}
             </div>
           )}
         </section>
       </div>
+
+      {inspected && (
+        <PlayerStatsModal
+          card={inspected.card}
+          player={inspected.player}
+          slot={targetPosition}
+          onClose={() => setInspecting(null)}
+        />
+      )}
     </div>
   )
 }

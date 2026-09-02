@@ -1,9 +1,16 @@
 import { describe, expect, it } from 'vitest'
 import { DEFAULT_TACTIC } from '../lib/tactics'
 import { addExperience, applyExperience, expForLevel, matchRatings } from '../lib/growth'
-import { PLAYERS, PLAYERS_BY_RARITY, getPlayer, seededRandom } from '../lib/players'
-import { subStatsOf } from '../lib/subStats'
-import { STAT_GROUPS } from '../lib/subStats'
+import {
+  GK_STAT_LABELS,
+  PLAYERS,
+  PLAYERS_BY_RARITY,
+  STAT_LABELS,
+  effectiveStats,
+  getPlayer,
+  seededRandom,
+} from '../lib/players'
+import { STAT_GROUPS, SUB_STATS, breakdownOf, subStatsOf } from '../lib/subStats'
 import { TRAITS, playerTraitFactors, teamTraitEffects, traitsOf } from '../lib/traits'
 import type { Card } from '../lib/types'
 
@@ -18,14 +25,49 @@ const card = (uid: string, playerId: string, level = 2, exp = 0, limit = level +
 })
 
 describe('sub stats', () => {
-  it('averages back to the headline stat', () => {
-    for (const player of PLAYERS.slice(0, 12)) {
+  it('averages back to the headline stat exactly', () => {
+    // The card shows the average. If the detail adds up to anything else, one
+    // of the two screens is lying to the player about the same card.
+    for (const player of PLAYERS.slice(0, 40)) {
       for (const group of STAT_GROUPS) {
         const subs = subStatsOf(player, group)
-        expect(subs).toHaveLength(3)
-        const mean = subs.reduce((sum, item) => sum + item.value, 0) / subs.length
-        // Clamping at the extremes can shift the mean by a point.
-        expect(Math.abs(mean - player.stats[group])).toBeLessThanOrEqual(1.5)
+        expect(subs.length).toBe(SUB_STATS[group].length)
+        const sum = subs.reduce((total, item) => total + item.value, 0)
+        expect(sum, `${player.name} ${group}`).toBe(player.stats[group] * subs.length)
+      }
+    }
+  })
+
+  it('holds at the top and bottom of the scale, where the spread has to close up', () => {
+    // A 99 cannot be the average of anything below 99 without something above
+    // it, so a maxed stat has to show identical detail rather than break.
+    for (const player of PLAYERS) {
+      for (const group of STAT_GROUPS) {
+        const headline = player.stats[group]
+        if (headline > 30 && headline < 92) continue
+        const subs = subStatsOf(player, group)
+        const sum = subs.reduce((total, item) => total + item.value, 0)
+        expect(sum, `${player.name} ${group} ${headline}`).toBe(headline * subs.length)
+        for (const item of subs) {
+          expect(item.value).toBeGreaterThanOrEqual(1)
+          expect(item.value).toBeLessThanOrEqual(99)
+        }
+      }
+    }
+  })
+
+  it('never reuses a name — not the group it sits in, not another group', () => {
+    // The keeper labels reuse the six card slots for different jobs, and it is
+    // easy to end up with a 선방 group whose first row is also called 선방.
+    for (const keeper of [false, true]) {
+      const labels = STAT_GROUPS.flatMap((group) => [
+        keeper ? GK_STAT_LABELS[group] : STAT_LABELS[group],
+        ...SUB_STATS[group].map((sub) => (keeper ? sub.gkLabel : sub.label)),
+      ])
+      const seen = new Set<string>()
+      for (const label of labels) {
+        expect(seen.has(label), `${label} (${keeper ? '골키퍼' : '필드'})`).toBe(false)
+        seen.add(label)
       }
     }
   })
@@ -35,6 +77,45 @@ describe('sub stats', () => {
     expect(subStatsOf(player, 'sho')).toEqual(subStatsOf(player, 'sho'))
     const base = subStatsOf(player, 'sho')[0].value
     expect(subStatsOf(player, 'sho', 5)[0].value).toBeGreaterThan(base)
+  })
+
+  it("names a keeper's attributes for the job a keeper does", () => {
+    const keeper = PLAYERS.find((item) => item.position === 'GK')!
+    const outfield = PLAYERS.find((item) => item.position === 'ST')!
+    expect(subStatsOf(keeper, 'def').map((item) => item.label)).toContain('일대일 방어')
+    expect(subStatsOf(outfield, 'def').map((item) => item.label)).toContain('태클')
+  })
+
+  it('tilts a card towards what its position actually does', () => {
+    // Averaged over the roster rather than checked on one card: the seeded
+    // noise is meant to make two strikers different from each other.
+    const meanOf = (position: string, group: 'sho' | 'def', key: string) => {
+      const players = PLAYERS.filter((item) => item.position === position)
+      const values = players.map((item) => {
+        const subs = subStatsOf(item, group)
+        const found = subs.find((sub) => sub.stat.key === key)!
+        return found.value - item.stats[group]
+      })
+      return values.reduce((sum, value) => sum + value, 0) / values.length
+    }
+    // A striker finishes better than they head; a centre back the other way.
+    expect(meanOf('ST', 'sho', 'fin')).toBeGreaterThan(meanOf('ST', 'sho', 'hea'))
+    expect(meanOf('CB', 'sho', 'hea')).toBeGreaterThan(meanOf('CB', 'sho', 'fin'))
+    expect(meanOf('CB', 'def', 'mrk')).toBeGreaterThan(meanOf('ST', 'def', 'mrk'))
+  })
+
+  it('shows the same headline the card shows', () => {
+    const player = PLAYERS_BY_RARITY.Legend[0]
+    for (const level of [1, 5, 10]) {
+      const groups = breakdownOf(player, level)
+      const now = effectiveStats(player, level)
+      for (const item of groups) {
+        expect(item.value).toBe(now[item.group])
+        const mean =
+          item.subs.reduce((sum, sub) => sum + sub.value, 0) / item.subs.length
+        expect(mean).toBe(item.value)
+      }
+    }
   })
 })
 

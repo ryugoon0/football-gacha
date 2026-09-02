@@ -22,9 +22,10 @@ import {
 import { RARITY_STYLES } from '../lib/rarity'
 import { sellPrice, shardsFor } from '../lib/shards'
 import { ratingInSlot } from '../lib/squad'
-import { STAT_GROUPS, SUB_STATS, subStatLabel, subStatsOf } from '../lib/subStats'
+import { SUB_STAT_COUNT, STAT_GROUPS } from '../lib/subStats'
 import { TRAITS, traitsOf } from '../lib/traits'
 import HiddenStatsView from './HiddenStatsView'
+import StatBreakdown from './StatBreakdown'
 import type { Card, PlayerDef, Stats } from '../lib/types'
 import PlayerCard from './PlayerCard'
 
@@ -310,40 +311,11 @@ export default function PlayerDetailModal({
                 onClick={() => setShowSubs((value) => !value)}
                 className="flex w-full items-center justify-between text-sm font-bold text-slate-300"
               >
-                <span>세부 능력치 18개</span>
+                <span>세부 능력치 {SUB_STAT_COUNT}개</span>
                 <span className="text-xs text-slate-500">{showSubs ? '접기' : '펼치기'}</span>
               </button>
 
-              {showSubs && (
-                <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                  {STAT_GROUPS.map((group) => (
-                    <div key={group} className="rounded-lg bg-black/20 p-2">
-                      <div className="flex items-center justify-between text-xs font-bold text-slate-300">
-                        <span>{labels[group]}</span>
-                        <span className="text-white">{now[group]}</span>
-                      </div>
-                      <div className="mt-1 space-y-1">
-                        {subStatsOf(player, group, card.level).map(({ stat, value }, index) => (
-                          <div key={stat.key} className="flex items-center gap-2">
-                            <span className="w-16 shrink-0 text-[10px] text-slate-500">
-                              {subStatLabel(SUB_STATS[group][index], isKeeper)}
-                            </span>
-                            <span className="h-1 flex-1 rounded-full bg-slate-700">
-                              <span
-                                className="block h-1 rounded-full bg-emerald-400"
-                                style={{ width: width(value) }}
-                              />
-                            </span>
-                            <span className="w-6 shrink-0 text-right text-[10px] font-bold text-slate-300">
-                              {value}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+              {showSubs && <StatBreakdown player={player} level={card.level} className="mt-3" />}
             </section>
           </div>
         </div>

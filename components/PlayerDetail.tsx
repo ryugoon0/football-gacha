@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import PlayerCareButtons from './PlayerCareButtons'
 import HiddenStatsView from './HiddenStatsView'
+import StatBreakdown from './StatBreakdown'
+import { SUB_STAT_COUNT } from '../lib/subStats'
 import {
   MAX_CONDITION,
   TIRED_CONDITION,
@@ -11,11 +13,10 @@ import {
   treatmentCost,
 } from '../lib/condition'
 import { expForLevel } from '../lib/growth'
-import { GK_STAT_LABELS, STAT_LABELS, effectiveOvr, levelCap } from '../lib/players'
+import { effectiveOvr, levelCap } from '../lib/players'
 import { RARITY_STYLES } from '../lib/rarity'
 import { sellPrice, shardsFor } from '../lib/shards'
 import { OUT_OF_POSITION_FACTOR, ratingInSlot } from '../lib/squad'
-import { STAT_GROUPS, SUB_STATS, subStatLabel, subStatsOf } from '../lib/subStats'
 import { TRAITS, traitsOf } from '../lib/traits'
 import type { Card, PlayerDef } from '../lib/types'
 import PlayerCard from './PlayerCard'
@@ -40,8 +41,6 @@ export default function PlayerDetail({
   const [showStats, setShowStats] = useState(true)
   const style = RARITY_STYLES[player.rarity]
   const cap = levelCap(player)
-  const isKeeper = player.position === 'GK'
-  const labels = isKeeper ? GK_STAT_LABELS : STAT_LABELS
   const traits = traitsOf(player)
   const expNeeded = expForLevel(card.level)
   const atLimit = card.level >= card.limit
@@ -164,45 +163,10 @@ export default function PlayerDetail({
         onClick={() => setShowStats((value) => !value)}
         className="w-full rounded-lg bg-white/5 px-3 py-2 text-left text-sm font-bold text-slate-300 hover:bg-white/10"
       >
-        세부 능력치 {showStats ? '접기' : '펼치기'}
+        세부 능력치 {SUB_STAT_COUNT}개 {showStats ? '접기' : '펼치기'}
       </button>
 
-      {showStats && (
-        <div className="space-y-2">
-          {STAT_GROUPS.map((group) => {
-            const subs = subStatsOf(player, group, card.level)
-            const groupValue = Math.round(
-              subs.reduce((sum, item) => sum + item.value, 0) / subs.length,
-            )
-            return (
-              <div key={group} className="rounded-lg bg-white/5 p-2">
-                <div className="flex items-center justify-between text-xs font-bold text-slate-300">
-                  <span>{labels[group]}</span>
-                  <span className="text-white">{groupValue}</span>
-                </div>
-                <div className="mt-1 space-y-1">
-                  {subs.map(({ stat, value }, index) => (
-                    <div key={stat.key} className="flex items-center gap-2">
-                      <span className="w-16 shrink-0 text-[10px] text-slate-500">
-                        {subStatLabel(SUB_STATS[group][index], isKeeper)}
-                      </span>
-                      <span className="h-1 flex-1 rounded-full bg-white/10">
-                        <span
-                          className="block h-1 rounded-full bg-emerald-400/80"
-                          style={{ width: `${value}%` }}
-                        />
-                      </span>
-                      <span className="w-6 shrink-0 text-right text-[10px] font-bold text-slate-300">
-                        {value}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )
-          })}
-        </div>
-      )}
+      {showStats && <StatBreakdown player={player} level={card.level} />}
 
       <div className="text-center text-xs text-slate-500">
         현재 오버롤 {effectiveOvr(player, card.level)} · {player.nation} · {player.club} ·{' '}
