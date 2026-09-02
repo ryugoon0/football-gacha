@@ -23,6 +23,7 @@ import { sellPrice, shardsFor } from '../lib/shards'
 import { ratingInSlot } from '../lib/squad'
 import { STAT_GROUPS, SUB_STATS, subStatLabel, subStatsOf } from '../lib/subStats'
 import { TRAITS, traitsOf } from '../lib/traits'
+import HiddenStatsView from './HiddenStatsView'
 import type { Card, PlayerDef, Stats } from '../lib/types'
 import PlayerCard from './PlayerCard'
 
@@ -120,6 +121,8 @@ export default function PlayerDetailModal({
                 injuredFor={card.injuredFor}
               />
             </div>
+
+            <HiddenStatsView hidden={player.hidden} />
 
             {traits.length > 0 && (
               <div className="flex flex-wrap justify-center gap-1.5">

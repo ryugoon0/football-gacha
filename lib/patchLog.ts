@@ -34,6 +34,16 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-02-hidden-and-cards',
+    date: '2026-09-02',
+    kind: 'feature',
+    title: '히든 능력치 공개와 카드 생성 탭',
+    detail: [
+      '결정력·지구력·큰 경기·기복이 선수 상세에 나옵니다. 경기 결과를 바꾸는데 지금까지 어디에도 보이지 않았습니다.',
+      '카드 생성이 별도 탭으로 나왔고, 여섯 능력치와 히든 넷을 하나씩 정할 수 있습니다.',
+    ],
+  },
+  {
     id: '2026-09-02-draw-server-hardening',
     date: '2026-09-02',
     kind: 'fix',

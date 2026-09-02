@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import HiddenStatsView from './HiddenStatsView'
 import {
   MAX_CONDITION,
   TIRED_CONDITION,
@@ -155,6 +156,8 @@ export default function PlayerDetail({
           />
         </div>
       </div>
+
+      <HiddenStatsView hidden={player.hidden} />
 
       <button
         onClick={() => setShowStats((value) => !value)}

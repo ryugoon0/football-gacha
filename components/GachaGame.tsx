@@ -12,6 +12,7 @@ import { useAdmin } from './useAdmin'
 import GuideOverlay from './GuideOverlay'
 import LoginScreen from './LoginScreen'
 import AdminTab from './tabs/AdminTab'
+import CardMaker from './tabs/CardMaker'
 import BoardTab from './tabs/BoardTab'
 import ClubTab from './tabs/ClubTab'
 import HomeTab from './tabs/HomeTab'
@@ -30,6 +31,7 @@ const TABS = [
   { key: 'board', label: '게시판' },
   // Only rendered for operators; the server checks again on every action.
   { key: 'admin', label: '운영자' },
+  { key: 'cards', label: '카드생성' },
 ] as const
 
 type TabKey = (typeof TABS)[number]['key']
@@ -60,7 +62,7 @@ function Shell() {
   const [accountOpen, setAccountOpen] = useState(false)
   const rating = useMemo(() => evaluateSquad(state.cards, state.squad), [state.cards, state.squad])
   const { isAdmin } = useAdmin(account)
-  const tabs = useMemo(() => TABS.filter((item) => item.key !== 'admin' || isAdmin), [isAdmin])
+  const tabs = useMemo(() => TABS.filter((item) => (item.key !== 'admin' && item.key !== 'cards') || isAdmin), [isAdmin])
 
   const showGuide = helpOpen || (ready && !state.guideDone)
 
@@ -174,6 +176,7 @@ function Shell() {
             {tab === 'match' && <MatchTab />}
             {tab === 'board' && <BoardTab />}
             {tab === 'admin' && <AdminTab />}
+            {tab === 'cards' && <CardMaker />}
           </>
         )}
       </div>

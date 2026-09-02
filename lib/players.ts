@@ -211,12 +211,25 @@ export const LEAGUE_OF_CLUB: Record<string, string> = CLUBS.reduce(
 
 export const LEAGUES = Array.from(new Set(CLUBS.map((club) => club.league)))
 
-type RosterRow = [
+/**
+ * Anything a roster row wants to pin down rather than let the generator decide.
+ *
+ * Left out, stats are shaped from the position and normalised to the overall,
+ * and the hidden attributes are drawn from the rarity's band. A row that cares
+ * about a particular player says so here, and only for the fields it names.
+ */
+export interface RosterExtras {
+  stats?: Partial<Stats>
+  hidden?: Partial<HiddenStats>
+}
+
+export type RosterRow = [
   name: string,
   position: Position,
   ovr: number,
   club?: string,
   nation?: string,
+  extras?: RosterExtras,
 ]
 
 /**
@@ -309,9 +322,10 @@ export const RARITY_PREFIX: Record<Rarity, string> = {
 function buildRoster(): PlayerDef[] {
   const players: PlayerDef[] = []
   for (const rarity of Object.keys(ROSTER) as Rarity[]) {
-    ROSTER[rarity].forEach(([name, position, ovr, clubName, nation], index) => {
+    ROSTER[rarity].forEach(([name, position, ovr, clubName, nation, extras], index) => {
       const id = `${RARITY_PREFIX[rarity]}${String(index + 1).padStart(2, '0')}`
-      const stats = buildStats(id, position, ovr)
+      // A row may pin any of the six; the rest are still generated around them.
+      const stats = { ...buildStats(id, position, ovr), ...(extras?.stats ?? {}) }
       // A roster row names the club and country; anything left blank falls back
       // to a stable draw from the id so the data is never half filled.
       const rng = seededRandom(hashString(id + name))
@@ -326,7 +340,7 @@ function buildRoster(): PlayerDef[] {
         club: club.name,
         league: club.league,
         stats,
-        hidden: buildHidden(id, rarity),
+        hidden: { ...buildHidden(id, rarity), ...(extras?.hidden ?? {}) },
         ovr: computeOvr(stats, position),
       })
     })
