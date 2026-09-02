@@ -34,6 +34,13 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-02-sub-limit',
+    date: '2026-09-02',
+    kind: 'balance',
+    title: '경기당 교체 5명 제한',
+    detail: ['자동 교체와 직접 교체를 합쳐 한 경기에 5명까지 바꿀 수 있습니다.'],
+  },
+  {
     id: '2026-09-02-live-autosub',
     date: '2026-09-02',
     kind: 'feature',

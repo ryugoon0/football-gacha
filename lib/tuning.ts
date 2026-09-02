@@ -83,6 +83,16 @@ export const KNOBS = {
     group: '경기',
     integer: true,
   },
+  subLimit: {
+    label: '경기당 교체 인원',
+    note: '한 경기에서 바꿀 수 있는 선수 수. 자동 교체와 직접 교체를 합쳐서 셉니다.',
+    default: 5,
+    min: 0,
+    max: 11,
+    step: 1,
+    group: '경기',
+    integer: true,
+  },
   outOfPositionFactor: {
     label: '포지션 불일치 계수',
     note: '자리에 맞지 않는 선수가 잃는 능력치 비율. 낮출수록 크게 깎입니다.',

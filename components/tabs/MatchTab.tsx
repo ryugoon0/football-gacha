@@ -273,9 +273,18 @@ function MatchDay() {
     setNotice(`전술 지시 — ${label} · 경기가 멈추면 적용됩니다`)
   }
 
+  // A match allows only so many changes, and an order already queued has spent
+  // one — otherwise the manager could line up more than the rules permit.
+  const subsUsed = subs.length + pendingSubs.length
+  const subsLeft = Math.max(0, tune('subLimit') - subsUsed)
+
   const orderSub = (slotId: string, inUid: string) => {
     const outUid = plannedSquad.slots[slotId]
     if (!outUid || !plannedSquad.bench.includes(inUid)) return
+    if (subsLeft <= 0) {
+      setNotice(`교체 인원을 모두 썼습니다 (${tune('subLimit')}명).`)
+      return
+    }
     setShowSubs(false)
 
     if (engine.canIntervene) {
@@ -296,7 +305,11 @@ function MatchDay() {
   const conditionOf = (card: Card) => engine.state?.stamina[card.uid] ?? card.condition
 
   const orderTiredSubs = () => {
-    const auto = applyAutoSubs(state.cards, plannedSquad, division, conditionOf, tune('liveTired'))
+    if (subsLeft <= 0) {
+      setNotice(`교체 인원을 모두 썼습니다 (${tune('subLimit')}명).`)
+      return
+    }
+    const auto = applyAutoSubs(state.cards, plannedSquad, division, conditionOf, tune('liveTired'), subsLeft)
     if (auto.subs.length === 0) {
       setNotice('지금 빼야 할 만큼 지친 선수가 없습니다.')
       return
@@ -304,7 +317,7 @@ function MatchDay() {
     setShowSubs(false)
 
     if (engine.canIntervene) {
-      const applied = applyAutoSubs(state.cards, squadInPlay, division, conditionOf, tune('liveTired'))
+      const applied = applyAutoSubs(state.cards, squadInPlay, division, conditionOf, tune('liveTired'), subsLeft)
       setLiveSquad(applied.squad)
       setSubs((current) => [...current, ...applied.subs])
       setNotice(`지친 선수 ${applied.subs.length}명 교체 — ${applied.subs.map((sub) => `${sub.outName} → ${sub.inName}`).join(', ')}`)
@@ -327,7 +340,8 @@ function MatchDay() {
     if (!state.autoSub || !engine.state || engine.state.finished) return
     if (engine.state.phase === 'kickoff') return
 
-    const auto = applyAutoSubs(state.cards, plannedSquad, division, conditionOf, tune('liveTired'))
+    if (subsLeft <= 0) return
+    const auto = applyAutoSubs(state.cards, plannedSquad, division, conditionOf, tune('liveTired'), subsLeft)
     if (auto.subs.length === 0) return
 
     setPendingSubs((current) => [
@@ -339,7 +353,7 @@ function MatchDay() {
     )
     // Runs as the clock moves; everything else it reads is derived from state.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [engine.state?.minute, state.autoSub])
+  }, [engine.state?.minute, state.autoSub, subsLeft])
 
   // The whistle goes: everything the manager queued up goes in now.
   useEffect(() => {

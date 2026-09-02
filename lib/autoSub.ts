@@ -33,7 +33,10 @@ export function applyAutoSubs(
   division: number,
   conditionOf: (card: Card) => number = (card) => card.condition,
   tiredBelow: number = tune('tiredSubThreshold'),
+  /** How many changes are still allowed in this match. */
+  allowance: number = Number.POSITIVE_INFINITY,
 ): { squad: Squad; subs: SubEvent[] } {
+  if (allowance <= 0) return { squad, subs: [] }
   const formation = FORMATIONS[squad.formation] ?? FORMATIONS['4-3-3']
   const byUid = new Map(cards.map((card) => [card.uid, card]))
   const cap = lineupCapOf(division)
@@ -48,6 +51,8 @@ export function applyAutoSubs(
   )
 
   for (const slot of formation.slots) {
+    // A match allows only so many changes; the rest of the tired stay on.
+    if (subs.length >= allowance) break
     const uid = slots[slot.id]
     const starter = uid ? byUid.get(uid) : undefined
     if (!starter) continue

@@ -38,3 +38,34 @@ describe('a replacement is never someone who would be pulled straight back off',
     expect(raised.squad.slots.gk).toBe('b1')
   })
 })
+
+describe('the substitution allowance', () => {
+  const squad = (): Squad => ({
+    formation: '4-3-3',
+    slots: { ...emptySlots('4-3-3'), gk: 's1', d1: 's2', d2: 's3' },
+    bench: ['b1', 'b2', 'b3', null, null, null, null],
+  })
+
+  const cards: Card[] = [
+    ...['s1', 's2', 's3'].map((uid) => ({
+      uid, playerId: 'n01', level: 3, limit: 5, condition: 20, injuredFor: 0, exp: 0,
+    })),
+    ...['b1', 'b2', 'b3'].map((uid) => ({
+      uid, playerId: 'n02', level: 3, limit: 5, condition: 100, injuredFor: 0, exp: 0,
+    })),
+  ]
+
+  it('stops once the allowance is spent, leaving the rest on the field', () => {
+    const two = applyAutoSubs(cards, squad(), 5, (card) => card.condition, 45, 2)
+    expect(two.subs).toHaveLength(2)
+
+    const all = applyAutoSubs(cards, squad(), 5, (card) => card.condition, 45)
+    expect(all.subs).toHaveLength(3)
+  })
+
+  it('makes no change at all when nothing is left', () => {
+    const none = applyAutoSubs(cards, squad(), 5, (card) => card.condition, 45, 0)
+    expect(none.subs).toHaveLength(0)
+    expect(none.squad).toEqual(squad())
+  })
+})
