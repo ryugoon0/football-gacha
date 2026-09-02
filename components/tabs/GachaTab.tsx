@@ -223,11 +223,22 @@ export default function GachaTab() {
         )}
 
         <div className="mt-3 grid gap-2 sm:grid-cols-2">
-          {packsOfFamily(family).map((pack) => (
+          {packsOfFamily(family).map((pack) => {
+            // A ten pull needs ten free slots. Saying only "the vault is full"
+            // when a single card still fits left the ten pull dead with no
+            // explanation, which reads as a broken button rather than a rule.
+            const room = hasRoomFor(state.cards.length, state.capacity, pack.count)
+            const affordable = state.gold >= pack.cost
+            const reason = !room
+              ? `보관함에 ${pack.count}칸이 필요합니다 (지금 ${Math.max(0, state.capacity - state.cards.length)}칸)`
+              : !affordable
+                ? `골드가 ${(pack.cost - state.gold).toLocaleString()} 부족합니다`
+                : null
+            return (
+            <div key={pack.id}>
             <button
-              key={pack.id}
               onClick={() => openPack(pack)}
-              disabled={spinning || state.gold < pack.cost || !hasRoomFor(state.cards.length, state.capacity, pack.count)}
+              disabled={spinning || !affordable || !room}
               className={`rounded-xl px-4 py-3 text-left text-sm font-bold text-slate-900 transition disabled:opacity-40 ${
                 family === 'premium'
                   ? 'bg-violet-400 hover:bg-violet-300'
@@ -239,7 +250,14 @@ export default function GachaTab() {
                 {pack.description} · {pack.cost.toLocaleString()}G
               </span>
             </button>
-          ))}
+            {reason && (
+              <p className="mt-1 text-[11px] font-semibold leading-relaxed text-amber-300">
+                {reason}
+              </p>
+            )}
+            </div>
+            )
+          })}
         </div>
 
         <div className="mt-3 rounded-xl bg-white/5 p-3">

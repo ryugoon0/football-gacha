@@ -34,6 +34,16 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-02-pack-reason',
+    date: '2026-09-02',
+    kind: 'fix',
+    title: '10연차가 이유 없이 잠기던 문제',
+    detail: [
+      '보관함에 한 칸이라도 남으면 경고가 사라져서, 10연차 버튼만 조용히 잠긴 채 이유를 알 수 없었습니다.',
+      '이제 팩마다 왜 못 사는지 적힙니다 — 몇 칸이 더 필요한지, 골드가 얼마 모자란지.',
+    ],
+  },
+  {
     id: '2026-09-02-sub-limit',
     date: '2026-09-02',
     kind: 'balance',
