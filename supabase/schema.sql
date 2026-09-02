@@ -284,6 +284,8 @@ as $$
 declare
   v_user uuid := auth.uid();
   v_j    record;
+  v_gold bigint;
+  v_diff bigint;
 begin
   if v_user is null then
     return jsonb_build_object('ok', false, 'reason', 'not signed in');
@@ -321,6 +323,18 @@ begin
   values (v_user, p_data, now())
   on conflict (user_id) do update
     set data = excluded.data, updated_at = excluded.updated_at;
+
+  -- 원장을 세이브에 맞춥니다. 경기 보상처럼 아직 클라이언트가 계산하는 변동을
+  -- 'client' 사유로 남겨, 골드의 모든 움직임이 한 줄씩 기록되게 합니다.
+  -- 2단계는 이 'client' 줄을 서버가 계산한 사유로 하나씩 바꾸는 일입니다.
+  if coalesce((select seeded from public.economy where user_id = v_user), false) then
+    v_gold := coalesce(public.save_num(p_data, '{gold}'), 0)::bigint;
+    v_diff := v_gold - public.gold_balance(v_user);
+    if v_diff <> 0 then
+      insert into public.gold_ledger (user_id, delta, reason)
+      values (v_user, v_diff, 'client');
+    end if;
+  end if;
 
   return jsonb_build_object('ok', true);
 end $$;
@@ -501,3 +515,195 @@ $$;
 
 revoke all on function public.health_for_admin() from public;
 grant execute on function public.health_for_admin() to authenticated;
+
+-- ---------------------------------------------------------------------------
+-- 6. 골드 원장과 서버 권한 뽑기 (1단계)
+-- ---------------------------------------------------------------------------
+-- 골드는 이제 숫자 하나가 아니라 **추가만 되는 거래 기록**입니다. 잔액은
+-- 저장하는 값이 아니라 합계입니다. 돈이 걸리면 "지금 얼마인가"보다 "왜 그
+-- 금액인가"가 중요해지고, 잔액만 있으면 다툼이 났을 때 설명할 수가 없습니다.
+--
+-- 이번 단계에서 서버가 완전히 소유하는 것은 **뽑기**입니다. 난수와 확률이
+-- 서버에 있으므로 고지한 확률이 실제와 같음을 pull_log로 증명할 수 있습니다.
+-- 경기 보상 같은 나머지 변동은 아직 클라이언트가 계산하지만, put_save가 그
+-- 차액을 'client' 사유로 원장에 남기므로 **모든 골드 움직임이 한 줄씩 남습니다.**
+-- 2단계는 그 'client' 줄을 서버가 계산한 사유로 하나씩 바꾸는 일입니다.
+
+create table if not exists public.gold_ledger (
+  id         bigserial primary key,
+  user_id    uuid not null references auth.users on delete cascade,
+  delta      bigint not null,
+  -- 'opening' 최초 이관 · 'pull' 뽑기 · 'client' 아직 클라이언트가 계산하는 것
+  reason     text not null,
+  ref        text,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists gold_ledger_user_idx on public.gold_ledger (user_id, id desc);
+
+alter table public.gold_ledger enable row level security;
+-- 본인 것은 읽을 수 있습니다. 쓰기는 어떤 정책도 없으므로 함수를 통해서만.
+drop policy if exists "players read their own ledger" on public.gold_ledger;
+create policy "players read their own ledger" on public.gold_ledger
+  for select to authenticated using (auth.uid() = user_id);
+
+-- 뽑기 기록. 확률 고지의 근거이자, 나중에 재현해 볼 수 있는 원본입니다.
+create table if not exists public.pull_log (
+  id          bigserial primary key,
+  user_id     uuid not null references auth.users on delete cascade,
+  pack        text not null,
+  cost        bigint not null,
+  -- 서버가 만든 시드. 이것만 있으면 같은 결과를 다시 만들 수 있습니다.
+  seed        text not null,
+  -- 이 뽑기에 실제로 적용된 확률표. 나중에 표를 바꿔도 과거 판정을 설명할 수
+  -- 있어야 하므로 그때의 값을 함께 남깁니다.
+  rates       jsonb not null,
+  pity_before int not null,
+  pity_after  int not null,
+  pity_hit    boolean not null default false,
+  cards       jsonb not null,
+  created_at  timestamptz not null default now()
+);
+
+create index if not exists pull_log_user_idx on public.pull_log (user_id, id desc);
+create index if not exists pull_log_at_idx on public.pull_log (created_at desc);
+
+alter table public.pull_log enable row level security;
+drop policy if exists "players read their own pulls" on public.pull_log;
+create policy "players read their own pulls" on public.pull_log
+  for select to authenticated using (auth.uid() = user_id);
+
+-- 천장 카운터. 세이브가 아니라 서버가 셉니다.
+create table if not exists public.economy (
+  user_id  uuid primary key references auth.users on delete cascade,
+  pity     int not null default 0,
+  seeded   boolean not null default false,
+  seeded_at timestamptz
+);
+
+alter table public.economy enable row level security;
+drop policy if exists "players read their own economy" on public.economy;
+create policy "players read their own economy" on public.economy
+  for select to authenticated using (auth.uid() = user_id);
+
+create or replace function public.gold_balance(p_user uuid)
+  returns bigint
+  language sql
+  stable
+  security definer
+  set search_path = public
+as $$
+  select coalesce(sum(delta), 0)::bigint from public.gold_ledger where user_id = p_user;
+$$;
+
+-- 기존 플레이어를 원장으로 옮깁니다. 한 번만 실행되며, 이후 호출은 아무 일도
+-- 하지 않습니다. 이관 전에는 세이브의 골드가, 이후에는 원장이 진실입니다.
+create or replace function public.seed_economy(p_gold bigint, p_pity int)
+  returns jsonb
+  language plpgsql
+  security definer
+  set search_path = public
+as $$
+declare
+  v_user uuid := auth.uid();
+  v_row  public.economy%rowtype;
+begin
+  if v_user is null then
+    return jsonb_build_object('ok', false, 'reason', 'not signed in');
+  end if;
+
+  insert into public.economy (user_id, pity) values (v_user, greatest(coalesce(p_pity, 0), 0))
+  on conflict (user_id) do nothing;
+
+  select * into v_row from public.economy where user_id = v_user;
+  if v_row.seeded then
+    return jsonb_build_object('ok', true, 'already', true,
+                              'balance', public.gold_balance(v_user), 'pity', v_row.pity);
+  end if;
+
+  -- 이관 금액도 사람이 정한 값이 아니라 기록으로 남습니다.
+  insert into public.gold_ledger (user_id, delta, reason, ref)
+  values (v_user, greatest(least(coalesce(p_gold, 0), 1000000000), 0), 'opening', 'migrate');
+
+  update public.economy
+     set seeded = true, seeded_at = now(), pity = greatest(coalesce(p_pity, 0), 0)
+   where user_id = v_user;
+
+  return jsonb_build_object('ok', true, 'already', false,
+                            'balance', public.gold_balance(v_user),
+                            'pity', greatest(coalesce(p_pity, 0), 0));
+end $$;
+
+revoke all on function public.seed_economy(bigint, int) from public;
+grant execute on function public.seed_economy(bigint, int) to authenticated;
+
+create or replace function public.economy_snapshot()
+  returns jsonb
+  language sql
+  stable
+  security definer
+  set search_path = public
+as $$
+  select case when auth.uid() is null then jsonb_build_object('ok', false) else
+    jsonb_build_object(
+      'ok', true,
+      'balance', public.gold_balance(auth.uid()),
+      'pity', coalesce((select pity from public.economy where user_id = auth.uid()), 0),
+      'seeded', coalesce((select seeded from public.economy where user_id = auth.uid()), false)
+    ) end;
+$$;
+
+revoke all on function public.economy_snapshot() from public;
+grant execute on function public.economy_snapshot() to authenticated;
+
+-- 뽑기를 한 트랜잭션으로 확정합니다. **service_role만 부를 수 있습니다** —
+-- 클라이언트가 직접 부를 수 있으면 원하는 카드를 넣어 달라고 할 수 있습니다.
+create or replace function public.commit_pull(
+  p_user        uuid,
+  p_pack        text,
+  p_cost        bigint,
+  p_seed        text,
+  p_rates       jsonb,
+  p_pity_before int,
+  p_pity_after  int,
+  p_pity_hit    boolean,
+  p_cards       jsonb
+) returns jsonb
+  language plpgsql
+  security definer
+  set search_path = public
+as $$
+declare
+  v_balance bigint;
+  v_pull_id bigint;
+begin
+  -- 같은 사람의 동시 뽑기를 줄 세웁니다. 잔액을 읽고 쓰는 사이에 끼어들어
+  -- 두 번 뽑는 것을 막습니다.
+  perform pg_advisory_xact_lock(hashtext(p_user::text));
+
+  v_balance := public.gold_balance(p_user);
+  if v_balance < p_cost then
+    return jsonb_build_object('ok', false, 'reason', 'not enough gold', 'balance', v_balance);
+  end if;
+
+  insert into public.pull_log
+    (user_id, pack, cost, seed, rates, pity_before, pity_after, pity_hit, cards)
+  values
+    (p_user, p_pack, p_cost, p_seed, p_rates, p_pity_before, p_pity_after,
+     coalesce(p_pity_hit, false), p_cards)
+  returning id into v_pull_id;
+
+  insert into public.gold_ledger (user_id, delta, reason, ref)
+  values (p_user, -p_cost, 'pull', v_pull_id::text);
+
+  insert into public.economy (user_id, pity) values (p_user, p_pity_after)
+  on conflict (user_id) do update set pity = excluded.pity;
+
+  return jsonb_build_object('ok', true, 'pull_id', v_pull_id,
+                            'balance', public.gold_balance(p_user),
+                            'pity', p_pity_after);
+end $$;
+
+revoke all on function public.commit_pull(uuid, text, bigint, text, jsonb, int, int, boolean, jsonb) from public;
+revoke all on function public.commit_pull(uuid, text, bigint, text, jsonb, int, int, boolean, jsonb) from authenticated;
+grant execute on function public.commit_pull(uuid, text, bigint, text, jsonb, int, int, boolean, jsonb) to service_role;

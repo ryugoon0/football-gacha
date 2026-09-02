@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { DAILY_MISSIONS, missionClaimable, missionDone, weekKey } from '../../lib/daily'
+import { DAILY_MISSIONS, missionClaimable, missionDone } from '../../lib/daily'
 import {
   PACKS,
   PACK_RATES,
@@ -10,9 +10,15 @@ import {
   featuredPlayer,
   packsOfFamily,
   type PackDef,
+  pickupWeekKey,
   type PackFamily,
 } from '../../lib/gacha'
 import { getPlayer } from '../../lib/players'
+import {
+  DRAW_FAILURE_MESSAGE,
+  drawOnServer,
+  serverDrawAvailable,
+} from '../../lib/serverDraw'
 import { RARITIES, RARITY_STYLES } from '../../lib/rarity'
 import { hasRoomFor } from '../../lib/vault'
 import { SHARD_OFFERS, offerLabel } from '../../lib/shards'
@@ -42,7 +48,7 @@ export default function GachaTab() {
   const [error, setError] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
 
-  const featured = useMemo(() => featuredPlayer(weekKey()), [])
+  const featured = useMemo(() => featuredPlayer(pickupWeekKey()), [])
 
   useEffect(() => {
     if (!spinning) return
@@ -83,28 +89,27 @@ export default function GachaTab() {
     let pity = state.pity
     let pityHit = false
 
-    try {
-      const query = new URLSearchParams({
-        pack: pack.id,
-        pity: String(state.pity),
-        week: weekKey(),
-      })
-      if (group !== 'all') query.set('group', group)
-      const response = await fetch(`/api/gacha?${query}`, { cache: 'no-store' })
-      if (!response.ok) throw new Error('draw failed')
-      const data = (await response.json()) as {
-        cards: { id: string }[]
-        pity: number
-        pityHit: boolean
+    if (serverDrawAvailable()) {
+      // With an account, only the server may open a pack. No fallback: a quiet
+      // retreat to the browser would be the way around the server itself.
+      const outcome = await drawOnServer(pack.id, group === 'all' ? null : group)
+      if (!outcome.ok) {
+        setSpinning(false)
+        setError(DRAW_FAILURE_MESSAGE[outcome.reason])
+        return
       }
-      players = data.cards
+      players = outcome.draw.cards
         .map((card) => getPlayer(card.id))
         .filter((player): player is PlayerDef => Boolean(player))
-      if (players.length !== pack.count) throw new Error('bad payload')
-      pity = data.pity
-      pityHit = data.pityHit
-    } catch {
-      // The pull works offline too — the same logic runs in the browser.
+      if (players.length !== pack.count) {
+        setSpinning(false)
+        setError(DRAW_FAILURE_MESSAGE.unavailable)
+        return
+      }
+      pity = outcome.draw.pity
+      pityHit = outcome.draw.pityHit
+    } else {
+      // No server configured means no account and no economy to protect.
       const outcome = drawSession({
         count: pack.count,
         pity: state.pity,

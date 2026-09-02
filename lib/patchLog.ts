@@ -34,6 +34,17 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-02-server-gacha',
+    date: '2026-09-02',
+    kind: 'internal',
+    title: '뽑기를 서버로 — 확률과 난수가 서버에 있습니다',
+    detail: [
+      '카드팩은 이제 서버가 엽니다. 모든 뽑기가 시드·확률표와 함께 기록되어, 고지한 확률이 실제와 같음을 증명할 수 있습니다.',
+      '골드는 숫자 하나가 아니라 거래 기록이 되었습니다. 잔액은 그 합계입니다.',
+      '픽업 주간이 기기 시간이 아니라 서버 기준(KST)으로 정해집니다.',
+    ],
+  },
+  {
     id: '2026-09-02-monitoring',
     date: '2026-09-02',
     kind: 'internal',

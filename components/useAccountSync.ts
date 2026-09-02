@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { isSaveTooBig, planSync, readCloudSave, type CloudSave } from '../lib/cloudSave'
 import { friendlyError, getSupabase, isSupabaseConfigured, rejectionMessage } from '../lib/supabase'
+import { seedEconomy } from '../lib/serverDraw'
 import type { GameState } from '../lib/types'
 
 export type AccountStatus = 'off' | 'loading' | 'signedOut' | 'signedIn'
@@ -65,6 +66,15 @@ export function useAccountSync(
     // Never hand a raw row to the game: validate and migrate it first.
     return readCloudSave(data.data, data.updated_at as string)
   }, [])
+
+  // Move an existing player onto the server ledger once. After this the ledger
+  // is the truth for gold; before it, the save still is.
+  useEffect(() => {
+    if (status !== 'signedIn' || !user || !ready) return
+    void seedEconomy(stateRef.current.gold, stateRef.current.pity)
+    // Seeding is once per account; it must not re-run as the save changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status, user, ready])
 
   const upload = useCallback(async (userId: string, value: GameState) => {
     const supabase = getSupabase()

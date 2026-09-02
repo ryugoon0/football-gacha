@@ -136,6 +136,25 @@ function pick(
 }
 
 /** The weekly pick-up, rotating through the strongest cards in the game. */
+/**
+ * Which week's pick-up is running.
+ *
+ * The pick-up doubles a player's odds, so which week it is changes the odds —
+ * which makes it the server's call, not the browser's. Local time would put
+ * players in different weeks near the boundary and let a device clock choose a
+ * favourable one, so the window is pinned to a fixed offset (KST, the market
+ * this is built for) and both the shop and the Edge Function use this one
+ * function.
+ */
+export const PICKUP_OFFSET_MINUTES = 9 * 60
+
+export function pickupWeekKey(now: Date = new Date()): string {
+  const shifted = new Date(now.getTime() + PICKUP_OFFSET_MINUTES * 60_000)
+  const day = (shifted.getUTCDay() + 6) % 7
+  shifted.setUTCDate(shifted.getUTCDate() - day)
+  return shifted.toISOString().slice(0, 10)
+}
+
 export function featuredPlayer(weekKey: string): PlayerDef {
   const pool = PLAYERS.filter((player) => ['Legend', 'Live', 'World'].includes(player.rarity))
   const seed = weekKey.split('').reduce((hash, char) => (hash * 31 + char.charCodeAt(0)) >>> 0, 7)
