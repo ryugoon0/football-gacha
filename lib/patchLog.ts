@@ -34,6 +34,17 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-02-items',
+    date: '2026-09-02',
+    kind: 'feature',
+    title: '아이템 · 상점 · 창고 추가',
+    detail: [
+      '회복 음료, 치료 키트, 훈련 교본, 한계 돌파석, 이적시장 갱신권, 친선 경기권, 보관함 확장권, 조각 주머니 등 열 가지.',
+      '골드로 사는 것과 조각으로 사는 것이 나뉘고, 강한 아이템에는 하루 구매 한도가 있습니다.',
+      '창고에서 선수를 골라 씁니다. 효과가 없을 아이템은 아예 소모되지 않습니다.',
+    ],
+  },
+  {
     id: '2026-09-02-care-visible',
     date: '2026-09-02',
     kind: 'fix',

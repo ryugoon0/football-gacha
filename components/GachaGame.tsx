@@ -17,6 +17,7 @@ import BoardTab from './tabs/BoardTab'
 import ClubTab from './tabs/ClubTab'
 import HomeTab from './tabs/HomeTab'
 import GachaTab from './tabs/GachaTab'
+import ItemsTab from './tabs/ItemsTab'
 import MarketTab from './tabs/MarketTab'
 import MatchTab from './tabs/MatchTab'
 import SquadTab from './tabs/SquadTab'
@@ -25,6 +26,7 @@ const TABS = [
   { key: 'home', label: '홈' },
   { key: 'gacha', label: '뽑기' },
   { key: 'market', label: '이적시장' },
+  { key: 'items', label: '상점' },
   { key: 'squad', label: '스쿼드' },
   { key: 'club', label: '선수단' },
   { key: 'match', label: '경기' },
@@ -171,6 +173,7 @@ function Shell() {
             {tab === 'home' && <HomeTab onJump={(key) => setTab(key as TabKey)} />}
             {tab === 'gacha' && <GachaTab />}
             {tab === 'market' && <MarketTab />}
+            {tab === 'items' && <ItemsTab />}
             {tab === 'squad' && <SquadTab />}
             {tab === 'club' && <ClubTab />}
             {tab === 'match' && <MatchTab />}

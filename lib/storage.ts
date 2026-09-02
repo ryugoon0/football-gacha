@@ -1,4 +1,5 @@
 import { MAX_CONDITION } from './condition'
+import { normalizeInventory } from './items'
 import { createCup } from './cup'
 import { freshDaily } from './daily'
 import { FORMATION_KEYS, emptySlots } from './formations'
@@ -18,7 +19,7 @@ import type { Card, FormationKey, GameState, Squad } from './types'
  * older games start fresh rather than loading into a broken state.
  */
 export const SAVE_KEY = 'football-day-save-v2'
-export const SAVE_VERSION = 9
+export const SAVE_VERSION = 10
 export const STARTING_GOLD = 3000
 export const DEFAULT_CLUB = '내 클럽 FC'
 
@@ -117,6 +118,7 @@ export function initialState(): GameState {
     market: emptyMarket(),
     trophies: { cup: 0, promotions: 0 },
     shards: 0,
+    items: {},
     capacity: BASE_CAPACITY,
     pity: 0,
     pulls: { total: 0, byRarity: { Normal: 0, Rare: 0, Legend: 0, Live: 0, World: 0 } },
@@ -175,7 +177,7 @@ export function normalizeSave(value: unknown): GameState | null {
   if (!Array.isArray(parsed.cards)) return null
   // Version 6 stored the tactic as a single string and 7 had no vault size;
   // both migrate forward without losing a card.
-  if (![SAVE_VERSION, 8, 7, 6].includes(parsed.version ?? 0)) return null
+  if (![SAVE_VERSION, 9, 8, 7, 6].includes(parsed.version ?? 0)) return null
 
   const state = { ...initialState(), ...parsed } as GameState
   const base = initialState()
@@ -194,6 +196,9 @@ export function normalizeSave(value: unknown): GameState | null {
     // file should still not be able to take the screen down.
     gold: Number.isFinite(state.gold) ? Math.max(0, Math.floor(state.gold)) : base.gold,
     shards: Number.isFinite(state.shards) ? Math.max(0, Math.floor(state.shards)) : base.shards,
+    // Anything the item list does not know about is dropped, so a hand-edited
+    // save cannot invent an item the game has no rule for.
+    items: normalizeInventory(state.items),
     matchday: Number.isFinite(state.matchday) ? Math.max(0, Math.floor(state.matchday)) : 0,
     season: state.season && typeof state.season === 'object' ? state.season : base.season,
     cup: state.cup && typeof state.cup === 'object' ? state.cup : base.cup,

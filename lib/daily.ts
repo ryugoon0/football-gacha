@@ -22,6 +22,10 @@ export interface DailyState {
   freeDrawUsed: boolean
   /** Friendlies played today. Capped, and reset at the player's midnight. */
   miniGames: number
+  /** Items bought today, by id. Only items with a daily limit appear here. */
+  shopBuys: Record<string, number>
+  /** Extra friendlies bought with tickets today. */
+  extraFriendlies: number
 }
 
 /** Friendlies a manager may play in one day. */
@@ -51,6 +55,8 @@ export function freshDaily(date: string = todayKey()): DailyState {
     claimed: [],
     freeDrawUsed: false,
     miniGames: 0,
+    shopBuys: {},
+    extraFriendlies: 0,
   }
 }
 
@@ -62,7 +68,8 @@ export function rollOver(daily: DailyState | undefined, today: string = todayKey
 }
 
 export function miniGamesLeft(daily: DailyState): number {
-  return Math.max(0, tune('miniGameLimit') - (daily.miniGames ?? 0))
+  const allowance = tune('miniGameLimit') + (daily.extraFriendlies ?? 0)
+  return Math.max(0, allowance - (daily.miniGames ?? 0))
 }
 
 export function missionDone(daily: DailyState, mission: MissionDef): boolean {

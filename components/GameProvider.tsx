@@ -10,6 +10,7 @@ import {
   useState,
   type ReactNode,
 } from 'react'
+import type { Currency, ItemId } from '../lib/items'
 import { loadTuning } from '../lib/configSync'
 import { todayKey, type MissionId } from '../lib/daily'
 import { FUSION_FEE, FUSION_SIZE, checkFusion, fusionResult } from '../lib/fusion'
@@ -37,6 +38,9 @@ export interface GameApi {
   setFormation: (formation: FormationKey) => void
   setTactic: (tactic: TacticSetup) => void
   setPlan: (plan: PhasedTactics) => void
+  buyItem: (id: ItemId, currency: Currency, count: number) => void
+  spendItemOnCard: (id: ItemId, uid: string) => void
+  spendItemOnClub: (id: ItemId, listings?: Listing[]) => void
   setAutoSub: (enabled: boolean) => void
   assignBench: (index: number, uid: string) => void
   clearBench: (index: number) => void
@@ -146,6 +150,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setTactic: (tactic: TacticSetup) => dispatch({ type: 'setTactic', tactic }),
       setPlan: (plan: PhasedTactics) => dispatch({ type: 'setPlan', plan }),
       setAutoSub: (enabled: boolean) => dispatch({ type: 'setAutoSub', enabled }),
+      buyItem: (id: ItemId, currency: Currency, count: number) =>
+        dispatch({ type: 'buyItem', id, currency, count }),
+      spendItemOnCard: (id: ItemId, uid: string) => dispatch({ type: 'spendItemOnCard', id, uid }),
+      spendItemOnClub: (id: ItemId, listings?: Listing[]) =>
+        dispatch({ type: 'spendItemOnClub', id, listings }),
       assignBench: (index: number, uid: string) => dispatch({ type: 'assignBench', index, uid }),
       clearBench: (index: number) => dispatch({ type: 'clearBench', index }),
       autoFillSquad: () => dispatch({ type: 'autoFill' }),

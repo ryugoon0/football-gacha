@@ -13,6 +13,16 @@ import {
 import { FORMATIONS, emptySlots } from './formations'
 import { FUSION_FEE, checkFusion } from './fusion'
 import {
+  ITEMS,
+  applyToCard,
+  boughtToday,
+  itemCount,
+  priceOf,
+  purchaseProblem,
+  type Currency,
+  type ItemId,
+} from './items'
+import {
   addExperience,
   applyExperience,
   limitBreak as raiseLimit,
@@ -89,6 +99,9 @@ export type Action =
   | { type: 'buy'; listing: Listing }
   | { type: 'treat'; uid: string }
   | { type: 'recover'; uid: string }
+  | { type: 'buyItem'; id: ItemId; currency: Currency; count: number }
+  | { type: 'spendItemOnCard'; id: ItemId; uid: string }
+  | { type: 'spendItemOnClub'; id: ItemId; listings?: Listing[] }
   | { type: 'claimMission'; id: MissionId }
   | { type: 'finishGuide' }
   | { type: 'renameClub'; club: string }
@@ -520,6 +533,80 @@ export function reducer(state: GameState, action: Action): GameState {
           ...state.market,
           listings: state.market.listings.filter((item) => item.id !== listing.id),
         },
+      }
+    }
+
+    case 'buyItem': {
+      const item = ITEMS[action.id]
+      if (!item) return state
+      const problem = purchaseProblem({
+        item,
+        currency: action.currency,
+        count: action.count,
+        gold: state.gold,
+        shards: state.shards,
+        buys: state.daily.shopBuys,
+      })
+      if (problem) return state
+
+      const unit = priceOf(item, action.currency) ?? 0
+      const total = unit * action.count
+      const daily = item.dailyLimit === null
+        ? state.daily
+        : {
+            ...state.daily,
+            shopBuys: {
+              ...state.daily.shopBuys,
+              [item.id]: boughtToday(state.daily.shopBuys, item.id) + action.count,
+            },
+          }
+
+      return {
+        ...state,
+        gold: action.currency === 'gold' ? state.gold - total : state.gold,
+        shards: action.currency === 'shards' ? state.shards - total : state.shards,
+        items: { ...state.items, [item.id]: itemCount(state.items, item.id) + action.count },
+        daily,
+      }
+    }
+
+    case 'spendItemOnCard': {
+      if (itemCount(state.items, action.id) <= 0) return state
+      const card = state.cards.find((item) => item.uid === action.uid)
+      if (!card) return state
+      const next = applyToCard(action.id, card)
+      // Null means the item would do nothing — never spend one for no effect.
+      if (!next) return state
+      return {
+        ...state,
+        items: { ...state.items, [action.id]: itemCount(state.items, action.id) - 1 },
+        cards: state.cards.map((item) => (item.uid === action.uid ? next : item)),
+      }
+    }
+
+    case 'spendItemOnClub': {
+      if (itemCount(state.items, action.id) <= 0) return state
+      const spend = { ...state.items, [action.id]: itemCount(state.items, action.id) - 1 }
+
+      switch (action.id) {
+        case 'marketTicket': {
+          if (!action.listings) return state
+          return { ...state, items: spend, market: { ...state.market, listings: action.listings } }
+        }
+        case 'friendlyTicket':
+          return {
+            ...state,
+            items: spend,
+            daily: { ...state.daily, extraFriendlies: (state.daily.extraFriendlies ?? 0) + 1 },
+          }
+        case 'vaultPermit': {
+          if (!canExpand(state.capacity)) return state
+          return { ...state, items: spend, capacity: state.capacity + CAPACITY_STEP }
+        }
+        case 'shardPouch':
+          return { ...state, items: spend, shards: state.shards + 120 }
+        default:
+          return state
       }
     }
 

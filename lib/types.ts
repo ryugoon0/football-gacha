@@ -1,3 +1,4 @@
+import type { Inventory } from './items'
 import type { SubEvent } from './autoSub'
 import type { CupState } from './cup'
 import type { DailyState } from './daily'
@@ -121,6 +122,8 @@ export interface GameState {
   trophies: { cup: number; promotions: number }
   /** Card shards from released players. */
   shards: number
+  /** Items held, by id. Anything unknown is dropped when the save is read. */
+  items: Inventory
   /** How many player cards the vault can hold. */
   capacity: number
   /** Pulls since the last Legend or better. */
