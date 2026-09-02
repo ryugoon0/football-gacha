@@ -6,6 +6,7 @@ import { evaluateSquad } from '../lib/squad'
 import { GameProvider, useGame } from './GameProvider'
 import AccountPanel from './AccountPanel'
 import { CardStyleProvider, CardStyleToggle } from './CardStyle'
+import { TacticsModeProvider } from './TacticsMode'
 import GuideOverlay from './GuideOverlay'
 import LoginScreen from './LoginScreen'
 import BoardTab from './tabs/BoardTab'
@@ -38,7 +39,9 @@ export default function GachaGame() {
   return (
     <GameProvider>
       <CardStyleProvider>
-        <Shell />
+        <TacticsModeProvider>
+          <Shell />
+        </TacticsModeProvider>
       </CardStyleProvider>
     </GameProvider>
   )

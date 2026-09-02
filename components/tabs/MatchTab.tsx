@@ -34,6 +34,8 @@ import {
   type MatchSetup,
 } from '../../lib/matchEngine'
 import { buildReport } from '../../lib/tactics/report'
+import { planForMode } from '../../lib/tactics/mode'
+import { useTacticsMode } from '../TacticsMode'
 import { getPlayer } from '../../lib/players'
 import type { SlotEvaluation } from '../../lib/squad'
 import {
@@ -121,6 +123,7 @@ export default function MatchTab() {
 
 function MatchDay() {
   const { state, finishMatch, finishCupMatch, skipMatchday, setTactic } = useGame()
+  const { mode: tacticsMode } = useTacticsMode()
   const day = SEASON_SCHEDULE[state.matchday] ?? null
   const division = state.season.division
 
@@ -188,7 +191,7 @@ function MatchDay() {
         division,
         venue: isCupDay ? 'neutral' : isHome ? 'home' : 'away',
         tactic: state.tactic,
-        phased: state.plan,
+        phased: planForMode(state.plan, tacticsMode),
         traits: rating.traits,
         homeShape:
           mode === 'watch'
@@ -1009,6 +1012,7 @@ function SeasonEnd() {
  */
 function MiniGamePanel() {
   const { state, playMiniGame } = useGame()
+  const { mode: tacticsMode } = useTacticsMode()
   const [last, setLast] = useState<MatchResult | null>(null)
   const [problem, setProblem] = useState<string | null>(null)
   const left = miniGamesLeft(state.daily)
@@ -1038,7 +1042,7 @@ function MiniGamePanel() {
       division,
       venue: 'neutral',
       tactic: state.tactic,
-      phased: state.plan,
+      phased: planForMode(state.plan, tacticsMode),
       traits: lineup.traits,
     })
     // Friendlies pay less than a league match.

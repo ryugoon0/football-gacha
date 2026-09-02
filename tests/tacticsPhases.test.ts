@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { archetypeParams } from '../lib/tactics/archetypes'
 import { EXAMPLE_PLANS } from '../lib/tactics/plans'
+import { planForMode } from '../lib/tactics/mode'
 import { DEFAULT_PARAMS, withParams } from '../lib/tactics/params'
 import {
   PHASE_KEYS,
@@ -127,5 +128,39 @@ describe('phases change how the match plays', () => {
       expect(state.finished).toBe(true)
       expect(state.metrics.home.shots + state.metrics.away.shots).toBeGreaterThan(0)
     }
+  })
+})
+
+describe('choosing between the two tactics systems', () => {
+  it('slider mode drops the phase overrides but leaves them in the plan', () => {
+    const plan = EXAMPLE_PLANS[0].plan
+    const simple = planForMode(plan, 'sliders')
+
+    expect(simple.byPhase).toBeUndefined()
+    expect(simple.base).toEqual(plan.base)
+    // The stored plan is untouched, so switching back restores everything.
+    expect(plan.byPhase).toBeDefined()
+    expect(planForMode(plan, 'phased')).toBe(plan)
+  })
+
+  it('is a real setting: the same plan plays differently in each mode', () => {
+    // "전환 사냥 · 정착하면 후퇴" only exists as phase overrides, so a side
+    // playing it in slider mode is playing a different game.
+    const plan = EXAMPLE_PLANS[0].plan
+
+    const recoveries = (mode: 'sliders' | 'phased') => {
+      let high = 0
+      for (let seed = 0; seed < 60; seed++) {
+        const final = runToEnd(setupOf({ phased: planForMode(plan, mode) }), seededRandom(seed))
+        high += final.metrics.home.highTurnovers
+      }
+      return high / 60
+    }
+
+    const phased = recoveries('phased')
+    const sliders = recoveries('sliders')
+
+    // The plan's whole idea is hunting the ball back the moment it is lost.
+    expect(phased).toBeGreaterThan(sliders)
   })
 })

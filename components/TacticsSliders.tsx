@@ -15,6 +15,7 @@ import {
 } from '../lib/tactics/phases'
 import { EXAMPLE_PLANS } from '../lib/tactics/plans'
 import { useGame } from './GameProvider'
+import { TacticsModePicker, useTacticsMode } from './TacticsMode'
 
 /** Every dial, in plain language, with what each end of it costs. */
 const DIALS: Record<TacticalParamKey, { label: string; low: string; high: string }> = {
@@ -61,24 +62,28 @@ export default function TacticsSliders() {
   const plan = state.plan
   const [phase, setPhase] = useState<Phase | 'BASE'>('BASE')
   const [open, setOpen] = useState(false)
+  const { mode } = useTacticsMode()
 
-  const editing: TacticalParams = phase === 'BASE' ? plan.base : paramsForPhase(plan, phase)
-  const editableKeys = phase === 'BASE' ? PARAM_KEYS : PHASE_KEYS[phase]
+  // Slider mode has no situations, so the editor always shows the base dials.
+  const scope: Phase | 'BASE' = mode === 'phased' ? phase : 'BASE'
+
+  const editing: TacticalParams = scope === 'BASE' ? plan.base : paramsForPhase(plan, scope)
+  const editableKeys = scope === 'BASE' ? PARAM_KEYS : PHASE_KEYS[scope]
 
   const change = (key: TacticalParamKey, value: number) => {
-    if (phase === 'BASE') {
+    if (scope === 'BASE') {
       setPlan({ ...plan, base: { ...plan.base, [key]: value } })
       return
     }
     const byPhase = { ...(plan.byPhase ?? {}) }
-    byPhase[phase] = { ...(byPhase[phase] ?? {}), [key]: value }
+    byPhase[scope] = { ...(byPhase[scope] ?? {}), [key]: value }
     setPlan({ ...plan, byPhase })
   }
 
   const clearPhase = () => {
-    if (phase === 'BASE') return
+    if (scope === 'BASE') return
     const byPhase = { ...(plan.byPhase ?? {}) }
-    delete byPhase[phase]
+    delete byPhase[scope]
     setPlan({ ...plan, byPhase })
   }
 
@@ -91,7 +96,7 @@ export default function TacticsSliders() {
         <span>
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">전술 상세</h3>
           <p className="mt-0.5 text-[11px] text-slate-500">
-            21개 값을 직접 조절하고, 상황마다 다르게 지시합니다.
+            21개 값을 직접 조절합니다. 상황별 지시는 방식을 골라서 켭니다.
           </p>
         </span>
         <span className="shrink-0 whitespace-nowrap rounded-lg bg-white/10 px-3 py-1.5 text-xs font-bold text-white">
@@ -101,6 +106,8 @@ export default function TacticsSliders() {
 
       {open && (
         <div className="mt-3">
+          <TacticsModePicker />
+
           <div className="mb-3">
             <div className="mb-1 text-[11px] font-bold text-slate-400">전술 불러오기</div>
             <div className="flex flex-wrap gap-1.5">
@@ -115,6 +122,7 @@ export default function TacticsSliders() {
                 </button>
               ))}
             </div>
+            {mode === 'phased' && (
             <div className="mt-1.5 flex flex-wrap gap-1.5">
               {EXAMPLE_PLANS.map((item) => (
                 <button
@@ -127,8 +135,10 @@ export default function TacticsSliders() {
                 </button>
               ))}
             </div>
+            )}
           </div>
 
+          {mode === 'phased' && (
           <div className="mb-3 flex flex-wrap gap-1.5">
             {(['BASE', ...PHASES] as const).map((key) => {
               const active = phase === key
@@ -151,15 +161,16 @@ export default function TacticsSliders() {
               )
             })}
           </div>
+          )}
 
-          {phase !== 'BASE' && (
+          {scope !== 'BASE' && (
             <div className="mb-3 flex items-center justify-between gap-2 rounded-lg bg-white/5 px-3 py-2">
               <p className="text-[11px] leading-relaxed text-slate-400">
                 이 상황에서만 다르게 갑니다. 건드리지 않은 값은 기본 전술을 그대로 씁니다.
               </p>
               <button
                 onClick={clearPhase}
-                disabled={!phaseDiffers(plan, phase)}
+                disabled={!phaseDiffers(plan, scope)}
                 className="shrink-0 whitespace-nowrap rounded-lg bg-white/10 px-2.5 py-1.5 text-[11px] font-bold text-slate-200 disabled:opacity-40"
               >
                 되돌리기
