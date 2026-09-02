@@ -80,7 +80,11 @@ export function computeOvr(stats: Stats, position: Position): number {
   return Math.round(total)
 }
 
-function buildStats(id: string, position: Position, target: number): Stats {
+/**
+ * Exported so the operator's card maker can show the exact card a roster row
+ * would produce, rather than a guess that turns out different after a deploy.
+ */
+export function buildStats(id: string, position: Position, target: number): Stats {
   const rng = seededRandom(hashString(id))
   const shape = ARCHETYPE[position]
   const raw: Record<string, number> = {}
@@ -146,7 +150,7 @@ export function hiddenPower(player: PlayerDef): number {
   return (clutch + stamina + bigMatch + consistency) / 4
 }
 
-const NATIONS = [
+export const NATIONS = [
   '대한민국',
   '브라질',
   '잉글랜드',
@@ -220,7 +224,7 @@ type RosterRow = [
  * player they are modelled on — same shirt, same country, a name one letter
  * off — without borrowing anyone's actual name.
  */
-const ROSTER: Record<Rarity, RosterRow[]> = {
+export const ROSTER: Record<Rarity, RosterRow[]> = {
   Normal: [
     ['김준성', 'GK', 58, '전북 모터스', '대한민국'],
     ['박철벽', 'GK', 61, '울산 호랑', '대한민국'],
@@ -294,7 +298,7 @@ const ROSTER: Record<Rarity, RosterRow[]> = {
   ],
 }
 
-const RARITY_PREFIX: Record<Rarity, string> = {
+export const RARITY_PREFIX: Record<Rarity, string> = {
   Normal: 'n',
   Rare: 'r',
   Legend: 'lg',

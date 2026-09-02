@@ -707,3 +707,126 @@ end $$;
 revoke all on function public.commit_pull(uuid, text, bigint, text, jsonb, int, int, boolean, jsonb) from public;
 revoke all on function public.commit_pull(uuid, text, bigint, text, jsonb, int, int, boolean, jsonb) from authenticated;
 grant execute on function public.commit_pull(uuid, text, bigint, text, jsonb, int, int, boolean, jsonb) to service_role;
+
+-- ---------------------------------------------------------------------------
+-- 7. 운영 도구 — 밸런스 값
+-- ---------------------------------------------------------------------------
+-- 운영자가 개발자를 거치지 않고 돌릴 수 있는 값들입니다. 브라우저만 쓰는
+-- 값이며, 뽑기 확률·팩 가격·천장은 여기 없습니다 — 그것들은 고지한 확률을
+-- 증명하기 위해 Edge Function에 번들되어 있고, 데이터베이스에 사본을 두면
+-- 조용히 어긋나는 두 번째 진실이 될 뿐입니다.
+--
+-- 상한과 하한을 값과 함께 저장합니다. 오타 하나로 게임이 망가지는 도구는
+-- 없느니만 못하므로, 서버에서도 범위를 강제합니다.
+
+create table if not exists public.game_config (
+  key        text primary key,
+  value      numeric not null,
+  min_value  numeric not null,
+  max_value  numeric not null,
+  updated_at timestamptz not null default now(),
+  updated_by uuid references auth.users on delete set null
+);
+
+alter table public.game_config enable row level security;
+-- 값은 게임이 읽어야 하므로 로그인한 사람 누구나 읽습니다. 쓰기는 정책이
+-- 없으므로 함수를 통해서만, 그리고 운영자만.
+drop policy if exists "players read the config" on public.game_config;
+create policy "players read the config" on public.game_config
+  for select to authenticated using (true);
+
+-- 누가 언제 무엇을 얼마에서 얼마로 바꿨는지. 밸런스가 이상해졌을 때
+-- 되짚을 수 있어야 합니다.
+create table if not exists public.config_audit (
+  id         bigserial primary key,
+  key        text not null,
+  before     numeric,
+  after      numeric not null,
+  changed_by uuid references auth.users on delete set null,
+  at         timestamptz not null default now()
+);
+
+alter table public.config_audit enable row level security;
+drop policy if exists "only operators read config history" on public.config_audit;
+create policy "only operators read config history" on public.config_audit
+  for select to authenticated using (public.is_admin());
+
+-- 노브를 등록합니다. 이미 있으면 값은 두고 범위만 최신으로 맞춥니다 —
+-- 운영자가 조절해 둔 값을 배포 때마다 되돌리지 않기 위해서입니다.
+create or replace function public.register_knob(
+  p_key text, p_default numeric, p_min numeric, p_max numeric
+) returns void
+  language sql
+  security definer
+  set search_path = public
+as $$
+  insert into public.game_config (key, value, min_value, max_value)
+  values (p_key, p_default, p_min, p_max)
+  on conflict (key) do update
+    set min_value = excluded.min_value,
+        max_value = excluded.max_value,
+        value = least(greatest(public.game_config.value, excluded.min_value), excluded.max_value);
+$$;
+
+create or replace function public.set_game_config(p_key text, p_value numeric)
+  returns jsonb
+  language plpgsql
+  security definer
+  set search_path = public
+as $$
+declare
+  v_row    public.game_config%rowtype;
+  v_before numeric;
+  v_next   numeric;
+begin
+  if not public.is_admin() then
+    return jsonb_build_object('ok', false, 'reason', 'not an operator');
+  end if;
+
+  select * into v_row from public.game_config where key = p_key;
+  if v_row.key is null then
+    return jsonb_build_object('ok', false, 'reason', 'unknown key');
+  end if;
+  -- Postgres의 numeric은 IEEE와 달리 NaN을 자기 자신과 같다고 봅니다. 그래서
+  -- 'NaN <> NaN'으로는 걸러지지 않고, 정렬에서는 가장 큰 값으로 취급되어
+  -- 그대로 두면 최댓값으로 조용히 설정됩니다.
+  if p_value is null or p_value = 'NaN'::numeric then
+    return jsonb_build_object('ok', false, 'reason', 'not a number');
+  end if;
+
+  v_before := v_row.value;
+  -- 범위 밖은 거절하지 않고 범위 안으로 당깁니다. 슬라이더를 끝까지 민 것을
+  -- 오류로 돌려주면 쓰기 불편하기만 합니다.
+  v_next := least(greatest(p_value, v_row.min_value), v_row.max_value);
+
+  update public.game_config
+     set value = v_next, updated_at = now(), updated_by = auth.uid()
+   where key = p_key;
+
+  insert into public.config_audit (key, before, after, changed_by)
+  values (p_key, v_before, v_next, auth.uid());
+
+  return jsonb_build_object('ok', true, 'key', p_key, 'value', v_next,
+                            'clamped', v_next <> p_value);
+end $$;
+
+revoke all on function public.set_game_config(text, numeric) from public;
+grant execute on function public.set_game_config(text, numeric) to authenticated;
+
+create or replace function public.config_history()
+  returns table (key text, before numeric, after numeric, email text, at timestamptz)
+  language sql
+  stable
+  security definer
+  set search_path = public
+as $$
+  select c.key, c.before, c.after, u.email, c.at
+  from public.config_audit c
+  left join auth.users u on u.id = c.changed_by
+  where public.is_admin()
+  order by c.id desc
+  limit 50;
+$$;
+
+revoke all on function public.config_history() from public;
+grant execute on function public.config_history() to authenticated;

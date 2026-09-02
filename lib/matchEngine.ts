@@ -1,4 +1,5 @@
 import { FORMATIONS } from './formations'
+import { KNOBS, tune } from './tuning'
 import { POSITION_GROUP } from './players'
 import type { LeagueTeam } from './league'
 import type { SlotEvaluation, SquadRating } from './squad'
@@ -21,7 +22,7 @@ import type { FormationKey, MatchEvent, MatchResult, Position } from './types'
 export type Venue = 'home' | 'away' | 'neutral'
 
 /** Rating bump for playing at home. */
-export const HOME_ADVANTAGE = 3
+export const HOME_ADVANTAGE = KNOBS.homeAdvantage.default
 /** How long play is halted, in ticks. */
 const STOPPAGE_TICKS: Record<StoppageKind, number> = {
   goal: 3,
@@ -118,11 +119,12 @@ const OPPONENT_PLAYERS = [
 const clamp = (n: number, min: number, max: number) => Math.max(min, Math.min(max, n))
 
 /** Condition a starter loses per minute at a normal tempo. */
-const STAMINA_DRAIN = 0.65
+/** Default; the operator can change it. Read through tune() at use sites. */
+const STAMINA_DRAIN = KNOBS.staminaDrain.default
 /** A keeper barely runs, so they hold their legs. */
-const KEEPER_DRAIN = 0.2
+const KEEPER_DRAIN = KNOBS.keeperDrain.default
 /** Below this a starter is worth pulling off mid match. */
-export const LIVE_TIRED = 55
+export const LIVE_TIRED = KNOBS.liveTired.default
 
 /** Seeds the tank from each starter's pre match condition. */
 function seedStamina(evaluations: SlotEvaluation[], current: Record<string, number> = {}): Record<string, number> {
@@ -285,8 +287,8 @@ interface Strength {
 export function strengthOf(setup: MatchSetup, rng: () => number, fitness = 1): Strength {
   const plan = tacticEffects(setup.tactic ?? DEFAULT_TACTIC)
   const traits = setup.traits ?? NO_TRAIT_EFFECTS
-  const homeBonus = setup.venue === 'home' ? HOME_ADVANTAGE : 0
-  const awayBonus = setup.venue === 'away' ? HOME_ADVANTAGE : 0
+  const homeBonus = setup.venue === 'home' ? tune('homeAdvantage') : 0
+  const awayBonus = setup.venue === 'away' ? tune('homeAdvantage') : 0
   const bigGame = setup.venue === 'neutral' ? traits.cup : 0
   const hiddenEdge = setup.team.hidden / 2
 
@@ -405,7 +407,7 @@ export function advance(
   let staminaSpent = 0
   for (const item of setup.team.evaluations) {
     if (!item.card) continue
-    const drain = (item.slotPosition === 'GK' ? KEEPER_DRAIN : STAMINA_DRAIN) * fatigue
+    const drain = (item.slotPosition === 'GK' ? tune('keeperDrain') : tune('staminaDrain')) * fatigue
     const before = stamina[item.card.uid]
     stamina[item.card.uid] = clamp(before - drain, 5, 100)
     staminaSpent += before - stamina[item.card.uid]

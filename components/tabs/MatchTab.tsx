@@ -1,8 +1,9 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { tune } from '../../lib/tuning'
 import { applyAutoSubs, type SubEvent } from '../../lib/autoSub'
-import { isInjured, TIRED_CONDITION } from '../../lib/condition'
+import { isInjured } from '../../lib/condition'
 import { CUP_ROUND_LABELS, cupTeamOf, myTie, tiesOfRound, type CupTie } from '../../lib/cup'
 import { MINI_GAME_LIMIT, miniGamesLeft } from '../../lib/daily'
 import type { LeagueTeam } from '../../lib/league'
@@ -25,7 +26,6 @@ import { evaluateSquad, missingSlots } from '../../lib/squad'
 import type { MatchResult, Squad } from '../../lib/types'
 import { MINI_GAME_REWARD, matchReward, simulateMatch } from '../../lib/match'
 import {
-  LIVE_TIRED,
   averageStamina,
   shapeFromSquad,
   tacticalStates,
@@ -296,7 +296,7 @@ function MatchDay() {
   const conditionOf = (card: Card) => engine.state?.stamina[card.uid] ?? card.condition
 
   const orderTiredSubs = () => {
-    const auto = applyAutoSubs(state.cards, plannedSquad, division, conditionOf, LIVE_TIRED)
+    const auto = applyAutoSubs(state.cards, plannedSquad, division, conditionOf, tune('liveTired'))
     if (auto.subs.length === 0) {
       setNotice('지금 빼야 할 만큼 지친 선수가 없습니다.')
       return
@@ -304,7 +304,7 @@ function MatchDay() {
     setShowSubs(false)
 
     if (engine.canIntervene) {
-      const applied = applyAutoSubs(state.cards, squadInPlay, division, conditionOf, LIVE_TIRED)
+      const applied = applyAutoSubs(state.cards, squadInPlay, division, conditionOf, tune('liveTired'))
       setLiveSquad(applied.squad)
       setSubs((current) => [...current, ...applied.subs])
       setNotice(`지친 선수 ${applied.subs.length}명 교체 — ${applied.subs.map((sub) => `${sub.outName} → ${sub.inName}`).join(', ')}`)
@@ -422,7 +422,7 @@ function MatchDay() {
   const squadStamina = live ? averageStamina(live, rating.evaluations) : 100
   const injured = state.cards.filter(isInjured).length
   const tired = state.cards.filter(
-    (card) => !isInjured(card) && card.condition < TIRED_CONDITION,
+    (card) => !isInjured(card) && card.condition < tune('tiredCondition'),
   ).length
   const events = live ? [...live.events].reverse() : []
 
@@ -470,7 +470,7 @@ function MatchDay() {
             전력 {rating.overall} · {isCupDay ? '중립' : isHome ? '홈' : '원정'}
           </div>
           {live && !engine.finished && (
-            <div className={`text-[11px] font-bold ${squadStamina < LIVE_TIRED ? 'text-amber-300' : 'text-slate-500'}`}>
+            <div className={`text-[11px] font-bold ${squadStamina < tune('liveTired') ? 'text-amber-300' : 'text-slate-500'}`}>
               평균 체력 {Math.round(squadStamina)}
             </div>
           )}
@@ -877,7 +877,7 @@ function InMatchTactics({
 
 /** Amber once a player is worth pulling off. */
 function tiredClass(condition: number): string {
-  return condition < LIVE_TIRED ? 'text-amber-300' : 'text-slate-400'
+  return condition < tune('liveTired') ? 'text-amber-300' : 'text-slate-400'
 }
 
 function SubPanel({

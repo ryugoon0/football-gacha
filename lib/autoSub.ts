@@ -1,11 +1,12 @@
 import { isInjured } from './condition'
+import { KNOBS, tune } from './tuning'
 import { FORMATIONS } from './formations'
 import { getPlayer } from './players'
 import { lineupCapOf, ratingInSlot } from './squad'
 import type { Card, Squad } from './types'
 
 /** A starter this tired is pulled when auto substitution is on. */
-export const TIRED_SUB_THRESHOLD = 45
+export const TIRED_SUB_THRESHOLD = KNOBS.tiredSubThreshold.default
 /** A substitute needs at least this much in the tank to come on. */
 export const SUB_READY_CONDITION = 55
 
@@ -31,7 +32,7 @@ export function applyAutoSubs(
   squad: Squad,
   division: number,
   conditionOf: (card: Card) => number = (card) => card.condition,
-  tiredBelow: number = TIRED_SUB_THRESHOLD,
+  tiredBelow: number = tune('tiredSubThreshold'),
 ): { squad: Squad; subs: SubEvent[] } {
   const formation = FORMATIONS[squad.formation] ?? FORMATIONS['4-3-3']
   const byUid = new Map(cards.map((card) => [card.uid, card]))

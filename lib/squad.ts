@@ -1,4 +1,5 @@
 import { conditionFactor, isInjured } from './condition'
+import { KNOBS, tune } from './tuning'
 import { FORMATIONS, emptySlots } from './formations'
 import { BOTTOM_DIVISION } from './league'
 import { POSITION_GROUP, effectiveOvr, getPlayer, hiddenPower } from './players'
@@ -30,7 +31,7 @@ export function lineupCapOf(division: number): number {
 export type PositionFit = 'main' | 'sub' | 'out' | 'empty'
 
 /** Playing away from a listed position wrecks a player's rating. */
-export const OUT_OF_POSITION_FACTOR = 0.55
+export const OUT_OF_POSITION_FACTOR = KNOBS.outOfPositionFactor.default
 const SUB_POSITION_PENALTY = 4
 
 export function positionFit(player: PlayerDef, slotPosition: Position): PositionFit {
@@ -43,7 +44,7 @@ export function ratingInSlot(player: PlayerDef, level: number, slotPosition: Pos
   const fit = positionFit(player, slotPosition)
   if (fit === 'main') return base
   if (fit === 'sub') return Math.max(20, base - SUB_POSITION_PENALTY)
-  return Math.max(15, Math.round(base * OUT_OF_POSITION_FACTOR))
+  return Math.max(15, Math.round(base * tune('outOfPositionFactor')))
 }
 
 export interface SlotEvaluation {

@@ -1,6 +1,7 @@
 'use client'
 
-import { MAX_CONDITION, TIRED_CONDITION } from '../lib/condition'
+import { MAX_CONDITION } from '../lib/condition'
+import { tune } from '../lib/tuning'
 import { effectiveOvr } from '../lib/players'
 import type { PlayerDef, Rarity } from '../lib/types'
 import PlayerAvatar from './PlayerAvatar'
@@ -124,7 +125,7 @@ export default function RetroPlayerCard({
         <div className="relative z-20 mb-1 h-1 rounded-full bg-black/25">
           <div
             className={`h-1 rounded-full ${
-              condition < TIRED_CONDITION ? 'bg-rose-600' : 'bg-emerald-600'
+              condition < tune('tiredCondition') ? 'bg-rose-600' : 'bg-emerald-600'
             }`}
             style={{ width: `${Math.max(0, Math.min(100, (condition / MAX_CONDITION) * 100))}%` }}
           />

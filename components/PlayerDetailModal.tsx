@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { tune } from '../lib/tuning'
 import {
   MAX_CONDITION,
-  TIRED_CONDITION,
   isInjured,
   recoveryCost,
   treatmentCost,
@@ -20,7 +20,7 @@ import {
 } from '../lib/players'
 import { RARITY_STYLES } from '../lib/rarity'
 import { sellPrice, shardsFor } from '../lib/shards'
-import { OUT_OF_POSITION_FACTOR, ratingInSlot } from '../lib/squad'
+import { ratingInSlot } from '../lib/squad'
 import { STAT_GROUPS, SUB_STATS, subStatLabel, subStatsOf } from '../lib/subStats'
 import { TRAITS, traitsOf } from '../lib/traits'
 import type { Card, PlayerDef, Stats } from '../lib/types'
@@ -144,7 +144,7 @@ export default function PlayerDetailModal({
                 <span>체력</span>
                 <span
                   className={`font-bold ${
-                    card.condition < TIRED_CONDITION ? 'text-rose-300' : 'text-white'
+                    card.condition < tune('tiredCondition') ? 'text-rose-300' : 'text-white'
                   }`}
                 >
                   {card.condition} / {MAX_CONDITION}
@@ -153,7 +153,7 @@ export default function PlayerDetailModal({
               <div className="mt-1 h-1.5 rounded-full bg-slate-700">
                 <div
                   className={`h-1.5 rounded-full ${
-                    card.condition < TIRED_CONDITION ? 'bg-rose-400' : 'bg-emerald-400'
+                    card.condition < tune('tiredCondition') ? 'bg-rose-400' : 'bg-emerald-400'
                   }`}
                   style={{ width: `${card.condition}%` }}
                 />
@@ -313,7 +313,7 @@ export default function PlayerDetailModal({
                 ))}
               </div>
               <p className="mt-2 text-[11px] text-slate-500">
-                이 외의 자리에 넣으면 능력치가 약 {Math.round((1 - OUT_OF_POSITION_FACTOR) * 100)}%
+                이 외의 자리에 넣으면 능력치가 약 {Math.round((1 - tune('outOfPositionFactor')) * 100)}%
                 깎입니다.
               </p>
             </section>

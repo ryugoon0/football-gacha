@@ -1,7 +1,8 @@
 'use client'
 
-import { REFRESH_COST } from '../../lib/market'
+
 import { divisionLabel } from '../../lib/league'
+import { tune } from '../../lib/tuning'
 import { getPlayer } from '../../lib/players'
 import { hasRoomFor } from '../../lib/vault'
 import { useGame } from '../GameProvider'
@@ -26,11 +27,11 @@ export default function MarketTab() {
           </div>
           <button
             onClick={refreshMarket}
-            disabled={state.gold < REFRESH_COST}
+            disabled={state.gold < tune('refreshCost')}
             className="rounded-xl bg-white/10 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-white/20 disabled:opacity-40"
           >
             매물 새로고침
-            <span className="ml-2 text-xs font-semibold opacity-70">{REFRESH_COST}G</span>
+            <span className="ml-2 text-xs font-semibold opacity-70">{tune('refreshCost')}G</span>
           </button>
         </div>
 

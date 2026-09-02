@@ -34,6 +34,16 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-02-operator-tools',
+    date: '2026-09-02',
+    kind: 'internal',
+    title: '운영 도구 — 밸런스 조절과 신규 카드 만들기',
+    detail: [
+      '체력 저하율 등 13개 값을 운영자 탭에서 바로 조절합니다. 저장하면 배포 없이 적용됩니다.',
+      '신규 카드는 게임이 실제로 만들 카드를 미리 보고, 붙여넣을 코드 한 줄을 받습니다.',
+    ],
+  },
+  {
     id: '2026-09-02-signup-fix',
     date: '2026-09-02',
     kind: 'fix',

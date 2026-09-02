@@ -1,11 +1,12 @@
 import { PLAYERS_BY_RARITY, getPlayer } from './players'
+import { KNOBS, tune } from './tuning'
 import { RARITIES } from './rarity'
 import type { Card, PlayerDef, Rarity, Squad } from './types'
 
 /** Cards needed for one upgrade. */
 export const FUSION_SIZE = 3
 /** Gold charged on top of the cards. */
-export const FUSION_FEE = 500
+export const FUSION_FEE = KNOBS.fusionFee.default
 
 export function nextRarity(rarity: Rarity): Rarity | null {
   const index = RARITIES.indexOf(rarity)
@@ -43,7 +44,8 @@ export function checkFusion(
   }
   const to = nextRarity(from)
   if (!to) return { ok: false, reason: '월드 등급은 더 올라갈 곳이 없습니다.', from }
-  if (gold < FUSION_FEE) return { ok: false, reason: `합성 비용 ${FUSION_FEE}G가 부족합니다.`, from, to }
+  const fee = tune('fusionFee')
+  if (gold < fee) return { ok: false, reason: `합성 비용 ${fee}G가 부족합니다.`, from, to }
 
   return { ok: true, from, to }
 }

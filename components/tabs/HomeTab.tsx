@@ -1,9 +1,10 @@
 'use client'
 
 import { useMemo } from 'react'
-import { isInjured, TIRED_CONDITION } from '../../lib/condition'
+import { tune } from '../../lib/tuning'
+import { isInjured } from '../../lib/condition'
 import { CUP_ROUND_LABELS, cupTeamOf, myTie } from '../../lib/cup'
-import { DAILY_MISSIONS, MINI_GAME_LIMIT, miniGamesLeft, missionClaimable } from '../../lib/daily'
+import { DAILY_MISSIONS, miniGamesLeft, missionClaimable } from '../../lib/daily'
 import {
   MY_TEAM_ID,
   ROUNDS_PER_SEASON,
@@ -48,7 +49,7 @@ export default function HomeTab({ onJump }: { onJump: (tab: string) => void }) {
   const rank = myRank(state.season)
   const injured = state.cards.filter(isInjured).length
   const tired = state.cards.filter(
-    (card) => !isInjured(card) && card.condition < TIRED_CONDITION,
+    (card) => !isInjured(card) && card.condition < tune('tiredCondition'),
   ).length
   const missionsLeft = DAILY_MISSIONS.filter((mission) => !state.daily.claimed.includes(mission.id))
   const claimable = DAILY_MISSIONS.filter((mission) => missionClaimable(state.daily, mission)).length
@@ -133,7 +134,7 @@ export default function HomeTab({ onJump }: { onJump: (tab: string) => void }) {
         />
         <Tile
           label="오늘"
-          value={`${miniGamesLeft(state.daily)} / ${MINI_GAME_LIMIT}`}
+          value={`${miniGamesLeft(state.daily)} / ${tune('miniGameLimit')}`}
           hint={state.daily.freeDrawUsed ? '무료 뽑기 완료' : '무료 뽑기 가능'}
         />
       </div>

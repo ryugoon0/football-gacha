@@ -1,3 +1,4 @@
+import { KNOBS, tune } from './tuning'
 export type MissionId = 'draw' | 'win' | 'train'
 
 export interface MissionDef {
@@ -24,7 +25,7 @@ export interface DailyState {
 }
 
 /** Friendlies a manager may play in one day. */
-export const MINI_GAME_LIMIT = 10
+export const MINI_GAME_LIMIT = KNOBS.miniGameLimit.default
 
 /** Local calendar day, so the reset happens at the player's midnight. */
 export function todayKey(now: Date = new Date()): string {
@@ -61,7 +62,7 @@ export function rollOver(daily: DailyState | undefined, today: string = todayKey
 }
 
 export function miniGamesLeft(daily: DailyState): number {
-  return Math.max(0, MINI_GAME_LIMIT - (daily.miniGames ?? 0))
+  return Math.max(0, tune('miniGameLimit') - (daily.miniGames ?? 0))
 }
 
 export function missionDone(daily: DailyState, mission: MissionDef): boolean {

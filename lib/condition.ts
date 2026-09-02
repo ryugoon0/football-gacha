@@ -1,14 +1,15 @@
 import { getPlayer } from './players'
+import { KNOBS, tune } from './tuning'
 import { playerTraitFactors } from './traits'
 import type { Card } from './types'
 
 export const MAX_CONDITION = 100
 /** Condition below this is flagged in the UI. */
-export const TIRED_CONDITION = 60
+export const TIRED_CONDITION = KNOBS.tiredCondition.default
 /** Gold per condition point when paying for recovery. */
-export const RECOVERY_COST_PER_POINT = 8
+export const RECOVERY_COST_PER_POINT = KNOBS.recoveryCostPerPoint.default
 /** Gold per remaining match when treating an injury. */
-export const TREATMENT_COST_PER_MATCH = 450
+export const TREATMENT_COST_PER_MATCH = KNOBS.treatmentCostPerMatch.default
 
 export function isInjured(card: Card): boolean {
   return card.injuredFor > 0
@@ -27,11 +28,11 @@ export function conditionFactor(condition: number): number {
 }
 
 export function recoveryCost(card: Card): number {
-  return Math.round((MAX_CONDITION - card.condition) * RECOVERY_COST_PER_POINT)
+  return Math.round((MAX_CONDITION - card.condition) * tune('recoveryCostPerPoint'))
 }
 
 export function treatmentCost(card: Card): number {
-  return card.injuredFor * TREATMENT_COST_PER_MATCH
+  return card.injuredFor * tune('treatmentCostPerMatch')
 }
 
 export interface MatchWear {

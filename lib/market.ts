@@ -1,10 +1,11 @@
 import { BOTTOM_DIVISION } from './league'
+import { KNOBS } from './tuning'
 import { PLAYERS_BY_RARITY, effectiveOvr, seededRandom } from './players'
 import { RARITY_STYLES } from './rarity'
 import type { PlayerDef, Rarity } from './types'
 
 export const MARKET_SIZE = 5
-export const REFRESH_COST = 300
+export const REFRESH_COST = KNOBS.refreshCost.default
 
 export interface Listing {
   id: string

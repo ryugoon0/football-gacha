@@ -1,4 +1,5 @@
 import { BOTTOM_DIVISION } from './league'
+import { KNOBS } from './tuning'
 import { runToEnd, toResult, type MatchSetup, type Venue } from './matchEngine'
 import type { MatchResult } from './types'
 
@@ -6,7 +7,7 @@ export { HOME_ADVANTAGE } from './matchEngine'
 export type { Venue, MatchSetup }
 
 /** Friendlies pay this share of a league match. */
-export const MINI_GAME_REWARD = 0.4
+export const MINI_GAME_REWARD = KNOBS.miniGameReward.default
 
 export function matchReward(result: 'W' | 'D' | 'L', division: number, scoreFor: number): number {
   const base = result === 'W' ? 420 : result === 'D' ? 180 : 70

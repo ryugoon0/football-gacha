@@ -10,6 +10,7 @@ import {
   useState,
   type ReactNode,
 } from 'react'
+import { loadTuning } from '../lib/configSync'
 import { todayKey, type MissionId } from '../lib/daily'
 import { FUSION_FEE, FUSION_SIZE, checkFusion, fusionResult } from '../lib/fusion'
 import { reducer, type MatchLineup, type RoundResult } from '../lib/gameReducer'
@@ -73,6 +74,12 @@ export interface AddCardsOptions {
 const GameContext = createContext<GameApi | null>(null)
 
 export function GameProvider({ children }: { children: ReactNode }) {
+  // The operator's balance settings, read once before anything is played.
+  // If the server cannot be reached the compiled defaults stand.
+  useEffect(() => {
+    void loadTuning()
+  }, [])
+
   const [state, dispatch] = useReducer(reducer, undefined, initialState)
   const [ready, setReady] = useState(false)
 
