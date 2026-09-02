@@ -34,6 +34,17 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-02-signup-fix',
+    date: '2026-09-02',
+    kind: 'fix',
+    title: '회원가입 문제 수정 — 확인 메일 링크와 안내',
+    detail: [
+      '확인 메일의 링크가 가입한 주소로 돌아옵니다. 예전에는 서버 기본 주소로 가서 링크가 열리지 않을 수 있었습니다.',
+      '이미 가입된 이메일이면 그렇다고 알려줍니다. 오지 않을 메일을 기다리지 않도록.',
+      '확인 메일 다시 보내기와 서버 연결 확인 버튼을 로그인 화면에 넣었습니다.',
+    ],
+  },
+  {
     id: '2026-09-02-build-stamp',
     date: '2026-09-02',
     kind: 'internal',

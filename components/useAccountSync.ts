@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { isSaveTooBig, planSync, readCloudSave, type CloudSave } from '../lib/cloudSave'
 import { friendlyError, getSupabase, isSupabaseConfigured, rejectionMessage } from '../lib/supabase'
 import { seedEconomy } from '../lib/serverDraw'
+import { SIGN_UP_MESSAGE, signUpOutcome } from '../lib/signup'
 import type { GameState } from '../lib/types'
 
 export type AccountStatus = 'off' | 'loading' | 'signedOut' | 'signedIn'
@@ -24,6 +25,8 @@ export interface AccountApi {
   conflict: CloudSave | null
   syncing: boolean
   signUp: (email: string, password: string) => Promise<void>
+  /** Sends the confirmation mail again. */
+  resendConfirmation: (email: string) => Promise<void>
   signIn: (email: string, password: string) => Promise<void>
   signOut: () => Promise<void>
   resolveConflict: (choice: 'useLocal' | 'useCloud') => Promise<void>
@@ -179,15 +182,47 @@ export function useAccountSync(
     if (!supabase) return
     setError(null)
     setSyncing(true)
-    const { data, error: signUpError } = await supabase.auth.signUp({ email, password })
+    const { data, error: signUpError } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        // Without this the link in the mail points at the project's Site URL,
+        // which is localhost until someone changes it — so the person clicks a
+        // link that goes nowhere. Sending them back where they signed up works
+        // from any deployment.
+        emailRedirectTo: typeof window === 'undefined' ? undefined : window.location.origin,
+      },
+    })
     setSyncing(false)
     if (signUpError) {
       setError(friendlyError(signUpError.message))
       return
     }
-    if (!data.session) {
-      setNotice('가입 확인 메일을 보냈습니다. 메일의 링크를 누른 뒤 로그인해 주세요.')
+    const outcome = signUpOutcome(data)
+    if (outcome.kind === 'signedIn') return
+    if (outcome.kind === 'alreadyRegistered') setError(SIGN_UP_MESSAGE.alreadyRegistered)
+    else setNotice(SIGN_UP_MESSAGE.checkMail)
+  }, [])
+
+  /** Sends the confirmation mail again. The first one is often lost or filtered. */
+  const resendConfirmation = useCallback(async (email: string) => {
+    const supabase = getSupabase()
+    if (!supabase) return
+    setError(null)
+    setSyncing(true)
+    const { error: resendError } = await supabase.auth.resend({
+      type: 'signup',
+      email,
+      options: {
+        emailRedirectTo: typeof window === 'undefined' ? undefined : window.location.origin,
+      },
+    })
+    setSyncing(false)
+    if (resendError) {
+      setError(friendlyError(resendError.message))
+      return
     }
+    setNotice('확인 메일을 다시 보냈습니다. 스팸함도 확인해 주세요.')
   }, [])
 
   const signIn = useCallback(async (email: string, password: string) => {
@@ -238,6 +273,7 @@ export function useAccountSync(
     conflict,
     syncing,
     signUp,
+    resendConfirmation,
     signIn,
     signOut,
     resolveConflict,

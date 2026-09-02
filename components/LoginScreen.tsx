@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { BUILD_REF, configStatus } from '../lib/supabase'
+import { checkConnection, configStatus } from '../lib/supabase'
+import { buildLabel } from '../lib/build'
 import LockerRoomScene from './LockerRoomScene'
 import { useGame } from './GameProvider'
 
@@ -14,6 +15,15 @@ export default function LoginScreen() {
   const [mode, setMode] = useState<'signIn' | 'signUp'>('signIn')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [probe, setProbe] = useState<string | null>(null)
+  const [probing, setProbing] = useState(false)
+
+  const runProbe = async () => {
+    setProbing(true)
+    const result = await checkConnection()
+    setProbing(false)
+    setProbe(`${result.ok ? '정상' : '문제'} — ${result.message}`)
+  }
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -104,12 +114,37 @@ export default function LoginScreen() {
           </p>
         )}
 
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          <button
+            type="button"
+            onClick={() => void account.resendConfirmation(email.trim())}
+            disabled={!email.trim() || account.syncing}
+            className="flex-1 whitespace-nowrap rounded-lg bg-white/5 px-2.5 py-2 text-[11px] font-bold text-slate-300 disabled:opacity-40"
+          >
+            확인 메일 다시 보내기
+          </button>
+          <button
+            type="button"
+            onClick={() => void runProbe()}
+            disabled={probing}
+            className="flex-1 whitespace-nowrap rounded-lg bg-white/5 px-2.5 py-2 text-[11px] font-bold text-slate-300 disabled:opacity-40"
+          >
+            {probing ? '확인 중...' : '서버 연결 확인'}
+          </button>
+        </div>
+
+        {probe && (
+          <p className="mt-2 break-words rounded-lg bg-white/5 px-3 py-2 text-[11px] leading-relaxed text-slate-400">
+            {probe}
+          </p>
+        )}
+
         <p className="mt-4 text-[11px] leading-relaxed text-slate-500">
           진행 상황은 계정에 저장되어 어느 기기에서든 이어서 할 수 있습니다. 가입 확인 메일이 오면
           링크를 누른 뒤 로그인해 주세요.
         </p>
         <p className="mt-2 text-[11px] text-slate-700">
-          빌드 {BUILD_REF} · 주소 {configStatus().url ? '있음' : '없음'} · 키{' '}
+          빌드 {buildLabel()} · 주소 {configStatus().url ? '있음' : '없음'} · 키{' '}
           {configStatus().key ? '있음' : '없음'}
         </p>
       </div>
