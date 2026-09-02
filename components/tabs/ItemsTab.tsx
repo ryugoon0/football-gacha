@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import {
   ITEMS,
   ITEM_IDS,
+  visibleItemIds,
   itemCount,
   priceOf,
   purchaseProblem,
@@ -34,6 +35,9 @@ function Price({ item, currency }: { item: ItemDef; currency: Currency }) {
 
 export default function ItemsTab() {
   const { state, buyItem, spendItemOnCard, spendItemOnClub } = useGame()
+  // The operator can take an item off the shelf without a deploy; anything
+  // already bought stays in the bag below.
+  const shelf = visibleItemIds()
   const [side, setSide] = useState<'shop' | 'bag'>('shop')
   const [count, setCount] = useState(1)
   const [note, setNote] = useState<string | null>(null)
@@ -151,8 +155,14 @@ export default function ItemsTab() {
             </div>
           </div>
 
+          {shelf.length === 0 && (
+            <p className="mt-3 rounded-xl bg-white/5 px-3 py-4 text-center text-[11px] text-slate-500">
+              지금은 파는 물건이 없습니다. 잠시 뒤에 다시 와 주세요.
+            </p>
+          )}
+
           <ul className="mt-3 space-y-2">
-            {ITEM_IDS.map((id) => {
+            {shelf.map((id) => {
               const item = ITEMS[id]
               const left = remainingToday(item, state.daily.shopBuys)
               return (

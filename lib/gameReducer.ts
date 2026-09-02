@@ -43,7 +43,7 @@ import {
 import { dailyMarket, type Listing } from './market'
 import { getPlayer, levelCap } from './players'
 import { autoFill } from './squad'
-import { releaseValue, type ShardOffer } from './shards'
+import { costOf, releaseValue, type ShardOffer } from './shards'
 import { TOTAL_MATCHDAYS } from './schedule'
 import type { TacticSetup } from './tactics'
 import { paramsFromSetup } from './tactics/bridge'
@@ -225,11 +225,15 @@ export function reducer(state: GameState, action: Action): GameState {
 
     case 'exchangeShards': {
       const { offer, player } = action
-      if (state.shards < offer.cost) return state
+      // Charge what the counter asks now, not the price the screen was showing.
+      // An operator changing it while a tab sits open should not sell a card at
+      // yesterday's rate.
+      const cost = costOf(offer.rarity)
+      if (state.shards < cost) return state
       if (!hasRoomFor(state.cards.length, state.capacity, 1)) return state
       return {
         ...state,
-        shards: state.shards - offer.cost,
+        shards: state.shards - cost,
         cards: [...state.cards, newCard(player.id)],
         collected: Array.from(new Set([...state.collected, player.id])),
       }

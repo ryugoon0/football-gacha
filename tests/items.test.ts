@@ -12,9 +12,24 @@ import {
   priceBounds,
   priceKey,
   resetItemPrices,
+  resetItemVisibility,
   setItemPrices,
+  setItemVisibility,
+  isItemVisible,
+  visibleItemIds,
+  visibleKey,
 } from '../lib/items'
+import {
+  SHARD_OFFERS,
+  costOf,
+  exchangeBounds,
+  offerKey,
+  resetExchangeCosts,
+  setExchangeCosts,
+  shardOffers,
+} from '../lib/shards'
 import { reducer } from '../lib/gameReducer'
+import { PLAYERS_BY_RARITY } from '../lib/players'
 import { initialState } from '../lib/storage'
 import { MAX_CONDITION } from '../lib/condition'
 import { MAX_CAPACITY } from '../lib/vault'
@@ -201,5 +216,113 @@ describe('the operator moving a price', () => {
     expect(bounds.max).toBe(200 * 50)
     // A cheap item still gets room to move.
     expect(priceBounds(1).max).toBeGreaterThanOrEqual(100)
+  })
+})
+
+describe('상점 진열 — 운영자가 물건을 내리는 것', () => {
+  it('기본은 전부 판매 중이다', () => {
+    resetItemVisibility()
+    expect(visibleItemIds()).toEqual(ITEM_IDS)
+    for (const id of ITEM_IDS) expect(isItemVisible(id)).toBe(true)
+  })
+
+  it('내린 물건은 진열에서 빠진다', () => {
+    setItemVisibility({ [visibleKey('medkit')]: 0 })
+    expect(isItemVisible('medkit')).toBe(false)
+    expect(visibleItemIds()).not.toContain('medkit')
+    expect(visibleItemIds()).toContain('drink')
+    resetItemVisibility()
+  })
+
+  it('내린 물건은 살 수도 없다', () => {
+    // 진열만 막으면 열어 둔 화면에서 그대로 팔린다.
+    setItemVisibility({ [visibleKey('medkit')]: 0 })
+    const problem = purchaseProblem({
+      item: ITEMS.medkit,
+      currency: 'gold',
+      count: 1,
+      gold: 999_999,
+      shards: 999_999,
+      buys: undefined,
+    })
+    expect(problem).toBe('지금은 팔지 않는 물건입니다.')
+    resetItemVisibility()
+    expect(
+      purchaseProblem({
+        item: ITEMS.medkit,
+        currency: 'gold',
+        count: 1,
+        gold: 999_999,
+        shards: 999_999,
+        buys: undefined,
+      }),
+    ).toBeNull()
+  })
+
+  it('이미 산 물건은 내려도 그대로 쓴다', () => {
+    // 내리는 것은 선반이지 가방이 아니다.
+    setItemVisibility({ [visibleKey('medkit')]: 0 })
+    const hurt = card({ injuredFor: 3 })
+    expect(applyToCard('medkit', hurt)?.injuredFor).toBe(0)
+    resetItemVisibility()
+  })
+
+  it('절반 미만만 숨김으로 본다', () => {
+    setItemVisibility({ [visibleKey('drink')]: 1, [visibleKey('medkit')]: 0 })
+    expect(isItemVisible('drink')).toBe(true)
+    expect(isItemVisible('medkit')).toBe(false)
+    resetItemVisibility()
+  })
+})
+
+describe('조각 교환소 비용', () => {
+  it('기본값은 코드에 적힌 표 그대로다', () => {
+    resetExchangeCosts()
+    for (const offer of SHARD_OFFERS) expect(costOf(offer.rarity)).toBe(offer.cost)
+    expect(shardOffers()).toEqual(SHARD_OFFERS)
+  })
+
+  it('운영자가 바꾼 값이 화면과 결제 양쪽에 쓰인다', () => {
+    setExchangeCosts({ [offerKey('Legend')]: 120 })
+    expect(costOf('Legend')).toBe(120)
+    expect(shardOffers().find((offer) => offer.rarity === 'Legend')?.cost).toBe(120)
+    // 건드리지 않은 등급은 그대로다.
+    expect(costOf('World')).toBe(800)
+    resetExchangeCosts()
+  })
+
+  it('공짜는 만들 수 없다', () => {
+    // 0은 싼 값이 아니라 카드 무제한이다. 서버 범위도 1부터다.
+    for (const offer of SHARD_OFFERS) expect(exchangeBounds(offer.cost).min).toBe(1)
+    setExchangeCosts({ [offerKey('World')]: 0 })
+    expect(costOf('World')).toBe(800)
+    resetExchangeCosts()
+  })
+
+  it('교환은 화면에 적혀 있던 값이 아니라 지금 값으로 결제한다', () => {
+    // 탭을 열어 둔 채 운영자가 값을 올리면 옛 가격으로 팔리면 안 된다.
+    setExchangeCosts({ [offerKey('Rare')]: 200 })
+    const state: GameState = { ...initialState(), shards: 210 }
+    const stale = { rarity: 'Rare' as const, cost: 60 }
+    const next = reducer(state, {
+      type: 'exchangeShards',
+      offer: stale,
+      player: PLAYERS_BY_RARITY.Rare[0],
+    })
+    expect(next.shards).toBe(10)
+    expect(next.cards.length).toBe(state.cards.length + 1)
+    resetExchangeCosts()
+  })
+
+  it('조각이 모자라면 아무것도 일어나지 않는다', () => {
+    setExchangeCosts({ [offerKey('Rare')]: 200 })
+    const state: GameState = { ...initialState(), shards: 199 }
+    const next = reducer(state, {
+      type: 'exchangeShards',
+      offer: { rarity: 'Rare', cost: 60 },
+      player: PLAYERS_BY_RARITY.Rare[0],
+    })
+    expect(next).toBe(state)
+    resetExchangeCosts()
   })
 })

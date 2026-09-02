@@ -1,5 +1,16 @@
 import { getSupabase } from './supabase'
-import { ITEMS, ITEM_IDS, priceBounds, priceKey, setItemPrices, type Currency } from './items'
+import {
+  ITEMS,
+  ITEM_IDS,
+  VISIBLE_BOUNDS,
+  priceBounds,
+  priceKey,
+  setItemPrices,
+  setItemVisibility,
+  visibleKey,
+  type Currency,
+} from './items'
+import { SHARD_OFFERS, exchangeBounds, offerKey, setExchangeCosts } from './shards'
 import { KNOBS, KNOB_KEYS, setTuning, type KnobKey } from './tuning'
 
 /**
@@ -22,6 +33,8 @@ export async function loadTuning(): Promise<boolean> {
   }
   setTuning(values)
   setItemPrices(values)
+  setItemVisibility(values)
+  setExchangeCosts(values)
   return true
 }
 
@@ -46,7 +59,28 @@ export async function registerKnobs(): Promise<void> {
     }),
   )
 
-  await Promise.all([...knobs, ...prices].map((args) => supabase.rpc('register_knob', args)))
+  // One switch per item. Default 1 — a new item is on the shelf unless the
+  // operator takes it down, never the other way round.
+  const shelf = ITEM_IDS.map((id) => ({
+    p_key: visibleKey(id),
+    p_default: 1,
+    p_min: VISIBLE_BOUNDS.min,
+    p_max: VISIBLE_BOUNDS.max,
+  }))
+
+  const exchange = SHARD_OFFERS.map((offer) => {
+    const bounds = exchangeBounds(offer.cost)
+    return {
+      p_key: offerKey(offer.rarity),
+      p_default: offer.cost,
+      p_min: bounds.min,
+      p_max: bounds.max,
+    }
+  })
+
+  await Promise.all(
+    [...knobs, ...prices, ...shelf, ...exchange].map((args) => supabase.rpc('register_knob', args)),
+  )
 }
 
 export async function saveKnob(

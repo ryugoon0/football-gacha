@@ -178,6 +178,46 @@ export function priceBounds(base: number): { min: number; max: number } {
   return { min: 0, max: Math.max(100, base * 50) }
 }
 
+/**
+ * Whether an item is on the shelf.
+ *
+ * Stored as a knob like everything else — 1 shown, 0 hidden — so taking an
+ * item down needs no deploy. Pulling something that turned out broken should
+ * take a switch, not a release.
+ *
+ * Hiding is not the same as deleting: items already bought stay in the bag and
+ * still work. Only the shelf changes.
+ */
+export function visibleKey(id: ItemId): string {
+  return `show:${id}`
+}
+
+export const VISIBLE_BOUNDS = { min: 0, max: 1 }
+
+let hidden = new Set<ItemId>()
+
+export function setItemVisibility(next: Record<string, number>): void {
+  const off = new Set<ItemId>()
+  for (const id of ITEM_IDS) {
+    const value = next[visibleKey(id)]
+    if (typeof value === 'number' && Number.isFinite(value) && value < 0.5) off.add(id)
+  }
+  hidden = off
+}
+
+export function resetItemVisibility(): void {
+  hidden = new Set()
+}
+
+export function isItemVisible(id: ItemId): boolean {
+  return !hidden.has(id)
+}
+
+/** What the shop should show, in the catalogue's order. */
+export function visibleItemIds(): ItemId[] {
+  return ITEM_IDS.filter(isItemVisible)
+}
+
 export function boughtToday(buys: Record<string, number> | undefined, id: ItemId): number {
   return Math.max(0, Math.floor(buys?.[id] ?? 0))
 }
@@ -207,6 +247,9 @@ export function purchaseProblem({
   buys: Record<string, number> | undefined
 }): string | null {
   if (!Number.isInteger(count) || count < 1) return '수량을 확인해 주세요.'
+  // Checked here and not only on the shelf: a screen left open while an item
+  // was taken down would otherwise still sell it.
+  if (!isItemVisible(item.id)) return '지금은 팔지 않는 물건입니다.'
   const unit = priceOf(item, currency)
   if (unit === null) return currency === 'gold' ? '골드로는 살 수 없습니다.' : '조각으로는 살 수 없습니다.'
 

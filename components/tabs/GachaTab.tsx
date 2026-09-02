@@ -22,7 +22,7 @@ import {
 } from '../../lib/serverDraw'
 import { RARITIES, RARITY_STYLES } from '../../lib/rarity'
 import { hasRoomFor } from '../../lib/vault'
-import { SHARD_OFFERS, offerLabel } from '../../lib/shards'
+import { offerLabel, shardOffers } from '../../lib/shards'
 import type { PlayerDef, PositionGroup, Rarity } from '../../lib/types'
 import { useGame } from '../GameProvider'
 import PlayerCard from '../PlayerCard'
@@ -352,7 +352,7 @@ export default function GachaTab() {
           선수를 방출하면 골드와 함께 조각을 받습니다. 조각을 모으면 등급을 지정해 카드를 받을 수 있습니다.
         </p>
         <div className="mt-3 grid gap-2 sm:grid-cols-4">
-          {SHARD_OFFERS.map((offer) => (
+          {shardOffers().map((offer) => (
             <button
               key={offer.rarity}
               onClick={() => {
