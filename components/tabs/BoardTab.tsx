@@ -7,6 +7,7 @@ import {
   PAGE_SIZE,
   TITLE_MAX,
   nicknameFrom,
+  sortPosts,
   timeAgo,
   validateComment,
   validatePost,
@@ -23,6 +24,8 @@ interface PostRow {
   title: string
   body: string
   created_at: string
+  notice?: boolean
+  patch_ids?: string[]
 }
 
 interface CommentRow {
@@ -41,6 +44,8 @@ const toPost = (row: PostRow): Post => ({
   title: row.title,
   body: row.body,
   createdAt: row.created_at,
+  notice: Boolean(row.notice),
+  patchIds: row.patch_ids ?? [],
 })
 
 const toComment = (row: CommentRow): Comment => ({
@@ -69,7 +74,8 @@ export default function BoardTab() {
     setLoading(true)
     const { data, error: queryError } = await supabase
       .from('posts')
-      .select('id, user_id, nickname, title, body, created_at')
+      .select('id, user_id, nickname, title, body, created_at, notice, patch_ids')
+      .order('notice', { ascending: false })
       .order('created_at', { ascending: false })
       .limit(PAGE_SIZE)
     setLoading(false)
@@ -78,7 +84,7 @@ export default function BoardTab() {
       return
     }
     setError(null)
-    setPosts((data ?? []).map((row) => toPost(row as PostRow)))
+    setPosts(sortPosts((data ?? []).map((row) => toPost(row as PostRow))))
   }, [])
 
   useEffect(() => {
@@ -167,7 +173,14 @@ export default function BoardTab() {
                 onClick={() => setOpen(post)}
                 className="w-full py-3 text-left transition hover:bg-white/5"
               >
-                <div className="truncate text-sm font-bold text-white">{post.title}</div>
+                <div className="flex min-w-0 items-center gap-1.5">
+                  {post.notice && (
+                    <span className="shrink-0 whitespace-nowrap rounded bg-emerald-400 px-1.5 py-0.5 text-[10px] font-black text-slate-900">
+                      공지
+                    </span>
+                  )}
+                  <div className="truncate text-sm font-bold text-white">{post.title}</div>
+                </div>
                 <div className="mt-0.5 text-[11px] text-slate-500">
                   {post.nickname} · {timeAgo(post.createdAt)}
                 </div>
@@ -348,6 +361,11 @@ function PostView({
         )}
       </div>
 
+      {post.notice && (
+        <span className="mb-1 inline-block whitespace-nowrap rounded bg-emerald-400 px-1.5 py-0.5 text-[10px] font-black text-slate-900">
+          공지
+        </span>
+      )}
       <h2 className="text-lg font-black text-white">{post.title}</h2>
       <p className="mt-1 text-[11px] text-slate-500">
         {post.nickname} · {timeAgo(post.createdAt)}

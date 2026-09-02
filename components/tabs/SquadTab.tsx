@@ -20,6 +20,7 @@ import { TRAITS, traitsOf } from '../../lib/traits'
 import type { Card, FormationKey, Position } from '../../lib/types'
 import { useGame } from '../GameProvider'
 import TacticsSliders from '../TacticsSliders'
+import TacticsCompare from '../TacticsCompare'
 import PlayerCard from '../PlayerCard'
 
 const FIT_RING: Record<string, string> = {
@@ -342,6 +343,7 @@ export default function SquadTab() {
         </section>
 
         <TacticsSliders />
+      <TacticsCompare />
 
         <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
           <div className="flex items-center justify-between">

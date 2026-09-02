@@ -13,6 +13,18 @@ export interface Post {
   title: string
   body: string
   createdAt: string
+  /** Operator announcements sit above ordinary posts. */
+  notice: boolean
+  /** Which patch log entries this notice covers. Empty for ordinary posts. */
+  patchIds: string[]
+}
+
+/** Notices first, then newest first within each group. */
+export function sortPosts(posts: Post[]): Post[] {
+  return [...posts].sort((a, b) => {
+    if (a.notice !== b.notice) return a.notice ? -1 : 1
+    return a.createdAt < b.createdAt ? 1 : a.createdAt > b.createdAt ? -1 : 0
+  })
 }
 
 export interface Comment {

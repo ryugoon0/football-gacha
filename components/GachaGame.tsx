@@ -7,8 +7,10 @@ import { GameProvider, useGame } from './GameProvider'
 import AccountPanel from './AccountPanel'
 import { CardStyleProvider, CardStyleToggle } from './CardStyle'
 import { TacticsModeProvider } from './TacticsMode'
+import { useAdmin } from './useAdmin'
 import GuideOverlay from './GuideOverlay'
 import LoginScreen from './LoginScreen'
+import AdminTab from './tabs/AdminTab'
 import BoardTab from './tabs/BoardTab'
 import ClubTab from './tabs/ClubTab'
 import HomeTab from './tabs/HomeTab'
@@ -25,6 +27,8 @@ const TABS = [
   { key: 'club', label: '선수단' },
   { key: 'match', label: '경기' },
   { key: 'board', label: '게시판' },
+  // Only rendered for operators; the server checks again on every action.
+  { key: 'admin', label: '운영자' },
 ] as const
 
 type TabKey = (typeof TABS)[number]['key']
@@ -54,6 +58,8 @@ function Shell() {
   const [helpOpen, setHelpOpen] = useState(false)
   const [accountOpen, setAccountOpen] = useState(false)
   const rating = useMemo(() => evaluateSquad(state.cards, state.squad), [state.cards, state.squad])
+  const { isAdmin } = useAdmin(account)
+  const tabs = useMemo(() => TABS.filter((item) => item.key !== 'admin' || isAdmin), [isAdmin])
 
   const showGuide = helpOpen || (ready && !state.guideDone)
 
@@ -138,7 +144,7 @@ function Shell() {
 
         {/* Tab labels never wrap — the type shrinks on narrow phones instead. */}
         <nav className="mx-auto flex max-w-6xl gap-1 overflow-x-auto px-4">
-          {TABS.map((item) => (
+          {tabs.map((item) => (
             <button
               key={item.key}
               onClick={() => setTab(item.key)}
@@ -166,6 +172,7 @@ function Shell() {
             {tab === 'club' && <ClubTab />}
             {tab === 'match' && <MatchTab />}
             {tab === 'board' && <BoardTab />}
+            {tab === 'admin' && <AdminTab />}
           </>
         )}
       </div>

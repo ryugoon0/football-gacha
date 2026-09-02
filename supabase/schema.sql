@@ -84,3 +84,63 @@ create policy "members write their own comments" on public.comments
 drop policy if exists "members delete their own comments" on public.comments;
 create policy "members delete their own comments" on public.comments
   for delete to authenticated using (auth.uid() = user_id);
+
+-- ---------------------------------------------------------------------------
+-- 3. 운영자와 공지사항
+-- ---------------------------------------------------------------------------
+-- 운영자는 이 표에 들어 있는 계정뿐입니다. 넣고 빼는 일은 SQL Editor에서만
+-- 할 수 있습니다 — insert 정책이 없으므로 앱에서는 아무도 스스로를 운영자로
+-- 만들 수 없습니다.
+--
+-- 본인을 운영자로 등록하려면 (한 번만):
+--   insert into public.admins (user_id)
+--   select id from auth.users where email = 'your@email.com'
+--   on conflict do nothing;
+create table if not exists public.admins (
+  user_id  uuid primary key references auth.users on delete cascade,
+  added_at timestamptz not null default now()
+);
+
+alter table public.admins enable row level security;
+
+-- 자기가 운영자인지만 확인할 수 있습니다. 운영자 명단 전체는 보이지 않습니다.
+drop policy if exists "you can check your own admin row" on public.admins;
+create policy "you can check your own admin row" on public.admins
+  for select to authenticated using (auth.uid() = user_id);
+
+-- security definer라 admins의 RLS를 거치지 않고 확인합니다. 정책 안에서
+-- 스스로를 다시 부르지 않도록 하기 위한 것입니다.
+create or replace function public.is_admin()
+  returns boolean
+  language sql
+  stable
+  security definer
+  set search_path = public
+as $$
+  select exists (select 1 from public.admins where user_id = auth.uid());
+$$;
+
+revoke all on function public.is_admin() from public;
+grant execute on function public.is_admin() to authenticated;
+
+-- 공지사항은 게시판의 글이되 운영자만 세울 수 있는 깃발입니다.
+alter table public.posts add column if not exists notice boolean not null default false;
+-- 이 공지가 어떤 패치 로그 항목들을 담고 있는지. 중복 공지를 막는 데 씁니다.
+alter table public.posts add column if not exists patch_ids text[] not null default '{}';
+
+create index if not exists posts_notice_idx on public.posts (notice, created_at desc);
+
+-- 글쓰기 정책을 다시 깝니다: 공지 깃발은 운영자만 세울 수 있습니다.
+drop policy if exists "members write their own posts" on public.posts;
+create policy "members write their own posts" on public.posts
+  for insert to authenticated
+  with check (
+    auth.uid() = user_id
+    and (notice = false or public.is_admin())
+  );
+
+-- 운영자는 공지를 내릴 수 있어야 합니다. 일반 글은 여전히 본인 것만.
+drop policy if exists "members delete their own posts" on public.posts;
+create policy "members delete their own posts" on public.posts
+  for delete to authenticated
+  using (auth.uid() = user_id or public.is_admin());

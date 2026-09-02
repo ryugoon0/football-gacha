@@ -1,0 +1,192 @@
+/**
+ * Every change that has shipped, newest first.
+ *
+ * This file is the record. A change is not finished until it has an entry
+ * here, so the log is written at the same time as the code rather than
+ * reconstructed afterwards.
+ *
+ * Nothing here is published on its own. The operator reads the log on the
+ * 운영자 tab, picks the entries players should hear about, and those become a
+ * patch note posted to 공지사항. Internal work — refactors, security fixes,
+ * repository chores — can stay in the log and never leave it.
+ */
+
+export type PatchKind = 'feature' | 'balance' | 'fix' | 'internal'
+
+export const PATCH_KIND_LABELS: Record<PatchKind, string> = {
+  feature: '추가',
+  balance: '조정',
+  fix: '수정',
+  internal: '내부',
+}
+
+export interface PatchEntry {
+  /** Stable id. Never reuse or renumber — published notices point at these. */
+  id: string
+  /** ISO date the change shipped. */
+  date: string
+  kind: PatchKind
+  /** One line, written for a player rather than a developer. */
+  title: string
+  /** Optional detail lines. */
+  detail?: string[]
+}
+
+export const PATCH_LOG: PatchEntry[] = [
+  {
+    id: '2026-09-02-tactics-compare',
+    date: '2026-09-02',
+    kind: 'feature',
+    title: '전술 비교 — 두 전술을 같은 상대·같은 운으로 겨뤄 봅니다',
+    detail: [
+      '스쿼드 탭의 전술 비교에서 두 전술을 골라 30·60·120경기를 치릅니다.',
+      '승점, 득실, 기대 득점, 점유율, PPDA, 상대 진영 탈취까지 나란히 보여줍니다.',
+      '두 전술은 같은 난수를 씁니다. 표의 차이는 운이 아니라 전술이 만든 것입니다.',
+    ],
+  },
+  {
+    id: '2026-09-02-patch-board',
+    date: '2026-09-02',
+    kind: 'internal',
+    title: '운영자 전용 패치 로그 게시판과 공지 발행 기능',
+    detail: [
+      '바뀐 내용이 패치 로그로 남고, 운영자가 고른 항목만 공지사항으로 나갑니다.',
+    ],
+  },
+  {
+    id: '2026-09-02-tactics-mode',
+    date: '2026-09-02',
+    kind: 'feature',
+    title: '전술 방식 선택 — 슬라이더냐, 국면 분리냐',
+    detail: [
+      '스쿼드 → 전술 상세 맨 위에서 고릅니다.',
+      '슬라이더는 21개 값 하나로 90분을 지시하고, 국면 분리는 네 상황마다 따로 지시합니다.',
+      '고른 방식이 실제 경기에 반영됩니다. 국면 지시는 방식을 바꿔도 저장돼 있습니다.',
+    ],
+  },
+  {
+    id: '2026-09-02-card-style',
+    date: '2026-09-02',
+    kind: 'feature',
+    title: '카드1 / 카드2 — 예전 카드 디자인을 골라 쓸 수 있습니다',
+    detail: [
+      '상단의 카드1·카드2 스위치로 게임 안 모든 선수 카드가 함께 바뀝니다.',
+      '카드2는 예전의 평평한 등급 색과 등급별 연출을 되살린 것입니다.',
+    ],
+  },
+  {
+    id: '2026-09-02-tactics-sliders',
+    date: '2026-09-02',
+    kind: 'feature',
+    title: '전술 슬라이더 21개와 국면 분리',
+    detail: [
+      '템포·압박 강도·수비 라인 등 21개 값을 직접 조절합니다.',
+      '공격·공격 전환·수비·수비 전환 네 상황마다 다르게 지시할 수 있습니다.',
+    ],
+  },
+  {
+    id: '2026-09-01-tactics-engine',
+    date: '2026-09-01',
+    kind: 'balance',
+    title: '전술 엔진 개편 — 전술이 행동을 바꾸고, 행동이 경기를 만듭니다',
+    detail: [
+      '전술이 승률에 직접 더해지지 않습니다. 팀이 서는 위치와 행동이 바뀌고 그 결과가 경기에서 나옵니다.',
+      '강한 지시에는 반드시 대가가 따릅니다. 높은 라인은 뒷공간을, 강한 압박은 체력을 내줍니다.',
+    ],
+  },
+  {
+    id: '2026-09-01-save-repair',
+    date: '2026-09-01',
+    kind: 'fix',
+    title: '깨진 저장 데이터로 화면이 비던 문제 수정',
+  },
+  {
+    id: '2026-09-01-security',
+    date: '2026-09-01',
+    kind: 'internal',
+    title: '보안 점검 반영 — 클라우드 세이브 검증, 용량 상한, 보안 헤더',
+  },
+  {
+    id: '2026-09-01-upgrade-target',
+    date: '2026-09-01',
+    kind: 'feature',
+    title: '선발 선수도 강화 대상으로 고를 수 있고, 강화 방식마다 설명이 붙습니다',
+  },
+  {
+    id: '2026-09-01-out-of-position',
+    date: '2026-09-01',
+    kind: 'balance',
+    title: '포지션이 달라도 배치됩니다 — 대신 능력치가 떨어집니다',
+    detail: ['자리에 맞는 선수가 없어 경기를 시작하지 못하던 상황이 사라집니다.'],
+  },
+  {
+    id: '2026-09-01-login-lockerroom',
+    date: '2026-09-01',
+    kind: 'feature',
+    title: '로그인 필수화와 감독실 홈 화면',
+  },
+  {
+    id: '2026-09-01-lineup-guard',
+    date: '2026-09-01',
+    kind: 'fix',
+    title: '선발이 11명이 아니면 경기를 시작할 수 없게',
+  },
+  {
+    id: '2026-09-01-minigame',
+    date: '2026-09-01',
+    kind: 'feature',
+    title: '데일리 미니게임 — 순위와 무관한 친선 경기 하루 10판',
+  },
+  {
+    id: '2026-09-01-accounts',
+    date: '2026-09-01',
+    kind: 'feature',
+    title: '회원가입 · 로그인 · 클라우드 세이브와 게시판',
+  },
+  {
+    id: '2026-09-01-live-stamina',
+    date: '2026-09-01',
+    kind: 'balance',
+    title: '경기 중 체력이 닳고, 지친 선수는 자동으로 교체됩니다',
+  },
+  {
+    id: '2026-08-31-mobile-controls',
+    date: '2026-08-31',
+    kind: 'feature',
+    title: '모바일 우선 경기 조작 — 전술 프리셋과 하단 고정 지시 바',
+  },
+  {
+    id: '2026-08-31-live-match',
+    date: '2026-08-31',
+    kind: 'feature',
+    title: '관전 모드와 경기 중 개입',
+    detail: ['지시는 언제든 내리고, 적용은 경기가 끊긴 순간에 이루어집니다.'],
+  },
+  {
+    id: '2026-08-31-packs',
+    date: '2026-08-31',
+    kind: 'balance',
+    title: '카드팩을 일반팩 · 프리미엄팩 두 종류로 개편',
+  },
+  {
+    id: '2026-08-31-league',
+    date: '2026-08-31',
+    kind: 'feature',
+    title: '풋볼데이식 육성 · 20팀 리그 · 통합 일정으로 전면 개편',
+  },
+  {
+    id: '2026-08-31-gacha-depth',
+    date: '2026-08-31',
+    kind: 'feature',
+    title: '갓챠 심화 — 천장 · 주간 픽업 · 팩 종류 · 조각 교환소',
+  },
+]
+
+/** Newest first, which is also how the file is written. */
+export function sortedPatchLog(log: PatchEntry[] = PATCH_LOG): PatchEntry[] {
+  return [...log].sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0))
+}
+
+export function patchEntry(id: string, log: PatchEntry[] = PATCH_LOG): PatchEntry | null {
+  return log.find((item) => item.id === id) ?? null
+}
