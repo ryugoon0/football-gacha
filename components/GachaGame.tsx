@@ -13,6 +13,7 @@ import GuideOverlay from './GuideOverlay'
 import LoginScreen from './LoginScreen'
 import AdminTab from './tabs/AdminTab'
 import CardMaker from './tabs/CardMaker'
+import PlayerEditor from './tabs/PlayerEditor'
 import BoardTab from './tabs/BoardTab'
 import ClubTab from './tabs/ClubTab'
 import HomeTab from './tabs/HomeTab'
@@ -34,9 +35,13 @@ const TABS = [
   // Only rendered for operators; the server checks again on every action.
   { key: 'admin', label: '운영자' },
   { key: 'cards', label: '카드생성' },
+  { key: 'editor', label: '선수편집' },
 ] as const
 
 type TabKey = (typeof TABS)[number]['key']
+
+/** Hidden from everyone else; the server checks again on every action. */
+const ADMIN_TABS = new Set<string>(['admin', 'cards', 'editor'])
 
 /**
  * Shown in the footer so a tester can say which build they were looking at.
@@ -64,7 +69,7 @@ function Shell() {
   const [accountOpen, setAccountOpen] = useState(false)
   const rating = useMemo(() => evaluateSquad(state.cards, state.squad), [state.cards, state.squad])
   const { isAdmin } = useAdmin(account)
-  const tabs = useMemo(() => TABS.filter((item) => (item.key !== 'admin' && item.key !== 'cards') || isAdmin), [isAdmin])
+  const tabs = useMemo(() => TABS.filter((item) => !ADMIN_TABS.has(item.key) || isAdmin), [isAdmin])
 
   const showGuide = helpOpen || (ready && !state.guideDone)
 
@@ -183,6 +188,7 @@ function Shell() {
             {tab === 'board' && <BoardTab />}
             {tab === 'admin' && <AdminTab />}
             {tab === 'cards' && <CardMaker />}
+            {tab === 'editor' && <PlayerEditor />}
           </>
         )}
       </div>

@@ -15,6 +15,8 @@ on:
       - 'supabase/functions/**'
       - 'lib/gacha.ts'
       - 'lib/players.ts'
+      - 'lib/rosterData.ts'
+      - 'lib/rosterOverrides.ts'
       - 'lib/rarity.ts'
       - 'lib/random.ts'
   # 휴대폰에서 직접 돌릴 때. Actions 탭 → Supabase → Run workflow.
