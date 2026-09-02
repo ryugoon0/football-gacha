@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { DEFAULT_TACTIC } from '../lib/tactics'
 import { addExperience, applyExperience, expForLevel, matchRatings } from '../lib/growth'
+import { evaluateSquad } from '../lib/squad'
+import { initialState } from '../lib/storage'
 import {
   GK_STAT_LABELS,
   PLAYERS,
@@ -8,6 +10,9 @@ import {
   STAT_LABELS,
   effectiveStats,
   getPlayer,
+  hiddenPower,
+  levelCap,
+  startLevel,
   seededRandom,
 } from '../lib/players'
 import { STAT_GROUPS, SUB_STATS, breakdownOf, subStatsOf } from '../lib/subStats'
@@ -116,6 +121,46 @@ describe('sub stats', () => {
         expect(mean).toBe(item.value)
       }
     }
+  })
+})
+
+describe('hidden attributes and levelling', () => {
+  const player = PLAYERS_BY_RARITY.Legend[0]
+
+  it('are not part of what levelling raises', () => {
+    // Levelling pushes the six visible stats towards 99. If it lifted the
+    // hidden four as well, training would quietly change who a player is —
+    // and every maxed card would end up the same player.
+    const before = { ...player.hidden }
+    for (const level of [1, 3, 5, 8, 10]) {
+      const stats = effectiveStats(player, level)
+      expect(Object.keys(stats).sort()).toEqual(['def', 'dri', 'pac', 'pas', 'phy', 'sho'])
+    }
+    expect(player.hidden).toEqual(before)
+    expect(hiddenPower(player)).toBe((before.clutch + before.stamina + before.bigMatch + before.consistency) / 4)
+  })
+
+  it('does not change what a card is worth to the squad as it levels', () => {
+    const state = initialState()
+    const flat = evaluateSquad(state.cards, state.squad)
+    const maxed = evaluateSquad(
+      state.cards.map((item) => ({ ...item, level: 10, limit: 10 })),
+      state.squad,
+    )
+    // The squad gets stronger, but the hidden contribution is the same eleven
+    // players' hidden attributes either way.
+    expect(maxed.overall).toBeGreaterThan(flat.overall)
+    expect(maxed.hidden).toBe(flat.hidden)
+  })
+
+  it('survives training a card all the way to its cap', () => {
+    const before = { ...player.hidden }
+    let trained = card('hidden-check', player.id, startLevel(player), 0, levelCap(player))
+    for (let i = 0; i < 200 && trained.level < levelCap(player); i++) {
+      trained = addExperience(trained, 400).card
+    }
+    expect(trained.level).toBe(levelCap(player))
+    expect(getPlayer(player.id)!.hidden).toEqual(before)
   })
 })
 

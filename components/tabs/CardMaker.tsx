@@ -23,15 +23,13 @@ import { CLUBS, NATIONS } from '../../lib/players'
 import { RARITIES, RARITY_STYLES } from '../../lib/rarity'
 import type { HiddenStats, Position, Rarity, Stats } from '../../lib/types'
 import PlayerCard from '../PlayerCard'
-import { useAdmin } from '../useAdmin'
-import { useGame } from '../GameProvider'
+import { useIsAdmin } from '../useAdmin'
 
 const field = 'w-full rounded-lg bg-white/5 px-2 py-1.5 text-xs font-bold text-slate-100 outline-none'
 const label = 'text-[10px] font-bold uppercase tracking-wide text-slate-500'
 
 export default function CardMaker() {
-  const { account } = useGame()
-  const { isAdmin, checked } = useAdmin(account)
+  const { isAdmin, checked } = useIsAdmin()
   const [draft, setDraft] = useState<CardDraft>(emptyDraft())
   const [copied, setCopied] = useState(false)
 

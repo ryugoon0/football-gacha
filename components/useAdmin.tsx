@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { getSupabase } from '../lib/supabase'
 import type { AccountApi } from './useAccountSync'
 
@@ -42,4 +42,31 @@ export function useAdmin(account: AccountApi): { isAdmin: boolean; checked: bool
   }, [userId])
 
   return { isAdmin, checked }
+}
+
+export interface AdminState {
+  isAdmin: boolean
+  checked: boolean
+}
+
+/**
+ * The answer, shared.
+ *
+ * Five screens ask whether the account is an operator, and each of them used to
+ * ask the database itself — five round trips for one boolean, repeated every
+ * time a tab mounted. Worse, a screen that forgot to ask simply showed operator
+ * content to everybody. Asking once at the top and reading it from context
+ * fixes both.
+ */
+const AdminContext = createContext<AdminState>({ isAdmin: false, checked: false })
+
+export function AdminProvider({ value, children }: { value: AdminState; children: ReactNode }) {
+  const { isAdmin, checked } = value
+  const stable = useMemo(() => ({ isAdmin, checked }), [isAdmin, checked])
+  return <AdminContext.Provider value={stable}>{children}</AdminContext.Provider>
+}
+
+/** False until the check comes back, so nothing operator-only flashes on load. */
+export function useIsAdmin(): AdminState {
+  return useContext(AdminContext)
 }

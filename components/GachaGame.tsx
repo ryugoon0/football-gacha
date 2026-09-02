@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo, useState, type ReactNode } from 'react'
 import { divisionLabel } from '../lib/league'
 import { evaluateSquad } from '../lib/squad'
 import { GameProvider, useGame } from './GameProvider'
@@ -8,7 +8,7 @@ import AccountPanel from './AccountPanel'
 import { buildLabel } from '../lib/build'
 import { CardStyleProvider, CardStyleToggle } from './CardStyle'
 import { TacticsModeProvider } from './TacticsMode'
-import { useAdmin } from './useAdmin'
+import { AdminProvider, useAdmin, useIsAdmin } from './useAdmin'
 import GuideOverlay from './GuideOverlay'
 import LoginScreen from './LoginScreen'
 import AdminTab from './tabs/AdminTab'
@@ -54,11 +54,23 @@ export default function GachaGame() {
     <GameProvider>
       <CardStyleProvider>
         <TacticsModeProvider>
-          <Shell />
+          <AdminGate>
+            <Shell />
+          </AdminGate>
         </TacticsModeProvider>
       </CardStyleProvider>
     </GameProvider>
   )
+}
+
+/**
+ * Asks once whether this account is an operator and hands the answer down.
+ * Operator-only content reads it from context rather than each screen checking
+ * for itself — a screen that forgets to check is a screen that leaks.
+ */
+function AdminGate({ children }: { children: ReactNode }) {
+  const { account } = useGame()
+  return <AdminProvider value={useAdmin(account)}>{children}</AdminProvider>
 }
 
 function Shell() {
@@ -68,7 +80,7 @@ function Shell() {
   const [helpOpen, setHelpOpen] = useState(false)
   const [accountOpen, setAccountOpen] = useState(false)
   const rating = useMemo(() => evaluateSquad(state.cards, state.squad), [state.cards, state.squad])
-  const { isAdmin } = useAdmin(account)
+  const { isAdmin } = useIsAdmin()
   const tabs = useMemo(() => TABS.filter((item) => !ADMIN_TABS.has(item.key) || isAdmin), [isAdmin])
 
   const showGuide = helpOpen || (ready && !state.guideDone)

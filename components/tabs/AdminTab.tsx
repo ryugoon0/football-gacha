@@ -6,7 +6,7 @@ import { PATCH_KIND_LABELS, sortedPatchLog, type PatchEntry } from '../../lib/pa
 import { buildPatchNote, defaultNoteTitle, publishedIds, validateNote } from '../../lib/patchNote'
 import { friendlyError, getSupabase } from '../../lib/supabase'
 import { useGame } from '../GameProvider'
-import { useAdmin } from '../useAdmin'
+import { useIsAdmin } from '../useAdmin'
 import MonitorPanel from './MonitorPanel'
 import BalancePanel from './BalancePanel'
 import ItemPricePanel from './ItemPricePanel'
@@ -27,7 +27,7 @@ interface NoticeRow {
 
 export default function AdminTab() {
   const { state, account } = useGame()
-  const { isAdmin, checked } = useAdmin(account)
+  const { isAdmin, checked } = useIsAdmin()
 
   const log = useMemo(() => sortedPatchLog(), [])
   const [picked, setPicked] = useState<string[]>([])
