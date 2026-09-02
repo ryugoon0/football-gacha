@@ -92,7 +92,10 @@ export default function GachaTab() {
     if (serverDrawAvailable()) {
       // With an account, only the server may open a pack. No fallback: a quiet
       // retreat to the browser would be the way around the server itself.
-      const outcome = await drawOnServer(pack.id, group === 'all' ? null : group)
+      const outcome = await drawOnServer(pack.id, group === 'all' ? null : group, {
+        gold: state.gold,
+        pity: state.pity,
+      })
       if (!outcome.ok) {
         setSpinning(false)
         setError(DRAW_FAILURE_MESSAGE[outcome.reason])

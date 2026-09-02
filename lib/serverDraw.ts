@@ -31,15 +31,11 @@ export function serverDrawAvailable(): boolean {
   return isSupabaseConfigured()
 }
 
-export async function drawOnServer(
-  pack: string,
-  group: string | null,
-): Promise<{ ok: true; draw: ServerDraw } | { ok: false; reason: DrawFailure }> {
+type DrawResult = { ok: true; draw: ServerDraw } | { ok: false; reason: DrawFailure }
+
+async function askServer(pack: string, group: string | null): Promise<DrawResult> {
   const supabase = getSupabase()
   if (!supabase) return { ok: false, reason: 'offline' }
-
-  const { data: session } = await supabase.auth.getSession()
-  if (!session.session) return { ok: false, reason: 'not signed in' }
 
   try {
     const { data, error } = await supabase.functions.invoke('draw-pack', {
@@ -59,6 +55,33 @@ export async function drawOnServer(
   } catch {
     return { ok: false, reason: 'unavailable' }
   }
+}
+
+export async function drawOnServer(
+  pack: string,
+  group: string | null,
+  /**
+   * The save's gold and pity, used only to move an existing player onto the
+   * ledger if that has not happened yet.
+   */
+  opening?: { gold: number; pity: number },
+): Promise<DrawResult> {
+  const supabase = getSupabase()
+  if (!supabase) return { ok: false, reason: 'offline' }
+
+  const { data: session } = await supabase.auth.getSession()
+  if (!session.session) return { ok: false, reason: 'not signed in' }
+
+  const first = await askServer(pack, group)
+  if (first.ok || first.reason !== 'not seeded' || !opening) return first
+
+  // Every existing player crosses onto the ledger exactly once, and that one
+  // call can fail on a dropped connection. Without this retry they would be
+  // told to wait forever — a reload was the only way out. seed_economy only
+  // ever acts once, so asking again costs nothing.
+  const seeded = await seedEconomy(opening.gold, opening.pity)
+  if (!seeded) return first
+  return askServer(pack, group)
 }
 
 export const DRAW_FAILURE_MESSAGE: Record<DrawFailure, string> = {

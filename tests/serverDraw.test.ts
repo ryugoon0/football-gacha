@@ -64,3 +64,11 @@ describe('a failed pull never falls back to the browser', () => {
     }
   })
 })
+
+describe('crossing onto the ledger', () => {
+  it('has a message for a player whose migration has not run yet', () => {
+    // Reaching this at all means the retry could not fix it, so the wording
+    // has to tell the person to try again rather than blame them.
+    expect(DRAW_FAILURE_MESSAGE['not seeded']).toContain('다시 시도')
+  })
+})
