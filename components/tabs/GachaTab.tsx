@@ -19,6 +19,8 @@ import { SHARD_OFFERS, offerLabel } from '../../lib/shards'
 import type { PlayerDef, PositionGroup, Rarity } from '../../lib/types'
 import { useGame } from '../GameProvider'
 import PlayerCard from '../PlayerCard'
+import { useCardStyle } from '../CardStyle'
+import { RETRO_COLORS } from '../RetroPlayerCard'
 
 const SPIN_MS = 1400
 
@@ -125,6 +127,7 @@ export default function GachaTab() {
   }
 
   const reelStyle = RARITY_STYLES[reel]
+  const { style: cardStyle } = useCardStyle()
   const freeAvailable = !state.daily.freeDrawUsed
   const pityLeft = Math.max(0, PITY_LIMIT - state.pity)
 
@@ -274,11 +277,20 @@ export default function GachaTab() {
         <div className="mt-5 flex min-h-[210px] items-center justify-center rounded-xl bg-slate-950/60 p-4">
           {spinning ? (
             <div className="flex flex-col items-center gap-3">
-              <div
-                className={`pack-shake flex h-40 w-28 items-center justify-center rounded-xl border-2 bg-gradient-to-b ${reelStyle.face} ${reelStyle.border}`}
-              >
-                <span className={`text-lg font-black ${reelStyle.ink}`}>?</span>
-              </div>
+              {cardStyle === 'card2' ? (
+                // The original spun a flat rarity block, not a pack.
+                <div
+                  className={`flex h-40 w-40 animate-pulse items-center justify-center rounded-xl shadow-lg ${RETRO_COLORS[reel]}`}
+                >
+                  <span className="text-2xl font-bold text-white">?</span>
+                </div>
+              ) : (
+                <div
+                  className={`pack-shake flex h-40 w-28 items-center justify-center rounded-xl border-2 bg-gradient-to-b ${reelStyle.face} ${reelStyle.border}`}
+                >
+                  <span className={`text-lg font-black ${reelStyle.ink}`}>?</span>
+                </div>
+              )}
               <p className="text-sm font-semibold text-slate-300">팩을 여는 중...</p>
             </div>
           ) : results.length > 0 ? (

@@ -5,6 +5,7 @@ import { divisionLabel } from '../lib/league'
 import { evaluateSquad } from '../lib/squad'
 import { GameProvider, useGame } from './GameProvider'
 import AccountPanel from './AccountPanel'
+import { CardStyleProvider, CardStyleToggle } from './CardStyle'
 import GuideOverlay from './GuideOverlay'
 import LoginScreen from './LoginScreen'
 import BoardTab from './tabs/BoardTab'
@@ -36,7 +37,9 @@ const BUILD_ID = (process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA ?? 'local').slic
 export default function GachaGame() {
   return (
     <GameProvider>
-      <Shell />
+      <CardStyleProvider>
+        <Shell />
+      </CardStyleProvider>
     </GameProvider>
   )
 }
@@ -119,6 +122,7 @@ function Shell() {
             >
               {account.status === 'signedIn' ? '내 계정' : '로그인'}
             </button>
+            <CardStyleToggle />
             <button
               onClick={() => setHelpOpen(true)}
               className="whitespace-nowrap rounded-xl bg-white/5 px-3 py-2 text-xs font-bold text-slate-300 hover:bg-white/10 hover:text-white"

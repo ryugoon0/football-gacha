@@ -6,6 +6,8 @@ import { TRAITS, traitsOf } from '../lib/traits'
 import { RARITY_STYLES } from '../lib/rarity'
 import type { PlayerDef, Stats } from '../lib/types'
 import PlayerAvatar from './PlayerAvatar'
+import RetroPlayerCard from './RetroPlayerCard'
+import { useCardStyle } from './CardStyle'
 
 type Size = 'sm' | 'md' | 'lg'
 
@@ -22,18 +24,7 @@ const SIZES: Record<Size, { frame: string; ovr: string; name: string; meta: stri
 
 const STAT_ORDER: (keyof Stats)[] = ['pac', 'sho', 'pas', 'dri', 'def', 'phy']
 
-export default function PlayerCard({
-  player,
-  level = 1,
-  size = 'md',
-  selected = false,
-  dimmed = false,
-  condition,
-  injuredFor = 0,
-  badge,
-  onClick,
-  className = '',
-}: {
+interface CardProps {
   player: PlayerDef
   level?: number
   size?: Size
@@ -45,7 +36,29 @@ export default function PlayerCard({
   badge?: string
   onClick?: () => void
   className?: string
-}) {
+}
+
+/**
+ * Renders whichever card look is switched on. Both take the same props, so
+ * every list, pitch slot and reveal in the game follows the switch.
+ */
+export default function PlayerCard(props: CardProps) {
+  const { style } = useCardStyle()
+  return style === 'card2' ? <RetroPlayerCard {...props} /> : <ModernPlayerCard {...props} />
+}
+
+function ModernPlayerCard({
+  player,
+  level = 1,
+  size = 'md',
+  selected = false,
+  dimmed = false,
+  condition,
+  injuredFor = 0,
+  badge,
+  onClick,
+  className = '',
+}: CardProps) {
   const style = RARITY_STYLES[player.rarity]
   const dimensions = SIZES[size]
   const stats = effectiveStats(player, level)
