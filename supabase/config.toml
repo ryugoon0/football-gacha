@@ -1,0 +1,8 @@
+# Supabase CLI 설정. 이 파일이 있어야 `supabase db push`가 이 폴더를
+# 프로젝트로 알아봅니다. 비밀은 하나도 들어 있지 않습니다 — 프로젝트
+# 참조는 공개 주소의 일부입니다.
+project_id = "mpndwtqvwmarkepxzhew"
+
+[db]
+# 원격 프로젝트의 버전에 맞춥니다. 로컬 개발에는 쓰지 않습니다.
+major_version = 15

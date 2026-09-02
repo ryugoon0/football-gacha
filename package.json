@@ -13,7 +13,9 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "build:functions": "node scripts/bundle-functions.mjs"
+    "build:functions": "node scripts/bundle-functions.mjs",
+    "db:push": "supabase db push",
+    "db:diff": "supabase db diff --linked"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.112.4",
