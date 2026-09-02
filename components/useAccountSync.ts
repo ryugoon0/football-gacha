@@ -28,6 +28,14 @@ export interface AccountApi {
   /** Sends the confirmation mail again. */
   resendConfirmation: (email: string) => Promise<void>
   signIn: (email: string, password: string) => Promise<void>
+  /** Sends a link that lets someone set a new password. */
+  resetPassword: (email: string) => Promise<void>
+  /**
+   * True after arriving from a reset link. The game stays hidden until a new
+   * password is set, so nobody is left signed in on a link they cannot repeat.
+   */
+  recovering: boolean
+  setNewPassword: (password: string) => Promise<void>
   signOut: () => Promise<void>
   resolveConflict: (choice: 'useLocal' | 'useCloud') => Promise<void>
   clearMessages: () => void
@@ -48,6 +56,7 @@ export function useAccountSync(
   const [notice, setNotice] = useState<string | null>(null)
   const [conflict, setConflict] = useState<CloudSave | null>(null)
   const [syncing, setSyncing] = useState(false)
+  const [recovering, setRecovering] = useState(false)
 
   const stateRef = useRef(state)
   stateRef.current = state
@@ -118,7 +127,10 @@ export function useAccountSync(
       }
     })
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
+      // Arriving from a reset link signs the person in, but only so they can
+      // choose a new password. Hold that state until they do.
+      if (event === 'PASSWORD_RECOVERY') setRecovering(true)
       if (session?.user) {
         setUser({ id: session.user.id, email: session.user.email ?? '' })
         setStatus('signedIn')
@@ -225,6 +237,42 @@ export function useAccountSync(
     setNotice('확인 메일을 다시 보냈습니다. 스팸함도 확인해 주세요.')
   }, [])
 
+  const resetPassword = useCallback(async (email: string) => {
+    const supabase = getSupabase()
+    if (!supabase) return
+    setError(null)
+    setSyncing(true)
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
+      // Back to wherever they asked from, so the link works on any deployment.
+      redirectTo: typeof window === 'undefined' ? undefined : window.location.origin,
+    })
+    setSyncing(false)
+    if (resetError) {
+      setError(friendlyError(resetError.message))
+      return
+    }
+    // Said the same way whether or not the address has an account: telling a
+    // stranger which emails are registered is not ours to give away.
+    setNotice(
+      '비밀번호 재설정 메일을 보냈습니다. 가입된 주소라면 곧 도착합니다. 스팸함도 확인해 주세요.',
+    )
+  }, [])
+
+  const setNewPassword = useCallback(async (password: string) => {
+    const supabase = getSupabase()
+    if (!supabase) return
+    setError(null)
+    setSyncing(true)
+    const { error: updateError } = await supabase.auth.updateUser({ password })
+    setSyncing(false)
+    if (updateError) {
+      setError(friendlyError(updateError.message))
+      return
+    }
+    setRecovering(false)
+    setNotice('새 비밀번호로 바뀌었습니다.')
+  }, [])
+
   const signIn = useCallback(async (email: string, password: string) => {
     const supabase = getSupabase()
     if (!supabase) return
@@ -274,6 +322,9 @@ export function useAccountSync(
     syncing,
     signUp,
     resendConfirmation,
+    resetPassword,
+    recovering,
+    setNewPassword,
     signIn,
     signOut,
     resolveConflict,

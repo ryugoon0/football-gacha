@@ -34,6 +34,23 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-02-password-reset',
+    date: '2026-09-02',
+    kind: 'feature',
+    title: '비밀번호 재설정',
+    detail: [
+      '로그인 화면의 "비밀번호 재설정"으로 메일을 받아 새 비밀번호를 정할 수 있습니다.',
+      '로그인 상태에서는 내 계정에서 바로 바꿀 수 있습니다.',
+    ],
+  },
+  {
+    id: '2026-09-02-item-prices',
+    date: '2026-09-02',
+    kind: 'internal',
+    title: '아이템 가격을 운영자가 조절',
+    detail: ['운영자 탭에서 아이템별 골드·조각 가격을 바꿉니다. 배포 없이 상점에 반영됩니다.'],
+  },
+  {
     id: '2026-09-02-items',
     date: '2026-09-02',
     kind: 'feature',

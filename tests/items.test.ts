@@ -9,6 +9,10 @@ import {
   priceOf,
   purchaseProblem,
   remainingToday,
+  priceBounds,
+  priceKey,
+  resetItemPrices,
+  setItemPrices,
 } from '../lib/items'
 import { reducer } from '../lib/gameReducer'
 import { initialState } from '../lib/storage'
@@ -150,5 +154,48 @@ describe('using an item on the club', () => {
     expect(reducer(state, { type: 'spendItemOnClub', id: 'shardPouch' }).shards).toBe(
       state.shards + 120,
     )
+  })
+})
+
+describe('the operator moving a price', () => {
+  it('uses the operator price when one is set, and the list price otherwise', () => {
+    resetItemPrices()
+    expect(priceOf(ITEMS.drink, 'gold')).toBe(ITEMS.drink.gold)
+
+    setItemPrices({ [priceKey('drink', 'gold')]: 50 })
+    expect(priceOf(ITEMS.drink, 'gold')).toBe(50)
+    // Untouched items keep their list price.
+    expect(priceOf(ITEMS.medkit, 'gold')).toBe(ITEMS.medkit.gold)
+    resetItemPrices()
+  })
+
+  it('cannot open a currency the item does not take', () => {
+    // 회복 음료 has no shard price; naming one must not create a way to buy it.
+    setItemPrices({ [priceKey('drink', 'shards')]: 10 })
+    expect(priceOf(ITEMS.drink, 'shards')).toBeNull()
+    resetItemPrices()
+  })
+
+  it('ignores values that are not usable prices', () => {
+    setItemPrices({ [priceKey('drink', 'gold')]: -5 })
+    expect(priceOf(ITEMS.drink, 'gold')).toBe(ITEMS.drink.gold)
+    setItemPrices({ [priceKey('drink', 'gold')]: Number.NaN })
+    expect(priceOf(ITEMS.drink, 'gold')).toBe(ITEMS.drink.gold)
+    resetItemPrices()
+  })
+
+  it('charges the operator price at the till', () => {
+    setItemPrices({ [priceKey('drink', 'gold')]: 1000 })
+    const next = reducer(rich(), { type: 'buyItem', id: 'drink', currency: 'gold', count: 1 })
+    expect(next.gold).toBe(rich().gold - 1000)
+    resetItemPrices()
+  })
+
+  it('bounds a price so one keystroke cannot make an item free forever', () => {
+    const bounds = priceBounds(200)
+    expect(bounds.min).toBe(0)
+    expect(bounds.max).toBe(200 * 50)
+    // A cheap item still gets room to move.
+    expect(priceBounds(1).max).toBeGreaterThanOrEqual(100)
   })
 })

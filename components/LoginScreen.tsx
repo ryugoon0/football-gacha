@@ -13,6 +13,7 @@ import { useGame } from './GameProvider'
 export default function LoginScreen() {
   const { account } = useGame()
   const [mode, setMode] = useState<'signIn' | 'signUp'>('signIn')
+  const [fresh, setFresh] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [probe, setProbe] = useState<string | null>(null)
@@ -30,6 +31,53 @@ export default function LoginScreen() {
     account.clearMessages()
     if (mode === 'signIn') await account.signIn(email.trim(), password)
     else await account.signUp(email.trim(), password)
+  }
+
+  // Someone who followed a reset link is signed in, but only far enough to
+  // choose a new password. Nothing else is worth showing until they have.
+  if (account.recovering) {
+    return (
+      <main className="min-h-screen bg-slate-950 text-white">
+        <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4 py-8">
+          <h1 className="text-2xl font-black leading-snug">새 비밀번호를 정해 주세요</h1>
+          <p className="mt-1 text-xs text-slate-400">
+            정하고 나면 바로 이어서 하실 수 있습니다.
+          </p>
+          <form
+            onSubmit={(event) => {
+              event.preventDefault()
+              void account.setNewPassword(fresh)
+            }}
+            className="mt-5 space-y-3"
+          >
+            <label className="block text-xs font-bold text-slate-400">
+              새 비밀번호 (6자 이상)
+              <input
+                type="password"
+                required
+                minLength={6}
+                value={fresh}
+                onChange={(event) => setFresh(event.target.value)}
+                autoComplete="new-password"
+                className="mt-1 w-full rounded-lg bg-white/10 px-3 py-2.5 text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-emerald-400"
+              />
+            </label>
+            <button
+              type="submit"
+              disabled={account.syncing || fresh.length < 6}
+              className="w-full rounded-xl bg-emerald-400 py-3 text-sm font-black text-slate-900 disabled:opacity-50"
+            >
+              비밀번호 바꾸기
+            </button>
+          </form>
+          {account.error && (
+            <p className="mt-3 rounded-lg bg-rose-500/15 px-3 py-2 text-xs font-bold text-rose-200">
+              {account.error}
+            </p>
+          )}
+        </div>
+      </main>
+    )
   }
 
   return (
@@ -115,6 +163,14 @@ export default function LoginScreen() {
         )}
 
         <div className="mt-3 flex flex-wrap gap-1.5">
+          <button
+            type="button"
+            onClick={() => void account.resetPassword(email.trim())}
+            disabled={!email.trim() || account.syncing}
+            className="flex-1 whitespace-nowrap rounded-lg bg-white/5 px-2.5 py-2 text-[11px] font-bold text-slate-300 disabled:opacity-40"
+          >
+            비밀번호 재설정
+          </button>
           <button
             type="button"
             onClick={() => void account.resendConfirmation(email.trim())}

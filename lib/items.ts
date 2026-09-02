@@ -168,8 +168,48 @@ export function normalizeInventory(value: unknown): Inventory {
 
 export type Currency = 'gold' | 'shards'
 
+/**
+ * Prices the operator has changed.
+ *
+ * Kept apart from the fixed knobs because there are two per item and they are
+ * generated from the list — adding an item should not mean hand-writing two
+ * more dials. An item with no price in a currency stays unbuyable in it: a
+ * price cannot be invented from the operator screen, only moved.
+ */
+export function priceKey(id: ItemId, currency: Currency): string {
+  return `price:${id}:${currency}`
+}
+
+let priceOverrides: Record<string, number> = {}
+
+export function setItemPrices(next: Record<string, number>): void {
+  const clean: Record<string, number> = {}
+  for (const id of ITEM_IDS) {
+    for (const currency of ['gold', 'shards'] as Currency[]) {
+      if (ITEMS[id][currency] === null) continue
+      const key = priceKey(id, currency)
+      const value = next[key]
+      if (typeof value === 'number' && Number.isFinite(value) && value >= 0) {
+        clean[key] = Math.round(value)
+      }
+    }
+  }
+  priceOverrides = clean
+}
+
+export function resetItemPrices(): void {
+  priceOverrides = {}
+}
+
 export function priceOf(item: ItemDef, currency: Currency): number | null {
-  return currency === 'gold' ? item.gold : item.shards
+  const base = currency === 'gold' ? item.gold : item.shards
+  if (base === null) return null
+  return priceOverrides[priceKey(item.id, currency)] ?? base
+}
+
+/** The bounds the server enforces: never free, never more than fifty times list. */
+export function priceBounds(base: number): { min: number; max: number } {
+  return { min: 0, max: Math.max(100, base * 50) }
 }
 
 export function boughtToday(buys: Record<string, number> | undefined, id: ItemId): number {

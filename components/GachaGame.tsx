@@ -70,7 +70,10 @@ function Shell() {
 
   // With a server configured, the game lives behind a login. Without one there
   // are no accounts to check, so the game runs locally as before.
-  if (account.configured && account.status !== 'signedIn') {
+  // A reset link signs the person in, so the plain status check would drop them
+  // straight into the game with a password they cannot repeat. Hold them at the
+  // login screen until a new one is set.
+  if (account.configured && (account.status !== 'signedIn' || account.recovering)) {
     if (account.status === 'loading') {
       return (
         <main className="flex min-h-screen items-center justify-center bg-slate-950 text-sm text-slate-500">

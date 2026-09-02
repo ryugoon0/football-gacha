@@ -26,6 +26,16 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
   const local = summarize(state)
   const cloud = account.conflict ? summarize(account.conflict.state) : null
 
+  const changePassword = async () => {
+    const next = window.prompt('새 비밀번호를 입력해 주세요 (6자 이상)')
+    if (next === null) return
+    if (next.length < 6) {
+      window.alert('비밀번호는 6자 이상이어야 합니다.')
+      return
+    }
+    await account.setNewPassword(next)
+  }
+
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 p-4 sm:items-center">
       <div className="rise-in w-full max-w-md rounded-2xl border border-white/10 bg-slate-900 p-6 shadow-2xl">
@@ -88,6 +98,13 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
                 기기에서 같은 계정으로 로그인하면 이어서 할 수 있습니다.
               </p>
             </div>
+            <button
+              onClick={() => void changePassword()}
+              disabled={account.syncing}
+              className="w-full rounded-xl bg-white/5 py-2.5 text-sm font-bold text-slate-200 transition hover:bg-white/10 disabled:opacity-40"
+            >
+              비밀번호 변경
+            </button>
             <button
               onClick={() => account.signOut()}
               className="w-full rounded-xl bg-white/10 py-2.5 text-sm font-bold text-white transition hover:bg-white/20"

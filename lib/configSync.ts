@@ -1,4 +1,5 @@
 import { getSupabase } from './supabase'
+import { ITEMS, ITEM_IDS, priceBounds, priceKey, setItemPrices, type Currency } from './items'
 import { KNOBS, KNOB_KEYS, setTuning, type KnobKey } from './tuning'
 
 /**
@@ -20,6 +21,7 @@ export async function loadTuning(): Promise<boolean> {
     if (Number.isFinite(value)) values[row.key] = value
   }
   setTuning(values)
+  setItemPrices(values)
   return true
 }
 
@@ -27,16 +29,24 @@ export async function loadTuning(): Promise<boolean> {
 export async function registerKnobs(): Promise<void> {
   const supabase = getSupabase()
   if (!supabase) return
-  await Promise.all(
-    KNOB_KEYS.map((key) =>
-      supabase.rpc('register_knob', {
-        p_key: key,
-        p_default: KNOBS[key].default,
-        p_min: KNOBS[key].min,
-        p_max: KNOBS[key].max,
-      }),
-    ),
+  const knobs = KNOB_KEYS.map((key) => ({
+    p_key: key as string,
+    p_default: KNOBS[key].default,
+    p_min: KNOBS[key].min,
+    p_max: KNOBS[key].max,
+  }))
+
+  // Two per item, generated from the list, so a new item brings its own dials.
+  const prices = ITEM_IDS.flatMap((id) =>
+    (['gold', 'shards'] as Currency[]).flatMap((currency) => {
+      const base = ITEMS[id][currency]
+      if (base === null) return []
+      const bounds = priceBounds(base)
+      return [{ p_key: priceKey(id, currency), p_default: base, p_min: bounds.min, p_max: bounds.max }]
+    }),
   )
+
+  await Promise.all([...knobs, ...prices].map((args) => supabase.rpc('register_knob', args)))
 }
 
 export async function saveKnob(

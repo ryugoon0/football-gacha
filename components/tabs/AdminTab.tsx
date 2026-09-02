@@ -9,6 +9,7 @@ import { useGame } from '../GameProvider'
 import { useAdmin } from '../useAdmin'
 import MonitorPanel from './MonitorPanel'
 import BalancePanel from './BalancePanel'
+import ItemPricePanel from './ItemPricePanel'
 
 const KIND_CHIP: Record<string, string> = {
   feature: 'bg-emerald-400/15 text-emerald-300',
@@ -138,6 +139,7 @@ export default function AdminTab() {
     <div className="space-y-4">
       <MonitorPanel />
       <BalancePanel />
+      <ItemPricePanel />
 
       <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
