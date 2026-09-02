@@ -67,6 +67,12 @@ export function resolveSequence(
   attack: SideModel,
   defence: SideModel,
   rng: () => number,
+  /**
+   * The attacking side as it plays the moment it loses the ball. Counter
+   * pressing belongs to that situation, not to settled possession, so it is
+   * read from the defensive transition phase when one is given.
+   */
+  onLoss: SideModel = attack,
 ): SequenceResult {
   const result: SequenceResult = {
     kind: 'retained',
@@ -115,7 +121,7 @@ export function resolveSequence(
 
     // The six seconds after losing it. A side that swarms the ball often wins
     // it straight back — and is wide open when it does not.
-    const swarm = attack.state.counterPressPower
+    const swarm = onLoss.state.counterPressPower
     const escape = unit(0.35 + p(defence.params.transitionSpeed) * 0.3 + defence.state.progression * 0.2)
     if (swarm > 0.05 && rng() < unit(swarm * (1 - escape * 0.75))) {
       result.turnover = { high: false, counterable: false, counterPressed: true }
@@ -129,7 +135,7 @@ export function resolveSequence(
       // ball and losing that duel leaves even more of the pitch open.
       counterable:
         high ||
-        rng() < unit(0.45 - attack.state.restDefence * 0.5 + swarm * 0.45),
+        rng() < unit(0.45 - onLoss.state.restDefence * 0.5 + swarm * 0.45),
     }
     return result
   }

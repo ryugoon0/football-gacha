@@ -36,6 +36,8 @@ import { autoFill } from './squad'
 import { releaseValue, type ShardOffer } from './shards'
 import { TOTAL_MATCHDAYS } from './schedule'
 import type { TacticSetup } from './tactics'
+import { paramsFromSetup } from './tactics/bridge'
+import { normalizePhased, phasedFrom, type PhasedTactics } from './tactics/phases'
 import { initialState, newCard, newUid } from './storage'
 import { CAPACITY_STEP, canExpand, expandCost, hasRoomFor } from './vault'
 import type { Card, FormationKey, GameState, MatchResult, PlayerDef, Squad } from './types'
@@ -68,6 +70,7 @@ export type Action =
   | { type: 'clearBench'; index: number }
   | { type: 'setFormation'; formation: FormationKey }
   | { type: 'setTactic'; tactic: TacticSetup }
+  | { type: 'setPlan'; plan: PhasedTactics }
   | { type: 'setAutoSub'; enabled: boolean }
   | { type: 'autoFill' }
   | {
@@ -348,8 +351,17 @@ export function reducer(state: GameState, action: Action): GameState {
       return { ...state, squad: { formation: action.formation, slots, bench } }
     }
 
+    case 'setPlan':
+      // The detailed plan is what the engine reads; the four dials stay as they
+      // are so the quick controls keep showing what the manager last chose.
+      return { ...state, plan: normalizePhased(action.plan) }
+
     case 'setTactic':
-      return { ...state, tactic: action.tactic }
+      return {
+        ...state,
+        tactic: action.tactic,
+        plan: phasedFrom(paramsFromSetup(action.tactic), state.plan?.byPhase),
+      }
 
     case 'setAutoSub':
       return { ...state, autoSub: action.enabled }

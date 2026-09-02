@@ -19,6 +19,7 @@ import {
 import { TRAITS, traitsOf } from '../../lib/traits'
 import type { Card, FormationKey, Position } from '../../lib/types'
 import { useGame } from '../GameProvider'
+import TacticsSliders from '../TacticsSliders'
 import PlayerCard from '../PlayerCard'
 
 const FIT_RING: Record<string, string> = {
@@ -339,6 +340,8 @@ export default function SquadTab() {
             부상이거나 체력이 45 아래인 선발을 킥오프 전에 벤치 선수와 바꿉니다.
           </p>
         </section>
+
+        <TacticsSliders />
 
         <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
           <div className="flex items-center justify-between">

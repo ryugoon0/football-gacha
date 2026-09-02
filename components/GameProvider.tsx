@@ -17,6 +17,7 @@ import type { Fixture } from '../lib/league'
 import { REFRESH_COST, rollListings, type Listing } from '../lib/market'
 import { exchangeResult, type ShardOffer } from '../lib/shards'
 import type { TacticSetup } from '../lib/tactics'
+import type { PhasedTactics } from '../lib/tactics/phases'
 import { clearSave, initialState, loadState, newCard, saveState } from '../lib/storage'
 import type { Card, FormationKey, GameState, MatchResult, PlayerDef } from '../lib/types'
 import { useAccountSync, type AccountApi } from './useAccountSync'
@@ -34,6 +35,7 @@ export interface GameApi {
   clearSlot: (slotId: string) => void
   setFormation: (formation: FormationKey) => void
   setTactic: (tactic: TacticSetup) => void
+  setPlan: (plan: PhasedTactics) => void
   setAutoSub: (enabled: boolean) => void
   assignBench: (index: number, uid: string) => void
   clearBench: (index: number) => void
@@ -135,6 +137,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       clearSlot: (slotId: string) => dispatch({ type: 'clearSlot', slotId }),
       setFormation: (formation: FormationKey) => dispatch({ type: 'setFormation', formation }),
       setTactic: (tactic: TacticSetup) => dispatch({ type: 'setTactic', tactic }),
+      setPlan: (plan: PhasedTactics) => dispatch({ type: 'setPlan', plan }),
       setAutoSub: (enabled: boolean) => dispatch({ type: 'setAutoSub', enabled }),
       assignBench: (index: number, uid: string) => dispatch({ type: 'assignBench', index, uid }),
       clearBench: (index: number) => dispatch({ type: 'clearBench', index }),

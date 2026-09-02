@@ -7,6 +7,8 @@ import { BOTTOM_DIVISION, createSeason } from './league'
 import { emptyMarket } from './market'
 import { getPlayer } from './players'
 import { DEFAULT_TACTIC, normalizeTactic } from './tactics'
+import { paramsFromSetup } from './tactics/bridge'
+import { normalizePhased, phasedFrom } from './tactics/phases'
 import { BASE_CAPACITY, normalizeCapacity } from './vault'
 import { BENCH_SIZE } from './squad'
 import type { Card, FormationKey, GameState, Squad } from './types'
@@ -16,7 +18,7 @@ import type { Card, FormationKey, GameState, Squad } from './types'
  * older games start fresh rather than loading into a broken state.
  */
 export const SAVE_KEY = 'football-day-save-v2'
-export const SAVE_VERSION = 8
+export const SAVE_VERSION = 9
 export const STARTING_GOLD = 3000
 export const DEFAULT_CLUB = '내 클럽 FC'
 
@@ -107,6 +109,7 @@ export function initialState(): GameState {
     cards,
     squad: { formation: '4-3-3', slots, bench },
     tactic: DEFAULT_TACTIC,
+    plan: phasedFrom(paramsFromSetup(DEFAULT_TACTIC)),
     autoSub: true,
     season: createSeason(BOTTOM_DIVISION, 1, DEFAULT_CLUB),
     cup: createCup(BOTTOM_DIVISION, 1, DEFAULT_CLUB),
@@ -172,7 +175,7 @@ export function normalizeSave(value: unknown): GameState | null {
   if (!Array.isArray(parsed.cards)) return null
   // Version 6 stored the tactic as a single string and 7 had no vault size;
   // both migrate forward without losing a card.
-  if (![SAVE_VERSION, 7, 6].includes(parsed.version ?? 0)) return null
+  if (![SAVE_VERSION, 8, 7, 6].includes(parsed.version ?? 0)) return null
 
   const state = { ...initialState(), ...parsed } as GameState
   const base = initialState()
@@ -181,6 +184,10 @@ export function normalizeSave(value: unknown): GameState | null {
     version: SAVE_VERSION,
     cards: normalizeCards(state.cards),
     tactic: normalizeTactic(state.tactic),
+    // Saves from before the detailed plan existed get one built from their dials.
+    plan: state.plan
+      ? normalizePhased(state.plan)
+      : phasedFrom(paramsFromSetup(normalizeTactic(state.tactic))),
     capacity: normalizeCapacity(state.capacity),
     squad: normalizeSquad(state.squad),
     // The rest of the save is only ever written by the game, but a hand edited

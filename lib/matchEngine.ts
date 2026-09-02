@@ -9,6 +9,12 @@ import type { TacticalParams } from './tactics/params'
 import { squadProfile, type SquadProfile } from './tactics/profile'
 import { resolveCounter, resolveSequence, type SideModel } from './tactics/sequence'
 import { deriveTacticalState } from './tactics/state'
+import {
+  paramsForPhase,
+  phasedFrom,
+  type Phase,
+  type PhasedTactics,
+} from './tactics/phases'
 import { NO_TRAIT_EFFECTS, type TraitEffects } from './traits'
 import type { FormationKey, MatchEvent, MatchResult, Position } from './types'
 
@@ -57,8 +63,14 @@ export interface MatchSetup {
    * slider UI can pass the detail straight in.
    */
   params?: TacticalParams
+  /**
+   * A full plan: base settings plus what changes in each of the four match
+   * situations. Takes precedence over `params`, which takes precedence over the
+   * four dials in `tactic`.
+   */
+  phased?: PhasedTactics
   /** Opponent style and squad shape, for calibration and balance runs. */
-  opponentTactics?: { params?: TacticalParams; profile?: SquadProfile }
+  opponentTactics?: { params?: TacticalParams; phased?: PhasedTactics; profile?: SquadProfile }
   formationKey?: FormationKey
 }
 
@@ -290,9 +302,15 @@ export function strengthOf(setup: MatchSetup, rng: () => number, fitness = 1): S
   }
 }
 
+/** One side, ready to be read in whichever situation the ball is in. */
+interface PhasedSide {
+  plan: PhasedTactics
+  inPhase: (phase: Phase) => SideModel
+}
+
 interface Models {
-  home: SideModel
-  away: SideModel
+  home: PhasedSide
+  away: PhasedSide
 }
 
 /**
@@ -301,27 +319,47 @@ interface Models {
  * name, so a league side plays the same way all season.
  */
 function buildModels(setup: MatchSetup, strength: Strength, fatigue: number): Models {
-  const ourParams = setup.params ?? paramsFromSetup(setup.tactic ?? DEFAULT_TACTIC)
+  const ourPlan =
+    setup.phased ??
+    phasedFrom(setup.params ?? paramsFromSetup(setup.tactic ?? DEFAULT_TACTIC))
   const ourProfile = squadProfile(setup.team.evaluations)
-  const theirParams = setup.opponentTactics?.params ?? opponentParams(setup.opponent)
+  const theirPlan =
+    setup.opponentTactics?.phased ??
+    phasedFrom(setup.opponentTactics?.params ?? opponentParams(setup.opponent))
   const theirProfile = setup.opponentTactics?.profile ?? opponentProfile(setup.opponent)
 
+  /** Derived state is cached per phase — a match asks for the same few. */
+  const sideFor = (
+    plan: PhasedTactics,
+    profile: SquadProfile,
+    tiredness: number,
+    attack: number,
+    defence: number,
+  ): PhasedSide => {
+    const cache = new Map<Phase, SideModel>()
+    return {
+      plan,
+      inPhase: (phase: Phase) => {
+        const hit = cache.get(phase)
+        if (hit) return hit
+        const params = paramsForPhase(plan, phase)
+        const model: SideModel = {
+          params,
+          profile,
+          state: deriveTacticalState(params, profile, tiredness),
+          attack,
+          defence,
+        }
+        cache.set(phase, model)
+        return model
+      },
+    }
+  }
+
   return {
-    home: {
-      params: ourParams,
-      profile: ourProfile,
-      state: deriveTacticalState(ourParams, ourProfile, fatigue),
-      attack: strength.myAtt,
-      defence: strength.myDef,
-    },
-    away: {
-      params: theirParams,
-      profile: theirProfile,
-      // The opponent tires too, but we do not track their legs individually.
-      state: deriveTacticalState(theirParams, theirProfile, fatigue * 0.7),
-      attack: strength.oppAtt,
-      defence: strength.oppDef,
-    },
+    home: sideFor(ourPlan, ourProfile, fatigue, strength.myAtt, strength.myDef),
+    // The opponent tires too, but we do not track their legs individually.
+    away: sideFor(theirPlan, theirProfile, fatigue * 0.7, strength.oppAtt, strength.oppDef),
   }
 }
 
@@ -362,7 +400,7 @@ export function advance(
 
   // Legs go first: every minute on the pitch costs condition, and pressing,
   // sprinting and a fast tempo cost more. Fresh substitutes lift the average.
-  const fatigue = models.home.state.fatigueDraw
+  const fatigue = models.home.inPhase('IN_POSSESSION').state.fatigueDraw
   const stamina = seedStamina(setup.team.evaluations, state.stamina)
   let staminaSpent = 0
   for (const item of setup.team.evaluations) {
@@ -402,11 +440,13 @@ export function advance(
   // Who has the ball is a contest, not a rating comparison: a side that plays
   // short and keeps its shape holds it, a side that hits it long gives it up.
   const ratingShare = strength.myMid / (strength.myMid + strength.oppMid)
+  const homeBall = models.home.inPhase('IN_POSSESSION')
+  const awayBall = models.away.inPhase('IN_POSSESSION')
   const tacticalShare = clamp(
     0.5 +
-      (models.home.state.buildUpControl - models.away.state.buildUpControl) * 0.3 +
-      (models.home.params.buildUpShortness - models.away.params.buildUpShortness) / 100 * 0.2 -
-      (models.home.state.bypassPress - models.away.state.bypassPress) * 0.18,
+      (homeBall.state.buildUpControl - awayBall.state.buildUpControl) * 0.3 +
+      (homeBall.params.buildUpShortness - awayBall.params.buildUpShortness) / 100 * 0.2 -
+      (homeBall.state.bypassPress - awayBall.state.bypassPress) * 0.18,
     0.15,
     0.85,
   )
@@ -436,8 +476,9 @@ export function advance(
   // --- the tactical model runs the move ------------------------------------
   const attackerSide: 'home' | 'away' = possession
   const defenderSide: 'home' | 'away' = possession === 'home' ? 'away' : 'home'
-  const attacker = models[attackerSide]
-  const defender = models[defenderSide]
+  // Each side is read in the situation it is actually in.
+  const attacker = models[attackerSide].inPhase('IN_POSSESSION')
+  const defender = models[defenderSide].inPhase('OUT_OF_POSSESSION')
 
   /** Turns one resolved move into events, metrics and, sometimes, a goal. */
   const playShot = (
@@ -457,7 +498,8 @@ export function advance(
 
     const att = weAttack ? strength.myAtt : strength.oppAtt
     const def = weAttack ? strength.oppDef : strength.myDef
-    const keeper = (weAttack ? models.away : models.home).profile.keeperShotStopping
+    const keeper = (weAttack ? models.away : models.home).inPhase('OUT_OF_POSSESSION').profile
+      .keeperShotStopping
     const swing = weAttack ? traits.goal + setup.team.hidden * 0.002 : -traits.concede
     // Player quality still decides the duel; the tactic decided the opening.
     const ratingEdge = 1 + (att - def) / 160
@@ -512,7 +554,13 @@ export function advance(
   const moveGate = clamp((0.5 + attacker.state.chanceFrequency * 0.8) * traits.tempo, 0.25, 1.1)
 
   if (!stoppage && rng() < moveGate) {
-    const sequence = resolveSequence(attacker, defender, rng)
+    const sequence = resolveSequence(
+      attacker,
+      defender,
+      rng,
+      // How we play in the six seconds after losing it.
+      models[attackerSide].inPhase('DEFENSIVE_TRANSITION'),
+    )
 
     metrics[attackerSide].passes += sequence.passes
     metrics[attackerSide].passesCompleted += sequence.completed
@@ -554,7 +602,12 @@ export function advance(
       // Won it high with the other side committed? That is a break, and its
       // danger comes from the space they left, not from a counter bonus.
       if (sequence.turnover.counterable) {
-        const counter = resolveCounter(defender, attacker, sequence.turnover.high, rng)
+        const counter = resolveCounter(
+          models[defenderSide].inPhase('ATTACKING_TRANSITION'),
+          models[attackerSide].inPhase('DEFENSIVE_TRANSITION'),
+          sequence.turnover.high,
+          rng,
+        )
         metrics[defenderSide].passes += counter.passes
         metrics[defenderSide].passesCompleted += counter.completed
         metrics[attackerSide].defensiveActions += counter.defensiveActions
@@ -590,7 +643,10 @@ export function advance(
 /** Both sides' derived tactical state, for the post match report. */
 export function tacticalStates(setup: MatchSetup, fatigue = 0) {
   const models = buildModels(setup, strengthOf(setup, () => 0.5, 1), fatigue)
-  return { ours: models.home.state, theirs: models.away.state }
+  return {
+    ours: models.home.inPhase('IN_POSSESSION').state,
+    theirs: models.away.inPhase('OUT_OF_POSSESSION').state,
+  }
 }
 
 export function runToEnd(setup: MatchSetup, rng: () => number = Math.random): LiveMatchState {

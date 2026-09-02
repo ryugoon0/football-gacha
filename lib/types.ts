@@ -5,6 +5,7 @@ import type { PlayerRating } from './growth'
 import type { Season } from './league'
 import type { MarketState } from './market'
 import type { TacticSetup } from './tactics'
+import type { PhasedTactics } from './tactics/phases'
 
 export type Rarity = 'Normal' | 'Rare' | 'Legend' | 'Live' | 'World'
 
@@ -105,6 +106,11 @@ export interface GameState {
   cards: Card[]
   squad: Squad
   tactic: TacticSetup
+  /**
+   * The detailed plan: 21 dials plus what changes in each match situation.
+   * The four simple dials stay as the quick way in; this is the full version.
+   */
+  plan: PhasedTactics
   /** Pull injured or exhausted starters automatically before kick-off. */
   autoSub: boolean
   season: Season

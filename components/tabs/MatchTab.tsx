@@ -188,6 +188,7 @@ function MatchDay() {
         division,
         venue: isCupDay ? 'neutral' : isHome ? 'home' : 'away',
         tactic: state.tactic,
+        phased: state.plan,
         traits: rating.traits,
         homeShape:
           mode === 'watch'
@@ -1037,6 +1038,7 @@ function MiniGamePanel() {
       division,
       venue: 'neutral',
       tactic: state.tactic,
+      phased: state.plan,
       traits: lineup.traits,
     })
     // Friendlies pay less than a league match.
