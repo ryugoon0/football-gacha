@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { isSaveTooBig, planSync, readCloudSave, type CloudSave } from '../lib/cloudSave'
-import { friendlyError, getSupabase, isSupabaseConfigured } from '../lib/supabase'
+import { friendlyError, getSupabase, isSupabaseConfigured, rejectionMessage } from '../lib/supabase'
 import type { GameState } from '../lib/types'
 
 export type AccountStatus = 'off' | 'loading' | 'signedOut' | 'signedIn'
@@ -74,12 +74,18 @@ export function useAccountSync(
       return
     }
     setSyncing(true)
-    const { error: writeError } = await supabase.from('saves').upsert(
-      { user_id: userId, data: value, updated_at: new Date().toISOString() },
-      { onConflict: 'user_id' },
-    )
+    // Saves go through put_save, never straight into the table: the server
+    // judges the state, records the attempt either way, and only then writes.
+    const { data, error: writeError } = await supabase.rpc('put_save', { p_data: value })
     setSyncing(false)
-    if (writeError) setError(friendlyError(writeError.message))
+    if (writeError) {
+      setError(friendlyError(writeError.message))
+      return
+    }
+    const result = data as { ok?: boolean; reason?: string } | null
+    if (result && result.ok === false) {
+      setError(rejectionMessage(result.reason))
+    }
   }, [])
 
   // Follow the Supabase session: sign in, sign out, token refresh.

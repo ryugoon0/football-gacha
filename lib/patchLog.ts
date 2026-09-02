@@ -34,6 +34,16 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-02-monitoring',
+    date: '2026-09-02',
+    kind: 'internal',
+    title: '치팅 모니터링 — 서로 다른 신호가 겹치는 계정을 찾습니다',
+    detail: [
+      '저장 거부·저장 폭주·골드 급증·경기 폭주·진행 되감기·게시판 도배 여섯 신호를 따로 봅니다.',
+      '한 신호는 우연일 수 있으므로, 겹치는 계정만 위로 올립니다.',
+    ],
+  },
+  {
     id: '2026-09-02-security-boundary',
     date: '2026-09-02',
     kind: 'internal',

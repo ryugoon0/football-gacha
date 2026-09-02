@@ -152,9 +152,13 @@ create policy "members delete their own posts" on public.posts
 -- 조작을 완전히 막을 수는 없으므로, 이 단계의 목적은 차단이 아니라 **탐지와
 -- 근거 확보**입니다.
 --
--- 그래서 거부는 "정상 플레이로는 절대 나올 수 없는 값"에만 겁니다. 의심스러운
--- 정도는 기록만 하고 통과시킵니다. 잘못 막아서 정상 플레이어의 진행이 사라지는
--- 것이, 조작을 한 번 놓치는 것보다 나쁩니다.
+-- 거부는 "정상 플레이로는 절대 나올 수 없는 값"에만 겁니다. 의심스러운 정도는
+-- 기록만 하고 통과시킵니다. 잘못 막아서 정상 플레이어의 진행이 사라지는 것이,
+-- 조작을 한 번 놓치는 것보다 나쁩니다.
+--
+-- 저장은 트리거가 아니라 put_save() 함수를 거칩니다. 트리거에서 예외를 던지면
+-- 같은 트랜잭션에 들어간 감사 기록까지 함께 사라져, 정작 남겨야 할 순간을
+-- 기록하지 못하기 때문입니다. 함수는 예외 대신 결과를 돌려주므로 기록이 남습니다.
 
 create table if not exists public.save_audit (
   id        bigserial primary key,
@@ -174,7 +178,7 @@ create table if not exists public.save_audit (
 );
 
 create index if not exists save_audit_user_idx on public.save_audit (user_id, at desc);
-create index if not exists save_audit_rejected_idx on public.save_audit (at desc)
+create index if not exists save_audit_alert_idx on public.save_audit (at desc)
   where rejected is not null or flagged is not null;
 
 alter table public.save_audit enable row level security;
@@ -195,7 +199,7 @@ exception when others then
   return null;
 end $$;
 
--- 배열이 아닌 값이 와도 예외를 던지지 않습니다. 트리거가 죽으면 정상 저장까지
+-- 배열이 아닌 값이 와도 예외를 던지지 않습니다. 검사기가 죽으면 정상 저장까지
 -- 막히므로, 모르는 모양은 0으로 봅니다.
 create or replace function public.save_len(data jsonb, key text)
   returns int
@@ -208,20 +212,21 @@ as $$
   end;
 $$;
 
-create or replace function public.guard_save()
-  returns trigger
+-- 판정만 합니다. 저장도 기록도 하지 않으므로 모니터링에서 재사용할 수 있습니다.
+create or replace function public.judge_save(p_user uuid, p_data jsonb)
+  returns table (out_rejected text, out_flagged text)
   language plpgsql
+  stable
   security definer
   set search_path = public
 as $$
 declare
-  v_gold    numeric := public.save_num(new.data, '{gold}');
-  v_cards   int     := public.save_len(new.data, 'cards');
-  v_pulls   numeric := public.save_num(new.data, '{pulls,total}');
-  v_played  numeric := coalesce(public.save_num(new.data, '{record,w}'), 0)
-                     + coalesce(public.save_num(new.data, '{record,d}'), 0)
-                     + coalesce(public.save_num(new.data, '{record,l}'), 0);
-  v_season  numeric := public.save_num(new.data, '{season,index}');
+  v_gold    numeric := public.save_num(p_data, '{gold}');
+  v_cards   int     := public.save_len(p_data, 'cards');
+  v_pulls   numeric := public.save_num(p_data, '{pulls,total}');
+  v_played  numeric := coalesce(public.save_num(p_data, '{record,w}'), 0)
+                     + coalesce(public.save_num(p_data, '{record,d}'), 0)
+                     + coalesce(public.save_num(p_data, '{record,l}'), 0);
   v_reason  text := null;
   v_flag    text := null;
   v_last    public.save_audit%rowtype;
@@ -237,10 +242,10 @@ begin
 
   -- (2) 증가 속도: 직전 통과 기록과 비교합니다.
   if v_reason is null then
-    select * into v_last
-    from public.save_audit
-    where user_id = new.user_id and rejected is null
-    order by at desc
+    select sa.* into v_last
+    from public.save_audit sa
+    where sa.user_id = p_user and sa.rejected is null
+    order by sa.at desc
     limit 1;
 
     if v_last.id is not null then
@@ -248,7 +253,6 @@ begin
       v_jump := v_gold - coalesce(v_last.gold, 0);
 
       -- 일괄 방출로 한 번에 크게 오를 수 있으므로 1천만 골드의 여유를 둡니다.
-      -- 그 위는 어떤 정상 조작으로도 설명되지 않습니다.
       if v_jump > (v_seconds * 100000) + 10000000 then
         v_reason := format('gold jumped %s in %s seconds', v_jump, v_seconds);
       end if;
@@ -262,26 +266,238 @@ begin
     end if;
   end if;
 
-  -- (3) 뽑기 대비 카드 수. 이적시장·합성으로도 카드가 늘어나므로 거부하지 않고
-  -- 기록만 합니다.
+  -- (3) 뽑기 대비 카드 수. 이적시장·합성으로도 늘어나므로 기록만 합니다.
   if v_reason is null and v_pulls is not null and v_cards > v_pulls + 1000 then
-    v_flag := concat_ws(' / ', v_flag,
-                        format('cards %s vs pulls %s', v_cards, v_pulls));
+    v_flag := concat_ws(' / ', v_flag, format('cards %s vs pulls %s', v_cards, v_pulls));
   end if;
 
-  insert into public.save_audit
-    (user_id, gold, cards, pulls, played, season, rejected, flagged)
-  values
-    (new.user_id, v_gold, v_cards, v_pulls, v_played, v_season, v_reason, v_flag);
-
-  if v_reason is not null then
-    raise exception 'save rejected: %', v_reason using errcode = 'check_violation';
-  end if;
-
-  return new;
+  return query select v_reason, v_flag;
 end $$;
 
+-- 클라이언트가 세이브를 올리는 유일한 통로입니다.
+create or replace function public.put_save(p_data jsonb)
+  returns jsonb
+  language plpgsql
+  security definer
+  set search_path = public
+as $$
+declare
+  v_user uuid := auth.uid();
+  v_j    record;
+begin
+  if v_user is null then
+    return jsonb_build_object('ok', false, 'reason', 'not signed in');
+  end if;
+  if pg_column_size(p_data) > 524288 then
+    return jsonb_build_object('ok', false, 'reason', 'save too large');
+  end if;
+
+  select j.out_rejected as rejected, j.out_flagged as flagged
+    into v_j
+    from public.judge_save(v_user, p_data) j;
+
+  -- 예외를 던지지 않으므로 이 기록은 반드시 남습니다. 거부된 저장이야말로
+  -- 남겨야 하는 기록입니다.
+  insert into public.save_audit
+    (user_id, gold, cards, pulls, played, season, rejected, flagged)
+  values (
+    v_user,
+    public.save_num(p_data, '{gold}'),
+    public.save_len(p_data, 'cards'),
+    public.save_num(p_data, '{pulls,total}'),
+    coalesce(public.save_num(p_data, '{record,w}'), 0)
+      + coalesce(public.save_num(p_data, '{record,d}'), 0)
+      + coalesce(public.save_num(p_data, '{record,l}'), 0),
+    public.save_num(p_data, '{season,index}'),
+    v_j.rejected,
+    v_j.flagged
+  );
+
+  if v_j.rejected is not null then
+    return jsonb_build_object('ok', false, 'reason', v_j.rejected);
+  end if;
+
+  insert into public.saves (user_id, data, updated_at)
+  values (v_user, p_data, now())
+  on conflict (user_id) do update
+    set data = excluded.data, updated_at = excluded.updated_at;
+
+  return jsonb_build_object('ok', true);
+end $$;
+
+revoke all on function public.put_save(jsonb) from public;
+grant execute on function public.put_save(jsonb) to authenticated;
+
+-- 직접 쓰기는 막습니다. 읽기는 본인 것만, 쓰기는 put_save()만.
+drop policy if exists "saves are private" on public.saves;
+drop policy if exists "players read their own save" on public.saves;
+create policy "players read their own save" on public.saves
+  for select to authenticated using (auth.uid() = user_id);
+-- insert/update 정책이 없으므로 클라이언트의 직접 쓰기는 거부됩니다.
+-- put_save()는 security definer라 이 정책을 거치지 않습니다.
+
 drop trigger if exists guard_save_trigger on public.saves;
-create trigger guard_save_trigger
-  before insert or update on public.saves
-  for each row execute function public.guard_save();
+
+-- ---------------------------------------------------------------------------
+-- 5. 모니터링 — 한 가지 신호를 믿지 않는다
+-- ---------------------------------------------------------------------------
+-- 조작을 한 가지 검사로 잡으려 하면, 그 검사를 피하는 방법 하나만 알면 전부
+-- 통과합니다. 그래서 서로 다른 층에서 독립적으로 신호를 만들고, 겹치는 계정을
+-- 위로 올립니다. 한 신호는 우연일 수 있지만 세 신호가 겹치면 우연이 아닙니다.
+--
+-- 여기 있는 것은 전부 뷰입니다. 원본 기록을 바꾸지 않으므로 규칙을 나중에
+-- 고쳐도 과거 데이터를 다시 볼 수 있습니다.
+
+-- (1) 거부·표시된 저장. 가장 직접적인 신호.
+create or replace view public.watch_rejects as
+  select user_id,
+         count(*) filter (where rejected is not null) as rejects,
+         count(*) filter (where flagged is not null)  as flags,
+         max(at) as last_at,
+         max(coalesce(rejected, flagged)) as sample
+  from public.save_audit
+  where at > now() - interval '30 days'
+    and (rejected is not null or flagged is not null)
+  group by user_id;
+
+-- (2) 저장 빈도. 사람이 손으로 하는 플레이에는 한계가 있습니다. 자동화된
+--     클라이언트는 여기서 드러납니다.
+create or replace view public.watch_write_rate as
+  select user_id,
+         count(*) as writes_1h,
+         min(at) as since
+  from public.save_audit
+  where at > now() - interval '1 hour'
+  group by user_id
+  having count(*) > 240;   -- 15초에 한 번꼴이 한 시간 내내
+
+-- (3) 진행 속도. 골드가 시간당 얼마나 늘었는지를 계정끼리 비교합니다.
+--     절대 기준이 아니라 또래 대비 이상치를 봅니다.
+create or replace view public.watch_progress as
+  with span as (
+    select user_id,
+           max(gold) - min(gold) as gold_gain,
+           max(played) - min(played) as matches,
+           extract(epoch from (max(at) - min(at))) / 3600 as hours
+    from public.save_audit
+    where at > now() - interval '7 days' and rejected is null
+    group by user_id
+    having extract(epoch from (max(at) - min(at))) > 3600
+  )
+  select user_id,
+         gold_gain,
+         matches,
+         round(gold_gain / greatest(hours, 1)) as gold_per_hour,
+         round((matches / greatest(hours, 1))::numeric, 1) as matches_per_hour
+  from span;
+
+-- (4) 되돌아간 진행. 정상 플레이에서 전적은 줄지 않습니다. 줄었다면 예전
+--     세이브를 다시 올린 것이고, 보상만 챙기고 되감는 수법의 흔적입니다.
+create or replace view public.watch_rollback as
+  with pairs as (
+    select user_id, at, played, gold,
+           lag(played) over (partition by user_id order by at) as prev_played,
+           lag(gold) over (partition by user_id order by at) as prev_gold
+    from public.save_audit
+    where rejected is null and at > now() - interval '30 days'
+  )
+  select user_id,
+         count(*) as rollbacks,
+         max(at) as last_at,
+         max(prev_played - played) as biggest_drop
+  from pairs
+  where played < prev_played
+  group by user_id;
+
+-- (5) 게시판 도배. 조작과 별개로 서비스를 해치는 행동입니다.
+create or replace view public.watch_spam as
+  select user_id, count(*) as posts_1h, max(created_at) as last_at
+  from public.posts
+  where created_at > now() - interval '1 hour'
+  group by user_id
+  having count(*) > 20;
+
+-- 모든 신호를 한 줄로 모읍니다. 겹칠수록 위로 올라옵니다.
+create or replace view public.watchlist as
+  with signals as (
+    select user_id, 'reject' as signal, rejects as weight,
+           format('거부 %s건 · 표시 %s건 (%s)', rejects, flags, sample) as detail,
+           last_at
+    from public.watch_rejects
+    union all
+    select user_id, 'write_rate', 1, format('1시간 저장 %s회', writes_1h), now()
+    from public.watch_write_rate
+    union all
+    select user_id, 'gold_rate', 1, format('시간당 골드 %s', gold_per_hour), now()
+    from public.watch_progress
+    where gold_per_hour > 2000000
+    union all
+    select user_id, 'match_rate', 1, format('시간당 경기 %s판', matches_per_hour), now()
+    from public.watch_progress
+    where matches_per_hour > 200
+    union all
+    select user_id, 'rollback', rollbacks, format('되감기 %s회 (최대 %s판)', rollbacks, biggest_drop), last_at
+    from public.watch_rollback
+    union all
+    select user_id, 'spam', 1, format('1시간 글 %s개', posts_1h), last_at
+    from public.watch_spam
+  )
+  select user_id,
+         count(distinct signal) as signals,
+         sum(weight) as score,
+         array_agg(distinct signal) as kinds,
+         string_agg(detail, ' / ' order by detail) as detail,
+         max(last_at) as last_at
+  from signals
+  group by user_id
+  order by count(distinct signal) desc, sum(weight) desc;
+
+-- 뷰는 만든 사람 권한으로 도는 것이 기본이라, 운영자인지 여기서 한 번 더
+-- 확인합니다. 운영자가 아니면 빈 결과를 봅니다.
+create or replace function public.watchlist_for_admin()
+  returns table (
+    user_id  uuid,
+    email    text,
+    signals  bigint,
+    score    numeric,
+    kinds    text[],
+    detail   text,
+    last_at  timestamptz
+  )
+  language sql
+  stable
+  security definer
+  set search_path = public
+as $$
+  select w.user_id, u.email, w.signals, w.score, w.kinds, w.detail, w.last_at
+  from public.watchlist w
+  left join auth.users u on u.id = w.user_id
+  where public.is_admin()
+  order by w.signals desc, w.score desc
+  limit 100;
+$$;
+
+revoke all on function public.watchlist_for_admin() from public;
+grant execute on function public.watchlist_for_admin() to authenticated;
+
+-- 서비스 전체 상태 한 줄. 개인이 아니라 추세를 봅니다.
+create or replace function public.health_for_admin()
+  returns jsonb
+  language sql
+  stable
+  security definer
+  set search_path = public
+as $$
+  select case when not public.is_admin() then '{}'::jsonb else jsonb_build_object(
+    'saves_24h',    (select count(*) from public.save_audit where at > now() - interval '24 hours'),
+    'rejects_24h',  (select count(*) from public.save_audit where at > now() - interval '24 hours' and rejected is not null),
+    'flags_24h',    (select count(*) from public.save_audit where at > now() - interval '24 hours' and flagged is not null),
+    'players_24h',  (select count(distinct user_id) from public.save_audit where at > now() - interval '24 hours'),
+    'watchlist',    (select count(*) from public.watchlist),
+    'watchlist_multi', (select count(*) from public.watchlist where signals > 1),
+    'posts_24h',    (select count(*) from public.posts where created_at > now() - interval '24 hours')
+  ) end;
+$$;
+
+revoke all on function public.health_for_admin() from public;
+grant execute on function public.health_for_admin() to authenticated;

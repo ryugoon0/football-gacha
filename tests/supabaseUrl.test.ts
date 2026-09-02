@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { normalizeSupabaseUrl, friendlyError } from '../lib/supabase'
+import { normalizeSupabaseUrl, friendlyError, rejectionMessage } from '../lib/supabase'
 
 describe('supabase url', () => {
   const project = 'https://mpndwtqvwmarkepxzhew.supabase.co'
@@ -25,12 +25,21 @@ describe('supabase url', () => {
   })
 })
 
-describe('turning server errors into something a player can act on', () => {
-  it('explains a save the guard refused instead of showing SQL', () => {
-    const message = friendlyError('save rejected: gold out of range: 999999999999999')
-    expect(message).not.toContain('save rejected')
+describe('turning a refusal into something a player can act on', () => {
+  it('never shows the operator-facing reason on screen', () => {
+    // put_save writes its reason for the audit log, not for the phone.
+    const message = rejectionMessage('gold out of range: 999999999999999')
     expect(message).not.toContain('gold out of range')
     expect(message).toContain('정상적인 플레이로 만들 수 없는')
+  })
+
+  it('says what to do for the refusals a normal player can hit', () => {
+    expect(rejectionMessage('not signed in')).toContain('다시 로그인')
+    expect(rejectionMessage('save too large')).toContain('보관함')
+  })
+
+  it('points at the migration when the save function is missing', () => {
+    expect(friendlyError('permission denied for table saves')).toContain('schema.sql')
   })
 
   it('leaves an unrecognised message alone rather than guessing', () => {

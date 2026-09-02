@@ -83,11 +83,9 @@ export function friendlyError(message: string): string {
     [/Unable to validate email/i, '이메일 형식을 확인해 주세요.'],
     [/Email rate limit|rate limit/i, '요청이 너무 잦습니다. 잠시 후 다시 시도해 주세요.'],
     [/Failed to fetch|NetworkError/i, '서버에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요.'],
-    // The save guard in supabase/schema.sql refuses states that no amount of
-    // play could produce. It fires on a tampered save, not on a normal one.
     [
-      /save rejected/i,
-      '이 진행 상황은 정상적인 플레이로 만들 수 없는 값이어서 계정에 저장하지 않았습니다. 문의해 주세요.',
+      /put_save|permission denied for table saves/i,
+      '계정 저장 설정이 최신이 아닙니다. supabase/schema.sql을 다시 실행해 주세요.',
     ],
   ]
   for (const [test, text] of table) if (test.test(message)) return text
@@ -117,4 +115,17 @@ export async function checkConnection(): Promise<{ ok: boolean; message: string 
     const message = error instanceof Error ? error.message : String(error)
     return { ok: false, message: friendlyError(message) }
   }
+}
+
+/**
+ * put_save refused the upload. The reason it returns is written for an
+ * operator reading the audit, not for the person holding the phone, so it is
+ * translated here and the raw text is kept out of the screen.
+ */
+export function rejectionMessage(reason?: string): string {
+  if (reason === 'not signed in') return '로그인이 풀렸습니다. 다시 로그인해 주세요.'
+  if (reason === 'save too large') {
+    return '세이브가 너무 커서 계정에 저장하지 못했습니다. 보관함을 정리해 주세요.'
+  }
+  return '이 진행 상황은 정상적인 플레이로 만들 수 없는 값이어서 계정에 저장하지 않았습니다. 문의해 주세요.'
 }
