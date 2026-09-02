@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { normalizeSupabaseUrl } from '../lib/supabase'
+import { normalizeSupabaseUrl, friendlyError } from '../lib/supabase'
 
 describe('supabase url', () => {
   const project = 'https://mpndwtqvwmarkepxzhew.supabase.co'
@@ -22,5 +22,18 @@ describe('supabase url', () => {
   it('treats a missing value as unconfigured', () => {
     expect(normalizeSupabaseUrl(undefined)).toBe('')
     expect(normalizeSupabaseUrl('   ')).toBe('')
+  })
+})
+
+describe('turning server errors into something a player can act on', () => {
+  it('explains a save the guard refused instead of showing SQL', () => {
+    const message = friendlyError('save rejected: gold out of range: 999999999999999')
+    expect(message).not.toContain('save rejected')
+    expect(message).not.toContain('gold out of range')
+    expect(message).toContain('정상적인 플레이로 만들 수 없는')
+  })
+
+  it('leaves an unrecognised message alone rather than guessing', () => {
+    expect(friendlyError('something else entirely')).toBe('something else entirely')
   })
 })

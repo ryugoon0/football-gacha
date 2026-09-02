@@ -83,6 +83,12 @@ export function friendlyError(message: string): string {
     [/Unable to validate email/i, '이메일 형식을 확인해 주세요.'],
     [/Email rate limit|rate limit/i, '요청이 너무 잦습니다. 잠시 후 다시 시도해 주세요.'],
     [/Failed to fetch|NetworkError/i, '서버에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요.'],
+    // The save guard in supabase/schema.sql refuses states that no amount of
+    // play could produce. It fires on a tampered save, not on a normal one.
+    [
+      /save rejected/i,
+      '이 진행 상황은 정상적인 플레이로 만들 수 없는 값이어서 계정에 저장하지 않았습니다. 문의해 주세요.',
+    ],
   ]
   for (const [test, text] of table) if (test.test(message)) return text
   return message

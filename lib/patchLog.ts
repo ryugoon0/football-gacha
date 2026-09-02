@@ -34,6 +34,16 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-02-security-boundary',
+    date: '2026-09-02',
+    kind: 'internal',
+    title: '신뢰 경계 설계와 세이브 감사 · 방어벽',
+    detail: [
+      '상용화와 실시간 리그를 전제로 서버 권한 이전 계획을 문서로 확정했습니다.',
+      '세이브 쓰기를 전부 기록하고, 정상 플레이로는 불가능한 값은 서버가 거부합니다.',
+    ],
+  },
+  {
     id: '2026-09-02-tactics-compare',
     date: '2026-09-02',
     kind: 'feature',
