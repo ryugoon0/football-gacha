@@ -318,6 +318,29 @@ function MatchDay() {
     setNotice(`지친 선수 ${auto.subs.length}명 교체 지시 · 경기가 멈추면 투입됩니다`)
   }
 
+  // Legs go during a match, not only before it. When automatic substitution is
+  // on, a starter who drops below the tired mark is queued the same way an
+  // order from the manager is — nothing changes mid-move, it goes in at the
+  // next stoppage. Reading from plannedSquad means a player already queued to
+  // come off is not queued again.
+  useEffect(() => {
+    if (!state.autoSub || !engine.state || engine.state.finished) return
+    if (engine.state.phase === 'kickoff') return
+
+    const auto = applyAutoSubs(state.cards, plannedSquad, division, conditionOf, tune('liveTired'))
+    if (auto.subs.length === 0) return
+
+    setPendingSubs((current) => [
+      ...current,
+      ...auto.subs.map((sub) => ({ slotId: sub.slotId, outUid: sub.outUid, inUid: sub.inUid })),
+    ])
+    setNotice(
+      `자동 교체 — ${auto.subs.map((sub) => `${sub.outName} → ${sub.inName}`).join(', ')} · 경기가 멈추면 투입됩니다`,
+    )
+    // Runs as the clock moves; everything else it reads is derived from state.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [engine.state?.minute, state.autoSub])
+
   // The whistle goes: everything the manager queued up goes in now.
   useEffect(() => {
     if (!engine.canIntervene) return

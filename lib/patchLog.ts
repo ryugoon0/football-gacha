@@ -34,6 +34,16 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-02-live-autosub',
+    date: '2026-09-02',
+    kind: 'feature',
+    title: '경기 중 자동 교체',
+    detail: [
+      '경기 도중 체력이 떨어진 선수를 자동으로 교체합니다. 지시는 바로 들어가고 경기가 멈추면 투입됩니다.',
+      '교체로 들어갈 선수가 곧바로 다시 빠질 만큼 지쳐 있으면 아예 바꾸지 않습니다.',
+    ],
+  },
+  {
     id: '2026-09-02-lineup-and-items',
     date: '2026-09-02',
     kind: 'balance',

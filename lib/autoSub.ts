@@ -63,7 +63,11 @@ export function applyAutoSubs(
       const candidate = byUid.get(benchUid)
       const player = candidate ? getPlayer(candidate.playerId) : undefined
       if (!candidate || !player) return
-      if (isInjured(candidate) || conditionOf(candidate) < SUB_READY_CONDITION) return
+      // A replacement must be fresher than the bar we just pulled someone out
+      // for, or the pair swap places again the moment the whistle goes. The
+      // operator can raise the tired threshold, so this cannot be a constant.
+      const readyAt = Math.max(SUB_READY_CONDITION, tiredBelow)
+      if (isInjured(candidate) || conditionOf(candidate) < readyAt) return
       if (levelTotal - starter.level + candidate.level > cap) return
 
       // Out of position is a heavy penalty rather than a ban, so an injured

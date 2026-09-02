@@ -8,9 +8,13 @@ const result = (): MatchResult => ({
   scoreFor: 2,
   scoreAgainst: 1,
   opponent: '연습 상대',
+  opponentRating: 60,
   reward: 500,
   scorerUids: [],
-  venue: 'home',
+  events: [],
+  possession: 52,
+  shotsFor: 12,
+  shotsAgainst: 9,
 })
 
 /** The same squad with one starter swapped for a bench player. */
