@@ -1767,7 +1767,7 @@ begin
     )
   ) order by j.jobname) into v_jobs
   from cron.job j
-  where j.jobname in ('settle-weekly-fixtures', 'auto-bootstrap-placement');
+  where j.jobname in ('settle-weekly-fixtures', 'auto-bootstrap-placement', 'auto-bootstrap-regular-season');
 
   return jsonb_build_object('ok', true, 'jobs', coalesce(v_jobs, '[]'::jsonb));
 end $$;
