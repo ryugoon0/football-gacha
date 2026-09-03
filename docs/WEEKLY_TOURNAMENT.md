@@ -56,27 +56,59 @@ method)으로 16팀 단일 라운드로빈(15라운드)을 한 번 만들고, �
 대진을 만듭니다 — 탈락한 구단은 그 목록에 아예 없으므로 다음 라운드 슬롯에
 자동으로 나타나지 않습니다. 대체 경기(친선전 등)를 만드는 코드 자체가 없습니다.
 
+## Phase 2 — 영속화 (스키마 완료, 배정·정산 로직은 아직)
+
+`supabase/migrations/20260904000000_weekly_tournament.sql`(`supabase/schema.sql`
+9절에도 반영) — `weekly_league_groups` / `weekly_league_members` /
+`weekly_schedule_slots` / `weekly_competitions` / `weekly_fixtures` /
+`weekly_cup_ties` 여섯 테이블과, 대진을 저장만 하는 4개 RPC
+(`seed_weekly_schedule_slots` / `create_weekly_league_group` /
+`seed_weekly_competitions` / `seed_league_fixtures` / `seed_cup_stage_ties`,
+전부 service_role 전용).
+
+**컵 8강부터는 한 번에 안 만듭니다.** 요구사항 10절("2차전 결과가 나오기
+전에는 다음 라운드 대진을 확정하지 않는다")을 그대로 따라, 그룹 생성 시점에는
+리그 90경기와 컵 16강만 저장하고, 8강·4강·결승은 이전 스테이지가
+`advanceStageIfDone`으로 정해진 뒤 `seed_cup_stage_ties`를 그 스테이지에 대해
+한 번 더 호출해서 만듭니다 — 미리 빈 자리를 예약해두는 대신, 필요해지는
+시점에만 fixture를 만드는 방식으로 같은 요구사항을 만족시켰습니다.
+
+각 RPC는 "이미 있으면 그대로 둔다"로 멱등성을 보장합니다(재실행해도 중복
+안 생김 — 요구사항 20). `lib/weeklyLeague/persistence.ts`가 Phase 1의 순수
+함수 출력(GlobalSlot·LeagueFixtureDef·CupBracket)을 이 RPC들이 기대하는
+JSONB 모양으로 바꾸는 매핑을 담당하고, `tests/weeklyLeaguePersistence.test.ts`
+(12개)로 검증했습니다 — KST↔UTC 변환, club id↔슬롯 번호 매핑, 리그/컵
+스케줄 시각 배정을 확인합니다.
+
+**마이그레이션은 `BEGIN ... ROLLBACK`으로 실제 운영 DB에 대고 검증했고
+(스키마 생성 + 그룹·대회·리그 8경기·컵 R16 8타이 생성 + 재실행 시 0건 삽입
+확인), 굳이 실제로 반영(db push)하지는 않았습니다 — 아직 이걸 호출하는
+쪽(Edge Function)이 없어서 테이블만 먼저 만들 이유가 없습니다.** 검증 중
+실제로 버그 하나를 잡았습니다: `weekly_fixtures`의 "한 구단이 같은 시각에
+중복 경기 없음" 유니크 인덱스가 대회 종류와 무관하게 걸려 있어서(의도한
+대로— 리그든 컵이든 실제로 같은 시각에 두 경기를 할 수는 없음), 스모크
+테스트 데이터가 리그와 컵 fixture에 같은 시각을 썼다가 그 제약에 걸렸습니다 —
+스키마 버그가 아니라 테스트 데이터 버그였고, 고치고 재검증했습니다.
+
+남은 것:
+- Edge Function(대진 생성기) — Phase 1 순수 함수 + persistence.ts 매핑을
+  실제로 호출해서 이 RPC들에 보내는 서버 함수가 아직 없습니다.
+- 요구사항 19(같은 스냅샷·시드 재실행 시 동일 결과)는 이미 있는 PR2
+  (`supabase/functions/simulate-match`)의 시드 재현 구조를 재사용할
+  계획이지만, 이 스케줄과 엮어 검증하는 테스트는 아직 없습니다.
+- 컵 fixture 결과를 실제로 기록하고 `weekly_cup_ties`의 합산·승자·`decidedBy`를
+  갱신하는 정산 RPC/로직이 아직 없습니다(지금 RPC는 대진 "저장"까지만).
+
 ## 테스트 결과
 
 ```
 npx tsc --noEmit    → 통과
-npx vitest run      → 443/443 통과 (신규 26개 포함)
+npx vitest run      → 455/455 통과 (weeklyLeague 26개 + persistence 12개 포함)
 npx next lint       → 경고·오류 없음
 npm run build       → 성공
 ```
 
-## 남은 위험 요소와 후속 작업 (Phase 2, 3)
-
-**Phase 2 — 영속화**
-- `Competition` / `Fixture` / `CupTie` / `ScheduleSlot` DB 스키마와 안전한
-  마이그레이션. Phase 1의 순수 함수 출력(슬롯·대진·브래킷 상태)을 그대로
-  저장 형태로 옮기는 매핑이 필요합니다. **운영 DB에는 아직 아무것도 적용하지
-  않았습니다.**
-- 요구사항 19(같은 스냅샷·시드 재실행 시 동일 결과)는 이미 있는 PR2
-  (`supabase/functions/simulate-match`)의 시드 재현 구조를 그대로 재사용할
-  계획이지만, 실제로 이 스케줄과 엮어 검증하는 테스트는 아직 없습니다.
-
-**Phase 3 — 자동 진행**
+## 남은 위험 요소와 후속 작업 (Phase 3)
 - 사용자가 승인한 크론(Supabase pg_cron 등)을 실제로 들여오는 일. 슬롯
   시각이 되면 그 슬롯의 모든 fixture를 저장된 스냅샷(선발·전술·컨디션 등)으로
   일괄 정산해야 합니다 — 지금 PR2는 유저가 클릭해야 도는 구조라 "아무도
