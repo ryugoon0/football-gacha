@@ -133,6 +133,8 @@ function logMatch(
       result: result.result,
       reward,
       at: Date.now(),
+      seed: result.seed,
+      engineVersion: result.engineVersion,
     },
     ...state.history,
   ].slice(0, 20)

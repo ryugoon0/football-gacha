@@ -42,6 +42,8 @@ const matchResult = (
   possession: 55,
   shotsFor: 10,
   shotsAgainst: 6,
+  seed: 'test-seed',
+  engineVersion: 'test',
 })
 
 describe('drawing', () => {
@@ -303,6 +305,8 @@ describe('playing a season', () => {
     expect(next.daily.progress.win).toBe(1)
     expect(next.history).toHaveLength(1)
     expect(next.history[0].competition).toBe('league')
+    expect(next.history[0].seed).toBe('test-seed')
+    expect(next.history[0].engineVersion).toBe('test')
   })
 
   it('keeps the score the right way round when away', () => {

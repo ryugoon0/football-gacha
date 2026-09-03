@@ -18,6 +18,8 @@ const result = (over: Partial<MatchResult> = {}): MatchResult => ({
   shotsFor: 8,
   shotsAgainst: 5,
   possession: 55,
+  seed: 'test-seed',
+  engineVersion: 'test',
   ...over,
 })
 

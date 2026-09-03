@@ -24,7 +24,7 @@ import {
 import { SEASON_SCHEDULE, TOTAL_MATCHDAYS } from '../../lib/schedule'
 import { evaluateSquad, missingSlots } from '../../lib/squad'
 import type { MatchResult, Squad } from '../../lib/types'
-import { MINI_GAME_REWARD, matchReward, simulateMatch } from '../../lib/match'
+import { MINI_GAME_REWARD, matchReward, matchSeed, simulateMatch } from '../../lib/match'
 import {
   averageStamina,
   shapeFromSquad,
@@ -202,7 +202,10 @@ function MatchDay() {
 
   const engine = useLiveEngine(setup, (final) => {
     if (!setup) return
-    const base = toResult(final, setup)
+    // useLiveEngine ticks the pure engine with an unseeded rng (see its own
+    // file), so this seed labels the result rather than reproducing it —
+    // making that replayable is real-time-engine work, not this pass.
+    const base = toResult(final, setup, { seed: matchSeed() })
     const result = {
       ...base,
       reward: matchReward(base.result, division, base.scoreFor),

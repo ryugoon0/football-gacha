@@ -134,8 +134,15 @@ Supabase로 반영했습니다(README의 "계정과 게시판 켜기" 참고). �
 조정합니다. 아래가 새 순서이고, 이전 순서(seed → 확률확정 → 조각경제 → 서버화)는
 이걸로 대체합니다.
 
-1. **seed + engineVersion 기록** — 그대로 최우선. 작고, 서버 판정·리플레이·나머지
-   작업 전부의 전제입니다.
+1. ~~**seed + engineVersion 기록**~~ — **반영 완료 (2026-09-03).** `MatchResult`에
+   `seed`/`engineVersion`이 필수 필드로 붙었고(`lib/types.ts`), `lib/match.ts`의
+   `simulateMatch`는 seed가 없으면 새로 만들어 그 seed로 rng를 파생시킵니다 — 같은
+   seed + `ENGINE_VERSION`(`lib/matchEngine.ts`)이면 스코어·득점자·이벤트가
+   그대로 재현됩니다(`tests/match.test.ts`의 "match reproducibility"). 다만
+   실시간 관전 모드(`useLiveEngine`가 `advance()`를 시드 없는 rng로 직접 돌림)는
+   seed를 기록만 하고 아직 재현은 못 합니다 — 그건 다음 항목(경기 판정 서버화)의
+   몫입니다. `MatchSummary`(세이브 history)는 두 필드가 선택값이라 기존 세이브도
+   그대로 읽힙니다.
 2. **경기 판정 서버화** (`SECURITY_ARCHITECTURE.md` 3단계) — 실유저 매칭·PvP의
    필수 선행 조건. 클라이언트가 결과를 만들어 보내는 지금 구조로는 매칭 자체가
    무의미합니다.

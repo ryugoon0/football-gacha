@@ -21,6 +21,14 @@ import type { FormationKey, MatchEvent, MatchResult, Position } from './types'
 
 export type Venue = 'home' | 'away' | 'neutral'
 
+/**
+ * Bumped whenever a change to this file (or anything it calls into for
+ * match resolution) could shift outcomes. A result carries the version it
+ * was produced under, so replaying a seed later is never silently compared
+ * against a different engine and mistaken for a reproduction.
+ */
+export const ENGINE_VERSION = 'match-engine-20260903-1'
+
 /** Rating bump for playing at home. */
 export const HOME_ADVANTAGE = KNOBS.homeAdvantage.default
 /** How long play is halted, in ticks. */
@@ -669,7 +677,11 @@ export function possessionPercent(state: LiveMatchState): number {
   return Math.round((state.possessionTicks.home / total) * 100)
 }
 
-export function toResult(state: LiveMatchState, setup: MatchSetup): MatchResult {
+export function toResult(
+  state: LiveMatchState,
+  setup: MatchSetup,
+  meta: { seed: string; engineVersion?: string },
+): MatchResult {
   return {
     opponent: setup.opponent.name,
     scorerUids: state.scorerUids,
@@ -682,5 +694,7 @@ export function toResult(state: LiveMatchState, setup: MatchSetup): MatchResult 
     possession: possessionPercent(state),
     shotsFor: state.shotsFor,
     shotsAgainst: state.shotsAgainst,
+    seed: meta.seed,
+    engineVersion: meta.engineVersion ?? ENGINE_VERSION,
   }
 }

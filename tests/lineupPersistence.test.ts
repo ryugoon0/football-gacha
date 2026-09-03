@@ -15,6 +15,8 @@ const result = (): MatchResult => ({
   possession: 52,
   shotsFor: 12,
   shotsAgainst: 9,
+  seed: 'test-seed',
+  engineVersion: 'test',
 })
 
 /** The same squad with one starter swapped for a bench player. */

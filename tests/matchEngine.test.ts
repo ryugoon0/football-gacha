@@ -115,7 +115,7 @@ describe('live engine', () => {
   it('finishes after ninety minutes with a coherent result', () => {
     const setup = setupOf()
     const state = runToEnd(setup, seededRandom(7))
-    const result = toResult(state, setup)
+    const result = toResult(state, setup, { seed: 'test-seed-7' })
 
     expect(state.minute).toBe(90)
     expect(state.events[state.events.length - 1].type).toBe('full')

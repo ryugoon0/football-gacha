@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { matchReward, simulateMatch } from '../lib/match'
+import { ENGINE_VERSION } from '../lib/matchEngine'
 import { DEFAULT_TACTIC } from '../lib/tactics'
 import { seededRandom } from '../lib/players'
 import { evaluateSquad } from '../lib/squad'
@@ -84,5 +85,41 @@ describe('match simulation', () => {
     expect(matchReward('W', 5, 1)).toBeGreaterThan(matchReward('D', 5, 1))
     expect(matchReward('D', 5, 0)).toBeGreaterThan(matchReward('L', 5, 0))
     expect(matchReward('W', 1, 0)).toBeGreaterThan(matchReward('W', 5, 0))
+  })
+})
+
+describe('match reproducibility', () => {
+  const setupOf = (extra: Partial<Parameters<typeof simulateMatch>[0]> = {}) => {
+    const state = initialState()
+    return {
+      team: evaluateSquad(state.cards, state.squad),
+      teamName: state.club,
+      opponent: team(60),
+      division: 5,
+      venue: 'home' as const,
+      tactic: DEFAULT_TACTIC,
+      ...extra,
+    }
+  }
+
+  it('replays the same score and scorers from the same seed', () => {
+    const a = simulateMatch({ ...setupOf(), seed: 'reproduce-me' })
+    const b = simulateMatch({ ...setupOf(), seed: 'reproduce-me' })
+
+    expect(a.seed).toBe('reproduce-me')
+    expect(b.scoreFor).toBe(a.scoreFor)
+    expect(b.scoreAgainst).toBe(a.scoreAgainst)
+    expect(b.scorerUids).toEqual(a.scorerUids)
+    expect(b.events).toEqual(a.events)
+  })
+
+  it('gives every match its own seed and the current engine version, even unasked', () => {
+    const a = simulateMatch(setupOf())
+    const b = simulateMatch(setupOf())
+
+    expect(a.seed).toBeTruthy()
+    expect(b.seed).toBeTruthy()
+    expect(a.seed).not.toBe(b.seed)
+    expect(a.engineVersion).toBe(ENGINE_VERSION)
   })
 })

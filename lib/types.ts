@@ -98,6 +98,13 @@ export interface MatchSummary {
   result: 'W' | 'D' | 'L'
   reward: number
   at: number
+  /**
+   * What produced this result, so it can be replayed later — a balance
+   * change or a bug report needs to know which engine ran and with what
+   * rng. Optional: saves from before this was tracked have neither.
+   */
+  seed?: string
+  engineVersion?: string
 }
 
 export interface GameState {
@@ -165,4 +172,10 @@ export interface MatchResult {
   possession: number
   shotsFor: number
   shotsAgainst: number
+  /** The rng seed this match ran on. Same seed + engineVersion, same result. */
+  seed: string
+  /** Which build of the match engine produced this — bumped on any change
+   * that could shift outcomes, so an old result is never silently replayed
+   * on a different engine and called reproduced. */
+  engineVersion: string
 }
