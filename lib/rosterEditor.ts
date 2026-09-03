@@ -188,9 +188,13 @@ export function overridesBlock(edits: EditMap): string {
 
 export function pasteInstructions(): string {
   return [
-    'lib/rosterOverrides.ts를 열고 PLAYER_OVERRIDES 블록을 통째로 이 내용으로 바꾸세요.',
+    'lib/rosterOverrides.ts를 열고 PLAYER_OVERRIDES 블록을 이 내용으로 바꾸세요.',
+    '주의: 이 화면이 아는 건 지금 켜져 있는 페이지가 불러온 시점의 파일뿐입니다.',
+    '그 뒤 다른 세션이나 다른 사람이 커밋한 항목은 여기 안 보입니다 —',
+    '통째로 덮어쓰기 전에 실제 파일을 열어 이 목록에 없는 다른 선수 항목이',
+    '있는지 먼저 확인하고, 있다면 지우지 말고 이 항목만 더해 넣으세요.',
     '적지 않은 능력치는 지금처럼 자동으로 생성됩니다.',
-    '커밋하고 배포한 뒤, 뽑기는 서버가 하므로 함수도 다시 배포해야 합니다:',
-    'npm run build:functions && npx supabase functions deploy draw-pack',
+    '커밋하고 배포한 뒤, 뽑기·경기 판정도 서버가 하므로 함수도 다시 배포해야 합니다:',
+    'npm run build:functions && npx supabase functions deploy draw-pack && npx supabase functions deploy simulate-match',
   ].join('\n')
 }
