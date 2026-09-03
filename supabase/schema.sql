@@ -1363,6 +1363,7 @@ as $$
 begin
   insert into public.weekly_competitions (group_id, type, display_name)
   values
+    (p_group_id, 'OPENING_PLACEMENT', '개막 배치 리그'),
     (p_group_id, 'LEAGUE', '리그'),
     (p_group_id, 'CUP_A', 'Cup A'),
     (p_group_id, 'CUP_B', 'Cup B'),
@@ -1494,3 +1495,87 @@ end $$;
 revoke all on function public.seed_cup_stage_ties(bigint, bigint, text, jsonb) from public;
 revoke all on function public.seed_cup_stage_ties(bigint, bigint, text, jsonb) from authenticated;
 grant execute on function public.seed_cup_stage_ties(bigint, bigint, text, jsonb) to service_role;
+
+-- ---------------------------------------------------------------------------
+-- 10. 주간 대회 경기 자동 정산 — 임시 근사치 (docs/WEEKLY_TOURNAMENT.md)
+-- ---------------------------------------------------------------------------
+-- 진짜 카드·전술 기반 엔진으로 정산하려면 이 리그용 스쿼드를 유저가 저장하는
+-- 화면이 먼저 있어야 하는데 아직 없다. 지금은 weekly_league_members.rating
+-- 하나로 lib/league.ts의 simulateAiMatch와 같은 포아송 모델을 SQL로 옮겨
+-- 쓴다 — "로직은 한 벌" 원칙에서 벗어나는 걸 알면서 하는 선택. 실제 엔진이
+-- 붙으면 이 함수는 은퇴시키고 Edge Function 기반 정산으로 옮긴다.
+
+create extension if not exists pg_cron;
+
+create or replace function public._weekly_poisson_goal(p_lambda numeric)
+  returns int
+  language plpgsql
+as $$
+declare
+  v_limit numeric := exp(-p_lambda);
+  v_goals int := 0;
+  v_product numeric := random();
+begin
+  while v_product > v_limit and v_goals < 9 loop
+    v_goals := v_goals + 1;
+    v_product := v_product * random();
+  end loop;
+  return v_goals;
+end $$;
+
+revoke all on function public._weekly_poisson_goal(numeric) from public;
+revoke all on function public._weekly_poisson_goal(numeric) from authenticated;
+
+create or replace function public.settle_due_weekly_fixtures(p_limit int default 500)
+  returns jsonb
+  language plpgsql
+  security definer
+  set search_path = public
+as $$
+declare
+  v_row record;
+  v_count int := 0;
+  v_home_rating smallint;
+  v_away_rating smallint;
+  v_diff numeric;
+  v_lambda_home numeric;
+  v_lambda_away numeric;
+begin
+  for v_row in
+    select id, group_id, home_slot, away_slot
+    from public.weekly_fixtures
+    where status = 'pending' and scheduled_at_utc <= now()
+    order by scheduled_at_utc
+    limit p_limit
+    for update skip locked
+  loop
+    select rating into v_home_rating from public.weekly_league_members
+      where group_id = v_row.group_id and slot = v_row.home_slot;
+    select rating into v_away_rating from public.weekly_league_members
+      where group_id = v_row.group_id and slot = v_row.away_slot;
+
+    v_diff := coalesce(v_home_rating, 60) + 3 - coalesce(v_away_rating, 60);
+    v_lambda_home := greatest(0.25, least(4.5, 1.3 + v_diff / 22));
+    v_lambda_away := greatest(0.25, least(4.5, 1.3 - v_diff / 22));
+
+    update public.weekly_fixtures
+      set score_home = public._weekly_poisson_goal(v_lambda_home),
+          score_away = public._weekly_poisson_goal(v_lambda_away),
+          status = 'played',
+          settled_at = now()
+      where id = v_row.id;
+
+    v_count := v_count + 1;
+  end loop;
+
+  return jsonb_build_object('ok', true, 'settled', v_count);
+end $$;
+
+revoke all on function public.settle_due_weekly_fixtures(int) from public;
+revoke all on function public.settle_due_weekly_fixtures(int) from authenticated;
+grant execute on function public.settle_due_weekly_fixtures(int) to service_role;
+
+select cron.unschedule('settle-weekly-fixtures')
+  where exists (select 1 from cron.job where jobname = 'settle-weekly-fixtures');
+
+select cron.schedule('settle-weekly-fixtures', '*/5 * * * *', $$select public.settle_due_weekly_fixtures()$$);
