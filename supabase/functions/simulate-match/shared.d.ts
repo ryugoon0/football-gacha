@@ -107,3 +107,7 @@ export function toResult(
 ): SharedMatchResult
 
 export function matchReward(result: 'W' | 'D' | 'L', division: number, scoreFor: number): number
+
+export const KNOB_KEYS: string[]
+
+export function setTuning(next: Partial<Record<string, number>>): void

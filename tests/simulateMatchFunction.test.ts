@@ -1,8 +1,9 @@
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { handle } from '../supabase/functions/simulate-match/handler'
 import { MINI_GAME_REWARD, matchReward } from '../lib/match'
 import { initialState } from '../lib/storage'
 import { DEFAULT_TACTIC } from '../lib/tactics'
+import { resetTuning } from '../lib/tuning'
 
 /**
  * The Edge Function, run here rather than only in production — see
@@ -37,8 +38,8 @@ const post = (payload: unknown = body(), auth = 'Bearer user-jwt') =>
 const ok = (payload: unknown) =>
   new Response(JSON.stringify(payload), { status: 200, headers: { 'Content-Type': 'application/json' } })
 
-/** Answers each of the three calls the handler makes, in order. */
-function stubFetch(steps: { user?: unknown; save?: unknown; commit?: unknown }) {
+/** Answers each of the calls the handler makes. */
+function stubFetch(steps: { user?: unknown; save?: unknown; commit?: unknown; config?: unknown }) {
   return vi.fn(async (input: string | URL | Request, init?: RequestInit) => {
     void init
     const href = String(input)
@@ -46,6 +47,9 @@ function stubFetch(steps: { user?: unknown; save?: unknown; commit?: unknown }) 
       return steps.user === null ? new Response('no', { status: 401 }) : ok(steps.user ?? { id: 'u1' })
     }
     if (href.includes('/rest/v1/saves')) return ok(steps.save === undefined ? [{ data: save }] : steps.save)
+    // The operator's balance dials — fetched alongside the save so a server
+    // match uses the same numbers the game screen shows.
+    if (href.includes('/rest/v1/game_config')) return ok(steps.config ?? [])
     if (href.includes('/rpc/commit_match')) {
       return ok(steps.commit ?? { ok: true, matchId: 7, balance: 4200 })
     }
@@ -62,6 +66,11 @@ const run = async (steps: Parameters<typeof stubFetch>[0], request = post()) => 
 }
 
 describe('the match function', () => {
+  // The handler mutates lib/tuning.ts's module-level overrides on every
+  // call (it reads game_config fresh each time) — never leak that into
+  // another test.
+  afterEach(() => resetTuning())
+
   it('plays a league match and settles it', async () => {
     const { status, body } = await run({})
     expect(status).toBe(200)
@@ -138,6 +147,22 @@ describe('the match function', () => {
     const fullLeagueReward = matchReward(sent.p_result, sent.p_division, sent.p_score_for)
     expect(sent.p_reward).toBe(Math.round(fullLeagueReward * MINI_GAME_REWARD))
     expect(sent.p_reward).toBeLessThan(fullLeagueReward)
+  })
+
+  it('reads the operator balance settings and applies them to the reward', async () => {
+    const spy = stubFetch({ config: [{ key: 'casualGoldMultiplier', value: 0.5 }] })
+    vi.stubGlobal('fetch', spy)
+    await handle(post(), env)
+    const commitCall = spy.mock.calls.find((args) => String(args[0]).includes('commit_match'))
+    vi.unstubAllGlobals()
+    const sent = JSON.parse(String(commitCall?.[1]?.body))
+
+    // Same result, computed with the default (1x) multiplier — the server
+    // must have used the operator's 0.5x instead of the compiled-in default.
+    // Reset first: the handler just left its own 0.5x override live.
+    resetTuning()
+    const defaultReward = matchReward(sent.p_result, sent.p_division, sent.p_score_for)
+    expect(sent.p_reward).toBeLessThan(defaultReward)
   })
 
   it('rejects an unknown competition or venue rather than guessing', async () => {

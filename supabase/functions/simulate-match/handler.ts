@@ -13,10 +13,12 @@
 import {
   DEFAULT_TACTIC,
   ENGINE_VERSION,
+  KNOB_KEYS,
   MINI_GAME_REWARD,
   evaluateSquad,
   matchReward,
   missingSlots,
+  setTuning,
   type SharedCard,
   type SharedSquad,
   runToEnd,
@@ -129,15 +131,28 @@ export async function handle(request: Request, env: Env): Promise<Response> {
     // and to settle the match afterward.
     const server = { apikey: service, Authorization: `Bearer ${service}` }
 
-    const saveRes = await fetch(`${url}/rest/v1/saves?user_id=eq.${user.id}&select=data`, {
-      headers: server,
-    })
+    // Fetched alongside the save — the operator's balance dials, so a match
+    // this server judges uses the same numbers the game screen shows.
+    // Reading fails soft: an unreachable config table means defaults, not a
+    // refused match.
+    const [saveRes, configRes] = await Promise.all([
+      fetch(`${url}/rest/v1/saves?user_id=eq.${user.id}&select=data`, { headers: server }),
+      fetch(`${url}/rest/v1/game_config?select=key,value`, { headers: server }),
+    ])
     if (!saveRes.ok) {
       return json({ ok: false, reason: 'save read failed', detail: await saveRes.text() }, 500)
     }
     const saveRows = (await saveRes.json()) as { data?: { cards?: unknown; season?: unknown } }[]
     const save = saveRows[0]?.data
     if (!save) return refuse('no save')
+
+    if (configRes.ok) {
+      const configRows = (await configRes.json()) as { key: string; value: number }[]
+      const known = new Set<string>(KNOB_KEYS)
+      const values: Record<string, number> = {}
+      for (const row of configRows) if (known.has(row.key)) values[row.key] = row.value
+      setTuning(values)
+    }
 
     const cards = Array.isArray(save.cards) ? (save.cards as SharedCard[]) : []
     const season = save.season as { division?: number } | undefined

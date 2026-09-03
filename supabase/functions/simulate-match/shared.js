@@ -247,7 +247,21 @@ var KNOBS = {
   }
 };
 var KNOB_KEYS = Object.keys(KNOBS);
+function clampKnob(key, value) {
+  const knob = KNOBS[key];
+  if (!Number.isFinite(value)) return knob.default;
+  const held = Math.min(Math.max(value, knob.min), knob.max);
+  return knob.integer ? Math.round(held) : held;
+}
 var overrides = {};
+function setTuning(next) {
+  const clean = {};
+  for (const key of KNOB_KEYS) {
+    const value = next[key];
+    if (typeof value === "number") clean[key] = clampKnob(key, value);
+  }
+  overrides = clean;
+}
 function tune(key) {
   return overrides[key] ?? KNOBS[key].default;
 }
@@ -4936,11 +4950,13 @@ function matchReward(result, division, scoreFor) {
 export {
   DEFAULT_TACTIC,
   ENGINE_VERSION,
+  KNOB_KEYS,
   MINI_GAME_REWARD,
   evaluateSquad,
   lineupCapOf,
   matchReward,
   missingSlots,
   runToEnd,
+  setTuning,
   toResult
 };
