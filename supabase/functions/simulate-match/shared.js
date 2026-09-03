@@ -250,6 +250,8 @@ function pickInRange(seed, min, max) {
 var PLAYER_OVERRIDES = {
   "w03": { positions: ["CM", "CDM", "CAM"], stats: { pac: 84, dri: 92, def: 77, phy: 83 } },
   // 케빈 더브라
+  "w04": { positions: ["CAM", "ST", "RW"], stats: { pac: 98, sho: 96, pas: 98, dri: 98, def: 63 }, hidden: { stamina: 10, consistency: 12 } },
+  // 리오 메시아
   "w06": { positions: ["ST", "LW"], stats: { pac: 98, dri: 97, phy: 92 } }
   // 킬리안 음바피
 };
