@@ -1,6 +1,6 @@
 import { BOTTOM_DIVISION } from './league'
 import { hashString, seededRandom } from './random'
-import { KNOBS } from './tuning'
+import { KNOBS, tune } from './tuning'
 import { ENGINE_VERSION, runToEnd, toResult, type MatchSetup, type Venue } from './matchEngine'
 import type { MatchResult } from './types'
 
@@ -14,7 +14,9 @@ export function matchReward(result: 'W' | 'D' | 'L', division: number, scoreFor:
   const base = result === 'W' ? 420 : result === 'D' ? 180 : 70
   const divisionBonus = (BOTTOM_DIVISION + 1 - division) * 60
   const share = result === 'W' ? divisionBonus : Math.round(divisionBonus / 3)
-  return base + share + scoreFor * 30
+  // Friendlies apply their own share on top of this (MINI_GAME_REWARD), so
+  // this multiplier reaches every casual-mode reward — league and friendly.
+  return Math.round((base + share + scoreFor * 30) * tune('casualGoldMultiplier'))
 }
 
 let seedCounter = 0

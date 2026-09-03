@@ -177,6 +177,34 @@ var KNOBS = {
     step: 0.05,
     group: "\uD558\uB8E8"
   },
+  casualMatchDailyLimit: {
+    label: "\uCE90\uC8FC\uC5BC \uBAA8\uB4DC \uD558\uB8E8 \uACBD\uAE30 \uC218",
+    note: "\uCE90\uC8FC\uC5BC \uBAA8\uB4DC(\uB9AC\uADF8\xB7\uCEF5) \uACBD\uAE30\uB97C \uD558\uB8E8\uC5D0 \uC9C4\uD589\uD560 \uC218 \uC788\uB294 \uD310\uC218. \uCE5C\uC120 \uACBD\uAE30\uC640\uB294 \uBCC4\uB3C4\uB85C \uC149\uB2C8\uB2E4.",
+    default: 20,
+    min: 1,
+    max: 90,
+    step: 1,
+    group: "\uD558\uB8E8",
+    integer: true
+  },
+  casualGoldMultiplier: {
+    label: "\uCE90\uC8FC\uC5BC \uBAA8\uB4DC \uBCF4\uC0C1 \uBC30\uC728",
+    note: "\uCE90\uC8FC\uC5BC \uBAA8\uB4DC(\uB9AC\uADF8\xB7\uCEF5\xB7\uCE5C\uC120) \uACBD\uAE30 \uACE8\uB4DC \uBCF4\uC0C1 \uC804\uCCB4\uC5D0 \uACF1\uD574\uC9C0\uB294 \uBC30\uC728\uC785\uB2C8\uB2E4.",
+    default: 1,
+    min: 0,
+    max: 2,
+    step: 0.05,
+    group: "\uD558\uB8E8"
+  },
+  competitiveGoldMultiplier: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 \uBCF4\uC0C1 \uBC30\uC728",
+    note: "\uC8FC\uAC04\uB9AC\uADF8 \uACBD\uAE30 \uACE8\uB4DC \uBCF4\uC0C1\uC5D0 \uACF1\uD560 \uBC30\uC728\uC785\uB2C8\uB2E4. \uC9C0\uAE08\uC740 \uC8FC\uAC04\uB9AC\uADF8\uAC00 \uACE8\uB4DC\uB97C \uC9C0\uAE09\uD558\uC9C0 \uC54A\uC544 \uB300\uAE30 \uC911\uC785\uB2C8\uB2E4 \u2014 \uC9C0\uAE09 \uB85C\uC9C1\uC774 \uC0DD\uAE30\uBA74 \uBC14\uB85C \uC501\uB2C8\uB2E4.",
+    default: 1,
+    min: 0,
+    max: 2,
+    step: 0.05,
+    group: "\uD558\uB8E8"
+  },
   recoveryCostPerPoint: {
     label: "\uCCB4\uB825 \uD68C\uBCF5 \uBE44\uC6A9",
     note: "\uCEE8\uB514\uC158 1\uB2F9 \uB4DC\uB294 \uACE8\uB4DC\uC785\uB2C8\uB2E4.",
@@ -4903,7 +4931,7 @@ function matchReward(result, division, scoreFor) {
   const base = result === "W" ? 420 : result === "D" ? 180 : 70;
   const divisionBonus = (BOTTOM_DIVISION + 1 - division) * 60;
   const share = result === "W" ? divisionBonus : Math.round(divisionBonus / 3);
-  return base + share + scoreFor * 30;
+  return Math.round((base + share + scoreFor * 30) * tune("casualGoldMultiplier"));
 }
 export {
   DEFAULT_TACTIC,

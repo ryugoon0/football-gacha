@@ -26,6 +26,12 @@ export interface DailyState {
   shopBuys: Record<string, number>
   /** Extra friendlies bought with tickets today. */
   extraFriendlies: number
+  /**
+   * Casual-mode league and cup matches played today — a season's worth of
+   * gold is the cap, so unlimited casual play cannot out-earn the weekly
+   * competitive league. Friendlies have their own separate counter above.
+   */
+  casualMatches: number
 }
 
 /** Friendlies a manager may play in one day. */
@@ -57,19 +63,31 @@ export function freshDaily(date: string = todayKey()): DailyState {
     miniGames: 0,
     shopBuys: {},
     extraFriendlies: 0,
+    casualMatches: 0,
   }
 }
 
 /** Returns a reset board when the saved one is from an earlier day. */
 export function rollOver(daily: DailyState | undefined, today: string = todayKey()): DailyState {
   if (!daily || daily.date !== today) return freshDaily(today)
-  // Saves from before friendlies existed have no counter.
-  return daily.miniGames === undefined ? { ...daily, miniGames: 0 } : daily
+  // Saves from before these counters existed have neither — identity is kept
+  // when nothing needs backfilling, so an unchanged day is a no-op re-render.
+  if (daily.miniGames !== undefined && daily.casualMatches !== undefined) return daily
+  return {
+    ...daily,
+    miniGames: daily.miniGames ?? 0,
+    casualMatches: daily.casualMatches ?? 0,
+  }
 }
 
 export function miniGamesLeft(daily: DailyState): number {
   const allowance = tune('miniGameLimit') + (daily.extraFriendlies ?? 0)
   return Math.max(0, allowance - (daily.miniGames ?? 0))
+}
+
+/** League and cup matches left today — a season's worth, once a day. */
+export function casualMatchesLeft(daily: DailyState): number {
+  return Math.max(0, tune('casualMatchDailyLimit') - (daily.casualMatches ?? 0))
 }
 
 export function missionDone(daily: DailyState, mission: MissionDef): boolean {

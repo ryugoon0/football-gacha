@@ -6,7 +6,7 @@ import { tune } from '../../lib/tuning'
 import { applyAutoSubs, type SubEvent } from '../../lib/autoSub'
 import { isInjured } from '../../lib/condition'
 import { CUP_ROUND_LABELS, cupTeamOf, myTie, tiesOfRound, type CupTie } from '../../lib/cup'
-import { MINI_GAME_LIMIT, miniGamesLeft } from '../../lib/daily'
+import { MINI_GAME_LIMIT, casualMatchesLeft, miniGamesLeft } from '../../lib/daily'
 import type { LeagueTeam } from '../../lib/league'
 import {
   MY_TEAM_ID,
@@ -199,6 +199,7 @@ function MatchDay() {
   }, [state.cards, state.squad, state.autoSub, division])
   const lineupReady =
     readiness.empty.length === 0 && readiness.injured.length === 0 && readiness.duplicated.length === 0
+  const casualLeft = casualMatchesLeft(state.daily)
 
   const setup: MatchSetup | null = opponent
     ? {
@@ -471,6 +472,10 @@ function MatchDay() {
 
   const start = async () => {
     if (!opponent || engine.running || startingOnline) return
+    if (casualLeft <= 0) {
+      setNotice('오늘 캐주얼 모드 경기를 다 썼습니다 — 내일 다시 진행할 수 있습니다.')
+      return
+    }
     if (!lineupReady) {
       const parts = [
         readiness.empty.length ? `빈 자리 ${readiness.empty.join(' · ')}` : '',
@@ -818,7 +823,10 @@ function MatchDay() {
             void start()
           }}
           disabled={
-            (!opponent && !engine.finished) || (!engine.finished && !lineupReady) || startingOnline
+            (!opponent && !engine.finished) ||
+            (!engine.finished && !lineupReady) ||
+            (!engine.finished && casualLeft <= 0) ||
+            startingOnline
           }
           className={`mt-4 w-full rounded-xl px-4 py-3 font-bold text-slate-900 transition disabled:opacity-40 ${
             isCupDay ? 'bg-amber-400 hover:bg-amber-300' : 'bg-emerald-400 hover:bg-emerald-300'
@@ -843,6 +851,14 @@ function MatchDay() {
         <p className="mt-2 text-xs font-semibold text-rose-400">
           선발 레벨 합계 {rating.levelTotal} / 상한 {rating.levelCap} — 라인업을 등록할 수 없습니다.
         </p>
+      )}
+      {!engine.finished && lineupReady && casualLeft <= 0 && (
+        <p className="mt-2 text-xs font-semibold text-rose-400">
+          오늘 캐주얼 모드 경기를 다 썼습니다 — 내일 다시 진행할 수 있습니다.
+        </p>
+      )}
+      {!engine.finished && casualLeft > 0 && (
+        <p className="mt-2 text-[11px] text-slate-500">오늘 남은 캐주얼 모드 경기 {casualLeft}판</p>
       )}
       {(injured > 0 || tired > 0) && !engine.running && (
         <p className="mt-2 text-xs font-semibold text-amber-400">

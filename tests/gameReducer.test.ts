@@ -68,7 +68,7 @@ describe('drawing', () => {
   it('resets yesterday\'s mission board before counting', () => {
     const stale = {
       ...start(),
-      daily: { date: '1999-01-01', progress: { draw: 9, win: 2, train: 5 }, claimed: ['draw' as const], freeDrawUsed: true, miniGames: 7, shopBuys: { medkit: 2 }, extraFriendlies: 3 },
+      daily: { date: '1999-01-01', progress: { draw: 9, win: 2, train: 5 }, claimed: ['draw' as const], freeDrawUsed: true, miniGames: 7, shopBuys: { medkit: 2 }, extraFriendlies: 3, casualMatches: 12 },
     }
     const next = reducer(stale, { type: 'addCards', cards: [card('a', 'n01')], cost: 300 })
     expect(next.daily.date).toBe(todayKey())
@@ -307,6 +307,20 @@ describe('playing a season', () => {
     expect(next.history[0].competition).toBe('league')
     expect(next.history[0].seed).toBe('test-seed')
     expect(next.history[0].engineVersion).toBe('test')
+    expect(next.daily.casualMatches).toBe(1)
+  })
+
+  it('refuses another casual match once the daily cap is spent', () => {
+    const state = { ...start(), daily: { ...freshDaily(todayKey()), casualMatches: 20 } }
+    const fixture = myFixture(state.season)!
+    const next = reducer(state, {
+      type: 'match',
+      result: matchResult(2, 1),
+      fixture,
+      others: [],
+      lineup: lineupOf(state),
+    })
+    expect(next).toBe(state)
   })
 
   it('keeps the score the right way round when away', () => {

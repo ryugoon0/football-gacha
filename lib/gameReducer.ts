@@ -4,6 +4,7 @@ import { createCup, cupReward, resolveCupRound } from './cup'
 import {
   DAILY_MISSIONS,
   MINI_GAME_LIMIT,
+  casualMatchesLeft,
   missionClaimable,
   rollOver,
   todayKey,
@@ -115,6 +116,11 @@ function today(state: GameState): DailyState {
 function bumpMission(state: GameState, id: MissionId, amount: number): DailyState {
   const daily = today(state)
   return { ...daily, progress: { ...daily.progress, [id]: (daily.progress[id] ?? 0) + amount } }
+}
+
+/** Counts a casual-mode league or cup match against the daily cap. */
+function bumpCasualMatch(daily: DailyState): DailyState {
+  return { ...daily, casualMatches: (daily.casualMatches ?? 0) + 1 }
 }
 
 function logMatch(
@@ -422,6 +428,7 @@ export function reducer(state: GameState, action: Action): GameState {
       return { ...state, squad: autoFill(state.cards, state.squad, state.season.division) }
 
     case 'match': {
+      if (casualMatchesLeft(today(state)) <= 0) return state
       const { result, fixture, others, lineup } = action
       const record = { ...state.record }
       if (result.result === 'W') record.w += 1
@@ -461,7 +468,7 @@ export function reducer(state: GameState, action: Action): GameState {
         ga: state.ga + result.scoreAgainst,
         season,
         matchday: Math.min(TOTAL_MATCHDAYS, state.matchday + 1),
-        daily: result.result === 'W' ? bumpMission(state, 'win', 1) : today(state),
+        daily: bumpCasualMatch(result.result === 'W' ? bumpMission(state, 'win', 1) : today(state)),
         history: logMatch(state, 'league', result, result.reward),
       }
     }
@@ -495,6 +502,7 @@ export function reducer(state: GameState, action: Action): GameState {
     case 'cupMatch': {
       const { result, myRating, lineup } = action
       if (state.cup.eliminated || state.cup.champion) return state
+      if (casualMatchesLeft(today(state)) <= 0) return state
 
       const round = state.cup.round
       const { cup, advanced } = resolveCupRound(
@@ -531,7 +539,7 @@ export function reducer(state: GameState, action: Action): GameState {
         ga: state.ga + result.scoreAgainst,
         matchday: Math.min(TOTAL_MATCHDAYS, state.matchday + 1),
         trophies: wonTheCup ? { ...state.trophies, cup: state.trophies.cup + 1 } : state.trophies,
-        daily: result.result === 'W' ? bumpMission(state, 'win', 1) : today(state),
+        daily: bumpCasualMatch(result.result === 'W' ? bumpMission(state, 'win', 1) : today(state)),
         history: logMatch(state, 'cup', result, reward),
       }
     }

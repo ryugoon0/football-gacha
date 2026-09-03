@@ -1,5 +1,6 @@
 import { MY_TEAM_ID, divisionBaseRating, type LeagueTeam } from './league'
 import { seededRandom } from './players'
+import { tune } from './tuning'
 
 export const CUP_ROUND_LABELS = ['16강', '8강', '4강', '결승']
 export const CUP_ROUNDS = CUP_ROUND_LABELS.length
@@ -138,8 +139,8 @@ function settle(
 }
 
 export function cupReward(round: number, won: boolean): number {
-  if (!won) return 100 + round * 150
-  return [300, 600, 1200, 3000][round] ?? 300
+  const base = won ? ([300, 600, 1200, 3000][round] ?? 300) : 100 + round * 150
+  return Math.round(base * tune('casualGoldMultiplier'))
 }
 
 export interface CupProgress {
