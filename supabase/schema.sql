@@ -9,7 +9,12 @@
 create table if not exists public.saves (
   user_id    uuid primary key references auth.users on delete cascade,
   data       jsonb not null,
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+  -- 저장할 때마다 1씩 늘어납니다. 클라이언트가 자신이 기반으로 삼은 revision을
+  -- 함께 보내면, put_save가 그 사이 다른 탭/기기가 먼저 저장하지 않았는지
+  -- 확인하는 데 씁니다(compare-and-swap). 다중 탭에서 낡은 상태가 최신
+  -- 진행도를 덮어쓰는 사고를 여기서 막습니다.
+  revision   bigint not null default 0
 );
 
 -- A save is a few hundred KB at most; the cap stops one account from filling
@@ -232,6 +237,8 @@ declare
   v_last    public.save_audit%rowtype;
   v_seconds numeric;
   v_jump    numeric;
+  v_saved         jsonb;
+  v_saved_played  numeric;
 begin
   -- (1) 절대값: 어떤 플레이로도 도달할 수 없는 범위.
   if v_gold is null or v_gold < 0 or v_gold > 1e12 then
@@ -240,7 +247,41 @@ begin
     v_reason := format('too many cards: %s', v_cards);
   end if;
 
-  -- (2) 증가 속도: 직전 통과 기록과 비교합니다.
+  -- (2) 진행도 되감기: 정상 플레이라면 절대 줄지 않는 값들을 지금 저장된
+  -- 세이브(public.saves)와 비교합니다. 카드 수는 방출·합성으로 정상적으로
+  -- 줄어들 수 있어 여기 포함하지 않습니다. 다중 탭에서 낡은 세이브가
+  -- 다시 올라오거나, 의도적으로 예전 고자원 세이브를 재전송하는 경로를
+  -- 여기서 막습니다 — revision CAS(put_save)를 통과했더라도 한 번 더 봅니다.
+  if v_reason is null then
+    select data into v_saved from public.saves where user_id = p_user;
+    if v_saved is not null then
+      v_saved_played := coalesce(public.save_num(v_saved, '{record,w}'), 0)
+                       + coalesce(public.save_num(v_saved, '{record,d}'), 0)
+                       + coalesce(public.save_num(v_saved, '{record,l}'), 0);
+      if v_played < v_saved_played then
+        v_reason := format('progress rollback: played %s -> %s', v_saved_played, v_played);
+      elsif coalesce(v_pulls, 0) < coalesce(public.save_num(v_saved, '{pulls,total}'), 0) then
+        v_reason := format('progress rollback: pulls %s -> %s',
+                            public.save_num(v_saved, '{pulls,total}'), v_pulls);
+      elsif coalesce(public.save_num(p_data, '{season,index}'), 0)
+            < coalesce(public.save_num(v_saved, '{season,index}'), 0) then
+        v_reason := format('progress rollback: season %s -> %s',
+                            public.save_num(v_saved, '{season,index}'),
+                            public.save_num(p_data, '{season,index}'));
+      elsif coalesce(public.save_num(p_data, '{trophies,cup}'), 0)
+            < coalesce(public.save_num(v_saved, '{trophies,cup}'), 0) then
+        v_reason := 'progress rollback: trophies.cup decreased';
+      elsif coalesce(public.save_num(p_data, '{trophies,promotions}'), 0)
+            < coalesce(public.save_num(v_saved, '{trophies,promotions}'), 0) then
+        v_reason := 'progress rollback: trophies.promotions decreased';
+      elsif coalesce(public.save_num(p_data, '{capacity}'), 0)
+            < coalesce(public.save_num(v_saved, '{capacity}'), 0) then
+        v_reason := 'progress rollback: capacity decreased';
+      end if;
+    end if;
+  end if;
+
+  -- (3) 증가 속도: 직전 통과 기록과 비교합니다.
   if v_reason is null then
     select sa.* into v_last
     from public.save_audit sa
@@ -266,7 +307,7 @@ begin
     end if;
   end if;
 
-  -- (3) 뽑기 대비 카드 수. 이적시장·합성으로도 늘어나므로 기록만 합니다.
+  -- (4) 뽑기 대비 카드 수. 이적시장·합성으로도 늘어나므로 기록만 합니다.
   if v_reason is null and v_pulls is not null and v_cards > v_pulls + 1000 then
     v_flag := concat_ws(' / ', v_flag, format('cards %s vs pulls %s', v_cards, v_pulls));
   end if;
@@ -275,23 +316,63 @@ begin
 end $$;
 
 -- 클라이언트가 세이브를 올리는 유일한 통로입니다.
-create or replace function public.put_save(p_data jsonb)
+--
+-- p_base_revision: 클라이언트가 이 저장을 만들 때 알고 있던 saves.revision.
+-- 지금 저장된 revision과 다르면(=그 사이 다른 탭/기기가 먼저 저장했으면)
+-- compare-and-swap 실패로 거부합니다. null이면(구버전 클라이언트, 또는
+-- 아직 한 번도 revision을 받아본 적 없는 첫 저장) 이 검사를 건너뛰고
+-- judge_save의 단조 필드 비교에만 기댑니다.
+drop function if exists public.put_save(jsonb);
+
+create or replace function public.put_save(p_data jsonb, p_base_revision bigint default null)
   returns jsonb
   language plpgsql
   security definer
   set search_path = public
 as $$
 declare
-  v_user uuid := auth.uid();
-  v_j    record;
-  v_gold bigint;
-  v_diff bigint;
+  v_user             uuid := auth.uid();
+  -- 일반 record 변수는 매칭되는 행이 없으면 "할당된 적 없음" 상태가 되어
+  -- 필드 접근 시 예외를 던집니다. bigint 스칼라는 없으면 그냥 null이 되므로
+  -- 이 함수를 처음 쓰는(세이브가 아직 없는) 계정에서도 안전합니다.
+  v_current_revision bigint;
+  v_j                record;
+  v_gold             bigint;
+  v_diff             bigint;
+  v_revision         bigint;
 begin
   if v_user is null then
     return jsonb_build_object('ok', false, 'reason', 'not signed in');
   end if;
   if pg_column_size(p_data) > 524288 then
     return jsonb_build_object('ok', false, 'reason', 'save too large');
+  end if;
+
+  -- 같은 계정의 저장이 동시에(다중 탭) 들어와도 아래 CAS 확인과 실제 쓰기
+  -- 사이에 다른 저장이 끼어들지 못하도록 트랜잭션 동안 잠급니다.
+  perform pg_advisory_xact_lock(hashtext('football-save'), hashtext(v_user::text));
+
+  select revision into v_current_revision from public.saves where user_id = v_user;
+
+  if p_base_revision is not null and v_current_revision is not null
+     and p_base_revision <> v_current_revision then
+    insert into public.save_audit
+      (user_id, gold, cards, pulls, played, season, rejected, flagged)
+    values (
+      v_user,
+      public.save_num(p_data, '{gold}'),
+      public.save_len(p_data, 'cards'),
+      public.save_num(p_data, '{pulls,total}'),
+      coalesce(public.save_num(p_data, '{record,w}'), 0)
+        + coalesce(public.save_num(p_data, '{record,d}'), 0)
+        + coalesce(public.save_num(p_data, '{record,l}'), 0),
+      public.save_num(p_data, '{season,index}'),
+      'stale_save_revision',
+      null
+    );
+    return jsonb_build_object(
+      'ok', false, 'reason', 'stale_save_revision', 'revision', v_current_revision
+    );
   end if;
 
   select j.out_rejected as rejected, j.out_flagged as flagged
@@ -319,10 +400,11 @@ begin
     return jsonb_build_object('ok', false, 'reason', v_j.rejected);
   end if;
 
-  insert into public.saves (user_id, data, updated_at)
-  values (v_user, p_data, now())
+  insert into public.saves (user_id, data, updated_at, revision)
+  values (v_user, p_data, now(), coalesce(v_current_revision, 0) + 1)
   on conflict (user_id) do update
-    set data = excluded.data, updated_at = excluded.updated_at;
+    set data = excluded.data, updated_at = excluded.updated_at, revision = excluded.revision
+  returning revision into v_revision;
 
   -- 원장을 세이브에 맞춥니다. 경기 보상처럼 아직 클라이언트가 계산하는 변동을
   -- 'client' 사유로 남겨, 골드의 모든 움직임이 한 줄씩 기록되게 합니다.
@@ -336,11 +418,11 @@ begin
     end if;
   end if;
 
-  return jsonb_build_object('ok', true);
+  return jsonb_build_object('ok', true, 'revision', v_revision);
 end $$;
 
-revoke all on function public.put_save(jsonb) from public;
-grant execute on function public.put_save(jsonb) to authenticated;
+revoke all on function public.put_save(jsonb, bigint) from public;
+grant execute on function public.put_save(jsonb, bigint) to authenticated;
 
 -- 직접 쓰기는 막습니다. 읽기는 본인 것만, 쓰기는 put_save()만.
 drop policy if exists "saves are private" on public.saves;
@@ -407,20 +489,34 @@ create or replace view public.watch_progress as
 
 -- (4) 되돌아간 진행. 정상 플레이에서 전적은 줄지 않습니다. 줄었다면 예전
 --     세이브를 다시 올린 것이고, 보상만 챙기고 되감는 수법의 흔적입니다.
+--
+--     judge_save가 이제 이런 시도 자체를 거부하므로(rejected로 남음),
+--     통과한 저장만 보면 이 신호가 무력화됩니다. 그래서 시도 전체를 보되,
+--     비교 기준은 "그 직전에 실제로 통과한 저장"으로 둡니다 — 거부된
+--     시도끼리 비교하면 의미가 없기 때문입니다.
 create or replace view public.watch_rollback as
-  with pairs as (
-    select user_id, at, played, gold,
-           lag(played) over (partition by user_id order by at) as prev_played,
-           lag(gold) over (partition by user_id order by at) as prev_gold
+  with accepted as (
+    select user_id, at, played
     from public.save_audit
     where rejected is null and at > now() - interval '30 days'
+  ),
+  attempts as (
+    select sa.user_id, sa.at, sa.played,
+           (
+             select a.played from accepted a
+             where a.user_id = sa.user_id and a.at < sa.at
+             order by a.at desc
+             limit 1
+           ) as prev_played
+    from public.save_audit sa
+    where sa.at > now() - interval '30 days'
   )
   select user_id,
          count(*) as rollbacks,
          max(at) as last_at,
          max(prev_played - played) as biggest_drop
-  from pairs
-  where played < prev_played
+  from attempts
+  where prev_played is not null and played < prev_played
   group by user_id;
 
 -- (5) 게시판 도배. 조작과 별개로 서비스를 해치는 행동입니다.
@@ -753,20 +849,35 @@ create policy "only operators read config history" on public.config_audit
 
 -- 노브를 등록합니다. 이미 있으면 값은 두고 범위만 최신으로 맞춥니다 —
 -- 운영자가 조절해 둔 값을 배포 때마다 되돌리지 않기 위해서입니다.
+--
+-- 클라이언트에서는 운영자 화면(BalancePanel/ShopPanel)만 이걸 부릅니다.
+-- 하지만 security definer 함수는 기본적으로 PUBLIC 실행 권한을 갖고,
+-- min_value/max_value를 통째로 새로 쓸 수 있으므로 — 범위를 원하는 값
+-- 하나로 좁혀 넣으면(min=max=999999) 그 즉시 현재 value도 그 값으로
+-- 당겨집니다 — is_admin() 확인 없이 두면 로그인한 아무나 이 경로로
+-- 밸런스 값을 마음대로 바꿀 수 있습니다. set_game_config와 같은 방식으로
+-- 막습니다.
 create or replace function public.register_knob(
   p_key text, p_default numeric, p_min numeric, p_max numeric
 ) returns void
-  language sql
+  language plpgsql
   security definer
   set search_path = public
 as $$
+begin
+  if not public.is_admin() then
+    return;
+  end if;
   insert into public.game_config (key, value, min_value, max_value)
   values (p_key, p_default, p_min, p_max)
   on conflict (key) do update
     set min_value = excluded.min_value,
         max_value = excluded.max_value,
         value = least(greatest(public.game_config.value, excluded.min_value), excluded.max_value);
-$$;
+end $$;
+
+revoke all on function public.register_knob(text, numeric, numeric, numeric) from public;
+grant execute on function public.register_knob(text, numeric, numeric, numeric) to authenticated;
 
 create or replace function public.set_game_config(p_key text, p_value numeric)
   returns jsonb

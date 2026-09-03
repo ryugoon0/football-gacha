@@ -1,7 +1,13 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { isSaveTooBig, planSync, readCloudSave, type CloudSave } from '../lib/cloudSave'
+import {
+  isSaveTooBig,
+  planSync,
+  progressScore,
+  readCloudSave,
+  type CloudSave,
+} from '../lib/cloudSave'
 import { friendlyError, getSupabase, isSupabaseConfigured, rejectionMessage } from '../lib/supabase'
 import { seedEconomy } from '../lib/serverDraw'
 import { SIGN_UP_MESSAGE, signUpOutcome } from '../lib/signup'
@@ -65,18 +71,28 @@ export function useAccountSync(
   // Uploads pause while a conflict is on screen, so nothing is overwritten.
   const holdRef = useRef(false)
   const signedInFor = useRef<string | null>(null)
+  // The saves.revision this browser last confirmed as current — either by
+  // fetching the cloud row or by a put_save that succeeded. Sent back as
+  // p_base_revision so the server can tell whether another tab or device
+  // wrote since. Null means "unknown", which skips the check server-side
+  // (a brand-new account, or a browser that hasn't talked to put_save yet).
+  const revisionRef = useRef<number | null>(null)
 
   const fetchCloud = useCallback(async (userId: string): Promise<CloudSave | null> => {
     const supabase = getSupabase()
     if (!supabase) return null
     const { data, error: queryError } = await supabase
       .from('saves')
-      .select('data, updated_at')
+      .select('data, updated_at, revision')
       .eq('user_id', userId)
       .maybeSingle()
     if (queryError || !data?.data) return null
     // Never hand a raw row to the game: validate and migrate it first.
-    return readCloudSave(data.data, data.updated_at as string)
+    return readCloudSave(
+      data.data,
+      data.updated_at as string,
+      (data as { revision?: number | null }).revision,
+    )
   }, [])
 
   // Move an existing player onto the server ledger once. After this the ledger
@@ -88,27 +104,57 @@ export function useAccountSync(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, user, ready])
 
-  const upload = useCallback(async (userId: string, value: GameState) => {
-    const supabase = getSupabase()
-    if (!supabase) return
-    if (isSaveTooBig(value)) {
-      setError('세이브가 너무 커서 계정에 저장하지 못했습니다. 보관함을 정리해 주세요.')
-      return
-    }
-    setSyncing(true)
-    // Saves go through put_save, never straight into the table: the server
-    // judges the state, records the attempt either way, and only then writes.
-    const { data, error: writeError } = await supabase.rpc('put_save', { p_data: value })
-    setSyncing(false)
-    if (writeError) {
-      setError(friendlyError(writeError.message))
-      return
-    }
-    const result = data as { ok?: boolean; reason?: string } | null
-    if (result && result.ok === false) {
-      setError(rejectionMessage(result.reason))
-    }
-  }, [])
+  const upload = useCallback(
+    async (userId: string, value: GameState) => {
+      const supabase = getSupabase()
+      if (!supabase) return
+      if (isSaveTooBig(value)) {
+        setError('세이브가 너무 커서 계정에 저장하지 못했습니다. 보관함을 정리해 주세요.')
+        return
+      }
+      setSyncing(true)
+      // Saves go through put_save, never straight into the table: the server
+      // judges the state, records the attempt either way, and only then writes.
+      // p_base_revision lets it notice a tab uploading a state that was
+      // already superseded by another tab or device before this write lands.
+      const { data, error: writeError } = await supabase.rpc('put_save', {
+        p_data: value,
+        p_base_revision: revisionRef.current,
+      })
+      setSyncing(false)
+      if (writeError) {
+        setError(friendlyError(writeError.message))
+        return
+      }
+      const result = data as { ok?: boolean; reason?: string; revision?: number } | null
+      if (result && result.ok === false) {
+        if (result.reason === 'stale_save_revision') {
+          // Another tab or device saved first. This is not a rejection the
+          // player did anything wrong to cause, so it is handled quietly:
+          // pick up whatever is now on the server rather than show an error.
+          const cloud = await fetchCloud(userId)
+          if (cloud) {
+            revisionRef.current = cloud.revision ?? revisionRef.current
+            if (progressScore(cloud.state) >= progressScore(value)) {
+              hydrateRef.current(cloud.state)
+              setNotice('다른 탭이나 기기의 최신 진행 상황을 불러왔습니다.')
+            } else {
+              // The server is ahead in revision but behind in progress, which
+              // put_save's own checks should prevent — surface it as a
+              // conflict rather than silently pick a side.
+              holdRef.current = true
+              setConflict(cloud)
+            }
+          }
+          return
+        }
+        setError(rejectionMessage(result.reason))
+        return
+      }
+      if (typeof result?.revision === 'number') revisionRef.current = result.revision
+    },
+    [fetchCloud],
+  )
 
   // Follow the Supabase session: sign in, sign out, token refresh.
   useEffect(() => {
@@ -158,6 +204,7 @@ export function useAccountSync(
       setSyncing(true)
       const cloud = await fetchCloud(user.id)
       if (!alive) return
+      if (cloud) revisionRef.current = cloud.revision ?? revisionRef.current
       const plan = planSync(stateRef.current, cloud)
       if (plan.needsPrompt && cloud) {
         holdRef.current = true
@@ -298,6 +345,7 @@ export function useAccountSync(
       holdRef.current = false
       if (choice === 'useCloud' && cloud) {
         hydrateRef.current(cloud.state)
+        revisionRef.current = cloud.revision ?? revisionRef.current
         setNotice('계정에 저장된 진행 상황을 불러왔습니다.')
         return
       }

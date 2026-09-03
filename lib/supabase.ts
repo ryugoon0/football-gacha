@@ -102,7 +102,10 @@ export async function checkConnection(): Promise<{ ok: boolean; message: string 
   }
   try {
     const { error } = await supabase.from('posts').select('id').limit(1)
-    if (!error) return { ok: true, message: `서버 연결 정상 · ${URL}` }
+    // The project URL used to be echoed back here. It is public either way
+    // (NEXT_PUBLIC_SUPABASE_URL ships in the client bundle), but there is no
+    // reason to put it on screen for anyone to note down.
+    if (!error) return { ok: true, message: '서버 연결 정상' }
     if (/relation .* does not exist|schema cache/i.test(error.message)) {
       return { ok: false, message: 'posts 테이블이 없습니다. supabase/schema.sql을 실행해 주세요.' }
     }
@@ -125,6 +128,14 @@ export function rejectionMessage(reason?: string): string {
   if (reason === 'not signed in') return '로그인이 풀렸습니다. 다시 로그인해 주세요.'
   if (reason === 'save too large') {
     return '세이브가 너무 커서 계정에 저장하지 못했습니다. 보관함을 정리해 주세요.'
+  }
+  // useAccountSync handles this one itself (silently refetch and adopt the
+  // newer save) — this text is only a fallback if that ever fails.
+  if (reason === 'stale_save_revision') {
+    return '다른 탭이나 기기에 더 최신 진행 상황이 있어 이 저장은 건너뛰었습니다. 최신 저장을 불러옵니다.'
+  }
+  if (reason?.startsWith('progress rollback')) {
+    return '이 저장은 계정에 남아 있는 진행 상황보다 뒤처져 있어 저장하지 않았습니다. 다른 탭이 열려 있다면 닫고 새로고침해 주세요.'
   }
   return '이 진행 상황은 정상적인 플레이로 만들 수 없는 값이어서 계정에 저장하지 않았습니다. 문의해 주세요.'
 }

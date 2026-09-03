@@ -15,7 +15,9 @@ $$ select set_config('test.uid', uid, false); select null::void $$;
 select as_user('11111111-1111-1111-1111-111111111111');
 select public.put_save('{"gold":3000,"cards":[{"uid":"a"}],"pulls":{"total":1},"record":{"w":1,"d":0,"l":0},"season":{"index":1}}') as normal;
 select public.put_save('{"gold":999999999999999,"cards":[],"pulls":{"total":0},"record":{"w":0,"d":0,"l":0}}') as absurd;
-select public.put_save('{"gold":3000,"cards":"헛소리","pulls":{"total":0},"record":{"w":0,"d":0,"l":0}}') as bad_shape;
+-- record.w는 위 normal과 같은 1로 둔다 — 이 케이스가 보려는 것은 cards가
+-- 배열이 아닐 때도 안 죽는지지, 되감기 거부와는 무관하기 때문이다.
+select public.put_save('{"gold":3000,"cards":"헛소리","pulls":{"total":0},"record":{"w":1,"d":0,"l":0}}') as bad_shape;
 
 \echo '### 2. 거부가 기록으로 남는가 (이전 버전의 결함)'
 select coalesce(rejected,'(통과)') as rejected, gold
@@ -37,12 +39,30 @@ exception when others then
 end $$;
 reset role;
 
-\echo '### 5. 되감기 탐지 (전적이 줄어드는 세이브)'
+\echo '### 5. 되감기는 이제 거부된다 (예전엔 기록만 하고 통과시켰다)'
 select as_user('33333333-3333-3333-3333-333333333333');
-select public.put_save('{"gold":5000,"cards":[],"pulls":{"total":0},"record":{"w":50,"d":0,"l":0}}');
-select public.put_save('{"gold":9000,"cards":[],"pulls":{"total":0},"record":{"w":20,"d":0,"l":0}}');
-select public.put_save('{"gold":9000,"cards":[],"pulls":{"total":0},"record":{"w":51,"d":0,"l":0}}');
+select public.put_save('{"gold":5000,"cards":[],"pulls":{"total":0},"record":{"w":50,"d":0,"l":0},"season":{"index":1},"capacity":100,"trophies":{"cup":0,"promotions":0}}') as accepted_50;
+-- 낮은 played로 되돌리는 시도. ok:false, reason은 'progress rollback: played 50 -> 20' 이어야 한다.
+select public.put_save('{"gold":9000,"cards":[],"pulls":{"total":0},"record":{"w":20,"d":0,"l":0},"season":{"index":1},"capacity":100,"trophies":{"cup":0,"promotions":0}}') as rejected_20;
+-- 거부됐으므로 저장된 값은 여전히 played=50, gold=5000 이어야 한다.
+select data->>'gold' as gold_after_rejected_attempt from public.saves where user_id='33333333-3333-3333-3333-333333333333';
+-- 앞으로 나아가는 저장은 정상적으로 통과한다.
+select public.put_save('{"gold":9000,"cards":[],"pulls":{"total":0},"record":{"w":51,"d":0,"l":0},"season":{"index":1},"capacity":100,"trophies":{"cup":0,"promotions":0}}') as accepted_51;
+-- watch_rollback은 거부된 시도까지 신호로 잡는다 (rollbacks=1, biggest_drop=30).
 select rollbacks, biggest_drop from public.watch_rollback where user_id='33333333-3333-3333-3333-333333333333';
+
+\echo '### 5b. 카드 방출·합성처럼 카드 수만 줄어드는 것은 되감기가 아니다'
+select public.put_save('{"gold":9000,"cards":[{"uid":"only-one-left"}],"pulls":{"total":0},"record":{"w":52,"d":0,"l":0},"season":{"index":1},"capacity":100,"trophies":{"cup":0,"promotions":0}}') as cards_can_shrink;
+
+\echo '### 5c. revision compare-and-swap — 다른 탭이 먼저 저장한 뒤의 재전송은 거부된다'
+select revision from public.saves where user_id='33333333-3333-3333-3333-333333333333';
+-- 위에서 읽은 revision보다 낮은(옛날) 값을 base로 보내면 stale_save_revision으로 거부된다.
+select public.put_save(
+  '{"gold":9000,"cards":[{"uid":"only-one-left"}],"pulls":{"total":0},"record":{"w":52,"d":0,"l":0},"season":{"index":1},"capacity":100,"trophies":{"cup":0,"promotions":0}}',
+  0
+) as stale_revision_rejected;
+-- base_revision을 생략(null)하면 CAS는 건너뛰고 단조 필드 검사만 받는다 — 구버전 클라이언트 호환.
+select public.put_save('{"gold":9500,"cards":[{"uid":"only-one-left"}],"pulls":{"total":0},"record":{"w":53,"d":0,"l":0},"season":{"index":1},"capacity":100,"trophies":{"cup":0,"promotions":0}}') as no_base_revision_still_ok;
 
 \echo '### 6. 여러 신호가 겹치면 위로 올라오는가'
 insert into public.save_audit (user_id, gold, cards, played, rejected)

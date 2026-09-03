@@ -20,16 +20,26 @@ export function isSaveTooBig(state: GameState): boolean {
 }
 
 /** Cloud rows are user writable, so they are validated like any other input. */
-export function readCloudSave(data: unknown, updatedAt: string): CloudSave | null {
+export function readCloudSave(
+  data: unknown,
+  updatedAt: string,
+  revision?: number | null,
+): CloudSave | null {
   const state = normalizeSave(data)
   if (!state || isSaveTooBig(state)) return null
-  return { state, updatedAt }
+  return { state, updatedAt, revision }
 }
 
 /** A save as it is stored in the cloud, with the time it was written. */
 export interface CloudSave {
   state: GameState
   updatedAt: string
+  /**
+   * The saves.revision this snapshot came from, when the caller fetched it
+   * (put_save's compare-and-swap check). Absent for saves read before the
+   * server tracked revisions.
+   */
+  revision?: number | null
 }
 
 export type SyncChoice = 'useLocal' | 'useCloud' | 'noConflict'
