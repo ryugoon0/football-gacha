@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useGame } from '../GameProvider'
+import ModeBadge from '../ModeBadge'
 import { getSupabase } from '../../lib/supabase'
 import { standings, type StandingsMatch, type StandingsResult } from '../../lib/weeklyLeague/standings'
 
@@ -206,17 +207,21 @@ export default function WeeklyTab() {
 
   if (!membership) {
     return (
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-6 text-center">
-        <h3 className="text-sm font-bold text-slate-200">아직 이번 주 리그에 배정되지 않았습니다</h3>
-        <p className="mt-2 text-xs leading-relaxed text-slate-500">
-          매주 정해진 시각에 자동으로 조가 만들어집니다. 잠시 뒤 다시 확인해 주세요.
-        </p>
-      </section>
+      <div className="space-y-4">
+        <ModeBadge />
+        <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-6 text-center">
+          <h3 className="text-sm font-bold text-slate-200">아직 이번 주 리그에 배정되지 않았습니다</h3>
+          <p className="mt-2 text-xs leading-relaxed text-slate-500">
+            매주 정해진 시각에 자동으로 조가 만들어집니다. 잠시 뒤 다시 확인해 주세요.
+          </p>
+        </section>
+      </div>
     )
   }
 
   return (
     <div className="space-y-4">
+      <ModeBadge />
       <div className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-white/10 bg-slate-900/60 p-3">
         <span className="text-xs font-bold text-slate-300">
           {membership.tier}등급 · {clubName(membership.slot)}

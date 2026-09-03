@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
+import ModeBadge from '../ModeBadge'
 import { tune } from '../../lib/tuning'
 import { applyAutoSubs, type SubEvent } from '../../lib/autoSub'
 import { isInjured } from '../../lib/condition'
@@ -97,10 +98,12 @@ export default function MatchTab() {
   const [side, setSide] = useState<'table' | 'cup'>('table')
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
-        {state.season.finished ? <SeasonEnd /> : <MatchDay />}
-      </section>
+    <div className="space-y-4">
+      <ModeBadge mode="casual" />
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
+        <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
+          {state.season.finished ? <SeasonEnd /> : <MatchDay />}
+        </section>
 
       <div className="space-y-4">
         <MiniGamePanel />
@@ -122,6 +125,7 @@ export default function MatchTab() {
         </div>
         {side === 'table' ? <LeagueTable /> : <CupBracket />}
         <ClubForm />
+      </div>
       </div>
     </div>
   )
