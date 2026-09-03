@@ -31,5 +31,6 @@ export interface PlayerOverride {
 export const PLAYER_OVERRIDES: Record<string, PlayerOverride> = {
   'w03': { positions: ['CM', 'CDM', 'CAM'], stats: { pac: 84, dri: 92, def: 77, phy: 83 } }, // 케빈 더브라
   'w04': { positions: ['CAM', 'ST', 'RW'], stats: { pac: 98, sho: 96, pas: 98, dri: 98, def: 63 }, hidden: { stamina: 10, consistency: 12 } }, // 리오 메시아
+  'w05': { positions: ['LW', 'ST'], stats: { pac: 98, sho: 98, def: 70, phy: 95 }, hidden: { clutch: 11, stamina: 11, consistency: 10 } }, // 크리스 호날드
   'w06': { positions: ['ST', 'LW'], stats: { pac: 98, dri: 97, phy: 92 } }, // 킬리안 음바피
 }
