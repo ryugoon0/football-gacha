@@ -81,9 +81,9 @@ describe('card vault', () => {
   })
 
   it('counts free slots and repairs odd saved values', () => {
-    expect(freeSlots(58, BASE_CAPACITY)).toBe(2)
-    expect(freeSlots(80, BASE_CAPACITY)).toBe(0)
-    expect(hasRoomFor(58, BASE_CAPACITY, 3)).toBe(false)
+    expect(freeSlots(BASE_CAPACITY - 2, BASE_CAPACITY)).toBe(2)
+    expect(freeSlots(BASE_CAPACITY + 20, BASE_CAPACITY)).toBe(0)
+    expect(hasRoomFor(BASE_CAPACITY - 2, BASE_CAPACITY, 3)).toBe(false)
     expect(normalizeCapacity(undefined)).toBe(BASE_CAPACITY)
     expect(normalizeCapacity(10)).toBe(BASE_CAPACITY)
     expect(normalizeCapacity(999)).toBe(MAX_CAPACITY)

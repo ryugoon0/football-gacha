@@ -2,7 +2,7 @@
  * The card vault. Every player card takes a slot, so collecting past the
  * starting room means paying gold to expand — up to a hard ceiling.
  */
-export const BASE_CAPACITY = 60
+export const BASE_CAPACITY = 80
 export const CAPACITY_STEP = 10
 export const MAX_CAPACITY = 200
 

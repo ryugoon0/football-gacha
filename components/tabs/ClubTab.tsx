@@ -21,7 +21,7 @@ import PlayerDetailModal from '../PlayerDetailModal'
 
 type RarityFilter = Rarity | 'all'
 type GroupFilter = PositionGroup | 'all'
-type SortKey = 'ovr' | 'rarity' | 'level'
+type SortKey = 'ovr' | 'rarity' | 'level' | 'club' | 'league'
 type Mode = 'manage' | 'train' | 'break' | 'fuse' | 'release'
 
 const GROUP_LABELS: Record<GroupFilter, string> = {
@@ -149,6 +149,14 @@ export default function ClubTab() {
           if (diff !== 0) return diff
         }
         if (sortKey === 'level' && a.card.level !== b.card.level) return b.card.level - a.card.level
+        // Same team or same league next to each other, so team colour
+        // requirements ("같은 클럽 3명" etc.) are easy to check at a glance.
+        if (sortKey === 'club' && a.player.club !== b.player.club) {
+          return a.player.club.localeCompare(b.player.club, 'ko')
+        }
+        if (sortKey === 'league' && a.player.league !== b.player.league) {
+          return a.player.league.localeCompare(b.player.league, 'ko')
+        }
         return b.ovr - a.ovr
       })
   }, [state.cards, rarityFilter, groupFilter, sortKey])
@@ -339,6 +347,8 @@ export default function ClubTab() {
             <option value="ovr">전력순</option>
             <option value="rarity">등급순</option>
             <option value="level">레벨순</option>
+            <option value="club">같은 클럽끼리</option>
+            <option value="league">같은 리그끼리</option>
           </select>
         </div>
 
