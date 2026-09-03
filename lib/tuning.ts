@@ -123,8 +123,8 @@ export const KNOBS = {
   },
   casualMatchDailyLimit: {
     label: '캐주얼 모드 하루 경기 수',
-    note: '캐주얼 모드(리그·컵) 경기를 하루에 진행할 수 있는 판수. 친선 경기와는 별도로 셉니다.',
-    default: 20,
+    note: '캐주얼 모드(리그·컵) 경기를 하루에 진행할 수 있는 판수. 친선 경기와는 별도로 셉니다. 기본값은 한 시즌 라운드 수(lib/schedule.ts의 TOTAL_MATCHDAYS)와 맞췄습니다.',
+    default: 23,
     min: 1,
     max: 90,
     step: 1,

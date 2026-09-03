@@ -10,6 +10,7 @@ import { PLAYERS_BY_RARITY, getPlayer, levelCap } from '../lib/players'
 import { rollListings, transferPrice } from '../lib/market'
 import { RARITY_STYLES, trainCost } from '../lib/rarity'
 import { initialState } from '../lib/storage'
+import { tune } from '../lib/tuning'
 import type { Card, GameState, MatchResult } from '../lib/types'
 
 const start = (): GameState => ({ ...initialState(), daily: freshDaily(todayKey()) })
@@ -311,7 +312,10 @@ describe('playing a season', () => {
   })
 
   it('refuses another casual match once the daily cap is spent', () => {
-    const state = { ...start(), daily: { ...freshDaily(todayKey()), casualMatches: 20 } }
+    const state = {
+      ...start(),
+      daily: { ...freshDaily(todayKey()), casualMatches: tune('casualMatchDailyLimit') },
+    }
     const fixture = myFixture(state.season)!
     const next = reducer(state, {
       type: 'match',
