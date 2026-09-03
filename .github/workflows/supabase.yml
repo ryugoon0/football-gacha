@@ -35,6 +35,8 @@ on:
       # generate-placement-league가 lib/weeklyLeagueServer.ts를 통해 번들하는 것들.
       - 'lib/weeklyLeagueServer.ts'
       - 'lib/weeklyLeague/**'
+      # pvp-opponent-squad가 그대로 번들하는 것.
+      - 'lib/publicClub.ts'
   # 휴대폰에서 직접 돌릴 때. Actions 탭 → Supabase → Run workflow.
   workflow_dispatch:
     inputs:
@@ -95,7 +97,7 @@ jobs:
         run: |
           npm ci
           npm run build:functions
-          git --no-pager diff --stat -- supabase/functions/draw-pack/shared.js supabase/functions/simulate-match/shared.js supabase/functions/generate-placement-league/shared.js || true
+          git --no-pager diff --stat -- supabase/functions/draw-pack/shared.js supabase/functions/simulate-match/shared.js supabase/functions/generate-placement-league/shared.js supabase/functions/pvp-opponent-squad/shared.js supabase/functions/simulate-pvp-match/shared.js || true
 
       - name: Edge Function 배포
         if: >-
@@ -108,6 +110,8 @@ jobs:
           supabase functions deploy draw-pack --project-ref "${{ steps.project.outputs.ref }}"
           supabase functions deploy simulate-match --project-ref "${{ steps.project.outputs.ref }}"
           supabase functions deploy generate-placement-league --project-ref "${{ steps.project.outputs.ref }}"
+          supabase functions deploy pvp-opponent-squad --project-ref "${{ steps.project.outputs.ref }}"
+          supabase functions deploy simulate-pvp-match --project-ref "${{ steps.project.outputs.ref }}"
 
       - name: 요약
         if: always()

@@ -70,7 +70,7 @@ describe('drawing', () => {
   it('resets yesterday\'s mission board before counting', () => {
     const stale = {
       ...start(),
-      daily: { date: '1999-01-01', progress: { draw: 9, win: 2, train: 5 }, claimed: ['draw' as const], freeDrawUsed: true, miniGames: 7, shopBuys: { medkit: 2 }, extraFriendlies: 3, casualMatches: 12, seasonEndedToday: true },
+      daily: { date: '1999-01-01', progress: { draw: 9, win: 2, train: 5 }, claimed: ['draw' as const], freeDrawUsed: true, miniGames: 7, shopBuys: { medkit: 2 }, extraFriendlies: 3, casualMatches: 12, seasonEndedToday: true, pvpMatches: 2 },
     }
     const next = reducer(stale, { type: 'addCards', cards: [card('a', 'n01')], cost: 300 })
     expect(next.daily.date).toBe(todayKey())

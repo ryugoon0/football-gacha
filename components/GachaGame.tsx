@@ -19,6 +19,7 @@ import GachaTab from './tabs/GachaTab'
 import ItemsTab from './tabs/ItemsTab'
 import MarketTab from './tabs/MarketTab'
 import MatchTab from './tabs/MatchTab'
+import PvpTab from './tabs/PvpTab'
 import SquadTab from './tabs/SquadTab'
 import WeeklyTab from './tabs/WeeklyTab'
 import { BRAND_MARK, BRAND_NAME } from '../lib/brand'
@@ -31,6 +32,7 @@ const TABS = [
   { key: 'squad', label: '스쿼드' },
   { key: 'club', label: '선수단' },
   { key: 'match', label: '캐주얼 모드' },
+  { key: 'pvp', label: '데일리 PvP' },
   { key: 'weekly', label: '경쟁 리그' },
   { key: 'board', label: '게시판' },
 ] as const
@@ -189,6 +191,7 @@ function Shell() {
             {tab === 'squad' && <SquadTab />}
             {tab === 'club' && <ClubTab />}
             {tab === 'match' && <MatchTab />}
+            {tab === 'pvp' && <PvpTab />}
             {tab === 'weekly' && <WeeklyTab />}
             {tab === 'board' && <BoardTab />}
           </>

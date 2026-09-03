@@ -98,7 +98,7 @@ export interface Squad {
 
 export interface MatchSummary {
   id: string
-  competition: 'league' | 'cup' | 'friendly'
+  competition: 'league' | 'cup' | 'friendly' | 'pvp'
   opponent: string
   scoreFor: number
   scoreAgainst: number

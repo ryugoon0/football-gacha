@@ -6,6 +6,7 @@ import {
   MINI_GAME_LIMIT,
   casualModeLocked,
   missionClaimable,
+  pvpMatchesLeft,
   rollOver,
   todayKey,
   type DailyState,
@@ -93,6 +94,7 @@ export type Action =
     }
   | { type: 'cupMatch'; result: MatchResult; myRating: number; lineup: MatchLineup }
   | { type: 'miniGame'; result: MatchResult; lineup: MatchLineup }
+  | { type: 'pvpMatch'; result: MatchResult; lineup: MatchLineup }
   | { type: 'skipMatchday' }
   | { type: 'newSeason' }
   | { type: 'ensureMarket'; date: string }
@@ -125,7 +127,7 @@ function bumpCasualMatch(daily: DailyState): DailyState {
 
 function logMatch(
   state: GameState,
-  competition: 'league' | 'cup' | 'friendly',
+  competition: 'league' | 'cup' | 'friendly' | 'pvp',
   result: MatchResult,
   reward: number,
 ): GameState['history'] {
@@ -501,6 +503,29 @@ export function reducer(state: GameState, action: Action): GameState {
         lastSubs: lineup.subs,
         daily: { ...daily, miniGames: (daily.miniGames ?? 0) + 1 },
         history: logMatch(state, 'friendly', result, result.reward),
+      }
+    }
+
+    case 'pvpMatch': {
+      // Same shape as miniGame — no league table, no injury risk, up to the
+      // daily PvP cap. The server already judged the match and decided the
+      // reward; this only books it into the local save.
+      const daily = today(state)
+      if (pvpMatchesLeft(daily) <= 0) return state
+
+      const { result, lineup } = action
+      const played = { ...state, squad: lineup.squad }
+      const { cards, ratings } = afterMatch(played, result, lineup, false)
+
+      return {
+        ...played,
+        squad: state.squad,
+        gold: state.gold + result.reward,
+        cards,
+        lastRatings: ratings,
+        lastSubs: lineup.subs,
+        daily: { ...daily, pvpMatches: (daily.pvpMatches ?? 0) + 1 },
+        history: logMatch(state, 'pvp', result, result.reward),
       }
     }
 

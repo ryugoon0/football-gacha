@@ -42,6 +42,8 @@ export interface DailyState {
    * second season on the same day.
    */
   seasonEndedToday: boolean
+  /** Daily PvP challenges sent today. Only the challenger's count moves. */
+  pvpMatches: number
 }
 
 /** Friendlies a manager may play in one day. */
@@ -75,6 +77,7 @@ export function freshDaily(date: string = todayKey()): DailyState {
     extraFriendlies: 0,
     casualMatches: 0,
     seasonEndedToday: false,
+    pvpMatches: 0,
   }
 }
 
@@ -87,7 +90,8 @@ export function rollOver(daily: DailyState | undefined, today: string = todayKey
   if (
     daily.miniGames !== undefined &&
     daily.casualMatches !== undefined &&
-    daily.seasonEndedToday !== undefined
+    daily.seasonEndedToday !== undefined &&
+    daily.pvpMatches !== undefined
   ) {
     return daily
   }
@@ -96,6 +100,7 @@ export function rollOver(daily: DailyState | undefined, today: string = todayKey
     miniGames: daily.miniGames ?? 0,
     casualMatches: daily.casualMatches ?? 0,
     seasonEndedToday: daily.seasonEndedToday ?? false,
+    pvpMatches: daily.pvpMatches ?? 0,
   }
 }
 
@@ -119,6 +124,11 @@ export function casualMatchesLeft(daily: DailyState): number {
  */
 export function casualModeLocked(daily: DailyState): boolean {
   return daily.seasonEndedToday === true || casualMatchesLeft(daily) <= 0
+}
+
+/** Daily PvP challenges left today — only counts what this manager sent. */
+export function pvpMatchesLeft(daily: DailyState): number {
+  return Math.max(0, tune('pvpDailyLimit') - (daily.pvpMatches ?? 0))
 }
 
 export function missionDone(daily: DailyState, mission: MissionDef): boolean {

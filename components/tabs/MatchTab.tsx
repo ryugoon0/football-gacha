@@ -1531,6 +1531,9 @@ function ClubForm() {
                 {item.competition === 'friendly' && (
                   <span className="ml-1 text-[10px] text-sky-300">친선</span>
                 )}
+                {item.competition === 'pvp' && (
+                  <span className="ml-1 text-[10px] text-fuchsia-300">PvP</span>
+                )}
               </div>
               <div className="max-w-[80px] truncate opacity-70">{item.opponent}</div>
             </div>

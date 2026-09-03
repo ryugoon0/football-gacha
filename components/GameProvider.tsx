@@ -54,6 +54,7 @@ export interface GameApi {
   finishCupMatch: (result: MatchResult, myRating: number, lineup: MatchLineup) => void
   skipMatchday: () => void
   playMiniGame: (result: MatchResult, lineup: MatchLineup) => void
+  playPvpMatch: (result: MatchResult, lineup: MatchLineup) => void
   startNewSeason: () => void
   buyListing: (listing: Listing) => void
   refreshMarket: () => void
@@ -168,6 +169,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
         dispatch({ type: 'cupMatch', result, myRating, lineup }),
       playMiniGame: (result: MatchResult, lineup: MatchLineup) =>
         dispatch({ type: 'miniGame', result, lineup }),
+      playPvpMatch: (result: MatchResult, lineup: MatchLineup) =>
+        dispatch({ type: 'pvpMatch', result, lineup }),
       skipMatchday: () => dispatch({ type: 'skipMatchday' }),
       startNewSeason: () => dispatch({ type: 'newSeason' }),
       buyListing: (listing: Listing) => dispatch({ type: 'buy', listing }),

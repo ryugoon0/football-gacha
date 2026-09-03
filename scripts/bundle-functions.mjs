@@ -51,3 +51,31 @@ await build({
 })
 
 console.log('supabase/functions/generate-placement-league/shared.js 생성 완료')
+
+await build({
+  entryPoints: ['lib/publicClub.ts'],
+  outfile: 'supabase/functions/pvp-opponent-squad/shared.js',
+  bundle: true,
+  format: 'esm',
+  platform: 'neutral',
+  target: 'es2022',
+  banner: {
+    js: '// 자동 생성 파일입니다. 고치지 마세요.\n// lib/publicClub.ts에서 만들어집니다: npm run build:functions',
+  },
+})
+
+console.log('supabase/functions/pvp-opponent-squad/shared.js 생성 완료')
+
+await build({
+  entryPoints: ['lib/serverMatch.ts'],
+  outfile: 'supabase/functions/simulate-pvp-match/shared.js',
+  bundle: true,
+  format: 'esm',
+  platform: 'neutral',
+  target: 'es2022',
+  banner: {
+    js: '// 자동 생성 파일입니다. 고치지 마세요.\n// lib/serverMatch.ts에서 만들어집니다: npm run build:functions',
+  },
+})
+
+console.log('supabase/functions/simulate-pvp-match/shared.js 생성 완료')
