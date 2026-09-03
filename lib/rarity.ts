@@ -1,6 +1,14 @@
 import { hashString, pickInRange } from './random'
 import type { Rarity } from './types'
 
+/**
+ * The type name and the label a player sees no longer match: an earlier
+ * rename swapped only the *display* labels below, so the 'Legend' type shows
+ * as 월드 and the 'World' type shows as 레전드 (the actual top tier). Renaming
+ * the type itself would touch save data already written under these keys
+ * (e.g. GameState.pulls.byRarity) and needs a migration, so it stays as-is —
+ * read RARITY_STYLES[x].label, not the type name, for what a player sees.
+ */
 export const RARITIES: Rarity[] = ['Normal', 'Rare', 'Legend', 'Live', 'World']
 
 /** Pull rates, in percent. Must sum to 100. */
