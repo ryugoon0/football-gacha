@@ -248,6 +248,8 @@ function pickInRange(seed, min, max) {
 
 // lib/rosterOverrides.ts
 var PLAYER_OVERRIDES = {
+  "lv07": { positions: ["ST", "LW"], stats: { pac: 95, phy: 95 }, hidden: { clutch: 10, consistency: 9 } },
+  // 엘링 홀란
   "w03": { positions: ["CM", "CDM", "CAM"], stats: { pac: 86, sho: 97, pas: 98, dri: 94, def: 78, phy: 85 } },
   // 케빈 더브라
   "w04": { positions: ["CAM", "ST", "RW"], stats: { pac: 98, sho: 96, pas: 98, dri: 98, def: 63 }, hidden: { stamina: 10, consistency: 12 } },
