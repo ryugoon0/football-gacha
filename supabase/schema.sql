@@ -1619,6 +1619,41 @@ on conflict (tier) do update
   set max_real_users = excluded.max_real_users,
       ai_base_rating = excluded.ai_base_rating;
 
+-- 주간리그 AI 클럽 이름·배지 — lib/league.ts의 CLUB_POOL(기존 디비전 리그
+-- AI 상대와 같은 가상 클럽 24개)을 그대로 옮긴 것이다.
+create table if not exists public.weekly_ai_club_pool (
+  idx   smallint primary key,
+  name  text not null,
+  badge text not null
+);
+
+insert into public.weekly_ai_club_pool (idx, name, badge) values
+  (0, '인천 유나이트', 'IC'),
+  (1, '대전 시티즌스', 'DJ'),
+  (2, '광주 라이트', 'GJ'),
+  (3, '강원 알펜', 'GW'),
+  (4, '제주 오름', 'JJ'),
+  (5, '성남 마그마', 'SN'),
+  (6, '김천 밀리터리', 'GC'),
+  (7, '수원 시티', 'SW'),
+  (8, '부산 하버', 'BS'),
+  (9, '안양 퓨마', 'AY'),
+  (10, '부천 그린', 'BC'),
+  (11, '전남 드래건', 'JN'),
+  (12, '경남 다이너모', 'GN'),
+  (13, '아산 무궁', 'AS'),
+  (14, '서울 이스트', 'SE'),
+  (15, '안산 그리너', 'AN'),
+  (16, '천안 흥타령', 'CA'),
+  (17, '청주 코어', 'CJ'),
+  (18, '김포 필드', 'GP'),
+  (19, '화성 스타즈', 'HS'),
+  (20, '평택 포트', 'PT'),
+  (21, '목포 세일러', 'MP'),
+  (22, '통영 씨걸스', 'TY'),
+  (23, '여수 오션스', 'YS')
+on conflict (idx) do update set name = excluded.name, badge = excluded.badge;
+
 create or replace function public.auto_bootstrap_placement_leagues()
   returns jsonb
   language plpgsql
@@ -1635,6 +1670,7 @@ declare
   v_candidate record;
   v_members jsonb;
   v_slot int;
+  v_pool record;
   v_competitions jsonb;
   v_placement_id bigint;
   v_fixtures jsonb;
@@ -1689,12 +1725,15 @@ begin
     end loop;
 
     while jsonb_array_length(v_members) < 16 loop
+      select name, badge into v_pool
+        from public.weekly_ai_club_pool
+        where idx = (jsonb_array_length(v_members) + v_tier.tier * 3) % 24;
       v_members := v_members || jsonb_build_object(
         'slot', jsonb_array_length(v_members),
         'kind', 'ai',
         'userId', null,
-        'clubName', 'AI 클럽 ' || (jsonb_array_length(v_members) + 1),
-        'badge', '',
+        'clubName', v_pool.name,
+        'badge', v_pool.badge,
         'rating', v_tier.ai_base_rating
       );
     end loop;
@@ -1723,10 +1762,82 @@ revoke all on function public.auto_bootstrap_placement_leagues() from public;
 revoke all on function public.auto_bootstrap_placement_leagues() from authenticated;
 grant execute on function public.auto_bootstrap_placement_leagues() to service_role;
 
+-- 배치 리그가 만들어진 뒤에 가입한 실유저를 계속 쓸어담는다. 대진표는 16개
+-- 고정 슬롯 전제라 그룹에 자리를 새로 만들 수 없으므로, 아직 한 경기도
+-- 안 치른 AI 슬롯을 실유저로 바꿔치기한다 — fixture는 슬롯 번호로만
+-- 연결돼 있어 이 슬롯의 소유자 정보만 바꾸면 대진표는 그대로 유효하다.
+create or replace function public.sweep_new_users_into_placement()
+  returns jsonb
+  language plpgsql
+  security definer
+  set search_path = public
+as $$
+declare
+  v_week_id text := 'placement-2026-09-04';
+  v_group record;
+  v_candidate record;
+  v_ai_slot smallint;
+  v_swapped int := 0;
+begin
+  perform pg_advisory_xact_lock(hashtext('auto_bootstrap_placement:' || v_week_id));
+
+  for v_group in
+    select g.id as group_id, g.tier, r.ai_base_rating
+    from public.weekly_league_groups g
+    join public.weekly_tier_rules r on r.tier = g.tier
+    where g.week_id = v_week_id
+    order by g.tier
+  loop
+    for v_candidate in
+      select s.user_id, s.data->>'club' as club_name
+      from public.saves s
+      where not exists (
+        select 1 from public.weekly_league_members m
+        join public.weekly_league_groups g2 on g2.id = m.group_id
+        where g2.week_id = v_week_id and m.kind = 'user' and m.user_id = s.user_id
+      )
+      order by s.user_id
+    loop
+      select m.slot into v_ai_slot
+      from public.weekly_league_members m
+      where m.group_id = v_group.group_id and m.kind = 'ai'
+        and not exists (
+          select 1 from public.weekly_fixtures f
+          where f.group_id = v_group.group_id
+            and f.status = 'played'
+            and (f.home_slot = m.slot or f.away_slot = m.slot)
+        )
+      order by m.slot
+      limit 1;
+
+      exit when v_ai_slot is null;
+
+      update public.weekly_league_members
+        set kind = 'user',
+            user_id = v_candidate.user_id,
+            club_name = coalesce(nullif(trim(v_candidate.club_name), ''), '유저클럽'),
+            rating = v_group.ai_base_rating + 5
+        where group_id = v_group.group_id and slot = v_ai_slot;
+
+      v_swapped := v_swapped + 1;
+    end loop;
+  end loop;
+
+  return jsonb_build_object('ok', true, 'swapped', v_swapped);
+end $$;
+
+revoke all on function public.sweep_new_users_into_placement() from public;
+revoke all on function public.sweep_new_users_into_placement() from authenticated;
+grant execute on function public.sweep_new_users_into_placement() to service_role;
+
 select cron.unschedule('auto-bootstrap-placement')
   where exists (select 1 from cron.job where jobname = 'auto-bootstrap-placement');
 
-select cron.schedule('auto-bootstrap-placement', '*/10 * * * *', $$select public.auto_bootstrap_placement_leagues()$$);
+select cron.schedule(
+  'auto-bootstrap-placement',
+  '*/10 * * * *',
+  $$select public.auto_bootstrap_placement_leagues(); select public.sweep_new_users_into_placement();$$
+);
 
 -- ---------------------------------------------------------------------------
 -- 12. 운영자용 크론 상태 조회
