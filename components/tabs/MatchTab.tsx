@@ -212,6 +212,19 @@ function MatchDay() {
       }
     : null
 
+  // Built once per match, not on every render: a PRNG carries its position in
+  // the sequence in its own closure, so recreating it every tick (as building
+  // it inline on the useLiveEngine call would) rewinds it back to the start
+  // every time — the same "random" draws land in the same order minute after
+  // minute, and the match reads as if nothing but one shot ever happens.
+  const seededRng = useMemo(
+    () => (serverMatch ? seededRandom(hashString(serverMatch.seed)) : null),
+    // Keyed on the seed itself, not the serverMatch object: only a new seed
+    // should rewind the sequence, and serverMatch never changes seed in place.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [serverMatch?.seed],
+  )
+
   const engine = useLiveEngine(
     setup,
     (final) => {
@@ -232,7 +245,7 @@ function MatchDay() {
       if (isCupDay) finishCupMatch(result, rating.overall, lineup)
       else if (fixture) finishMatch(result, fixture, others, lineup)
     },
-    serverMatch ? seededRandom(hashString(serverMatch.seed)) : Math.random,
+    seededRng ?? Math.random,
   )
 
   // Only a new season clears the board; the finished match stays on screen
