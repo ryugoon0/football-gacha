@@ -20,6 +20,7 @@ import ItemsTab from './tabs/ItemsTab'
 import MarketTab from './tabs/MarketTab'
 import MatchTab from './tabs/MatchTab'
 import SquadTab from './tabs/SquadTab'
+import WeeklyTab from './tabs/WeeklyTab'
 import { BRAND_MARK, BRAND_NAME } from '../lib/brand'
 
 const TABS = [
@@ -30,6 +31,7 @@ const TABS = [
   { key: 'squad', label: '스쿼드' },
   { key: 'club', label: '선수단' },
   { key: 'match', label: '경기' },
+  { key: 'weekly', label: '주간리그' },
   { key: 'board', label: '게시판' },
 ] as const
 
@@ -187,6 +189,7 @@ function Shell() {
             {tab === 'squad' && <SquadTab />}
             {tab === 'club' && <ClubTab />}
             {tab === 'match' && <MatchTab />}
+            {tab === 'weekly' && <WeeklyTab />}
             {tab === 'board' && <BoardTab />}
           </>
         )}
