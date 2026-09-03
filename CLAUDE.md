@@ -17,6 +17,14 @@ npm run build:roster  # lib/rosterData.ts 재생성 (선수 명단 스크립트)
 뽑기를 확정하는 Edge Function 번들도 다시 나가야 한다. main에 올라가면 GitHub Actions가
 알아서 배포한다.
 
+## 작업 시작 전에 읽을 것
+
+- `ROADMAP.md` 4·5절 — 핸드오프 문서 검토 결과와 미결 항목이 우선순위로 정리돼 있다.
+  `docs/football-day-claude-code-handoff.txt`는 그린필드를 전제로 쓰여 있어서 이미
+  구현된 것을 미구현으로 다루는 부분이 있다. 그 문서만 보고 착수하지 않는다.
+- `docs/SECURITY_ARCHITECTURE.md` — 서버 이전 단계 계획. 리그를 서버로 옮기는 이야기가
+  나오면 이 문서와 핸드오프 문서가 충돌하므로 먼저 정리한다.
+
 ## Codex 작업 분산 규칙
 
 이 저장소는 OpenAI 공식 플러그인 `openai/codex-plugin-cc`로 Codex를 함께 쓴다.
