@@ -1,8 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { summarize } from '../lib/cloudSave'
-import { BUILD_REF, checkConnection, configStatus } from '../lib/supabase'
+import { publicLineupOf } from '../lib/publicClub'
+import { evaluateSquad } from '../lib/squad'
+import { BUILD_REF, checkConnection, configStatus, getSupabase } from '../lib/supabase'
 import { useGame } from './GameProvider'
 
 /**
@@ -15,6 +18,38 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [health, setHealth] = useState<{ ok: boolean; message: string } | null>(null)
+  const [publicStatus, setPublicStatus] = useState<boolean | null>(null)
+  const [publishing, setPublishing] = useState(false)
+  const [publicMessage, setPublicMessage] = useState<string | null>(null)
+
+  const userId = account.user?.id
+  useEffect(() => {
+    if (account.status !== 'signedIn' || !userId) {
+      setPublicStatus(null)
+      return
+    }
+
+    let active = true
+    const client = getSupabase()
+    if (!client) return
+    void client
+      .from('public_club_squads')
+      .select('is_public')
+      .eq('user_id', userId)
+      .maybeSingle()
+      .then(({ data, error }) => {
+        if (!active) return
+        if (error) {
+          setPublicMessage('공개 스쿼드 설정을 불러오지 못했습니다.')
+          return
+        }
+        setPublicStatus(data?.is_public === true)
+      })
+
+    return () => {
+      active = false
+    }
+  }, [account.status, userId])
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -34,6 +69,48 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
       return
     }
     await account.setNewPassword(next)
+  }
+
+  const setSquadVisibility = async (visible: boolean) => {
+    const client = getSupabase()
+    if (!client || !userId) return
+
+    const lineup = publicLineupOf(state)
+    const starters = lineup.filter((member) => member.role === 'starter')
+    if (visible && starters.length < 11) {
+      setPublicMessage('선발 11명을 모두 배치한 뒤 스쿼드를 공개해 주세요.')
+      return
+    }
+
+    setPublishing(true)
+    setPublicMessage(null)
+    const rating = evaluateSquad(state.cards, state.squad, state.season.division).overall
+    const { data, error } = await client.rpc('set_public_club_squad', {
+      p_visible: visible,
+      p_club_name: state.club,
+      p_division: state.season.division,
+      p_rating: rating,
+      p_formation: state.squad.formation,
+      p_lineup: lineup,
+    })
+    setPublishing(false)
+
+    const result = data as { ok?: boolean; reason?: string } | null
+    if (error || result?.ok !== true) {
+      setPublicMessage(
+        result?.reason === 'invalid_lineup'
+          ? '공개할 수 없는 스쿼드 데이터입니다.'
+          : '공개 설정을 저장하지 못했습니다. 서버 업데이트 상태를 확인해 주세요.',
+      )
+      return
+    }
+
+    setPublicStatus(visible)
+    setPublicMessage(
+      visible
+        ? '현재 스쿼드가 공개되었습니다. 선수 변경 뒤에는 다시 갱신해 주세요.'
+        : '스쿼드를 비공개로 전환했습니다.',
+    )
   }
 
   return (
@@ -98,6 +175,66 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
                 기기에서 같은 계정으로 로그인하면 이어서 할 수 있습니다.
               </p>
             </div>
+            <section className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <h3 className="text-sm font-black text-white">내 스쿼드 공개</h3>
+                  <p className="mt-1 text-[11px] leading-relaxed text-slate-400">
+                    구단명, 디비전, 전력과 선수 명단만 공개됩니다. 세이브, 재화, 전술은 공개되지
+                    않습니다.
+                  </p>
+                </div>
+                <span
+                  className={`shrink-0 rounded-full px-2 py-1 text-[10px] font-black ${
+                    publicStatus
+                      ? 'bg-emerald-400/15 text-emerald-300'
+                      : 'bg-white/5 text-slate-500'
+                  }`}
+                >
+                  {publicStatus ? '공개 중' : '비공개'}
+                </span>
+              </div>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                <button
+                  type="button"
+                  onClick={() => void setSquadVisibility(true)}
+                  disabled={publishing}
+                  className="rounded-lg bg-emerald-400 py-2 text-xs font-black text-slate-950 transition hover:bg-emerald-300 disabled:opacity-40"
+                >
+                  {publicStatus ? '최신 스쿼드로 갱신' : '스쿼드 공개'}
+                </button>
+                {publicStatus ? (
+                  <button
+                    type="button"
+                    onClick={() => void setSquadVisibility(false)}
+                    disabled={publishing}
+                    className="rounded-lg bg-white/5 py-2 text-xs font-bold text-slate-300 transition hover:bg-white/10 disabled:opacity-40"
+                  >
+                    공개 해제
+                  </button>
+                ) : (
+                  <Link
+                    href="/clubs"
+                    onClick={onClose}
+                    className="rounded-lg bg-white/5 py-2 text-center text-xs font-bold text-slate-300 transition hover:bg-white/10"
+                  >
+                    다른 구단 보기
+                  </Link>
+                )}
+              </div>
+              {publicStatus && userId && (
+                <Link
+                  href={`/clubs/${userId}`}
+                  onClick={onClose}
+                  className="mt-2 block text-center text-[11px] font-bold text-emerald-300 hover:text-emerald-200"
+                >
+                  내 공개 페이지 열기
+                </Link>
+              )}
+              {publicMessage && (
+                <p className="mt-2 text-[11px] font-semibold text-amber-200">{publicMessage}</p>
+              )}
+            </section>
             <button
               onClick={() => void changePassword()}
               disabled={account.syncing}

@@ -1,5 +1,11 @@
-import GachaGame from '../components/GachaGame'
+import LeagueHub from '../components/LeagueHub'
+import SiteHeader from '../components/SiteHeader'
 
 export default function Home() {
-  return <GachaGame />
+  return (
+    <>
+      <SiteHeader />
+      <LeagueHub />
+    </>
+  )
 }

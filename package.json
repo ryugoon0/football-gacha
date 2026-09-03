@@ -36,5 +36,5 @@
     "typescript": "^5.5.3",
     "vitest": "^2.1.9"
   },
-  "description": "풋볼데이 스타일 축구 카드 수집 게임 (Next.js)"
+  "description": "Club Season 축구 클럽 매니저 (Next.js)"
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { BRAND_NAME } from '../lib/brand'
 import { checkConnection, configStatus } from '../lib/supabase'
 import { buildLabel } from '../lib/build'
 import LockerRoomScene from './LockerRoomScene'
@@ -88,7 +89,7 @@ export default function LoginScreen() {
         </div>
         <div className="mt-4">
           <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-emerald-400">
-            Football Day
+            {BRAND_NAME}
           </div>
           <h1 className="mt-1 text-2xl font-black leading-snug">
             감독님, 라커룸에 오신 걸 환영합니다

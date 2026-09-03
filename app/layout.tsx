@@ -1,13 +1,14 @@
 import '../styles/globals.css'
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
+import { BRAND_NAME } from '../lib/brand'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Football Day — 축구 카드 매니저',
+  title: `${BRAND_NAME} — 축구 클럽 매니저`,
   description:
-    '카드팩을 뽑고 스쿼드를 짜고 리그를 올라가는 축구 카드 수집 게임. 풋볼데이 스타일 클론.',
+    '스쿼드를 만들고 리그를 오르며 같은 시즌을 함께하는 축구 클럽 매니저.',
 }
 
 export const viewport: Viewport = {

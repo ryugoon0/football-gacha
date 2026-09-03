@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useMemo, useState, type ReactNode } from 'react'
 import { divisionLabel } from '../lib/league'
 import { evaluateSquad } from '../lib/squad'
@@ -8,12 +9,9 @@ import AccountPanel from './AccountPanel'
 import { buildLabel } from '../lib/build'
 import { CardStyleProvider, CardStyleToggle } from './CardStyle'
 import { TacticsModeProvider } from './TacticsMode'
-import { AdminProvider, useAdmin, useIsAdmin } from './useAdmin'
+import { AdminProvider, useAdmin } from './useAdmin'
 import GuideOverlay from './GuideOverlay'
 import LoginScreen from './LoginScreen'
-import AdminTab from './tabs/AdminTab'
-import CardMaker from './tabs/CardMaker'
-import PlayerEditor from './tabs/PlayerEditor'
 import BoardTab from './tabs/BoardTab'
 import ClubTab from './tabs/ClubTab'
 import HomeTab from './tabs/HomeTab'
@@ -22,6 +20,7 @@ import ItemsTab from './tabs/ItemsTab'
 import MarketTab from './tabs/MarketTab'
 import MatchTab from './tabs/MatchTab'
 import SquadTab from './tabs/SquadTab'
+import { BRAND_MARK, BRAND_NAME } from '../lib/brand'
 
 const TABS = [
   { key: 'home', label: '홈' },
@@ -32,16 +31,9 @@ const TABS = [
   { key: 'club', label: '선수단' },
   { key: 'match', label: '경기' },
   { key: 'board', label: '게시판' },
-  // Only rendered for operators; the server checks again on every action.
-  { key: 'admin', label: '운영자' },
-  { key: 'cards', label: '카드생성' },
-  { key: 'editor', label: '선수편집' },
 ] as const
 
 type TabKey = (typeof TABS)[number]['key']
-
-/** Hidden from everyone else; the server checks again on every action. */
-const ADMIN_TABS = new Set<string>(['admin', 'cards', 'editor'])
 
 /**
  * Shown in the footer so a tester can say which build they were looking at.
@@ -80,8 +72,6 @@ function Shell() {
   const [helpOpen, setHelpOpen] = useState(false)
   const [accountOpen, setAccountOpen] = useState(false)
   const rating = useMemo(() => evaluateSquad(state.cards, state.squad), [state.cards, state.squad])
-  const { isAdmin } = useIsAdmin()
-  const tabs = useMemo(() => TABS.filter((item) => !ADMIN_TABS.has(item.key) || isAdmin), [isAdmin])
 
   const showGuide = helpOpen || (ready && !state.guideDone)
 
@@ -106,12 +96,12 @@ function Shell() {
       <header className="sticky top-0 z-30 border-b border-white/10 bg-slate-950/85 backdrop-blur">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-3 px-4 py-3">
           <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400 text-lg font-black text-slate-900">
-              FD
-            </span>
+            <Link href="/" className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-400 text-xs font-black text-slate-900" aria-label="리그센터로 이동">
+              {BRAND_MARK}
+            </Link>
             <div className="min-w-0">
               <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">
-                Football Day
+                {BRAND_NAME}
               </div>
               {editingClub ? (
                 <input
@@ -169,7 +159,7 @@ function Shell() {
 
         {/* Tab labels never wrap — the type shrinks on narrow phones instead. */}
         <nav className="mx-auto flex max-w-6xl gap-1 overflow-x-auto px-4">
-          {tabs.map((item) => (
+          {TABS.map((item) => (
             <button
               key={item.key}
               onClick={() => setTab(item.key)}
@@ -198,9 +188,6 @@ function Shell() {
             {tab === 'club' && <ClubTab />}
             {tab === 'match' && <MatchTab />}
             {tab === 'board' && <BoardTab />}
-            {tab === 'admin' && <AdminTab />}
-            {tab === 'cards' && <CardMaker />}
-            {tab === 'editor' && <PlayerEditor />}
           </>
         )}
       </div>
