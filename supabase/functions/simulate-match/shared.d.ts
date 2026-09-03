@@ -30,6 +30,7 @@ export interface SharedMatchEvent {
 export interface SharedMatchResult {
   opponent: string
   scorerUids: string[]
+  opponentScorerUids: string[]
   opponentRating: number
   scoreFor: number
   scoreAgainst: number
@@ -51,8 +52,15 @@ export interface SharedSlotEvaluation {
 
 export interface SharedSquadRating {
   overall: number
+  att: number
+  mid: number
+  def: number
+  chemistry: number
+  filled: number
+  hidden: number
   evaluations: SharedSlotEvaluation[]
   traits: unknown
+  colors: unknown
   overCap: boolean
   levelTotal: number
   levelCap: number
@@ -62,6 +70,10 @@ export interface SharedMatchSetup {
   team: SharedSquadRating
   teamName: string
   opponent: { id: string; name: string; badge: string; rating: number }
+  /** A real card-based opponent, for PvP — see lib/matchEngine.ts's MatchSetup. */
+  opponentSquad?: SharedSquadRating
+  opponentName?: string
+  opponentTraits?: unknown
   division: number
   venue: 'home' | 'away' | 'neutral'
   tactic: SharedTactic
@@ -96,6 +108,7 @@ export function runToEnd(
   scoreAgainst: number
   events: SharedMatchEvent[]
   scorerUids: string[]
+  opponentScorerUids: string[]
   shotsFor: number
   shotsAgainst: number
 }

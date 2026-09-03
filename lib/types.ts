@@ -170,6 +170,8 @@ export interface MatchResult {
   opponent: string
   /** Card uids of our scorers, one entry per goal. */
   scorerUids: string[]
+  /** Only ever filled for a real PvP opponent — see MatchSetup.opponentSquad. */
+  opponentScorerUids: string[]
   opponentRating: number
   scoreFor: number
   scoreAgainst: number

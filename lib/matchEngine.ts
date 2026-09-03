@@ -60,10 +60,23 @@ export interface MatchSetup {
   team: SquadRating
   teamName: string
   opponent: LeagueTeam
+  /**
+   * A real card-based squad for the opponent, for PvP. When present, this
+   * side is judged from actual cards — strength, tactical profile, scorers,
+   * stamina — the same way `team` is, instead of the rating-only stand-in
+   * `opponent` normally produces. `opponent` itself is kept regardless (its
+   * `name`/`rating` still label the fixture), so every non-PvP call site
+   * (casual mode, AI league opponents) needs no change at all.
+   */
+  opponentSquad?: SquadRating
+  /** Display name for a real PvP opponent — defaults to opponent.name when absent. */
+  opponentName?: string
   division: number
   venue: Venue
   tactic: TacticSetup
   traits?: TraitEffects
+  /** Real traits for opponentSquad — team.traits' counterpart. */
+  opponentTraits?: TraitEffects
   /** Our eleven, for the pitch view. Empty when running headless. */
   homeShape?: DotAnchor[]
   /**
@@ -104,8 +117,12 @@ export interface LiveMatchState {
   possessionTicks: { home: number; away: number }
   events: MatchEvent[]
   scorerUids: string[]
+  /** Only ever filled when opponentSquad is a real squad (PvP). */
+  opponentScorerUids: string[]
   /** How much each starter has left in the tank, 0-100, by card uid. */
   stamina: Record<string, number>
+  /** Stamina for opponentSquad's eleven, same shape, only used in PvP. */
+  opponentStamina: Record<string, number>
   /** What the match produced, per side. The tactics engine fills this in. */
   metrics: MatchMetrics
   finished: boolean
@@ -274,7 +291,9 @@ export function createMatch(setup: MatchSetup): LiveMatchState {
       },
     ],
     scorerUids: [],
+    opponentScorerUids: [],
     stamina: seedStamina(setup.team.evaluations),
+    opponentStamina: setup.opponentSquad ? seedStamina(setup.opponentSquad.evaluations) : {},
     metrics: emptyMetrics(),
     finished: false,
   }
@@ -291,14 +310,41 @@ interface Strength {
   foulRate: number
 }
 
-/** Recomputed every tick so a tactical change takes effect immediately. */
-export function strengthOf(setup: MatchSetup, rng: () => number, fitness = 1): Strength {
+/**
+ * Recomputed every tick so a tactical change takes effect immediately.
+ * `oppFitness` mirrors `fitness` for a real PvP opponent (their own legs,
+ * from their own stamina) — it does nothing when there is no `opponentSquad`.
+ */
+export function strengthOf(
+  setup: MatchSetup,
+  rng: () => number,
+  fitness = 1,
+  oppFitness = 1,
+): Strength {
   const plan = tacticEffects(setup.tactic ?? DEFAULT_TACTIC)
   const traits = setup.traits ?? NO_TRAIT_EFFECTS
   const homeBonus = setup.venue === 'home' ? tune('homeAdvantage') : 0
   const awayBonus = setup.venue === 'away' ? tune('homeAdvantage') : 0
   const bigGame = setup.venue === 'neutral' ? traits.cup : 0
   const hiddenEdge = setup.team.hidden / 2
+
+  if (setup.opponentSquad) {
+    // Real PvP squad: their own att/def/mid (already team-colour and
+    // chemistry adjusted by evaluateSquad, same as ours) instead of a
+    // single rating number, and their own hidden-stat edge.
+    const oppHiddenEdge = setup.opponentSquad.hidden / 2
+    const oppBigGame = setup.venue === 'neutral' ? (setup.opponentTraits ?? NO_TRAIT_EFFECTS).cup : 0
+    return {
+      myAtt: (setup.team.att * plan.att + homeBonus + bigGame + hiddenEdge) * fitness,
+      myDef: (setup.team.def * plan.def + homeBonus + bigGame + hiddenEdge) * fitness,
+      myMid: (setup.team.mid + homeBonus + bigGame + hiddenEdge) * fitness,
+      oppAtt: (setup.opponentSquad.att + awayBonus + oppBigGame + oppHiddenEdge) * oppFitness,
+      oppDef: (setup.opponentSquad.def + awayBonus + oppBigGame + oppHiddenEdge) * oppFitness,
+      oppMid: (setup.opponentSquad.mid + awayBonus + oppBigGame + oppHiddenEdge) * oppFitness,
+      chanceRate: 0.13 * plan.chance * traits.tempo,
+      foulRate: 0.05 * plan.foul,
+    }
+  }
 
   return {
     myAtt: (setup.team.att * plan.att + homeBonus + bigGame + hiddenEdge) * fitness,
@@ -326,17 +372,29 @@ interface Models {
 /**
  * Both sides as the tactics engine sees them. Ours comes from the eleven on
  * the pitch; the opponent's from their rating and a style drawn from their
- * name, so a league side plays the same way all season.
+ * name (so a league side plays the same way all season) — unless a real
+ * `opponentSquad` is given, in which case their profile comes from their
+ * own eleven exactly like ours does.
  */
-function buildModels(setup: MatchSetup, strength: Strength, fatigue: number): Models {
+function buildModels(
+  setup: MatchSetup,
+  strength: Strength,
+  fatigue: number,
+  opponentFatigue = fatigue * 0.7,
+): Models {
   const ourPlan =
     setup.phased ??
     phasedFrom(setup.params ?? paramsFromSetup(setup.tactic ?? DEFAULT_TACTIC))
   const ourProfile = squadProfile(setup.team.evaluations)
   const theirPlan =
     setup.opponentTactics?.phased ??
-    phasedFrom(setup.opponentTactics?.params ?? opponentParams(setup.opponent))
-  const theirProfile = setup.opponentTactics?.profile ?? opponentProfile(setup.opponent)
+    phasedFrom(
+      setup.opponentTactics?.params ??
+        (setup.opponentSquad ? paramsFromSetup(DEFAULT_TACTIC) : opponentParams(setup.opponent)),
+    )
+  const theirProfile =
+    setup.opponentTactics?.profile ??
+    (setup.opponentSquad ? squadProfile(setup.opponentSquad.evaluations) : opponentProfile(setup.opponent))
 
   /** Derived state is cached per phase — a match asks for the same few. */
   const sideFor = (
@@ -368,8 +426,10 @@ function buildModels(setup: MatchSetup, strength: Strength, fatigue: number): Mo
 
   return {
     home: sideFor(ourPlan, ourProfile, fatigue, strength.myAtt, strength.myDef),
-    // The opponent tires too, but we do not track their legs individually.
-    away: sideFor(theirPlan, theirProfile, fatigue * 0.7, strength.oppAtt, strength.oppDef),
+    // Without a real squad the opponent's fatigue is a flat discount off
+    // ours (they tire too, but we do not track their legs individually).
+    // With one, opponentFatigue is their own, computed from opponentStamina.
+    away: sideFor(theirPlan, theirProfile, opponentFatigue, strength.oppAtt, strength.oppDef),
   }
 }
 
@@ -401,12 +461,23 @@ export function advance(
   }
 
   const minute = state.minute + 1
+  const opponentEvaluations = setup.opponentSquad?.evaluations ?? []
 
   // Tiredness is read from the tick just gone, so the tactical model and the
   // legs it depends on stay in step without a circular calculation.
   const teamFatigue = 1 - clamp(averageStamina(state, setup.team.evaluations) / 100, 0, 1)
-  const preStrength = strengthOf(setup, rng, staminaFactor(averageStamina(state, setup.team.evaluations)))
-  const models = buildModels(setup, preStrength, teamFatigue)
+  const preOpponentFatigue = setup.opponentSquad
+    ? 1 - clamp(averageStamina({ ...state, stamina: state.opponentStamina }, opponentEvaluations) / 100, 0, 1)
+    : undefined
+  const preStrength = strengthOf(
+    setup,
+    rng,
+    staminaFactor(averageStamina(state, setup.team.evaluations)),
+    setup.opponentSquad
+      ? staminaFactor(averageStamina({ ...state, stamina: state.opponentStamina }, opponentEvaluations))
+      : 1,
+  )
+  const models = buildModels(setup, preStrength, teamFatigue, preOpponentFatigue)
 
   // Legs go first: every minute on the pitch costs condition, and pressing,
   // sprinting and a fast tempo cost more. Fresh substitutes lift the average.
@@ -420,16 +491,36 @@ export function advance(
     stamina[item.card.uid] = clamp(before - drain, 5, 100)
     staminaSpent += before - stamina[item.card.uid]
   }
+
+  // Same treatment for a real PvP opponent — their own legs, drained by
+  // their own tactical fatigue draw, not a flat discount off ours.
+  let opponentStamina = state.opponentStamina
+  if (setup.opponentSquad) {
+    const opponentFatigueDraw = models.away.inPhase('IN_POSSESSION').state.fatigueDraw
+    opponentStamina = seedStamina(opponentEvaluations, state.opponentStamina)
+    for (const item of opponentEvaluations) {
+      if (!item.card) continue
+      const drain =
+        (item.slotPosition === 'GK' ? tune('keeperDrain') : tune('staminaDrain')) * opponentFatigueDraw
+      opponentStamina[item.card.uid] = clamp(opponentStamina[item.card.uid] - drain, 5, 100)
+    }
+  }
+
   const strength = strengthOf(
     setup,
     rng,
     staminaFactor(averageStamina({ ...state, stamina }, setup.team.evaluations)),
+    setup.opponentSquad
+      ? staminaFactor(averageStamina({ ...state, stamina: opponentStamina }, opponentEvaluations))
+      : 1,
   )
   const traits = setup.traits ?? NO_TRAIT_EFFECTS
+  const opponentTraits = setup.opponentTraits
   const events = [...state.events]
   let { scoreFor, scoreAgainst, shotsFor, shotsAgainst, possession, ball } = state
   const possessionTicks = { ...state.possessionTicks }
   const scorerUids = [...state.scorerUids]
+  const opponentScorerUids = [...state.opponentScorerUids]
   let stoppage: Stoppage | null = null
 
   if (minute > 90) {
@@ -510,14 +601,21 @@ export function advance(
     const def = weAttack ? strength.oppDef : strength.myDef
     const keeper = (weAttack ? models.away : models.home).inPhase('OUT_OF_POSSESSION').profile
       .keeperShotStopping
-    const swing = weAttack ? traits.goal + setup.team.hidden * 0.002 : -traits.concede
+    // Each side's own goal/concede trait and hidden edge apply to their own
+    // shots — with no real opponent squad, opponentTraits is undefined and
+    // this collapses back to exactly the original one-sided formula.
+    const swing = weAttack
+      ? traits.goal + setup.team.hidden * 0.002 - (opponentTraits?.concede ?? 0)
+      : (opponentTraits ? opponentTraits.goal + (setup.opponentSquad?.hidden ?? 0) * 0.002 : 0) - traits.concede
     // Player quality still decides the duel; the tactic decided the opening.
     const ratingEdge = 1 + (att - def) / 160
     const goalChance = clamp(quality * ratingEdge * (1.15 - keeper / 200) + swing, 0.02, 0.8)
 
     const shooter = weAttack
       ? pickScorer(setup.team.evaluations, rng)
-      : { name: OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)], uid: null, slotId: null }
+      : setup.opponentSquad
+        ? pickScorer(setup.opponentSquad.evaluations, rng)
+        : { name: OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)], uid: null, slotId: null }
 
     ball = { x: clamp(ball.x + (rng() * 20 - 10), 20, 80), y: weAttack ? 94 : 6 }
 
@@ -528,6 +626,7 @@ export function advance(
         if (shooter.uid) scorerUids.push(shooter.uid)
       } else {
         scoreAgainst++
+        if (shooter.uid) opponentScorerUids.push(shooter.uid)
       }
       events.push({
         minute,
@@ -540,7 +639,11 @@ export function advance(
     }
     if (rng() < 0.5) {
       metrics[side].shotsOnTarget += 1
-      const keeperName_ = weAttack ? `${setup.opponent.name} 골키퍼` : keeperName(setup.team.evaluations)
+      const keeperName_ = weAttack
+        ? setup.opponentSquad
+          ? keeperName(setup.opponentSquad.evaluations)
+          : `${setup.opponent.name} 골키퍼`
+        : keeperName(setup.team.evaluations)
       events.push({
         minute,
         type: 'save',
@@ -587,7 +690,9 @@ export function advance(
     } else if (sequence.kind === 'foul') {
       const fouler =
         attackerSide === 'home'
-          ? OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)]
+          ? setup.opponentSquad
+            ? pickScorer(setup.opponentSquad.evaluations, rng).name
+            : OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)]
           : (pickScorer(setup.team.evaluations, rng).name ?? '우리 선수')
       metrics[defenderSide].fouls += 1
       events.push({
@@ -645,7 +750,9 @@ export function advance(
     possessionTicks,
     events,
     scorerUids,
+    opponentScorerUids,
     stamina,
+    opponentStamina,
     metrics,
   }
 }
@@ -683,8 +790,9 @@ export function toResult(
   meta: { seed: string; engineVersion?: string },
 ): MatchResult {
   return {
-    opponent: setup.opponent.name,
+    opponent: setup.opponentSquad ? (setup.opponentName ?? setup.opponent.name) : setup.opponent.name,
     scorerUids: state.scorerUids,
+    opponentScorerUids: state.opponentScorerUids,
     opponentRating: setup.opponent.rating,
     scoreFor: state.scoreFor,
     scoreAgainst: state.scoreAgainst,

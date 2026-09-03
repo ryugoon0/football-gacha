@@ -15,6 +15,7 @@ const result = (over: Partial<MatchResult> = {}): MatchResult => ({
   events: [],
   reward: 200,
   scorerUids: [],
+  opponentScorerUids: [],
   shotsFor: 8,
   shotsAgainst: 5,
   possession: 55,

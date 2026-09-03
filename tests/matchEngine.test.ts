@@ -158,6 +158,97 @@ describe('live engine', () => {
   })
 })
 
+describe('PvP opponent squad', () => {
+  const boosted = (deltaLevel: number, condition: number) => {
+    const state = initialState()
+    return evaluateSquad(
+      state.cards.map((card) => ({
+        ...card,
+        level: card.level + deltaLevel,
+        limit: card.limit + deltaLevel,
+        condition,
+      })),
+      state.squad,
+      5,
+    )
+  }
+
+  it('reproduces the exact same result from the same seed', () => {
+    const setup = setupOf({ opponentSquad: boosted(0, 90), opponentName: '상대 매니저' })
+    const first = toResult(runToEnd(setup, seededRandom(1)), setup, { seed: 'pvp-repro-1' })
+    const second = toResult(runToEnd(setup, seededRandom(1)), setup, { seed: 'pvp-repro-1' })
+    expect(second).toEqual(first)
+  })
+
+  it('names the opponent from opponentName, not the AI opponent stand-in', () => {
+    const setup = setupOf({ opponentSquad: boosted(0, 90), opponentName: '상대 매니저' })
+    const result = toResult(runToEnd(setup, seededRandom(3)), setup, { seed: 'name-check' })
+    expect(result.opponent).toBe('상대 매니저')
+  })
+
+  it('can credit goals to the real opponent squad, not just an anonymous stand-in', () => {
+    // A heavily boosted opponent against a weakened home side, over many
+    // seeds, should score enough real goals to exercise opponentScorerUids.
+    const strongOpponent = boosted(30, 100)
+    const weakHome = evaluateSquad(
+      initialState().cards.map((card) => ({ ...card, condition: 20 })),
+      initialState().squad,
+      5,
+    )
+    let creditedGoals = 0
+    let totalGoalsAgainst = 0
+    for (let seed = 0; seed < 15; seed++) {
+      const setup = setupOf({ team: weakHome, opponentSquad: strongOpponent })
+      const state = runToEnd(setup, seededRandom(seed))
+      totalGoalsAgainst += state.scoreAgainst
+      creditedGoals += state.opponentScorerUids.length
+    }
+    expect(totalGoalsAgainst).toBeGreaterThan(0)
+    expect(creditedGoals).toBeGreaterThan(0)
+    expect(creditedGoals).toBeLessThanOrEqual(totalGoalsAgainst)
+  })
+
+  it('flips which side wins more when the stronger squad swaps ends, across the same seeds', () => {
+    const strong = boosted(30, 100)
+    const weak = boosted(0, 20)
+    const tally = (team: typeof strong, opponentSquad: typeof strong) => {
+      let diff = 0
+      for (let seed = 0; seed < 20; seed++) {
+        const setup = setupOf({ team, opponentSquad, venue: 'neutral' })
+        const state = runToEnd(setup, seededRandom(seed))
+        diff += state.scoreFor - state.scoreAgainst
+      }
+      return diff
+    }
+    const strongAsTeam = tally(strong, weak)
+    const strongAsOpponent = tally(weak, strong)
+    // The strong squad should outscore its opponent whichever side of the
+    // engine ("team" or "opponentSquad") it plays from.
+    expect(strongAsTeam).toBeGreaterThan(0)
+    expect(strongAsOpponent).toBeLessThan(0)
+  })
+
+  it('drains the real opponent squad legs independently, not as a flat discount off ours', () => {
+    const setup = setupOf({ opponentSquad: boosted(0, 90) })
+    const final = runToEnd(setup, seededRandom(9))
+    const opponentUids = (setup.opponentSquad?.evaluations ?? [])
+      .map((item) => item.card?.uid)
+      .filter((uid): uid is string => Boolean(uid))
+    expect(opponentUids.length).toBeGreaterThan(0)
+    for (const uid of opponentUids) {
+      expect(final.opponentStamina[uid]).toBeLessThan(90)
+      expect(final.opponentStamina[uid]).toBeGreaterThan(0)
+    }
+  })
+
+  it('leaves non-PvP matches untouched — no opponentSquad means no opponent stamina tracked', () => {
+    const setup = setupOf()
+    const final = runToEnd(setup, seededRandom(5))
+    expect(final.opponentStamina).toEqual({})
+    expect(final.opponentScorerUids).toEqual([])
+  })
+})
+
 describe('live stamina', () => {
   it('starts every starter on their pre match condition', () => {
     const setup = setupOf()

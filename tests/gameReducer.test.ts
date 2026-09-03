@@ -34,6 +34,7 @@ const matchResult = (
 ): MatchResult => ({
   opponent: '상대',
   scorerUids,
+  opponentScorerUids: [],
   opponentRating: 55,
   scoreFor,
   scoreAgainst,

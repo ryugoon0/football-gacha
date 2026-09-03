@@ -178,9 +178,9 @@ var KNOBS = {
     group: "\uD558\uB8E8"
   },
   casualMatchDailyLimit: {
-    label: "\uCE90\uC8FC\uC5BC \uBAA8\uB4DC \uD558\uB8E8 \uACBD\uAE30 \uC218",
-    note: "\uCE90\uC8FC\uC5BC \uBAA8\uB4DC(\uB9AC\uADF8\xB7\uCEF5) \uACBD\uAE30\uB97C \uD558\uB8E8\uC5D0 \uC9C4\uD589\uD560 \uC218 \uC788\uB294 \uD310\uC218. \uCE5C\uC120 \uACBD\uAE30\uC640\uB294 \uBCC4\uB3C4\uB85C \uC149\uB2C8\uB2E4. \uAE30\uBCF8\uAC12\uC740 \uD55C \uC2DC\uC98C \uB77C\uC6B4\uB4DC \uC218(lib/schedule.ts\uC758 TOTAL_MATCHDAYS)\uC640 \uB9DE\uCDC4\uC2B5\uB2C8\uB2E4.",
-    default: 23,
+    label: "\uCE90\uC8FC\uC5BC \uBAA8\uB4DC \uD558\uB8E8 \uACBD\uAE30 \uC218 (\uC548\uC804\uB9DD)",
+    note: '\uC2E4\uC81C "\uD558\uB8E8 1\uC2DC\uC98C" \uC81C\uD55C\uC740 \uC2DC\uC98C\uC774 \uB05D\uB098\uBA74 \uADF8\uB0A0 \uC7A0\uAE30\uB294 \uADDC\uCE59(lib/daily.ts\uC758 casualModeLocked)\uC774 \uB9E1\uC2B5\uB2C8\uB2E4 \u2014 \uCEF5 \uC131\uC801\uC5D0 \uB530\uB77C \uD55C \uC2DC\uC98C\uC758 \uC2E4\uC81C \uACBD\uAE30 \uC218\uAC00 19~23\uD310\uC73C\uB85C \uB4E4\uCB49\uB0A0\uCB49\uD574\uC11C \uACE0\uC815 \uD310\uC218\uB85C\uB294 \uC815\uD655\uD788 \uBABB \uB9DE\uCDA5\uB2C8\uB2E4. \uC774 \uAC12\uC740 \uC2DC\uC98C\uC774 \uC5B4\uB5A4 \uC774\uC720\uB85C\uB4E0 \uC548 \uB05D\uB0A0 \uB54C\uB97C \uB300\uBE44\uD55C \uC0C1\uD55C\uC120\uC774\uB77C \uB109\uB109\uD558\uAC8C \uC7A1\uC558\uC2B5\uB2C8\uB2E4.',
+    default: 40,
     min: 1,
     max: 90,
     step: 1,
@@ -4412,18 +4412,34 @@ function createMatch(setup) {
       }
     ],
     scorerUids: [],
+    opponentScorerUids: [],
     stamina: seedStamina(setup.team.evaluations),
+    opponentStamina: setup.opponentSquad ? seedStamina(setup.opponentSquad.evaluations) : {},
     metrics: emptyMetrics(),
     finished: false
   };
 }
-function strengthOf(setup, rng, fitness = 1) {
+function strengthOf(setup, rng, fitness = 1, oppFitness = 1) {
   const plan = tacticEffects(setup.tactic ?? DEFAULT_TACTIC);
   const traits = setup.traits ?? NO_TRAIT_EFFECTS;
   const homeBonus = setup.venue === "home" ? tune("homeAdvantage") : 0;
   const awayBonus = setup.venue === "away" ? tune("homeAdvantage") : 0;
   const bigGame = setup.venue === "neutral" ? traits.cup : 0;
   const hiddenEdge = setup.team.hidden / 2;
+  if (setup.opponentSquad) {
+    const oppHiddenEdge = setup.opponentSquad.hidden / 2;
+    const oppBigGame = setup.venue === "neutral" ? (setup.opponentTraits ?? NO_TRAIT_EFFECTS).cup : 0;
+    return {
+      myAtt: (setup.team.att * plan.att + homeBonus + bigGame + hiddenEdge) * fitness,
+      myDef: (setup.team.def * plan.def + homeBonus + bigGame + hiddenEdge) * fitness,
+      myMid: (setup.team.mid + homeBonus + bigGame + hiddenEdge) * fitness,
+      oppAtt: (setup.opponentSquad.att + awayBonus + oppBigGame + oppHiddenEdge) * oppFitness,
+      oppDef: (setup.opponentSquad.def + awayBonus + oppBigGame + oppHiddenEdge) * oppFitness,
+      oppMid: (setup.opponentSquad.mid + awayBonus + oppBigGame + oppHiddenEdge) * oppFitness,
+      chanceRate: 0.13 * plan.chance * traits.tempo,
+      foulRate: 0.05 * plan.foul
+    };
+  }
   return {
     myAtt: (setup.team.att * plan.att + homeBonus + bigGame + hiddenEdge) * fitness,
     myDef: (setup.team.def * plan.def + homeBonus + bigGame + hiddenEdge) * fitness,
@@ -4435,11 +4451,13 @@ function strengthOf(setup, rng, fitness = 1) {
     foulRate: 0.05 * plan.foul
   };
 }
-function buildModels(setup, strength, fatigue) {
+function buildModels(setup, strength, fatigue, opponentFatigue = fatigue * 0.7) {
   const ourPlan = setup.phased ?? phasedFrom(setup.params ?? paramsFromSetup(setup.tactic ?? DEFAULT_TACTIC));
   const ourProfile = squadProfile(setup.team.evaluations);
-  const theirPlan = setup.opponentTactics?.phased ?? phasedFrom(setup.opponentTactics?.params ?? opponentParams(setup.opponent));
-  const theirProfile = setup.opponentTactics?.profile ?? opponentProfile(setup.opponent);
+  const theirPlan = setup.opponentTactics?.phased ?? phasedFrom(
+    setup.opponentTactics?.params ?? (setup.opponentSquad ? paramsFromSetup(DEFAULT_TACTIC) : opponentParams(setup.opponent))
+  );
+  const theirProfile = setup.opponentTactics?.profile ?? (setup.opponentSquad ? squadProfile(setup.opponentSquad.evaluations) : opponentProfile(setup.opponent));
   const sideFor = (plan, profile, tiredness, attack, defence) => {
     const cache3 = /* @__PURE__ */ new Map();
     return {
@@ -4462,8 +4480,10 @@ function buildModels(setup, strength, fatigue) {
   };
   return {
     home: sideFor(ourPlan, ourProfile, fatigue, strength.myAtt, strength.myDef),
-    // The opponent tires too, but we do not track their legs individually.
-    away: sideFor(theirPlan, theirProfile, fatigue * 0.7, strength.oppAtt, strength.oppDef)
+    // Without a real squad the opponent's fatigue is a flat discount off
+    // ours (they tire too, but we do not track their legs individually).
+    // With one, opponentFatigue is their own, computed from opponentStamina.
+    away: sideFor(theirPlan, theirProfile, opponentFatigue, strength.oppAtt, strength.oppDef)
   };
 }
 function advance(state, setup, rng = Math.random) {
@@ -4483,9 +4503,16 @@ function advance(state, setup, rng = Math.random) {
     };
   }
   const minute = state.minute + 1;
+  const opponentEvaluations = setup.opponentSquad?.evaluations ?? [];
   const teamFatigue = 1 - clamp2(averageStamina(state, setup.team.evaluations) / 100, 0, 1);
-  const preStrength = strengthOf(setup, rng, staminaFactor(averageStamina(state, setup.team.evaluations)));
-  const models = buildModels(setup, preStrength, teamFatigue);
+  const preOpponentFatigue = setup.opponentSquad ? 1 - clamp2(averageStamina({ ...state, stamina: state.opponentStamina }, opponentEvaluations) / 100, 0, 1) : void 0;
+  const preStrength = strengthOf(
+    setup,
+    rng,
+    staminaFactor(averageStamina(state, setup.team.evaluations)),
+    setup.opponentSquad ? staminaFactor(averageStamina({ ...state, stamina: state.opponentStamina }, opponentEvaluations)) : 1
+  );
+  const models = buildModels(setup, preStrength, teamFatigue, preOpponentFatigue);
   const fatigue = models.home.inPhase("IN_POSSESSION").state.fatigueDraw;
   const stamina = seedStamina(setup.team.evaluations, state.stamina);
   let staminaSpent = 0;
@@ -4496,16 +4523,29 @@ function advance(state, setup, rng = Math.random) {
     stamina[item.card.uid] = clamp2(before - drain, 5, 100);
     staminaSpent += before - stamina[item.card.uid];
   }
+  let opponentStamina = state.opponentStamina;
+  if (setup.opponentSquad) {
+    const opponentFatigueDraw = models.away.inPhase("IN_POSSESSION").state.fatigueDraw;
+    opponentStamina = seedStamina(opponentEvaluations, state.opponentStamina);
+    for (const item of opponentEvaluations) {
+      if (!item.card) continue;
+      const drain = (item.slotPosition === "GK" ? tune("keeperDrain") : tune("staminaDrain")) * opponentFatigueDraw;
+      opponentStamina[item.card.uid] = clamp2(opponentStamina[item.card.uid] - drain, 5, 100);
+    }
+  }
   const strength = strengthOf(
     setup,
     rng,
-    staminaFactor(averageStamina({ ...state, stamina }, setup.team.evaluations))
+    staminaFactor(averageStamina({ ...state, stamina }, setup.team.evaluations)),
+    setup.opponentSquad ? staminaFactor(averageStamina({ ...state, stamina: opponentStamina }, opponentEvaluations)) : 1
   );
   const traits = setup.traits ?? NO_TRAIT_EFFECTS;
+  const opponentTraits = setup.opponentTraits;
   const events = [...state.events];
   let { scoreFor, scoreAgainst, shotsFor, shotsAgainst, possession, ball } = state;
   const possessionTicks = { ...state.possessionTicks };
   const scorerUids = [...state.scorerUids];
+  const opponentScorerUids = [...state.opponentScorerUids];
   let stoppage = null;
   if (minute > 90) {
     events.push({
@@ -4563,10 +4603,10 @@ function advance(state, setup, rng = Math.random) {
     const att = weAttack ? strength.myAtt : strength.oppAtt;
     const def = weAttack ? strength.oppDef : strength.myDef;
     const keeper = (weAttack ? models.away : models.home).inPhase("OUT_OF_POSSESSION").profile.keeperShotStopping;
-    const swing = weAttack ? traits.goal + setup.team.hidden * 2e-3 : -traits.concede;
+    const swing = weAttack ? traits.goal + setup.team.hidden * 2e-3 - (opponentTraits?.concede ?? 0) : (opponentTraits ? opponentTraits.goal + (setup.opponentSquad?.hidden ?? 0) * 2e-3 : 0) - traits.concede;
     const ratingEdge = 1 + (att - def) / 160;
     const goalChance = clamp2(quality * ratingEdge * (1.15 - keeper / 200) + swing, 0.02, 0.8);
-    const shooter = weAttack ? pickScorer(setup.team.evaluations, rng) : { name: OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)], uid: null, slotId: null };
+    const shooter = weAttack ? pickScorer(setup.team.evaluations, rng) : setup.opponentSquad ? pickScorer(setup.opponentSquad.evaluations, rng) : { name: OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)], uid: null, slotId: null };
     ball = { x: clamp2(ball.x + (rng() * 20 - 10), 20, 80), y: weAttack ? 94 : 6 };
     if (rng() < goalChance) {
       metrics[side].shotsOnTarget += 1;
@@ -4575,6 +4615,7 @@ function advance(state, setup, rng = Math.random) {
         if (shooter.uid) scorerUids.push(shooter.uid);
       } else {
         scoreAgainst++;
+        if (shooter.uid) opponentScorerUids.push(shooter.uid);
       }
       events.push({
         minute,
@@ -4587,7 +4628,7 @@ function advance(state, setup, rng = Math.random) {
     }
     if (rng() < 0.5) {
       metrics[side].shotsOnTarget += 1;
-      const keeperName_ = weAttack ? `${setup.opponent.name} \uACE8\uD0A4\uD37C` : keeperName(setup.team.evaluations);
+      const keeperName_ = weAttack ? setup.opponentSquad ? keeperName(setup.opponentSquad.evaluations) : `${setup.opponent.name} \uACE8\uD0A4\uD37C` : keeperName(setup.team.evaluations);
       events.push({
         minute,
         type: "save",
@@ -4626,7 +4667,7 @@ function advance(state, setup, rng = Math.random) {
     if (sequence.kind === "chance" && sequence.shot) {
       playShot(attackerSide, sequence.shot.quality, sequence.shot.route, false);
     } else if (sequence.kind === "foul") {
-      const fouler = attackerSide === "home" ? OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)] : pickScorer(setup.team.evaluations, rng).name ?? "\uC6B0\uB9AC \uC120\uC218";
+      const fouler = attackerSide === "home" ? setup.opponentSquad ? pickScorer(setup.opponentSquad.evaluations, rng).name : OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)] : pickScorer(setup.team.evaluations, rng).name ?? "\uC6B0\uB9AC \uC120\uC218";
       metrics[defenderSide].fouls += 1;
       events.push({
         minute,
@@ -4679,7 +4720,9 @@ function advance(state, setup, rng = Math.random) {
     possessionTicks,
     events,
     scorerUids,
+    opponentScorerUids,
     stamina,
+    opponentStamina,
     metrics
   };
 }
@@ -4700,8 +4743,9 @@ function possessionPercent(state) {
 }
 function toResult(state, setup, meta) {
   return {
-    opponent: setup.opponent.name,
+    opponent: setup.opponentSquad ? setup.opponentName ?? setup.opponent.name : setup.opponent.name,
     scorerUids: state.scorerUids,
+    opponentScorerUids: state.opponentScorerUids,
     opponentRating: setup.opponent.rating,
     scoreFor: state.scoreFor,
     scoreAgainst: state.scoreAgainst,

@@ -11,6 +11,7 @@ const result = (): MatchResult => ({
   opponentRating: 60,
   reward: 500,
   scorerUids: [],
+  opponentScorerUids: [],
   events: [],
   possession: 52,
   shotsFor: 12,
