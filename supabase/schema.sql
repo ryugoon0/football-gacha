@@ -1146,12 +1146,14 @@ grant execute on function public.set_public_club_squad(boolean, text, integer, i
 -- 배정 알고리즘)이 없다 — 테이블과 저장 RPC만 있다.
 
 create table if not exists public.weekly_league_groups (
-  id          bigserial primary key,
-  tier        smallint not null check (tier >= 0),
-  week_id     text not null check (char_length(week_id) between 1 and 20),
-  status      text not null check (status in ('forming', 'active', 'finished')) default 'forming',
-  created_at  timestamptz not null default now(),
-  finished_at timestamptz
+  id               bigserial primary key,
+  tier             smallint not null check (tier >= 0),
+  week_id          text not null check (char_length(week_id) between 1 and 20),
+  status           text not null check (status in ('forming', 'active', 'finished')) default 'forming',
+  -- 스케줄 생성 규칙 버전. 지금은 전부 1 — 규칙이 바뀌면 새 값을 쓰고 옛 값은 그대로 둔다.
+  schedule_version smallint not null default 1,
+  created_at       timestamptz not null default now(),
+  finished_at      timestamptz
 );
 
 create index if not exists weekly_league_groups_tier_week_idx
@@ -1188,7 +1190,7 @@ create table if not exists public.weekly_schedule_slots (
   slot_index       smallint not null check (slot_index between 0 and 104),
   day_of_week      text not null check (day_of_week in ('MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN')),
   local_hour       smallint not null check (local_hour between 9 and 23),
-  type             text not null check (type in ('LEAGUE', 'CUP_A', 'CUP_B', 'MASTERS_FINAL')),
+  type             text not null check (type in ('OPENING_PLACEMENT', 'LEAGUE', 'CUP_A', 'CUP_B', 'MASTERS_FINAL')),
   cup_stage        text check (cup_stage in ('R16', 'QF', 'SF', 'FINAL')),
   leg              smallint check (leg in (1, 2)),
   scheduled_at_utc timestamptz not null,
@@ -1203,7 +1205,7 @@ create policy "slots are readable" on public.weekly_schedule_slots
 create table if not exists public.weekly_competitions (
   id           bigserial primary key,
   group_id     bigint not null references public.weekly_league_groups(id) on delete cascade,
-  type         text not null check (type in ('LEAGUE', 'CUP_A', 'CUP_B', 'MASTERS_FINAL')),
+  type         text not null check (type in ('OPENING_PLACEMENT', 'LEAGUE', 'CUP_A', 'CUP_B', 'MASTERS_FINAL')),
   display_name text not null,
   rules_config jsonb not null default '{}'::jsonb,
   status       text not null check (status in ('pending', 'active', 'finished')) default 'pending',

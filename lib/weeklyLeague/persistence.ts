@@ -4,8 +4,9 @@
  * JSONB 모양으로 바꾼다. 여기도 순수 함수만 있다 — 실제 Supabase 호출은
  * 다음 단계(Edge Function)의 몫이다.
  */
-import { DAYS_OF_WEEK, KST_OFFSET_MINUTES, type DayOfWeek } from './config'
+import { DAYS_OF_WEEK, KST_OFFSET_MINUTES, PLACEMENT_DAYS, TRANSITION_SCHEDULE, type DayOfWeek } from './config'
 import type { CupFixtureDef } from './cup'
+import type { PlacementFixtureDef } from './placement'
 import type { GlobalSlot, LeagueFixtureDef } from './schedule'
 
 /** 그 주의 "월요일 00:00 KST" 순간의 UTC epoch ms. */
@@ -133,5 +134,54 @@ export function toCupStageTieRows(
     }
     if (leg2Slot) row.leg2ScheduledAtUtc = new Date(slotUtcMs(weekStart, leg2Slot.day, leg2Slot.hour)).toISOString()
     return row
+  })
+}
+
+// ---------------------------------------------------------------------------
+// 개막 배치 리그 — 상대 시각("오늘"·"내일")이 아니라 config.ts의
+// TRANSITION_SCHEDULE.firstMatchAt(절대 ISO 시각, +09:00 오프셋 포함)을
+// 그대로 앵커로 쓴다. new Date(...)가 오프셋을 해석하므로 이 값이 서버가
+// 어느 타임존에서 도는지와 무관하게 항상 같은 UTC 순간을 가리킨다.
+// ---------------------------------------------------------------------------
+
+function placementSlotUtcMs(day: DayOfWeek, hour: number): number {
+  const dayOffset = PLACEMENT_DAYS.indexOf(day)
+  if (dayOffset < 0) throw new Error(`placementSlotUtcMs: ${day} is not one of ${PLACEMENT_DAYS.join(', ')}`)
+  const firstMatchUtc = new Date(TRANSITION_SCHEDULE.firstMatchAt).getTime()
+  // firstMatchAt is itself 09:00 KST on the first placement day, so only the
+  // day offset and the hour-past-09 need adding.
+  return firstMatchUtc + dayOffset * 86_400_000 + (hour - 9) * 3_600_000
+}
+
+/** seed_weekly_schedule_slots에 넘길 수 있는 모양이지만 week_id는 배치 리그 전용 값을 쓴다. */
+export function toPlacementScheduleSlotRows(slots: GlobalSlot[]): ScheduleSlotRow[] {
+  return slots.map((slot) => ({
+    index: slot.index,
+    day: slot.day,
+    hour: slot.hour,
+    type: slot.type,
+    cupStage: slot.cupStage ?? null,
+    leg: slot.leg ?? null,
+    scheduledAtUtc: new Date(placementSlotUtcMs(slot.day, slot.hour)).toISOString(),
+  }))
+}
+
+/** seed_league_fixtures와 같은 모양 — round 0~44, 배치 리그 전용. */
+export function toPlacementFixtureRows(
+  fixtures: PlacementFixtureDef[],
+  clubIdToSlot: Record<string, number>,
+): LeagueFixtureRow[] {
+  return fixtures.map((f) => {
+    const homeSlot = clubIdToSlot[f.home]
+    const awaySlot = clubIdToSlot[f.away]
+    if (homeSlot === undefined || awaySlot === undefined) {
+      throw new Error(`toPlacementFixtureRows: unknown club id in fixture (${f.home} vs ${f.away})`)
+    }
+    return {
+      round: f.round,
+      homeSlot,
+      awaySlot,
+      scheduledAtUtc: new Date(placementSlotUtcMs(f.slot.day, f.slot.hour)).toISOString(),
+    }
   })
 }

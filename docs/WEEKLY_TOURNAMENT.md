@@ -111,11 +111,51 @@ main에 올라간 뒤로도 운영 DB에 반영 안 돼 있었고(`match_results
 - 컵 fixture 결과를 실제로 기록하고 `weekly_cup_ties`의 합산·승자·`decidedBy`를
   갱신하는 정산 RPC/로직이 아직 없습니다(지금 RPC는 대진 "저장"까지만).
 
+## 개막 배치 리그 (2026-09-03 추가 요청)
+
+정규 시즌이 월요일부터 시작하는데 지금(2026-09-03)은 월요일이 아니라서,
+금·토·일 사흘만 한 번 도는 일회성 다리 리그입니다. 전부 절대 시각으로
+관리합니다(`lib/weeklyLeague/config.ts`의 `TRANSITION_SCHEDULE` — "오늘"·
+"내일" 같은 상대값은 쓰지 않음).
+
+새 파일:
+- `lib/weeklyLeague/placement.ts` — 45슬롯 조립, 16개 구단 360경기(3사이클
+  라운드로빈) 생성, 보상 배율, Cup A 시드 핸드오프.
+- `supabase/migrations/20260904010000_opening_placement_league.sql` — 어제
+  만든 `weekly_competitions`/`weekly_schedule_slots`의 type CHECK를
+  `OPENING_PLACEMENT`까지 넓히고, `weekly_league_groups`에 `schedule_version`
+  컬럼 추가(요구사항 9).
+- `tests/weeklyLeaguePlacement.test.ts` — 17개 테스트.
+
+**홈/원정 밸런싱이 처음 짠 대로는 안 맞았습니다.** 1·2사이클(기본+완전반전)은
+상대당 1홈·1원정이 자동으로 보장되지만, 3사이클째는 `schedule.ts`의
+`singleRoundRobin`(원의 방법)이 입력 배열의 첫 팀을 매 라운드 고정 홈으로
+두는 편향을 그대로 물려받아, 그리디("누적 홈이 적은 쪽에 홈")만으로는 실제로
+24~21회까지 벌어졌습니다(테스트로 직접 확인). "홈 쪽이 원정 쪽보다 2 이상
+많은 경기를 더는 없을 때까지 뒤집는" 교정 패스를 추가해서 8팀 23·8팀 22로
+정확히 맞췄습니다.
+
+**DB 마이그레이션은 실제 운영 DB에 대고 BEGIN/ROLLBACK으로 검증했습니다** —
+`OPENING_PLACEMENT` 타입 삽입, 기존 타입(`LEAGUE`)이 여전히 통과하는지,
+아무 타입이나 넣으면 여전히 거부되는지까지 확인했습니다. **아직 실제로
+push하지는 않았습니다** — Edge Function이 아직 없어서 지금 반영해도 쓰는
+곳이 없기 때문이고, 지난번 마이그레이션 때 자동 배포가 안 돌고 있던 걸
+발견한 뒤라 이번엔 실제 반영 전에 먼저 여쭤보고 진행하겠습니다.
+
+**아직 못 만든 것 (Phase 3로 이월)**:
+- 선수단 상태 초기화(6절) — `sourceCompetitionId`/`sourceFixtureId`/
+  `isTransitionEffect`/`expiresAt` 필드가 붙을 실제 상태 저장소(선수 체력·
+  컨디션·부상·징계를 서버가 갖고 정산하는 것) 자체가 아직 없습니다. 이건
+  Phase 3에서 경기 자동 정산기를 만들 때 같이 설계해야 정확한 테이블
+  모양이 나옵니다 — 지금 섣불리 테이블을 만들면 나중에 다시 갈아엎을
+  가능성이 높아서 데이터 모양만 문서에 남기고 미뤘습니다.
+- 배치 리그를 실제로 대회 생성 RPC에 흘려보내는 Edge Function.
+
 ## 테스트 결과
 
 ```
 npx tsc --noEmit    → 통과
-npx vitest run      → 455/455 통과 (weeklyLeague 26개 + persistence 12개 포함)
+npx vitest run      → 472/472 통과 (weeklyLeague 26개 + persistence 12개 + placement 17개 포함)
 npx next lint       → 경고·오류 없음
 npm run build       → 성공
 ```

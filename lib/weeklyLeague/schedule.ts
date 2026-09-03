@@ -25,7 +25,7 @@ export function cupSlots(slots: GlobalSlot[] = buildWeeklySlots()): GlobalSlot[]
   return slots.filter((slot) => slot.type === 'CUP_A' || slot.type === 'CUP_B')
 }
 
-interface RawFixture {
+export interface RawFixture {
   round: number
   home: string
   away: string
@@ -35,8 +35,15 @@ interface RawFixture {
  * 원의 방법(circle method): 한 팀을 고정하고 나머지를 매 라운드 한 칸씩
  * 돌린다. n-1라운드에서 모든 팀이 서로 정확히 한 번씩 만난다. 홈/원정은
  * 위치로 정해지고 입력이 같으면 항상 같은 결과가 나온다(난수 없음).
+ *
+ * 주의: 입력 배열의 첫 번째 팀(rotation[0])은 절대 자리를 옮기지 않아서
+ * 모든 라운드에서 항상 "홈" 자리(i=0)를 차지한다 — 이 함수 하나만 쓰면
+ * 그 팀만 매번 홈이라는 뜻. 더블 라운드로빈(A+반전 B)처럼 정확히 짝을
+ * 지어 쓰면 상쇄되어 문제가 없고, generateLeagueFixtures가 그렇게 쓴다.
+ * 짝짓지 않고 이 함수 하나만 다시 쓰면(placement.ts의 3번째 사이클처럼)
+ * 이 편향이 그대로 드러나므로, 그런 경우는 별도 밸런서가 필요하다.
  */
-function singleRoundRobin(ids: string[]): RawFixture[] {
+export function singleRoundRobin(ids: string[]): RawFixture[] {
   const n = ids.length
   const half = n / 2
   const rotation = [...ids]

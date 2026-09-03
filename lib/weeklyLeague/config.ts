@@ -13,7 +13,7 @@
 export type DayOfWeek = 'MON' | 'TUE' | 'WED' | 'THU' | 'FRI' | 'SAT' | 'SUN'
 export const DAYS_OF_WEEK: DayOfWeek[] = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
 
-export type SlotType = 'LEAGUE' | 'CUP_A' | 'CUP_B' | 'MASTERS_FINAL'
+export type SlotType = 'OPENING_PLACEMENT' | 'LEAGUE' | 'CUP_A' | 'CUP_B' | 'MASTERS_FINAL'
 export type CupId = 'CUP_A' | 'CUP_B'
 export type CupStage = 'R16' | 'QF' | 'SF' | 'FINAL'
 export const CUP_STAGE_ORDER: CupStage[] = ['R16', 'QF', 'SF', 'FINAL']
@@ -160,4 +160,55 @@ export function toKst(utcMs: number): { day: DayOfWeek; hour: number; minute: nu
   const jsDay = kst.getUTCDay() // 0=Sun..6=Sat
   const day = DAYS_OF_WEEK[(jsDay + 6) % 7] // rotate so Monday is index 0
   return { day, hour: kst.getUTCHours(), minute: kst.getUTCMinutes() }
+}
+
+// ---------------------------------------------------------------------------
+// 개막 전환 일정 — 정규 주간 시스템이 월요일부터 시작하는데 지금은 월요일이
+// 아니라서, 금·토·일 사흘만 한 번 도는 "개막 배치 리그"로 다리를 놓는다.
+// 이 값들은 전부 절대 시각이다 — "오늘"·"내일" 같은 상대값을 쓰면 서버가
+// 언제 재시작하든 같은 결과가 나온다는 보장이 깨진다.
+// ---------------------------------------------------------------------------
+
+/** DB의 weekly_competitions.type과 같은 값 집합 — SlotType과 동의어. */
+export type CompetitionType = SlotType
+
+export const PLACEMENT_CLUB_COUNT = CLUB_COUNT // 16, 정규 리그와 같은 구단 풀.
+export const PLACEMENT_CYCLES = 3
+export const PLACEMENT_ROUNDS = ROUNDS_PER_SINGLE_CYCLE * PLACEMENT_CYCLES // 45
+export const PLACEMENT_DAYS: DayOfWeek[] = ['FRI', 'SAT', 'SUN']
+export const PLACEMENT_REWARD_MULTIPLIER = 0.5
+
+export interface TransitionSchedule {
+  enabled: boolean
+  /** 시스템이 새 일정 체계로 바뀌는 시각 — 2026-09-04 00:00 KST. */
+  cutoverAt: string
+  /** 배치 리그 첫 경기 — 2026-09-04 09:00 KST. */
+  firstMatchAt: string
+  /** 배치 리그가 끝나고 정규 시즌이 시작되는 시각 — 2026-09-07 00:00 KST. */
+  endsAt: string
+  rounds: number
+  rewardMultiplier: number
+  promotionEnabled: boolean
+  relegationEnabled: boolean
+  cupEnabled: boolean
+  resetTransitionEffects: boolean
+}
+
+/**
+ * 지금 유일하게 필요한 한 번짜리 전환. 다음 주부터는 정규 시스템(WEEKLY_SLOTS)만
+ * 쓰므로 이후 새 시즌마다 반복 생성되지 않는다 — 생성기가 이 값의 cutoverAt을
+ * "이미 배치 리그를 만들었는가"의 기준으로 삼는다(schedule_version과 함께
+ * DB 쪽에서 멱등성을 보장 — supabase/migrations 참고).
+ */
+export const TRANSITION_SCHEDULE: TransitionSchedule = {
+  enabled: true,
+  cutoverAt: '2026-09-04T00:00:00+09:00',
+  firstMatchAt: '2026-09-04T09:00:00+09:00',
+  endsAt: '2026-09-07T00:00:00+09:00',
+  rounds: PLACEMENT_ROUNDS,
+  rewardMultiplier: PLACEMENT_REWARD_MULTIPLIER,
+  promotionEnabled: false,
+  relegationEnabled: false,
+  cupEnabled: false,
+  resetTransitionEffects: true,
 }
