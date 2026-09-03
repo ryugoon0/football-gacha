@@ -1672,8 +1672,7 @@ begin
     for v_candidate in
       select s.user_id, s.data->>'club' as club_name
       from public.saves s
-      where not exists (select 1 from public.admins a where a.user_id = s.user_id)
-        and not (s.user_id = any(v_assigned_user_ids))
+      where not (s.user_id = any(v_assigned_user_ids))
       order by s.user_id
     loop
       exit when v_slot >= v_tier.max_real_users;

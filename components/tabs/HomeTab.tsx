@@ -57,7 +57,7 @@ export default function HomeTab({ onJump }: { onJump: (tab: string) => void }) {
 
   return (
     <div className="space-y-4">
-      <section className="relative overflow-hidden rounded-2xl border border-white/10">
+      <section className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#0d1728]">
         <LockerRoomScene className="h-44 w-full sm:h-56" />
         <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-slate-950 via-slate-950/75 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 p-4">

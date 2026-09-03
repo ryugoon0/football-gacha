@@ -10,7 +10,7 @@ export default function LockerRoomScene({ className = '' }: { className?: string
       role="img"
       aria-label="라커룸 — 전술판과 유니폼, 축구공, 감독의 뒷모습"
       className={className}
-      preserveAspectRatio="xMidYMid slice"
+      preserveAspectRatio="xMidYMid meet"
     >
       <defs>
         <linearGradient id="lr-wall" x1="0" y1="0" x2="0" y2="1">
