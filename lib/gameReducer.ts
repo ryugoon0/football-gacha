@@ -193,6 +193,33 @@ function afterMatch(
   }
 }
 
+/**
+ * A card game routinely holds duplicates of a player, but a squad cannot
+ * field or bench the same person twice. Whenever a card lands somewhere in
+ * the squad, every other copy of that player — starting or benched — is
+ * dropped outright rather than shuffled elsewhere, so the invariant holds
+ * unconditionally instead of only for the one slot pair being edited.
+ */
+function dropOtherCopies(
+  cards: Card[],
+  slots: Record<string, string | null>,
+  bench: (string | null)[],
+  playerId: string,
+  keepSlotId?: string,
+  keepBenchIndex?: number,
+): void {
+  for (const slotId of Object.keys(slots)) {
+    if (slotId === keepSlotId) continue
+    const uid = slots[slotId]
+    if (uid && cards.find((card) => card.uid === uid)?.playerId === playerId) slots[slotId] = null
+  }
+  for (let i = 0; i < bench.length; i++) {
+    if (i === keepBenchIndex) continue
+    const uid = bench[i]
+    if (uid && cards.find((card) => card.uid === uid)?.playerId === playerId) bench[i] = null
+  }
+}
+
 export function reducer(state: GameState, action: Action): GameState {
   switch (action.type) {
     case 'hydrate':
@@ -318,21 +345,8 @@ export function reducer(state: GameState, action: Action): GameState {
       if (previousSlot && previousSlot !== action.slotId) slots[previousSlot] = displaced
       else if (benchIndex >= 0) bench[benchIndex] = displaced
 
-      // A second card of the same player landing in the XI is the same person
-      // named twice in the lineup — bench whichever other copy is out there
-      // instead of letting the eleven double-count one player's stats.
       const incomingPlayerId = state.cards.find((card) => card.uid === action.uid)?.playerId
-      if (incomingPlayerId) {
-        for (const slotId of Object.keys(slots)) {
-          if (slotId === action.slotId) continue
-          const uid = slots[slotId]
-          if (!uid) continue
-          if (state.cards.find((card) => card.uid === uid)?.playerId !== incomingPlayerId) continue
-          slots[slotId] = null
-          const free = bench.indexOf(null)
-          if (free >= 0) bench[free] = uid
-        }
-      }
+      if (incomingPlayerId) dropOtherCopies(state.cards, slots, bench, incomingPlayerId, action.slotId)
 
       return { ...state, squad: { ...state.squad, slots, bench } }
     }
@@ -358,6 +372,9 @@ export function reducer(state: GameState, action: Action): GameState {
       bench[action.index] = action.uid
       if (previousIndex >= 0 && previousIndex !== action.index) bench[previousIndex] = displaced
       else if (startingSlot) slots[startingSlot] = displaced
+
+      const incomingPlayerId = state.cards.find((card) => card.uid === action.uid)?.playerId
+      if (incomingPlayerId) dropOtherCopies(state.cards, slots, bench, incomingPlayerId, undefined, action.index)
 
       return { ...state, squad: { ...state.squad, slots, bench } }
     }

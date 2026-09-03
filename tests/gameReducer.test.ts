@@ -617,21 +617,38 @@ describe('club', () => {
     expect(next.squad.slots.gk).toBe(striker)
   })
 
-  it('benches the existing copy when a second card of the same player is started', () => {
+  it('drops every other copy of a player, XI and bench alike, once one copy is started', () => {
     const state = start()
     const strikerUid = state.squad.slots.f2!
     const striker = state.cards.find((card) => card.uid === strikerUid)!
-    const secondCopy = { ...striker, uid: `${strikerUid}-copy` }
-    const withCopy = {
+    // Three copies of the same player: one starting already, one on the
+    // bench, and one about to be started in a different slot.
+    const benchCopy = { ...striker, uid: `${strikerUid}-bench` }
+    const incoming = { ...striker, uid: `${strikerUid}-incoming` }
+    const withCopies = {
       ...state,
-      cards: [...state.cards, secondCopy],
-      squad: { ...state.squad, bench: [secondCopy.uid, ...state.squad.bench.slice(1)] },
+      cards: [...state.cards, benchCopy, incoming],
+      squad: { ...state.squad, bench: [benchCopy.uid, ...state.squad.bench.slice(1)] },
     }
-    const next = reducer(withCopy, { type: 'assign', slotId: 'f3', uid: secondCopy.uid })
-    expect(next.squad.slots.f3).toBe(secondCopy.uid)
-    // The original copy of the same player is no longer anywhere in the XI.
-    expect(Object.values(next.squad.slots)).not.toContain(strikerUid)
-    expect(next.squad.bench).toContain(strikerUid)
+    const next = reducer(withCopies, { type: 'assign', slotId: 'f3', uid: incoming.uid })
+    expect(next.squad.slots.f3).toBe(incoming.uid)
+    // No other copy of this player survives anywhere in the squad.
+    const everywhere = [...Object.values(next.squad.slots), ...next.squad.bench]
+    expect(everywhere).not.toContain(strikerUid)
+    expect(everywhere).not.toContain(benchCopy.uid)
+  })
+
+  it('drops the starting copy when its duplicate is sent to the bench', () => {
+    const state = start()
+    const strikerUid = state.squad.slots.f2!
+    const striker = state.cards.find((card) => card.uid === strikerUid)!
+    const spareCopy = { ...striker, uid: `${strikerUid}-spare` }
+    const withSpare = { ...state, cards: [...state.cards, spareCopy] }
+    const benchIndex = withSpare.squad.bench.findIndex((uid) => uid === null)
+    const next = reducer(withSpare, { type: 'assignBench', index: benchIndex, uid: spareCopy.uid })
+    expect(next.squad.bench[benchIndex]).toBe(spareCopy.uid)
+    const everywhere = [...Object.values(next.squad.slots), ...next.squad.bench]
+    expect(everywhere).not.toContain(strikerUid)
   })
 
   it('keeps players when the formation still has the slot', () => {
