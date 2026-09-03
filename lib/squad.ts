@@ -289,8 +289,11 @@ export function autoFill(cards: Card[], squad: Squad, division: number = BOTTOM_
     }
   }
 
+  // Only uid was checked here — a second copy of a player already starting
+  // (different uid, same playerId) slipped onto the bench, which is the same
+  // "duplicate in the squad" problem the starting eleven is guarded against.
   const bench = pool
-    .filter((card) => !takenCards.has(card.uid))
+    .filter((card) => !takenCards.has(card.uid) && !takenPlayers.has(card.playerId))
     .sort((a, b) => b.level - a.level)
     .slice(0, BENCH_SIZE)
     .map((card) => card.uid)

@@ -104,4 +104,26 @@ describe('auto fill', () => {
       evaluateSquad(state.cards, state.squad).overall,
     )
   })
+
+  it('never benches a second copy of a player already starting', () => {
+    const state = initialState()
+    const striker = PLAYERS.find((p) => p.position === 'ST')!
+    // Five copies of the same player: only one can start, and none of the
+    // other four should end up on the bench either.
+    const copies: Card[] = Array.from({ length: 5 }, (_, i) => ({
+      uid: `dup-${i}`,
+      playerId: striker.id,
+      level: 5,
+      limit: 10,
+      condition: 90,
+      injuredFor: 0,
+      exp: 0,
+    }))
+    const cards = [...state.cards, ...copies]
+    const squad = autoFill(cards, state.squad)
+
+    const everywhere = [...Object.values(squad.slots), ...squad.bench].filter(Boolean) as string[]
+    const playerIds = everywhere.map((uid) => cards.find((c) => c.uid === uid)!.playerId)
+    expect(playerIds.filter((id) => id === striker.id)).toHaveLength(1)
+  })
 })
