@@ -10,6 +10,7 @@ import { useIsAdmin } from '../useAdmin'
 import MonitorPanel from './MonitorPanel'
 import BalancePanel from './BalancePanel'
 import ShopPanel from './ShopPanel'
+import WeeklyLeaguePanel from './WeeklyLeaguePanel'
 
 const KIND_CHIP: Record<string, string> = {
   feature: 'bg-emerald-400/15 text-emerald-300',
@@ -140,6 +141,7 @@ export default function AdminTab() {
       <MonitorPanel />
       <BalancePanel />
       <ShopPanel />
+      <WeeklyLeaguePanel />
 
       <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
