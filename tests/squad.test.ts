@@ -126,4 +126,29 @@ describe('auto fill', () => {
     const playerIds = everywhere.map((uid) => cards.find((c) => c.uid === uid)!.playerId)
     expect(playerIds.filter((id) => id === striker.id)).toHaveLength(1)
   })
+
+  it('never benches two copies of the same player who never starts', () => {
+    const state = initialState()
+    // A player nobody already owns, who never wins a starting slot against
+    // the default squad — every copy of them only ever competes for the bench.
+    const bystander = PLAYERS.find(
+      (p) => p.position === 'CB' && !state.cards.some((c) => c.playerId === p.id),
+    )!
+    const copies: Card[] = Array.from({ length: 3 }, (_, i) => ({
+      uid: `bench-dup-${i}`,
+      playerId: bystander.id,
+      level: 3,
+      limit: 10,
+      condition: 80,
+      injuredFor: 0,
+      exp: 0,
+    }))
+    const cards = [...state.cards, ...copies]
+    const squad = autoFill(cards, state.squad)
+
+    const benchPlayerIds = (squad.bench.filter(Boolean) as string[]).map(
+      (uid) => cards.find((c) => c.uid === uid)!.playerId,
+    )
+    expect(benchPlayerIds.filter((id) => id === bystander.id).length).toBeLessThanOrEqual(1)
+  })
 })

@@ -289,14 +289,20 @@ export function autoFill(cards: Card[], squad: Squad, division: number = BOTTOM_
     }
   }
 
-  // Only uid was checked here — a second copy of a player already starting
-  // (different uid, same playerId) slipped onto the bench, which is the same
-  // "duplicate in the squad" problem the starting eleven is guarded against.
-  const bench = pool
-    .filter((card) => !takenCards.has(card.uid) && !takenPlayers.has(card.playerId))
-    .sort((a, b) => b.level - a.level)
-    .slice(0, BENCH_SIZE)
-    .map((card) => card.uid)
+  // Filtering out starters wasn't enough on its own — a filter-then-slice
+  // never checked the bench against itself, so two different cards of the
+  // same unstarted player could both survive the cut. Picking one at a time
+  // and skipping any player already claimed closes both gaps at once.
+  const bench: string[] = []
+  const benchPlayers = new Set<string>()
+  for (const card of pool
+    .filter((c) => !takenCards.has(c.uid) && !takenPlayers.has(c.playerId))
+    .sort((a, b) => b.level - a.level)) {
+    if (bench.length >= BENCH_SIZE) break
+    if (benchPlayers.has(card.playerId)) continue
+    bench.push(card.uid)
+    benchPlayers.add(card.playerId)
+  }
 
   return {
     ...squad,
