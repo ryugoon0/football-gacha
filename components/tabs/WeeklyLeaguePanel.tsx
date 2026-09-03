@@ -1,12 +1,18 @@
 'use client'
 
 import { useState } from 'react'
+import { TIERS, TIER_COUNT } from '../../lib/weeklyLeague/config'
 import { generatePlacementLeague, type PlacementRealUserInput } from '../../lib/weeklyLeagueAdmin'
 
 /**
  * 개막 배치 리그를 실제로 만드는 버튼. 실유저 자동 매칭이 아직 없어서
  * ("admin은 직접 입력으로 충분" — ROADMAP.md) 운영자가 참가시킬 실유저를
  * 직접 적어 넣는다. 나머지 자리는 서버가 AI로 채운다.
+ *
+ * 등급이 낮을수록 실유저 상한이 좁고 AI가 약하다(config.ts의 TIERS) —
+ * 아래쪽 리그는 실유저가 쉽게 이기고 쉽게 승격하도록, 위로 갈수록 실유저
+ * 비중과 상대 강도가 함께 오르도록 설계돼 있다. 서버가 이 상한을 강제로
+ * 검사하므로, 여기 UI는 넘기지 못하게 미리 막아 헛수고를 줄인다.
  *
  * 등급(tier)마다 한 번씩 눌러야 그 등급의 리그가 생긴다. 같은 등급을
  * 다시 눌러도 이미 만들어져 있으면 그 그룹을 그대로 재사용한다(멱등).
@@ -21,29 +27,30 @@ interface Row {
 const emptyRow = (): Row => ({ userId: '', clubName: '', rating: '60' })
 
 export default function WeeklyLeaguePanel() {
-  const [tier, setTier] = useState('0')
+  const [tier, setTier] = useState(0)
   const [rows, setRows] = useState<Row[]>([emptyRow()])
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [result, setResult] = useState<string | null>(null)
 
+  const cap = TIERS[tier].maxRealUsers
+
   const updateRow = (index: number, patch: Partial<Row>) =>
     setRows((current) => current.map((row, i) => (i === index ? { ...row, ...patch } : row)))
 
-  const addRow = () => setRows((current) => (current.length >= 16 ? current : [...current, emptyRow()]))
+  const addRow = () => setRows((current) => (current.length >= cap ? current : [...current, emptyRow()]))
   const removeRow = (index: number) => setRows((current) => current.filter((_, i) => i !== index))
 
   const submit = async () => {
     setError(null)
     setResult(null)
 
-    const tierNumber = Number(tier)
-    if (!Number.isInteger(tierNumber) || tierNumber < 0) {
-      setError('등급은 0 이상의 정수여야 합니다.')
+    const tierNumber = tier
+    const filled = rows.filter((row) => row.userId.trim() || row.clubName.trim())
+    if (filled.length > cap) {
+      setError(`이 등급은 실유저를 최대 ${cap}명까지만 받습니다.`)
       return
     }
-
-    const filled = rows.filter((row) => row.userId.trim() || row.clubName.trim())
     const realUsers: PlacementRealUserInput[] = []
     for (const row of filled) {
       const rating = Number(row.rating)
@@ -85,13 +92,22 @@ export default function WeeklyLeaguePanel() {
 
       <label className="mt-3 block text-[11px] font-bold text-slate-400">
         등급 (0이 최상위)
-        <input
+        <select
           value={tier}
-          onChange={(event) => setTier(event.target.value)}
-          inputMode="numeric"
-          className="mt-1 w-24 rounded-lg bg-white/5 px-3 py-1.5 text-sm font-bold text-white outline-none"
-        />
+          onChange={(event) => setTier(Number(event.target.value))}
+          className="mt-1 block w-full rounded-lg bg-white/5 px-3 py-1.5 text-sm font-bold text-white outline-none"
+        >
+          {TIERS.map((t, index) => (
+            <option key={index} value={index}>
+              {index}등급 — 실유저 최대 {t.maxRealUsers}명 · AI 평점 {t.aiBaseRating}
+            </option>
+          ))}
+        </select>
       </label>
+      <p className="mt-1 text-[11px] text-slate-500">
+        {tier}등급: 실유저 최대 {cap}명, 나머지 {16 - cap}자리 이상은 평점 {TIERS[tier].aiBaseRating}의 AI로
+        채웁니다. {tier === 0 ? '최상위라 AI가 가장 강합니다.' : tier === TIER_COUNT - 1 ? '최하위라 AI가 가장 약해 승격이 쉽습니다.' : ''}
+      </p>
 
       <div className="mt-3 space-y-1.5">
         {rows.map((row, index) => (
@@ -128,10 +144,10 @@ export default function WeeklyLeaguePanel() {
 
       <button
         onClick={addRow}
-        disabled={rows.length >= 16}
+        disabled={rows.length >= cap}
         className="mt-2 rounded-lg bg-white/5 px-2.5 py-1.5 text-[11px] font-bold text-slate-300 disabled:opacity-40"
       >
-        + 실유저 추가
+        + 실유저 추가 ({rows.length}/{cap})
       </button>
 
       {error && <p className="mt-2 text-[11px] font-semibold text-rose-400">{error}</p>}

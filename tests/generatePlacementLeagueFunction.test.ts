@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 import { handle } from '../supabase/functions/generate-placement-league/handler'
+import { TIERS, TIER_COUNT } from '../lib/weeklyLeague/config'
 
 const env = { url: 'https://project.supabase.co', anon: 'anon-key', service: 'service-key' }
 
@@ -88,6 +89,38 @@ describe('the placement league generation function', () => {
     expect(sent.p_members.slice(1).every((m: { kind: string }) => m.kind === 'ai')).toBe(true)
   })
 
+  it('gives AI clubs the tier-specific base rating, not a flat number', async () => {
+    for (const tier of [0, TIER_COUNT - 1]) {
+      const spy = stubFetch({})
+      vi.stubGlobal('fetch', spy)
+      await handle(post(body({ tier, realUsers: [] })), env)
+      const call = spy.mock.calls.find((args) => String(args[0]).includes('create_weekly_league_group'))
+      vi.unstubAllGlobals()
+      const sent = JSON.parse(String(call?.[1]?.body))
+      expect(sent.p_members.every((m: { rating: number }) => m.rating === TIERS[tier].aiBaseRating)).toBe(true)
+    }
+    // The top tier's AI is meant to be tougher than the bottom tier's.
+    expect(TIERS[0].aiBaseRating).toBeGreaterThan(TIERS[TIER_COUNT - 1].aiBaseRating)
+  })
+
+  it('caps real users tighter for lower tiers than for the top tier', async () => {
+    expect(TIERS[0].maxRealUsers).toBeGreaterThan(TIERS[TIER_COUNT - 1].maxRealUsers)
+
+    const bottomTier = TIER_COUNT - 1
+    const oneTooMany = Array.from({ length: TIERS[bottomTier].maxRealUsers + 1 }, (_, i) => ({
+      userId: `u${i}`,
+      clubName: `club-${i}`,
+      rating: 60,
+    }))
+    const { body: result } = await run({}, post(body({ tier: bottomTier, realUsers: oneTooMany })))
+    expect(result.reason).toBe('too many real users for this tier')
+  })
+
+  it('rejects a tier outside the configured range', async () => {
+    const { body: result } = await run({}, post(body({ tier: TIER_COUNT })))
+    expect(result.reason).toBe('bad tier')
+  })
+
   it('never spawns a second group for a tier/week that already has one', async () => {
     const spy = stubFetch({ existingGroup: [{ id: 7 }] })
     vi.stubGlobal('fetch', spy)
@@ -115,15 +148,21 @@ describe('the placement league generation function', () => {
 
   it('rejects a negative or missing tier', async () => {
     const bad = await run({}, post(body({ tier: -1 })))
-    expect(bad.body).toEqual({ ok: false, reason: 'bad tier' })
+    expect(bad.body.ok).toBe(false)
+    expect(bad.body.reason).toBe('bad tier')
     const missing = await run({}, post(body({ tier: undefined })))
-    expect(missing.body).toEqual({ ok: false, reason: 'bad tier' })
+    expect(missing.body.ok).toBe(false)
+    expect(missing.body.reason).toBe('bad tier')
   })
 
-  it('rejects more than 16 real users', async () => {
-    const many = Array.from({ length: 17 }, (_, i) => ({ userId: `u${i}`, clubName: `club-${i}`, rating: 60 }))
-    const { body: result } = await run({}, post(body({ realUsers: many })))
-    expect(result.reason).toBe('too many real users')
+  it('rejects more real users than the tier cap allows', async () => {
+    const tooMany = Array.from({ length: TIERS[0].maxRealUsers + 1 }, (_, i) => ({
+      userId: `u${i}`,
+      clubName: `club-${i}`,
+      rating: 60,
+    }))
+    const { body: result } = await run({}, post(body({ tier: 0, realUsers: tooMany })))
+    expect(result.reason).toBe('too many real users for this tier')
   })
 
   it('rejects a duplicate user id or club name among real users', async () => {

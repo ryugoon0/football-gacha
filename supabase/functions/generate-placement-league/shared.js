@@ -3285,6 +3285,15 @@ var DOUBLE_ROUND_ROBIN_REPEATS = 3;
 var ROUNDS_PER_SINGLE_CYCLE = CLUB_COUNT - 1;
 var LEAGUE_ROUNDS = ROUNDS_PER_SINGLE_CYCLE * 2 * DOUBLE_ROUND_ROBIN_REPEATS;
 var MATCHES_PER_LEAGUE_ROUND = CLUB_COUNT / 2;
+var TIERS = [
+  { maxRealUsers: 8, aiBaseRating: 75 },
+  // 0: 최상위
+  { maxRealUsers: 4, aiBaseRating: 68 },
+  { maxRealUsers: 2, aiBaseRating: 61 },
+  { maxRealUsers: 1, aiBaseRating: 54 }
+  // 3: 최하위
+];
+var TIER_COUNT = TIERS.length;
 var KST_OFFSET_MINUTES = 9 * 60;
 var PLACEMENT_CYCLES = 3;
 var PLACEMENT_ROUNDS = ROUNDS_PER_SINGLE_CYCLE * PLACEMENT_CYCLES;
@@ -3424,6 +3433,8 @@ export {
   CLUB_COUNT,
   CLUB_POOL,
   PLACEMENT_ROUNDS,
+  TIERS,
+  TIER_COUNT,
   TRANSITION_SCHEDULE,
   buildPlacementSlots,
   generatePlacementFixtures,

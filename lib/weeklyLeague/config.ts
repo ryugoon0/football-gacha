@@ -111,16 +111,32 @@ export const POINTS = { win: 3, draw: 1, loss: 0 }
 export const PROMOTION_SPOTS = 3
 export const RELEGATION_SPOTS = 3
 
+export interface TierDef {
+  /** 이 등급 리그 인스턴스 하나에 들어갈 수 있는 실유저 상한. */
+  maxRealUsers: number
+  /** 나머지 자리를 채우는 AI 클럽의 기준 평점 — 등급이 낮을수록 낮다. */
+  aiBaseRating: number
+}
+
 /**
- * 등급(디비전)별 리그 인스턴스당 실유저 상한. 실유저가 모자라도 등급별
- * 리그 자체는 유지하고 나머지 16 - n자리를 AI로 채운다 — 실유저가 다
- * 안 모일 때까지 리그 개설을 미루지 않는다.
+ * 등급(디비전)별 규칙. 지금은 실유저가 많지 않아 등급 수 자체를 적게
+ * 두되(4단계), 등급이 낮을수록 실유저 상한을 좁히고 AI 평점도 낮춘다 —
+ * 최하위는 실유저가 약한 AI를 상대로 쉽게 이기고 쉽게 승격해서 기분 좋게
+ * 시작하고, 최상위로 갈수록 실유저 비중과 상대 강도가 함께 올라간다.
  *
- * 인덱스 0이 최하위 등급. 사용자가 정한 값은 최하위 1명, 그 위 2명뿐이고
- * 더 위 등급의 상한은 아직 정해지지 않았다(null) — 리그 배정 알고리즘을
- * 만들 때 반드시 채워야 한다.
+ * 인덱스 0이 최상위 등급(관리자 화면의 "등급 (0이 최상위)"과 같은 방향).
+ * 실유저가 모자라도 등급별 리그 자체는 유지하고 나머지 자리를 AI로
+ * 채운다 — 실유저가 다 안 모일 때까지 리그 개설을 미루지 않는다.
+ * 리그 수를 늘리고 싶으면(같은 등급에 그룹을 여러 개) 배정 알고리즘
+ * 쪽에서 나중에 정한다 — 지금은 등급당 하나면 충분하다는 판단.
  */
-export const TIER_MAX_REAL_USERS: (number | null)[] = [1, 2]
+export const TIERS: TierDef[] = [
+  { maxRealUsers: 8, aiBaseRating: 75 }, // 0: 최상위
+  { maxRealUsers: 4, aiBaseRating: 68 },
+  { maxRealUsers: 2, aiBaseRating: 61 },
+  { maxRealUsers: 1, aiBaseRating: 54 }, // 3: 최하위
+]
+export const TIER_COUNT = TIERS.length
 
 export const CUP_TEAMS = 16 // 조별리그 없이 16강부터, 리그와 같은 16개 구단.
 

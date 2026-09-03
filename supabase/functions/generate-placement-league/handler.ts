@@ -12,6 +12,8 @@
 import {
   CLUB_COUNT,
   CLUB_POOL,
+  TIERS,
+  TIER_COUNT,
   TRANSITION_SCHEDULE,
   buildPlacementSlots,
   generatePlacementFixtures,
@@ -71,7 +73,14 @@ function placementWeekId(): string {
   return `placement-${datePart}`
 }
 
-function buildMembers(realUsers: Required<RealUserInput>[]): MemberInput[] {
+/**
+ * 등급이 낮을수록(인덱스가 클수록) 실유저를 적게 태우고 AI 평점도 낮춘다
+ * — 아래쪽 리그일수록 실유저가 약한 AI를 쉽게 이기고 쉽게 승격해서 기분
+ * 좋게 시작하고, 위로 갈수록 실유저 비중과 상대 강도가 함께 오른다
+ * (config.ts의 TIERS, 인덱스 0이 최상위).
+ */
+function buildMembers(realUsers: Required<RealUserInput>[], tier: number): MemberInput[] {
+  const aiRating = TIERS[tier].aiBaseRating
   const taken = new Set(realUsers.map((u) => u.clubName))
   const members: MemberInput[] = realUsers.map((u, i) => ({
     slot: i,
@@ -88,7 +97,7 @@ function buildMembers(realUsers: Required<RealUserInput>[]): MemberInput[] {
     poolIndex += 1
     if (taken.has(name)) continue
     taken.add(name)
-    members.push({ slot: members.length, kind: 'ai', userId: null, clubName: name, badge, rating: 60 })
+    members.push({ slot: members.length, kind: 'ai', userId: null, clubName: name, badge, rating: aiRating })
   }
   return members
 }
@@ -125,16 +134,17 @@ export async function handle(request: Request, env: Env): Promise<Response> {
     }
 
     const tier = Number.isInteger(body.tier) ? (body.tier as number) : null
-    if (tier === null || tier < 0) return refuse('bad tier')
+    if (tier === null || tier < 0 || tier >= TIER_COUNT) return refuse('bad tier', { tierCount: TIER_COUNT })
 
     const realUsersInput = Array.isArray(body.realUsers) ? body.realUsers : []
-    if (realUsersInput.length > CLUB_COUNT) return refuse('too many real users', { max: CLUB_COUNT })
+    const cap = TIERS[tier].maxRealUsers
+    if (realUsersInput.length > cap) return refuse('too many real users for this tier', { max: cap })
     if (!realUsersInput.every(isRealUserInput)) return refuse('bad real user entry')
     const realUsers = realUsersInput as Required<RealUserInput>[]
     if (new Set(realUsers.map((u) => u.userId)).size !== realUsers.length) return refuse('duplicate real user')
     if (new Set(realUsers.map((u) => u.clubName)).size !== realUsers.length) return refuse('duplicate club name')
 
-    const members = buildMembers(realUsers)
+    const members = buildMembers(realUsers, tier)
     const weekId = placementWeekId()
 
     const server = { apikey: service, Authorization: `Bearer ${service}` }

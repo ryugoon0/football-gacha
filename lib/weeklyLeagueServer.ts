@@ -12,7 +12,10 @@ export {
   CLUB_COUNT,
   TRANSITION_SCHEDULE,
   PLACEMENT_ROUNDS,
+  TIERS,
+  TIER_COUNT,
   type TransitionSchedule,
+  type TierDef,
 } from './weeklyLeague/config'
 export { buildPlacementSlots, generatePlacementFixtures, type PlacementFixtureDef } from './weeklyLeague/placement'
 export {

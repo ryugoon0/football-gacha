@@ -61,10 +61,17 @@ export interface LeagueFixtureRow {
   scheduledAtUtc: string
 }
 
+export interface TierDef {
+  maxRealUsers: number
+  aiBaseRating: number
+}
+
 export const CLUB_POOL: [name: string, badge: string][]
 export const CLUB_COUNT: number
 export const PLACEMENT_ROUNDS: number
 export const TRANSITION_SCHEDULE: TransitionSchedule
+export const TIERS: TierDef[]
+export const TIER_COUNT: number
 
 export function buildPlacementSlots(): GlobalSlot[]
 
