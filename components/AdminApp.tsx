@@ -14,6 +14,7 @@ import NoticePanel from './tabs/NoticePanel'
 import CardMaker from './tabs/CardMaker'
 import PlayerEditor from './tabs/PlayerEditor'
 import LaunchReadinessTab from './tabs/LaunchReadinessTab'
+import WeeklyTestMatchTab from './tabs/WeeklyTestMatchTab'
 
 const TABS = [
   { key: 'monitor', label: '모니터링' },
@@ -21,6 +22,7 @@ const TABS = [
   { key: 'shop', label: '상점' },
   { key: 'league', label: '주간리그' },
   { key: 'launch', label: '내일 오픈' },
+  { key: 'testmatch', label: '테스트 경기' },
   { key: 'notice', label: '공지' },
   { key: 'cards', label: '카드생성' },
   { key: 'editor', label: '선수편집' },
@@ -186,6 +188,7 @@ function Shell() {
         {tab === 'shop' && <ShopPanel />}
         {tab === 'league' && <WeeklyLeagueTab />}
         {tab === 'launch' && <LaunchReadinessTab />}
+        {tab === 'testmatch' && <WeeklyTestMatchTab />}
         {tab === 'notice' && <NoticePanel />}
         {tab === 'cards' && <CardMaker />}
         {tab === 'editor' && <PlayerEditor />}
