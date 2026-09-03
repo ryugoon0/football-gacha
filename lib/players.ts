@@ -336,6 +336,15 @@ const HAND_WRITTEN: Record<Rarity, RosterRow[]> = {
 }
 
 /**
+ * Added after the generated roster already locked its ids in. Appending here
+ * — after GENERATED_ROSTER, not inside HAND_WRITTEN — keeps every card issued
+ * so far at exactly the id it already has in players' saves.
+ */
+const LATE_ADDITIONS: Partial<Record<Rarity, RosterRow[]>> = {
+  World: [['마르쿠 로이센', 'CAM', 90, '도르트 옐로우', '독일']],
+}
+
+/**
  * The whole roster: the hand written cards first, then the generated squads.
  *
  * The order matters more than it looks. A card's id is its place in this list,
@@ -344,11 +353,11 @@ const HAND_WRITTEN: Record<Rarity, RosterRow[]> = {
  * different set of players.
  */
 export const ROSTER: Record<Rarity, RosterRow[]> = {
-  Normal: [...HAND_WRITTEN.Normal, ...GENERATED_ROSTER.Normal],
-  Rare: [...HAND_WRITTEN.Rare, ...GENERATED_ROSTER.Rare],
-  Legend: [...HAND_WRITTEN.Legend, ...GENERATED_ROSTER.Legend],
-  Live: [...HAND_WRITTEN.Live, ...GENERATED_ROSTER.Live],
-  World: [...HAND_WRITTEN.World, ...GENERATED_ROSTER.World],
+  Normal: [...HAND_WRITTEN.Normal, ...GENERATED_ROSTER.Normal, ...(LATE_ADDITIONS.Normal ?? [])],
+  Rare: [...HAND_WRITTEN.Rare, ...GENERATED_ROSTER.Rare, ...(LATE_ADDITIONS.Rare ?? [])],
+  Legend: [...HAND_WRITTEN.Legend, ...GENERATED_ROSTER.Legend, ...(LATE_ADDITIONS.Legend ?? [])],
+  Live: [...HAND_WRITTEN.Live, ...GENERATED_ROSTER.Live, ...(LATE_ADDITIONS.Live ?? [])],
+  World: [...HAND_WRITTEN.World, ...GENERATED_ROSTER.World, ...(LATE_ADDITIONS.World ?? [])],
 }
 
 export const RARITY_PREFIX: Record<Rarity, string> = {

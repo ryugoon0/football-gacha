@@ -3392,12 +3392,15 @@ var HAND_WRITTEN = {
     ["\uD0AC\uB9AC\uC548 \uC74C\uBC14\uD53C", "ST", 94, "\uD30C\uB9AC \uCE90\uD53C\uD0C8", "\uD504\uB791\uC2A4"]
   ]
 };
+var LATE_ADDITIONS = {
+  World: [["\uB9C8\uB974\uCFE0 \uB85C\uC774\uC13C", "CAM", 90, "\uB3C4\uB974\uD2B8 \uC610\uB85C\uC6B0", "\uB3C5\uC77C"]]
+};
 var ROSTER = {
-  Normal: [...HAND_WRITTEN.Normal, ...GENERATED_ROSTER.Normal],
-  Rare: [...HAND_WRITTEN.Rare, ...GENERATED_ROSTER.Rare],
-  Legend: [...HAND_WRITTEN.Legend, ...GENERATED_ROSTER.Legend],
-  Live: [...HAND_WRITTEN.Live, ...GENERATED_ROSTER.Live],
-  World: [...HAND_WRITTEN.World, ...GENERATED_ROSTER.World]
+  Normal: [...HAND_WRITTEN.Normal, ...GENERATED_ROSTER.Normal, ...LATE_ADDITIONS.Normal ?? []],
+  Rare: [...HAND_WRITTEN.Rare, ...GENERATED_ROSTER.Rare, ...LATE_ADDITIONS.Rare ?? []],
+  Legend: [...HAND_WRITTEN.Legend, ...GENERATED_ROSTER.Legend, ...LATE_ADDITIONS.Legend ?? []],
+  Live: [...HAND_WRITTEN.Live, ...GENERATED_ROSTER.Live, ...LATE_ADDITIONS.Live ?? []],
+  World: [...HAND_WRITTEN.World, ...GENERATED_ROSTER.World, ...LATE_ADDITIONS.World ?? []]
 };
 var RARITY_PREFIX = {
   Normal: "n",
