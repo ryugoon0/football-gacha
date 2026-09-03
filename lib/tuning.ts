@@ -122,9 +122,9 @@ export const KNOBS = {
     group: '하루',
   },
   casualMatchDailyLimit: {
-    label: '캐주얼 모드 하루 경기 수',
-    note: '캐주얼 모드(리그·컵) 경기를 하루에 진행할 수 있는 판수. 친선 경기와는 별도로 셉니다. 기본값은 한 시즌 라운드 수(lib/schedule.ts의 TOTAL_MATCHDAYS)와 맞췄습니다.',
-    default: 23,
+    label: '캐주얼 모드 하루 경기 수 (안전망)',
+    note: '실제 "하루 1시즌" 제한은 시즌이 끝나면 그날 잠기는 규칙(lib/daily.ts의 casualModeLocked)이 맡습니다 — 컵 성적에 따라 한 시즌의 실제 경기 수가 19~23판으로 들쭉날쭉해서 고정 판수로는 정확히 못 맞춥니다. 이 값은 시즌이 어떤 이유로든 안 끝날 때를 대비한 상한선이라 넉넉하게 잡았습니다.',
+    default: 40,
     min: 1,
     max: 90,
     step: 1,

@@ -69,7 +69,7 @@ describe('drawing', () => {
   it('resets yesterday\'s mission board before counting', () => {
     const stale = {
       ...start(),
-      daily: { date: '1999-01-01', progress: { draw: 9, win: 2, train: 5 }, claimed: ['draw' as const], freeDrawUsed: true, miniGames: 7, shopBuys: { medkit: 2 }, extraFriendlies: 3, casualMatches: 12 },
+      daily: { date: '1999-01-01', progress: { draw: 9, win: 2, train: 5 }, claimed: ['draw' as const], freeDrawUsed: true, miniGames: 7, shopBuys: { medkit: 2 }, extraFriendlies: 3, casualMatches: 12, seasonEndedToday: true },
     }
     const next = reducer(stale, { type: 'addCards', cards: [card('a', 'n01')], cost: 300 })
     expect(next.daily.date).toBe(todayKey())
@@ -80,6 +80,8 @@ describe('drawing', () => {
     // Yesterday's shop limits and bought tickets reset with everything else.
     expect(next.daily.shopBuys).toEqual({})
     expect(next.daily.extraFriendlies).toBe(0)
+    // A season finishing yesterday does not lock today's casual mode.
+    expect(next.daily.seasonEndedToday).toBe(false)
   })
 })
 
@@ -358,6 +360,21 @@ describe('playing a season', () => {
     }
     expect(state.season.finished).toBe(true)
     expect(state.season.table[MY_TEAM_ID].played).toBe(ROUNDS_PER_SEASON)
+    // The season ending locks casual mode for the rest of the day — well
+    // under the generous match-count safety ceiling (ROUNDS_PER_SEASON is
+    // far short of it), so only the season-ended flag explains the lock.
+    expect(state.daily.seasonEndedToday).toBe(true)
+
+    const startedNewSeason = reducer(state, { type: 'newSeason' })
+    const firstFixtureOfNext = myFixture(startedNewSeason.season)!
+    const blocked = reducer(startedNewSeason, {
+      type: 'match',
+      result: matchResult(2, 0),
+      fixture: firstFixtureOfNext,
+      others: [],
+      lineup: lineupOf(startedNewSeason),
+    })
+    expect(blocked).toBe(startedNewSeason)
 
     const goldBefore = state.gold
     const nextSeason = reducer(state, { type: 'newSeason' })

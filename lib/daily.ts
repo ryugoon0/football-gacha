@@ -27,11 +27,21 @@ export interface DailyState {
   /** Extra friendlies bought with tickets today. */
   extraFriendlies: number
   /**
-   * Casual-mode league and cup matches played today — a season's worth of
-   * gold is the cap, so unlimited casual play cannot out-earn the weekly
-   * competitive league. Friendlies have their own separate counter above.
+   * Casual-mode league and cup matches played today. Kept mainly as a
+   * generous safety ceiling — see casualModeLocked for the rule that
+   * actually enforces "one season a day" (season length varies with how far
+   * a cup run goes, so counting matches alone under- or over-shoots).
    */
   casualMatches: number
+  /**
+   * A league season finished today. Once true, casual mode (league and cup
+   * alike) stays locked until the next calendar day — the whole point of
+   * the daily cap is "one season", and a season's real match count swings
+   * with the cup run (finished early = round-1 exit, up to +4 for a cup
+   * final), so counting matches alone lets an early cup exit bleed into a
+   * second season on the same day.
+   */
+  seasonEndedToday: boolean
 }
 
 /** Friendlies a manager may play in one day. */
@@ -64,19 +74,28 @@ export function freshDaily(date: string = todayKey()): DailyState {
     shopBuys: {},
     extraFriendlies: 0,
     casualMatches: 0,
+    seasonEndedToday: false,
   }
 }
 
 /** Returns a reset board when the saved one is from an earlier day. */
 export function rollOver(daily: DailyState | undefined, today: string = todayKey()): DailyState {
   if (!daily || daily.date !== today) return freshDaily(today)
-  // Saves from before these counters existed have neither — identity is kept
-  // when nothing needs backfilling, so an unchanged day is a no-op re-render.
-  if (daily.miniGames !== undefined && daily.casualMatches !== undefined) return daily
+  // Saves from before these fields existed have none of them — identity is
+  // kept when nothing needs backfilling, so an unchanged day is a no-op
+  // re-render.
+  if (
+    daily.miniGames !== undefined &&
+    daily.casualMatches !== undefined &&
+    daily.seasonEndedToday !== undefined
+  ) {
+    return daily
+  }
   return {
     ...daily,
     miniGames: daily.miniGames ?? 0,
     casualMatches: daily.casualMatches ?? 0,
+    seasonEndedToday: daily.seasonEndedToday ?? false,
   }
 }
 
@@ -85,9 +104,21 @@ export function miniGamesLeft(daily: DailyState): number {
   return Math.max(0, allowance - (daily.miniGames ?? 0))
 }
 
-/** League and cup matches left today — a season's worth, once a day. */
+/** League and cup matches left today, against the generous safety ceiling. */
 export function casualMatchesLeft(daily: DailyState): number {
   return Math.max(0, tune('casualMatchDailyLimit') - (daily.casualMatches ?? 0))
+}
+
+/**
+ * The actual "one season a day" rule. A season's real match count is
+ * league rounds plus however far the cup run went (round-1 exit through a
+ * final), so it is not a fixed number — the only reliable signal that a
+ * season is done is the season itself finishing. The match-count ceiling
+ * (casualMatchesLeft) stays as a generous backstop in case a season
+ * somehow never finishes.
+ */
+export function casualModeLocked(daily: DailyState): boolean {
+  return daily.seasonEndedToday === true || casualMatchesLeft(daily) <= 0
 }
 
 export function missionDone(daily: DailyState, mission: MissionDef): boolean {

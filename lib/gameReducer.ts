@@ -4,7 +4,7 @@ import { createCup, cupReward, resolveCupRound } from './cup'
 import {
   DAILY_MISSIONS,
   MINI_GAME_LIMIT,
-  casualMatchesLeft,
+  casualModeLocked,
   missionClaimable,
   rollOver,
   todayKey,
@@ -428,7 +428,7 @@ export function reducer(state: GameState, action: Action): GameState {
       return { ...state, squad: autoFill(state.cards, state.squad, state.season.division) }
 
     case 'match': {
-      if (casualMatchesLeft(today(state)) <= 0) return state
+      if (casualModeLocked(today(state))) return state
       const { result, fixture, others, lineup } = action
       const record = { ...state.record }
       if (result.result === 'W') record.w += 1
@@ -468,7 +468,12 @@ export function reducer(state: GameState, action: Action): GameState {
         ga: state.ga + result.scoreAgainst,
         season,
         matchday: Math.min(TOTAL_MATCHDAYS, state.matchday + 1),
-        daily: bumpCasualMatch(result.result === 'W' ? bumpMission(state, 'win', 1) : today(state)),
+        daily: {
+          ...bumpCasualMatch(result.result === 'W' ? bumpMission(state, 'win', 1) : today(state)),
+          // The league season itself ending is what "one season a day"
+          // actually keys off — see lib/daily.ts's casualModeLocked.
+          seasonEndedToday: season.finished || today(state).seasonEndedToday,
+        },
         history: logMatch(state, 'league', result, result.reward),
       }
     }
@@ -502,7 +507,7 @@ export function reducer(state: GameState, action: Action): GameState {
     case 'cupMatch': {
       const { result, myRating, lineup } = action
       if (state.cup.eliminated || state.cup.champion) return state
-      if (casualMatchesLeft(today(state)) <= 0) return state
+      if (casualModeLocked(today(state))) return state
 
       const round = state.cup.round
       const { cup, advanced } = resolveCupRound(

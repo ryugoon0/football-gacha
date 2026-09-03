@@ -6,7 +6,7 @@ import { tune } from '../../lib/tuning'
 import { applyAutoSubs, type SubEvent } from '../../lib/autoSub'
 import { isInjured } from '../../lib/condition'
 import { CUP_ROUND_LABELS, cupTeamOf, myTie, tiesOfRound, type CupTie } from '../../lib/cup'
-import { MINI_GAME_LIMIT, casualMatchesLeft, miniGamesLeft } from '../../lib/daily'
+import { MINI_GAME_LIMIT, casualMatchesLeft, casualModeLocked, miniGamesLeft } from '../../lib/daily'
 import type { LeagueTeam } from '../../lib/league'
 import {
   MY_TEAM_ID,
@@ -200,6 +200,7 @@ function MatchDay() {
   const lineupReady =
     readiness.empty.length === 0 && readiness.injured.length === 0 && readiness.duplicated.length === 0
   const casualLeft = casualMatchesLeft(state.daily)
+  const casualLocked = casualModeLocked(state.daily)
 
   const setup: MatchSetup | null = opponent
     ? {
@@ -472,8 +473,12 @@ function MatchDay() {
 
   const start = async () => {
     if (!opponent || engine.running || startingOnline) return
-    if (casualLeft <= 0) {
-      setNotice('오늘 캐주얼 모드 경기를 다 썼습니다 — 내일 다시 진행할 수 있습니다.')
+    if (casualLocked) {
+      setNotice(
+        state.daily.seasonEndedToday
+          ? '오늘 시즌을 이미 끝냈습니다 — 다음 시즌은 내일부터 진행할 수 있습니다.'
+          : '오늘 캐주얼 모드 경기를 다 썼습니다 — 내일 다시 진행할 수 있습니다.',
+      )
       return
     }
     if (!lineupReady) {
@@ -825,7 +830,7 @@ function MatchDay() {
           disabled={
             (!opponent && !engine.finished) ||
             (!engine.finished && !lineupReady) ||
-            (!engine.finished && casualLeft <= 0) ||
+            (!engine.finished && casualLocked) ||
             startingOnline
           }
           className={`mt-4 w-full rounded-xl px-4 py-3 font-bold text-slate-900 transition disabled:opacity-40 ${
@@ -852,13 +857,15 @@ function MatchDay() {
           선발 레벨 합계 {rating.levelTotal} / 상한 {rating.levelCap} — 라인업을 등록할 수 없습니다.
         </p>
       )}
-      {!engine.finished && lineupReady && casualLeft <= 0 && (
+      {!engine.finished && lineupReady && casualLocked && (
         <p className="mt-2 text-xs font-semibold text-rose-400">
-          오늘 캐주얼 모드 경기를 다 썼습니다 — 내일 다시 진행할 수 있습니다.
+          {state.daily.seasonEndedToday
+            ? '오늘 시즌을 이미 끝냈습니다 — 다음 시즌은 내일부터 진행할 수 있습니다.'
+            : '오늘 캐주얼 모드 경기를 다 썼습니다 — 내일 다시 진행할 수 있습니다.'}
         </p>
       )}
-      {!engine.finished && casualLeft > 0 && (
-        <p className="mt-2 text-[11px] text-slate-500">오늘 남은 캐주얼 모드 경기 {casualLeft}판</p>
+      {!engine.finished && !casualLocked && casualLeft <= 5 && (
+        <p className="mt-2 text-[11px] text-amber-400">오늘 남은 캐주얼 모드 경기 {casualLeft}판</p>
       )}
       {(injured > 0 || tired > 0) && !engine.running && (
         <p className="mt-2 text-xs font-semibold text-amber-400">
