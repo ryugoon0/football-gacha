@@ -3296,8 +3296,10 @@ var ROUNDS_PER_SINGLE_CYCLE = CLUB_COUNT - 1;
 var LEAGUE_ROUNDS = ROUNDS_PER_SINGLE_CYCLE * 2 * DOUBLE_ROUND_ROBIN_REPEATS;
 var MATCHES_PER_LEAGUE_ROUND = CLUB_COUNT / 2;
 var TIERS = [
-  { maxRealUsers: 8, aiBaseRating: 75 },
-  // 0: 최상위
+  // 최상위는 실유저 상한을 두지 않는다 — CLUB_COUNT(그룹 정원)가 자연스러운
+  // 물리적 한계이므로 그 값 자체를 상한으로 쓴다.
+  { maxRealUsers: CLUB_COUNT, aiBaseRating: 75 },
+  // 0: 최상위, 사실상 무제한
   { maxRealUsers: 4, aiBaseRating: 68 },
   { maxRealUsers: 2, aiBaseRating: 61 },
   { maxRealUsers: 1, aiBaseRating: 54 }

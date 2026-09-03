@@ -30,8 +30,8 @@ const TABS = [
   { key: 'items', label: '상점' },
   { key: 'squad', label: '스쿼드' },
   { key: 'club', label: '선수단' },
-  { key: 'match', label: '경기' },
-  { key: 'weekly', label: '주간리그' },
+  { key: 'match', label: '캐주얼 모드' },
+  { key: 'weekly', label: '경쟁 리그' },
   { key: 'board', label: '게시판' },
 ] as const
 

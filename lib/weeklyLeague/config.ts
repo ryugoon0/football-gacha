@@ -131,7 +131,9 @@ export interface TierDef {
  * 쪽에서 나중에 정한다 — 지금은 등급당 하나면 충분하다는 판단.
  */
 export const TIERS: TierDef[] = [
-  { maxRealUsers: 8, aiBaseRating: 75 }, // 0: 최상위
+  // 최상위는 실유저 상한을 두지 않는다 — CLUB_COUNT(그룹 정원)가 자연스러운
+  // 물리적 한계이므로 그 값 자체를 상한으로 쓴다.
+  { maxRealUsers: CLUB_COUNT, aiBaseRating: 75 }, // 0: 최상위, 사실상 무제한
   { maxRealUsers: 4, aiBaseRating: 68 },
   { maxRealUsers: 2, aiBaseRating: 61 },
   { maxRealUsers: 1, aiBaseRating: 54 }, // 3: 최하위

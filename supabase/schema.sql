@@ -1610,8 +1610,9 @@ create table if not exists public.weekly_tier_rules (
   ai_base_rating  smallint not null
 );
 
+-- tier 0의 16은 사실상 무제한 — 그룹 정원 자체가 물리적 한계다.
 insert into public.weekly_tier_rules (tier, max_real_users, ai_base_rating) values
-  (0, 8, 75),
+  (0, 16, 75),
   (1, 4, 68),
   (2, 2, 61),
   (3, 1, 54)
@@ -1777,17 +1778,22 @@ declare
   v_group record;
   v_candidate record;
   v_ai_slot smallint;
+  v_current_real int;
   v_swapped int := 0;
 begin
   perform pg_advisory_xact_lock(hashtext('auto_bootstrap_placement:' || v_week_id));
 
   for v_group in
-    select g.id as group_id, g.tier, r.ai_base_rating
+    select g.id as group_id, g.tier, r.ai_base_rating, r.max_real_users
     from public.weekly_league_groups g
     join public.weekly_tier_rules r on r.tier = g.tier
     where g.week_id = v_week_id
     order by g.tier
   loop
+    select count(*) into v_current_real
+    from public.weekly_league_members m
+    where m.group_id = v_group.group_id and m.kind = 'user';
+
     for v_candidate in
       select s.user_id, s.data->>'club' as club_name
       from public.saves s
@@ -1798,6 +1804,8 @@ begin
       )
       order by s.user_id
     loop
+      exit when v_current_real >= v_group.max_real_users;
+
       select m.slot into v_ai_slot
       from public.weekly_league_members m
       where m.group_id = v_group.group_id and m.kind = 'ai'
@@ -1819,6 +1827,7 @@ begin
             rating = v_group.ai_base_rating + 5
         where group_id = v_group.group_id and slot = v_ai_slot;
 
+      v_current_real := v_current_real + 1;
       v_swapped := v_swapped + 1;
     end loop;
   end loop;
