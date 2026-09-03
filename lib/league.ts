@@ -50,7 +50,7 @@ export interface StandingRow extends TableRow {
   gd: number
 }
 
-const CLUB_POOL: [name: string, badge: string][] = [
+export const CLUB_POOL: [name: string, badge: string][] = [
   ['인천 유나이트', 'IC'],
   ['대전 시티즌스', 'DJ'],
   ['광주 라이트', 'GJ'],

@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { CLUBS, LEAGUES, PLAYERS } from '../lib/players'
 import { RARITIES, RARITY_STYLES } from '../lib/rarity'
 import type { PlayerDef, Position, Rarity } from '../lib/types'
+import PlayerArchiveModal from './PlayerArchiveModal'
 import PlayerCard from './PlayerCard'
 
 const POSITIONS: Position[] = ['GK', 'CB', 'LB', 'RB', 'CDM', 'CM', 'CAM', 'LM', 'RM', 'LW', 'RW', 'ST']
@@ -12,6 +13,7 @@ const PAGE_SIZE = 48
 type SelectValue<T extends string> = T | 'all'
 
 export default function CardDirectory() {
+  const [selected, setSelected] = useState<PlayerDef | null>(null)
   const [query, setQuery] = useState('')
   const [club, setClub] = useState<SelectValue<string>>('all')
   const [league, setLeague] = useState<SelectValue<string>>('all')
@@ -112,7 +114,11 @@ export default function CardDirectory() {
       {matches.length > 0 ? (
         <>
           <div className="grid grid-cols-2 gap-3 min-[460px]:grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
-            {matches.slice(0, limit).map((player) => <DirectoryCard key={player.id} player={player} />)}
+            {matches
+              .slice(0, limit)
+              .map((player) => (
+                <DirectoryCard key={player.id} player={player} onClick={() => setSelected(player)} />
+              ))}
           </div>
           {limit < matches.length && (
             <div className="flex justify-center pt-2">
@@ -125,6 +131,8 @@ export default function CardDirectory() {
       ) : (
         <div className="border-y border-white/10 py-16 text-center text-sm text-slate-500">조건에 맞는 선수가 없습니다.</div>
       )}
+
+      {selected && <PlayerArchiveModal player={selected} onClose={() => setSelected(null)} />}
     </div>
   )
 }
@@ -140,6 +148,6 @@ function Filter({ label, value, onChange, children }: { label: string; value: st
   )
 }
 
-function DirectoryCard({ player }: { player: PlayerDef }) {
-  return <PlayerCard player={player} level={1} size="sm" className="w-full" />
+function DirectoryCard({ player, onClick }: { player: PlayerDef; onClick: () => void }) {
+  return <PlayerCard player={player} level={1} size="sm" className="w-full" onClick={onClick} />
 }

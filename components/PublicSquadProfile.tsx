@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
+import { aiClubById, isAiClubId } from '../lib/aiClub'
 import { getPlayer } from '../lib/players'
 import { isPublicSquadMember, type PublicClubRow, type PublicSquadMember } from '../lib/publicClub'
 import { getSupabase } from '../lib/supabase'
@@ -10,8 +11,14 @@ import PlayerCard from './PlayerCard'
 export default function PublicSquadProfile({ clubId }: { clubId: string }) {
   const [club, setClub] = useState<PublicClubRow | null>(null)
   const [loading, setLoading] = useState(true)
+  const isAi = isAiClubId(clubId)
 
   useEffect(() => {
+    if (isAi) {
+      setClub(aiClubById(clubId))
+      setLoading(false)
+      return
+    }
     const supabase = getSupabase()
     if (!supabase) {
       setLoading(false)
@@ -27,7 +34,7 @@ export default function PublicSquadProfile({ clubId }: { clubId: string }) {
         setClub(data ? (data as PublicClubRow) : null)
         setLoading(false)
       })
-  }, [clubId])
+  }, [clubId, isAi])
 
   const lineup = useMemo(() => {
     const source = Array.isArray(club?.lineup) ? club.lineup : []
@@ -58,9 +65,21 @@ export default function PublicSquadProfile({ clubId }: { clubId: string }) {
         <Link href="/clubs" className="text-xs font-bold text-slate-500 hover:text-emerald-300">스카우트</Link>
         <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-emerald-400">공개 스쿼드</p>
+            <div className="flex flex-wrap items-center gap-2">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-emerald-400">
+                {isAi ? 'AI 클럽' : '공개 스쿼드'}
+              </p>
+              {isAi && (
+                <span className="rounded bg-white/10 px-1.5 py-0.5 text-[10px] font-bold text-slate-400">
+                  실제 유저 아님
+                </span>
+              )}
+            </div>
             <h1 className="mt-1 text-3xl font-black text-white">{club.club_name}</h1>
-            <p className="mt-2 text-sm text-slate-400">{club.division}부 리그 · {club.formation} · 마지막 공개 {new Date(club.updated_at).toLocaleDateString('ko-KR')}</p>
+            <p className="mt-2 text-sm text-slate-400">
+              {club.division}부 리그 · {club.formation}
+              {!isAi && ` · 마지막 공개 ${new Date(club.updated_at).toLocaleDateString('ko-KR')}`}
+            </p>
           </div>
           <div className="border-l border-emerald-400 pl-4 text-right">
             <div className="text-[10px] font-bold uppercase tracking-wide text-slate-500">TEAM RATING</div>
