@@ -59,18 +59,33 @@ export interface SlotEvaluation {
   injured: boolean
 }
 
-/** Positions with nobody fit to play them — an empty slot or an injured starter. */
+/**
+ * Positions with nobody fit to play them — an empty slot or an injured
+ * starter — plus any slot whose player already appears earlier in the
+ * lineup. A card is one copy of a player; the same person cannot start the
+ * match twice just because two of their cards are owned.
+ */
 export function missingSlots(evaluations: SlotEvaluation[]): {
   empty: string[]
   injured: string[]
+  duplicated: string[]
 } {
   const empty: string[] = []
   const injured: string[] = []
+  const duplicated: string[] = []
+  const seenPlayers = new Set<string>()
   for (const item of evaluations) {
-    if (!item.card) empty.push(item.slotPosition)
-    else if (item.injured) injured.push(item.slotPosition)
+    if (!item.card) {
+      empty.push(item.slotPosition)
+      continue
+    }
+    if (item.injured) injured.push(item.slotPosition)
+    if (item.player) {
+      if (seenPlayers.has(item.player.id)) duplicated.push(item.slotPosition)
+      seenPlayers.add(item.player.id)
+    }
   }
-  return { empty, injured }
+  return { empty, injured, duplicated }
 }
 
 export interface SquadRating {
@@ -230,17 +245,25 @@ export function autoFill(cards: Card[], squad: Squad, division: number = BOTTOM_
   // Every proper fit is placed before anyone is asked to play out of position.
   pairs.sort((a, b) => Number(a.out) - Number(b.out) || b.score - a.score)
 
+  const uidToPlayerId = new Map(pool.map((card) => [card.uid, card.playerId]))
+
   const slots = emptySlots(formation.key)
   const takenSlots = new Set<string>()
   const takenCards = new Set<string>()
+  // Two cards of the same player cannot both start — same invariant as the
+  // manual editor (lib/gameReducer.ts's 'assign' case).
+  const takenPlayers = new Set<string>()
   let total = 0
 
   for (const pair of pairs) {
-    if (takenSlots.has(pair.slotId) || takenCards.has(pair.uid)) continue
+    if (takenSlots.has(pair.slotId) || takenCards.has(pair.uid) || takenPlayers.has(uidToPlayerId.get(pair.uid)!)) {
+      continue
+    }
     if (total + pair.level > cap) continue
     slots[pair.slotId] = pair.uid
     takenSlots.add(pair.slotId)
     takenCards.add(pair.uid)
+    takenPlayers.add(uidToPlayerId.get(pair.uid)!)
     total += pair.level
   }
 
@@ -250,12 +273,18 @@ export function autoFill(cards: Card[], squad: Squad, division: number = BOTTOM_
   for (const slot of formation.slots) {
     if (slots[slot.id]) continue
     const free = pairs
-      .filter((pair) => pair.slotId === slot.id && !takenCards.has(pair.uid))
+      .filter(
+        (pair) =>
+          pair.slotId === slot.id &&
+          !takenCards.has(pair.uid) &&
+          !takenPlayers.has(uidToPlayerId.get(pair.uid)!),
+      )
       .sort((a, b) => a.level - b.level || b.score - a.score)
     const candidate = free.find((pair) => total + pair.level <= cap) ?? free[0]
     if (candidate) {
       slots[slot.id] = candidate.uid
       takenCards.add(candidate.uid)
+      takenPlayers.add(uidToPlayerId.get(candidate.uid)!)
       total += candidate.level
     }
   }

@@ -278,12 +278,14 @@ export default function SquadTab() {
             상한이 올라갑니다.
           </p>
 
-          {(gaps.empty.length > 0 || gaps.injured.length > 0) && (
+          {(gaps.empty.length > 0 || gaps.injured.length > 0 || gaps.duplicated.length > 0) && (
             <p className="mt-2 rounded-lg bg-rose-500/15 px-3 py-2 text-[11px] font-bold text-rose-200">
               {gaps.empty.length > 0 && `빈 자리 ${gaps.empty.join(' · ')}`}
-              {gaps.empty.length > 0 && gaps.injured.length > 0 && ' · '}
-              {gaps.injured.length > 0 && `부상 ${gaps.injured.join(' · ')}`} — 11명을 채워야 경기를
-              시작할 수 있습니다.
+              {gaps.empty.length > 0 && (gaps.injured.length > 0 || gaps.duplicated.length > 0) && ' · '}
+              {gaps.injured.length > 0 && `부상 ${gaps.injured.join(' · ')}`}
+              {gaps.injured.length > 0 && gaps.duplicated.length > 0 && ' · '}
+              {gaps.duplicated.length > 0 && `같은 선수 중복 ${gaps.duplicated.join(' · ')}`} — 11명을
+              채워야 경기를 시작할 수 있습니다.
             </p>
           )}
         </section>

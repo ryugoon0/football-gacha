@@ -20,8 +20,25 @@ describe('lineup readiness', () => {
 
   it('reports nothing missing for the starter squad', () => {
     const rating = evaluateSquad(base.cards, base.squad, division)
-    expect(missingSlots(rating.evaluations)).toEqual({ empty: [], injured: [] })
+    expect(missingSlots(rating.evaluations)).toEqual({ empty: [], injured: [], duplicated: [] })
     expect(rating.filled).toBe(11)
+  })
+
+  it('flags a second copy of the same player started in another slot', () => {
+    const [firstSlot, secondSlot] = Object.keys(base.squad.slots).filter(
+      (id) => base.squad.slots[id] !== null,
+    )
+    const uid = base.squad.slots[firstSlot] as string
+    const card = base.cards.find((item) => item.uid === uid)!
+    const secondCopy = { ...card, uid: `${uid}-copy` }
+    const doubled: GameState = {
+      ...base,
+      cards: [...base.cards, secondCopy],
+      squad: { ...base.squad, slots: { ...base.squad.slots, [secondSlot]: secondCopy.uid } },
+    }
+    const rating = evaluateSquad(doubled.cards, doubled.squad, division)
+    const gaps = missingSlots(rating.evaluations)
+    expect(gaps.duplicated).toHaveLength(1)
   })
 
   it('names the position left empty', () => {

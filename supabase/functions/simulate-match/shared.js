@@ -4796,11 +4796,20 @@ function ratingInSlot(player, level, slotPosition) {
 function missingSlots(evaluations) {
   const empty = [];
   const injured = [];
+  const duplicated = [];
+  const seenPlayers = /* @__PURE__ */ new Set();
   for (const item of evaluations) {
-    if (!item.card) empty.push(item.slotPosition);
-    else if (item.injured) injured.push(item.slotPosition);
+    if (!item.card) {
+      empty.push(item.slotPosition);
+      continue;
+    }
+    if (item.injured) injured.push(item.slotPosition);
+    if (item.player) {
+      if (seenPlayers.has(item.player.id)) duplicated.push(item.slotPosition);
+      seenPlayers.add(item.player.id);
+    }
   }
-  return { empty, injured };
+  return { empty, injured, duplicated };
 }
 function evaluateSquad(cards, squad, division = BOTTOM_DIVISION) {
   const byUid = new Map(cards.map((card) => [card.uid, card]));

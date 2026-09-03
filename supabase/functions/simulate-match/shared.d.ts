@@ -82,6 +82,7 @@ export function evaluateSquad(
 export function missingSlots(evaluations: SharedSlotEvaluation[]): {
   empty: string[]
   injured: string[]
+  duplicated: string[]
 }
 
 export function lineupCapOf(division: number): number

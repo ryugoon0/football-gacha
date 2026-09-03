@@ -157,8 +157,8 @@ export async function handle(request: Request, env: Env): Promise<Response> {
     // whatever rating the client might have sent along.
     const rating = evaluateSquad(cards, body.squad, division)
     const gaps = missingSlots(rating.evaluations)
-    if (gaps.empty.length > 0 || gaps.injured.length > 0) {
-      return refuse('lineup not ready', { empty: gaps.empty, injured: gaps.injured })
+    if (gaps.empty.length > 0 || gaps.injured.length > 0 || gaps.duplicated.length > 0) {
+      return refuse('lineup not ready', { empty: gaps.empty, injured: gaps.injured, duplicated: gaps.duplicated })
     }
     if (rating.overCap) {
       return refuse('lineup over level cap', { levelTotal: rating.levelTotal, levelCap: rating.levelCap })

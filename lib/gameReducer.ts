@@ -318,6 +318,22 @@ export function reducer(state: GameState, action: Action): GameState {
       if (previousSlot && previousSlot !== action.slotId) slots[previousSlot] = displaced
       else if (benchIndex >= 0) bench[benchIndex] = displaced
 
+      // A second card of the same player landing in the XI is the same person
+      // named twice in the lineup — bench whichever other copy is out there
+      // instead of letting the eleven double-count one player's stats.
+      const incomingPlayerId = state.cards.find((card) => card.uid === action.uid)?.playerId
+      if (incomingPlayerId) {
+        for (const slotId of Object.keys(slots)) {
+          if (slotId === action.slotId) continue
+          const uid = slots[slotId]
+          if (!uid) continue
+          if (state.cards.find((card) => card.uid === uid)?.playerId !== incomingPlayerId) continue
+          slots[slotId] = null
+          const free = bench.indexOf(null)
+          if (free >= 0) bench[free] = uid
+        }
+      }
+
       return { ...state, squad: { ...state.squad, slots, bench } }
     }
 

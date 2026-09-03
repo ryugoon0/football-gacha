@@ -29,7 +29,7 @@ export default function HomeTab({ onJump }: { onJump: (tab: string) => void }) {
     [state.cards, state.squad, division],
   )
   const gaps = useMemo(() => missingSlots(rating.evaluations), [rating.evaluations])
-  const lineupReady = gaps.empty.length === 0 && gaps.injured.length === 0
+  const lineupReady = gaps.empty.length === 0 && gaps.injured.length === 0 && gaps.duplicated.length === 0
 
   const day = SEASON_SCHEDULE[state.matchday] ?? null
   const isCupDay = day?.kind === 'cup'
@@ -106,9 +106,11 @@ export default function HomeTab({ onJump }: { onJump: (tab: string) => void }) {
         {!lineupReady && (
           <p className="mt-3 rounded-lg bg-rose-500/15 px-3 py-2 text-xs font-bold text-rose-200">
             {gaps.empty.length > 0 && `빈 자리 ${gaps.empty.join(' · ')}`}
-            {gaps.empty.length > 0 && gaps.injured.length > 0 && ' · '}
-            {gaps.injured.length > 0 && `부상 ${gaps.injured.join(' · ')}`} — 선발 11명을 채워야
-            경기를 시작할 수 있습니다.
+            {gaps.empty.length > 0 && (gaps.injured.length > 0 || gaps.duplicated.length > 0) && ' · '}
+            {gaps.injured.length > 0 && `부상 ${gaps.injured.join(' · ')}`}
+            {gaps.injured.length > 0 && gaps.duplicated.length > 0 && ' · '}
+            {gaps.duplicated.length > 0 && `같은 선수 중복 ${gaps.duplicated.join(' · ')}`} — 선발 11명을
+            채워야 경기를 시작할 수 있습니다.
           </p>
         )}
         {lineupReady && rating.overCap && (

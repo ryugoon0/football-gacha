@@ -193,7 +193,8 @@ function MatchDay() {
     const projected = evaluateSquad(state.cards, auto.squad, division)
     return { ...missingSlots(projected.evaluations), overCap: projected.overCap }
   }, [state.cards, state.squad, state.autoSub, division])
-  const lineupReady = readiness.empty.length === 0 && readiness.injured.length === 0
+  const lineupReady =
+    readiness.empty.length === 0 && readiness.injured.length === 0 && readiness.duplicated.length === 0
 
   const setup: MatchSetup | null = opponent
     ? {
@@ -470,6 +471,7 @@ function MatchDay() {
       const parts = [
         readiness.empty.length ? `빈 자리 ${readiness.empty.join(' · ')}` : '',
         readiness.injured.length ? `부상 ${readiness.injured.join(' · ')}` : '',
+        readiness.duplicated.length ? `같은 선수 중복 ${readiness.duplicated.join(' · ')}` : '',
       ].filter(Boolean)
       setNotice(`선발 11명을 채워야 경기를 시작할 수 있습니다 — ${parts.join(', ')}`)
       return
@@ -826,9 +828,11 @@ function MatchDay() {
         <p className="mt-2 text-xs font-semibold text-rose-400">
           선발 11명이 채워지지 않았습니다 —{' '}
           {readiness.empty.length > 0 && `빈 자리 ${readiness.empty.join(' · ')}`}
-          {readiness.empty.length > 0 && readiness.injured.length > 0 && ', '}
-          {readiness.injured.length > 0 && `부상 ${readiness.injured.join(' · ')}`}. 스쿼드 탭에서
-          채운 뒤 경기를 시작하세요.
+          {readiness.empty.length > 0 && (readiness.injured.length > 0 || readiness.duplicated.length > 0) && ', '}
+          {readiness.injured.length > 0 && `부상 ${readiness.injured.join(' · ')}`}
+          {readiness.injured.length > 0 && readiness.duplicated.length > 0 && ', '}
+          {readiness.duplicated.length > 0 && `같은 선수 중복 ${readiness.duplicated.join(' · ')}`}. 스쿼드
+          탭에서 채운 뒤 경기를 시작하세요.
         </p>
       )}
       {rating.overCap && (

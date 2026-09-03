@@ -617,6 +617,23 @@ describe('club', () => {
     expect(next.squad.slots.gk).toBe(striker)
   })
 
+  it('benches the existing copy when a second card of the same player is started', () => {
+    const state = start()
+    const strikerUid = state.squad.slots.f2!
+    const striker = state.cards.find((card) => card.uid === strikerUid)!
+    const secondCopy = { ...striker, uid: `${strikerUid}-copy` }
+    const withCopy = {
+      ...state,
+      cards: [...state.cards, secondCopy],
+      squad: { ...state.squad, bench: [secondCopy.uid, ...state.squad.bench.slice(1)] },
+    }
+    const next = reducer(withCopy, { type: 'assign', slotId: 'f3', uid: secondCopy.uid })
+    expect(next.squad.slots.f3).toBe(secondCopy.uid)
+    // The original copy of the same player is no longer anywhere in the XI.
+    expect(Object.values(next.squad.slots)).not.toContain(strikerUid)
+    expect(next.squad.bench).toContain(strikerUid)
+  })
+
   it('keeps players when the formation still has the slot', () => {
     const state = start()
     const next = reducer(state, { type: 'setFormation', formation: '4-4-2' })
