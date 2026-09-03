@@ -25,6 +25,7 @@ import {
   type PlayerEdit,
 } from '../../lib/rosterEditor'
 import { RARITIES, RARITY_STYLES } from '../../lib/rarity'
+import { STAT_GROUPS, subStatsOf, type StatGroup } from '../../lib/subStats'
 import type { HiddenStats, Position, Stats } from '../../lib/types'
 import PlayerCard from '../PlayerCard'
 import { useIsAdmin } from '../useAdmin'
@@ -51,7 +52,7 @@ export default function PlayerEditor() {
     () => (selected ? previewEdit(selected, edit) : null),
     [selected, edit],
   )
-  const problem = validateEdit(edit)
+  const problem = validateEdit(edit, preview ? (group) => preview.stats[group] : undefined)
   const block = useMemo(() => overridesBlock(edits), [edits])
   const touched = useMemo(
     () => Object.entries(edits).filter(([id, item]) => !isEmpty(tighten(id, item))).length,
@@ -86,6 +87,22 @@ export default function PlayerEditor() {
       if (value === undefined) delete hidden[key]
       else hidden[key] = value
       return { ...item, hidden }
+    })
+
+  /** Starts from whatever is showing now (pinned or auto) so one field can
+   * change without silently resetting its 3-4 siblings to auto too. */
+  const setSubStat = (group: StatGroup, index: number, value: number, current: number[]) =>
+    change((item) => {
+      const values = [...current]
+      values[index] = value
+      return { ...item, subStats: { ...item.subStats, [group]: values } }
+    })
+
+  const resetSubStats = (group: StatGroup) =>
+    change((item) => {
+      const subStats = { ...item.subStats }
+      delete subStats[group]
+      return { ...item, subStats }
     })
 
   const copy = async () => {
@@ -275,7 +292,7 @@ export default function PlayerEditor() {
           </section>
 
           <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
-            <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">세부 능력치</h3>
+            <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">능력치</h3>
             <p className="mt-0.5 text-[11px] leading-relaxed text-slate-500">
               손대지 않은 항목은 지금처럼 자동으로 정해집니다. 포지션을 바꾸면 자동 값도 함께
               바뀝니다.
@@ -317,6 +334,70 @@ export default function PlayerEditor() {
                         자동
                       </button>
                     </div>
+                  </div>
+                )
+              })}
+            </div>
+          </section>
+
+          <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+            <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">
+              세부 능력치 (23개)
+            </h3>
+            <p className="mt-0.5 text-[11px] leading-relaxed text-slate-500">
+              카드에 보이는 6개 능력치는 이 세부 항목들의 평균입니다. 그룹별 평균이 위 능력치와
+              정확히 같아야 하고, 다르면 저장할 수 없습니다.
+            </p>
+            <div className="mt-2 space-y-3">
+              {STAT_GROUPS.map((group) => {
+                const headline = preview.stats[group]
+                const rows = subStatsOf(preview, group, 1)
+                const values = rows.map((r) => r.value)
+                const sum = values.reduce((total, v) => total + v, 0)
+                const average = sum / values.length
+                const matches = sum === headline * values.length
+                const pinned = edit.subStats[group] !== undefined
+                return (
+                  <div key={group} className="rounded-xl bg-white/5 p-2.5">
+                    <div className="flex items-baseline justify-between gap-2">
+                      <span className="text-xs font-bold text-slate-100">{STAT_LABELS[group]}</span>
+                      <span
+                        className={`shrink-0 whitespace-nowrap text-[11px] font-black tabular-nums ${
+                          matches ? 'text-emerald-300' : 'text-rose-400'
+                        }`}
+                      >
+                        평균 {average.toFixed(1)} / 목표 {headline}
+                        {pinned ? (
+                          <span className="ml-1 font-normal text-slate-500">직접 입력</span>
+                        ) : (
+                          <span className="ml-1 font-normal text-slate-500">자동</span>
+                        )}
+                      </span>
+                    </div>
+                    <div className="mt-1.5 grid grid-cols-2 gap-1.5 sm:grid-cols-4">
+                      {rows.map((row, index) => (
+                        <label key={row.stat.key} className="block">
+                          <span className="block truncate text-[10px] text-slate-500">{row.label}</span>
+                          <input
+                            type="number"
+                            min={STAT_RANGE.min}
+                            max={STAT_RANGE.max}
+                            value={row.value}
+                            onChange={(event) =>
+                              setSubStat(group, index, Number(event.target.value), values)
+                            }
+                            className="w-full rounded-lg bg-white/5 px-2 py-1 text-xs font-bold text-slate-100 outline-none"
+                          />
+                        </label>
+                      ))}
+                    </div>
+                    <button
+                      onClick={() => resetSubStats(group)}
+                      disabled={!pinned}
+                      className="mt-1.5 rounded-lg bg-white/10 px-2 py-1 text-[10px] font-bold text-slate-300 disabled:opacity-30"
+                    >
+                      자동으로 되돌리기
+                    </button>
                   </div>
                 )
               })}

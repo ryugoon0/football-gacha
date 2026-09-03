@@ -11,6 +11,7 @@ import {
   validateEdit,
 } from '../lib/rosterEditor'
 import { PLAYERS_BY_ID, buildPlayer } from '../lib/players'
+import { subStatsOf } from '../lib/subStats'
 import type { Position } from '../lib/types'
 
 const anyId = 'lg01'
@@ -22,13 +23,13 @@ describe('선수 편집', () => {
 
   it('생성된 값과 같은 값을 적으면 항목이 남지 않는다', () => {
     const base = basePlayer(anyId)!
-    const fix = tighten(anyId, { stats: { pac: base.stats.pac }, hidden: {} })
+    const fix = tighten(anyId, { stats: { pac: base.stats.pac }, subStats: {}, hidden: {} })
     expect(isEmpty(fix)).toBe(true)
   })
 
   it('고친 능력치만 남는다', () => {
     const base = basePlayer(anyId)!
-    const fix = tighten(anyId, { stats: { pac: base.stats.pac, sho: 91 }, hidden: {} })
+    const fix = tighten(anyId, { stats: { pac: base.stats.pac, sho: 91 }, subStats: {}, hidden: {} })
     expect(fix.stats).toEqual({ sho: 91 })
     expect(fix.hidden).toBeUndefined()
   })
@@ -37,7 +38,7 @@ describe('선수 편집', () => {
     const id = 'lg02'
     const base = basePlayer(id)!
     const other = base.position === 'ST' ? 'CB' : 'ST'
-    const preview = previewEdit(id, { position: other, stats: {}, hidden: {} })!
+    const preview = previewEdit(id, { position: other, stats: {}, subStats: {}, hidden: {} })!
     expect(preview.position).toBe(other)
     expect(preview.positions[0]).toBe(other)
     expect(preview.stats).not.toEqual(base.stats)
@@ -46,7 +47,7 @@ describe('선수 편집', () => {
   })
 
   it('미리보기는 게임이 실제로 만드는 카드와 같다', () => {
-    const edit = { stats: { pac: 77 }, hidden: { clutch: 9 } }
+    const edit = { stats: { pac: 77 }, subStats: {}, hidden: { clutch: 9 } }
     const preview = previewEdit(anyId, edit)!
     const built = buildPlayer(anyId, tighten(anyId, edit))!
     expect(preview).toEqual(built)
@@ -55,14 +56,14 @@ describe('선수 편집', () => {
   })
 
   it('범위를 벗어난 값은 막는다', () => {
-    expect(validateEdit({ stats: { pac: 120 }, hidden: {} })).not.toBeNull()
-    expect(validateEdit({ stats: {}, hidden: { clutch: 99 } })).not.toBeNull()
-    expect(validateEdit({ stats: { pac: 80 }, hidden: { clutch: 5 } })).toBeNull()
+    expect(validateEdit({ stats: { pac: 120 }, subStats: {}, hidden: {} })).not.toBeNull()
+    expect(validateEdit({ stats: {}, subStats: {}, hidden: { clutch: 99 } })).not.toBeNull()
+    expect(validateEdit({ stats: { pac: 80 }, subStats: {}, hidden: { clutch: 5 } })).toBeNull()
   })
 
   it('자동 생성된 것과 같은 소화 포지션 목록을 적으면 항목이 남지 않는다', () => {
     const base = basePlayer(anyId)!
-    const fix = tighten(anyId, { positions: base.positions, stats: {}, hidden: {} })
+    const fix = tighten(anyId, { positions: base.positions, stats: {}, subStats: {}, hidden: {} })
     expect(fix.positions).toBeUndefined()
   })
 
@@ -70,14 +71,14 @@ describe('선수 편집', () => {
     const base = basePlayer(anyId)!
     const extra: Position = base.positions.includes('CDM') ? 'CM' : 'CDM'
     const custom = [...base.positions, extra]
-    const preview = previewEdit(anyId, { positions: custom, stats: {}, hidden: {} })!
+    const preview = previewEdit(anyId, { positions: custom, stats: {}, subStats: {}, hidden: {} })!
     expect(preview.positions).toEqual(custom)
     // Everything else about the card is untouched by this alone.
     expect(preview.stats).toEqual(base.stats)
   })
 
   it('붙여넣을 블록은 파일에 그대로 들어가는 모양이다', () => {
-    const block = overridesBlock({ [anyId]: { position: 'CB', stats: { pac: 70 }, hidden: {} } })
+    const block = overridesBlock({ [anyId]: { position: 'CB', stats: { pac: 70 }, subStats: {}, hidden: {} } })
     expect(block.startsWith('export const PLAYER_OVERRIDES')).toBe(true)
     expect(block.trimEnd().endsWith('}')).toBe(true)
     expect(block).toContain(`'${anyId}': {`)
@@ -86,8 +87,45 @@ describe('선수 편집', () => {
   })
 
   it('소화 포지션 목록도 붙여넣을 블록에 배열로 들어간다', () => {
-    const block = overridesBlock({ [anyId]: { positions: ['CB', 'CDM'], stats: {}, hidden: {} } })
+    const block = overridesBlock({ [anyId]: { positions: ['CB', 'CDM'], stats: {}, subStats: {}, hidden: {} } })
     expect(block).toContain("positions: ['CB', 'CDM']")
+  })
+
+  it('자동 생성된 것과 같은 세부 능력치를 적으면 항목이 남지 않는다', () => {
+    const base = basePlayer(anyId)!
+    const auto = subStatsOf(base, 'pac', 1).map((s) => s.value)
+    const fix = tighten(anyId, { stats: {}, subStats: { pac: auto }, hidden: {} })
+    expect(fix.subStats).toBeUndefined()
+  })
+
+  it('손으로 넣은 세부 능력치가 카드에 그대로 반영된다', () => {
+    const custom = [99, 99, 99]
+    const preview = previewEdit(anyId, { stats: { pac: 99 }, subStats: { pac: custom }, hidden: {} })!
+    expect(subStatsOf(preview, 'pac', 1).map((s) => s.value)).toEqual(custom)
+  })
+
+  it('세부 능력치 개수가 안 맞으면 막는다', () => {
+    expect(
+      validateEdit({ stats: { pac: 99 }, subStats: { pac: [99, 99] }, hidden: {} }),
+    ).not.toBeNull()
+  })
+
+  it('세부 능력치 평균이 헤드라인과 안 맞으면 막는다', () => {
+    const problem = validateEdit(
+      { stats: {}, subStats: { pac: [90, 90, 90] }, hidden: {} },
+      () => 99,
+    )
+    expect(problem).not.toBeNull()
+    expect(
+      validateEdit({ stats: {}, subStats: { pac: [99, 99, 99] }, hidden: {} }, () => 99),
+    ).toBeNull()
+  })
+
+  it('세부 능력치도 붙여넣을 블록에 배열로 들어간다', () => {
+    const block = overridesBlock({
+      [anyId]: { stats: {}, subStats: { pac: [99, 99, 99] }, hidden: {} },
+    })
+    expect(block).toContain('subStats: { pac: [99, 99, 99] }')
   })
 
   it('되돌린 선수는 블록에서 사라진다', () => {

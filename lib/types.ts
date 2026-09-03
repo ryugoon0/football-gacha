@@ -61,6 +61,13 @@ export interface PlayerDef {
   club: string
   league: string
   stats: Stats
+  /**
+   * Hand-pinned detailed sub-stats (lib/subStats.ts), keyed by headline stat,
+   * each an array in the same order as SUB_STATS[group]. Only present when an
+   * operator overrode the procedurally generated breakdown — most cards have
+   * none, and subStatsOf() derives the breakdown from `stats` as usual.
+   */
+  subStats?: Partial<Record<keyof Stats, number[]>>
   /** Never rendered as numbers; drives the rarity gap at max level. */
   hidden: HiddenStats
   ovr: number

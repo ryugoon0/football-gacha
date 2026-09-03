@@ -167,9 +167,21 @@ export function subStatsOf(
   group: StatGroup,
   level = 1,
 ): { stat: SubStat; label: string; value: number }[] {
-  const headline = effectiveStats(player, level)[group]
   const isKeeper = player.position === 'GK'
   const subs = SUB_STATS[group]
+
+  // A hand-pinned breakdown wins outright — it is not scaled by level, since
+  // an operator who set these wanted these exact numbers, not a growth curve.
+  const pinned = player.subStats?.[group]
+  if (pinned) {
+    return subs.map((sub, index) => ({
+      stat: sub,
+      label: isKeeper ? sub.gkLabel : sub.label,
+      value: pinned[index],
+    }))
+  }
+
+  const headline = effectiveStats(player, level)[group]
   const tilt = TILT[ROLE_OF[player.position]]
   const rng = seededRandom(hash(`${player.id}:${group}`))
 

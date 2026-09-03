@@ -25,6 +25,14 @@ export interface PlayerOverride {
   positions?: Position[]
   /** Only the six stats being corrected; the rest stay as generated. */
   stats?: Partial<Stats>
+  /**
+   * The 23 detailed sub-stats behind the six headline numbers (lib/subStats.ts),
+   * only for a group whose auto-generated breakdown is wrong. Each array must
+   * be in the same order as SUB_STATS[group] and average back to that group's
+   * headline stat exactly — the game shows the headline as the average of its
+   * detail, and a mismatch reads as a bug, not a choice.
+   */
+  subStats?: Partial<Record<keyof Stats, number[]>>
   hidden?: Partial<HiddenStats>
 }
 

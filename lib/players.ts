@@ -411,6 +411,7 @@ export function buildPlayer(id: string, fix: PlayerOverride = PLAYER_OVERRIDES[i
     club: club.name,
     league: club.league,
     stats,
+    subStats: fix.subStats,
     hidden: { ...buildHidden(id, rarity), ...(extras?.hidden ?? {}), ...(fix.hidden ?? {}) },
     ovr: computeOvr(stats, slot),
   }

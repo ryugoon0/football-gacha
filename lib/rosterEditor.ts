@@ -1,6 +1,7 @@
 import { PLAYERS, buildPlayer } from './players'
 import { PLAYER_OVERRIDES, type PlayerOverride } from './rosterOverrides'
 import { HIDDEN_KEYS, HIDDEN_RANGE, STAT_KEYS, STAT_LABELS, STAT_RANGE } from './cardMaker'
+import { STAT_GROUPS, SUB_STATS, subStatsOf, type StatGroup } from './subStats'
 import type { HiddenStats, PlayerDef, Position, Stats } from './types'
 
 /**
@@ -22,18 +23,24 @@ export interface PlayerEdit {
   /** The full eligible-position list, main position included. */
   positions?: Position[]
   stats: Partial<Stats>
+  /** Hand-pinned detailed breakdown per headline stat — see lib/subStats.ts. */
+  subStats: Partial<Record<StatGroup, number[]>>
   hidden: Partial<HiddenStats>
 }
 
 /** Everything the operator has changed this session, keyed by card id. */
 export type EditMap = Record<string, PlayerEdit>
 
-export const emptyEdit = (): PlayerEdit => ({ stats: {}, hidden: {} })
+export const emptyEdit = (): PlayerEdit => ({ stats: {}, subStats: {}, hidden: {} })
 
 function samePositions(a: Position[], b: Position[]): boolean {
   if (a.length !== b.length) return false
   const sorted = [...b].sort()
   return [...a].sort().every((item, index) => item === sorted[index])
+}
+
+function sameNumbers(a: number[], b: number[]): boolean {
+  return a.length === b.length && a.every((value, index) => value === b[index])
 }
 
 /** The card with no correction at all — what the generator alone produces. */
@@ -50,10 +57,16 @@ export function currentPlayer(id: string): PlayerDef | null {
 export function editFromOverrides(id: string): PlayerEdit {
   const fix = PLAYER_OVERRIDES[id]
   if (!fix) return emptyEdit()
+  const subStats: Partial<Record<StatGroup, number[]>> = {}
+  for (const group of STAT_GROUPS) {
+    const pinned = fix.subStats?.[group]
+    if (pinned) subStats[group] = [...pinned]
+  }
   return {
     position: fix.position,
     positions: fix.positions ? [...fix.positions] : undefined,
     stats: { ...fix.stats },
+    subStats,
     hidden: { ...fix.hidden },
   }
 }
@@ -85,13 +98,21 @@ export function tighten(id: string, edit: PlayerEdit): PlayerOverride {
     const value = edit.hidden[key]
     if (value !== undefined && (!shaped || value !== shaped.hidden[key])) hidden[key] = value
   }
+  const subStats: Partial<Record<StatGroup, number[]>> = {}
+  for (const group of STAT_GROUPS) {
+    const values = edit.subStats[group]
+    if (!values) continue
+    const defaults = shaped ? subStatsOf(shaped, group, 1).map((s) => s.value) : null
+    if (!defaults || !sameNumbers(values, defaults)) subStats[group] = values
+  }
   if (Object.keys(stats).length) fix.stats = stats
+  if (Object.keys(subStats).length) fix.subStats = subStats
   if (Object.keys(hidden).length) fix.hidden = hidden
   return fix
 }
 
 export function isEmpty(fix: PlayerOverride): boolean {
-  return !fix.position && !fix.positions && !fix.stats && !fix.hidden
+  return !fix.position && !fix.positions && !fix.stats && !fix.subStats && !fix.hidden
 }
 
 /** The card as it will be once the edit is committed. */
@@ -99,7 +120,13 @@ export function previewEdit(id: string, edit: PlayerEdit): PlayerDef | null {
   return buildPlayer(id, tighten(id, edit))
 }
 
-export function validateEdit(edit: PlayerEdit): string | null {
+/**
+ * `headlineOf` gives the effective headline stat for a group (the pinned
+ * override if any, otherwise whatever the auto-generated card has) — the
+ * caller already has this from a preview, so it is passed in rather than
+ * recomputed here.
+ */
+export function validateEdit(edit: PlayerEdit, headlineOf?: (group: StatGroup) => number): string | null {
   for (const key of STAT_KEYS) {
     const value = edit.stats[key]
     if (value === undefined) continue
@@ -112,6 +139,26 @@ export function validateEdit(edit: PlayerEdit): string | null {
     if (value === undefined) continue
     if (!Number.isInteger(value) || value < HIDDEN_RANGE.min || value > HIDDEN_RANGE.max) {
       return `히든 능력치는 ${HIDDEN_RANGE.min}에서 ${HIDDEN_RANGE.max} 사이여야 합니다.`
+    }
+  }
+  for (const group of STAT_GROUPS) {
+    const values = edit.subStats[group]
+    if (!values) continue
+    const expected = SUB_STATS[group].length
+    if (values.length !== expected) {
+      return `${STAT_LABELS[group]} 세부 능력치는 ${expected}개를 모두 채워야 합니다.`
+    }
+    for (const value of values) {
+      if (!Number.isInteger(value) || value < STAT_RANGE.min || value > STAT_RANGE.max) {
+        return `${STAT_LABELS[group]} 세부 능력치는 ${STAT_RANGE.min}에서 ${STAT_RANGE.max} 사이여야 합니다.`
+      }
+    }
+    if (headlineOf) {
+      const headline = headlineOf(group)
+      const sum = values.reduce((total, value) => total + value, 0)
+      if (sum !== headline * values.length) {
+        return `${STAT_LABELS[group]} 세부 능력치는 평균이 ${headline}이어야 합니다 (지금 합계로는 평균 ${(sum / values.length).toFixed(1)}).`
+      }
     }
   }
   return null
@@ -152,6 +199,12 @@ function entryBody(fix: PlayerOverride): string {
     parts.push(`stats: { ${STAT_KEYS.filter((key) => fix.stats?.[key] !== undefined)
       .map((key) => `${key}: ${fix.stats?.[key]}`)
       .join(', ')} }`)
+  }
+  if (fix.subStats) {
+    const groups = STAT_GROUPS.filter((group) => fix.subStats?.[group] !== undefined)
+    parts.push(
+      `subStats: { ${groups.map((group) => `${group}: [${fix.subStats?.[group]?.join(', ')}]`).join(', ')} }`,
+    )
   }
   if (fix.hidden) {
     parts.push(`hidden: { ${HIDDEN_KEYS.filter((key) => fix.hidden?.[key] !== undefined)

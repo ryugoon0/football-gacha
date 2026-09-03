@@ -3207,6 +3207,7 @@ function buildPlayer(id, fix = PLAYER_OVERRIDES[id] ?? {}) {
     club: club.name,
     league: club.league,
     stats,
+    subStats: fix.subStats,
     hidden: { ...buildHidden(id, rarity), ...extras?.hidden ?? {}, ...fix.hidden ?? {} },
     ovr: computeOvr(stats, slot)
   };
