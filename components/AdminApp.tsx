@@ -6,12 +6,20 @@ import { AdminProvider, useAdmin, useIsAdmin } from './useAdmin'
 import { checkConnection, configStatus } from '../lib/supabase'
 import { buildLabel } from '../lib/build'
 import AccountPanel from './AccountPanel'
-import AdminTab from './tabs/AdminTab'
+import MonitoringTab from './tabs/MonitoringTab'
+import BalancePanel from './tabs/BalancePanel'
+import ShopPanel from './tabs/ShopPanel'
+import WeeklyLeagueTab from './tabs/WeeklyLeagueTab'
+import NoticePanel from './tabs/NoticePanel'
 import CardMaker from './tabs/CardMaker'
 import PlayerEditor from './tabs/PlayerEditor'
 
 const TABS = [
-  { key: 'admin', label: '운영자' },
+  { key: 'monitor', label: '모니터링' },
+  { key: 'balance', label: '밸런스' },
+  { key: 'shop', label: '상점' },
+  { key: 'league', label: '주간리그' },
+  { key: 'notice', label: '공지' },
   { key: 'cards', label: '카드생성' },
   { key: 'editor', label: '선수편집' },
 ] as const
@@ -45,7 +53,7 @@ function AdminGate({ children }: { children: ReactNode }) {
 function Shell() {
   const { account } = useGame()
   const { isAdmin, checked } = useIsAdmin()
-  const [tab, setTab] = useState<TabKey>('admin')
+  const [tab, setTab] = useState<TabKey>('monitor')
 
   if (!account.configured) {
     return (
@@ -171,7 +179,11 @@ function Shell() {
       </header>
 
       <div className="mx-auto max-w-6xl px-4 py-6">
-        {tab === 'admin' && <AdminTab />}
+        {tab === 'monitor' && <MonitoringTab />}
+        {tab === 'balance' && <BalancePanel />}
+        {tab === 'shop' && <ShopPanel />}
+        {tab === 'league' && <WeeklyLeagueTab />}
+        {tab === 'notice' && <NoticePanel />}
         {tab === 'cards' && <CardMaker />}
         {tab === 'editor' && <PlayerEditor />}
       </div>

@@ -6,12 +6,9 @@ import { PATCH_KIND_LABELS, sortedPatchLog, type PatchEntry } from '../../lib/pa
 import { buildPatchNote, defaultNoteTitle, publishedIds, validateNote } from '../../lib/patchNote'
 import { friendlyError, getSupabase } from '../../lib/supabase'
 import { useGame } from '../GameProvider'
-import { useIsAdmin } from '../useAdmin'
-import MonitorPanel from './MonitorPanel'
-import BalancePanel from './BalancePanel'
-import ShopPanel from './ShopPanel'
-import WeeklyLeaguePanel from './WeeklyLeaguePanel'
-import WeeklyLeagueMonitorPanel from './WeeklyLeagueMonitorPanel'
+
+/** Patch log를 골라 공지사항으로 발행한다. AdminApp의 Shell이 이미 운영자
+ * 여부를 확인한 뒤에만 이 탭을 그리므로, 여기서 다시 확인하지 않는다. */
 
 const KIND_CHIP: Record<string, string> = {
   feature: 'bg-emerald-400/15 text-emerald-300',
@@ -27,9 +24,8 @@ interface NoticeRow {
   patch_ids: string[]
 }
 
-export default function AdminTab() {
+export default function NoticePanel() {
   const { state, account } = useGame()
-  const { isAdmin, checked } = useIsAdmin()
 
   const log = useMemo(() => sortedPatchLog(), [])
   const [picked, setPicked] = useState<string[]>([])
@@ -57,8 +53,8 @@ export default function AdminTab() {
   }, [])
 
   useEffect(() => {
-    if (isAdmin) void loadNotices()
-  }, [isAdmin, loadNotices])
+    void loadNotices()
+  }, [loadNotices])
 
   const already = useMemo(
     () => publishedIds(notices.map((row) => ({ patchIds: row.patch_ids ?? [] }))),
@@ -121,30 +117,8 @@ export default function AdminTab() {
     void loadNotices()
   }
 
-  if (!checked) {
-    return <p className="p-6 text-sm text-slate-500">확인하는 중...</p>
-  }
-
-  if (!isAdmin) {
-    return (
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-6">
-        <h3 className="text-sm font-bold text-slate-300">운영자 전용</h3>
-        <p className="mt-2 text-[12px] leading-relaxed text-slate-500">
-          이 화면은 운영자 계정에서만 열립니다. 화면을 숨기는 것과 별개로, 공지 발행은 서버에서
-          한 번 더 확인하므로 운영자가 아니면 어떤 방법으로도 공지를 올릴 수 없습니다.
-        </p>
-      </section>
-    )
-  }
-
   return (
     <div className="space-y-4">
-      <MonitorPanel />
-      <BalancePanel />
-      <ShopPanel />
-      <WeeklyLeagueMonitorPanel />
-      <WeeklyLeaguePanel />
-
       <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
