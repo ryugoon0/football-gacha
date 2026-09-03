@@ -188,6 +188,15 @@ Supabase 대시보드에서 Edge Function에 직접 cron 스케줄을 붙이는 
 지연이 발생할 수 있다는 한계는 남지만, 실서비스 트래픽 패턴상 감내 가능한
 수준으로 본다.
 
+**재검토로 발견한 함정**: "다음에 아무 Edge Function을 호출할 때 큐를
+비운다"를 문자 그대로 모든 함수(`draw-pack` 등)에 걸면 안 된다 — 무관한
+기능이 이 부가 작업 실패로 함께 죽을 위험이 있고 지연 시간 예측도 힘들어진다.
+훅은 **주간리그 전용 함수(`get_state`/`submit_command`)의 응답 마지막
+단계에서만**, `EdgeRuntime.waitUntil`로 응답을 막지 않고 걸어야 한다. 그
+외 함수는 절대 안 건드린다 — 캐치업 빈도가 그만큼 줄어드는 대신(주간리그
+화면을 아무도 안 열면 캐치업도 안 됨), 그 경우는 어차피 "아무도 안 보는
+매치"라 진행이 몇 분 늦어져도 체감상 문제가 없다.
+
 ### 대안 C — 엔진을 SQL로 포팅
 
 가장 안전하지만 로직이 두 벌이 된다(`_weekly_poisson_goal`과 같은 패턴을
@@ -232,6 +241,18 @@ received_match_minute = floor((server_received_at - scheduled_at_utc) / 10초)
 
 적용 규칙: 접수 분 이후 첫 legal stoppage에 적용, 이미 지난 stoppage에는
 소급 적용하지 않음, full-time 전 legal stoppage가 없으면 `expired`.
+
+**재검토로 발견한 함정**: `received_match_minute`은 "시계가 흘러간 만큼"으로
+계산한 값이고, `weekly_fixture_engine_state.latest_state`가 실제로 도달해 있는
+분(엔진이 진짜로 재생을 마친 지점)은 대안 B(lazy advancement)에서는 다를 수
+있다 — 아무도 안 보다가 한 번에 캐치업하면 엔진 쪽 minute이 순간적으로 확
+뛴다. `submit_command`는 그래서 접수 즉시 "그 fixture를 서버 시각까지
+advance"부터 먼저 실행하고(이미 있는 규칙), 그 advance가 끝난 뒤의 실제 엔진
+minute을 기준으로 stoppage를 찾아야 한다 — `received_match_minute`(시계 기준)을
+그대로 stoppage 탐색에 쓰면 안 되고, advance 직후의 `latest_state.minute`을
+써야 한다. 문서 앞부분의 "명령 접수 시점" 계산식은 감사 로그·리플레이용
+타임스탬프로만 쓰고, 적용 로직 자체는 advance 후 엔진 상태 기준으로 다시
+정리해야 한다.
 
 ## 동시성
 
