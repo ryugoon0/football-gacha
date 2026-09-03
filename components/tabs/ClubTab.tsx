@@ -504,6 +504,26 @@ export default function ClubTab() {
           }}
         />
       )}
+
+      {/* On a phone the release confirm button sits below a long card list —
+          this bar stays reachable without scrolling past it. The desktop
+          layout already keeps the sidebar in view alongside the card grid. */}
+      {mode === 'release' && releaseUids.length > 0 && (
+        <div className="fixed inset-x-4 bottom-4 z-40 flex items-center justify-between gap-3 rounded-2xl border border-emerald-400/40 bg-slate-900/95 p-3 shadow-xl backdrop-blur lg:hidden">
+          <span className="text-sm font-bold text-white">{releaseUids.length}명 선택됨</span>
+          <button
+            onClick={() => {
+              const count = releaseUids.length
+              if (!window.confirm(`선수 ${count}명을 방출할까요? 되돌릴 수 없습니다.`)) return
+              sell(releaseUids)
+              setReleaseUids([])
+            }}
+            className="rounded-xl bg-emerald-400 px-4 py-2 text-xs font-black text-slate-900"
+          >
+            방출하기
+          </button>
+        </div>
+      )}
     </div>
   )
 }

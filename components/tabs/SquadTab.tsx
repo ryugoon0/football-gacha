@@ -535,15 +535,15 @@ export default function SquadTab() {
               버튼을 누르면 세부 능력치를 볼 수 있습니다.
             </p>
           ) : (
-            <div className="scrollbar-thin mt-3 max-h-[420px] space-y-2 overflow-y-auto pr-1">
+            <div className="scrollbar-thin mt-3 max-h-[70vh] space-y-1.5 overflow-y-auto pr-1">
               {candidates.map(({ card, player, score, fit, inSquad, onBench }) => (
                 <div
                   key={card.uid}
-                  className="flex w-full items-center gap-2 rounded-xl bg-white/5 p-2 transition hover:bg-white/10"
+                  className="flex w-full items-center gap-2 rounded-xl bg-white/5 p-1.5 transition hover:bg-white/10"
                 >
                   <button
                     onClick={() => pick(card.uid)}
-                    className="flex min-w-0 flex-1 items-center gap-3 text-left"
+                    className="flex min-w-0 flex-1 items-center gap-2 text-left"
                   >
                     <PlayerCard
                       player={player}
@@ -554,11 +554,9 @@ export default function SquadTab() {
                     />
                     <div className="min-w-0 flex-1">
                       <div className="truncate text-sm font-bold text-white">{player.name}</div>
-                      <div className="text-xs text-slate-400">
-                        {player.positions.join(' · ')} · Lv.{card.level} · 이 자리 {score}
-                      </div>
-                      <div className="truncate text-[10px] text-slate-500">
-                        {player.club} · {player.league} · {player.nation}
+                      <div className="truncate text-xs text-slate-400">
+                        {player.positions.join(' · ')} · Lv.{card.level} · 이 자리 {score} ·{' '}
+                        {player.club}
                       </div>
                       <div className="mt-1 flex flex-wrap gap-1">
                         {target.kind === 'slot' && fit === 'out' && (
