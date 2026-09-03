@@ -29,10 +29,17 @@ export interface LiveEngine {
 /**
  * Drives the match engine in real time. The setup is read fresh on every tick,
  * so substitutions and tactical changes take effect from that minute on.
+ *
+ * rng defaults to Math.random for a purely local match. A server-backed match
+ * passes a seeded rng derived from the seed the server already committed a
+ * result under — same setup, same seed, same engine version reproduces that
+ * exact result tick for tick, so this stays a faithful *replay* rather than a
+ * second, possibly different, simulation. See lib/onlineMatch.ts.
  */
 export function useLiveEngine(
   setup: MatchSetup | null,
   onFinish: (state: LiveMatchState) => void,
+  rng: () => number = Math.random,
 ): LiveEngine {
   const [state, setState] = useState<LiveMatchState | null>(null)
   const [paused, setPaused] = useState(false)
@@ -46,6 +53,8 @@ export function useLiveEngine(
   setupRef.current = setup
   const finishRef = useRef(onFinish)
   finishRef.current = onFinish
+  const rngRef = useRef(rng)
+  rngRef.current = rng
   const settled = useRef(false)
 
   useEffect(() => {
@@ -53,7 +62,7 @@ export function useLiveEngine(
     const timer = setTimeout(() => {
       const current = setupRef.current
       if (!current) return
-      setState((previous) => (previous ? advance(previous, current) : previous))
+      setState((previous) => (previous ? advance(previous, current, rngRef.current) : previous))
     }, TICK_SPEEDS[speed].ms)
     return () => clearTimeout(timer)
   }, [state, paused, speed])

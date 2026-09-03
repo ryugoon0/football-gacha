@@ -21,6 +21,12 @@ import {
   standings,
   teamOf,
 } from '../../lib/league'
+import {
+  ONLINE_MATCH_FAILURE_MESSAGE,
+  onlineMatchAvailable,
+  playMatchOnServer,
+} from '../../lib/onlineMatch'
+import { hashString, seededRandom } from '../../lib/random'
 import { SEASON_SCHEDULE, TOTAL_MATCHDAYS } from '../../lib/schedule'
 import { evaluateSquad, missingSlots } from '../../lib/squad'
 import type { MatchResult, Squad } from '../../lib/types'
@@ -136,6 +142,12 @@ function MatchDay() {
   // Orders can be given at any time; they only take effect at the next stoppage.
   const [pendingTactic, setPendingTactic] = useState<TacticSetup | null>(null)
   const [pendingSubs, setPendingSubs] = useState<PendingSub[]>([])
+  // Set once the server has already decided this match's outcome. While it
+  // is set, the live engine only replays that outcome (same seed, same
+  // setup) rather than deciding anything — see start() and the comment on
+  // useLiveEngine's rng parameter.
+  const [serverMatch, setServerMatch] = useState<MatchResult | null>(null)
+  const [startingOnline, setStartingOnline] = useState(false)
   // The fixture moves on the moment a match is recorded, so remember who we played.
   const [playedOpponent, setPlayedOpponent] = useState<LeagueTeam | null>(null)
 
@@ -200,20 +212,28 @@ function MatchDay() {
       }
     : null
 
-  const engine = useLiveEngine(setup, (final) => {
-    if (!setup) return
-    // useLiveEngine ticks the pure engine with an unseeded rng (see its own
-    // file), so this seed labels the result rather than reproducing it —
-    // making that replayable is real-time-engine work, not this pass.
-    const base = toResult(final, setup, { seed: matchSeed() })
-    const result = {
-      ...base,
-      reward: matchReward(base.result, division, base.scoreFor),
-    }
-    const lineup = { squad: squadInPlay, subs }
-    if (isCupDay) finishCupMatch(result, rating.overall, lineup)
-    else if (fixture) finishMatch(result, fixture, others, lineup)
-  })
+  const engine = useLiveEngine(
+    setup,
+    (final) => {
+      if (!setup) return
+      const lineup = { squad: squadInPlay, subs }
+      if (serverMatch) {
+        // The server already decided this one; the ticking the manager just
+        // watched was a same-seed replay of it, not a second opinion. Use
+        // its numbers, not a freshly derived local result.
+        if (isCupDay) finishCupMatch(serverMatch, rating.overall, lineup)
+        else if (fixture) finishMatch(serverMatch, fixture, others, lineup)
+        return
+      }
+      // No account configured — nothing server-side to defer to, so this
+      // browser is both the only player and the only judge.
+      const base = toResult(final, setup, { seed: matchSeed() })
+      const result = { ...base, reward: matchReward(base.result, division, base.scoreFor) }
+      if (isCupDay) finishCupMatch(result, rating.overall, lineup)
+      else if (fixture) finishMatch(result, fixture, others, lineup)
+    },
+    serverMatch ? seededRandom(hashString(serverMatch.seed)) : Math.random,
+  )
 
   // Only a new season clears the board; the finished match stays on screen
   // until the manager moves on to the next matchday.
@@ -227,6 +247,7 @@ function MatchDay() {
     setPendingTactic(null)
     setPendingSubs([])
     setPlayedOpponent(null)
+    setServerMatch(null)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.season.index])
 
@@ -265,7 +286,13 @@ function MatchDay() {
   }
 
   // Orders are always accepted; only the moment they take effect is restricted.
+  // Mid-match, that is — picking a tactic before kickoff (engine not running
+  // yet) always applies right away, server-backed match or not.
   const orderTactic = (next: TacticSetup, label: string) => {
+    if (engine.running && serverMatch) {
+      setNotice('서버가 이미 판정한 경기입니다 — 다음 경기부터 새 전술이 적용됩니다.')
+      return
+    }
     if (!engine.running || engine.canIntervene) {
       setPendingTactic(null)
       setTactic(next)
@@ -282,6 +309,10 @@ function MatchDay() {
   const subsLeft = Math.max(0, tune('subLimit') - subsUsed)
 
   const orderSub = (slotId: string, inUid: string) => {
+    if (serverMatch) {
+      setNotice('서버가 이미 판정한 경기입니다 — 지금은 교체할 수 없습니다.')
+      return
+    }
     const outUid = plannedSquad.slots[slotId]
     if (!outUid || !plannedSquad.bench.includes(inUid)) return
     if (subsLeft <= 0) {
@@ -308,6 +339,10 @@ function MatchDay() {
   const conditionOf = (card: Card) => engine.state?.stamina[card.uid] ?? card.condition
 
   const orderTiredSubs = () => {
+    if (serverMatch) {
+      setNotice('서버가 이미 판정한 경기입니다 — 지금은 교체할 수 없습니다.')
+      return
+    }
     if (subsLeft <= 0) {
       setNotice(`교체 인원을 모두 썼습니다 (${tune('subLimit')}명).`)
       return
@@ -340,6 +375,7 @@ function MatchDay() {
   // next stoppage. Reading from plannedSquad means a player already queued to
   // come off is not queued again.
   useEffect(() => {
+    if (serverMatch) return
     if (!state.autoSub || !engine.state || engine.state.finished) return
     if (engine.state.phase === 'kickoff') return
 
@@ -415,8 +451,8 @@ function MatchDay() {
     )
   }
 
-  const start = () => {
-    if (!opponent || engine.running) return
+  const start = async () => {
+    if (!opponent || engine.running || startingOnline) return
     if (!lineupReady) {
       const parts = [
         readiness.empty.length ? `빈 자리 ${readiness.empty.join(' · ')}` : '',
@@ -431,12 +467,46 @@ function MatchDay() {
       )
       return
     }
-    setNotice(null)
-    setPlayedOpponent(opponent)
 
     const auto = state.autoSub
       ? applyAutoSubs(state.cards, state.squad, division)
       : { squad: state.squad, subs: [] }
+    const venue = isCupDay ? 'neutral' : isHome ? 'home' : 'away'
+
+    // Server-authoritative when there is an account to protect: the result
+    // is decided before a single tick runs locally, and the live view below
+    // only replays it. See SECURITY_ARCHITECTURE.md 3단계 and lib/onlineMatch.ts.
+    if (onlineMatchAvailable()) {
+      setNotice(null)
+      setStartingOnline(true)
+      const outcome = await playMatchOnServer({
+        competition: isCupDay ? 'cup' : 'league',
+        squad: auto.squad,
+        tactic: state.tactic,
+        phased: planForMode(state.plan, tacticsMode),
+        opponent: { name: opponent.name, rating: opponent.rating },
+        venue,
+      })
+      setStartingOnline(false)
+      if (!outcome.ok) {
+        const parts = [
+          outcome.empty?.length ? `빈 자리 ${outcome.empty.join(' · ')}` : '',
+          outcome.injured?.length ? `부상 ${outcome.injured.join(' · ')}` : '',
+        ].filter(Boolean)
+        setNotice(
+          parts.length
+            ? `${ONLINE_MATCH_FAILURE_MESSAGE[outcome.reason]} (${parts.join(', ')})`
+            : ONLINE_MATCH_FAILURE_MESSAGE[outcome.reason],
+        )
+        return
+      }
+      setServerMatch(outcome.result)
+    } else {
+      setNotice(null)
+      setServerMatch(null)
+    }
+
+    setPlayedOpponent(opponent)
     setLiveSquad(auto.squad)
     setSubs(auto.subs)
 
@@ -454,7 +524,9 @@ function MatchDay() {
             }),
     )
 
-    // The engine reads the setup fresh each tick, so it picks up the new squad.
+    // The engine reads the setup fresh each tick, so it picks up the new
+    // squad — and, when serverMatch was just set above, the next render's
+    // seeded rng too (useLiveEngine reads rngRef.current on every tick).
     window.setTimeout(() => engine.start(), 0)
   }
 
@@ -721,16 +793,19 @@ function MatchDay() {
               setOthers([])
               setPlayedOpponent(null)
               setNotice(null)
+              setServerMatch(null)
               return
             }
-            start()
+            void start()
           }}
-          disabled={(!opponent && !engine.finished) || (!engine.finished && !lineupReady)}
+          disabled={
+            (!opponent && !engine.finished) || (!engine.finished && !lineupReady) || startingOnline
+          }
           className={`mt-4 w-full rounded-xl px-4 py-3 font-bold text-slate-900 transition disabled:opacity-40 ${
             isCupDay ? 'bg-amber-400 hover:bg-amber-300' : 'bg-emerald-400 hover:bg-emerald-300'
           }`}
         >
-          {engine.finished ? '다음 경기일로' : '경기 시작'}
+          {startingOnline ? '서버 판정 확인 중...' : engine.finished ? '다음 경기일로' : '경기 시작'}
         </button>
       )}
 
