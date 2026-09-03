@@ -234,6 +234,44 @@ export default function PlayerEditor() {
                 ))}
               </select>
             </label>
+
+            <div className="mt-3">
+              <span className={label}>소화 가능 포지션 (멀티 포지션)</span>
+              <p className="mt-0.5 text-[11px] text-slate-500">
+                손대지 않으면 등급·주 포지션에 따라 자동으로 정해집니다. 위 포지션을 바꾸면 자동
+                범위도 함께 바뀝니다.
+              </p>
+              <div className="mt-1.5 flex flex-wrap gap-1.5">
+                {POSITION_CHOICES.map((item) => {
+                  const on = preview.positions.includes(item)
+                  return (
+                    <button
+                      key={item}
+                      onClick={() =>
+                        change((current) => {
+                          const base = current.positions ?? preview.positions
+                          const next = on ? base.filter((p) => p !== item) : [...base, item]
+                          return { ...current, positions: next }
+                        })
+                      }
+                      disabled={on && preview.positions.length === 1}
+                      className={`rounded-lg px-2.5 py-1 text-[11px] font-bold ${
+                        on ? 'bg-emerald-400 text-slate-900' : 'bg-white/10 text-slate-300'
+                      } disabled:opacity-40`}
+                    >
+                      {item}
+                    </button>
+                  )
+                })}
+              </div>
+              <button
+                onClick={() => change((item) => ({ ...item, positions: undefined }))}
+                disabled={edit.positions === undefined}
+                className="mt-1.5 rounded-lg bg-white/10 px-2 py-1 text-[10px] font-bold text-slate-300 disabled:opacity-30"
+              >
+                자동으로 되돌리기
+              </button>
+            </div>
           </section>
 
           <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">

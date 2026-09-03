@@ -405,7 +405,7 @@ export function buildPlayer(id: string, fix: PlayerOverride = PLAYER_OVERRIDES[i
     id,
     name,
     position: slot,
-    positions: buildPositions(id, slot, rarity),
+    positions: fix.positions ?? buildPositions(id, slot, rarity),
     rarity,
     nation: nation ?? NATIONS[Math.floor(rng() * NATIONS.length)],
     club: club.name,

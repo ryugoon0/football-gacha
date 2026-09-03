@@ -11,6 +11,7 @@ import {
   validateEdit,
 } from '../lib/rosterEditor'
 import { PLAYERS_BY_ID, buildPlayer } from '../lib/players'
+import type { Position } from '../lib/types'
 
 const anyId = 'lg01'
 
@@ -59,6 +60,22 @@ describe('선수 편집', () => {
     expect(validateEdit({ stats: { pac: 80 }, hidden: { clutch: 5 } })).toBeNull()
   })
 
+  it('자동 생성된 것과 같은 소화 포지션 목록을 적으면 항목이 남지 않는다', () => {
+    const base = basePlayer(anyId)!
+    const fix = tighten(anyId, { positions: base.positions, stats: {}, hidden: {} })
+    expect(fix.positions).toBeUndefined()
+  })
+
+  it('소화 포지션을 늘리면 카드에 그대로 반영된다', () => {
+    const base = basePlayer(anyId)!
+    const extra: Position = base.positions.includes('CDM') ? 'CM' : 'CDM'
+    const custom = [...base.positions, extra]
+    const preview = previewEdit(anyId, { positions: custom, stats: {}, hidden: {} })!
+    expect(preview.positions).toEqual(custom)
+    // Everything else about the card is untouched by this alone.
+    expect(preview.stats).toEqual(base.stats)
+  })
+
   it('붙여넣을 블록은 파일에 그대로 들어가는 모양이다', () => {
     const block = overridesBlock({ [anyId]: { position: 'CB', stats: { pac: 70 }, hidden: {} } })
     expect(block.startsWith('export const PLAYER_OVERRIDES')).toBe(true)
@@ -66,6 +83,11 @@ describe('선수 편집', () => {
     expect(block).toContain(`'${anyId}': {`)
     expect(block).toContain("position: 'CB'")
     expect(block).toContain('pac: 70')
+  })
+
+  it('소화 포지션 목록도 붙여넣을 블록에 배열로 들어간다', () => {
+    const block = overridesBlock({ [anyId]: { positions: ['CB', 'CDM'], stats: {}, hidden: {} } })
+    expect(block).toContain("positions: ['CB', 'CDM']")
   })
 
   it('되돌린 선수는 블록에서 사라진다', () => {

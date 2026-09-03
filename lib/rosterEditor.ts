@@ -19,6 +19,8 @@ import type { HiddenStats, PlayerDef, Position, Stats } from './types'
 
 export interface PlayerEdit {
   position?: Position
+  /** The full eligible-position list, main position included. */
+  positions?: Position[]
   stats: Partial<Stats>
   hidden: Partial<HiddenStats>
 }
@@ -27,6 +29,12 @@ export interface PlayerEdit {
 export type EditMap = Record<string, PlayerEdit>
 
 export const emptyEdit = (): PlayerEdit => ({ stats: {}, hidden: {} })
+
+function samePositions(a: Position[], b: Position[]): boolean {
+  if (a.length !== b.length) return false
+  const sorted = [...b].sort()
+  return [...a].sort().every((item, index) => item === sorted[index])
+}
 
 /** The card with no correction at all — what the generator alone produces. */
 export function basePlayer(id: string): PlayerDef | null {
@@ -42,7 +50,12 @@ export function currentPlayer(id: string): PlayerDef | null {
 export function editFromOverrides(id: string): PlayerEdit {
   const fix = PLAYER_OVERRIDES[id]
   if (!fix) return emptyEdit()
-  return { position: fix.position, stats: { ...fix.stats }, hidden: { ...fix.hidden } }
+  return {
+    position: fix.position,
+    positions: fix.positions ? [...fix.positions] : undefined,
+    stats: { ...fix.stats },
+    hidden: { ...fix.hidden },
+  }
 }
 
 /**
@@ -55,9 +68,13 @@ export function tighten(id: string, edit: PlayerEdit): PlayerOverride {
   const base = basePlayer(id)
   const fix: PlayerOverride = {}
   if (edit.position && (!base || edit.position !== base.position)) fix.position = edit.position
-  // Position changes reshape the generated stats, so a stat is only redundant
-  // when it matches the card as it will be built with the new position.
+  // Position changes reshape the generated stats and the default eligible-position
+  // spread, so both are only redundant when they match the card as it will be
+  // built with the new position (not the untouched original).
   const shaped = base ? buildPlayer(id, fix.position ? { position: fix.position } : {}) : null
+  if (edit.positions && (!shaped || !samePositions(edit.positions, shaped.positions))) {
+    fix.positions = edit.positions
+  }
   const stats: Partial<Stats> = {}
   for (const key of STAT_KEYS) {
     const value = edit.stats[key]
@@ -74,7 +91,7 @@ export function tighten(id: string, edit: PlayerEdit): PlayerOverride {
 }
 
 export function isEmpty(fix: PlayerOverride): boolean {
-  return !fix.position && !fix.stats && !fix.hidden
+  return !fix.position && !fix.positions && !fix.stats && !fix.hidden
 }
 
 /** The card as it will be once the edit is committed. */
@@ -130,6 +147,7 @@ export function searchPlayers(filters: SearchFilters, limit = 40): PlayerDef[] {
 function entryBody(fix: PlayerOverride): string {
   const parts: string[] = []
   if (fix.position) parts.push(`position: '${fix.position}'`)
+  if (fix.positions) parts.push(`positions: [${fix.positions.map((item) => `'${item}'`).join(', ')}]`)
   if (fix.stats) {
     parts.push(`stats: { ${STAT_KEYS.filter((key) => fix.stats?.[key] !== undefined)
       .map((key) => `${key}: ${fix.stats?.[key]}`)

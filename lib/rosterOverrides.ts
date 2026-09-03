@@ -17,6 +17,12 @@ import type { HiddenStats, Position, Stats } from './types'
 export interface PlayerOverride {
   /** Only when the position itself is wrong. Changes which slots the card fits. */
   position?: Position
+  /**
+   * The full list of positions this card is eligible for, main position
+   * included. Only set when the auto-generated spread (based on rarity and
+   * nearby roles) is wrong — most cards never need this.
+   */
+  positions?: Position[]
   /** Only the six stats being corrected; the rest stay as generated. */
   stats?: Partial<Stats>
   hidden?: Partial<HiddenStats>
