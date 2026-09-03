@@ -135,12 +135,39 @@ main에 올라간 뒤로도 운영 DB에 반영 안 돼 있었고(`match_results
 많은 경기를 더는 없을 때까지 뒤집는" 교정 패스를 추가해서 8팀 23·8팀 22로
 정확히 맞췄습니다.
 
-**DB 마이그레이션은 실제 운영 DB에 대고 BEGIN/ROLLBACK으로 검증했습니다** —
-`OPENING_PLACEMENT` 타입 삽입, 기존 타입(`LEAGUE`)이 여전히 통과하는지,
-아무 타입이나 넣으면 여전히 거부되는지까지 확인했습니다. **아직 실제로
-push하지는 않았습니다** — Edge Function이 아직 없어서 지금 반영해도 쓰는
-곳이 없기 때문이고, 지난번 마이그레이션 때 자동 배포가 안 돌고 있던 걸
-발견한 뒤라 이번엔 실제 반영 전에 먼저 여쭤보고 진행하겠습니다.
+**DB 마이그레이션은 실제 운영 DB에 대고 BEGIN/ROLLBACK으로 검증한 뒤 반영까지
+마쳤습니다** — `OPENING_PLACEMENT` 타입 삽입, 기존 타입(`LEAGUE`)이 여전히
+통과하는지, 아무 타입이나 넣으면 여전히 거부되는지까지 확인했습니다.
+
+### 대진 생성 Edge Function — 운영자 전용
+
+`supabase/functions/generate-placement-league` — 운영자가 호출하면 그 자리에서
+배치 리그 그룹 하나(등급·실유저 목록을 넘김)를 만들고 45슬롯 + 360경기까지
+전부 저장합니다. 실유저 자동 매칭 알고리즘은 없습니다 — 이번 세션 초반의
+결정("admin은 직접 입력으로 충분")을 그대로 따라, 운영자가 넣을 실유저
+목록(`{userId, clubName, rating}`)을 직접 넘기고 나머지 자리는 `lib/league.ts`의
+`CLUB_POOL`에서 AI로 채웁니다.
+
+- 인증: 호출자 토큰으로 `/auth/v1/user` 확인 후, **호출자 본인 토큰으로**
+  `is_admin()` RPC를 불러 운영자인지 확인합니다(`is_admin()`은
+  `auth.uid()`를 보므로 서비스 키로 부르면 항상 거짓이 나옵니다 — 반드시
+  호출자 토큰).
+- 실제 저장은 서비스 키로 어제 만든 RPC 4개(`create_weekly_league_group` →
+  `seed_weekly_schedule_slots` → `seed_weekly_competitions` →
+  `seed_league_fixtures`)를 순서대로 부릅니다. 대진 생성 로직 자체는
+  `lib/weeklyLeagueServer.ts`가 번들한 `shared.js` 하나뿐입니다.
+- **재호출해도 그룹이 두 번 생기지 않습니다.** `create_weekly_league_group`
+  자체는 멱등하지 않아서(부를 때마다 새 행을 만듦), 함수가 부르기 전에
+  같은 (tier, week_id) 그룹이 이미 있는지 먼저 조회하고 있으면 그걸 그대로
+  씁니다 — 실유저가 같은 배치 리그에 두 번 들어가는 사고를 막습니다.
+- `week_id`는 `TRANSITION_SCHEDULE.cutoverAt`의 날짜 부분에서 고정으로
+  만듭니다(`placement-2026-09-04`) — 등급이 여러 개여도 같은 주의 105슬롯
+  테이블은 한 번만 만들어지고 공유됩니다.
+- `tests/generatePlacementLeagueFunction.test.ts` 13개로 검증(관리자 확인,
+  실유저+AI 채움, 중복 그룹 방지, 잘못된 입력 거부 등).
+
+`.github/workflows/supabase.yml`에 이 함수의 배포 스텝과 `lib/weeklyLeague/**`
+트리거 경로를 추가했습니다.
 
 **아직 못 만든 것 (Phase 3로 이월)**:
 - 선수단 상태 초기화(6절) — `sourceCompetitionId`/`sourceFixtureId`/
@@ -149,13 +176,18 @@ push하지는 않았습니다** — Edge Function이 아직 없어서 지금 반
   Phase 3에서 경기 자동 정산기를 만들 때 같이 설계해야 정확한 테이블
   모양이 나옵니다 — 지금 섣불리 테이블을 만들면 나중에 다시 갈아엎을
   가능성이 높아서 데이터 모양만 문서에 남기고 미뤘습니다.
-- 배치 리그를 실제로 대회 생성 RPC에 흘려보내는 Edge Function.
+- **pg_cron 등 실제 자동 실행 인프라는 아직 없습니다.** 지금은 운영자가
+  이 Edge Function을 수동으로(또는 curl/Postman으로) 호출해야 배치
+  리그가 시작됩니다 — `firstMatchAt` 전에 한 번 호출해야 함.
+- 경기 자체를 자동으로 진행·정산하는 로직(스냅샷 잠금 → 시뮬레이션 →
+  결과 기록)도 아직 없습니다. 지금 이 함수는 "일정을 만드는 것"까지만
+  하고, 그 일정대로 실제 경기를 굴리는 건 다음 단계입니다.
 
 ## 테스트 결과
 
 ```
 npx tsc --noEmit    → 통과
-npx vitest run      → 472/472 통과 (weeklyLeague 26개 + persistence 12개 + placement 17개 포함)
+npx vitest run      → 485/485 통과 (weeklyLeague 26 + persistence 12 + placement 17 + generatePlacementLeagueFunction 13 포함)
 npx next lint       → 경고·오류 없음
 npm run build       → 성공
 ```
