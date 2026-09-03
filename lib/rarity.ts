@@ -52,7 +52,7 @@ export const RARITY_STYLES: Record<Rarity, RarityStyle> = {
     trainCost: 320,
   },
   Legend: {
-    label: '골드',
+    label: '월드',
     face: 'from-amber-200 via-yellow-300 to-amber-500',
     border: 'border-amber-700',
     ink: 'text-amber-950',
@@ -72,7 +72,7 @@ export const RARITY_STYLES: Record<Rarity, RarityStyle> = {
     trainCost: 1000,
   },
   World: {
-    label: '월드',
+    label: '레전드',
     face: 'from-emerald-200 via-teal-300 to-emerald-600',
     border: 'border-emerald-900',
     ink: 'text-emerald-950',
@@ -95,7 +95,7 @@ interface RarityTier {
 
 /**
  * Rarity decides both where a card starts and how far it can go, so a 일반 card
- * never catches a 골드 one even when both are fully trained.
+ * never catches a 월드 one even when both are fully trained.
  */
 export const RARITY_TIERS: Record<Rarity, RarityTier> = {
   Normal: { startLevel: [2, 2], levelCap: 8 },

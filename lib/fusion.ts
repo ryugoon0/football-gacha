@@ -43,7 +43,7 @@ export function checkFusion(
     return { ok: false, reason: '같은 등급끼리만 합성할 수 있습니다.' }
   }
   const to = nextRarity(from)
-  if (!to) return { ok: false, reason: '월드 등급은 더 올라갈 곳이 없습니다.', from }
+  if (!to) return { ok: false, reason: '레전드 등급은 더 올라갈 곳이 없습니다.', from }
   const fee = tune('fusionFee')
   if (gold < fee) return { ok: false, reason: `합성 비용 ${fee}G가 부족합니다.`, from, to }
 

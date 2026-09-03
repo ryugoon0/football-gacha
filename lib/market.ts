@@ -25,7 +25,7 @@ export function transferPrice(player: PlayerDef, level = 1): number {
 }
 
 /**
- * Only 일반 and 실버 players are ever transfer listed — 골드 이상은 카드팩과
+ * Only 일반 and 실버 players are ever transfer listed — 월드 이상은 카드팩과
  * 합성으로만 손에 넣습니다. Higher divisions see more 실버 listings.
  */
 export const MARKET_RARITIES: Rarity[] = ['Normal', 'Rare']

@@ -135,7 +135,7 @@ export default function GachaTab() {
       setSpinning(false)
       setResults(players.map((player) => ({ player, isNew: !owned.has(player.id) })))
       addCards(players, { cost, free, pity })
-      if (pityHit) setNotice('천장 도달! 레전드 이상이 확정으로 나왔습니다.')
+      if (pityHit) setNotice('천장 도달! 월드 이상이 확정으로 나왔습니다.')
     }, SPIN_MS)
   }
 
@@ -155,7 +155,7 @@ export default function GachaTab() {
             </p>
             <div className="mt-3 max-w-xs rounded-xl bg-white/5 p-3">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-bold text-slate-300">레전드 이상 확정까지</span>
+                <span className="font-bold text-slate-300">월드 이상 확정까지</span>
                 <span className="font-black text-amber-300">{pityLeft}회</span>
               </div>
               <div className="mt-1.5 h-1.5 rounded-full bg-white/10">
@@ -165,7 +165,7 @@ export default function GachaTab() {
                 />
               </div>
               <div className="mt-1 text-[10px] text-slate-500">
-                레전드 이상을 뽑으면 다시 {PITY_LIMIT}회로 초기화됩니다.
+                월드 이상을 뽑으면 다시 {PITY_LIMIT}회로 초기화됩니다.
               </div>
             </div>
           </div>

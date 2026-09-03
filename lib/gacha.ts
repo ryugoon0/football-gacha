@@ -4,7 +4,7 @@ import type { PlayerDef, PositionGroup, Rarity } from './types'
 
 export const DRAW_TEN_SIZE = 10
 
-/** Pulls without a 골드 or better before the next one is guaranteed. */
+/** Pulls without a 월드 or better before the next one is guaranteed. */
 export const PITY_LIMIT = 30
 export const PITY_RARITY: Rarity = 'Legend'
 
@@ -67,7 +67,7 @@ export const PACKS: PackDef[] = [
     id: 'premiumTen',
     family: 'premium',
     name: '프리미엄팩 10연차',
-    description: '10장 · 골드 이상 1장 보장',
+    description: '10장 · 월드 이상 1장 보장',
     cost: 10800,
     count: DRAW_TEN_SIZE,
     rates: PACK_RATES.premium,
@@ -163,7 +163,7 @@ export function featuredPlayer(weekKey: string): PlayerDef {
 
 export interface DrawOptions {
   count: number
-  /** Pulls since the last 골드 or better. */
+  /** Pulls since the last 월드 or better. */
   pity?: number
   featured?: PlayerDef | null
   group?: PositionGroup | null
