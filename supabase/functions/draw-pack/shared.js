@@ -25,7 +25,7 @@ function pickInRange(seed, min, max) {
 
 // lib/rosterOverrides.ts
 var PLAYER_OVERRIDES = {
-  "w03": { positions: ["CM", "CDM", "CAM"], stats: { pac: 84, dri: 92, def: 77, phy: 83 } },
+  "w03": { positions: ["CM", "CDM", "CAM"], stats: { pac: 86, sho: 97, pas: 98, dri: 94, def: 78, phy: 85 } },
   // 케빈 더브라
   "w04": { positions: ["CAM", "ST", "RW"], stats: { pac: 98, sho: 96, pas: 98, dri: 98, def: 63 }, hidden: { stamina: 10, consistency: 12 } },
   // 리오 메시아
