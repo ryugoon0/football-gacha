@@ -74,6 +74,11 @@ export function applyAutoSubs(
       const readyAt = Math.max(SUB_READY_CONDITION, tiredBelow)
       if (isInjured(candidate) || conditionOf(candidate) < readyAt) return
       if (levelTotal - starter.level + candidate.level > cap) return
+      // Everywhere else, out of position is a penalty, not a ban — a full
+      // eleven beats an empty slot. The goalkeeper is the one real exception:
+      // nobody puts their keeper up front or a striker in goal, so this pair
+      // is skipped outright rather than merely penalised.
+      if (player.positions.includes('GK') !== (slot.position === 'GK')) return
 
       // Out of position is a heavy penalty rather than a ban, so an injured
       // starter is always replaced when the bench has anyone fit to run.

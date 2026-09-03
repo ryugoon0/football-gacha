@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { applyAutoSubs } from '../lib/autoSub'
 import { emptySlots } from '../lib/formations'
+import { PLAYERS } from '../lib/players'
 import type { Card, Squad } from '../lib/types'
 
 describe('a replacement is never someone who would be pulled straight back off', () => {
@@ -39,19 +40,62 @@ describe('a replacement is never someone who would be pulled straight back off',
   })
 })
 
+describe('the goalkeeper boundary is never crossed', () => {
+  it('leaves a tired striker on rather than bringing on the bench keeper', () => {
+    const striker = PLAYERS.find((item) => item.position !== 'GK' && item.positions.includes('ST'))!
+    const keeper = PLAYERS.find((item) => item.position === 'GK')!
+    const cards: Card[] = [
+      { uid: 's1', playerId: striker.id, level: 3, limit: 5, condition: 20, injuredFor: 0, exp: 0 },
+      { uid: 'b1', playerId: keeper.id, level: 3, limit: 5, condition: 100, injuredFor: 0, exp: 0 },
+    ]
+    const squad: Squad = {
+      formation: '4-3-3',
+      slots: { ...emptySlots('4-3-3'), f2: 's1' },
+      bench: ['b1', null, null, null, null, null, null],
+    }
+
+    const result = applyAutoSubs(cards, squad, 5, (card) => card.condition, 45)
+    expect(result.subs).toHaveLength(0)
+    expect(result.squad.slots.f2).toBe('s1')
+  })
+
+  it('leaves an injured keeper on rather than bringing on a bench outfielder', () => {
+    const keeper = PLAYERS.find((item) => item.position === 'GK')!
+    const striker = PLAYERS.find((item) => item.position !== 'GK' && item.positions.includes('ST'))!
+    const cards: Card[] = [
+      { uid: 's1', playerId: keeper.id, level: 3, limit: 5, condition: 20, injuredFor: 2, exp: 0 },
+      { uid: 'b1', playerId: striker.id, level: 3, limit: 5, condition: 100, injuredFor: 0, exp: 0 },
+    ]
+    const squad: Squad = {
+      formation: '4-3-3',
+      slots: { ...emptySlots('4-3-3'), gk: 's1' },
+      bench: ['b1', null, null, null, null, null, null],
+    }
+
+    const result = applyAutoSubs(cards, squad, 5, (card) => card.condition, 45)
+    expect(result.subs).toHaveLength(0)
+    expect(result.squad.slots.gk).toBe('s1')
+  })
+})
+
 describe('the substitution allowance', () => {
+  // Three defensive slots, not the keeper — the goalkeeper boundary above
+  // is a separate rule and would make every fixture here about that instead
+  // of the allowance this block actually tests.
+  const centreBack = PLAYERS.find((item) => item.position === 'CB')!
+
   const squad = (): Squad => ({
     formation: '4-3-3',
-    slots: { ...emptySlots('4-3-3'), gk: 's1', d1: 's2', d2: 's3' },
+    slots: { ...emptySlots('4-3-3'), d1: 's1', d2: 's2', d3: 's3' },
     bench: ['b1', 'b2', 'b3', null, null, null, null],
   })
 
   const cards: Card[] = [
     ...['s1', 's2', 's3'].map((uid) => ({
-      uid, playerId: 'n01', level: 3, limit: 5, condition: 20, injuredFor: 0, exp: 0,
+      uid, playerId: centreBack.id, level: 3, limit: 5, condition: 20, injuredFor: 0, exp: 0,
     })),
     ...['b1', 'b2', 'b3'].map((uid) => ({
-      uid, playerId: 'n02', level: 3, limit: 5, condition: 100, injuredFor: 0, exp: 0,
+      uid, playerId: centreBack.id, level: 3, limit: 5, condition: 100, injuredFor: 0, exp: 0,
     })),
   ]
 
