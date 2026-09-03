@@ -209,9 +209,25 @@ home/away 모두 squad, tactic, phased, traits, stamina를 갖는 양방향 엔�
 
 ## 미검증/결정 필요
 
-- 이 세션에서는 실제 Supabase Scheduled Edge Function, `pg_net`, Vault 사용 가능
-  여부를 확인하지 못했다.
-- 이 예약 호출이 전혀 불가능하면 Supabase-only 조건에서 무관전 엔진 정산을
-  만족하려면 엔진을 SQL로 포팅해야 한다.
+- **`pg_net`은 이 저장소에서 이미 한 번 검토되고 기각된 방법이다** —
+  `supabase/migrations/20260904030000_auto_placement_bootstrap.sql`의 주석:
+  "pg_net으로 Edge Function을 부르는 방법도 검토했지만, 그러려면 서비스 키를
+  DB 안(Vault 등)에 심어야 해서 위험과 복잡도가 커진다." 즉 "예약 실행 →
+  1순위 Scheduled Edge Function, 2순위 pg_cron+pg_net"이라는 배포 순서 8번
+  계획은 2순위가 이 프로젝트의 기존 보안 원칙과 정면으로 부딪힌다. Scheduled
+  Edge Function이 실제로 이 프로젝트 플랜에서 쓸 수 있는지부터 먼저 확인해야
+  하고, 안 된다면 대안이 필요하다.
+- 그 대안 후보:
+  1. **엔진을 SQL로 포팅** — 무관전 정산을 지금의 `_weekly_poisson_goal`처럼
+     순수 SQL 함수(순정 `pg_cron`만으로 호출 가능, 외부 HTTP 불필요)로 만든다.
+     `lib/matchEngine.ts`를 그대로 재사용한다는 3절의 이점을 포기하는
+     대신(로직이 두 벌이 됨), 지금 서비스 키 노출 없이 낼 수 있는 유일한 방법.
+  2. **트래픽에 얹은 캐치업** — 아무도 안 보는 경기라도 이 앱은 계속 요청이
+     들어오므로(다른 사용자의 아무 API 호출에든 "지연된 fixture가 있으면
+     advance_due를 같이 돌린다"를 끼워 넣는 안). 다만 트래픽이 뜸한 시간대엔
+     완료 시각이 늦어질 수 있어 "예약 시각까지는 반드시 끝나 있어야 한다"는
+     요구를 항상 만족한다고 보장은 못 한다.
+  3. Scheduled Edge Function이 실제로 이 플랜에서 된다면 그게 가장 깔끔하다
+     — 다음 확인 항목.
 - 운영 DB의 실제 RLS/grant drift는 확인하지 못했다.
 - PvP live intervention은 양방향 엔진 확장 전에는 열면 안 된다.
