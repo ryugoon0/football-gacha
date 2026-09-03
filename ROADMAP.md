@@ -182,6 +182,17 @@ Supabase로 반영했습니다(README의 "계정과 게시판 켜기" 참고). �
    `lib/rosterOverrides.ts`와 운영자 **선수편집** 탭으로 배포 없이 값을 뽑아냅니다.
 10. 프로덕션에서만 나는 React hydration 경고(#425). 내용은 일치하고 React가 스스로
     복구하지만 원인은 아직 못 찾았습니다.
+11. **`.github/workflows/supabase.yml` 자동 배포가 실제로는 안 돌고 있었던 것으로
+    보임 (2026-09-04 발견).** PR2(`64bfd7f`, `20260903092559_server_match_results.sql`
+    포함)가 main에 올라간 뒤에도 그 마이그레이션이 운영 DB에 반영 안 돼 있었고
+    (`match_results` 테이블 자체가 없었음), `simulate-match` Edge Function도 아예
+    배포된 적이 없었습니다 — 그 사이 리그·컵 경기를 실제로 플레이했다면 서버
+    판정이 실패했을 것입니다. 둘 다 지금(2026-09-04) 수동으로
+    `supabase db push --include-all` + `supabase functions deploy simulate-match`로
+    반영해서 고쳤습니다. **원인 미확인** — Actions 탭에서 최근 실행 기록을 직접
+    확인해서 실패했는지, 아예 안 돌았는지 봐야 합니다. 이후 마이그레이션이 낀
+    커밋을 푸시할 때는 자동 배포를 맹신하지 말고 `supabase migration list --linked`로
+    직접 반영 여부를 확인하세요.
 
 ### Codex에 넘길 때의 예시
 
