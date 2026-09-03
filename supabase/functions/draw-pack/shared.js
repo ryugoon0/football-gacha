@@ -25,7 +25,8 @@ function pickInRange(seed, min, max) {
 
 // lib/rosterOverrides.ts
 var PLAYER_OVERRIDES = {
-  // 예: 'lg42': { stats: { pac: 88 }, position: 'RB' },
+  "w03": { positions: ["CM", "CDM", "CAM"], stats: { pac: 84, dri: 92, def: 77, phy: 83 } }
+  // 케빈 더브라
 };
 
 // lib/rosterData.ts
@@ -3194,7 +3195,7 @@ function buildPlayer(id, fix = PLAYER_OVERRIDES[id] ?? {}) {
     id,
     name,
     position: slot,
-    positions: buildPositions(id, slot, rarity),
+    positions: fix.positions ?? buildPositions(id, slot, rarity),
     rarity,
     nation: nation ?? NATIONS[Math.floor(rng() * NATIONS.length)],
     club: club.name,

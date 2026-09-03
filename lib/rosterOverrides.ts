@@ -29,5 +29,5 @@ export interface PlayerOverride {
 }
 
 export const PLAYER_OVERRIDES: Record<string, PlayerOverride> = {
-  // 예: 'lg42': { stats: { pac: 88 }, position: 'RB' },
+  'w03': { positions: ['CM', 'CDM', 'CAM'], stats: { pac: 84, dri: 92, def: 77, phy: 83 } }, // 케빈 더브라
 }
