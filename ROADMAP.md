@@ -182,17 +182,22 @@ Supabase로 반영했습니다(README의 "계정과 게시판 켜기" 참고). �
    `lib/rosterOverrides.ts`와 운영자 **선수편집** 탭으로 배포 없이 값을 뽑아냅니다.
 10. 프로덕션에서만 나는 React hydration 경고(#425). 내용은 일치하고 React가 스스로
     복구하지만 원인은 아직 못 찾았습니다.
-11. **`.github/workflows/supabase.yml` 자동 배포가 실제로는 안 돌고 있었던 것으로
-    보임 (2026-09-04 발견).** PR2(`64bfd7f`, `20260903092559_server_match_results.sql`
-    포함)가 main에 올라간 뒤에도 그 마이그레이션이 운영 DB에 반영 안 돼 있었고
-    (`match_results` 테이블 자체가 없었음), `simulate-match` Edge Function도 아예
-    배포된 적이 없었습니다 — 그 사이 리그·컵 경기를 실제로 플레이했다면 서버
-    판정이 실패했을 것입니다. 둘 다 지금(2026-09-04) 수동으로
-    `supabase db push --include-all` + `supabase functions deploy simulate-match`로
-    반영해서 고쳤습니다. **원인 미확인** — Actions 탭에서 최근 실행 기록을 직접
-    확인해서 실패했는지, 아예 안 돌았는지 봐야 합니다. 이후 마이그레이션이 낀
-    커밋을 푸시할 때는 자동 배포를 맹신하지 말고 `supabase migration list --linked`로
-    직접 반영 여부를 확인하세요.
+11. **`.github/workflows/supabase.yml` 자동 배포가 한동안 멈춰 있었던 원인을
+    찾음 (2026-09-04).** PR2(`64bfd7f`)가 main에 올라간 뒤에도
+    `match_results` 테이블이 운영 DB에 없었고 `simulate-match` Edge
+    Function도 배포된 적이 없어서, 처음엔 "자동 배포가 안 돈다"고 기록했음.
+    두 마이그레이션(PR2분 + 그 다음 것)을 `--include-all`로 수동 반영한
+    뒤, **그 다음 커밋(`80faed5`)의 마이그레이션은 CI가 스스로 반영함**
+    (수 분 지연은 있었음) — 이걸로 실제 원인이 드러남: `supabase db push`는
+    로컬 마이그레이션 파일이 원격의 마지막 적용분보다 순서상 앞서면
+    `--include-all` 없이는 실패하는데(아마 사용자님의 로컬 세션이 PR2
+    병합 전에 `db push`를 한 번 돌려서 그 뒤 마이그레이션만 먼저 올라간
+    탓), 워크플로 안에서 "스키마 반영" 스텝이 실패하면 뒤이은 "Edge
+    Function 배포" 스텝까지 같은 잡(job) 안에서 전부 멈춘다. 즉 CI 자체는
+    안 망가졌고, 그 순서 충돌 하나가 이후 모든 실행을 막고 있었던 것 —
+    지금은 정상화됨. 그래도 마이그레이션이 낀 커밋을 푸시한 뒤에는
+    `supabase migration list --linked`로 직접 반영 여부를 확인하는 습관은
+    유지하세요(CI가 몇 분 지연될 수 있음).
 
 ### Codex에 넘길 때의 예시
 
