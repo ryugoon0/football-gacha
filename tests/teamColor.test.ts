@@ -40,7 +40,7 @@ describe('club and league data', () => {
 describe('team colours', () => {
   it('stays quiet for a squad with nothing in common', () => {
     const players = squad(
-      Array.from({ length: 11 }, (_, index) => ({
+      Array.from({ length: 18 }, (_, index) => ({
         club: `클럽${index}`,
         league: `리그${index}`,
         nation: `나라${index}`,
@@ -51,52 +51,51 @@ describe('team colours', () => {
     expect(colors.bonus).toEqual({ rating: 0, chemistry: 0 })
   })
 
-  it('fires the club colour at three players', () => {
+  it('fires the club colour at eight of the eighteen', () => {
     const players = squad([
-      ...Array.from({ length: 3 }, () => ({ club: '한강 FC', league: 'K리그', nation: '대한민국' })),
-      ...filler(8),
+      ...Array.from({ length: 8 }, () => ({ club: '한강 FC', league: 'K리그', nation: '대한민국' })),
+      ...filler(10),
     ])
     const colors = teamColors(players)
     const club = colors.active.find((color) => color.kind === 'club')!
 
     expect(club.key).toBe('한강 FC')
-    expect(club.count).toBe(3)
+    expect(club.count).toBe(8)
     expect(club.tier).toEqual(COLOR_TIERS.club[0])
-    expect(club.next?.missing).toBe(2)
+    expect(club.next?.missing).toBe(3)
     expect(colors.bonus.rating).toBeGreaterThan(0)
   })
 
   it('upgrades to the higher tier with more players', () => {
-    const seven = squad([
-      ...Array.from({ length: 7 }, () => ({ club: '한강 FC', league: 'K리그', nation: '대한민국' })),
+    const fourteen = squad([
+      ...Array.from({ length: 14 }, () => ({ club: '한강 FC', league: 'K리그', nation: '대한민국' })),
       ...filler(4),
     ])
-    const club = teamColors(seven).active.find((color) => color.kind === 'club')!
+    const club = teamColors(fourteen).active.find((color) => color.kind === 'club')!
     expect(club.tier).toEqual(COLOR_TIERS.club[2])
-    expect(club.next?.count).toBe(9)
-    const eleven = squad(Array.from({ length: 11 }, () => ({ club: '한강 FC', league: 'K리그', nation: '대한민국' })))
-    expect(teamColors(eleven).active.find((color) => color.kind === 'club')!.next).toBeNull()
+    expect(club.next?.count).toBe(17)
+    const all = squad(Array.from({ length: 18 }, () => ({ club: '한강 FC', league: 'K리그', nation: '대한민국' })))
+    expect(teamColors(all).active.find((color) => color.kind === 'club')!.next).toBeNull()
   })
 
   it('counts only the biggest group of a kind, so a full eleven beats any split', () => {
     const same = { league: 'K리그', nation: '대한민국' }
     const split = squad([
-      ...Array.from({ length: 5 }, () => ({ club: '한강 FC', ...same })),
-      ...Array.from({ length: 5 }, () => ({ club: '남산 FC', ...same })),
-      { club: '북한산 FC', ...same },
+      ...Array.from({ length: 9 }, () => ({ club: '한강 FC', ...same })),
+      ...Array.from({ length: 9 }, () => ({ club: '남산 FC', ...same })),
     ])
     const colors = teamColors(split)
     const clubs = colors.active.filter((color) => color.kind === 'club')
     expect(clubs).toHaveLength(2)
     expect(clubs.filter((color) => color.counted)).toHaveLength(1)
-    // 5 + 5 pays one five-tier, not two.
-    expect(colors.bonus.rating).toBe(COLOR_TIERS.club[1].rating + COLOR_TIERS.league[2].rating + COLOR_TIERS.nation[2].rating)
+    // 9 + 9 pays one eight-tier, not two.
+    expect(colors.bonus.rating).toBe(COLOR_TIERS.club[0].rating + COLOR_TIERS.league[2].rating + COLOR_TIERS.nation[2].rating)
 
     const sevenFour = squad([
-      ...Array.from({ length: 7 }, () => ({ club: '한강 FC', ...same })),
+      ...Array.from({ length: 14 }, () => ({ club: '한강 FC', ...same })),
       ...Array.from({ length: 4 }, () => ({ club: '남산 FC', ...same })),
     ])
-    const eleven = squad(Array.from({ length: 11 }, () => ({ club: '한강 FC', ...same })))
+    const eleven = squad(Array.from({ length: 18 }, () => ({ club: '한강 FC', ...same })))
     expect(teamColors(eleven).bonus.rating).toBeGreaterThan(teamColors(sevenFour).bonus.rating)
     expect(teamColors(sevenFour).bonus.rating).toBeGreaterThan(teamColors(split).bonus.rating)
     expect(teamColors(eleven).bonus.rating).toBe(COLOR_CAPS.rating)
@@ -106,16 +105,16 @@ describe('team colours', () => {
   it('does not hint at a smaller group that would count for nothing', () => {
     const same = { league: 'K리그', nation: '대한민국' }
     const players = squad([
-      ...Array.from({ length: 7 }, () => ({ club: '한강 FC', ...same })),
-      ...Array.from({ length: 2 }, () => ({ club: '남산 FC', ...same })),
-      ...filler(2),
+      ...Array.from({ length: 11 }, () => ({ club: '한강 FC', ...same })),
+      ...Array.from({ length: 6 }, () => ({ club: '남산 FC', ...same })),
+      ...filler(1),
     ])
     expect(teamColors(players).hints.find((hint) => hint.key === '남산 FC')).toBeUndefined()
   })
 
   it('stacks club, league and nation but never past the cap', () => {
     const players = squad(
-      Array.from({ length: 11 }, () => ({ club: '한강 FC', league: 'K리그', nation: '대한민국' })),
+      Array.from({ length: 18 }, () => ({ club: '한강 FC', league: 'K리그', nation: '대한민국' })),
     )
     const colors = teamColors(players)
     expect(colors.active.map((color) => color.kind).sort()).toEqual(['club', 'league', 'nation'])
@@ -125,8 +124,8 @@ describe('team colours', () => {
 
   it('points out the colours that are one or two players away', () => {
     const players = squad([
-      ...Array.from({ length: 2 }, () => ({ club: '한강 FC', league: 'K리그', nation: '대한민국' })),
-      ...filler(9),
+      ...Array.from({ length: 7 }, () => ({ club: '한강 FC', league: 'K리그', nation: '대한민국' })),
+      ...filler(11),
     ])
     const hint = teamColors(players).hints.find((item) => item.key === '한강 FC')!
     expect(hint.missing).toBe(1)
@@ -149,8 +148,8 @@ describe('team colours', () => {
 
     // Rebuild the eleven out of players from one club and country.
     const club = PLAYERS_BY_RARITY.Normal[0].club
-    const mates = PLAYERS.filter((player) => player.club === club).slice(0, 11)
-    if (mates.length >= 3) {
+    const mates = PLAYERS.filter((player) => player.club === club).slice(0, 18)
+    if (mates.length >= 8) {
       const cards = mates.map((player, index) => ({
         uid: `c${index}`,
         playerId: player.id,

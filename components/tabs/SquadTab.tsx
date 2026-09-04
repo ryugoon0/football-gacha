@@ -391,7 +391,7 @@ export default function SquadTab() {
 
           {rating.colors.active.length === 0 ? (
             <p className="mt-2 text-xs text-slate-500">
-              같은 클럽 3명, 같은 리그·국가 5명을 모으면 팀 컬러가 발동합니다. 같은 종류는 가장 큰 그룹 하나만 칩니다.
+              선발과 후보 18명 중 같은 클럽 8명, 같은 리그·국가 11명을 모으면 팀 컬러가 발동합니다. 같은 종류는 가장 큰 그룹 하나만 칩니다.
             </p>
           ) : (
             <div className="mt-3 space-y-1.5">

@@ -4848,22 +4848,24 @@ var BOTTOM_DIVISION = 5;
 
 // lib/teamColor.ts
 var COLOR_TIERS = {
+  // Counted over the whole matchday squad — eleven starters plus the seven on
+  // the bench (BENCH_SIZE), eighteen in all. The top step needs every one.
   club: [
-    { count: 3, rating: 2, chemistry: 3 },
-    { count: 5, rating: 5, chemistry: 6 },
-    { count: 7, rating: 8, chemistry: 10 },
-    { count: 9, rating: 11, chemistry: 13 },
-    { count: 11, rating: 14, chemistry: 17 }
+    { count: 8, rating: 2, chemistry: 3 },
+    { count: 11, rating: 5, chemistry: 6 },
+    { count: 14, rating: 8, chemistry: 10 },
+    { count: 17, rating: 11, chemistry: 13 },
+    { count: 18, rating: 14, chemistry: 17 }
   ],
   league: [
-    { count: 5, rating: 1, chemistry: 1 },
-    { count: 8, rating: 2, chemistry: 2 },
-    { count: 11, rating: 4, chemistry: 4 }
+    { count: 11, rating: 1, chemistry: 1 },
+    { count: 15, rating: 2, chemistry: 2 },
+    { count: 18, rating: 4, chemistry: 4 }
   ],
   nation: [
-    { count: 5, rating: 1, chemistry: 1 },
-    { count: 8, rating: 2, chemistry: 3 },
-    { count: 11, rating: 4, chemistry: 5 }
+    { count: 11, rating: 1, chemistry: 1 },
+    { count: 15, rating: 2, chemistry: 3 },
+    { count: 18, rating: 4, chemistry: 5 }
   ]
 };
 var COLOR_CAPS = { rating: 22, chemistry: 26 };
@@ -5017,7 +5019,8 @@ function evaluateSquad(cards, squad, division = BOTTOM_DIVISION) {
   const fw = groupAverage("FW");
   const onPitch = evaluations.filter((item) => item.player && !item.injured).map((item) => item.player);
   const traits = teamTraitEffects(onPitch);
-  const colors = teamColors(onPitch);
+  const onBench = squad.bench.map((uid) => uid ? byUid.get(uid) ?? null : null).filter((card) => Boolean(card) && !isInjured(card)).map((card) => getPlayer(card.playerId)).filter((player) => Boolean(player));
+  const colors = teamColors([...onPitch, ...onBench]);
   const chemistry = Math.min(
     100,
     chemistryOf(evaluations) + traits.chemistry + colors.bonus.chemistry

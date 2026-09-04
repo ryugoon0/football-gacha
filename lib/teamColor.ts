@@ -20,24 +20,29 @@ export interface ColorTier {
  * eleven of one club are already eleven of one league.
  */
 export const COLOR_TIERS: Record<ColorKind, ColorTier[]> = {
+  // Counted over the whole matchday squad — eleven starters plus the seven on
+  // the bench (BENCH_SIZE), eighteen in all. The top step needs every one.
   club: [
-    { count: 3, rating: 2, chemistry: 3 },
-    { count: 5, rating: 5, chemistry: 6 },
-    { count: 7, rating: 8, chemistry: 10 },
-    { count: 9, rating: 11, chemistry: 13 },
-    { count: 11, rating: 14, chemistry: 17 },
+    { count: 8, rating: 2, chemistry: 3 },
+    { count: 11, rating: 5, chemistry: 6 },
+    { count: 14, rating: 8, chemistry: 10 },
+    { count: 17, rating: 11, chemistry: 13 },
+    { count: 18, rating: 14, chemistry: 17 },
   ],
   league: [
-    { count: 5, rating: 1, chemistry: 1 },
-    { count: 8, rating: 2, chemistry: 2 },
-    { count: 11, rating: 4, chemistry: 4 },
+    { count: 11, rating: 1, chemistry: 1 },
+    { count: 15, rating: 2, chemistry: 2 },
+    { count: 18, rating: 4, chemistry: 4 },
   ],
   nation: [
-    { count: 5, rating: 1, chemistry: 1 },
-    { count: 8, rating: 2, chemistry: 3 },
-    { count: 11, rating: 4, chemistry: 5 },
+    { count: 11, rating: 1, chemistry: 1 },
+    { count: 15, rating: 2, chemistry: 3 },
+    { count: 18, rating: 4, chemistry: 5 },
   ],
 }
+
+/** Starters plus bench — the pool team colours are counted over. */
+export const COLOR_SQUAD_SIZE = 18
 
 export const COLOR_LABELS: Record<ColorKind, string> = {
   club: '클럽',
@@ -45,7 +50,7 @@ export const COLOR_LABELS: Record<ColorKind, string> = {
   nation: '국가',
 }
 
-/** Club 11 + league 11 + nation 11 lands exactly here; nothing can pass it. */
+/** Club 18 + league 18 + nation 18 lands exactly here; nothing can pass it. */
 export const COLOR_CAPS = { rating: 22, chemistry: 26 }
 
 export interface ActiveColor {
@@ -91,8 +96,8 @@ const PICKERS: Record<ColorKind, (player: PlayerDef) => string> = {
 }
 
 /**
- * Works out which team colours the starting eleven triggers, and which ones are
- * within reach.
+ * Works out which team colours the matchday squad (starters and bench)
+ * triggers, and which ones are within reach.
  *
  * One rule the testers found the hard way: per kind (club / league / nation)
  * only the biggest group counts. Two clubs of five used to stack to more than

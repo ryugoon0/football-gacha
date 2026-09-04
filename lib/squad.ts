@@ -167,7 +167,14 @@ export function evaluateSquad(
     .filter((item) => item.player && !item.injured)
     .map((item) => item.player!)
   const traits = teamTraitEffects(onPitch)
-  const colors = teamColors(onPitch)
+  // Team colours count the bench too (18 in all) — a manager who commits the
+  // whole matchday squad to one club gets the top step, not only the eleven.
+  const onBench = squad.bench
+    .map((uid) => (uid ? byUid.get(uid) ?? null : null))
+    .filter((card): card is Card => Boolean(card) && !isInjured(card!))
+    .map((card) => getPlayer(card.playerId))
+    .filter((player): player is PlayerDef => Boolean(player))
+  const colors = teamColors([...onPitch, ...onBench])
   const chemistry = Math.min(
     100,
     chemistryOf(evaluations) + traits.chemistry + colors.bonus.chemistry,

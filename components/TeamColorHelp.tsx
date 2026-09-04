@@ -22,26 +22,26 @@ export default function TeamColorHelp({ onClose }: { onClose: () => void }) {
 
         <ol className="mt-3 space-y-2 text-xs leading-relaxed text-slate-300">
           <li>
-            <b className="text-white">선발 11명만 봅니다.</b> 벤치와 부상으로 결장한 선수는 세지 않습니다.
+            <b className="text-white">선발 11명과 후보 7명, 18명을 함께 셉니다.</b> 부상으로 결장한 선수는 세지 않습니다.
           </li>
           <li>
             <b className="text-white">클럽 · 리그 · 국가 세 종류가 각각 따로 발동</b>하고, 셋은 서로 더해집니다.
-            같은 클럽 11명은 자동으로 같은 리그 11명이기도 해서 클럽과 리그가 함께 붙습니다.
+            같은 클럽 18명은 자동으로 같은 리그 18명이기도 해서 클럽과 리그가 함께 붙습니다.
           </li>
           <li>
-            <b className="text-white">같은 종류 안에서는 가장 큰 그룹 하나만 발동합니다.</b> 클럽 A 5명 + 클럽 B 5명이면
-            A(또는 B) 5명 보너스 하나뿐입니다. 두 클럽을 섞어서 7명 보너스를 넘기는 길은 없습니다.
+            <b className="text-white">같은 종류 안에서는 가장 큰 그룹 하나만 발동합니다.</b> 클럽 A 9명 + 클럽 B 9명이면
+            A(또는 B) 8명 단계 하나뿐입니다. 두 클럽을 섞어서 더 큰 단계를 넘기는 길은 없습니다.
           </li>
           <li>
-            <b className="text-white">더 많이 모을수록 단계가 오릅니다.</b> 클럽은 3·5·7·9·11명, 리그와 국가는 5·8·11명 단계입니다.
-            한 종류 안에서 단계는 바뀌는 것이지 겹치지 않습니다(7명이면 7명 단계 하나).
+            <b className="text-white">더 많이 모을수록 단계가 오릅니다.</b> 클럽은 8·11·14·17·18명, 리그와 국가는 11·15·18명 단계입니다.
+            한 종류 안에서 단계는 바뀌는 것이지 겹치지 않습니다(14명이면 14명 단계 하나).
           </li>
           <li>
             <b className="text-white">보너스는 전력(공격·미드·수비 각각)과 케미에 붙습니다.</b> 케미는 100이 상한이고, 포지션이
             맞는 선발(주 포지션 9점·부 포지션 6점 기준)과 특성 효과에 팀 컬러 케미가 더해집니다.
           </li>
           <li>
-            합계 상한은 전력 +{COLOR_CAPS.rating} · 케미 +{COLOR_CAPS.chemistry}입니다. 같은 클럽·리그·국가 11명이 정확히 이
+            합계 상한은 전력 +{COLOR_CAPS.rating} · 케미 +{COLOR_CAPS.chemistry}입니다. 같은 클럽·리그·국가 18명이 정확히 이
             값입니다.
           </li>
         </ol>
@@ -73,7 +73,7 @@ export default function TeamColorHelp({ onClose }: { onClose: () => void }) {
         </div>
 
         <p className="mt-4 text-[11px] leading-relaxed text-slate-500">
-          예) 같은 클럽 7명 + 다른 클럽 4명 = 클럽 +8(7명 단계) 하나. 같은 클럽 11명 = 클럽 +14, 여기에 같은 리그 11명 +4,
+          예) 같은 클럽 14명 + 다른 클럽 4명 = 클럽 +8(14명 단계) 하나. 같은 클럽 18명 = 클럽 +14, 여기에 같은 리그 18명 +4,
           같은 국가면 +4가 더 붙습니다.
         </p>
       </div>
