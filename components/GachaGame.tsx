@@ -24,6 +24,7 @@ import PvpTab from './tabs/PvpTab'
 import SquadTab from './tabs/SquadTab'
 import WeeklyTab from './tabs/WeeklyTab'
 import { BRAND_MARK, BRAND_NAME } from '../lib/brand'
+import { checkClubName, normalizeClubName } from '../lib/clubName'
 
 const TABS = [
   { key: 'home', label: '홈' },
@@ -113,8 +114,16 @@ function Shell() {
                   autoFocus
                   defaultValue={state.club}
                   onBlur={(event) => {
-                    renameClub(event.target.value)
+                    const next = normalizeClubName(event.target.value)
                     setEditingClub(false)
+                    if (!next || next === state.club) return
+                    // Same rule as sign-up: a name another club already has is refused.
+                    void checkClubName(next).then((check) => {
+                      if (check.status === 'available') renameClub(next)
+                      else if (check.status === 'taken') window.alert(`『${next}』은 이미 다른 감독이 쓰고 있는 클럽명입니다.`)
+                      else if (check.status === 'invalid') window.alert(check.message)
+                      else window.alert('클럽명을 확인하지 못했습니다. 잠시 후 다시 시도해 주세요.')
+                    })
                   }}
                   onKeyDown={(event) => {
                     if (event.key === 'Enter') event.currentTarget.blur()

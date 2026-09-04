@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { ASSISTANTS, WELCOME_LINES, assistantImage, assistantOfTheDay, loadAssistantMode, type AssistantId, type AssistantMode } from '../lib/assistant'
 import { BRAND_NAME } from '../lib/brand'
+import { CLUB_NAME_MAX, checkClubName, normalizeClubName, type ClubNameCheck } from '../lib/clubName'
 import { checkConnection, configStatus } from '../lib/supabase'
 import { buildLabel } from '../lib/build'
 import LockerRoomScene from './LockerRoomScene'
@@ -13,7 +14,7 @@ import { useGame } from './GameProvider'
  * it, so a save always belongs to an account.
  */
 export default function LoginScreen() {
-  const { account } = useGame()
+  const { account, renameClub } = useGame()
   const [mode, setMode] = useState<'signIn' | 'signUp'>('signIn')
   const [fresh, setFresh] = useState('')
   const [email, setEmail] = useState('')
@@ -35,11 +36,37 @@ export default function LoginScreen() {
     setProbe(`${result.ok ? '정상' : '문제'} — ${result.message}`)
   }
 
+  // Sign-up asks for the club name up front and checks it is not taken; the
+  // check has to pass for the very name that gets submitted.
+  const [club, setClub] = useState('')
+  const [clubCheck, setClubCheck] = useState<{ name: string; result: ClubNameCheck } | null>(null)
+  const [checking, setChecking] = useState(false)
+  const clubOk = clubCheck?.result.status === 'available' && clubCheck.name === normalizeClubName(club)
+
+  const runClubCheck = async () => {
+    const name = normalizeClubName(club)
+    setChecking(true)
+    const result = await checkClubName(name)
+    setChecking(false)
+    setClubCheck({ name, result })
+  }
+
   const submit = async (event: React.FormEvent) => {
     event.preventDefault()
     account.clearMessages()
-    if (mode === 'signIn') await account.signIn(email.trim(), password)
-    else await account.signUp(email.trim(), password)
+    if (mode === 'signIn') {
+      await account.signIn(email.trim(), password)
+      return
+    }
+    if (!clubOk) {
+      await runClubCheck()
+      return
+    }
+    const name = normalizeClubName(club)
+    await account.signUp(email.trim(), password, name)
+    // This browser's save is what the account will start from, so the name
+    // goes in now — the confirmation mail and first login come later.
+    renameClub(name)
   }
 
   // Someone who followed a reset link is signed in, but only far enough to
@@ -170,12 +197,54 @@ export default function LoginScreen() {
             />
           </label>
 
+          {mode === 'signUp' && (
+            <label className="block text-xs font-bold text-slate-400">
+              클럽명 (2~{CLUB_NAME_MAX}자 · 다른 감독과 겹칠 수 없음)
+              <div className="mt-1 flex gap-1.5">
+                <input
+                  type="text"
+                  required
+                  maxLength={CLUB_NAME_MAX}
+                  value={club}
+                  onChange={(event) => setClub(event.target.value)}
+                  placeholder="예) 한강 유나이티드"
+                  className="min-w-0 flex-1 rounded-lg input px-3 py-2.5 text-sm font-semibold"
+                />
+                <button
+                  type="button"
+                  onClick={() => void runClubCheck()}
+                  disabled={checking || normalizeClubName(club).length === 0}
+                  className="shrink-0 rounded-lg btn-ghost px-3 py-2.5 text-xs font-bold disabled:opacity-40"
+                >
+                  {checking ? '확인 중…' : '중복 확인'}
+                </button>
+              </div>
+              {clubCheck && (
+                <p
+                  className={`mt-1 text-[11px] font-bold ${
+                    clubOk ? 'text-emerald-300' : clubCheck.name !== normalizeClubName(club) ? 'text-slate-500' : 'text-rose-300'
+                  }`}
+                >
+                  {clubCheck.name !== normalizeClubName(club)
+                    ? '이름이 바뀌었습니다. 다시 확인해 주세요.'
+                    : clubCheck.result.status === 'available'
+                      ? `『${clubCheck.name}』 사용할 수 있습니다.`
+                      : clubCheck.result.status === 'taken'
+                        ? `『${clubCheck.name}』은 이미 다른 감독이 쓰고 있습니다.`
+                        : clubCheck.result.status === 'invalid'
+                          ? clubCheck.result.message
+                          : '확인하지 못했습니다. 잠시 후 다시 눌러 주세요.'}
+                </p>
+              )}
+            </label>
+          )}
+
           <button
             type="submit"
-            disabled={account.syncing}
+            disabled={account.syncing || (mode === 'signUp' && (checking || !clubOk))}
             className="w-full rounded-xl btn-primary py-3 text-sm font-black transition disabled:opacity-50"
           >
-            {mode === 'signIn' ? '로그인하고 시작' : '가입하고 시작'}
+            {mode === 'signIn' ? '로그인하고 시작' : clubOk ? '가입하고 시작' : '클럽명 중복 확인 후 가입'}
           </button>
         </form>
 

@@ -11,13 +11,23 @@ import {
 import { friendlyError, getSupabase, isSupabaseConfigured, rejectionMessage } from '../lib/supabase'
 import { seedEconomy } from '../lib/serverDraw'
 import { SIGN_UP_MESSAGE, signUpOutcome } from '../lib/signup'
+import { reducer } from '../lib/gameReducer'
+import { DEFAULT_CLUB } from '../lib/storage'
 import type { GameState } from '../lib/types'
+
+/** The club name a sign-up put in the auth metadata, if it is a usable string. */
+function metaClub(user: { user_metadata?: Record<string, unknown> | null }): string | undefined {
+  const club = user.user_metadata?.club
+  return typeof club === 'string' && club.trim().length > 0 ? club.trim() : undefined
+}
 
 export type AccountStatus = 'off' | 'loading' | 'signedOut' | 'signedIn'
 
 export interface AccountUser {
   id: string
   email: string
+  /** The club name chosen at sign-up (auth metadata), if any. */
+  club?: string
 }
 
 export interface AccountApi {
@@ -30,7 +40,7 @@ export interface AccountApi {
   /** A cloud save that clashes with real progress in this browser. */
   conflict: CloudSave | null
   syncing: boolean
-  signUp: (email: string, password: string) => Promise<void>
+  signUp: (email: string, password: string, club?: string) => Promise<void>
   /** Sends the confirmation mail again. */
   resendConfirmation: (email: string) => Promise<void>
   signIn: (email: string, password: string) => Promise<void>
@@ -166,7 +176,7 @@ export function useAccountSync(
       if (!alive) return
       const session = data.session
       if (session?.user) {
-        setUser({ id: session.user.id, email: session.user.email ?? '' })
+        setUser({ id: session.user.id, email: session.user.email ?? '', club: metaClub(session.user) })
         setStatus('signedIn')
       } else {
         setStatus('signedOut')
@@ -178,7 +188,7 @@ export function useAccountSync(
       // choose a new password. Hold that state until they do.
       if (event === 'PASSWORD_RECOVERY') setRecovering(true)
       if (session?.user) {
-        setUser({ id: session.user.id, email: session.user.email ?? '' })
+        setUser({ id: session.user.id, email: session.user.email ?? '', club: metaClub(session.user) })
         setStatus('signedIn')
       } else {
         setUser(null)
@@ -218,7 +228,15 @@ export function useAccountSync(
         setSyncing(false)
         return
       }
-      await upload(user.id, stateRef.current)
+      // A first login on a device other than the one that signed up: the club
+      // name from sign-up applies to the fresh save before it goes to the cloud.
+      if (!cloud && user.club && stateRef.current.club === DEFAULT_CLUB) {
+        const named = reducer(stateRef.current, { type: 'renameClub', club: user.club })
+        hydrateRef.current(named)
+        await upload(user.id, named)
+      } else {
+        await upload(user.id, stateRef.current)
+      }
       setNotice('이 브라우저의 진행 상황을 계정에 저장했습니다.')
     })()
 
@@ -236,7 +254,7 @@ export function useAccountSync(
     return () => window.clearTimeout(timer)
   }, [state, status, user, ready, upload])
 
-  const signUp = useCallback(async (email: string, password: string) => {
+  const signUp = useCallback(async (email: string, password: string, club?: string) => {
     const supabase = getSupabase()
     if (!supabase) return
     setError(null)
@@ -250,6 +268,10 @@ export function useAccountSync(
         // link that goes nowhere. Sending them back where they signed up works
         // from any deployment.
         emailRedirectTo: typeof window === 'undefined' ? undefined : window.location.origin,
+        // The club name chosen at sign-up rides in the auth metadata so the
+        // duplicate check can see it before the first save exists, and so a
+        // first login on another device still gets the name.
+        data: club ? { club } : undefined,
       },
     })
     setSyncing(false)
