@@ -79,3 +79,17 @@ await build({
 })
 
 console.log('supabase/functions/simulate-pvp-match/shared.js 생성 완료')
+
+await build({
+  entryPoints: ['lib/weeklyLiveServer.ts'],
+  outfile: 'supabase/functions/weekly-fixture-live/shared.js',
+  bundle: true,
+  format: 'esm',
+  platform: 'neutral',
+  target: 'es2022',
+  banner: {
+    js: '// 자동 생성 파일입니다. 고치지 마세요.\n// lib/weeklyLiveServer.ts에서 만들어집니다: npm run build:functions',
+  },
+})
+
+console.log('supabase/functions/weekly-fixture-live/shared.js 생성 완료')

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useGame } from '../GameProvider'
 import ModeBadge from '../ModeBadge'
 import { getSupabase } from '../../lib/supabase'
+import { catchUpWeeklyGroup } from '../../lib/weeklyLive'
 import { standings, type StandingsMatch, type StandingsResult } from '../../lib/weeklyLeague/standings'
 
 /**
@@ -113,6 +114,11 @@ export default function WeeklyTab() {
       weekId: group.week_id,
     }
     setMembership(nextMembership)
+
+    // Settle anything in this group whose kick-off has passed before reading
+    // the table, so a manager never sees a stale "pending" for a match the
+    // server could already have judged (docs/WEEKLY_LIVE_MATCH_DESIGN.md).
+    await catchUpWeeklyGroup(row.group_id)
 
     const [membersRes, fixturesRes, competitionsRes] = await Promise.all([
       supabase.from('weekly_league_members').select('slot, kind, club_name').eq('group_id', row.group_id),

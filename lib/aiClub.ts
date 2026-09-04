@@ -67,7 +67,14 @@ function pickForSlot(
   return { player: choice.player, level: choice.fit.level }
 }
 
-function buildLineup(
+/**
+ * Same deterministic pick as buildLineup, exposed so any other caller that
+ * needs a real (fictional) squad for a target strength — not just the
+ * scouting directory — can build one without a second implementation. The
+ * weekly tournament's AI opponents (lib/weeklyLeague/liveMatch.ts) are the
+ * other user.
+ */
+export function buildLineup(
   formationKey: FormationKey,
   targetOvr: number,
   rng: () => number,
