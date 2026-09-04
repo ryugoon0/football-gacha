@@ -263,6 +263,23 @@ Edge Function 기반(진짜 엔진, 진짜 재현 가능한 시드)으로 옮겨
   롤백 블록 안에서 실행 — 4개 등급 모두 16팀·752경기(리그 720 + 컵 16강
   32)·컵 16타이가 만들어지는 것을 확인했습니다.
 
+### 안전망 큐를 서버가 비운다 (`drain_stale_weekly_fixtures`)
+
+실유저가 낀 경기는 Edge Function만 정산할 수 있어서, 예전엔 누군가 앱을
+열어 `weekly-fixture-live`를 호출해야 큐가 비워졌다(대안 B). 이제 pg_cron이
+5분마다(`2-59/5`) pg_net으로 같은 함수의 `drain_stale` 액션을 호출한다.
+인증은 전용 공유 토큰 `x-drain-token`(Edge Function 비밀
+`WEEKLY_DRAIN_TOKEN` = Vault `drain_token`)이고, 게이트웨이 JWT 자리에는
+공개 anon 키(Vault `anon_key`)를 보낸다. 큐가 비어 있으면 호출하지 않는다.
+토큰을 바꾸려면 두 곳(Vault, `supabase secrets set`)을 같이 바꾼다.
+
+### 지난 주 결과 배너 (`lib/weeklyLeague/recap.ts`)
+
+새 주 그룹에 들어간 뒤 처음 경쟁 리그 탭을 열면 직전 주 그룹의 최종
+순위(`standings()` 재계산)와 등급 이동(승격/강등/잔류)을 배너로 보여 주고,
+비서 셋이 각자 말투로 같은 사실을 말한다. 「확인」을 누르면 그 주 id가
+localStorage에 남아 다시 뜨지 않는다.
+
 ### 득점 순위 (`weekly_goal_scorers`)
 
 실제 엔진으로 정산되는 경기(실유저가 낀 경기)는 득점자를 카드 uid로

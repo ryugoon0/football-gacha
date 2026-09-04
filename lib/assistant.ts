@@ -14,6 +14,8 @@
  */
 import { casualModeLocked, miniGamesLeft, pvpMatchesLeft, type DailyState } from './daily'
 import type { GameState } from './types'
+import { notifyAssistantSettings } from './assistantHints'
+import type { WeeklyRecap } from './weeklyLeague/recap'
 
 export type AssistantId = 'hanareum' | 'seojian' | 'baeksoyeon'
 export type AssistantMode = 'safe' | 'open'
@@ -115,6 +117,7 @@ export function saveAssistantMode(mode: AssistantMode): void {
   } catch {
     // Storage unavailable — the choice just does not persist.
   }
+  notifyAssistantSettings()
 }
 
 export function loadAssistantQuiet(): boolean {
@@ -131,6 +134,7 @@ export function saveAssistantQuiet(quiet: boolean): void {
   } catch {
     // ignore
   }
+  notifyAssistantSettings()
 }
 
 /** What the assistant can look at when choosing a line. */
@@ -149,6 +153,26 @@ export interface AssistantContext {
   minuteKst?: number
   /** Wall clock, so a just-finished match is briefed only while it is fresh. */
   nowMs?: number
+  /** Last week's league result, while the new week's banner is still unseen. */
+  recap?: WeeklyRecap | null
+}
+
+/** One line about where last week sent the club — the same facts, three voices. */
+export function recapLine(id: AssistantId, recap: WeeklyRecap): AssistantSpeech {
+  const rank = `${recap.rank}위`
+  if (id === 'hanareum') {
+    if (recap.movement === 'up') return { text: `감독님!! 지난주 ${rank}로 승격이에요! ${recap.newTier}등급이면 상대가 세지겠지만, 우리도 세졌잖아요!`, expression: 'determined' }
+    if (recap.movement === 'down') return { text: `지난주 ${rank}… ${recap.newTier}등급으로 내려왔어요. 괜찮아요, 이번 주에 바로 올라가면 돼요. 스쿼드부터 볼까요?`, expression: 'sad' }
+    return { text: `지난주 ${rank}로 ${recap.newTier}등급 잔류예요. 이번 주는 승격권까지 가 봐요!`, expression: 'soft' }
+  }
+  if (id === 'seojian') {
+    if (recap.movement === 'up') return { text: `지난주 ${recap.w}승 ${recap.d}무 ${recap.l}패, ${rank}. 승격입니다. 상위 등급은 AI 기본 전력이 높습니다 — 선발 종합부터 다시 봅니다.`, expression: 'smile' }
+    if (recap.movement === 'down') return { text: `지난주 ${recap.w}승 ${recap.d}무 ${recap.l}패, ${rank}. 강등입니다. 실점 원인이 포지션 불일치라면 지금 고칠 수 있습니다.`, expression: 'frown' }
+    return { text: `지난주 ${recap.w}승 ${recap.d}무 ${recap.l}패, ${rank} 잔류. 승격권과의 차이는 승점 몇 점입니다. 팀 컬러를 점검하십시오.`, expression: 'base' }
+  }
+  if (recap.movement === 'up') return { text: `지난주 ${rank}, 승격 확정이에요. 순위 보상 히든 카드도 나왔을 테니 「보상 받기」부터 눌러 두세요.`, expression: 'surprised' }
+  if (recap.movement === 'down') return { text: `지난주 ${rank}로 강등됐어요. 대신 아래 등급은 보상 배율이 낮으니, 빨리 올라오는 게 돈이 됩니다.`, expression: 'serious' }
+  return { text: `지난주 ${rank} 잔류. 순위 보상은 나왔어요 — 안 받은 게 있으면 위 배너에서 챙기세요.`, expression: 'base' }
 }
 
 /** How long a finished match stays "just now" for the assistant's briefing. */
@@ -227,6 +251,7 @@ function hanareum(ctx: AssistantContext): AssistantSpeech {
   // A match that just ended is the one thing worth talking about, on any of her screens.
   const brief = briefing(ctx.state, ctx.nowMs)
   if (brief) return brief
+  if (ctx.recap && ctx.tab === 'home') return recapLine('hanareum', ctx.recap)
   if (ctx.tab === 'match') {
     if (casualModeLocked(daily)) {
       return { text: '감독님, 오늘 캐주얼 시즌은 끝났어요! 골드는 경쟁 리그에서 벌어 볼까요? 저도 볼게요.', expression: 'soft' }
@@ -288,6 +313,7 @@ function seojian(ctx: AssistantContext): AssistantSpeech {
   if (ctx.squadGaps && ctx.squadGaps.injured > 0) {
     return { text: `선발에 부상 ${ctx.squadGaps.injured}명. 컨디션 수치가 아니라 결장입니다 — 교체하십시오.`, expression: 'frown' }
   }
+  if (ctx.recap && ctx.tab === 'squad') return recapLine('seojian', ctx.recap)
   if (ctx.tab === 'club') {
     return {
       text: pick(
@@ -317,6 +343,7 @@ function seojian(ctx: AssistantContext): AssistantSpeech {
 function baeksoyeon(ctx: AssistantContext): AssistantSpeech {
   const seed = ctx.hourKst + Math.floor(ctx.state.gold / 1000)
   if (ctx.tab === 'weekly') {
+    if (ctx.recap) return recapLine('baeksoyeon', ctx.recap)
     if ((ctx.unclaimedRewards ?? 0) > 0) {
       return { text: `받지 않은 보상이 ${ctx.unclaimedRewards!.toLocaleString('ko-KR')}G 있어요. 챙겨 두세요 — 안 받는다고 늘진 않아요.`, expression: 'surprised' }
     }

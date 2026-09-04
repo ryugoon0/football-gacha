@@ -13,6 +13,7 @@ import {
   saveAssistantQuiet,
   type AssistantMode,
 } from '../lib/assistant'
+import { useAssistantHints } from '../lib/assistantHints'
 import { evaluateSquad, missingSlots } from '../lib/squad'
 import { HOT_TIME_HOURS_KST, KST_OFFSET_MINUTES } from '../lib/weeklyLeague/config'
 import { useGame } from './GameProvider'
@@ -28,12 +29,15 @@ export default function AssistantCard({ tab }: { tab: string }) {
   const [mode, setMode] = useState<AssistantMode>('open')
   const [quiet, setQuiet] = useState(false)
   const [hydrated, setHydrated] = useState(false)
+  const hints = useAssistantHints()
 
+  // Re-read the browser's choices whenever any screen (this card, the account
+  // panel) saves them — settingsVersion ticks on every save.
   useEffect(() => {
     setMode(loadAssistantMode())
     setQuiet(loadAssistantQuiet())
     setHydrated(true)
-  }, [])
+  }, [hints.settingsVersion])
 
   const id = assistantForTab(tab)
 
@@ -65,11 +69,12 @@ export default function AssistantCard({ tab }: { tab: string }) {
       minuteKst: kst.getUTCMinutes(),
       nowMs: now,
       nextKickoffHotTime: HOT_TIME_HOURS_KST.includes(nextHour),
+      recap: hints.recap,
     })
     // The line is meant to hold still while the screen is open; it reads the
     // save when the tab, squad, latest result or the minute changes, not on every render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, tab, squadGaps, state.daily, state.season.round, state.season.finished, state.gold, state.history[0]?.id, minuteTick])
+  }, [id, tab, squadGaps, state.daily, state.season.round, state.season.finished, state.gold, state.history[0]?.id, minuteTick, hints.recap])
 
   if (!id || !hydrated) return null
   const who = ASSISTANTS[id]

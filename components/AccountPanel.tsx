@@ -6,6 +6,7 @@ import { summarize } from '../lib/cloudSave'
 import { publicLineupOf } from '../lib/publicClub'
 import { evaluateSquad } from '../lib/squad'
 import { BUILD_REF, checkConnection, configStatus, getSupabase } from '../lib/supabase'
+import AssistantSettings from './AssistantSettings'
 import { useGame } from './GameProvider'
 
 /**
@@ -175,6 +176,7 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
                 기기에서 같은 계정으로 로그인하면 이어서 할 수 있습니다.
               </p>
             </div>
+            <AssistantSettings />
             <section className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
               <div className="flex items-start justify-between gap-3">
                 <div>

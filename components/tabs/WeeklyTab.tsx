@@ -6,6 +6,8 @@ import ModeBadge from '../ModeBadge'
 import WeeklyLiveMatch from '../WeeklyLiveMatch'
 import { getSupabase } from '../../lib/supabase'
 import { catchUpWeeklyGroup, claimWeeklyRewards, fetchUnclaimedWeeklyRewards, type WeeklyRewardRow } from '../../lib/weeklyLive'
+import { setAssistantHints } from '../../lib/assistantHints'
+import { loadWeeklyRecap, markRecapSeen, recapSeen, type WeeklyRecap } from '../../lib/weeklyLeague/recap'
 import { isHotTime } from '../../lib/weeklyLeague/rewards'
 import { standings, type StandingsMatch, type StandingsResult } from '../../lib/weeklyLeague/standings'
 
@@ -82,6 +84,8 @@ export default function WeeklyTab() {
   const [fixtures, setFixtures] = useState<FixtureRow[]>([])
   const [cupTies, setCupTies] = useState<CupTieRow[]>([])
   const [scorerRows, setScorerRows] = useState<ScorerRow[]>([])
+  /** Last week's result, until the manager dismisses the banner. */
+  const [recap, setRecap] = useState<WeeklyRecap | null>(null)
   /** The fixture open in the live view (my own matches only). */
   const [openFixture, setOpenFixture] = useState<number | null>(null)
 
@@ -136,6 +140,11 @@ export default function WeeklyTab() {
     // server could already have judged (docs/WEEKLY_LIVE_MATCH_DESIGN.md).
     await catchUpWeeklyGroup(row.group_id)
     void fetchUnclaimedWeeklyRewards().then(setRewards)
+    void loadWeeklyRecap(supabase, userId, nextMembership).then((result) => {
+      const fresh = result && !recapSeen(result.weekId) ? result : null
+      setRecap(fresh)
+      setAssistantHints({ recap: fresh })
+    })
 
     const [membersRes, fixturesRes, competitionsRes, scorersRes] = await Promise.all([
       supabase.from('weekly_league_members').select('slot, kind, club_name').eq('group_id', row.group_id),
@@ -281,9 +290,48 @@ export default function WeeklyTab() {
     )
   }
 
+  const dismissRecap = () => {
+    if (recap) markRecapSeen(recap.weekId)
+    setRecap(null)
+    setAssistantHints({ recap: null })
+  }
+
   return (
     <div className="space-y-4">
       <ModeBadge />
+      {recap && (
+        <section
+          className={`rounded-2xl border p-4 ${
+            recap.movement === 'up'
+              ? 'border-emerald-400/40 bg-emerald-400/10'
+              : recap.movement === 'down'
+                ? 'border-rose-400/40 bg-rose-400/10'
+                : 'border-white/10 bg-slate-900/60'
+          }`}
+        >
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400">지난 주 결과</div>
+              <div className="mt-1 text-base font-black text-white">
+                {recap.movement === 'up' && `🎉 ${recap.newTier}등급 승격!`}
+                {recap.movement === 'down' && `${recap.newTier}등급 강등`}
+                {recap.movement === 'stay' && `${recap.newTier}등급 잔류`}
+              </div>
+              <div className="mt-1 text-xs text-slate-300">
+                {recap.prevTier}등급 {recap.rank}위 · {recap.w}승 {recap.d}무 {recap.l}패 · 승점 {recap.points}
+              </div>
+              <p className="mt-1 text-[11px] text-slate-500">순위 보상 히든 카드는 위 「보상 받기」에서 받습니다.</p>
+            </div>
+            <button
+              type="button"
+              onClick={dismissRecap}
+              className="shrink-0 rounded-lg bg-white/10 px-2.5 py-1.5 text-xs font-bold text-slate-200"
+            >
+              확인
+            </button>
+          </div>
+        </section>
+      )}
       <div className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-white/10 bg-slate-900/60 p-3">
         <span className="text-xs font-bold text-slate-300">
           {membership.tier}등급 · {clubName(membership.slot)}

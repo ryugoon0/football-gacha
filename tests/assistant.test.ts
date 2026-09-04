@@ -62,6 +62,20 @@ describe('assistants', () => {
     expect(stale.text).not.toContain('1:2')
   })
 
+  it('tells the club where last week sent it, in each voice, before anything else', () => {
+    const state = initialState()
+    const recap = { weekId: 'regular-2026-09-07', prevTier: 1, newTier: 0, rank: 2, points: 40, w: 12, d: 4, l: 2, movement: 'up' as const }
+    const home = assistantSpeech('hanareum', { tab: 'home', state, hourKst: 10, squadGaps: { empty: 0, injured: 0 }, recap })
+    expect(home.text).toContain('승격')
+    expect(home.expression).toBe('determined')
+    const squad = assistantSpeech('seojian', { tab: 'squad', state, hourKst: 10, squadGaps: { empty: 0, injured: 0 }, recap })
+    expect(squad.text).toContain('12승 4무 2패')
+    const weekly = assistantSpeech('baeksoyeon', { tab: 'weekly', state, hourKst: 10, unclaimedRewards: 500, recap })
+    expect(weekly.text).toContain('승격')
+    const down = assistantSpeech('hanareum', { tab: 'home', state, hourKst: 10, squadGaps: { empty: 0, injured: 0 }, recap: { ...recap, prevTier: 0, newTier: 1, rank: 15, movement: 'down' } })
+    expect(down.expression).toBe('sad')
+  })
+
   it('counts down to the next weekly kick-off only inside the schedule', () => {
     expect(minutesToNextKickoff(14, 52)).toBe(8)
     expect(minutesToNextKickoff(14, 30)).toBeNull()
