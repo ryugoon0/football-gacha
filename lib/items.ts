@@ -20,9 +20,13 @@ export type ItemId =
   | 'friendlyTicket'
   | 'vaultPermit'
   | 'shardPouch'
+  // 작전카드 — 경쟁 리그 경기 시작 전에 쓰는 한 판짜리 전술 지시 (lib/weeklyLeague/tacticCards.ts).
+  | 'cardAllOutAttack'
+  | 'cardCalmDefence'
+  | 'cardQuickCounter'
 
-/** What an item is used on. */
-export type ItemTarget = 'card' | 'club'
+/** What an item is used on. 'match' is played from the live screen before a weekly kick-off. */
+export type ItemTarget = 'card' | 'club' | 'match'
 
 export interface ItemDef {
   id: ItemId
@@ -108,6 +112,36 @@ export const ITEMS: Record<ItemId, ItemDef> = {
     icon: '🧧',
     gold: 2000,
     shards: null,
+    dailyLimit: 3,
+  },
+  cardAllOutAttack: {
+    id: 'cardAllOutAttack',
+    name: '작전카드 · 총공격 지시',
+    note: '경쟁 리그 경기 시작 전에 씁니다. 킥오프 15분간 공격 가담·크로스 급증, 대가로 뒷공간이 열립니다. 한 경기 한 장.',
+    target: 'match',
+    icon: '🔥',
+    gold: 1200,
+    shards: 60,
+    dailyLimit: 3,
+  },
+  cardCalmDefence: {
+    id: 'cardCalmDefence',
+    name: '작전카드 · 침착한 수비',
+    note: '경쟁 리그 경기 시작 전에 씁니다. 킥오프 15분간 라인을 내리고 압박을 좁혀 실점 위험 감소, 대가로 역습·템포가 무뎌집니다. 한 경기 한 장.',
+    target: 'match',
+    icon: '🛡️',
+    gold: 1200,
+    shards: 60,
+    dailyLimit: 3,
+  },
+  cardQuickCounter: {
+    id: 'cardQuickCounter',
+    name: '작전카드 · 즉각 역습',
+    note: '경쟁 리그 경기 시작 전에 씁니다. 킥오프 10분간 되찾은 공을 즉시 앞으로, 대가로 빌드업이 거칠어집니다. 한 경기 한 장.',
+    target: 'match',
+    icon: '⚡',
+    gold: 1200,
+    shards: 60,
     dailyLimit: 3,
   },
 }

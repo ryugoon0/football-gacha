@@ -20,10 +20,12 @@ import { advance, createMatch, shapeFromSquad, type Dot, type LiveMatchState, ty
 import { tune } from '../tuning'
 import { hashString, seededRandom } from '../random'
 import { evaluateSquad } from '../squad'
-import { normalizeTactic, type TacticSetup } from '../tactics'
+import { DEFAULT_TACTIC, normalizeTactic, type TacticSetup } from '../tactics'
 import { paramsFromSetup } from '../tactics/bridge'
+import type { TacticalParams } from '../tactics/params'
 import type { Card, Squad } from '../types'
 import { SQUAD_RULES } from './config'
+import { TACTIC_CARDS, applyCardOverlay, isTacticCardId, type TacticCardId } from './tacticCards'
 
 export const LIVE_REAL_SECONDS_PER_MINUTE = 10
 export const LIVE_MATCH_MINUTES = 90
@@ -67,6 +69,8 @@ export type LiveCommandPayload =
   | { kind: 'substitution'; slotId: string; inUid: string }
   /** "Swap whoever is tired" — the casual-mode button, decided server-side from live legs. */
   | { kind: 'autosub' }
+  /** A 작전카드, playable only before kick-off (stamped minute 0); one per side per match. */
+  | { kind: 'card'; cardId: TacticCardId }
 
 export interface LiveCommand {
   id: number
@@ -98,6 +102,22 @@ export interface ReplayResult {
   applied: AppliedCommand[]
   rejected: RejectedCommand[]
   subsUsed: Record<LiveSide, number>
+  /** The 작전카드 each side played at kick-off, if any. */
+  cardPlayed: Record<LiveSide, TacticCardId | null>
+}
+
+/** A side's parameters as the engine will read them — whatever level of detail the setup carries. */
+function sideParams(setup: MatchSetup, side: LiveSide): TacticalParams {
+  if (side === 'home') {
+    return setup.phased?.base ?? setup.params ?? paramsFromSetup(setup.tactic ?? DEFAULT_TACTIC)
+  }
+  return setup.opponentTactics?.phased?.base ?? setup.opponentTactics?.params ?? paramsFromSetup(DEFAULT_TACTIC)
+}
+
+/** Puts explicit parameters on a side, replacing any phased plan (params are what the card moves). */
+function withSideParams(setup: MatchSetup, side: LiveSide, params: TacticalParams): MatchSetup {
+  if (side === 'home') return { ...setup, params, phased: undefined }
+  return { ...setup, opponentTactics: { profile: setup.opponentTactics?.profile, params, phased: undefined } }
 }
 
 /** Same swap the casual-mode screen does: bench player into a slot, starter out. */
@@ -187,6 +207,12 @@ function applyCommand(
   const side = command.side
   const material = side === 'home' ? home : away
 
+  if (command.payload.kind === 'card') {
+    // Cards are handled by replayFixture itself (they need the clock for
+    // expiry); reaching here means one was sent after kick-off.
+    return { setup, home, away, subs: 0, reason: '작전카드는 킥오프 전에만 쓸 수 있습니다' }
+  }
+
   if (command.payload.kind === 'autosub') {
     if (subsUsed[side] >= SQUAD_RULES.maxSubsPerMatch) {
       return { setup, home, away, subs: 0, reason: `교체 인원을 모두 썼습니다 (${SQUAD_RULES.maxSubsPerMatch}명)` }
@@ -253,10 +279,16 @@ export function replayFixture(
   let away = snapshot.away
   const rng = seededRandom(hashString(seed))
   let state = createMatch(setup)
-  const pending = [...commands].sort((a, b) => a.id - b.id)
+  // Receipt order is minute order in real data (both come from the server
+  // clock); sorting by minute first keeps the queue well-formed even if not.
+  const pending = [...commands].sort((a, b) => a.minute - b.minute || a.id - b.id)
   const applied: AppliedCommand[] = []
   const rejected: RejectedCommand[] = []
   const subsUsed: Record<LiveSide, number> = { home: 0, away: 0 }
+  const cardPlayed: Record<LiveSide, TacticCardId | null> = { home: null, away: null }
+  /** While a card is live, a side's parameters without the card — restored when it wears off. */
+  const cardBase: Record<LiveSide, TacticalParams | null> = { home: null, away: null }
+  const cardExpiry: Record<LiveSide, number> = { home: -1, away: -1 }
 
   const note = (side: LiveSide, text: string) => {
     state = { ...state, events: [...state.events, { minute: state.minute, type: 'note', side, text }] }
@@ -269,15 +301,47 @@ export function replayFixture(
     subsUsed[side] += result.subs
   }
 
+  /** A 작전카드 at kick-off: overlay now, remember what to restore, and when. */
+  const playCard = (command: LiveCommand & { payload: { kind: 'card' } }): string | null => {
+    const side = command.side
+    if (command.minute > 0 || state.minute > 0) return '작전카드는 킥오프 전에만 쓸 수 있습니다'
+    if (cardPlayed[side]) return '작전카드는 한 경기에 한 장만 쓸 수 있습니다'
+    if (!isTacticCardId(command.payload.cardId)) return '알 수 없는 작전카드입니다'
+    const card = TACTIC_CARDS[command.payload.cardId]
+    const base = sideParams(setup, side)
+    cardBase[side] = base
+    cardExpiry[side] = card.durationMinutes
+    cardPlayed[side] = card.id
+    setup = withSideParams(setup, side, applyCardOverlay(base, card))
+    return null
+  }
+
   const flush = () => {
     while (pending.length && pending[0].minute <= state.minute) {
       const command = pending.shift()!
+      if (command.payload.kind === 'card') {
+        const reason = playCard(command as LiveCommand & { payload: { kind: 'card' } })
+        if (reason) {
+          rejected.push({ id: command.id, side: command.side, reason })
+          continue
+        }
+        const card = TACTIC_CARDS[command.payload.cardId]
+        const text = `작전카드 — ${card.name} (${card.durationMinutes}분)`
+        applied.push({ id: command.id, side: command.side, appliedMinute: 0, text })
+        note(command.side, text)
+        continue
+      }
       const result = applyCommand(command, setup, home, away, subsUsed, state)
       if (result.reason) {
         rejected.push({ id: command.id, side: command.side, reason: result.reason })
         continue
       }
       take(result, command.side)
+      // A new tactic while a card is live keeps the card on top of it.
+      if (command.payload.kind === 'tactic' && cardPlayed[command.side] && cardExpiry[command.side] > state.minute) {
+        cardBase[command.side] = sideParams(setup, command.side)
+        setup = withSideParams(setup, command.side, applyCardOverlay(cardBase[command.side]!, TACTIC_CARDS[cardPlayed[command.side]!]))
+      }
       applied.push({ id: command.id, side: command.side, appliedMinute: state.minute, text: result.text ?? '' })
       note(command.side, result.text ?? '')
     }
@@ -306,6 +370,14 @@ export function replayFixture(
   const toFullTime = limit >= LIVE_MATCH_MINUTES
   while (!state.finished && (toFullTime || state.minute < limit)) {
     state = advance(state, setup, rng)
+    // A card wears off on the clock, stoppage or not.
+    for (const side of ['home', 'away'] as LiveSide[]) {
+      if (cardBase[side] && state.minute >= cardExpiry[side]) {
+        setup = withSideParams(setup, side, cardBase[side]!)
+        cardBase[side] = null
+        note(side, `작전카드 효과 종료 — ${TACTIC_CARDS[cardPlayed[side]!].name}`)
+      }
+    }
     // A stoppage is the only moment a manager may step in — same rule as the
     // casual-mode screen (useLiveEngine.canIntervene).
     if (state.stoppage) flush()
@@ -316,7 +388,7 @@ export function replayFixture(
       rejected.push({ id: command.id, side: command.side, reason: '경기가 끝나기 전에 적용할 순간이 없었습니다' })
     }
   }
-  return { state, setup, home, away, applied, rejected, subsUsed }
+  return { state, setup, home, away, applied, rejected, subsUsed, cardPlayed }
 }
 
 /** What a viewer gets: the match as it stands, nothing private (no seed, no other side's plan). */

@@ -230,14 +230,20 @@ export default function ItemsTab() {
                           {item.note}
                         </p>
                       </div>
-                      <button
-                        onClick={() =>
-                          item.target === 'club' ? spendOnClub(id) : setPicking(picking === id ? null : id)
-                        }
-                        className="shrink-0 whitespace-nowrap rounded-lg bg-emerald-400 px-3 py-1.5 text-[11px] font-black text-slate-900"
-                      >
-                        {item.target === 'club' ? '사용' : picking === id ? '닫기' : '선수 고르기'}
-                      </button>
+                      {item.target === 'match' ? (
+                        <span className="shrink-0 whitespace-nowrap rounded-lg bg-white/10 px-3 py-1.5 text-[11px] font-bold text-slate-300">
+                          경쟁 리그 입장 화면에서 사용
+                        </span>
+                      ) : (
+                        <button
+                          onClick={() =>
+                            item.target === 'club' ? spendOnClub(id) : setPicking(picking === id ? null : id)
+                          }
+                          className="shrink-0 whitespace-nowrap rounded-lg bg-emerald-400 px-3 py-1.5 text-[11px] font-black text-slate-900"
+                        >
+                          {item.target === 'club' ? '사용' : picking === id ? '닫기' : '선수 고르기'}
+                        </button>
+                      )}
                     </div>
 
                     {picking === id && (

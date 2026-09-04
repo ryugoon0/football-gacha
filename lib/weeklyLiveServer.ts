@@ -11,6 +11,7 @@ export { ENGINE_VERSION, runToEnd, toResult } from './matchEngine'
 export { buildWeeklyMatchSetup, kickoffSquadOf, starterAverageOf, weeklyAiAnchor, weeklyAiSquad } from './weeklyLeague/liveMatch'
 export { TIERS } from './weeklyLeague/config'
 export { rewardsForFixture } from './weeklyLeague/rewards'
+export { TACTIC_CARDS, isTacticCardId } from './weeklyLeague/tacticCards'
 export { evaluateSquad } from './squad'
 export {
   LIVE_WINDOW_SECONDS,

@@ -11,6 +11,9 @@ import {
 } from '../lib/weeklyLive'
 import PitchView from './PitchView'
 import { isHotTime } from '../lib/weeklyLeague/rewards'
+import { TACTIC_CARDS, TACTIC_CARD_IDS, type TacticCardId } from '../lib/weeklyLeague/tacticCards'
+import { itemCount } from '../lib/items'
+import { useGame } from './GameProvider'
 
 /**
  * A live weekly fixture, as the server replays it. Polls get_state every few
@@ -25,6 +28,7 @@ import { isHotTime } from '../lib/weeklyLeague/rewards'
 const POLL_MS = 5000
 
 export default function WeeklyLiveMatch({ fixtureId, onClose }: { fixtureId: number; onClose: () => void }) {
+  const { state: game, consumeItem } = useGame()
   const [view, setView] = useState<WeeklyLiveView | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
@@ -71,6 +75,21 @@ export default function WeeklyLiveMatch({ fixtureId, onClose }: { fixtureId: num
         ? `전술 지시 접수 (${result.minute}분) — 다음 정지 때 적용됩니다`
         : LIVE_COMMAND_FAILURE_MESSAGE[result.reason] ?? '지시를 보내지 못했습니다.',
     )
+    void refresh()
+  }
+
+  const playCard = async (cardId: TacticCardId) => {
+    setBusy(true)
+    const result = await submitWeeklyCommand(fixtureId, { kind: 'card', cardId })
+    setBusy(false)
+    if (result.ok) {
+      // The server accepted it against the save it last saw; the copy comes
+      // off the shelf here so the next sync agrees.
+      if (!result.duplicate) consumeItem(cardId)
+      setNotice(`작전카드 ${TACTIC_CARDS[cardId].name} — 킥오프와 함께 발동합니다`)
+    } else {
+      setNotice(LIVE_COMMAND_FAILURE_MESSAGE[result.reason] ?? '작전카드를 쓰지 못했습니다.')
+    }
     void refresh()
   }
 
@@ -202,6 +221,46 @@ export default function WeeklyLiveMatch({ fixtureId, onClose }: { fixtureId: num
               교체 {lineup.subsLeft}명 남음{live.pending ? ` · 대기 중 ${live.pending}` : ''}
             </span>
           </div>
+
+          {live.status === 'pre' && (
+            <div className="rounded-lg border border-fuchsia-400/30 bg-fuchsia-400/10 p-2.5">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-bold text-fuchsia-200">작전카드 · 킥오프 전에만, 한 경기 한 장</span>
+                {live.cardPlayed && (
+                  <span className="text-[11px] font-black text-fuchsia-100">
+                    {TACTIC_CARDS[live.cardPlayed].icon} {TACTIC_CARDS[live.cardPlayed].name} 발동 예정
+                  </span>
+                )}
+              </div>
+              {!live.cardPlayed && (
+                <div className="mt-2 grid gap-1.5 sm:grid-cols-3">
+                  {TACTIC_CARD_IDS.map((id) => {
+                    const held = itemCount(game.items, id)
+                    const card = TACTIC_CARDS[id]
+                    return (
+                      <button
+                        key={id}
+                        onClick={() => void playCard(id)}
+                        disabled={busy || held <= 0}
+                        title={card.note}
+                        className="rounded-md bg-white/10 px-2 py-1.5 text-left text-[11px] text-slate-200 hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-40"
+                      >
+                        <div className="font-bold">
+                          {card.icon} {card.name} <span className="text-slate-400">×{held}</span>
+                        </div>
+                        <div className="text-[10px] text-slate-400">{card.durationMinutes}분</div>
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
+              {!live.cardPlayed && TACTIC_CARD_IDS.every((id) => itemCount(game.items, id) <= 0) && (
+                <p className="mt-1.5 text-[10px] text-slate-500">
+                  가진 작전카드가 없습니다 — 상점에서 골드·조각으로, 또는 리그 주 종료·컵 결승 보상으로 얻습니다.
+                </p>
+              )}
+            </div>
+          )}
 
           <div className="grid gap-2 sm:grid-cols-2">
             {(

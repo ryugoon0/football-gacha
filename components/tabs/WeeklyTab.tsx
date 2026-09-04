@@ -62,7 +62,7 @@ function fmtKst(iso: string): string {
 }
 
 export default function WeeklyTab() {
-  const { account, grantGold } = useGame()
+  const { account, grantGold, grantItems } = useGame()
   const [rewards, setRewards] = useState<WeeklyRewardRow[]>([])
   const [claiming, setClaiming] = useState(false)
   const [claimNotice, setClaimNotice] = useState<string | null>(null)
@@ -175,7 +175,8 @@ export default function WeeklyTab() {
     void load()
   }, [load])
 
-  const unclaimedTotal = rewards.reduce((total, row) => total + row.amount, 0)
+  const unclaimedTotal = rewards.filter((row) => row.kind !== 'tactic_card').reduce((total, row) => total + row.amount, 0)
+  const unclaimedCards = rewards.filter((row) => row.kind === 'tactic_card').reduce((total, row) => total + row.amount, 0)
   const claim = async () => {
     setClaiming(true)
     const result = await claimWeeklyRewards()
@@ -185,8 +186,13 @@ export default function WeeklyTab() {
       return
     }
     if (result.amount > 0) grantGold(result.amount)
+    if (result.cards.length > 0) grantItems(result.cards.map((line) => ({ id: line.cardId, count: line.count })))
     setRewards([])
-    setClaimNotice(result.amount > 0 ? `${result.amount.toLocaleString('ko-KR')}G를 받았습니다.` : '받을 보상이 없습니다.')
+    const parts = [
+      result.amount > 0 ? `${result.amount.toLocaleString('ko-KR')}G` : '',
+      ...result.cards.map((line) => `작전카드 ${line.count}장`),
+    ].filter(Boolean)
+    setClaimNotice(parts.length ? `${parts.join(' · ')}를 받았습니다.` : '받을 보상이 없습니다.')
   }
 
   const clubName = (slot: number) => members.find((m) => m.slot === slot)?.club_name ?? `슬롯 ${slot}`
@@ -284,7 +290,8 @@ export default function WeeklyTab() {
                 <div className="text-[10px] font-bold uppercase tracking-widest text-amber-300">경쟁 리그 보상</div>
                 {rewards.length > 0 ? (
                   <div className="mt-1 text-sm text-slate-100">
-                    받지 않은 보상 <b className="text-amber-200">{unclaimedTotal.toLocaleString('ko-KR')}G</b> · {rewards.length}건
+                    받지 않은 보상 <b className="text-amber-200">{unclaimedTotal.toLocaleString('ko-KR')}G</b>
+                    {unclaimedCards > 0 && <> · 작전카드 <b className="text-fuchsia-200">{unclaimedCards}장</b></>} · {rewards.length}건
                     {rewards.some((row) => row.kind === 'hot_time') && (
                       <span className="ml-2 rounded bg-rose-500/20 px-1.5 py-0.5 text-[10px] font-black text-rose-200">🔥 핫타임 포함</span>
                     )}

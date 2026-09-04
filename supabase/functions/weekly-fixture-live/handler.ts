@@ -31,6 +31,7 @@ import {
   lineupViewOf,
   liveWindowEnded,
   matchMinuteAt,
+  isTacticCardId,
   publicStateOf,
   replayFixture,
   rewardsForFixture,
@@ -416,13 +417,27 @@ export async function handle(request: Request, env: Env): Promise<Response> {
 
     if (body.action === 'submit_command') {
       const kind =
-        body.kind === 'tactic' || body.kind === 'substitution' || body.kind === 'autosub' ? body.kind : null
+        body.kind === 'tactic' || body.kind === 'substitution' || body.kind === 'autosub' || body.kind === 'card'
+          ? body.kind
+          : null
       if (!kind) return refuse('bad command')
       const payload = body.payload && typeof body.payload === 'object' ? (body.payload as Record<string, unknown>) : kind === 'autosub' ? {} : null
       if (!payload) return refuse('bad command')
       if (kind === 'tactic' && (!payload.tactic || typeof payload.tactic !== 'object')) return refuse('bad command')
       if (kind === 'substitution' && (typeof payload.slotId !== 'string' || typeof payload.inUid !== 'string')) {
         return refuse('bad command')
+      }
+      if (kind === 'card') {
+        // Before kick-off only, and only a card the manager actually holds —
+        // read from their save, the same source every other check uses.
+        if (!isTacticCardId(payload.cardId)) return refuse('bad command')
+        const cardContext = await contextOf(url, server, fixtureId)
+        const kickoff = cardContext.fixture?.scheduledAtUtc ? Date.parse(cardContext.fixture.scheduledAtUtc) : 0
+        if (!kickoff || now >= kickoff) return refuse('card after kickoff')
+        const saveRes = await fetch(`${url}/rest/v1/saves?user_id=eq.${user.id}&select=data`, { headers: server })
+        const saveRows = saveRes.ok ? ((await saveRes.json()) as { data?: { items?: Record<string, unknown> } }[]) : []
+        const held = Number(saveRows[0]?.data?.items?.[payload.cardId as string] ?? 0)
+        if (!(held >= 1)) return refuse('no such card')
       }
       const key = typeof body.idempotencyKey === 'string' ? body.idempotencyKey.slice(0, 80) : ''
       if (!key) return refuse('bad command')
@@ -501,6 +516,7 @@ export async function handle(request: Request, env: Env): Promise<Response> {
         secondsToKickoff: Math.ceil((scheduledAt - now) / 1000),
         lineup: side ? lineupViewOf(replay, side, playerNameOf) : null,
         pending: side ? context.commands.filter((c) => c.side === side).length : 0,
+        cardPlayed: side ? replay.cardPlayed[side] : null,
       })
     }
 
@@ -535,6 +551,7 @@ export async function handle(request: Request, env: Env): Promise<Response> {
       rejected: replay.rejected,
       lineup: side ? lineupViewOf(replay, side, playerNameOf) : null,
       pending: side ? context.commands.filter((c) => c.side === side && !replay.applied.some((a) => a.id === c.id) && !replay.rejected.some((r) => r.id === c.id)).length : 0,
+      cardPlayed: side ? replay.cardPlayed[side] : null,
     })
   } catch (error) {
     return json(

@@ -108,6 +108,10 @@ export type Action =
   | { type: 'claimMission'; id: MissionId }
   /** Gold the server already decided (weekly league rewards) reaching the save. */
   | { type: 'grantGold'; amount: number }
+  /** Items the server granted (작전카드 from a league week or cup final) reaching the save. */
+  | { type: 'grantItems'; items: { id: ItemId; count: number }[] }
+  /** One item spent somewhere the server already accepted it (a 작전카드 played before kick-off). */
+  | { type: 'consumeItem'; id: ItemId }
   | { type: 'finishGuide' }
   | { type: 'renameClub'; club: string }
   | { type: 'expandVault' }
@@ -735,6 +739,20 @@ export function reducer(state: GameState, action: Action): GameState {
     case 'grantGold': {
       if (!Number.isFinite(action.amount) || action.amount <= 0) return state
       return { ...state, gold: state.gold + Math.round(action.amount) }
+    }
+
+    case 'grantItems': {
+      const items = { ...state.items }
+      for (const line of action.items) {
+        if (!ITEMS[line.id] || !Number.isFinite(line.count) || line.count <= 0) continue
+        items[line.id] = Math.min(999, itemCount(items, line.id) + Math.floor(line.count))
+      }
+      return { ...state, items }
+    }
+
+    case 'consumeItem': {
+      if (itemCount(state.items, action.id) <= 0) return state
+      return { ...state, items: { ...state.items, [action.id]: itemCount(state.items, action.id) - 1 } }
     }
 
     case 'claimMission': {

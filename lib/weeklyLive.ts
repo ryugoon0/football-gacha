@@ -3,6 +3,7 @@ import { getSupabase } from './supabase'
 import type { TacticSetup } from './tactics'
 import { emptyMetrics } from './tactics/metrics'
 import type { MatchEvent } from './types'
+import type { TacticCardId } from './weeklyLeague/tacticCards'
 
 /**
  * Client side of the live weekly fixture — docs/WEEKLY_LIVE_MATCH_DESIGN.md.
@@ -110,6 +111,7 @@ export type WeeklyLiveView =
       secondsToKickoff: number
       lineup: LiveLineupView | null
       pending: number
+      cardPlayed?: TacticCardId | null
     }
   | {
       status: 'live'
@@ -122,6 +124,7 @@ export type WeeklyLiveView =
       rejected: LiveRejected[]
       lineup: LiveLineupView | null
       pending: number
+      cardPlayed?: TacticCardId | null
     }
   | { status: 'played'; side: LiveSide | null; home: string; away: string; state: LivePublicState; applied?: LiveApplied[]; rejected?: LiveRejected[] }
 
@@ -148,6 +151,8 @@ export type LiveCommandInput =
   | { kind: 'substitution'; slotId: string; inUid: string }
   /** Server decides who is tired from live legs — same rule as casual mode's button. */
   | { kind: 'autosub' }
+  /** A 작전카드 from the manager's items, before kick-off only. */
+  | { kind: 'card'; cardId: TacticCardId }
 
 export async function submitWeeklyCommand(
   fixtureId: number,
@@ -173,8 +178,9 @@ export async function submitWeeklyCommand(
 export interface WeeklyRewardRow {
   id: number
   fixture_id: number
-  kind: 'match' | 'hot_time'
+  kind: 'match' | 'hot_time' | 'tactic_card'
   amount: number
+  card_id?: string | null
   created_at: string
 }
 
@@ -184,22 +190,34 @@ export async function fetchUnclaimedWeeklyRewards(): Promise<WeeklyRewardRow[]> 
   if (!supabase) return []
   const { data, error } = await supabase
     .from('weekly_rewards')
-    .select('id, fixture_id, kind, amount, created_at')
+    .select('id, fixture_id, kind, amount, card_id, created_at')
     .is('claimed_at', null)
     .order('created_at', { ascending: false })
   if (error || !data) return []
   return data as WeeklyRewardRow[]
 }
 
-/** Collects everything unclaimed; the amount returned is what the save should gain. */
-export async function claimWeeklyRewards(): Promise<{ ok: true; amount: number; lines: number } | { ok: false; reason: string }> {
+export interface ClaimedCards {
+  cardId: TacticCardId
+  count: number
+}
+
+/** Collects everything unclaimed; the gold and cards returned are what the save should gain. */
+export async function claimWeeklyRewards(): Promise<
+  { ok: true; amount: number; lines: number; cards: ClaimedCards[] } | { ok: false; reason: string }
+> {
   const supabase = getSupabase()
   if (!supabase) return { ok: false, reason: 'offline' }
   const { data, error } = await supabase.rpc('claim_weekly_rewards')
   if (error) return { ok: false, reason: 'unavailable' }
-  const body = data as { ok?: boolean; reason?: string; amount?: number; lines?: number } | null
+  const body = data as
+    | { ok?: boolean; reason?: string; amount?: number; lines?: number; cards?: { cardId?: string; count?: number }[] }
+    | null
   if (!body?.ok) return { ok: false, reason: body?.reason ?? 'unavailable' }
-  return { ok: true, amount: Number(body.amount ?? 0), lines: Number(body.lines ?? 0) }
+  const cards = (body.cards ?? [])
+    .filter((line): line is { cardId: string; count: number } => typeof line.cardId === 'string' && Number(line.count) > 0)
+    .map((line) => ({ cardId: line.cardId as TacticCardId, count: Number(line.count) }))
+  return { ok: true, amount: Number(body.amount ?? 0), lines: Number(body.lines ?? 0), cards }
 }
 
 export const LIVE_COMMAND_FAILURE_MESSAGE: Record<string, string> = {
@@ -211,4 +229,6 @@ export const LIVE_COMMAND_FAILURE_MESSAGE: Record<string, string> = {
   'live window over': '경기가 끝나 지시를 낼 수 없습니다.',
   'already settled': '이미 끝난 경기입니다.',
   'bad command': '지시 내용이 올바르지 않습니다.',
+  'card after kickoff': '작전카드는 킥오프 전에만 쓸 수 있습니다.',
+  'no such card': '그 작전카드를 갖고 있지 않습니다. 상점에서 사거나 리그·컵 보상으로 얻을 수 있습니다.',
 }

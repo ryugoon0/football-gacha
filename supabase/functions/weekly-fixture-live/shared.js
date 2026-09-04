@@ -5309,6 +5309,51 @@ function rewardsForFixture(args) {
   return lines;
 }
 
+// lib/weeklyLeague/tacticCards.ts
+var TACTIC_CARDS = {
+  cardAllOutAttack: {
+    id: "cardAllOutAttack",
+    name: "\uCD1D\uACF5\uACA9 \uC9C0\uC2DC",
+    note: "\uD0A5\uC624\uD504\uBD80\uD130 15\uBD84\uAC04 \uACF5\uACA9 \uAC00\uB2F4\uACFC \uD06C\uB85C\uC2A4\uAC00 \uD06C\uAC8C \uB298\uACE0 \uB9C8\uBB34\uB9AC\uB97C \uC11C\uB450\uB985\uB2C8\uB2E4. \uB300\uAC00\uB85C \uADF8 \uC2DC\uAC04 \uB3D9\uC548 \uB4B7\uACF5\uAC04\uC774 \uC5F4\uB9BD\uB2C8\uB2E4.",
+    icon: "\u{1F525}",
+    effect: { forwardRunFrequency: 25, crossFrequency: 20, finalThirdPatience: -20 },
+    tradeoff: { restDefence: -30, regroupPriority: -20 },
+    durationMinutes: 15
+  },
+  cardCalmDefence: {
+    id: "cardCalmDefence",
+    name: "\uCE68\uCC29\uD55C \uC218\uBE44",
+    note: "\uD0A5\uC624\uD504\uBD80\uD130 15\uBD84\uAC04 \uB77C\uC778\uC744 \uB0B4\uB9AC\uACE0 \uC555\uBC15 \uAC04\uACA9\uC744 \uC881\uD600 \uC2E4\uC810 \uC704\uD5D8\uC744 \uC904\uC785\uB2C8\uB2E4. \uB300\uAC00\uB85C \uC5ED\uC2B5\uACFC \uD15C\uD3EC\uAC00 \uBB34\uB38C\uC9D1\uB2C8\uB2E4.",
+    icon: "\u{1F6E1}\uFE0F",
+    effect: { defensiveLine: -15, pressingCompactness: 20 },
+    tradeoff: { counterAttackIntensity: -25, tempo: -15 },
+    durationMinutes: 15
+  },
+  cardQuickCounter: {
+    id: "cardQuickCounter",
+    name: "\uC989\uAC01 \uC5ED\uC2B5",
+    note: "\uD0A5\uC624\uD504\uBD80\uD130 10\uBD84\uAC04 \uACF5\uC744 \uB418\uCC3E\uB294 \uC989\uC2DC \uBE60\uB974\uAC8C \uC55E\uC73C\uB85C \uB098\uAC11\uB2C8\uB2E4. \uB300\uAC00\uB85C \uBE4C\uB4DC\uC5C5\uC774 \uAC70\uCE60\uC5B4\uC9D1\uB2C8\uB2E4.",
+    icon: "\u26A1",
+    effect: { counterAttackIntensity: 30, transitionSpeed: 20 },
+    tradeoff: { buildUpShortness: -20 },
+    durationMinutes: 10
+  }
+};
+var TACTIC_CARD_IDS = Object.keys(TACTIC_CARDS);
+function isTacticCardId(value) {
+  return typeof value === "string" && value in TACTIC_CARDS;
+}
+function applyCardOverlay(base, card) {
+  const next = { ...base };
+  for (const [key, delta] of Object.entries({ ...card.effect, ...card.tradeoff })) {
+    if (typeof delta !== "number") continue;
+    const effect = card.effect[key] ?? 0;
+    const tradeoff = card.tradeoff[key] ?? 0;
+    next[key] = base[key] + effect + tradeoff;
+  }
+  return normalizeParams(next);
+}
+
 // lib/weeklyLeague/liveReplay.ts
 var LIVE_REAL_SECONDS_PER_MINUTE = 10;
 var LIVE_MATCH_MINUTES = 90;
@@ -5319,6 +5364,16 @@ function matchMinuteAt(scheduledAtMs, nowMs) {
 }
 function liveWindowEnded(scheduledAtMs, nowMs) {
   return nowMs >= scheduledAtMs + LIVE_WINDOW_SECONDS * 1e3;
+}
+function sideParams(setup, side) {
+  if (side === "home") {
+    return setup.phased?.base ?? setup.params ?? paramsFromSetup(setup.tactic ?? DEFAULT_TACTIC);
+  }
+  return setup.opponentTactics?.phased?.base ?? setup.opponentTactics?.params ?? paramsFromSetup(DEFAULT_TACTIC);
+}
+function withSideParams(setup, side, params) {
+  if (side === "home") return { ...setup, params, phased: void 0 };
+  return { ...setup, opponentTactics: { profile: setup.opponentTactics?.profile, params, phased: void 0 } };
 }
 function applySub(squad, slotId, inUid) {
   const outUid = squad.slots[slotId];
@@ -5369,6 +5424,9 @@ function tiredSubsFor(side, setup, home, away, state, subsUsed) {
 function applyCommand(command, setup, home, away, subsUsed, state) {
   const side = command.side;
   const material = side === "home" ? home : away;
+  if (command.payload.kind === "card") {
+    return { setup, home, away, subs: 0, reason: "\uC791\uC804\uCE74\uB4DC\uB294 \uD0A5\uC624\uD504 \uC804\uC5D0\uB9CC \uC4F8 \uC218 \uC788\uC2B5\uB2C8\uB2E4" };
+  }
   if (command.payload.kind === "autosub") {
     if (subsUsed[side] >= SQUAD_RULES.maxSubsPerMatch) {
       return { setup, home, away, subs: 0, reason: `\uAD50\uCCB4 \uC778\uC6D0\uC744 \uBAA8\uB450 \uC37C\uC2B5\uB2C8\uB2E4 (${SQUAD_RULES.maxSubsPerMatch}\uBA85)` };
@@ -5410,10 +5468,13 @@ function replayFixture(snapshot, seed, commands, targetMinute = LIVE_MATCH_MINUT
   let away = snapshot.away;
   const rng = seededRandom(hashString(seed));
   let state = createMatch(setup);
-  const pending = [...commands].sort((a, b) => a.id - b.id);
+  const pending = [...commands].sort((a, b) => a.minute - b.minute || a.id - b.id);
   const applied = [];
   const rejected = [];
   const subsUsed = { home: 0, away: 0 };
+  const cardPlayed = { home: null, away: null };
+  const cardBase = { home: null, away: null };
+  const cardExpiry = { home: -1, away: -1 };
   const note = (side, text) => {
     state = { ...state, events: [...state.events, { minute: state.minute, type: "note", side, text }] };
   };
@@ -5423,15 +5484,44 @@ function replayFixture(snapshot, seed, commands, targetMinute = LIVE_MATCH_MINUT
     away = result.away;
     subsUsed[side] += result.subs;
   };
+  const playCard = (command) => {
+    const side = command.side;
+    if (command.minute > 0 || state.minute > 0) return "\uC791\uC804\uCE74\uB4DC\uB294 \uD0A5\uC624\uD504 \uC804\uC5D0\uB9CC \uC4F8 \uC218 \uC788\uC2B5\uB2C8\uB2E4";
+    if (cardPlayed[side]) return "\uC791\uC804\uCE74\uB4DC\uB294 \uD55C \uACBD\uAE30\uC5D0 \uD55C \uC7A5\uB9CC \uC4F8 \uC218 \uC788\uC2B5\uB2C8\uB2E4";
+    if (!isTacticCardId(command.payload.cardId)) return "\uC54C \uC218 \uC5C6\uB294 \uC791\uC804\uCE74\uB4DC\uC785\uB2C8\uB2E4";
+    const card = TACTIC_CARDS[command.payload.cardId];
+    const base = sideParams(setup, side);
+    cardBase[side] = base;
+    cardExpiry[side] = card.durationMinutes;
+    cardPlayed[side] = card.id;
+    setup = withSideParams(setup, side, applyCardOverlay(base, card));
+    return null;
+  };
   const flush = () => {
     while (pending.length && pending[0].minute <= state.minute) {
       const command = pending.shift();
+      if (command.payload.kind === "card") {
+        const reason = playCard(command);
+        if (reason) {
+          rejected.push({ id: command.id, side: command.side, reason });
+          continue;
+        }
+        const card = TACTIC_CARDS[command.payload.cardId];
+        const text = `\uC791\uC804\uCE74\uB4DC \u2014 ${card.name} (${card.durationMinutes}\uBD84)`;
+        applied.push({ id: command.id, side: command.side, appliedMinute: 0, text });
+        note(command.side, text);
+        continue;
+      }
       const result = applyCommand(command, setup, home, away, subsUsed, state);
       if (result.reason) {
         rejected.push({ id: command.id, side: command.side, reason: result.reason });
         continue;
       }
       take(result, command.side);
+      if (command.payload.kind === "tactic" && cardPlayed[command.side] && cardExpiry[command.side] > state.minute) {
+        cardBase[command.side] = sideParams(setup, command.side);
+        setup = withSideParams(setup, command.side, applyCardOverlay(cardBase[command.side], TACTIC_CARDS[cardPlayed[command.side]]));
+      }
       applied.push({ id: command.id, side: command.side, appliedMinute: state.minute, text: result.text ?? "" });
       note(command.side, result.text ?? "");
     }
@@ -5450,6 +5540,13 @@ function replayFixture(snapshot, seed, commands, targetMinute = LIVE_MATCH_MINUT
   const toFullTime = limit >= LIVE_MATCH_MINUTES;
   while (!state.finished && (toFullTime || state.minute < limit)) {
     state = advance(state, setup, rng);
+    for (const side of ["home", "away"]) {
+      if (cardBase[side] && state.minute >= cardExpiry[side]) {
+        setup = withSideParams(setup, side, cardBase[side]);
+        cardBase[side] = null;
+        note(side, `\uC791\uC804\uCE74\uB4DC \uD6A8\uACFC \uC885\uB8CC \u2014 ${TACTIC_CARDS[cardPlayed[side]].name}`);
+      }
+    }
     if (state.stoppage) flush();
   }
   if (state.finished) {
@@ -5457,7 +5554,7 @@ function replayFixture(snapshot, seed, commands, targetMinute = LIVE_MATCH_MINUT
       rejected.push({ id: command.id, side: command.side, reason: "\uACBD\uAE30\uAC00 \uB05D\uB098\uAE30 \uC804\uC5D0 \uC801\uC6A9\uD560 \uC21C\uAC04\uC774 \uC5C6\uC5C8\uC2B5\uB2C8\uB2E4" });
     }
   }
-  return { state, setup, home, away, applied, rejected, subsUsed };
+  return { state, setup, home, away, applied, rejected, subsUsed, cardPlayed };
 }
 function publicStateOf(state) {
   const ticks = state.possessionTicks.home + state.possessionTicks.away;
@@ -5498,10 +5595,12 @@ export {
   ENGINE_VERSION,
   KNOB_KEYS,
   LIVE_WINDOW_SECONDS,
+  TACTIC_CARDS,
   TIERS,
   buildWeeklyMatchSetup,
   evaluateSquad,
   getPlayer,
+  isTacticCardId,
   kickoffSquadOf,
   lineupViewOf,
   liveWindowEnded,

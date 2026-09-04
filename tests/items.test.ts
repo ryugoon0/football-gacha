@@ -54,7 +54,7 @@ describe('the item list', () => {
       const item = ITEMS[id]
       expect(item.gold !== null || item.shards !== null).toBe(true)
       expect(item.note.length).toBeGreaterThan(5)
-      expect(['card', 'club']).toContain(item.target)
+      expect(['card', 'club', 'match']).toContain(item.target)
     }
   })
 

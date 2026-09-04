@@ -81,7 +81,11 @@ export interface SharedReplayResult {
   applied: { id: number; side: SharedSide; appliedMinute: number; text: string }[]
   rejected: { id: number; side: SharedSide; reason: string }[]
   subsUsed: Record<SharedSide, number>
+  cardPlayed: Record<SharedSide, string | null>
 }
+
+export const TACTIC_CARDS: Record<string, { id: string; name: string; durationMinutes: number }>
+export function isTacticCardId(value: unknown): boolean
 
 export interface SharedPublicState {
   minute: number
