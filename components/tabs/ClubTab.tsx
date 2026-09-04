@@ -368,7 +368,7 @@ export default function ClubTab() {
               setClubFilter('all')
             }}
             aria-label="리그 필터"
-            className="rounded-lg bg-white/5 px-3 py-1.5 text-sm font-semibold text-slate-200 outline-none"
+            className="rounded-lg bg-white/5 px-3 py-1.5 text-sm font-semibold text-slate-200 outline-none [color-scheme:dark]"
           >
             <option value="all">모든 리그</option>
             {leagues.map((league) => (
@@ -381,7 +381,7 @@ export default function ClubTab() {
             value={clubFilter}
             onChange={(event) => setClubFilter(event.target.value)}
             aria-label="클럽 필터"
-            className="rounded-lg bg-white/5 px-3 py-1.5 text-sm font-semibold text-slate-200 outline-none"
+            className="rounded-lg bg-white/5 px-3 py-1.5 text-sm font-semibold text-slate-200 outline-none [color-scheme:dark]"
           >
             <option value="all">모든 클럽</option>
             {clubs.map((club) => (
@@ -393,7 +393,7 @@ export default function ClubTab() {
           <select
             value={sortKey}
             onChange={(event) => setSortKey(event.target.value as SortKey)}
-            className="ml-auto rounded-lg bg-white/5 px-3 py-1.5 text-sm font-semibold text-slate-200 outline-none"
+            className="ml-auto rounded-lg bg-white/5 px-3 py-1.5 text-sm font-semibold text-slate-200 outline-none [color-scheme:dark]"
           >
             <option value="ovr">전력순</option>
             <option value="rarity">등급순</option>

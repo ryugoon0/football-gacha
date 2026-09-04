@@ -233,7 +233,7 @@ export default function WeeklyLiveMatch({ fixtureId, onClose }: { fixtureId: num
             <select
               value={subSlot}
               onChange={(event) => setSubSlot(event.target.value)}
-              className="min-w-0 flex-1 rounded-lg bg-white/10 px-2 py-1.5 text-xs text-slate-100"
+              className="min-w-0 flex-1 rounded-lg bg-white/10 px-2 py-1.5 text-xs text-slate-100 [color-scheme:dark]"
             >
               <option value="">빠질 선수</option>
               {lineup.slots
@@ -248,7 +248,7 @@ export default function WeeklyLiveMatch({ fixtureId, onClose }: { fixtureId: num
             <select
               value={subIn}
               onChange={(event) => setSubIn(event.target.value)}
-              className="min-w-0 flex-1 rounded-lg bg-white/10 px-2 py-1.5 text-xs text-slate-100"
+              className="min-w-0 flex-1 rounded-lg bg-white/10 px-2 py-1.5 text-xs text-slate-100 [color-scheme:dark]"
             >
               <option value="">들어올 선수</option>
               {lineup.bench.map((player) => (
