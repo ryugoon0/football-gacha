@@ -1,5 +1,5 @@
 /**
- * 작전카드 — a one-off card for a weekly fixture, chosen before kick-off,
+ * 히든 카드 — a one-off card for a weekly fixture, chosen before kick-off,
  * that boosts part of the side while a stated match condition holds.
  *
  * The original 풋볼데이 cards worked this way ("공은 둥글다: 능력치가 5 이상

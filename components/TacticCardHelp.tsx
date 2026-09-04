@@ -5,7 +5,7 @@ import { ITEMS } from '../lib/items'
 import { TACTIC_CARDS, TACTIC_CARD_IDS, boostLabel } from '../lib/weeklyLeague/tacticCards'
 
 /**
- * How 작전카드 work, in one screen — opened from the pre-match card panel and
+ * How 히든 카드 work, in one screen — opened from the pre-match card panel and
  * from a card in the shop. The rules here are read straight from the card
  * definitions, so the list never drifts from what the server enforces.
  */
@@ -24,7 +24,7 @@ export default function TacticCardHelp({ onClose }: { onClose: () => void }) {
     <div
       role="dialog"
       aria-modal="true"
-      aria-label="작전카드 사용법"
+      aria-label="히든 카드 사용법"
       className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 p-0 sm:items-center sm:p-4"
       onClick={onClose}
     >
@@ -34,7 +34,7 @@ export default function TacticCardHelp({ onClose }: { onClose: () => void }) {
       >
         <div className="flex items-start justify-between gap-3">
           <div>
-            <div className="text-[10px] font-bold uppercase tracking-widest text-fuchsia-300">작전카드</div>
+            <div className="text-[10px] font-bold uppercase tracking-widest text-fuchsia-300">히든 카드</div>
             <h3 className="mt-1 text-lg font-black text-white">사용법</h3>
           </div>
           <button
@@ -63,13 +63,13 @@ export default function TacticCardHelp({ onClose }: { onClose: () => void }) {
           <li className="flex gap-3">
             <span className="shrink-0 font-black text-fuchsia-300">3</span>
             <span>
-              <b>지시 패널 위 작전카드 칸에서 한 장을 누릅니다.</b> 한 경기에 한 장만, 킥오프 전에만 됩니다. 킥오프가 지나면 칸이 사라집니다.
+              <b>지시 패널 위 히든 카드 칸에서 한 장을 누릅니다.</b> 한 경기에 한 장만, 킥오프 전에만 됩니다. 킥오프가 지나면 칸이 사라집니다.
             </span>
           </li>
           <li className="flex gap-3">
             <span className="shrink-0 font-black text-fuchsia-300">4</span>
             <span>
-              <b>조건이 맞는 동안 자동으로 발동합니다.</b> 서버가 매 분 조건을 확인해 켜지고 꺼지며, 피드에 「작전카드 발동 / 대기」로 찍힙니다.
+              <b>조건이 맞는 동안 자동으로 발동합니다.</b> 서버가 매 분 조건을 확인해 켜지고 꺼지며, 피드에 「히든 카드 발동 / 대기」로 찍힙니다.
               조건이 한 번도 맞지 않으면 아무 효과가 없습니다 — 카드는 경기가 어떻게 흘러갈지에 대한 예측입니다.
             </span>
           </li>

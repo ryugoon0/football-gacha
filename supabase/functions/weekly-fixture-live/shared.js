@@ -5557,7 +5557,7 @@ function applyCommand(command, setup, home, away, subsUsed, state) {
   const side = command.side;
   const material = side === "home" ? home : away;
   if (command.payload.kind === "card") {
-    return { setup, home, away, subs: 0, reason: "\uC791\uC804\uCE74\uB4DC\uB294 \uD0A5\uC624\uD504 \uC804\uC5D0\uB9CC \uC4F8 \uC218 \uC788\uC2B5\uB2C8\uB2E4" };
+    return { setup, home, away, subs: 0, reason: "\uD788\uB4E0 \uCE74\uB4DC\uB294 \uD0A5\uC624\uD504 \uC804\uC5D0\uB9CC \uC4F8 \uC218 \uC788\uC2B5\uB2C8\uB2E4" };
   }
   if (command.payload.kind === "autosub") {
     if (subsUsed[side] >= SQUAD_RULES.maxSubsPerMatch) {
@@ -5631,9 +5631,9 @@ function replayFixture(snapshot, seed, commands, targetMinute = LIVE_MATCH_MINUT
     subsUsed[side] += result.subs;
   };
   const playCard = (command) => {
-    if (command.minute > 0 || state.minute > 0) return "\uC791\uC804\uCE74\uB4DC\uB294 \uD0A5\uC624\uD504 \uC804\uC5D0\uB9CC \uC4F8 \uC218 \uC788\uC2B5\uB2C8\uB2E4";
-    if (cardPlayed[command.side]) return "\uC791\uC804\uCE74\uB4DC\uB294 \uD55C \uACBD\uAE30\uC5D0 \uD55C \uC7A5\uB9CC \uC4F8 \uC218 \uC788\uC2B5\uB2C8\uB2E4";
-    if (!isTacticCardId(command.payload.cardId)) return "\uC54C \uC218 \uC5C6\uB294 \uC791\uC804\uCE74\uB4DC\uC785\uB2C8\uB2E4";
+    if (command.minute > 0 || state.minute > 0) return "\uD788\uB4E0 \uCE74\uB4DC\uB294 \uD0A5\uC624\uD504 \uC804\uC5D0\uB9CC \uC4F8 \uC218 \uC788\uC2B5\uB2C8\uB2E4";
+    if (cardPlayed[command.side]) return "\uD788\uB4E0 \uCE74\uB4DC\uB294 \uD55C \uACBD\uAE30\uC5D0 \uD55C \uC7A5\uB9CC \uC4F8 \uC218 \uC788\uC2B5\uB2C8\uB2E4";
+    if (!isTacticCardId(command.payload.cardId)) return "\uC54C \uC218 \uC5C6\uB294 \uD788\uB4E0 \uCE74\uB4DC\uC785\uB2C8\uB2E4";
     cardPlayed[command.side] = command.payload.cardId;
     return null;
   };
@@ -5647,7 +5647,7 @@ function replayFixture(snapshot, seed, commands, targetMinute = LIVE_MATCH_MINUT
           continue;
         }
         const card = TACTIC_CARDS[command.payload.cardId];
-        const text = `\uC791\uC804\uCE74\uB4DC \u2014 ${card.name} (${card.when})`;
+        const text = `\uD788\uB4E0 \uCE74\uB4DC \u2014 ${card.name} (${card.when})`;
         applied.push({ id: command.id, side: command.side, appliedMinute: 0, text });
         note(command.side, text);
         continue;
@@ -5678,8 +5678,8 @@ function replayFixture(snapshot, seed, commands, targetMinute = LIVE_MATCH_MINUT
       if (!cardId) continue;
       const card = TACTIC_CARDS[cardId];
       const on = card.triggers(cardContextOf(setup, state, side, snapshot.kickoffUtcMs));
-      if (on && !cardActive[side]) note(side, `\uC791\uC804\uCE74\uB4DC \uBC1C\uB3D9 \u2014 ${card.name} (${boostLabel(card.boost)})`);
-      if (!on && cardActive[side]) note(side, `\uC791\uC804\uCE74\uB4DC \uB300\uAE30 \u2014 ${card.name}`);
+      if (on && !cardActive[side]) note(side, `\uD788\uB4E0 \uCE74\uB4DC \uBC1C\uB3D9 \u2014 ${card.name} (${boostLabel(card.boost)})`);
+      if (!on && cardActive[side]) note(side, `\uD788\uB4E0 \uCE74\uB4DC \uB300\uAE30 \u2014 ${card.name}`);
       cardActive[side] = on;
       if (!on) continue;
       run = side === "home" ? { ...run, team: boostRating(run.team, card.boost) } : { ...run, opponentSquad: run.opponentSquad ? boostRating(run.opponentSquad, card.boost) : run.opponentSquad };

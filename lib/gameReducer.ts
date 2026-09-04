@@ -108,9 +108,9 @@ export type Action =
   | { type: 'claimMission'; id: MissionId }
   /** Gold the server already decided (weekly league rewards) reaching the save. */
   | { type: 'grantGold'; amount: number }
-  /** Items the server granted (작전카드 from a league week or cup final) reaching the save. */
+  /** Items the server granted (히든 카드 from a league week or cup final) reaching the save. */
   | { type: 'grantItems'; items: { id: ItemId; count: number }[] }
-  /** One item spent somewhere the server already accepted it (a 작전카드 played before kick-off). */
+  /** One item spent somewhere the server already accepted it (a 히든 카드 played before kick-off). */
   | { type: 'consumeItem'; id: ItemId }
   | { type: 'finishGuide' }
   | { type: 'renameClub'; club: string }

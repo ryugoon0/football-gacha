@@ -71,7 +71,7 @@ export type LiveCommandPayload =
   | { kind: 'substitution'; slotId: string; inUid: string }
   /** "Swap whoever is tired" — the casual-mode button, decided server-side from live legs. */
   | { kind: 'autosub' }
-  /** A 작전카드, playable only before kick-off (stamped minute 0); one per side per match. */
+  /** A 히든 카드, playable only before kick-off (stamped minute 0); one per side per match. */
   | { kind: 'card'; cardId: TacticCardId }
 
 export interface LiveCommand {
@@ -104,7 +104,7 @@ export interface ReplayResult {
   applied: AppliedCommand[]
   rejected: RejectedCommand[]
   subsUsed: Record<LiveSide, number>
-  /** The 작전카드 each side played at kick-off, if any. */
+  /** The 히든 카드 each side played at kick-off, if any. */
   cardPlayed: Record<LiveSide, TacticCardId | null>
   /** Whether each side's card is on at the target minute. */
   cardActive: Record<LiveSide, boolean>
@@ -200,7 +200,7 @@ function applyCommand(
   if (command.payload.kind === 'card') {
     // Cards are handled by replayFixture at kick-off; reaching here means one
     // was sent after it.
-    return { setup, home, away, subs: 0, reason: '작전카드는 킥오프 전에만 쓸 수 있습니다' }
+    return { setup, home, away, subs: 0, reason: '히든 카드는 킥오프 전에만 쓸 수 있습니다' }
   }
 
   if (command.payload.kind === 'autosub') {
@@ -273,7 +273,7 @@ function cardContextOf(setup: MatchSetup, state: LiveMatchState, side: LiveSide,
  * Replays the fixture from kick-off to `targetMinute` (or full time), applying
  * each command at the first stoppage on or after the minute it was received.
  * Commands are applied in receipt order, so two managers' orders at the same
- * stoppage resolve the same way for every viewer. A played 작전카드 is
+ * stoppage resolve the same way for every viewer. A played 히든 카드 is
  * checked every minute and, while its condition holds, the side is judged
  * `boost` points better — the setup the tick runs on is derived from the
  * commanded setup, never written back into it.
@@ -310,9 +310,9 @@ export function replayFixture(
   }
 
   const playCard = (command: LiveCommand & { payload: { kind: 'card' } }): string | null => {
-    if (command.minute > 0 || state.minute > 0) return '작전카드는 킥오프 전에만 쓸 수 있습니다'
-    if (cardPlayed[command.side]) return '작전카드는 한 경기에 한 장만 쓸 수 있습니다'
-    if (!isTacticCardId(command.payload.cardId)) return '알 수 없는 작전카드입니다'
+    if (command.minute > 0 || state.minute > 0) return '히든 카드는 킥오프 전에만 쓸 수 있습니다'
+    if (cardPlayed[command.side]) return '히든 카드는 한 경기에 한 장만 쓸 수 있습니다'
+    if (!isTacticCardId(command.payload.cardId)) return '알 수 없는 히든 카드입니다'
     cardPlayed[command.side] = command.payload.cardId
     return null
   }
@@ -327,7 +327,7 @@ export function replayFixture(
           continue
         }
         const card = TACTIC_CARDS[command.payload.cardId]
-        const text = `작전카드 — ${card.name} (${card.when})`
+        const text = `히든 카드 — ${card.name} (${card.when})`
         applied.push({ id: command.id, side: command.side, appliedMinute: 0, text })
         note(command.side, text)
         continue
@@ -363,8 +363,8 @@ export function replayFixture(
       if (!cardId) continue
       const card = TACTIC_CARDS[cardId]
       const on = card.triggers(cardContextOf(setup, state, side, snapshot.kickoffUtcMs))
-      if (on && !cardActive[side]) note(side, `작전카드 발동 — ${card.name} (${boostLabel(card.boost)})`)
-      if (!on && cardActive[side]) note(side, `작전카드 대기 — ${card.name}`)
+      if (on && !cardActive[side]) note(side, `히든 카드 발동 — ${card.name} (${boostLabel(card.boost)})`)
+      if (!on && cardActive[side]) note(side, `히든 카드 대기 — ${card.name}`)
       cardActive[side] = on
       if (!on) continue
       run =

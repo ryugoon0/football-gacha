@@ -35,7 +35,7 @@ const ctx = (over: Partial<CardContext> = {}): CardContext => ({
   ...over,
 })
 
-describe('작전카드 definitions', () => {
+describe('히든 카드 definitions', () => {
   it('every card is a shop item playable before a weekly match, with a condition and a boost', () => {
     for (const id of TACTIC_CARD_IDS) {
       const item = ITEMS[id]
@@ -88,7 +88,7 @@ describe('작전카드 definitions', () => {
   })
 })
 
-describe('작전카드 in a live fixture', () => {
+describe('히든 카드 in a live fixture', () => {
   it('is announced at kick-off and marked active while its condition holds', () => {
     const snapshot = snapshotOf()
     const command: LiveCommand = { id: 1, side: 'home', minute: 0, payload: { kind: 'card', cardId: 'cardFastStart' } }

@@ -102,9 +102,9 @@ export default function WeeklyLiveMatch({
       // The server accepted it against the save it last saw; the copy comes
       // off the shelf here so the next sync agrees.
       if (!result.duplicate) consumeItem(cardId)
-      setNotice(`작전카드 ${TACTIC_CARDS[cardId].name} — 킥오프와 함께 발동합니다`)
+      setNotice(`히든 카드 ${TACTIC_CARDS[cardId].name} — 킥오프와 함께 발동합니다`)
     } else {
-      setNotice(LIVE_COMMAND_FAILURE_MESSAGE[result.reason] ?? '작전카드를 쓰지 못했습니다.')
+      setNotice(LIVE_COMMAND_FAILURE_MESSAGE[result.reason] ?? '히든 카드를 쓰지 못했습니다.')
     }
     void refresh()
   }
@@ -243,7 +243,7 @@ export default function WeeklyLiveMatch({
             <div className="rounded-lg border border-fuchsia-400/30 bg-fuchsia-400/10 p-2.5">
               <div className="flex items-center justify-between gap-2">
                 <span className="text-[11px] font-bold text-fuchsia-200">
-                  작전카드 · 킥오프 전에만, 한 경기 한 장
+                  히든 카드 · 킥오프 전에만, 한 경기 한 장
                   <button
                     onClick={() => setShowHelp(true)}
                     className="ml-2 rounded bg-white/10 px-1.5 py-0.5 text-[10px] font-bold text-slate-200 hover:bg-white/20"
@@ -282,7 +282,7 @@ export default function WeeklyLiveMatch({
               )}
               {!live.cardPlayed && TACTIC_CARD_IDS.every((id) => itemCount(game.items, id) <= 0) && (
                 <p className="mt-1.5 text-[10px] text-slate-500">
-                  가진 작전카드가 없습니다 — 상점에서 골드·조각으로, 또는 리그 주 종료·컵 결승 보상으로 얻습니다.
+                  가진 히든 카드가 없습니다 — 상점에서 골드·조각으로, 또는 리그 주 종료·컵 결승 보상으로 얻습니다.
                 </p>
               )}
             </div>

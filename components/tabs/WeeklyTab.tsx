@@ -190,7 +190,7 @@ export default function WeeklyTab() {
     setRewards([])
     const parts = [
       result.amount > 0 ? `${result.amount.toLocaleString('ko-KR')}G` : '',
-      ...result.cards.map((line) => `작전카드 ${line.count}장`),
+      ...result.cards.map((line) => `히든 카드 ${line.count}장`),
     ].filter(Boolean)
     setClaimNotice(parts.length ? `${parts.join(' · ')}를 받았습니다.` : '받을 보상이 없습니다.')
   }
@@ -291,7 +291,7 @@ export default function WeeklyTab() {
                 {rewards.length > 0 ? (
                   <div className="mt-1 text-sm text-slate-100">
                     받지 않은 보상 <b className="text-amber-200">{unclaimedTotal.toLocaleString('ko-KR')}G</b>
-                    {unclaimedCards > 0 && <> · 작전카드 <b className="text-fuchsia-200">{unclaimedCards}장</b></>} · {rewards.length}건
+                    {unclaimedCards > 0 && <> · 히든 카드 <b className="text-fuchsia-200">{unclaimedCards}장</b></>} · {rewards.length}건
                     {rewards.some((row) => row.kind === 'hot_time') && (
                       <span className="ml-2 rounded bg-rose-500/20 px-1.5 py-0.5 text-[10px] font-black text-rose-200">🔥 핫타임 포함</span>
                     )}

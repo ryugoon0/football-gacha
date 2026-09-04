@@ -20,7 +20,7 @@ export type ItemId =
   | 'friendlyTicket'
   | 'vaultPermit'
   | 'shardPouch'
-  // 작전카드 — 경쟁 리그 경기 시작 전에 고르는 한 판짜리 조건부 능력치 카드 (lib/weeklyLeague/tacticCards.ts).
+  // 히든 카드 — 경쟁 리그 경기 시작 전에 고르는 한 판짜리 조건부 능력치 카드 (lib/weeklyLeague/tacticCards.ts).
   | 'cardUnderdog'
   | 'cardEvenMatch'
   | 'cardHomeCrowd'
@@ -125,7 +125,7 @@ export const ITEMS: Record<ItemId, ItemDef> = {
   },
   cardUnderdog: {
     id: 'cardUnderdog',
-    name: '작전카드 · 공은 원래 둥글다',
+    name: '히든 카드 · 공은 원래 둥글다',
     note: '경쟁 리그 경기 시작 전에 고릅니다. 상대 종합이 우리보다 5 이상 높은 경기에서 경기 내내 전원 모든 능력치 +5. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
     target: 'match',
     icon: '⚽',
@@ -135,7 +135,7 @@ export const ITEMS: Record<ItemId, ItemDef> = {
   },
   cardEvenMatch: {
     id: 'cardEvenMatch',
-    name: '작전카드 · 중원이 가른다',
+    name: '히든 카드 · 중원이 가른다',
     note: '경쟁 리그 경기 시작 전에 고릅니다. 두 팀 종합 차이가 5 미만인 경기에서 경기 내내 미드필더의 패스·드리블 +6. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
     target: 'match',
     icon: '⚖️',
@@ -145,7 +145,7 @@ export const ITEMS: Record<ItemId, ItemDef> = {
   },
   cardHomeCrowd: {
     id: 'cardHomeCrowd',
-    name: '작전카드 · 열두 번째 선수',
+    name: '히든 카드 · 열두 번째 선수',
     note: '경쟁 리그 경기 시작 전에 고릅니다. 홈 경기에서 경기 내내 전원 피지컬·속력 +6. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
     target: 'match',
     icon: '📣',
@@ -155,7 +155,7 @@ export const ITEMS: Record<ItemId, ItemDef> = {
   },
   cardAwayGrit: {
     id: 'cardAwayGrit',
-    name: '작전카드 · 원정 투혼',
+    name: '히든 카드 · 원정 투혼',
     note: '경쟁 리그 경기 시작 전에 고릅니다. 원정 경기에서 경기 내내 수비·골키퍼의 수비·피지컬 +6. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
     target: 'match',
     icon: '🚩',
@@ -165,7 +165,7 @@ export const ITEMS: Record<ItemId, ItemDef> = {
   },
   cardBigStage: {
     id: 'cardBigStage',
-    name: '작전카드 · 큰 경기에 강하다',
+    name: '히든 카드 · 큰 경기에 강하다',
     note: '경쟁 리그 경기 시작 전에 고릅니다. 중립 구장 경기(컵 결승·Masters Final)에서 경기 내내 공격진의 슈팅·드리블 +7. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
     target: 'match',
     icon: '🏟️',
@@ -175,7 +175,7 @@ export const ITEMS: Record<ItemId, ItemDef> = {
   },
   cardHotTime: {
     id: 'cardHotTime',
-    name: '작전카드 · 핫타임 집중',
+    name: '히든 카드 · 핫타임 집중',
     note: '경쟁 리그 경기 시작 전에 고릅니다. 핫타임(15시·21시) 킥오프 경기에서 경기 내내 전원 모든 능력치 +4. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
     target: 'match',
     icon: '🔥',
@@ -185,7 +185,7 @@ export const ITEMS: Record<ItemId, ItemDef> = {
   },
   cardChaser: {
     id: 'cardChaser',
-    name: '작전카드 · 추격자 본능',
+    name: '히든 카드 · 추격자 본능',
     note: '경쟁 리그 경기 시작 전에 고릅니다. 우리가 뒤지고 있는 동안 공격·미드필더의 슈팅·패스·드리블 +6. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
     target: 'match',
     icon: '🏃',
@@ -195,7 +195,7 @@ export const ITEMS: Record<ItemId, ItemDef> = {
   },
   cardLockdown: {
     id: 'cardLockdown',
-    name: '작전카드 · 리드는 지킨다',
+    name: '히든 카드 · 리드는 지킨다',
     note: '경쟁 리그 경기 시작 전에 고릅니다. 우리가 앞서고 있는 동안 수비·골키퍼의 수비·피지컬 +6. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
     target: 'match',
     icon: '🔒',
@@ -205,7 +205,7 @@ export const ITEMS: Record<ItemId, ItemDef> = {
   },
   cardFastStart: {
     id: 'cardFastStart',
-    name: '작전카드 · 초반 러시',
+    name: '히든 카드 · 초반 러시',
     note: '경쟁 리그 경기 시작 전에 고릅니다. 킥오프부터 20분까지 전원 속력 +8. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
     target: 'match',
     icon: '🚀',
@@ -215,7 +215,7 @@ export const ITEMS: Record<ItemId, ItemDef> = {
   },
   cardSecondHalf: {
     id: 'cardSecondHalf',
-    name: '작전카드 · 후반의 사나이',
+    name: '히든 카드 · 후반의 사나이',
     note: '경쟁 리그 경기 시작 전에 고릅니다. 후반전(45분 이후) 내내 공격진의 슈팅 +6. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
     target: 'match',
     icon: '🌙',
@@ -225,7 +225,7 @@ export const ITEMS: Record<ItemId, ItemDef> = {
   },
   cardLateLegs: {
     id: 'cardLateLegs',
-    name: '작전카드 · 지지 않는 다리',
+    name: '히든 카드 · 지지 않는 다리',
     note: '경쟁 리그 경기 시작 전에 고릅니다. 70분 이후 경기 끝까지 전원 피지컬·속력 +6. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
     target: 'match',
     icon: '🦵',
@@ -235,7 +235,7 @@ export const ITEMS: Record<ItemId, ItemDef> = {
   },
   cardGoalmouth: {
     id: 'cardGoalmouth',
-    name: '작전카드 · 골문 앞 집중',
+    name: '히든 카드 · 골문 앞 집중',
     note: '경쟁 리그 경기 시작 전에 고릅니다. 상대 슈팅이 8개를 넘은 뒤부터 골키퍼·수비의 수비 +7. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
     target: 'match',
     icon: '🧤',

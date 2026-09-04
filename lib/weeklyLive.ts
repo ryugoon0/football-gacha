@@ -151,7 +151,7 @@ export type LiveCommandInput =
   | { kind: 'substitution'; slotId: string; inUid: string }
   /** Server decides who is tired from live legs — same rule as casual mode's button. */
   | { kind: 'autosub' }
-  /** A 작전카드 from the manager's items, before kick-off only. */
+  /** A 히든 카드 from the manager's items, before kick-off only. */
   | { kind: 'card'; cardId: TacticCardId }
 
 export async function submitWeeklyCommand(
@@ -229,6 +229,6 @@ export const LIVE_COMMAND_FAILURE_MESSAGE: Record<string, string> = {
   'live window over': '경기가 끝나 지시를 낼 수 없습니다.',
   'already settled': '이미 끝난 경기입니다.',
   'bad command': '지시 내용이 올바르지 않습니다.',
-  'card after kickoff': '작전카드는 킥오프 전에만 쓸 수 있습니다.',
-  'no such card': '그 작전카드를 갖고 있지 않습니다. 상점에서 사거나 리그·컵 보상으로 얻을 수 있습니다.',
+  'card after kickoff': '히든 카드는 킥오프 전에만 쓸 수 있습니다.',
+  'no such card': '그 히든 카드를 갖고 있지 않습니다. 상점에서 사거나 리그·컵 보상으로 얻을 수 있습니다.',
 }
