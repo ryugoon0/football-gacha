@@ -7,10 +7,34 @@
 
 ```bash
 pip install -r tools/facepack/requirements.txt
-# GPU PC: CUDA 빌드로 바꾸면 업스케일이 수십 배 빠르다
-pip install torch --index-url https://download.pytorch.org/whl/cu124
-pip install onnxruntime-gpu
 ```
+
+## GPU (선택)
+
+CUDA GPU 가 있으면 업스케일이 수십 배 빠르다.
+
+```bash
+pip install torch --index-url https://download.pytorch.org/whl/cu128
+pip uninstall -y onnxruntime
+pip install "onnxruntime-gpu==1.22.0"
+```
+
+- **onnxruntime-gpu 버전을 torch 의 CUDA 세대에 맞춘다.** 최신 onnxruntime-gpu
+  (1.27 이상)는 CUDA 13 런타임(`cublasLt64_13.dll`)을 찾는데, torch cu128 은
+  CUDA 12 DLL 만 갖고 있어서 인물 분리가 조용히 CPU 로 떨어진다. CUDA 12 계열인
+  1.22.0 을 쓰면 맞는다(RTX 3070 · Python 3.12 에서 확인).
+- `onnxruntime`(CPU 판)과 `onnxruntime-gpu` 를 같이 깔아 두면 충돌한다. GPU 를
+  쓸 때는 CPU 판을 지운다.
+- CUDA 툴킷을 따로 설치할 필요는 없다. `cutout.py` 가 rembg 보다 torch 를 먼저
+  import 해서 torch 의 lib 폴더를 DLL 검색 경로에 얹는다.
+- 잘 붙었는지 확인:
+
+```bash
+python -c "import torch; from rembg import new_session; print(new_session('u2net_human_seg', providers=['CUDAExecutionProvider','CPUExecutionProvider']).inner_session.get_providers())"
+```
+
+  `['CUDAExecutionProvider', ...]` 가 나와야 한다. `CUDAExecutionProvider was
+  requested but the session is running on CPU` 경고가 뜨면 위 버전이 어긋난 것.
 
 첫 실행 때 Real-ESRGAN 가중치(67MB)와 rembg 인물 분리 모델을 자동으로 내려받는다.
 

@@ -1,6 +1,7 @@
 # CPU 기본. GPU PC 에서는 아래 두 줄을 CUDA 빌드로 바꾼다:
-#   pip install torch --index-url https://download.pytorch.org/whl/cu124
-#   pip install onnxruntime-gpu
+#   pip install torch --index-url https://download.pytorch.org/whl/cu128
+#   pip uninstall -y onnxruntime && pip install "onnxruntime-gpu==1.22.0"
+# onnxruntime-gpu 는 torch 의 CUDA 세대와 맞춰야 한다(아래 README 「GPU」 참고).
 torch
 rembg
 onnxruntime

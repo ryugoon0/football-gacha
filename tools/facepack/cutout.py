@@ -1,5 +1,15 @@
 import sys, io
 from PIL import Image
+
+# rembg 보다 torch 를 먼저 불러온다. Windows 에서 onnxruntime-gpu 는 CUDA 런타임
+# (cublasLt64_12.dll, cudnn64_9.dll)을 PATH 에서 찾는데, CUDA 툴킷을 따로 깔지 않은
+# PC 에서는 torch 의 CUDA 빌드가 가진 lib 폴더가 유일한 출처다. torch 를 먼저
+# import 하면 그 폴더가 DLL 검색 경로에 등록돼 CUDAExecutionProvider 가 뜬다.
+try:
+    import torch  # noqa: F401
+except Exception:
+    pass
+
 from rembg import remove, new_session
 
 # onnxruntime-gpu 가 설치돼 있으면 CUDA 를 쓴다(없으면 CPU).
