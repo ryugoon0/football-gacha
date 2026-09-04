@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useGame } from '../GameProvider'
 import ModeBadge from '../ModeBadge'
+import WeeklyLiveMatch from '../WeeklyLiveMatch'
 import { getSupabase } from '../../lib/supabase'
 import { catchUpWeeklyGroup } from '../../lib/weeklyLive'
 import { standings, type StandingsMatch, type StandingsResult } from '../../lib/weeklyLeague/standings'
@@ -68,6 +69,8 @@ export default function WeeklyTab() {
   const [members, setMembers] = useState<MemberRow[]>([])
   const [fixtures, setFixtures] = useState<FixtureRow[]>([])
   const [cupTies, setCupTies] = useState<CupTieRow[]>([])
+  /** The fixture open in the live view (my own matches only). */
+  const [openFixture, setOpenFixture] = useState<number | null>(null)
 
   const userId = account.status === 'signedIn' ? account.user?.id : undefined
 
@@ -256,12 +259,22 @@ export default function WeeklyTab() {
 
       {sub === 'mine' && (
         <>
+          {openFixture !== null && (
+            <WeeklyLiveMatch
+              fixtureId={openFixture}
+              onClose={() => {
+                setOpenFixture(null)
+                void load()
+              }}
+            />
+          )}
           <FixtureList
             title="다가오는 경기"
             fixtures={myUpcoming}
             mySlot={membership.slot}
             clubName={clubName}
             empty="예정된 경기가 없습니다."
+            onOpen={setOpenFixture}
           />
           <FixtureList
             title="지난 경기"
@@ -269,6 +282,7 @@ export default function WeeklyTab() {
             mySlot={membership.slot}
             clubName={clubName}
             empty="아직 치른 경기가 없습니다."
+            onOpen={setOpenFixture}
           />
         </>
       )}
@@ -383,19 +397,34 @@ export default function WeeklyTab() {
   )
 }
 
+const LIVE_WINDOW_MS = 15 * 60 * 1000
+
+/** 'live' while the server clock is inside the 15-minute window after kick-off. */
+function liveStatusOf(f: FixtureRow, now: number): 'upcoming' | 'live' | 'ended' {
+  if (f.status === 'played') return 'ended'
+  const kickoff = Date.parse(f.scheduled_at_utc)
+  if (now < kickoff) return 'upcoming'
+  if (now < kickoff + LIVE_WINDOW_MS) return 'live'
+  return 'ended'
+}
+
 function FixtureList({
   title,
   fixtures,
   mySlot,
   clubName,
   empty,
+  onOpen,
 }: {
   title: string
   fixtures: FixtureRow[]
   mySlot: number | null
   clubName: (slot: number) => string
   empty: string
+  /** When given, each row can be opened in the live view. */
+  onOpen?: (fixtureId: number) => void
 }) {
+  const now = Date.now()
   return (
     <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
       <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">{title}</h3>
@@ -418,8 +447,24 @@ function FixtureList({
                   <span className="font-black text-emerald-300">
                     {f.score_home} : {f.score_away}
                   </span>
+                ) : liveStatusOf(f, now) === 'live' ? (
+                  <span className="rounded bg-rose-500/20 px-1.5 py-0.5 text-[10px] font-black text-rose-300">LIVE</span>
+                ) : liveStatusOf(f, now) === 'ended' ? (
+                  <span className="text-slate-500">정산 중</span>
                 ) : (
                   <span className="text-slate-500">대기</span>
+                )}
+                {onOpen && (
+                  <button
+                    onClick={() => onOpen(f.id)}
+                    className={`rounded-md px-2 py-1 text-[10px] font-bold ${
+                      liveStatusOf(f, now) === 'live'
+                        ? 'bg-emerald-400 text-slate-900'
+                        : 'bg-white/10 text-slate-300 hover:bg-white/20'
+                    }`}
+                  >
+                    {liveStatusOf(f, now) === 'live' ? '라이브 보기' : '보기'}
+                  </button>
                 )}
               </div>
             )

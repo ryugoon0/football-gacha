@@ -3632,6 +3632,22 @@ function tacticEffects(setup = DEFAULT_TACTIC) {
   }
   return effects;
 }
+function normalizeTactic(value) {
+  if (typeof value === "string") {
+    const plan = PLANS.some((item) => item.key === value) ? value : "balanced";
+    return { ...DEFAULT_TACTIC, plan };
+  }
+  if (value && typeof value === "object") {
+    const setup = value;
+    return {
+      plan: PLANS.some((item) => item.key === setup.plan) ? setup.plan : DEFAULT_TACTIC.plan,
+      pressing: PRESSINGS.some((item) => item.key === setup.pressing) ? setup.pressing : DEFAULT_TACTIC.pressing,
+      line: LINES.some((item) => item.key === setup.line) ? setup.line : DEFAULT_TACTIC.line,
+      tempo: TEMPOS.some((item) => item.key === setup.tempo) ? setup.tempo : DEFAULT_TACTIC.tempo
+    };
+  }
+  return DEFAULT_TACTIC;
+}
 var TACTIC_PRESETS = [
   {
     key: "allOut",
@@ -4286,7 +4302,7 @@ function teamTraitEffects(players) {
   let concede = 0;
   let tempo = 0;
   let chemistry = 0;
-  let cup = 0;
+  let cup2 = 0;
   for (const player of players) {
     for (const trait of traitsOf(player)) {
       if (trait === "finisher") goal += 0.015;
@@ -4296,7 +4312,7 @@ function teamTraitEffects(players) {
       if (trait === "speedster") tempo += 0.03;
       if (trait === "playmaker") tempo += 0.015;
       if (trait === "captain") chemistry += 4;
-      if (trait === "bigGame") cup += 2;
+      if (trait === "bigGame") cup2 += 2;
     }
   }
   return {
@@ -4304,7 +4320,7 @@ function teamTraitEffects(players) {
     concede: Math.min(CAPS.concede, concede),
     tempo: 1 + Math.min(CAPS.tempo, tempo),
     chemistry: Math.min(CAPS.chemistry, chemistry),
-    cup: Math.min(CAPS.cup, cup)
+    cup: Math.min(CAPS.cup, cup2)
   };
 }
 
@@ -5073,10 +5089,229 @@ function buildWeeklyMatchSetup(args) {
     opponentTactics: awayInput?.plan ? { phased: awayInput.plan } : void 0
   };
 }
+
+// lib/weeklyLeague/config.ts
+var HOURS_09_23 = Array.from({ length: 15 }, (_, i) => i + 9);
+var league = (day, hour) => ({ day, hour, type: "LEAGUE" });
+var cup = (day, hour, cupId, cupStage, leg) => ({ day, hour, type: cupId, cupId, cupStage, leg });
+var WEEKLY_SLOTS = [
+  // 월요일 — 컵 없음, 15경기 전부 리그.
+  ...HOURS_09_23.map((hour) => league("MON", hour)),
+  // 화요일 — Cup A/B 16강 1차전.
+  ...HOURS_09_23.map(
+    (hour) => hour === 14 ? cup("TUE", hour, "CUP_A", "R16", 1) : hour === 20 ? cup("TUE", hour, "CUP_B", "R16", 1) : league("TUE", hour)
+  ),
+  // 수요일 — Cup A/B 16강 2차전.
+  ...HOURS_09_23.map(
+    (hour) => hour === 14 ? cup("WED", hour, "CUP_A", "R16", 2) : hour === 20 ? cup("WED", hour, "CUP_B", "R16", 2) : league("WED", hour)
+  ),
+  // 목요일 — Cup A/B 8강 1차전.
+  ...HOURS_09_23.map(
+    (hour) => hour === 14 ? cup("THU", hour, "CUP_A", "QF", 1) : hour === 20 ? cup("THU", hour, "CUP_B", "QF", 1) : league("THU", hour)
+  ),
+  // 금요일 — Cup A/B 8강 2차전.
+  ...HOURS_09_23.map(
+    (hour) => hour === 14 ? cup("FRI", hour, "CUP_A", "QF", 2) : hour === 20 ? cup("FRI", hour, "CUP_B", "QF", 2) : league("FRI", hour)
+  ),
+  // 토요일 — 4강 1·2차전과 결승. 스펙 표를 그대로.
+  cup("SAT", 9, "CUP_A", "SF", 1),
+  league("SAT", 10),
+  cup("SAT", 11, "CUP_B", "SF", 1),
+  league("SAT", 12),
+  cup("SAT", 13, "CUP_A", "SF", 2),
+  league("SAT", 14),
+  cup("SAT", 15, "CUP_B", "SF", 2),
+  league("SAT", 16),
+  league("SAT", 17),
+  league("SAT", 18),
+  league("SAT", 19),
+  cup("SAT", 20, "CUP_A", "FINAL"),
+  league("SAT", 21),
+  league("SAT", 22),
+  cup("SAT", 23, "CUP_B", "FINAL"),
+  // 일요일 — 리그 14경기, 23시 Masters Final.
+  ...HOURS_09_23.filter((hour) => hour <= 22).map((hour) => league("SUN", hour)),
+  { day: "SUN", hour: 23, type: "MASTERS_FINAL" }
+];
+var CLUB_COUNT = 16;
+var DOUBLE_ROUND_ROBIN_REPEATS = 3;
+var ROUNDS_PER_SINGLE_CYCLE = CLUB_COUNT - 1;
+var LEAGUE_ROUNDS = ROUNDS_PER_SINGLE_CYCLE * 2 * DOUBLE_ROUND_ROBIN_REPEATS;
+var MATCHES_PER_LEAGUE_ROUND = CLUB_COUNT / 2;
+var TIERS = [
+  // 최상위는 실유저 상한을 두지 않는다 — CLUB_COUNT(그룹 정원)가 자연스러운
+  // 물리적 한계이므로 그 값 자체를 상한으로 쓴다.
+  { maxRealUsers: CLUB_COUNT, aiBaseRating: 75 },
+  // 0: 최상위, 사실상 무제한
+  { maxRealUsers: 4, aiBaseRating: 68 },
+  { maxRealUsers: 2, aiBaseRating: 61 },
+  { maxRealUsers: 1, aiBaseRating: 54 }
+  // 3: 최하위
+];
+var TIER_COUNT = TIERS.length;
+var SQUAD_RULES = {
+  starters: 11,
+  bench: 9,
+  maxSubsPerMatch: 5,
+  /** 하프타임 교체는 여기 포함하지 않는다. */
+  subWindows: 3
+};
+var KST_OFFSET_MINUTES = 9 * 60;
+var PLACEMENT_CYCLES = 3;
+var PLACEMENT_ROUNDS = ROUNDS_PER_SINGLE_CYCLE * PLACEMENT_CYCLES;
+
+// lib/weeklyLeague/liveReplay.ts
+var LIVE_REAL_SECONDS_PER_MINUTE = 10;
+var LIVE_MATCH_MINUTES = 90;
+var LIVE_WINDOW_SECONDS = LIVE_MATCH_MINUTES * LIVE_REAL_SECONDS_PER_MINUTE;
+function matchMinuteAt(scheduledAtMs, nowMs) {
+  const elapsed = Math.floor((nowMs - scheduledAtMs) / 1e3 / LIVE_REAL_SECONDS_PER_MINUTE);
+  return Math.max(0, Math.min(LIVE_MATCH_MINUTES, elapsed));
+}
+function liveWindowEnded(scheduledAtMs, nowMs) {
+  return nowMs >= scheduledAtMs + LIVE_WINDOW_SECONDS * 1e3;
+}
+function applySub(squad, slotId, inUid) {
+  const outUid = squad.slots[slotId];
+  const benchIndex = squad.bench.indexOf(inUid);
+  if (!outUid || benchIndex < 0) return null;
+  const bench = [...squad.bench];
+  bench[benchIndex] = outUid;
+  return { squad: { ...squad, slots: { ...squad.slots, [slotId]: inUid }, bench }, outUid };
+}
+function nameOf(material, uid, setupSide) {
+  const item = setupSide.evaluations.find((entry) => entry.card?.uid === uid);
+  if (item?.player) return item.player.name;
+  const card = material.cards.find((entry) => entry.uid === uid);
+  return card ? card.playerId : "\uC120\uC218";
+}
+function applyCommand(command, setup, home, away, subsUsed) {
+  const side = command.side;
+  const material = side === "home" ? home : away;
+  if (command.payload.kind === "tactic") {
+    const tactic = normalizeTactic(command.payload.tactic);
+    const next = side === "home" ? { ...setup, tactic, phased: void 0, params: void 0 } : {
+      ...setup,
+      opponentTactics: {
+        profile: setup.opponentTactics?.profile,
+        params: paramsFromSetup(tactic),
+        phased: void 0
+      }
+    };
+    return { setup: next, home, away, text: `\uC804\uC220 \uBCC0\uACBD \u2014 ${tactic.plan}/${tactic.pressing}/${tactic.line}/${tactic.tempo}` };
+  }
+  if (subsUsed[side] >= SQUAD_RULES.maxSubsPerMatch) {
+    return { setup, home, away, reason: `\uAD50\uCCB4 \uC778\uC6D0\uC744 \uBAA8\uB450 \uC37C\uC2B5\uB2C8\uB2E4 (${SQUAD_RULES.maxSubsPerMatch}\uBA85)` };
+  }
+  const swapped = applySub(material.squad, command.payload.slotId, command.payload.inUid);
+  if (!swapped) return { setup, home, away, reason: "\uAD50\uCCB4 \uB300\uC0C1\uC774 \uC720\uD6A8\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4" };
+  const rating = evaluateSquad(material.cards, swapped.squad, material.division);
+  const nextMaterial = { ...material, squad: swapped.squad };
+  const sideSetup = side === "home" ? setup.team : setup.opponentSquad ?? setup.team;
+  const text = `\uAD50\uCCB4 \u2014 ${nameOf(material, swapped.outUid, sideSetup)} \u2192 ${nameOf(nextMaterial, command.payload.inUid, rating)}`;
+  if (side === "home") {
+    return {
+      setup: { ...setup, team: rating, traits: rating.traits },
+      home: nextMaterial,
+      away,
+      text
+    };
+  }
+  return {
+    setup: { ...setup, opponentSquad: rating, opponentTraits: rating.traits },
+    home,
+    away: nextMaterial,
+    text
+  };
+}
+function replayFixture(snapshot, seed, commands, targetMinute = LIVE_MATCH_MINUTES) {
+  let setup = snapshot.setup;
+  let home = snapshot.home;
+  let away = snapshot.away;
+  const rng = seededRandom(hashString(seed));
+  let state = createMatch(setup);
+  const pending = [...commands].sort((a, b) => a.id - b.id);
+  const applied = [];
+  const rejected = [];
+  const subsUsed = { home: 0, away: 0 };
+  const flush = () => {
+    while (pending.length && pending[0].minute <= state.minute) {
+      const command = pending.shift();
+      const result = applyCommand(command, setup, home, away, subsUsed);
+      if (result.reason) {
+        rejected.push({ id: command.id, side: command.side, reason: result.reason });
+        continue;
+      }
+      setup = result.setup;
+      home = result.home;
+      away = result.away;
+      if (command.payload.kind === "substitution") subsUsed[command.side] += 1;
+      applied.push({ id: command.id, side: command.side, appliedMinute: state.minute, text: result.text ?? "" });
+      state = {
+        ...state,
+        events: [
+          ...state.events,
+          { minute: state.minute, type: "note", side: command.side, text: result.text ?? "" }
+        ]
+      };
+    }
+  };
+  const limit = Math.max(0, Math.min(LIVE_MATCH_MINUTES, Math.floor(targetMinute)));
+  const toFullTime = limit >= LIVE_MATCH_MINUTES;
+  while (!state.finished && (toFullTime || state.minute < limit)) {
+    state = advance(state, setup, rng);
+    if (state.stoppage) flush();
+  }
+  if (state.finished) {
+    for (const command of pending) {
+      rejected.push({ id: command.id, side: command.side, reason: "\uACBD\uAE30\uAC00 \uB05D\uB098\uAE30 \uC804\uC5D0 \uC801\uC6A9\uD560 \uC21C\uAC04\uC774 \uC5C6\uC5C8\uC2B5\uB2C8\uB2E4" });
+    }
+  }
+  return { state, setup, home, away, applied, rejected, subsUsed };
+}
+function publicStateOf(state) {
+  const ticks = state.possessionTicks.home + state.possessionTicks.away;
+  return {
+    minute: state.minute,
+    finished: state.finished,
+    phase: state.phase,
+    stoppage: state.stoppage?.text ?? null,
+    scoreHome: state.scoreFor,
+    scoreAway: state.scoreAgainst,
+    shotsHome: state.shotsFor,
+    shotsAway: state.shotsAgainst,
+    possessionHome: ticks ? Math.round(state.possessionTicks.home / ticks * 100) : 50,
+    events: state.events
+  };
+}
+function lineupViewOf(result, side, playerNameOf) {
+  const material = side === "home" ? result.home : result.away;
+  const rating = side === "home" ? result.setup.team : result.setup.opponentSquad ?? result.setup.team;
+  const stamina = side === "home" ? result.state.stamina : result.state.opponentStamina;
+  const slots = rating.evaluations.map((item) => ({
+    slotId: item.slotId,
+    position: item.slotPosition,
+    uid: item.card?.uid ?? null,
+    name: item.player?.name ?? "\uBE48 \uC790\uB9AC",
+    stamina: item.card ? stamina[item.card.uid] ?? null : null
+  }));
+  const bench = material.squad.bench.filter((uid) => Boolean(uid)).map((uid) => {
+    const card = material.cards.find((entry) => entry.uid === uid);
+    return { uid, name: card ? playerNameOf(card.playerId) : "\uC120\uC218", condition: card?.condition ?? 0 };
+  });
+  return { slots, bench, subsLeft: Math.max(0, SQUAD_RULES.maxSubsPerMatch - result.subsUsed[side]) };
+}
 export {
   ENGINE_VERSION,
   KNOB_KEYS,
+  LIVE_WINDOW_SECONDS,
   buildWeeklyMatchSetup,
+  getPlayer,
+  lineupViewOf,
+  liveWindowEnded,
+  matchMinuteAt,
+  publicStateOf,
+  replayFixture,
   runToEnd,
   setTuning,
   toResult,

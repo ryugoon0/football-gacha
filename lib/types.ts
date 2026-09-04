@@ -157,7 +157,8 @@ export interface GameState {
   history: MatchSummary[]
 }
 
-export type MatchEventType = 'kickoff' | 'goal' | 'chance' | 'save' | 'foul' | 'half' | 'full'
+/** 'note' is a manager's order landing (전술 변경·교체) — a line in the feed, not a play. */
+export type MatchEventType = 'kickoff' | 'goal' | 'chance' | 'save' | 'foul' | 'half' | 'full' | 'note'
 
 export interface MatchEvent {
   minute: number

@@ -9,4 +9,13 @@
  */
 export { ENGINE_VERSION, runToEnd, toResult } from './matchEngine'
 export { buildWeeklyMatchSetup, weeklyAiSquad } from './weeklyLeague/liveMatch'
+export {
+  LIVE_WINDOW_SECONDS,
+  lineupViewOf,
+  liveWindowEnded,
+  matchMinuteAt,
+  publicStateOf,
+  replayFixture,
+} from './weeklyLeague/liveReplay'
+export { getPlayer } from './players'
 export { setTuning, KNOB_KEYS } from './tuning'

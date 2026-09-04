@@ -1,28 +1,40 @@
-// 주간 리그 fixture를 실제 카드·전술 엔진으로 판정한다 — 1단계.
+// 주간 리그 fixture — 실제 카드·전술 엔진으로 진행·판정한다.
 //
 // 최소 한쪽이 실유저인 fixture만 여기로 온다(AI 대 AI는 SQL 포아송 정산이
-// 계속 맡는다 — supabase/migrations/..._weekly_live_settlement.sql). 실유저
-// 쪽은 그 사람의 saves(카드·스쿼드·전술)를 service_role로 읽고, AI 쪽은
-// 그룹·슬롯으로 결정론적인 스쿼드를 만든다. 판정 자체는 lib/matchEngine.ts
-// 의 opponentSquad 확장 — 캐주얼 모드·데일리 PvP와 같은 코드다.
+// 계속 맡는다). 판정 자체는 lib/matchEngine.ts — 캐주얼 모드·데일리 PvP와
+// 같은 코드다.
 //
-// 대안 B(트래픽 캐치업): 화면을 연 사람의 그룹에서 시각이 지난 fixture를
-// 즉시 판정해 응답하고, 응답을 막지 않는 백그라운드에서 안전망 큐(아무도
-// 안 본 fixture)도 조금씩 비운다. 이 훅은 이 함수에만 있다 — 다른 Edge
-// Function에는 절대 걸지 않는다.
+// 2단계(라이브 개입): 킥오프부터 15분(경기 1분 = 실제 10초) 동안 경기가
+// "진행 중"이다. 경기 상태는 저장하지 않는다 — (킥오프 스냅샷, 시드, 명령
+// 목록, 지금 분)의 순수 함수라 볼 때마다 킥오프부터 재생한다(90틱 ≈ 1ms).
+// 그래서 lease·CAS 없이도 두 감독이 동시에 봐도 같은 경기를 본다. 공유
+// 쓰기는 명령 추가(멱등 키)와 최종 확정(advisory lock)뿐이다.
 //
-// 이 단계는 개입 없는 한 번짜리 판정이다. 라이브 명령·부분 진행은 다음
-// 단계다.
+// 액션
+// - get_state {fixtureId}: 스냅샷을 (없으면 만들어 저장하고) 지금 분까지
+//   재생해 공개 상태를 돌려준다. 요청자가 참가자면 자기 쪽 라인업·교체
+//   가능 인원도 준다. 라이브 창이 끝났으면 90분까지 재생해 확정한다.
+// - submit_command {fixtureId, kind, payload, idempotencyKey}: 전술·교체
+//   명령 접수. 참가자·창 안·멱등은 DB 함수가 지킨다.
+// - catch_up_group {groupId}: 창이 끝났는데 pending인 그 그룹 fixture를
+//   확정하고, 백그라운드에서 안전망 큐도 조금 비운다(대안 B).
 import {
   ENGINE_VERSION,
   KNOB_KEYS,
   buildWeeklyMatchSetup,
-  runToEnd,
+  getPlayer,
+  lineupViewOf,
+  liveWindowEnded,
+  matchMinuteAt,
+  publicStateOf,
+  replayFixture,
   setTuning,
   toResult,
   type SharedCard,
+  type SharedCommand,
   type SharedMemberSummary,
   type SharedRealSquadInput,
+  type SharedSnapshot,
   type SharedSquad,
 } from './shared.js'
 
@@ -44,20 +56,12 @@ const json = (body: unknown, status = 200) =>
     headers: { ...cors, 'Content-Type': 'application/json' },
   })
 
-const refuse = (reason: string) => json({ ok: false, reason })
+const refuse = (reason: string, extra: Record<string, unknown> = {}) => json({ ok: false, reason, ...extra })
 
-function serverRng(): { rng: () => number; seed: string } {
+function newSeed(): string {
   const bytes = new Uint8Array(16)
   crypto.getRandomValues(bytes)
-  const seed = [...bytes].map((b) => b.toString(16).padStart(2, '0')).join('')
-  return {
-    seed,
-    rng: () => {
-      const buffer = new Uint32Array(1)
-      crypto.getRandomValues(buffer)
-      return buffer[0] / 4294967296
-    },
-  }
+  return [...bytes].map((b) => b.toString(16).padStart(2, '0')).join('')
 }
 
 interface DueMember {
@@ -68,14 +72,31 @@ interface DueMember {
   rating: number
 }
 
-interface DueFixture {
+interface FixtureInfo {
   fixtureId: number
   groupId: number
   homeSlot: number
   awaySlot: number
   neutralVenue: boolean
+  scheduledAtUtc?: string
+  status?: string
+  scoreHome?: number | null
+  scoreAway?: number | null
+  events?: unknown
   home: DueMember
   away: DueMember
+}
+
+interface EngineRow {
+  seed: string
+  engineVersion: string
+  snapshot: SharedSnapshot
+}
+
+interface Context {
+  fixture: FixtureInfo | null
+  engine: EngineRow | null
+  commands: SharedCommand[]
 }
 
 interface SaveShape {
@@ -99,6 +120,7 @@ function isSquad(value: unknown): value is SharedSquad {
 
 const QUEUE_DRAIN_PER_CALL = 5
 const GROUP_CATCH_UP_LIMIT = 20
+const PUBLIC_EVENT_LIMIT = 60
 
 type ServerHeaders = { apikey: string; Authorization: string }
 
@@ -113,16 +135,12 @@ async function rpc<T>(url: string, server: ServerHeaders, name: string, body: un
 }
 
 /**
- * A real user's side, from their save. Returns null when the save has no
- * usable eleven — the caller then fields that side as an AI stand-in at the
- * member's seeded rating, so the fixture still settles rather than hanging
- * forever on a manager who never set a squad.
+ * A real user's side, from their save. Null when there is no usable eleven —
+ * the caller then fields that side as an AI stand-in at the member's seeded
+ * rating, so the fixture still settles rather than hanging on a manager who
+ * never set a squad.
  */
-async function realSideOf(
-  url: string,
-  server: ServerHeaders,
-  userId: string,
-): Promise<SharedRealSquadInput | null> {
+async function realSideOf(url: string, server: ServerHeaders, userId: string): Promise<SharedRealSquadInput | null> {
   const res = await fetch(`${url}/rest/v1/saves?user_id=eq.${userId}&select=data`, { headers: server })
   if (!res.ok) return null
   const rows = (await res.json()) as { data?: SaveShape }[]
@@ -142,40 +160,82 @@ async function realSideOf(
   }
 }
 
-async function settleOne(url: string, server: ServerHeaders, fixture: DueFixture): Promise<boolean> {
-  const summary = (m: DueMember): SharedMemberSummary => ({
-    slot: m.slot,
-    kind: m.kind,
-    clubName: m.clubName,
-    rating: m.rating,
-  })
+const summaryOf = (m: DueMember): SharedMemberSummary => ({
+  slot: m.slot,
+  kind: m.kind,
+  clubName: m.clubName,
+  rating: m.rating,
+})
+
+/** Kick-off snapshot: both sides' material plus the setup built from it. */
+async function buildSnapshot(url: string, server: ServerHeaders, fixture: FixtureInfo): Promise<SharedSnapshot> {
   const [homeInput, awayInput] = await Promise.all([
     fixture.home.kind === 'user' && fixture.home.userId ? realSideOf(url, server, fixture.home.userId) : null,
     fixture.away.kind === 'user' && fixture.away.userId ? realSideOf(url, server, fixture.away.userId) : null,
   ])
-
   const setup = buildWeeklyMatchSetup({
     groupId: fixture.groupId,
-    home: summary(fixture.home),
-    away: summary(fixture.away),
+    home: summaryOf(fixture.home),
+    away: summaryOf(fixture.away),
     homeInput: homeInput ?? undefined,
     awayInput: awayInput ?? undefined,
     neutralVenue: fixture.neutralVenue,
   })
+  // The AI side's material is inside the setup already (weeklyAiSquad); the
+  // replay only needs cards/squad for sides that can be substituted, which is
+  // real users. An AI side gets an empty material and never issues commands.
+  const empty = { cards: [] as SharedCard[], squad: { formation: '4-3-3', slots: {}, bench: [] }, division: 5 }
+  return {
+    setup,
+    home: homeInput ? { cards: homeInput.cards, squad: homeInput.squad, division: homeInput.division } : empty,
+    away: awayInput ? { cards: awayInput.cards, squad: awayInput.squad, division: awayInput.division } : empty,
+  }
+}
 
-  const { rng, seed } = serverRng()
-  const state = runToEnd(setup, rng)
-  const result = toResult(state, setup, { seed, engineVersion: ENGINE_VERSION })
-
-  const settled = await rpc<{ ok?: boolean; alreadySettled?: boolean }>(url, server, 'commit_weekly_fixture_result', {
+/** The stored snapshot, or a fresh one saved now — whichever one the database ends up holding. */
+async function ensureEngine(url: string, server: ServerHeaders, fixture: FixtureInfo, engine: EngineRow | null): Promise<EngineRow> {
+  if (engine) return engine
+  const snapshot = await buildSnapshot(url, server, fixture)
+  const saved = await rpc<EngineRow>(url, server, 'save_weekly_fixture_engine_state', {
     p_fixture_id: fixture.fixtureId,
+    p_seed: newSeed(),
+    p_engine_version: ENGINE_VERSION,
+    p_snapshot: snapshot,
+  })
+  return saved
+}
+
+/** Replays to full time and writes the result. True when this call was the one that settled it. */
+async function settleFromEngine(
+  url: string,
+  server: ServerHeaders,
+  fixtureId: number,
+  engine: EngineRow,
+  commands: SharedCommand[],
+): Promise<boolean> {
+  const replay = replayFixture(engine.snapshot, engine.seed, commands, 90)
+  const result = toResult(replay.state, replay.setup, { seed: engine.seed, engineVersion: engine.engineVersion })
+  const settled = await rpc<{ ok?: boolean }>(url, server, 'commit_weekly_fixture_result', {
+    p_fixture_id: fixtureId,
     p_score_home: result.scoreFor,
     p_score_away: result.scoreAgainst,
     p_events: result.events,
-    p_seed: seed,
+    p_seed: engine.seed,
     p_engine_version: result.engineVersion,
   })
   return settled?.ok === true
+}
+
+async function contextOf(url: string, server: ServerHeaders, fixtureId: number): Promise<Context> {
+  return rpc<Context>(url, server, 'weekly_fixture_context', { p_fixture_id: fixtureId })
+}
+
+/** One window-ended fixture: reuse its live engine if anyone watched, else start one now. */
+async function settleOne(url: string, server: ServerHeaders, fixtureId: number): Promise<boolean> {
+  const context = await contextOf(url, server, fixtureId)
+  if (!context.fixture || context.fixture.status !== 'pending') return false
+  const engine = await ensureEngine(url, server, context.fixture, context.engine)
+  return settleFromEngine(url, server, fixtureId, engine, context.commands)
 }
 
 async function loadTuning(url: string, server: ServerHeaders): Promise<void> {
@@ -189,7 +249,7 @@ async function loadTuning(url: string, server: ServerHeaders): Promise<void> {
 }
 
 async function drainQueue(url: string, server: ServerHeaders): Promise<number> {
-  const due = await rpc<DueFixture[]>(url, server, 'due_weekly_fixtures', {
+  const due = await rpc<{ fixtureId: number }[]>(url, server, 'due_weekly_fixtures', {
     p_group_id: null,
     p_from_queue: true,
     p_limit: QUEUE_DRAIN_PER_CALL,
@@ -197,13 +257,29 @@ async function drainQueue(url: string, server: ServerHeaders): Promise<number> {
   let count = 0
   for (const fixture of due) {
     try {
-      if (await settleOne(url, server, fixture)) count += 1
+      if (await settleOne(url, server, fixture.fixtureId)) count += 1
     } catch {
-      // One bad fixture must not stop the rest of the queue; it stays queued
-      // and the next call tries again.
+      // One bad fixture must not stop the rest; it stays queued for next time.
     }
   }
   return count
+}
+
+function sideOf(fixture: FixtureInfo, userId: string): 'home' | 'away' | null {
+  if (fixture.home.kind === 'user' && fixture.home.userId === userId) return 'home'
+  if (fixture.away.kind === 'user' && fixture.away.userId === userId) return 'away'
+  return null
+}
+
+const playerNameOf = (id: string) => getPlayer(id)?.name ?? '선수'
+
+type Body = {
+  action?: string
+  groupId?: number
+  fixtureId?: number
+  kind?: string
+  payload?: unknown
+  idempotencyKey?: string
 }
 
 export async function handle(request: Request, env: Env): Promise<Response> {
@@ -224,38 +300,142 @@ export async function handle(request: Request, env: Env): Promise<Response> {
     const user = (await whoami.json()) as { id?: string }
     if (!user?.id) return refuse('not signed in')
 
-    let body: { action?: string; groupId?: number } = {}
+    let body: Body = {}
     try {
       body = await request.json()
     } catch {
       return refuse('bad request')
     }
-    if (body.action !== 'catch_up_group') return refuse('bad action')
-    const groupId = Number(body.groupId)
-    if (!Number.isInteger(groupId) || groupId <= 0) return refuse('bad group')
 
     const server: ServerHeaders = { apikey: service, Authorization: `Bearer ${service}` }
     await loadTuning(url, server)
+    const now = Date.now()
 
-    const due = await rpc<DueFixture[]>(url, server, 'due_weekly_fixtures', {
-      p_group_id: groupId,
-      p_from_queue: false,
-      p_limit: GROUP_CATCH_UP_LIMIT,
-    })
-
-    let settled = 0
-    for (const fixture of due) {
-      if (await settleOne(url, server, fixture)) settled += 1
+    // ------------------------------------------------------------------
+    if (body.action === 'catch_up_group') {
+      const groupId = Number(body.groupId)
+      if (!Number.isInteger(groupId) || groupId <= 0) return refuse('bad group')
+      const due = await rpc<{ fixtureId: number }[]>(url, server, 'due_weekly_fixtures', {
+        p_group_id: groupId,
+        p_from_queue: false,
+        p_limit: GROUP_CATCH_UP_LIMIT,
+      })
+      let settled = 0
+      for (const fixture of due) {
+        if (await settleOne(url, server, fixture.fixtureId)) settled += 1
+      }
+      const runtime = (globalThis as { EdgeRuntime?: { waitUntil?: (p: Promise<unknown>) => void } }).EdgeRuntime
+      const drain = drainQueue(url, server).catch(() => 0)
+      if (runtime?.waitUntil) runtime.waitUntil(drain)
+      else await drain
+      return json({ ok: true, settled })
     }
 
-    // The safety net, off the response path. Deno Deploy keeps the isolate
-    // alive for this after the response has gone out.
-    const runtime = (globalThis as { EdgeRuntime?: { waitUntil?: (p: Promise<unknown>) => void } }).EdgeRuntime
-    const drain = drainQueue(url, server).catch(() => 0)
-    if (runtime?.waitUntil) runtime.waitUntil(drain)
-    else await drain
+    // ------------------------------------------------------------------
+    const fixtureId = Number(body.fixtureId)
+    if (!Number.isInteger(fixtureId) || fixtureId <= 0) return refuse('bad fixture')
 
-    return json({ ok: true, settled })
+    if (body.action === 'submit_command') {
+      const kind = body.kind === 'tactic' || body.kind === 'substitution' ? body.kind : null
+      if (!kind) return refuse('bad command')
+      const payload = body.payload && typeof body.payload === 'object' ? (body.payload as Record<string, unknown>) : null
+      if (!payload) return refuse('bad command')
+      if (kind === 'tactic' && (!payload.tactic || typeof payload.tactic !== 'object')) return refuse('bad command')
+      if (kind === 'substitution' && (typeof payload.slotId !== 'string' || typeof payload.inUid !== 'string')) {
+        return refuse('bad command')
+      }
+      const key = typeof body.idempotencyKey === 'string' ? body.idempotencyKey.slice(0, 80) : ''
+      if (!key) return refuse('bad command')
+      const receipt = await rpc<{ ok?: boolean; reason?: string; id?: number; side?: string; minute?: number; duplicate?: boolean }>(
+        url,
+        server,
+        'submit_weekly_fixture_command',
+        { p_fixture_id: fixtureId, p_user: user.id, p_kind: kind, p_payload: payload, p_idempotency_key: key },
+      )
+      if (!receipt?.ok) return refuse(receipt?.reason ?? 'refused')
+      return json({ ok: true, id: receipt.id, side: receipt.side, minute: receipt.minute, duplicate: receipt.duplicate })
+    }
+
+    if (body.action !== 'get_state') return refuse('bad action')
+
+    const context = await contextOf(url, server, fixtureId)
+    const fixture = context.fixture
+    if (!fixture || !fixture.scheduledAtUtc) return refuse('not found')
+    const scheduledAt = Date.parse(fixture.scheduledAtUtc)
+    const side = sideOf(fixture, user.id)
+
+    if (fixture.status !== 'pending') {
+      return json({
+        ok: true,
+        status: 'played',
+        side,
+        home: fixture.home.clubName,
+        away: fixture.away.clubName,
+        state: {
+          minute: 90,
+          finished: true,
+          phase: 'full',
+          stoppage: null,
+          scoreHome: fixture.scoreHome ?? 0,
+          scoreAway: fixture.scoreAway ?? 0,
+          shotsHome: 0,
+          shotsAway: 0,
+          possessionHome: 50,
+          events: Array.isArray(fixture.events) ? fixture.events.slice(-PUBLIC_EVENT_LIMIT) : [],
+        },
+      })
+    }
+
+    if (now < scheduledAt) {
+      return json({
+        ok: true,
+        status: 'upcoming',
+        side,
+        home: fixture.home.clubName,
+        away: fixture.away.clubName,
+        kickoffAt: fixture.scheduledAtUtc,
+        secondsToKickoff: Math.ceil((scheduledAt - now) / 1000),
+      })
+    }
+
+    // AI-only fixtures never reach here (the client only asks about fixtures
+    // with a real user), but guard anyway: they belong to the SQL settlement.
+    if (fixture.home.kind !== 'user' && fixture.away.kind !== 'user') return refuse('not a live fixture')
+
+    const engine = await ensureEngine(url, server, fixture, context.engine)
+
+    if (liveWindowEnded(scheduledAt, now)) {
+      await settleFromEngine(url, server, fixtureId, engine, context.commands)
+      const replay = replayFixture(engine.snapshot, engine.seed, context.commands, 90)
+      const state = publicStateOf(replay.state)
+      return json({
+        ok: true,
+        status: 'played',
+        side,
+        home: fixture.home.clubName,
+        away: fixture.away.clubName,
+        state: { ...state, events: state.events.slice(-PUBLIC_EVENT_LIMIT) },
+        applied: replay.applied,
+        rejected: replay.rejected,
+      })
+    }
+
+    const minute = matchMinuteAt(scheduledAt, now)
+    const replay = replayFixture(engine.snapshot, engine.seed, context.commands, minute)
+    const state = publicStateOf(replay.state)
+    return json({
+      ok: true,
+      status: 'live',
+      side,
+      home: fixture.home.clubName,
+      away: fixture.away.clubName,
+      kickoffAt: fixture.scheduledAtUtc,
+      state: { ...state, events: state.events.slice(-PUBLIC_EVENT_LIMIT) },
+      applied: replay.applied,
+      rejected: replay.rejected,
+      lineup: side ? lineupViewOf(replay, side, playerNameOf) : null,
+      pending: side ? context.commands.filter((c) => c.side === side && !replay.applied.some((a) => a.id === c.id) && !replay.rejected.some((r) => r.id === c.id)).length : 0,
+    })
   } catch (error) {
     return json(
       { ok: false, reason: 'crashed', detail: error instanceof Error ? error.message : String(error) },

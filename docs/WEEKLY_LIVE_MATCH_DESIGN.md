@@ -388,6 +388,23 @@ weekly_fixture_stale_queue (   -- 대안 B 안전망용
 서버판으로), fixture lease/CAS, public state projection, 작전카드 보유
 검증·차감, 결과/개입 보상 ledger 기록.
 
+## 구현 상태 (2026-09-04)
+
+- 1단계(커밋 744404f): 실유저가 낀 fixture를 실제 엔진으로 정산. AI-AI는 포아송 유지.
+- 2단계(이 커밋): 라이브 개입. **구현이 설계와 달라진 점 하나** — 서버는 경기
+  상태(`latest_state`)를 저장하지 않고, `(킥오프 스냅샷, 시드, 명령 목록, 지금
+  분)`을 순수 함수로 매번 킥오프부터 재생한다(`lib/weeklyLeague/liveReplay.ts`,
+  90틱 ≈ 1ms). 그래서 아래 "동시성"의 lease+CAS와 스키마의
+  `latest_state`/`state_revision`/`advance_claim_*`는 필요 없어져 만들지 않았다.
+  공유 쓰기는 명령 추가(멱등 키, `weekly_fixture_commands`)와 최종 확정
+  (`commit_weekly_fixture_result`의 advisory lock)뿐이다. 명령의 적용 시점은
+  "접수 분 이후 첫 정지"이고, 접수 분은 DB `now()`로 찍는다 — 아래 "명령 제출"의
+  함정(시계 분 vs 엔진 분)은 재생 방식에서는 정의상 사라진다: 재생기가 접수 분에
+  도달한 뒤 처음 만나는 정지에서 적용하므로 항상 엔진 분 기준이다.
+- 클라이언트: `components/WeeklyLiveMatch.tsx`가 5초 폴링으로 관전, 참가자는
+  전술 다이얼·교체 지시. Realtime은 아직 아님.
+- 아직 안 한 것: 작전카드(배포 순서 8), 개입 보상 ledger(9), 관전 화면의 피치 뷰.
+
 ## 배포 순서
 
 1. 공용 전술/교체/작전카드 검증기 정리 (클라이언트 lib에서 순수 함수로 뺌)
