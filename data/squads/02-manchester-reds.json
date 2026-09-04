@@ -1,0 +1,309 @@
+{
+  "club": "맨체스 레즈",
+  "realClub": "맨체스터 유나이티드",
+  "season": "2026-27 (2026-08-30 기준)",
+  "source": "en.wikipedia.org/wiki/2026–27_Manchester_United_F.C._season",
+  "pilot": true,
+  "players": [
+    {
+      "key": "manred-01",
+      "number": 1,
+      "name": "세네 라멘츠",
+      "real": "세너 라멘스",
+      "pos": "GK",
+      "nation": "벨기에",
+      "birthYear": 2002,
+      "ovr": 79
+    },
+    {
+      "key": "manred-02",
+      "number": 2,
+      "name": "디오고 달로",
+      "real": "디오구 달롯",
+      "pos": "RB",
+      "nation": "포르투갈",
+      "birthYear": 1999,
+      "ovr": 80
+    },
+    {
+      "key": "manred-03",
+      "number": 3,
+      "name": "누사이르 마즈라우",
+      "real": "누사이르 마즈라위",
+      "pos": "RB",
+      "nation": "모로코",
+      "birthYear": 1997,
+      "ovr": 81
+    },
+    {
+      "key": "manred-04",
+      "number": 4,
+      "name": "마테이스 데 리트",
+      "real": "마테이스 더 리흐트",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 1999,
+      "ovr": 83
+    },
+    {
+      "key": "manred-05",
+      "number": 5,
+      "name": "해리 맥과이",
+      "real": "해리 매과이어",
+      "pos": "CB",
+      "nation": "잉글랜드",
+      "birthYear": 1993,
+      "ovr": 79
+    },
+    {
+      "key": "manred-06",
+      "number": 6,
+      "name": "리산드로 마르티노",
+      "real": "리산드로 마르티네스",
+      "pos": "CB",
+      "nation": "아르헨티나",
+      "birthYear": 1998,
+      "ovr": 84
+    },
+    {
+      "key": "manred-07",
+      "number": 7,
+      "name": "메이슨 마운드",
+      "real": "메이슨 마운트",
+      "pos": "CM",
+      "nation": "잉글랜드",
+      "birthYear": 1999,
+      "ovr": 79
+    },
+    {
+      "key": "manred-08",
+      "number": 8,
+      "name": "브루노 페르난도",
+      "real": "브루노 페르난데스",
+      "pos": "CAM",
+      "nation": "포르투갈",
+      "birthYear": 1994,
+      "ovr": 88
+    },
+    {
+      "key": "manred-09",
+      "number": 9,
+      "name": "마커스 래시포",
+      "real": "마커스 래시퍼드",
+      "pos": "LW",
+      "nation": "잉글랜드",
+      "birthYear": 1997,
+      "ovr": 82
+    },
+    {
+      "key": "manred-10",
+      "number": 10,
+      "name": "마테우스 쿠뉴",
+      "real": "마테우스 쿠냐",
+      "pos": "CAM",
+      "nation": "브라질",
+      "birthYear": 1999,
+      "ovr": 84
+    },
+    {
+      "key": "manred-11",
+      "number": 11,
+      "name": "조슈아 지르크",
+      "real": "조슈아 지르크지",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 2001,
+      "ovr": 78
+    },
+    {
+      "key": "manred-12",
+      "number": 12,
+      "name": "칼 다를로",
+      "real": "칼 달로",
+      "pos": "GK",
+      "nation": "웨일스",
+      "birthYear": 1990,
+      "ovr": 72
+    },
+    {
+      "key": "manred-13",
+      "number": 13,
+      "name": "패트릭 도르그",
+      "real": "패트릭 도르구",
+      "pos": "LB",
+      "nation": "덴마크",
+      "birthYear": 2004,
+      "ovr": 77
+    },
+    {
+      "key": "manred-15",
+      "number": 15,
+      "name": "레니 요루",
+      "real": "레니 요로",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2005,
+      "ovr": 80
+    },
+    {
+      "key": "manred-16",
+      "number": 16,
+      "name": "아마드 디알",
+      "real": "아마드 디알로",
+      "pos": "RW",
+      "nation": "코트디부아르",
+      "birthYear": 2002,
+      "ovr": 82
+    },
+    {
+      "key": "manred-17",
+      "number": 17,
+      "name": "안드레이 산토",
+      "real": "안드레이 산투스",
+      "pos": "CM",
+      "nation": "브라질",
+      "birthYear": 2004,
+      "ovr": 78
+    },
+    {
+      "key": "manred-18",
+      "number": 18,
+      "name": "유리 틸레망",
+      "real": "유리 틸레만스",
+      "pos": "CM",
+      "nation": "벨기에",
+      "birthYear": 1997,
+      "ovr": 81
+    },
+    {
+      "key": "manred-19",
+      "number": 19,
+      "name": "브라이언 음보모",
+      "real": "브라이언 음뵈모",
+      "pos": "RW",
+      "nation": "카메룬",
+      "birthYear": 1999,
+      "ovr": 84
+    },
+    {
+      "key": "manred-20",
+      "number": 20,
+      "name": "카를로스 발레브",
+      "real": "카를로스 발레바",
+      "pos": "CDM",
+      "nation": "카메룬",
+      "birthYear": 2004,
+      "ovr": 80
+    },
+    {
+      "key": "manred-22",
+      "number": 22,
+      "name": "톰 히튼",
+      "real": "톰 히턴",
+      "pos": "GK",
+      "nation": "잉글랜드",
+      "birthYear": 1986,
+      "ovr": 68
+    },
+    {
+      "key": "manred-23",
+      "number": 23,
+      "name": "루크 쇼어",
+      "real": "루크 쇼",
+      "pos": "LB",
+      "nation": "잉글랜드",
+      "birthYear": 1995,
+      "ovr": 79
+    },
+    {
+      "key": "manred-25",
+      "number": 25,
+      "name": "마누엘 우가르타",
+      "real": "마누엘 우가르테",
+      "pos": "CDM",
+      "nation": "우루과이",
+      "birthYear": 2001,
+      "ovr": 79
+    },
+    {
+      "key": "manred-26",
+      "number": 26,
+      "name": "에이든 헤번",
+      "real": "에이든 헤븐",
+      "pos": "CB",
+      "nation": "잉글랜드",
+      "birthYear": 2006,
+      "ovr": 72
+    },
+    {
+      "key": "manred-30",
+      "number": 30,
+      "name": "벤야민 셰스코",
+      "real": "벤야민 셰슈코",
+      "pos": "ST",
+      "nation": "슬로베니아",
+      "birthYear": 2003,
+      "ovr": 82
+    },
+    {
+      "key": "manred-31",
+      "number": 31,
+      "name": "셰이 레이스",
+      "real": "셰이 레이시",
+      "pos": "RW",
+      "nation": "잉글랜드",
+      "birthYear": 2007,
+      "ovr": 66
+    },
+    {
+      "key": "manred-37",
+      "number": 37,
+      "name": "코비 마이노",
+      "real": "코비 마이누",
+      "pos": "CM",
+      "nation": "잉글랜드",
+      "birthYear": 2005,
+      "ovr": 79
+    },
+    {
+      "key": "manred-38",
+      "number": 38,
+      "name": "잭 플레쳐",
+      "real": "잭 플레처",
+      "pos": "CM",
+      "nation": "잉글랜드",
+      "birthYear": 2007,
+      "ovr": 65
+    },
+    {
+      "key": "manred-39",
+      "number": 39,
+      "name": "타일러 플레쳐",
+      "real": "타일러 플레처",
+      "pos": "CM",
+      "nation": "스코틀랜드",
+      "birthYear": 2007,
+      "ovr": 63
+    },
+    {
+      "key": "manred-41",
+      "number": 41,
+      "name": "해리 아마즈",
+      "real": "해리 아마스",
+      "pos": "LB",
+      "nation": "잉글랜드",
+      "birthYear": 2007,
+      "ovr": 68
+    },
+    {
+      "key": "manred-45",
+      "number": 45,
+      "name": "더못 미이",
+      "real": "더못 미",
+      "pos": "GK",
+      "nation": "북아일랜드",
+      "birthYear": 2005,
+      "ovr": 58
+    }
+  ]
+}
