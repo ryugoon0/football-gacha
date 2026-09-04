@@ -15,6 +15,7 @@ import { ratingInSlot } from '../lib/squad'
 import { SUB_STAT_COUNT, STAT_GROUPS } from '../lib/subStats'
 import { TRAITS, traitsOf } from '../lib/traits'
 import HiddenStatsView from './HiddenStatsView'
+import RealHintView from './RealHintView'
 import StatBreakdown from './StatBreakdown'
 import type { PlayerDef, Stats } from '../lib/types'
 import PlayerCard from './PlayerCard'
@@ -95,6 +96,7 @@ export default function PlayerArchiveModal({
             </div>
 
             <HiddenStatsView hidden={player.hidden} />
+            <RealHintView name={player.name} club={player.club} nation={player.nation} className="mt-2" />
 
             {traits.length > 0 && (
               <div className="flex flex-wrap justify-center gap-1.5">

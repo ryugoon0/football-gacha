@@ -7,6 +7,7 @@ import { ratingInSlot } from '../lib/squad'
 import { TRAITS, traitsOf } from '../lib/traits'
 import type { Card, PlayerDef, Position } from '../lib/types'
 import HiddenStatsView from './HiddenStatsView'
+import RealHintView from './RealHintView'
 import PlayerCard from './PlayerCard'
 import StatBreakdown from './StatBreakdown'
 
@@ -109,6 +110,7 @@ export default function PlayerStatsModal({
         <StatBreakdown player={player} level={card.level} className="mt-3" />
 
         <HiddenStatsView hidden={player.hidden} className="mt-3" />
+        <RealHintView name={player.name} club={player.club} nation={player.nation} className="mt-2" />
       </div>
     </div>
   )

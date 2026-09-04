@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import PlayerCareButtons from './PlayerCareButtons'
 import HiddenStatsView from './HiddenStatsView'
+import RealHintView from './RealHintView'
 import StatBreakdown from './StatBreakdown'
 import { SUB_STAT_COUNT } from '../lib/subStats'
 import {
@@ -158,6 +159,7 @@ export default function PlayerDetail({
       </div>
 
       <HiddenStatsView hidden={player.hidden} />
+      <RealHintView name={player.name} club={player.club} nation={player.nation} className="mt-2" />
 
       <button
         onClick={() => setShowStats((value) => !value)}
