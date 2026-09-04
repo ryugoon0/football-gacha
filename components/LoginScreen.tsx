@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { ASSISTANTS, WELCOME_LINES, assistantImage, assistantOfTheDay, loadAssistantMode, type AssistantId, type AssistantMode } from '../lib/assistant'
 import { BRAND_NAME } from '../lib/brand'
 import { checkConnection, configStatus } from '../lib/supabase'
 import { buildLabel } from '../lib/build'
@@ -19,6 +20,13 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('')
   const [probe, setProbe] = useState<string | null>(null)
   const [probing, setProbing] = useState(false)
+  // The greeter at the door: one of the three, by the day, in the art mode
+  // this browser last chose. Read after mount so the server render matches.
+  const [greeter, setGreeter] = useState<{ id: AssistantId; mode: AssistantMode } | null>(null)
+  const [greeterMissing, setGreeterMissing] = useState(false)
+  useEffect(() => {
+    setGreeter({ id: assistantOfTheDay(), mode: loadAssistantMode() })
+  }, [])
 
   const runProbe = async () => {
     setProbing(true)
@@ -84,8 +92,25 @@ export default function LoginScreen() {
   return (
     <main className="min-h-screen bg-slate-950 text-white">
       <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4 py-8">
-        <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0d1728]">
-          <LockerRoomScene className="h-48 w-full sm:h-56" />
+        <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#0d1728]">
+          <LockerRoomScene className={`w-full ${greeter && !greeterMissing ? 'h-72 sm:h-80' : 'h-48 sm:h-56'}`} />
+          {greeter && !greeterMissing && (
+            <>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={assistantImage(greeter.id, greeter.mode, 'body')}
+                alt={ASSISTANTS[greeter.id].name}
+                onError={() => setGreeterMissing(true)}
+                className="pointer-events-none absolute bottom-0 right-2 h-[96%] w-auto object-contain object-bottom drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)]"
+              />
+              <div className="absolute left-3 top-3 max-w-[58%] rounded-2xl rounded-tl-sm bg-slate-950/80 px-3 py-2 text-[11px] leading-relaxed text-slate-100 backdrop-blur">
+                <div className="text-[10px] font-bold text-emerald-300">
+                  {ASSISTANTS[greeter.id].name} · {ASSISTANTS[greeter.id].role}
+                </div>
+                {WELCOME_LINES[greeter.id]}
+              </div>
+            </>
+          )}
         </div>
         <div className="mt-4">
           <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-emerald-400">

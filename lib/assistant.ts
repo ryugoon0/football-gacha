@@ -61,14 +61,34 @@ export const EXPRESSIONS: Record<AssistantId, readonly string[]> = {
   baeksoyeon: ['base', 'surprised', 'serious'],
 }
 
+/**
+ * 'bust' — square face crop for the card; 'full' — the 3:4 portrait;
+ * 'body' — head-to-toe standing figure (<id>-full.webp), no expression variants.
+ */
 export function assistantImage(
   id: AssistantId,
   mode: AssistantMode,
-  crop: 'full' | 'bust' = 'bust',
+  crop: 'full' | 'bust' | 'body' = 'bust',
   expression = 'base',
 ): string {
+  if (crop === 'body') return `/assistants/${mode}/${id}-full.webp`
   const face = expression !== 'base' && EXPRESSIONS[id].includes(expression) ? `-${expression}` : ''
   return `/assistants/${mode}/${id}${face}${crop === 'bust' ? '-bust' : ''}.webp`
+}
+
+/** Who greets at the door today — rotates daily so each of the three gets her turn. */
+export function assistantOfTheDay(nowMs = Date.now()): AssistantId {
+  const ids: AssistantId[] = ['hanareum', 'seojian', 'baeksoyeon']
+  const day = Math.floor((nowMs + KST_OFFSET_MS) / 86_400_000)
+  return ids[day % ids.length]
+}
+const KST_OFFSET_MS = 9 * 60 * 60_000
+
+/** The door line each assistant says on the login screen. */
+export const WELCOME_LINES: Record<AssistantId, string> = {
+  hanareum: '감독님! 라커룸 문 열어 뒀어요. 오늘도 같이 이겨 봐요!',
+  seojian: '감독님, 오늘 상대 분석은 끝내 두었습니다. 들어오시죠.',
+  baeksoyeon: '어서 오세요, 감독님. 오늘 보상 정산은 제가 챙겨 두었어요.',
 }
 
 export interface AssistantSpeech {

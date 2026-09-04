@@ -52,6 +52,13 @@ for (const mode of MODES) {
       .webp({ quality: 82 })
       .toFile(join(outDir, `${name}.webp`))
 
+    // 전신(<name>-full)은 세로 1024 한 장이면 충분하다 — 상반신 크롭은 3:4 원본용.
+    if (name.endsWith('-full')) {
+      made += 1
+      console.log(`${mode}/${name}: 전신 생성`)
+      continue
+    }
+
     // 3) 상반신 정방형 크롭
     const cropHeight = Math.round(height * BUST_TOP_RATIO)
     const side = Math.min(width, cropHeight)
