@@ -20,6 +20,32 @@ function hash(value: string): number {
 }
 
 /**
+ * A picture in the avatar's box. Photos and generated portraits carry their
+ * own background (a studio grey, whatever a facepack file has), which read as
+ * a pasted rectangle on the card. A soft mask lets the edges dissolve into the
+ * card's own ground so only the head and shoulders remain, the way the drawn
+ * face sits there with nothing behind it.
+ */
+function Photo({ src, name, className }: { src: string; name: string; className: string }) {
+  return (
+    <div
+      className={`aspect-[100/116] w-full overflow-hidden ${className}`}
+      style={{
+        maskImage:
+          'radial-gradient(ellipse 62% 66% at 50% 42%, #000 58%, transparent 100%), linear-gradient(to bottom, #000 78%, transparent 100%)',
+        WebkitMaskImage:
+          'radial-gradient(ellipse 62% 66% at 50% 42%, #000 58%, transparent 100%), linear-gradient(to bottom, #000 78%, transparent 100%)',
+        maskComposite: 'intersect',
+        WebkitMaskComposite: 'source-in',
+      }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt={`${name} 초상`} loading="lazy" className="h-full w-full object-cover object-[50%_15%]" />
+    </div>
+  )
+}
+
+/**
  * A portrait built from the player id, so every card in the roster has its own
  * face without shipping a single image.
  */
@@ -32,24 +58,10 @@ export default function PlayerAvatar({
 }) {
   // The manager's own facepack first, then a shipped portrait, then the drawn face.
   const face = useFace(player.id)
-  if (face) {
-    return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img src={face} alt={`${player.name} 초상`} className={`aspect-[100/116] w-full object-cover object-top ${className}`} />
-    )
-  }
   const portraitKey = SQUAD_PORTRAITS[player.name]
-  if (portraitKey && PORTRAIT_KEYS.has(portraitKey)) {
-    return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={`/players/${portraitKey}.webp`}
-        alt={`${player.name} 초상`}
-        loading="lazy"
-        className={`aspect-[100/116] w-full object-cover object-top ${className}`}
-      />
-    )
-  }
+  const shipped = portraitKey && PORTRAIT_KEYS.has(portraitKey) ? `/players/${portraitKey}.webp` : null
+  const photo = face ?? shipped
+  if (photo) return <Photo src={photo} name={player.name} className={className} />
 
   const rng = seededRandom(hash(player.id + player.name))
   const skin = SKIN[Math.floor(rng() * SKIN.length)]
