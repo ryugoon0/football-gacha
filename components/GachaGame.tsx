@@ -6,6 +6,7 @@ import { divisionLabel } from '../lib/league'
 import { evaluateSquad } from '../lib/squad'
 import { GameProvider, useGame } from './GameProvider'
 import AccountPanel from './AccountPanel'
+import AssistantCard from './AssistantCard'
 import { buildLabel } from '../lib/build'
 import { CardStyleProvider, CardStyleToggle } from './CardStyle'
 import { TacticsModeProvider } from './TacticsMode'
@@ -184,6 +185,7 @@ function Shell() {
           <p className="py-20 text-center text-sm text-slate-500">저장된 클럽을 불러오는 중...</p>
         ) : (
           <>
+            <AssistantCard tab={tab} />
             {tab === 'home' && <HomeTab onJump={(key) => setTab(key as TabKey)} />}
             {tab === 'gacha' && <GachaTab />}
             {tab === 'market' && <MarketTab />}
