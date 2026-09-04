@@ -21,8 +21,11 @@
 import {
   ENGINE_VERSION,
   KNOB_KEYS,
+  TIERS,
   buildWeeklyMatchSetup,
+  evaluateSquad,
   getPlayer,
+  weeklyAiAnchor,
   lineupViewOf,
   liveWindowEnded,
   matchMinuteAt,
@@ -167,11 +170,45 @@ const summaryOf = (m: DueMember): SharedMemberSummary => ({
   rating: m.rating,
 })
 
+/**
+ * The squad overall an AI club in this group should play at: the median of
+ * the real managers' current squads, scaled by the tier's AI gradient
+ * (lib/weeklyLeague/liveMatch.ts weeklyAiAnchor). Without it the picked AI
+ * eleven stalls near 88 while real squads run 80–125, and the first real
+ * settlements came out 9:0. Reads every real member's save — at most 16,
+ * once per fixture kick-off.
+ */
+async function aiAnchorFor(url: string, server: ServerHeaders, groupId: number): Promise<number | undefined> {
+  const [groupRes, membersRes] = await Promise.all([
+    fetch(`${url}/rest/v1/weekly_league_groups?id=eq.${groupId}&select=tier`, { headers: server }),
+    fetch(`${url}/rest/v1/weekly_league_members?group_id=eq.${groupId}&kind=eq.user&select=user_id`, { headers: server }),
+  ])
+  if (!groupRes.ok || !membersRes.ok) return undefined
+  const group = ((await groupRes.json()) as { tier?: number }[])[0]
+  const ids = ((await membersRes.json()) as { user_id: string | null }[]).map((m) => m.user_id).filter((id): id is string => Boolean(id))
+  if (ids.length === 0) return undefined
+  const savesRes = await fetch(`${url}/rest/v1/saves?user_id=in.(${ids.join(',')})&select=data`, { headers: server })
+  if (!savesRes.ok) return undefined
+  const rows = (await savesRes.json()) as { data?: SaveShape }[]
+  const overalls: number[] = []
+  for (const row of rows) {
+    const save = row.data
+    if (!save || !isSquad(save.squad) || !Array.isArray(save.cards)) continue
+    const division = Number(save.season?.division)
+    const rating = evaluateSquad(save.cards as SharedCard[], save.squad, Number.isFinite(division) ? division : 5)
+    if (rating.overall > 0) overalls.push(rating.overall)
+  }
+  const tier = Math.max(0, Math.min(TIERS.length - 1, Number(group?.tier ?? 0)))
+  return weeklyAiAnchor(overalls, TIERS[tier].aiBaseRating, TIERS[0].aiBaseRating)
+}
+
 /** Kick-off snapshot: both sides' material plus the setup built from it. */
 async function buildSnapshot(url: string, server: ServerHeaders, fixture: FixtureInfo): Promise<SharedSnapshot> {
-  const [homeInput, awayInput] = await Promise.all([
+  const hasAi = fixture.home.kind !== 'user' || fixture.away.kind !== 'user'
+  const [homeInput, awayInput, aiAnchor] = await Promise.all([
     fixture.home.kind === 'user' && fixture.home.userId ? realSideOf(url, server, fixture.home.userId) : null,
     fixture.away.kind === 'user' && fixture.away.userId ? realSideOf(url, server, fixture.away.userId) : null,
+    hasAi ? aiAnchorFor(url, server, fixture.groupId) : Promise.resolve(undefined),
   ])
   const setup = buildWeeklyMatchSetup({
     groupId: fixture.groupId,
@@ -180,6 +217,7 @@ async function buildSnapshot(url: string, server: ServerHeaders, fixture: Fixtur
     homeInput: homeInput ?? undefined,
     awayInput: awayInput ?? undefined,
     neutralVenue: fixture.neutralVenue,
+    aiAnchor,
   })
   // The AI side's material is inside the setup already (weeklyAiSquad); the
   // replay only needs cards/squad for sides that can be substituted, which is

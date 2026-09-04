@@ -5044,7 +5044,7 @@ function chemistryOf(evaluations) {
 }
 
 // lib/weeklyLeague/liveMatch.ts
-function weeklyAiSquad(groupId, slot, targetRating) {
+function weeklyAiSquad(groupId, slot, targetRating, anchorOverall) {
   const seed = hashString(`weekly-ai:${groupId}:${slot}`);
   const rng = seededRandom(seed);
   const formationKey = FORMATION_KEYS[Math.floor(rng() * FORMATION_KEYS.length)];
@@ -5067,13 +5067,31 @@ function weeklyAiSquad(groupId, slot, targetRating) {
     else bench.push(uid);
   }
   const squad = { formation: formationKey, slots, bench };
-  const rating = evaluateSquad(cards, squad, 5);
+  const evaluated = evaluateSquad(cards, squad, 5);
+  if (!anchorOverall || anchorOverall <= 0 || evaluated.overall <= 0) {
+    return { cards, squad, rating: evaluated };
+  }
+  const scale = anchorOverall / evaluated.overall;
+  const rating = {
+    ...evaluated,
+    overall: Math.round(evaluated.overall * scale),
+    att: Math.round(evaluated.att * scale),
+    mid: Math.round(evaluated.mid * scale),
+    def: Math.round(evaluated.def * scale)
+  };
   return { cards, squad, rating };
 }
+function weeklyAiAnchor(realOveralls, tierAiBaseRating, topTierAiBaseRating) {
+  const values = realOveralls.filter((value) => Number.isFinite(value) && value > 0).sort((a, b) => a - b);
+  if (values.length === 0) return void 0;
+  const median = values[Math.floor((values.length - 1) / 2)];
+  const gradient = topTierAiBaseRating > 0 ? tierAiBaseRating / topTierAiBaseRating : 1;
+  return Math.round(median * gradient * 0.96);
+}
 function buildWeeklyMatchSetup(args) {
-  const { groupId, home, away, homeInput, awayInput, neutralVenue } = args;
-  const homeSquad = homeInput ? evaluateSquad(homeInput.cards, homeInput.squad, homeInput.division) : weeklyAiSquad(groupId, home.slot, home.rating).rating;
-  const awaySquad = awayInput ? evaluateSquad(awayInput.cards, awayInput.squad, awayInput.division) : weeklyAiSquad(groupId, away.slot, away.rating).rating;
+  const { groupId, home, away, homeInput, awayInput, neutralVenue, aiAnchor } = args;
+  const homeSquad = homeInput ? evaluateSquad(homeInput.cards, homeInput.squad, homeInput.division) : weeklyAiSquad(groupId, home.slot, home.rating, aiAnchor).rating;
+  const awaySquad = awayInput ? evaluateSquad(awayInput.cards, awayInput.squad, awayInput.division) : weeklyAiSquad(groupId, away.slot, away.rating, aiAnchor).rating;
   return {
     team: homeSquad,
     teamName: home.clubName,
@@ -5305,7 +5323,9 @@ export {
   ENGINE_VERSION,
   KNOB_KEYS,
   LIVE_WINDOW_SECONDS,
+  TIERS,
   buildWeeklyMatchSetup,
+  evaluateSquad,
   getPlayer,
   lineupViewOf,
   liveWindowEnded,
@@ -5315,5 +5335,6 @@ export {
   runToEnd,
   setTuning,
   toResult,
+  weeklyAiAnchor,
   weeklyAiSquad
 };

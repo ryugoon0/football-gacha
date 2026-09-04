@@ -8,7 +8,9 @@
  * plays casual matches and Daily PvP with.
  */
 export { ENGINE_VERSION, runToEnd, toResult } from './matchEngine'
-export { buildWeeklyMatchSetup, weeklyAiSquad } from './weeklyLeague/liveMatch'
+export { buildWeeklyMatchSetup, weeklyAiAnchor, weeklyAiSquad } from './weeklyLeague/liveMatch'
+export { TIERS } from './weeklyLeague/config'
+export { evaluateSquad } from './squad'
 export {
   LIVE_WINDOW_SECONDS,
   lineupViewOf,

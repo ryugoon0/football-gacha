@@ -3,7 +3,7 @@ import { runToEnd, toResult } from '../lib/matchEngine'
 import { seededRandom } from '../lib/random'
 import { evaluateSquad } from '../lib/squad'
 import { initialState } from '../lib/storage'
-import { buildWeeklyMatchSetup, weeklyAiSquad, type WeeklyMemberSummary } from '../lib/weeklyLeague/liveMatch'
+import { buildWeeklyMatchSetup, weeklyAiAnchor, weeklyAiSquad, type WeeklyMemberSummary } from '../lib/weeklyLeague/liveMatch'
 
 const memberOf = (over: Partial<WeeklyMemberSummary> = {}): WeeklyMemberSummary => ({
   slot: 0,
@@ -31,6 +31,31 @@ describe('weekly AI squad', () => {
     const { rating } = weeklyAiSquad(2, 7, 75)
     expect(rating.overall).toBeGreaterThan(0)
     expect(rating.evaluations.some((item) => item.card)).toBe(true)
+  })
+
+  it('plays at the anchor when one is given, keeping the same players', () => {
+    const plain = weeklyAiSquad(2, 7, 75)
+    const anchored = weeklyAiSquad(2, 7, 75, 110)
+    expect(anchored.cards).toEqual(plain.cards)
+    expect(anchored.rating.overall).toBe(110)
+    expect(anchored.rating.att).toBeGreaterThan(plain.rating.att)
+    expect(anchored.rating.def).toBeGreaterThan(plain.rating.def)
+    expect(anchored.rating.hidden).toBe(plain.rating.hidden)
+  })
+})
+
+describe('AI anchor', () => {
+  it('sits a little under the real managers median, scaled by tier', () => {
+    const overalls = [78, 84, 92, 94, 95, 98, 102, 103, 110, 113, 124]
+    const top = weeklyAiAnchor(overalls, 75, 75)!
+    expect(top).toBeLessThan(98)
+    expect(top).toBeGreaterThan(90)
+    const low = weeklyAiAnchor(overalls, 54, 75)!
+    expect(low).toBeLessThan(top)
+  })
+
+  it('is undefined with no real squads to anchor to', () => {
+    expect(weeklyAiAnchor([], 75, 75)).toBeUndefined()
   })
 })
 

@@ -117,7 +117,12 @@ export function buildWeeklyMatchSetup(args: {
   homeInput?: SharedRealSquadInput
   awayInput?: SharedRealSquadInput
   neutralVenue: boolean
+  aiAnchor?: number
 }): SharedMatchSetup
+
+export const TIERS: { maxRealUsers: number; aiBaseRating: number }[]
+export function evaluateSquad(cards: SharedCard[], squad: SharedSquad, division?: number): { overall: number }
+export function weeklyAiAnchor(realOveralls: number[], tierAiBaseRating: number, topTierAiBaseRating: number): number | undefined
 
 export function runToEnd(setup: SharedMatchSetup, rng?: () => number): SharedLiveState
 export function toResult(
