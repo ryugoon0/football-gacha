@@ -5,7 +5,8 @@ import { useGame } from '../GameProvider'
 import ModeBadge from '../ModeBadge'
 import WeeklyLiveMatch from '../WeeklyLiveMatch'
 import { getSupabase } from '../../lib/supabase'
-import { catchUpWeeklyGroup } from '../../lib/weeklyLive'
+import { catchUpWeeklyGroup, claimWeeklyRewards, fetchUnclaimedWeeklyRewards, type WeeklyRewardRow } from '../../lib/weeklyLive'
+import { isHotTime } from '../../lib/weeklyLeague/rewards'
 import { standings, type StandingsMatch, type StandingsResult } from '../../lib/weeklyLeague/standings'
 
 /**
@@ -61,7 +62,10 @@ function fmtKst(iso: string): string {
 }
 
 export default function WeeklyTab() {
-  const { account } = useGame()
+  const { account, grantGold } = useGame()
+  const [rewards, setRewards] = useState<WeeklyRewardRow[]>([])
+  const [claiming, setClaiming] = useState(false)
+  const [claimNotice, setClaimNotice] = useState<string | null>(null)
   const [sub, setSub] = useState<SubTab>('mine')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -122,6 +126,7 @@ export default function WeeklyTab() {
     // the table, so a manager never sees a stale "pending" for a match the
     // server could already have judged (docs/WEEKLY_LIVE_MATCH_DESIGN.md).
     await catchUpWeeklyGroup(row.group_id)
+    void fetchUnclaimedWeeklyRewards().then(setRewards)
 
     const [membersRes, fixturesRes, competitionsRes] = await Promise.all([
       supabase.from('weekly_league_members').select('slot, kind, club_name').eq('group_id', row.group_id),
@@ -169,6 +174,20 @@ export default function WeeklyTab() {
   useEffect(() => {
     void load()
   }, [load])
+
+  const unclaimedTotal = rewards.reduce((total, row) => total + row.amount, 0)
+  const claim = async () => {
+    setClaiming(true)
+    const result = await claimWeeklyRewards()
+    setClaiming(false)
+    if (!result.ok) {
+      setClaimNotice('보상을 받지 못했습니다. 잠시 후 다시 시도해 주세요.')
+      return
+    }
+    if (result.amount > 0) grantGold(result.amount)
+    setRewards([])
+    setClaimNotice(result.amount > 0 ? `${result.amount.toLocaleString('ko-KR')}G를 받았습니다.` : '받을 보상이 없습니다.')
+  }
 
   const clubName = (slot: number) => members.find((m) => m.slot === slot)?.club_name ?? `슬롯 ${slot}`
   const isUserClub = (slot: number) => members.find((m) => m.slot === slot)?.kind === 'user'
@@ -259,6 +278,32 @@ export default function WeeklyTab() {
 
       {sub === 'mine' && (
         <>
+          {(rewards.length > 0 || claimNotice) && (
+            <section className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-400/30 bg-amber-400/10 p-4">
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-amber-300">경쟁 리그 보상</div>
+                {rewards.length > 0 ? (
+                  <div className="mt-1 text-sm text-slate-100">
+                    받지 않은 보상 <b className="text-amber-200">{unclaimedTotal.toLocaleString('ko-KR')}G</b> · {rewards.length}건
+                    {rewards.some((row) => row.kind === 'hot_time') && (
+                      <span className="ml-2 rounded bg-rose-500/20 px-1.5 py-0.5 text-[10px] font-black text-rose-200">🔥 핫타임 포함</span>
+                    )}
+                  </div>
+                ) : (
+                  <div className="mt-1 text-sm text-slate-300">{claimNotice}</div>
+                )}
+              </div>
+              {rewards.length > 0 && (
+                <button
+                  onClick={() => void claim()}
+                  disabled={claiming}
+                  className="rounded-lg bg-amber-400 px-4 py-2 text-sm font-black text-slate-950 disabled:bg-slate-700 disabled:text-slate-400"
+                >
+                  보상 받기
+                </button>
+              )}
+            </section>
+          )}
           {openFixture !== null && (
             <WeeklyLiveMatch
               fixtureId={openFixture}
@@ -440,6 +485,14 @@ function FixtureList({
             return (
               <div key={f.id} className="flex flex-wrap items-center gap-2 rounded-xl bg-white/5 px-3 py-2 text-[11px]">
                 <span className="w-32 shrink-0 text-slate-500">{fmtKst(f.scheduled_at_utc)}</span>
+                {isHotTime(Date.parse(f.scheduled_at_utc)) && (
+                  <span
+                    title="핫타임 — 이 경기에 지시를 하나라도 내리면 보너스 골드"
+                    className="shrink-0 rounded bg-rose-500/20 px-1.5 py-0.5 text-[10px] font-black text-rose-200"
+                  >
+                    🔥 핫타임
+                  </span>
+                )}
                 <span className="flex-1 font-bold text-slate-100">
                   <span className={isHome ? 'text-emerald-300' : ''}>{clubName(f.home_slot)}</span>
                   {' vs '}

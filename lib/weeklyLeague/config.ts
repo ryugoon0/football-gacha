@@ -116,6 +116,12 @@ export interface TierDef {
   maxRealUsers: number
   /** 나머지 자리를 채우는 AI 클럽의 기준 평점 — 등급이 낮을수록 낮다. */
   aiBaseRating: number
+  /**
+   * 경기 보상 배율 — 같은 승리라도 윗 등급이 더 받는다(lib/weeklyLeague/
+   * rewards.ts). 운영자 노브 competitiveGoldMultiplier는 이 위에 한 번 더
+   * 곱해지는 전체 배율이다.
+   */
+  rewardMultiplier: number
 }
 
 /**
@@ -133,12 +139,19 @@ export interface TierDef {
 export const TIERS: TierDef[] = [
   // 최상위는 실유저 상한을 두지 않는다 — CLUB_COUNT(그룹 정원)가 자연스러운
   // 물리적 한계이므로 그 값 자체를 상한으로 쓴다.
-  { maxRealUsers: CLUB_COUNT, aiBaseRating: 75 }, // 0: 최상위, 사실상 무제한
-  { maxRealUsers: 4, aiBaseRating: 68 },
-  { maxRealUsers: 2, aiBaseRating: 61 },
-  { maxRealUsers: 1, aiBaseRating: 54 }, // 3: 최하위
+  { maxRealUsers: CLUB_COUNT, aiBaseRating: 75, rewardMultiplier: 1.0 }, // 0: 최상위, 사실상 무제한
+  { maxRealUsers: 4, aiBaseRating: 68, rewardMultiplier: 0.85 },
+  { maxRealUsers: 2, aiBaseRating: 61, rewardMultiplier: 0.7 },
+  { maxRealUsers: 1, aiBaseRating: 54, rewardMultiplier: 0.55 }, // 3: 최하위
 ]
 export const TIER_COUNT = TIERS.length
+
+/**
+ * 핫타임 — 이 시각(KST)에 킥오프하는 경기에서 참가 감독이 라이브 창 안에
+ * 지시를 하나라도 보내면 보너스 골드(노브 hotTimeBonus). 관전만으로는 안
+ * 되고 "개입"이 조건이다. 원작의 시간대 보너스를 재해석한 것.
+ */
+export const HOT_TIME_HOURS_KST: number[] = [15, 21]
 
 export const CUP_TEAMS = 16 // 조별리그 없이 16강부터, 리그와 같은 16개 구단.
 

@@ -10,6 +10,7 @@ import {
   type WeeklyLiveView,
 } from '../lib/weeklyLive'
 import PitchView from './PitchView'
+import { isHotTime } from '../lib/weeklyLeague/rewards'
 
 /**
  * A live weekly fixture, as the server replays it. Polls get_state every few
@@ -118,6 +119,11 @@ export default function WeeklyLiveMatch({ fixtureId, onClose }: { fixtureId: num
           <h3 className="mt-1 text-base font-black text-white">
             {view ? `${view.home} vs ${view.away}` : '불러오는 중...'}
           </h3>
+          {view && 'kickoffAt' in view && isHotTime(Date.parse(view.kickoffAt)) && (
+            <div className="mt-1 inline-flex items-center gap-1 rounded bg-rose-500/20 px-1.5 py-0.5 text-[10px] font-black text-rose-200">
+              🔥 핫타임 — 지시를 하나라도 내리면 보너스 골드
+            </div>
+          )}
         </div>
         <button onClick={onClose} className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-bold text-slate-300 hover:bg-white/20">
           닫기

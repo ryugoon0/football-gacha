@@ -10,13 +10,24 @@ export type { Venue, MatchSetup }
 /** Friendlies pay this share of a league match. */
 export const MINI_GAME_REWARD = KNOBS.miniGameReward.default
 
-export function matchReward(result: 'W' | 'D' | 'L', division: number, scoreFor: number): number {
+/**
+ * The reward before any mode multiplier: result, the division's bonus, and a
+ * little for every goal. Casual mode and the weekly league both start from
+ * this so a win is worth the same "shape" everywhere; each applies its own
+ * multiplier on top (casualGoldMultiplier here, competitiveGoldMultiplier and
+ * the tier gradient in lib/weeklyLeague/rewards.ts).
+ */
+export function rawMatchReward(result: 'W' | 'D' | 'L', division: number, scoreFor: number): number {
   const base = result === 'W' ? 420 : result === 'D' ? 180 : 70
   const divisionBonus = (BOTTOM_DIVISION + 1 - division) * 60
   const share = result === 'W' ? divisionBonus : Math.round(divisionBonus / 3)
+  return base + share + scoreFor * 30
+}
+
+export function matchReward(result: 'W' | 'D' | 'L', division: number, scoreFor: number): number {
   // Friendlies apply their own share on top of this (MINI_GAME_REWARD), so
   // this multiplier reaches every casual-mode reward — league and friendly.
-  return Math.round((base + share + scoreFor * 30) * tune('casualGoldMultiplier'))
+  return Math.round(rawMatchReward(result, division, scoreFor) * tune('casualGoldMultiplier'))
 }
 
 let seedCounter = 0

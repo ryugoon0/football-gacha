@@ -61,6 +61,7 @@ export interface GameApi {
   treatInjury: (uid: string) => void
   restoreCondition: (uid: string) => void
   claimMission: (id: MissionId) => void
+  grantGold: (amount: number) => void
   finishGuide: () => void
   renameClub: (club: string) => void
   expandVault: () => void
@@ -183,6 +184,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       treatInjury: (uid: string) => dispatch({ type: 'treat', uid }),
       restoreCondition: (uid: string) => dispatch({ type: 'recover', uid }),
       claimMission: (id: MissionId) => dispatch({ type: 'claimMission', id }),
+      grantGold: (amount: number) => dispatch({ type: 'grantGold', amount }),
       finishGuide: () => dispatch({ type: 'finishGuide' }),
       renameClub: (club: string) => dispatch({ type: 'renameClub', club }),
       expandVault: () => dispatch({ type: 'expandVault' }),

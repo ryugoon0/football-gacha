@@ -198,12 +198,22 @@ var KNOBS = {
   },
   competitiveGoldMultiplier: {
     label: "\uACBD\uC7C1 \uB9AC\uADF8 \uBCF4\uC0C1 \uBC30\uC728",
-    note: "\uC8FC\uAC04\uB9AC\uADF8 \uACBD\uAE30 \uACE8\uB4DC \uBCF4\uC0C1\uC5D0 \uACF1\uD560 \uBC30\uC728\uC785\uB2C8\uB2E4. \uC9C0\uAE08\uC740 \uC8FC\uAC04\uB9AC\uADF8\uAC00 \uACE8\uB4DC\uB97C \uC9C0\uAE09\uD558\uC9C0 \uC54A\uC544 \uB300\uAE30 \uC911\uC785\uB2C8\uB2E4 \u2014 \uC9C0\uAE09 \uB85C\uC9C1\uC774 \uC0DD\uAE30\uBA74 \uBC14\uB85C \uC501\uB2C8\uB2E4.",
-    default: 1,
+    note: "\uACBD\uC7C1 \uB9AC\uADF8 \uACBD\uAE30 \uACE8\uB4DC \uBCF4\uC0C1 \uC804\uCCB4\uC5D0 \uACF1\uD558\uB294 \uBC30\uC728\uC785\uB2C8\uB2E4. \uB4F1\uAE09\uBCC4 \uCC28\uB4F1(\uCD5C\uC0C1\uC704 1.0 \u2192 \uCD5C\uD558\uC704 0.55)\uC740 \uC774 \uC704\uC5D0 \uB530\uB85C \uACF1\uD574\uC9D1\uB2C8\uB2E4. \uCE90\uC8FC\uC5BC \uBAA8\uB4DC\uAC00 \uD558\uB8E8 1\uC2DC\uC98C\uC73C\uB85C \uBB36\uC778 \uB9CC\uD07C, \uACBD\uC7C1 \uB9AC\uADF8\uAC00 \uADF8 \uC790\uB9AC\uB97C \uB300\uC2E0\uD558\uB3C4\uB85D \uAE30\uBCF8\uAC12\uC744 1.5\uB85C \uB450\uC5C8\uC2B5\uB2C8\uB2E4.",
+    default: 1.5,
     min: 0,
-    max: 2,
+    max: 3,
     step: 0.05,
     group: "\uD558\uB8E8"
+  },
+  hotTimeBonus: {
+    label: "\uD56B\uD0C0\uC784 \uAC1C\uC785 \uBCF4\uB108\uC2A4",
+    note: "15\uC2DC\xB721\uC2DC(KST) \uD0A5\uC624\uD504 \uACBD\uAE30\uC5D0\uC11C \uCC38\uAC00 \uAC10\uB3C5\uC774 \uB77C\uC774\uBE0C \uCC3D \uC548\uC5D0 \uC9C0\uC2DC\uB97C \uD558\uB098\uB77C\uB3C4 \uBCF4\uB0B4\uBA74 \uBC1B\uB294 \uBCF4\uB108\uC2A4 \uACE8\uB4DC\uC785\uB2C8\uB2E4. \uAD00\uC804\uB9CC\uC73C\uB85C\uB294 \uBC1B\uC9C0 \uBABB\uD569\uB2C8\uB2E4.",
+    default: 1e3,
+    min: 0,
+    max: 1e4,
+    step: 100,
+    group: "\uD558\uB8E8",
+    integer: true
   },
   pvpDailyLimit: {
     label: "\uB370\uC77C\uB9AC PvP \uD558\uB8E8 \uB3C4\uC804 \uD69F\uC218",
@@ -5234,14 +5244,15 @@ var MATCHES_PER_LEAGUE_ROUND = CLUB_COUNT / 2;
 var TIERS = [
   // 최상위는 실유저 상한을 두지 않는다 — CLUB_COUNT(그룹 정원)가 자연스러운
   // 물리적 한계이므로 그 값 자체를 상한으로 쓴다.
-  { maxRealUsers: CLUB_COUNT, aiBaseRating: 75 },
+  { maxRealUsers: CLUB_COUNT, aiBaseRating: 75, rewardMultiplier: 1 },
   // 0: 최상위, 사실상 무제한
-  { maxRealUsers: 4, aiBaseRating: 68 },
-  { maxRealUsers: 2, aiBaseRating: 61 },
-  { maxRealUsers: 1, aiBaseRating: 54 }
+  { maxRealUsers: 4, aiBaseRating: 68, rewardMultiplier: 0.85 },
+  { maxRealUsers: 2, aiBaseRating: 61, rewardMultiplier: 0.7 },
+  { maxRealUsers: 1, aiBaseRating: 54, rewardMultiplier: 0.55 }
   // 3: 최하위
 ];
 var TIER_COUNT = TIERS.length;
+var HOT_TIME_HOURS_KST = [15, 21];
 var SQUAD_RULES = {
   starters: 11,
   bench: 9,
@@ -5252,6 +5263,51 @@ var SQUAD_RULES = {
 var KST_OFFSET_MINUTES = 9 * 60;
 var PLACEMENT_CYCLES = 3;
 var PLACEMENT_ROUNDS = ROUNDS_PER_SINGLE_CYCLE * PLACEMENT_CYCLES;
+
+// lib/match.ts
+var MINI_GAME_REWARD = KNOBS.miniGameReward.default;
+function rawMatchReward(result, division, scoreFor) {
+  const base = result === "W" ? 420 : result === "D" ? 180 : 70;
+  const divisionBonus = (BOTTOM_DIVISION + 1 - division) * 60;
+  const share = result === "W" ? divisionBonus : Math.round(divisionBonus / 3);
+  return base + share + scoreFor * 30;
+}
+
+// lib/weeklyLeague/rewards.ts
+function divisionForTier(tier) {
+  return Math.max(1, Math.min(5, tier + 1));
+}
+function weeklyMatchReward(outcome, tier, goalsFor) {
+  const tierDef = TIERS[Math.max(0, Math.min(TIERS.length - 1, tier))];
+  const raw = rawMatchReward(outcome, divisionForTier(tier), goalsFor);
+  return Math.round(raw * tierDef.rewardMultiplier * tune("competitiveGoldMultiplier"));
+}
+function outcomeOf(goalsFor, goalsAgainst) {
+  if (goalsFor > goalsAgainst) return "W";
+  if (goalsFor < goalsAgainst) return "L";
+  return "D";
+}
+function isHotTime(kickoffUtcMs) {
+  const kst = new Date(kickoffUtcMs + KST_OFFSET_MINUTES * 6e4);
+  return HOT_TIME_HOURS_KST.includes(kst.getUTCHours());
+}
+function hotTimeBonus(kickoffUtcMs, commandsSent) {
+  if (!isHotTime(kickoffUtcMs) || commandsSent <= 0) return 0;
+  return Math.round(tune("hotTimeBonus"));
+}
+function rewardsForFixture(args) {
+  const lines = [];
+  const side = (userId, goalsFor, goalsAgainst, commands) => {
+    if (!userId) return;
+    const match = weeklyMatchReward(outcomeOf(goalsFor, goalsAgainst), args.tier, goalsFor);
+    if (match > 0) lines.push({ userId, kind: "match", amount: match });
+    const bonus = hotTimeBonus(args.kickoffUtcMs, commands);
+    if (bonus > 0) lines.push({ userId, kind: "hot_time", amount: bonus });
+  };
+  side(args.homeUserId, args.scoreHome, args.scoreAway, args.homeCommands);
+  side(args.awayUserId, args.scoreAway, args.scoreHome, args.awayCommands);
+  return lines;
+}
 
 // lib/weeklyLeague/liveReplay.ts
 var LIVE_REAL_SECONDS_PER_MINUTE = 10;
@@ -5452,6 +5508,7 @@ export {
   matchMinuteAt,
   publicStateOf,
   replayFixture,
+  rewardsForFixture,
   runToEnd,
   setTuning,
   starterAverageOf,

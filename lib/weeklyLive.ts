@@ -170,6 +170,38 @@ export async function submitWeeklyCommand(
   }
 }
 
+export interface WeeklyRewardRow {
+  id: number
+  fixture_id: number
+  kind: 'match' | 'hot_time'
+  amount: number
+  created_at: string
+}
+
+/** My rewards not yet collected — what the "보상 받기" button will pay. */
+export async function fetchUnclaimedWeeklyRewards(): Promise<WeeklyRewardRow[]> {
+  const supabase = getSupabase()
+  if (!supabase) return []
+  const { data, error } = await supabase
+    .from('weekly_rewards')
+    .select('id, fixture_id, kind, amount, created_at')
+    .is('claimed_at', null)
+    .order('created_at', { ascending: false })
+  if (error || !data) return []
+  return data as WeeklyRewardRow[]
+}
+
+/** Collects everything unclaimed; the amount returned is what the save should gain. */
+export async function claimWeeklyRewards(): Promise<{ ok: true; amount: number; lines: number } | { ok: false; reason: string }> {
+  const supabase = getSupabase()
+  if (!supabase) return { ok: false, reason: 'offline' }
+  const { data, error } = await supabase.rpc('claim_weekly_rewards')
+  if (error) return { ok: false, reason: 'unavailable' }
+  const body = data as { ok?: boolean; reason?: string; amount?: number; lines?: number } | null
+  if (!body?.ok) return { ok: false, reason: body?.reason ?? 'unavailable' }
+  return { ok: true, amount: Number(body.amount ?? 0), lines: Number(body.lines ?? 0) }
+}
+
 export const LIVE_COMMAND_FAILURE_MESSAGE: Record<string, string> = {
   offline: '서버에 연결되지 않았습니다.',
   unavailable: '경기 서버에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요.',

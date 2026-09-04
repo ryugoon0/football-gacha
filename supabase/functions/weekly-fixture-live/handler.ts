@@ -33,6 +33,7 @@ import {
   matchMinuteAt,
   publicStateOf,
   replayFixture,
+  rewardsForFixture,
   setTuning,
   toResult,
   type SharedCard,
@@ -259,23 +260,47 @@ async function ensureEngine(url: string, server: ServerHeaders, fixture: Fixture
   return saved
 }
 
-/** Replays to full time and writes the result. True when this call was the one that settled it. */
+async function tierOf(url: string, server: ServerHeaders, groupId: number): Promise<number> {
+  const res = await fetch(`${url}/rest/v1/weekly_league_groups?id=eq.${groupId}&select=tier`, { headers: server })
+  if (!res.ok) return 0
+  const rows = (await res.json()) as { tier?: number }[]
+  return Number(rows[0]?.tier ?? 0)
+}
+
+/**
+ * Replays to full time and writes the result — with what each real manager
+ * earns (lib/weeklyLeague/rewards.ts: match gold by tier, plus the 핫타임
+ * bonus for a manager who sent an order in a featured kick-off). True when
+ * this call was the one that settled it.
+ */
 async function settleFromEngine(
   url: string,
   server: ServerHeaders,
-  fixtureId: number,
+  fixture: FixtureInfo,
   engine: EngineRow,
   commands: SharedCommand[],
 ): Promise<boolean> {
   const replay = replayFixture(engine.snapshot, engine.seed, commands, 90)
   const result = toResult(replay.state, replay.setup, { seed: engine.seed, engineVersion: engine.engineVersion })
+  const tier = await tierOf(url, server, fixture.groupId)
+  const rewards = rewardsForFixture({
+    tier,
+    kickoffUtcMs: fixture.scheduledAtUtc ? Date.parse(fixture.scheduledAtUtc) : 0,
+    scoreHome: result.scoreFor,
+    scoreAway: result.scoreAgainst,
+    homeUserId: fixture.home.kind === 'user' ? fixture.home.userId : null,
+    awayUserId: fixture.away.kind === 'user' ? fixture.away.userId : null,
+    homeCommands: commands.filter((c) => c.side === 'home').length,
+    awayCommands: commands.filter((c) => c.side === 'away').length,
+  })
   const settled = await rpc<{ ok?: boolean }>(url, server, 'commit_weekly_fixture_result', {
-    p_fixture_id: fixtureId,
+    p_fixture_id: fixture.fixtureId,
     p_score_home: result.scoreFor,
     p_score_away: result.scoreAgainst,
     p_events: result.events,
     p_seed: engine.seed,
     p_engine_version: result.engineVersion,
+    p_rewards: rewards,
   })
   return settled?.ok === true
 }
@@ -289,7 +314,7 @@ async function settleOne(url: string, server: ServerHeaders, fixtureId: number):
   const context = await contextOf(url, server, fixtureId)
   if (!context.fixture || context.fixture.status !== 'pending') return false
   const engine = await ensureEngine(url, server, context.fixture, context.engine)
-  return settleFromEngine(url, server, fixtureId, engine, context.commands)
+  return settleFromEngine(url, server, context.fixture, engine, context.commands)
 }
 
 async function loadTuning(url: string, server: ServerHeaders): Promise<void> {
@@ -480,7 +505,7 @@ export async function handle(request: Request, env: Env): Promise<Response> {
     }
 
     if (liveWindowEnded(scheduledAt, now)) {
-      await settleFromEngine(url, server, fixtureId, engine, context.commands)
+      await settleFromEngine(url, server, fixture, engine, context.commands)
       const replay = replayFixture(engine.snapshot, engine.seed, context.commands, 90)
       const state = publicStateOf(replay.state)
       return json({

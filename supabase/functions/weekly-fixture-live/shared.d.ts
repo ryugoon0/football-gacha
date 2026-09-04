@@ -127,7 +127,17 @@ export function buildWeeklyMatchSetup(args: {
   aiAnchor?: number
 }): SharedMatchSetup
 
-export const TIERS: { maxRealUsers: number; aiBaseRating: number }[]
+export const TIERS: { maxRealUsers: number; aiBaseRating: number; rewardMultiplier: number }[]
+export function rewardsForFixture(args: {
+  tier: number
+  kickoffUtcMs: number
+  scoreHome: number
+  scoreAway: number
+  homeUserId: string | null
+  awayUserId: string | null
+  homeCommands: number
+  awayCommands: number
+}): { userId: string; kind: 'match' | 'hot_time'; amount: number }[]
 export interface SharedSquadRatingLite {
   overall: number
   evaluations: { card: SharedCard | null; rating: number }[]

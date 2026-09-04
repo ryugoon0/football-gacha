@@ -106,6 +106,8 @@ export type Action =
   | { type: 'spendItemOnCard'; id: ItemId; uid: string }
   | { type: 'spendItemOnClub'; id: ItemId; listings?: Listing[] }
   | { type: 'claimMission'; id: MissionId }
+  /** Gold the server already decided (weekly league rewards) reaching the save. */
+  | { type: 'grantGold'; amount: number }
   | { type: 'finishGuide' }
   | { type: 'renameClub'; club: string }
   | { type: 'expandVault' }
@@ -728,6 +730,11 @@ export function reducer(state: GameState, action: Action): GameState {
           item.uid === action.uid ? { ...item, condition: MAX_CONDITION } : item,
         ),
       }
+    }
+
+    case 'grantGold': {
+      if (!Number.isFinite(action.amount) || action.amount <= 0) return state
+      return { ...state, gold: state.gold + Math.round(action.amount) }
     }
 
     case 'claimMission': {
