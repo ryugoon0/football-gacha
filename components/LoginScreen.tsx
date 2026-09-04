@@ -101,7 +101,9 @@ export default function LoginScreen() {
                 src={assistantImage(greeter.id, greeter.mode, 'body')}
                 alt={ASSISTANTS[greeter.id].name}
                 onError={() => setGreeterMissing(true)}
-                className="pointer-events-none absolute bottom-0 right-2 h-[96%] w-auto object-contain object-bottom drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)]"
+                // The masters sit on a dark studio ground; a soft mask on the
+                // left and top edges melts that ground into the locker room.
+                className="pointer-events-none absolute bottom-0 right-0 h-full w-auto object-contain object-bottom [mask-image:linear-gradient(to_right,transparent,black_35%),linear-gradient(to_bottom,transparent,black_20%)] [mask-composite:intersect] [-webkit-mask-composite:source-in]"
               />
               <div className="absolute left-3 top-3 max-w-[58%] rounded-2xl rounded-tl-sm bg-slate-950/80 px-3 py-2 text-[11px] leading-relaxed text-slate-100 backdrop-blur">
                 <div className="text-[10px] font-bold text-emerald-300">
