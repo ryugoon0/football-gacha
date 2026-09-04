@@ -14,6 +14,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "build:functions": "node scripts/bundle-functions.mjs",
+    "build:assistants": "node scripts/build-assistants.mjs",
     "db:push": "supabase db push",
     "db:diff": "supabase db diff --linked",
     "build:roster": "node scripts/build-roster.mjs"
@@ -32,6 +33,7 @@
     "eslint": "^8.57.1",
     "eslint-config-next": "^14.2.35",
     "postcss": "^8.4.39",
+    "sharp": "^0.35.4",
     "tailwindcss": "^3.4.6",
     "typescript": "^5.5.3",
     "vitest": "^2.1.9"
