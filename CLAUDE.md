@@ -19,6 +19,8 @@ npm run build:roster  # lib/rosterData.ts 재생성 (선수 명단 스크립트)
 
 ## 작업 시작 전에 읽을 것
 
+- `docs/WORKFLOW.md` — 여러 PC·세션 공통 작업 절차(준비, 검증, 배포, 명단, 두 PC 동시 작업).
+
 - `ROADMAP.md` 4·5절 — 핸드오프 문서 검토 결과와 미결 항목이 우선순위로 정리돼 있다.
   `docs/football-day-claude-code-handoff.txt`는 그린필드를 전제로 쓰여 있어서 이미
   구현된 것을 미구현으로 다루는 부분이 있다. 그 문서만 보고 착수하지 않는다.
