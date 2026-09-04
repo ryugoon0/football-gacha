@@ -25,7 +25,7 @@ import { paramsFromSetup } from '../tactics/bridge'
 import type { Card, Squad } from '../types'
 import { SQUAD_RULES } from './config'
 import { isHotTime } from './rewards'
-import { TACTIC_CARDS, boostRating, isTacticCardId, type CardContext, type TacticCardId } from './tacticCards'
+import { TACTIC_CARDS, boostLabel, boostRating, isTacticCardId, type CardContext, type TacticCardId } from './tacticCards'
 
 export const LIVE_REAL_SECONDS_PER_MINUTE = 10
 export const LIVE_MATCH_MINUTES = 90
@@ -363,7 +363,7 @@ export function replayFixture(
       if (!cardId) continue
       const card = TACTIC_CARDS[cardId]
       const on = card.triggers(cardContextOf(setup, state, side, snapshot.kickoffUtcMs))
-      if (on && !cardActive[side]) note(side, `작전카드 발동 — ${card.name} (+${card.boost})`)
+      if (on && !cardActive[side]) note(side, `작전카드 발동 — ${card.name} (${boostLabel(card.boost)})`)
       if (!on && cardActive[side]) note(side, `작전카드 대기 — ${card.name}`)
       cardActive[side] = on
       if (!on) continue

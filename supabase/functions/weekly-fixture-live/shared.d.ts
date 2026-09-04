@@ -85,7 +85,10 @@ export interface SharedReplayResult {
   cardPlayed: Record<SharedSide, string | null>
 }
 
-export const TACTIC_CARDS: Record<string, { id: string; name: string; when: string; boost: number }>
+export const TACTIC_CARDS: Record<
+  string,
+  { id: string; name: string; when: string; boost: { amount: number; stats?: string[]; positions?: string[] } }
+>
 export function isTacticCardId(value: unknown): boolean
 
 export interface SharedPublicState {

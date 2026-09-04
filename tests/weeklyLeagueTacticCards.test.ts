@@ -3,7 +3,8 @@ import { ITEMS } from '../lib/items'
 import { initialState } from '../lib/storage'
 import { buildWeeklyMatchSetup, weeklyAiSquad } from '../lib/weeklyLeague/liveMatch'
 import { replayFixture, type LiveCommand, type LiveSnapshot } from '../lib/weeklyLeague/liveReplay'
-import { TACTIC_CARDS, TACTIC_CARD_IDS, boostRating, type CardContext } from '../lib/weeklyLeague/tacticCards'
+import { TACTIC_CARDS, TACTIC_CARD_IDS, boostLabel, boostRating, type CardContext } from '../lib/weeklyLeague/tacticCards'
+import { POSITION_GROUP } from '../lib/players'
 
 function snapshotOf(kickoffUtcMs?: number): LiveSnapshot {
   const state = initialState()
@@ -42,7 +43,7 @@ describe('작전카드 definitions', () => {
       expect(item.target).toBe('match')
       expect(item.gold ?? 0).toBeGreaterThan(0)
       const card = TACTIC_CARDS[id]
-      expect(card.boost).toBeGreaterThan(0)
+      expect(card.boost.amount).toBeGreaterThan(0)
       expect(card.when.length).toBeGreaterThan(0)
     }
   })
@@ -59,19 +60,31 @@ describe('작전카드 definitions', () => {
     expect(TACTIC_CARDS.cardGoalmouth.triggers(ctx({ theirShots: 8 }))).toBe(true)
   })
 
-  it('lifts every fielded player by the boost, capped at 99', () => {
+  it('lifts only the players and stats the card names, capped at 99', () => {
     const { rating } = weeklyAiSquad(1, 2, 70)
-    const boosted = boostRating(rating, 5)
-    expect(boosted.overall).toBe(rating.overall + 5)
+    const all = boostRating(rating, { amount: 5 })
+    expect(all.overall).toBe(rating.overall + 5)
     for (let i = 0; i < rating.evaluations.length; i++) {
       const before = rating.evaluations[i]
-      const after = boosted.evaluations[i]
+      const after = all.evaluations[i]
       if (!before.player || !after.player) continue
       expect(after.rating).toBe(Math.min(99, before.rating + 5))
       expect(after.player.stats.pac).toBe(Math.min(99, before.player.stats.pac + 5))
     }
+
+    const narrow = boostRating(rating, { amount: 6, positions: ['FW'], stats: ['sho'] })
+    for (let i = 0; i < rating.evaluations.length; i++) {
+      const before = rating.evaluations[i]
+      const after = narrow.evaluations[i]
+      if (!before.player || !after.player) continue
+      const isForward = POSITION_GROUP[before.slotPosition] === 'FW'
+      expect(after.player.stats.sho).toBe(isForward ? Math.min(99, before.player.stats.sho + 6) : before.player.stats.sho)
+      expect(after.player.stats.pas).toBe(before.player.stats.pas)
+    }
     // The base is untouched — the card can switch off again.
     expect(rating.evaluations[0].player?.stats).toEqual(weeklyAiSquad(1, 2, 70).rating.evaluations[0].player?.stats)
+    expect(boostLabel({ amount: 6, positions: ['FW'], stats: ['sho'] })).toBe('공격 슈팅 +6')
+    expect(boostLabel({ amount: 5 })).toBe('전원 모든 능력치 +5')
   })
 })
 

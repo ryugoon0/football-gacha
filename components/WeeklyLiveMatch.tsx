@@ -11,7 +11,7 @@ import {
 } from '../lib/weeklyLive'
 import PitchView from './PitchView'
 import { isHotTime } from '../lib/weeklyLeague/rewards'
-import { TACTIC_CARDS, TACTIC_CARD_IDS, type TacticCardId } from '../lib/weeklyLeague/tacticCards'
+import { TACTIC_CARDS, TACTIC_CARD_IDS, boostLabel, type TacticCardId } from '../lib/weeklyLeague/tacticCards'
 import { itemCount } from '../lib/items'
 import { useGame } from './GameProvider'
 
@@ -256,13 +256,13 @@ export default function WeeklyLiveMatch({
                         key={id}
                         onClick={() => void playCard(id)}
                         disabled={busy || held <= 0}
-                        title={`${card.when} — 모든 선수 능력치 +${card.boost}`}
+                        title={`${card.when} — ${boostLabel(card.boost)}`}
                         className="rounded-md bg-white/10 px-2 py-1.5 text-left text-[11px] text-slate-200 hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-40"
                       >
                         <div className="font-bold">
                           {card.icon} {card.name} <span className="text-slate-400">×{held}</span>
-                          <span className="ml-1 text-fuchsia-200">+{card.boost}</span>
                         </div>
+                        <div className="text-[10px] text-fuchsia-200">{boostLabel(card.boost)}</div>
                         <div className="text-[10px] text-slate-400">{card.when}</div>
                       </button>
                     )

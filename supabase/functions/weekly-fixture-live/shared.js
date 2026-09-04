@@ -5355,21 +5355,22 @@ function rewardsForFixture(args) {
 }
 
 // lib/weeklyLeague/tacticCards.ts
+var ALL_STATS = ["pac", "sho", "pas", "dri", "def", "phy"];
 var define = (card) => card;
 var TACTIC_CARDS = {
   cardUnderdog: define({
     id: "cardUnderdog",
     name: "\uACF5\uC740 \uC6D0\uB798 \uB465\uAE00\uB2E4",
     when: "\uC0C1\uB300 \uC2A4\uCFFC\uB4DC \uC885\uD569\uC774 \uC6B0\uB9AC\uBCF4\uB2E4 5 \uC774\uC0C1 \uB192\uC744 \uB54C, \uACBD\uAE30 \uB0B4\uB0B4",
-    boost: 5,
+    boost: { amount: 5 },
     icon: "\u26BD",
     triggers: (ctx) => ctx.theirOverall - ctx.myOverall >= 5
   }),
   cardEvenMatch: define({
     id: "cardEvenMatch",
-    name: "\uBC15\uBE59 \uC2B9\uBD80\uC0AC",
+    name: "\uC911\uC6D0\uC774 \uAC00\uB978\uB2E4",
     when: "\uB450 \uD300 \uC2A4\uCFFC\uB4DC \uC885\uD569 \uCC28\uC774\uAC00 5 \uBBF8\uB9CC\uC77C \uB54C, \uACBD\uAE30 \uB0B4\uB0B4",
-    boost: 4,
+    boost: { amount: 6, positions: ["MF"], stats: ["pas", "dri"] },
     icon: "\u2696\uFE0F",
     triggers: (ctx) => Math.abs(ctx.theirOverall - ctx.myOverall) < 5
   }),
@@ -5377,7 +5378,7 @@ var TACTIC_CARDS = {
     id: "cardHomeCrowd",
     name: "\uC5F4\uB450 \uBC88\uC9F8 \uC120\uC218",
     when: "\uD648 \uACBD\uAE30\uC77C \uB54C, \uACBD\uAE30 \uB0B4\uB0B4",
-    boost: 4,
+    boost: { amount: 6, stats: ["phy", "pac"] },
     icon: "\u{1F4E3}",
     triggers: (ctx) => ctx.venue === "home"
   }),
@@ -5385,7 +5386,7 @@ var TACTIC_CARDS = {
     id: "cardAwayGrit",
     name: "\uC6D0\uC815 \uD22C\uD63C",
     when: "\uC6D0\uC815 \uACBD\uAE30\uC77C \uB54C, \uACBD\uAE30 \uB0B4\uB0B4",
-    boost: 4,
+    boost: { amount: 6, positions: ["DF", "GK"], stats: ["def", "phy"] },
     icon: "\u{1F6A9}",
     triggers: (ctx) => ctx.venue === "away"
   }),
@@ -5393,7 +5394,7 @@ var TACTIC_CARDS = {
     id: "cardBigStage",
     name: "\uD070 \uACBD\uAE30\uC5D0 \uAC15\uD558\uB2E4",
     when: "\uC911\uB9BD \uAD6C\uC7A5 \uACBD\uAE30(\uCEF5 \uACB0\uC2B9\xB7Masters Final)\uC77C \uB54C, \uACBD\uAE30 \uB0B4\uB0B4",
-    boost: 6,
+    boost: { amount: 7, positions: ["FW"], stats: ["sho", "dri"] },
     icon: "\u{1F3DF}\uFE0F",
     triggers: (ctx) => ctx.venue === "neutral"
   }),
@@ -5401,7 +5402,7 @@ var TACTIC_CARDS = {
     id: "cardHotTime",
     name: "\uD56B\uD0C0\uC784 \uC9D1\uC911",
     when: "\uD56B\uD0C0\uC784(15\uC2DC\xB721\uC2DC) \uD0A5\uC624\uD504 \uACBD\uAE30\uC77C \uB54C, \uACBD\uAE30 \uB0B4\uB0B4",
-    boost: 4,
+    boost: { amount: 4 },
     icon: "\u{1F525}",
     triggers: (ctx) => ctx.hotTime
   }),
@@ -5409,7 +5410,7 @@ var TACTIC_CARDS = {
     id: "cardChaser",
     name: "\uCD94\uACA9\uC790 \uBCF8\uB2A5",
     when: "\uC6B0\uB9AC\uAC00 \uD55C \uACE8 \uC774\uC0C1 \uB4A4\uC9C0\uACE0 \uC788\uB294 \uB3D9\uC548",
-    boost: 6,
+    boost: { amount: 6, positions: ["FW", "MF"], stats: ["sho", "pas", "dri"] },
     icon: "\u{1F3C3}",
     triggers: (ctx) => ctx.myScore < ctx.theirScore
   }),
@@ -5417,7 +5418,7 @@ var TACTIC_CARDS = {
     id: "cardLockdown",
     name: "\uB9AC\uB4DC\uB294 \uC9C0\uD0A8\uB2E4",
     when: "\uC6B0\uB9AC\uAC00 \uC55E\uC11C\uACE0 \uC788\uB294 \uB3D9\uC548",
-    boost: 4,
+    boost: { amount: 6, positions: ["DF", "GK"], stats: ["def", "phy"] },
     icon: "\u{1F512}",
     triggers: (ctx) => ctx.myScore > ctx.theirScore
   }),
@@ -5425,7 +5426,7 @@ var TACTIC_CARDS = {
     id: "cardFastStart",
     name: "\uCD08\uBC18 \uB7EC\uC2DC",
     when: "\uD0A5\uC624\uD504\uBD80\uD130 20\uBD84\uAE4C\uC9C0",
-    boost: 6,
+    boost: { amount: 8, stats: ["pac"] },
     icon: "\u{1F680}",
     triggers: (ctx) => ctx.minute <= 20
   }),
@@ -5433,7 +5434,7 @@ var TACTIC_CARDS = {
     id: "cardSecondHalf",
     name: "\uD6C4\uBC18\uC758 \uC0AC\uB098\uC774",
     when: "\uD6C4\uBC18\uC804(45\uBD84 \uC774\uD6C4) \uB0B4\uB0B4",
-    boost: 4,
+    boost: { amount: 6, positions: ["FW"], stats: ["sho"] },
     icon: "\u{1F319}",
     triggers: (ctx) => ctx.minute >= 45
   }),
@@ -5441,7 +5442,7 @@ var TACTIC_CARDS = {
     id: "cardLateLegs",
     name: "\uC9C0\uC9C0 \uC54A\uB294 \uB2E4\uB9AC",
     when: "70\uBD84 \uC774\uD6C4 \uACBD\uAE30 \uB05D\uAE4C\uC9C0",
-    boost: 5,
+    boost: { amount: 6, stats: ["phy", "pac"] },
     icon: "\u{1F9B5}",
     triggers: (ctx) => ctx.minute >= 70
   }),
@@ -5449,7 +5450,7 @@ var TACTIC_CARDS = {
     id: "cardGoalmouth",
     name: "\uACE8\uBB38 \uC55E \uC9D1\uC911",
     when: "\uC0C1\uB300 \uC288\uD305\uC774 8\uAC1C\uB97C \uB118\uC740 \uB4A4\uBD80\uD130",
-    boost: 5,
+    boost: { amount: 7, positions: ["GK", "DF"], stats: ["def"] },
     icon: "\u{1F9E4}",
     triggers: (ctx) => ctx.theirShots >= 8
   })
@@ -5458,22 +5459,38 @@ var TACTIC_CARD_IDS = Object.keys(TACTIC_CARDS);
 function isTacticCardId(value) {
   return typeof value === "string" && value in TACTIC_CARDS;
 }
-var STAT_KEYS2 = ["pac", "sho", "pas", "dri", "def", "phy"];
+var STAT_LABEL = { pac: "\uC18D\uB825", sho: "\uC288\uD305", pas: "\uD328\uC2A4", dri: "\uB4DC\uB9AC\uBE14", def: "\uC218\uBE44", phy: "\uD53C\uC9C0\uCEEC" };
+var GROUP_LABEL = { GK: "\uACE8\uD0A4\uD37C", DF: "\uC218\uBE44", MF: "\uBBF8\uB4DC\uD544\uB354", FW: "\uACF5\uACA9" };
+function boostLabel(boost) {
+  const who = boost.positions ? boost.positions.map((g) => GROUP_LABEL[g]).join("\xB7") : "\uC804\uC6D0";
+  const what = boost.stats ? boost.stats.map((s) => STAT_LABEL[s]).join("\xB7") : "\uBAA8\uB4E0 \uB2A5\uB825\uCE58";
+  return `${who} ${what} +${boost.amount}`;
+}
 function boostRating(rating, boost) {
-  if (boost <= 0) return rating;
-  const lift = (value) => Math.min(99, value + boost);
+  if (boost.amount <= 0) return rating;
+  const stats = boost.stats ?? ALL_STATS;
+  const lift = (value, by) => Math.min(99, value + by);
+  const ratingLift = Math.round(boost.amount * stats.length / ALL_STATS.length);
+  let affected = 0;
+  let fielded = 0;
+  const evaluations = rating.evaluations.map((item) => {
+    if (!item.player || !item.card) return item;
+    fielded += 1;
+    const group = POSITION_GROUP[item.slotPosition];
+    if (boost.positions && !boost.positions.includes(group)) return item;
+    affected += 1;
+    const next = { ...item.player.stats };
+    for (const key of stats) next[key] = lift(next[key], boost.amount);
+    return { ...item, rating: lift(item.rating, ratingLift), player: { ...item.player, stats: next } };
+  });
+  const teamLift = fielded ? Math.round(ratingLift * affected / fielded) : 0;
   return {
     ...rating,
-    att: rating.att + boost,
-    mid: rating.mid + boost,
-    def: rating.def + boost,
-    overall: rating.overall + boost,
-    evaluations: rating.evaluations.map((item) => {
-      if (!item.player || !item.card) return item;
-      const stats = { ...item.player.stats };
-      for (const key of STAT_KEYS2) stats[key] = lift(stats[key]);
-      return { ...item, rating: lift(item.rating), player: { ...item.player, stats } };
-    })
+    att: rating.att + teamLift,
+    mid: rating.mid + teamLift,
+    def: rating.def + teamLift,
+    overall: rating.overall + teamLift,
+    evaluations
   };
 }
 
@@ -5659,7 +5676,7 @@ function replayFixture(snapshot, seed, commands, targetMinute = LIVE_MATCH_MINUT
       if (!cardId) continue;
       const card = TACTIC_CARDS[cardId];
       const on = card.triggers(cardContextOf(setup, state, side, snapshot.kickoffUtcMs));
-      if (on && !cardActive[side]) note(side, `\uC791\uC804\uCE74\uB4DC \uBC1C\uB3D9 \u2014 ${card.name} (+${card.boost})`);
+      if (on && !cardActive[side]) note(side, `\uC791\uC804\uCE74\uB4DC \uBC1C\uB3D9 \u2014 ${card.name} (${boostLabel(card.boost)})`);
       if (!on && cardActive[side]) note(side, `\uC791\uC804\uCE74\uB4DC \uB300\uAE30 \u2014 ${card.name}`);
       cardActive[side] = on;
       if (!on) continue;
