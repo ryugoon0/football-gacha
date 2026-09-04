@@ -150,7 +150,7 @@ export default function TacticsCompare() {
   )
 
   return (
-    <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+    <section className="panel p-4">
       <button
         onClick={() => setOpen((value) => !value)}
         className="flex w-full items-center justify-between gap-2 text-left"
@@ -191,7 +191,7 @@ export default function TacticsCompare() {
             <button
               onClick={run}
               disabled={running || left === right}
-              className="ml-auto shrink-0 whitespace-nowrap rounded-lg bg-emerald-400 px-3 py-1.5 text-[11px] font-black text-slate-900 disabled:opacity-40"
+              className="ml-auto shrink-0 whitespace-nowrap rounded-lg btn-primary px-3 py-1.5 text-[11px] font-black disabled:opacity-40"
             >
               {running ? '치르는 중...' : '비교하기'}
             </button>

@@ -14,7 +14,7 @@ export default function MarketTab() {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
+      <section className="panel p-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h2 className="text-xl font-bold text-white">이적 시장</h2>

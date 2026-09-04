@@ -88,7 +88,7 @@ export default function TacticsSliders() {
   }
 
   return (
-    <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+    <section className="panel p-4">
       <button
         onClick={() => setOpen((value) => !value)}
         className="flex w-full items-center justify-between gap-2 text-left"
@@ -149,7 +149,7 @@ export default function TacticsSliders() {
                   onClick={() => setPhase(key)}
                   className={`whitespace-nowrap rounded-lg px-2.5 py-1.5 text-[11px] font-bold transition ${
                     active
-                      ? 'bg-emerald-400 text-slate-900'
+                      ? 'btn-primary'
                       : changed
                         ? 'bg-amber-400/20 text-amber-200'
                         : 'bg-white/5 text-slate-300'

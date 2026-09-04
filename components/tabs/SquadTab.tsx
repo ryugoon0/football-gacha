@@ -146,7 +146,7 @@ export default function SquadTab() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+      <section className="panel p-4">
         <div className="mb-4 flex flex-wrap items-center gap-2">
           {FORMATION_KEYS.map((key: FormationKey) => (
             <button
@@ -154,8 +154,8 @@ export default function SquadTab() {
               onClick={() => setFormation(key)}
               className={`rounded-lg px-3 py-1.5 text-sm font-bold transition ${
                 state.squad.formation === key
-                  ? 'bg-emerald-400 text-slate-900'
-                  : 'bg-white/5 text-slate-300 hover:bg-white/10'
+                  ? 'btn-primary'
+                  : 'btn-ghost'
               }`}
             >
               {key}
@@ -163,7 +163,7 @@ export default function SquadTab() {
           ))}
           <button
             onClick={autoFillSquad}
-            className="ml-auto rounded-lg bg-white/10 px-3 py-1.5 text-sm font-bold text-white hover:bg-white/20"
+            className="ml-auto rounded-lg btn-ghost px-3 py-1.5 text-sm font-bold text-white"
           >
             자동 배치
           </button>
@@ -294,7 +294,7 @@ export default function SquadTab() {
           )}
         </section>
 
-        <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+        <section className="panel p-4">
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">전술</h3>
           <p className="mt-1 text-[11px] text-slate-500">{tacticSummary(state.tactic)}</p>
 
@@ -306,7 +306,7 @@ export default function SquadTab() {
                 title={preset.hint}
                 className={`min-h-[44px] rounded-xl px-2 text-xs font-black transition ${
                   presetOf(state.tactic) === preset.key
-                    ? 'bg-emerald-400 text-slate-900'
+                    ? 'btn-primary'
                     : 'bg-white/10 text-slate-200 active:bg-white/20 sm:hover:bg-white/20'
                 }`}
               >
@@ -332,7 +332,7 @@ export default function SquadTab() {
                       title={`${option.description} (단축키 ${option.hotkey})`}
                       className={`min-h-[40px] rounded-lg px-1.5 py-1.5 text-[11px] font-bold transition ${
                         state.tactic[field] === option.key
-                          ? 'bg-emerald-400 text-slate-900'
+                          ? 'btn-primary'
                           : 'bg-white/5 text-slate-300 active:bg-white/10 sm:hover:bg-white/10'
                       }`}
                     >
@@ -360,7 +360,7 @@ export default function SquadTab() {
             <span>자동 교체</span>
             <span
               className={`rounded px-2 py-0.5 text-[11px] ${
-                state.autoSub ? 'bg-emerald-400 text-slate-900' : 'bg-white/10 text-slate-300'
+                state.autoSub ? 'btn-primary' : 'btn-ghost'
               }`}
             >
               {state.autoSub ? '켜짐' : '꺼짐'}
@@ -374,7 +374,7 @@ export default function SquadTab() {
         <TacticsSliders />
       <TacticsCompare />
 
-        <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+        <section className="panel p-4">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">팀 컬러</h3>
             <div className="flex items-center gap-2">
@@ -384,7 +384,7 @@ export default function SquadTab() {
               <button
                 type="button"
                 onClick={() => setShowColorHelp(true)}
-                className="rounded-lg bg-white/5 px-2 py-1 text-[10px] font-bold text-slate-300 hover:bg-white/10"
+                className="rounded-lg btn-ghost px-2 py-1 text-[10px] font-bold"
               >
                 규칙
               </button>
@@ -435,7 +435,7 @@ export default function SquadTab() {
           )}
         </section>
 
-        <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+        <section className="panel p-4">
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">팀 전력</h3>
           <div className="mt-3 flex items-end gap-3">
             <span className="text-5xl font-black text-white">{rating.overall}</span>
@@ -493,7 +493,7 @@ export default function SquadTab() {
 
         <section
           ref={pickerRef}
-          className="scroll-mt-24 rounded-2xl border border-white/10 bg-slate-900/60 p-4"
+          className="scroll-mt-24 panel p-4"
         >
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">

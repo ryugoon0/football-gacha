@@ -66,7 +66,7 @@ export function TacticsModePicker() {
             key={key}
             onClick={() => setMode(key)}
             className={`flex-1 whitespace-nowrap rounded-lg px-2.5 py-1.5 text-[11px] font-bold transition ${
-              mode === key ? 'bg-emerald-400 text-slate-900' : 'bg-white/5 text-slate-300'
+              mode === key ? 'btn-primary' : 'bg-white/5 text-slate-300'
             }`}
           >
             {TACTICS_MODE_LABELS[key]}

@@ -54,7 +54,7 @@ export default function GuideOverlay({
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 p-4 sm:items-center">
-      <div className="rise-in w-full max-w-md rounded-2xl border border-white/10 bg-slate-900 p-6 shadow-2xl">
+      <div className="rise-in w-full max-w-md panel-strong p-6 shadow-2xl">
         <div className="flex items-center justify-between">
           <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">
             게임 방법
@@ -95,7 +95,7 @@ export default function GuideOverlay({
               if (last) onClose()
               else setStep((value) => value + 1)
             }}
-            className="flex-1 rounded-lg bg-emerald-400 px-4 py-2 text-sm font-bold text-slate-900 transition hover:bg-emerald-300"
+            className="flex-1 rounded-lg btn-primary px-4 py-2 text-sm font-bold transition"
           >
             {last ? '시작하기' : '다음'}
           </button>

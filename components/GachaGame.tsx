@@ -97,11 +97,11 @@ function Shell() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100">
-      <header className="sticky top-0 z-30 border-b border-white/10 bg-slate-950/85 backdrop-blur">
+    <main className="min-h-screen text-slate-100">
+      <header className="app-header sticky top-0 z-30">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-3 px-4 py-3">
           <div className="flex items-center gap-3">
-            <Link href="/" className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-400 text-xs font-black text-slate-900" aria-label="리그센터로 이동">
+            <Link href="/" className="brand-mark flex h-10 w-10 items-center justify-center rounded-xl text-xs font-black" aria-label="리그센터로 이동">
               {BRAND_MARK}
             </Link>
             <div className="min-w-0">
@@ -140,13 +140,13 @@ function Shell() {
               label="시즌"
               value={state.season.finished ? '종료' : `${state.season.round + 1}R`}
             />
-            <div className="whitespace-nowrap rounded-xl bg-amber-400/15 px-3 py-2 text-right">
-              <div className="text-[10px] font-bold uppercase text-amber-300/80">Gold</div>
-              <div className="font-black text-amber-300">{state.gold.toLocaleString()}</div>
+            <div className="gold-plate whitespace-nowrap rounded-xl px-3 py-2 text-right">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-amber-200/70">Gold</div>
+              <div className="font-black tabular-nums text-amber-200">{state.gold.toLocaleString()}</div>
             </div>
             <button
               onClick={() => setAccountOpen(true)}
-              className="whitespace-nowrap rounded-xl bg-white/5 px-3 py-2 text-xs font-bold text-slate-300 hover:bg-white/10 hover:text-white"
+              className="whitespace-nowrap rounded-xl btn-ghost px-3 py-2 text-xs font-bold"
               title={account.user ? account.user.email : '로그인하면 진행 상황이 계정에 저장됩니다'}
             >
               {account.status === 'signedIn' ? '내 계정' : '로그인'}
@@ -154,7 +154,7 @@ function Shell() {
             <CardStyleToggle />
             <button
               onClick={() => setHelpOpen(true)}
-              className="whitespace-nowrap rounded-xl bg-white/5 px-3 py-2 text-xs font-bold text-slate-300 hover:bg-white/10 hover:text-white"
+              className="whitespace-nowrap rounded-xl btn-ghost px-3 py-2 text-xs font-bold"
               title="게임 방법"
             >
               도움말
@@ -170,7 +170,7 @@ function Shell() {
               onClick={() => setTab(item.key)}
               className={`-mb-px shrink-0 whitespace-nowrap border-b-2 px-1 py-2 text-[11px] font-bold transition min-[400px]:px-2 min-[400px]:text-xs sm:px-3 sm:text-sm ${
                 tab === item.key
-                  ? 'border-emerald-400 text-emerald-300'
+                  ? 'tab-active border-emerald-400'
                   : 'border-transparent text-slate-400 hover:text-slate-200'
               }`}
             >
@@ -236,9 +236,9 @@ function Shell() {
 
 function Stat({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="hidden rounded-xl bg-white/5 px-3 py-2 text-right sm:block">
-      <div className="text-[10px] font-bold uppercase text-slate-500">{label}</div>
-      <div className="font-black text-white">{value}</div>
+    <div className="stat-plate hidden rounded-xl px-3 py-2 text-right sm:block">
+      <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">{label}</div>
+      <div className="font-black tabular-nums text-white">{value}</div>
     </div>
   )
 }

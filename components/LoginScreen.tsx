@@ -46,7 +46,7 @@ export default function LoginScreen() {
   // choose a new password. Nothing else is worth showing until they have.
   if (account.recovering) {
     return (
-      <main className="min-h-screen bg-slate-950 text-white">
+      <main className="min-h-screen text-white">
         <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4 py-8">
           <h1 className="text-2xl font-black leading-snug">새 비밀번호를 정해 주세요</h1>
           <p className="mt-1 text-xs text-slate-400">
@@ -68,13 +68,13 @@ export default function LoginScreen() {
                 value={fresh}
                 onChange={(event) => setFresh(event.target.value)}
                 autoComplete="new-password"
-                className="mt-1 w-full rounded-lg bg-white/10 px-3 py-2.5 text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-emerald-400"
+                className="mt-1 w-full rounded-lg input px-3 py-2.5 text-sm font-semibold"
               />
             </label>
             <button
               type="submit"
               disabled={account.syncing || fresh.length < 6}
-              className="w-full rounded-xl bg-emerald-400 py-3 text-sm font-black text-slate-900 disabled:opacity-50"
+              className="w-full rounded-xl btn-primary py-3 text-sm font-black disabled:opacity-50"
             >
               비밀번호 바꾸기
             </button>
@@ -90,7 +90,7 @@ export default function LoginScreen() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white">
+    <main className="min-h-screen text-white">
       <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4 py-8">
         <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#0d1728]">
           <LockerRoomScene className={`w-full ${greeter && !greeterMissing ? 'h-72 sm:h-80' : 'h-48 sm:h-56'}`} />
@@ -136,8 +136,8 @@ export default function LoginScreen() {
                 }}
                 className={`flex-1 whitespace-nowrap rounded-lg py-2.5 text-sm font-bold transition ${
                   mode === key
-                    ? 'bg-emerald-400 text-slate-900'
-                    : 'bg-white/5 text-slate-300 hover:bg-white/10'
+                    ? 'btn-primary'
+                    : 'btn-ghost'
                 }`}
               >
                 {key === 'signIn' ? '로그인' : '회원가입'}
@@ -153,7 +153,7 @@ export default function LoginScreen() {
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               autoComplete="email"
-              className="mt-1 w-full rounded-lg bg-white/10 px-3 py-2.5 text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-emerald-400"
+              className="mt-1 w-full rounded-lg input px-3 py-2.5 text-sm font-semibold"
             />
           </label>
 
@@ -166,14 +166,14 @@ export default function LoginScreen() {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               autoComplete={mode === 'signIn' ? 'current-password' : 'new-password'}
-              className="mt-1 w-full rounded-lg bg-white/10 px-3 py-2.5 text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-emerald-400"
+              className="mt-1 w-full rounded-lg input px-3 py-2.5 text-sm font-semibold"
             />
           </label>
 
           <button
             type="submit"
             disabled={account.syncing}
-            className="w-full rounded-xl bg-emerald-400 py-3 text-sm font-black text-slate-900 transition hover:bg-emerald-300 disabled:opacity-50"
+            className="w-full rounded-xl btn-primary py-3 text-sm font-black transition disabled:opacity-50"
           >
             {mode === 'signIn' ? '로그인하고 시작' : '가입하고 시작'}
           </button>
@@ -195,7 +195,7 @@ export default function LoginScreen() {
             type="button"
             onClick={() => void account.resetPassword(email.trim())}
             disabled={!email.trim() || account.syncing}
-            className="flex-1 whitespace-nowrap rounded-lg bg-white/5 px-2.5 py-2 text-[11px] font-bold text-slate-300 disabled:opacity-40"
+            className="flex-1 whitespace-nowrap rounded-lg btn-ghost px-2.5 py-2 text-[11px] font-bold disabled:opacity-40"
           >
             비밀번호 재설정
           </button>
@@ -203,7 +203,7 @@ export default function LoginScreen() {
             type="button"
             onClick={() => void account.resendConfirmation(email.trim())}
             disabled={!email.trim() || account.syncing}
-            className="flex-1 whitespace-nowrap rounded-lg bg-white/5 px-2.5 py-2 text-[11px] font-bold text-slate-300 disabled:opacity-40"
+            className="flex-1 whitespace-nowrap rounded-lg btn-ghost px-2.5 py-2 text-[11px] font-bold disabled:opacity-40"
           >
             확인 메일 다시 보내기
           </button>
@@ -211,7 +211,7 @@ export default function LoginScreen() {
             type="button"
             onClick={() => void runProbe()}
             disabled={probing}
-            className="flex-1 whitespace-nowrap rounded-lg bg-white/5 px-2.5 py-2 text-[11px] font-bold text-slate-300 disabled:opacity-40"
+            className="flex-1 whitespace-nowrap rounded-lg btn-ghost px-2.5 py-2 text-[11px] font-bold disabled:opacity-40"
           >
             {probing ? '확인 중...' : '서버 연결 확인'}
           </button>

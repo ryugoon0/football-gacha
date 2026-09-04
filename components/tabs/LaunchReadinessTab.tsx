@@ -116,7 +116,7 @@ export default function LaunchReadinessTab() {
 
   return (
     <div className="space-y-4">
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+      <section className="panel p-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">
             개막 배치 리그 준비 상태
@@ -176,7 +176,7 @@ export default function LaunchReadinessTab() {
         )}
       </section>
 
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+      <section className="panel p-4">
         <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">자동 실행 크론</h3>
         <div className="mt-2 space-y-1.5">
           {jobs.map((job) => (

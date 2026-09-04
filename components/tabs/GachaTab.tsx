@@ -146,7 +146,7 @@ export default function GachaTab() {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
+      <section className="panel p-5">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <h2 className="text-xl font-bold text-white">카드팩 뽑기</h2>
@@ -196,8 +196,8 @@ export default function GachaTab() {
                 family === key
                   ? key === 'premium'
                     ? 'bg-violet-400 text-slate-900'
-                    : 'bg-emerald-400 text-slate-900'
-                  : 'bg-white/5 text-slate-300 hover:bg-white/10'
+                    : 'btn-primary'
+                  : 'btn-ghost'
               }`}
             >
               {key === 'basic' ? '일반팩' : '프리미엄팩'}
@@ -270,7 +270,7 @@ export default function GachaTab() {
                 className={`rounded-lg px-2.5 py-1 text-xs font-bold transition ${
                   group === id
                     ? 'bg-white text-slate-900'
-                    : 'bg-white/5 text-slate-300 hover:bg-white/10'
+                    : 'btn-ghost'
                 }`}
               >
                 {id === 'all' ? '전체' : GROUPS.find((item) => item.id === id)!.label}
@@ -343,7 +343,7 @@ export default function GachaTab() {
         </div>
       </section>
 
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
+      <section className="panel p-5">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">조각 교환소</h3>
           <span className="text-sm font-bold text-sky-300">보유 조각 {state.shards}</span>
@@ -375,7 +375,7 @@ export default function GachaTab() {
         </div>
       </section>
 
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
+      <section className="panel p-5">
         <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">일일 미션</h3>
         <div className="grid gap-3 sm:grid-cols-3">
           {DAILY_MISSIONS.map((mission) => {
@@ -418,7 +418,7 @@ export default function GachaTab() {
         </div>
       </section>
 
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
+      <section className="panel p-5">
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">
             내 뽑기 기록

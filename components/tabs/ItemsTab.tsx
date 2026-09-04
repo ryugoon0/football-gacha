@@ -102,7 +102,7 @@ export default function ItemsTab() {
   return (
     <div className="space-y-4">
       {showCardHelp && <TacticCardHelp onClose={() => setShowCardHelp(false)} />}
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+      <section className="panel p-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex gap-1.5">
             {(['shop', 'bag'] as const).map((key) => (
@@ -114,7 +114,7 @@ export default function ItemsTab() {
                   setPicking(null)
                 }}
                 className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-bold transition ${
-                  side === key ? 'bg-emerald-400 text-slate-900' : 'bg-white/5 text-slate-300'
+                  side === key ? 'btn-primary' : 'bg-white/5 text-slate-300'
                 }`}
               >
                 {key === 'shop' ? '상점' : '창고'}
@@ -139,7 +139,7 @@ export default function ItemsTab() {
       </section>
 
       {side === 'shop' ? (
-        <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+        <section className="panel p-4">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">상점</h3>
             <div className="flex shrink-0 items-center gap-1.5">
@@ -208,7 +208,7 @@ export default function ItemsTab() {
           </ul>
         </section>
       ) : (
-        <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+        <section className="panel p-4">
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">창고</h3>
           {ITEM_IDS.every((id) => itemCount(state.items, id) === 0) ? (
             <p className="mt-3 text-[11px] text-slate-500">
@@ -245,7 +245,7 @@ export default function ItemsTab() {
                           onClick={() =>
                             item.target === 'club' ? spendOnClub(id) : setPicking(picking === id ? null : id)
                           }
-                          className="shrink-0 whitespace-nowrap rounded-lg bg-emerald-400 px-3 py-1.5 text-[11px] font-black text-slate-900"
+                          className="shrink-0 whitespace-nowrap rounded-lg btn-primary px-3 py-1.5 text-[11px] font-black"
                         >
                           {item.target === 'club' ? '사용' : picking === id ? '닫기' : '선수 고르기'}
                         </button>

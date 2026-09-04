@@ -119,7 +119,7 @@ export default function NoticePanel() {
 
   return (
     <div className="space-y-4">
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+      <section className="panel p-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
             <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">패치 로그</h3>
@@ -158,7 +158,7 @@ export default function NoticePanel() {
                   <span
                     className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border text-[10px] font-black ${
                       on
-                        ? 'border-emerald-400 bg-emerald-400 text-slate-900'
+                        ? 'border-emerald-400 btn-primary'
                         : 'border-white/25 text-transparent'
                     }`}
                   >
@@ -200,7 +200,7 @@ export default function NoticePanel() {
         </ul>
       </section>
 
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+      <section className="panel p-4">
         <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">패치 노트 미리보기</h3>
         <p className="mt-0.5 text-[11px] text-slate-500">
           고른 {chosen.length}개 항목으로 만든 공지입니다. 그대로 게시됩니다.
@@ -224,13 +224,13 @@ export default function NoticePanel() {
         <button
           onClick={publish}
           disabled={busy || chosen.length === 0}
-          className="mt-3 w-full rounded-xl bg-emerald-400 px-4 py-2.5 text-sm font-black text-slate-900 disabled:opacity-40"
+          className="mt-3 w-full rounded-xl btn-primary px-4 py-2.5 text-sm font-black disabled:opacity-40"
         >
           {busy ? '게시하는 중...' : '공지사항에 게시'}
         </button>
       </section>
 
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+      <section className="panel p-4">
         <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">올린 공지</h3>
         {notices.length === 0 ? (
           <p className="mt-2 text-[11px] text-slate-500">아직 올린 공지가 없습니다.</p>

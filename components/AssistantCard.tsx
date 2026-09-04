@@ -96,7 +96,7 @@ export default function AssistantCard({ tab }: { tab: string }) {
   }
 
   return (
-    <section className="mb-4 flex items-stretch gap-3 rounded-2xl border border-white/10 bg-slate-900/60 p-3">
+    <section className="mb-4 flex items-stretch gap-3 panel p-3">
       <img
         src={assistantImage(id, mode, 'bust', speech.expression)}
         alt={`${who.name} — ${who.role}`}

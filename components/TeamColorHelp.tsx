@@ -15,7 +15,7 @@ export default function TeamColorHelp({ onClose }: { onClose: () => void }) {
       >
         <div className="flex items-center justify-between">
           <h3 className="text-base font-black text-white">팀 컬러 규칙</h3>
-          <button type="button" onClick={onClose} className="rounded-lg bg-white/5 px-2.5 py-1 text-xs font-bold text-slate-300">
+          <button type="button" onClick={onClose} className="rounded-lg btn-ghost px-2.5 py-1 text-xs font-bold">
             닫기
           </button>
         </div>

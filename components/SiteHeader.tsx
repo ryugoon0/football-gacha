@@ -15,7 +15,7 @@ export default function SiteHeader({ active = 'home' }: { active?: Section }) {
     <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/90 backdrop-blur">
       <div className="mx-auto flex min-h-16 max-w-7xl items-center gap-5 px-4 sm:px-6">
         <Link href="/" className="flex shrink-0 items-center gap-2.5" aria-label={`${BRAND_NAME} 홈`}>
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-400 text-xs font-black text-slate-950">
+          <span className="flex h-9 w-9 items-center justify-center rounded-lg btn-primary text-xs font-black">
             {BRAND_MARK}
           </span>
           <span className="hidden text-sm font-black tracking-wide text-white sm:block">{BRAND_NAME}</span>
@@ -39,7 +39,7 @@ export default function SiteHeader({ active = 'home' }: { active?: Section }) {
 
         <Link
           href="/game"
-          className="shrink-0 rounded-lg bg-emerald-400 px-3 py-2 text-xs font-black text-slate-950 transition hover:bg-emerald-300 sm:px-4 sm:text-sm"
+          className="shrink-0 rounded-lg btn-primary px-3 py-2 text-xs font-black transition sm:px-4 sm:text-sm"
         >
           게임 시작
         </Link>

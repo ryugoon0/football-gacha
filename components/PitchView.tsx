@@ -44,7 +44,7 @@ export default function PitchView({
       {state.home.map((dot) => (
         <span
           key={dot.id}
-          className="absolute flex h-5 w-5 -translate-x-1/2 translate-y-1/2 items-center justify-center rounded-full border border-emerald-200 bg-emerald-400 text-[7px] font-black text-slate-900 transition-all duration-200 ease-linear"
+          className="absolute flex h-5 w-5 -translate-x-1/2 translate-y-1/2 items-center justify-center rounded-full border border-emerald-200 btn-primary text-[7px] font-black transition-all duration-200 ease-linear"
           style={{ left: `${dot.liveX}%`, bottom: `${dot.liveY}%` }}
           title={`${dot.label} (${dot.role})`}
         >

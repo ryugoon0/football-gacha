@@ -116,7 +116,7 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 p-4 sm:items-center">
-      <div className="rise-in w-full max-w-md rounded-2xl border border-white/10 bg-slate-900 p-6 shadow-2xl">
+      <div className="rise-in w-full max-w-md panel-strong p-6 shadow-2xl">
         <div className="mb-4 flex items-center justify-between">
           <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">
             계정
@@ -201,7 +201,7 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
                   type="button"
                   onClick={() => void setSquadVisibility(true)}
                   disabled={publishing}
-                  className="rounded-lg bg-emerald-400 py-2 text-xs font-black text-slate-950 transition hover:bg-emerald-300 disabled:opacity-40"
+                  className="rounded-lg btn-primary py-2 text-xs font-black transition disabled:opacity-40"
                 >
                   {publicStatus ? '최신 스쿼드로 갱신' : '스쿼드 공개'}
                 </button>
@@ -210,7 +210,7 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
                     type="button"
                     onClick={() => void setSquadVisibility(false)}
                     disabled={publishing}
-                    className="rounded-lg bg-white/5 py-2 text-xs font-bold text-slate-300 transition hover:bg-white/10 disabled:opacity-40"
+                    className="rounded-lg btn-ghost py-2 text-xs font-bold disabled:opacity-40"
                   >
                     공개 해제
                   </button>
@@ -264,8 +264,8 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
                   }}
                   className={`flex-1 whitespace-nowrap rounded-lg py-2 text-sm font-bold transition ${
                     mode === key
-                      ? 'bg-emerald-400 text-slate-900'
-                      : 'bg-white/5 text-slate-300 hover:bg-white/10'
+                      ? 'btn-primary'
+                      : 'btn-ghost'
                   }`}
                 >
                   {key === 'signIn' ? '로그인' : '회원가입'}
@@ -281,7 +281,7 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 autoComplete="email"
-                className="mt-1 w-full rounded-lg bg-white/10 px-3 py-2 text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-emerald-400"
+                className="mt-1 w-full rounded-lg input px-3 py-2 text-sm font-semibold"
               />
             </label>
 
@@ -294,14 +294,14 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 autoComplete={mode === 'signIn' ? 'current-password' : 'new-password'}
-                className="mt-1 w-full rounded-lg bg-white/10 px-3 py-2 text-sm font-semibold text-white outline-none focus:ring-2 focus:ring-emerald-400"
+                className="mt-1 w-full rounded-lg input px-3 py-2 text-sm font-semibold"
               />
             </label>
 
             <button
               type="submit"
               disabled={account.syncing}
-              className="w-full rounded-xl bg-emerald-400 py-2.5 text-sm font-black text-slate-900 transition hover:bg-emerald-300 disabled:opacity-50"
+              className="w-full rounded-xl btn-primary py-2.5 text-sm font-black transition disabled:opacity-50"
             >
               {mode === 'signIn' ? '로그인' : '가입하고 시작'}
             </button>

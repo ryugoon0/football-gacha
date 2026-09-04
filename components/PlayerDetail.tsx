@@ -48,7 +48,7 @@ export default function PlayerDetail({
   const maxed = card.level >= cap
 
   return (
-    <section className="space-y-3 rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+    <section className="space-y-3 panel p-4">
       <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">선수 상세</h3>
 
       <div className="flex justify-center">
@@ -87,7 +87,7 @@ export default function PlayerDetail({
               <span
                 className={`w-12 shrink-0 rounded px-1 py-0.5 text-center font-bold ${
                   position === player.position
-                    ? 'bg-emerald-400 text-slate-900'
+                    ? 'btn-primary'
                     : 'bg-white/10 text-slate-200'
                 }`}
               >

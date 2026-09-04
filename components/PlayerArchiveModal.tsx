@@ -62,7 +62,7 @@ export default function PlayerArchiveModal({
       onClick={onClose}
     >
       <div
-        className="rise-in my-6 w-full max-w-4xl rounded-2xl border border-white/10 bg-slate-900 p-5 shadow-2xl"
+        className="rise-in my-6 w-full max-w-4xl panel-strong p-5 shadow-2xl"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4">
@@ -185,7 +185,7 @@ export default function PlayerArchiveModal({
                     <span
                       className={`w-12 shrink-0 rounded px-1 py-0.5 text-center font-bold ${
                         position === player.position
-                          ? 'bg-emerald-400 text-slate-900'
+                          ? 'btn-primary'
                           : 'bg-white/10 text-slate-200'
                       }`}
                     >

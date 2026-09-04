@@ -102,7 +102,7 @@ export default function MatchTab() {
     <div className="space-y-4">
       <ModeBadge mode="casual" />
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
-        <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
+        <section className="panel p-5">
           {state.season.finished ? <SeasonEnd /> : <MatchDay />}
         </section>
 
@@ -116,8 +116,8 @@ export default function MatchTab() {
               onClick={() => setSide(key)}
               className={`flex-1 rounded-lg px-3 py-1.5 text-sm font-bold transition ${
                 side === key
-                  ? 'bg-emerald-400 text-slate-900'
-                  : 'bg-white/5 text-slate-300 hover:bg-white/10'
+                  ? 'btn-primary'
+                  : 'btn-ghost'
               }`}
             >
               {key === 'table' ? '리그 순위' : 'FA컵 대진'}
@@ -602,8 +602,8 @@ function MatchDay() {
               onClick={() => setMode(key)}
               className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-bold transition ${
                 mode === key
-                  ? 'bg-emerald-400 text-slate-900'
-                  : 'bg-white/5 text-slate-300 hover:bg-white/10'
+                  ? 'btn-primary'
+                  : 'btn-ghost'
               }`}
             >
               {key === 'watch' ? '관전 모드' : '텍스트 모드'}
@@ -666,8 +666,8 @@ function MatchDay() {
               onClick={() => engine.setSpeed(index)}
               className={`rounded-lg px-2.5 py-1.5 text-xs font-bold transition ${
                 engine.speed === index
-                  ? 'bg-emerald-400 text-slate-900'
-                  : 'bg-white/5 text-slate-300 hover:bg-white/10'
+                  ? 'btn-primary'
+                  : 'btn-ghost'
               }`}
             >
               {item.label}
@@ -787,7 +787,7 @@ function MatchDay() {
                     presetOf(shownTactic) === preset.key
                       ? pendingTactic
                         ? 'bg-amber-300 text-slate-900'
-                        : 'bg-emerald-400 text-slate-900'
+                        : 'btn-primary'
                       : 'bg-white/10 text-slate-200 active:bg-white/20'
                   }`}
                 >
@@ -996,7 +996,7 @@ function InMatchTactics({
               active === preset.key
                 ? queued
                   ? 'bg-amber-300 text-slate-900'
-                  : 'bg-emerald-400 text-slate-900'
+                  : 'btn-primary'
                 : 'bg-white/10 text-slate-200 active:bg-white/20 sm:hover:bg-white/20'
             }`}
           >
@@ -1025,7 +1025,7 @@ function InMatchTactics({
                     tactic[field] === option.key
                       ? queued
                         ? 'bg-amber-300 text-slate-900'
-                        : 'bg-emerald-400 text-slate-900'
+                        : 'btn-primary'
                       : 'bg-white/10 text-slate-300 active:bg-white/20 sm:hover:bg-white/20'
                   }`}
                 >
@@ -1164,7 +1164,7 @@ function SeasonEnd() {
       </p>
       <button
         onClick={startNewSeason}
-        className="mt-5 rounded-xl bg-emerald-400 px-6 py-3 font-bold text-slate-900 transition hover:bg-emerald-300"
+        className="mt-5 rounded-xl btn-primary px-6 py-3 font-bold transition"
       >
         새 시즌 시작
       </button>
@@ -1219,7 +1219,7 @@ function MiniGamePanel() {
   }
 
   return (
-    <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+    <section className="panel p-4">
       <div className="flex items-center justify-between gap-2">
         <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">데일리 미니게임</h3>
         <span className={`text-xs font-black ${left > 0 ? 'text-sky-300' : 'text-slate-500'}`}>
@@ -1273,7 +1273,7 @@ function Schedule() {
   const upcoming = SEASON_SCHEDULE.slice(state.matchday, state.matchday + 6)
 
   return (
-    <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+    <section className="panel p-4">
       <h3 className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-400">다음 일정</h3>
       <div className="space-y-1">
         {upcoming.map((day, index) => (
@@ -1396,7 +1396,7 @@ function SeasonLeaders() {
   ]
   const empty = boards.every(([, , rows]) => rows.length === 0)
   return (
-    <section className="mt-4 rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+    <section className="mt-4 panel p-4">
       <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">시즌 개인 기록</h3>
       {empty ? (
         <p className="text-xs text-slate-500">리그·컵 경기를 치르면 우리 선수들의 골·도움·MVP가 여기 쌓입니다.</p>
@@ -1434,7 +1434,7 @@ function LeagueTable() {
   const table = useMemo(() => standings(state.season), [state.season])
 
   return (
-    <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+    <section className="panel p-4">
       <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">
         {divisionLabel(state.season.division)} 순위표
       </h3>
@@ -1519,7 +1519,7 @@ function CupBracket() {
   }
 
   return (
-    <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+    <section className="panel p-4">
       <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">
         FA컵 {cup.index}회 대진
       </h3>
@@ -1545,7 +1545,7 @@ function CupBracket() {
 function ClubForm() {
   const { state } = useGame()
   return (
-    <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+    <section className="panel p-4">
       <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">통산 전적</h3>
       <div className="grid grid-cols-3 gap-2 text-center">
         {[

@@ -77,7 +77,7 @@ export function CardStyleToggle() {
           key={key}
           onClick={() => setStyle(key)}
           className={`whitespace-nowrap rounded-[10px] px-2 py-1.5 text-[11px] font-bold transition ${
-            style === key ? 'bg-emerald-400 text-slate-900' : 'text-slate-400 hover:text-white'
+            style === key ? 'btn-primary' : 'text-slate-400 hover:text-white'
           }`}
         >
           {CARD_STYLE_LABELS[key]}

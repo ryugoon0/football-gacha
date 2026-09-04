@@ -70,7 +70,7 @@ export default function MonitorPanel() {
   }, [load])
 
   return (
-    <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+    <section className="panel p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">모니터링</h3>

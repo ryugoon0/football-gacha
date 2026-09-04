@@ -164,7 +164,7 @@ export default function WeeklyLiveMatch({
             </div>
           )}
         </div>
-        <button onClick={onClose} className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-bold text-slate-300 hover:bg-white/20">
+        <button onClick={onClose} className="rounded-lg btn-ghost px-3 py-1.5 text-xs font-bold">
           닫기
         </button>
       </div>
@@ -306,7 +306,7 @@ export default function WeeklyLiveMatch({
                     key={option.key}
                     onClick={() => setTactic((current) => ({ ...current, [field]: option.key }))}
                     className={`rounded-md px-2 py-1 text-[11px] font-bold ${
-                      tactic[field] === option.key ? 'bg-emerald-400 text-slate-900' : 'bg-white/10 text-slate-300'
+                      tactic[field] === option.key ? 'btn-primary' : 'btn-ghost'
                     }`}
                   >
                     {option.label}

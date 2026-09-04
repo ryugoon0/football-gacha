@@ -4,10 +4,168 @@
 
 :root {
   color-scheme: dark;
+  --ink-0: #070d16;
+  --ink-1: #0b1424;
+  --ink-2: #111d31;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.14);
+  --pitch: #10b981;
+  --pitch-soft: #6ee7b7;
+  --gold: #f5c451;
+  --gold-soft: #fde68a;
 }
 
+html {
+  font-family:
+    'Pretendard Variable',
+    Pretendard,
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    'Apple SD Gothic Neo',
+    'Noto Sans KR',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* The ground: deep navy that lifts toward the top, a faint pitch-green wash
+   low right, and a hairline grain so large flat areas do not read as vinyl. */
 body {
-  background: #070d16;
+  background-color: var(--ink-0);
+  background-image:
+    radial-gradient(1200px 600px at 12% -10%, rgba(30, 58, 110, 0.55), transparent 60%),
+    radial-gradient(900px 500px at 100% 100%, rgba(16, 185, 129, 0.1), transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-attachment: fixed, fixed, scroll;
+}
+
+@layer components {
+  /* One surface for every card-like block: glass over the ground, a lit top
+     edge, a soft drop. Padding stays on the element (p-3 … p-6). */
+  .panel {
+    @apply rounded-2xl border;
+    border-color: var(--line);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015)),
+      rgba(11, 20, 36, 0.72);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.07),
+      0 18px 40px -24px rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(10px);
+  }
+
+  .panel-strong {
+    @apply rounded-2xl border;
+    border-color: var(--line-strong);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+      #0e1a2c;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.09),
+      0 28px 60px -30px rgba(0, 0, 0, 0.85);
+  }
+
+  /* The action colour, now with depth: a diagonal emerald sweep, a lit rim,
+     a coloured shadow that lifts on hover and settles on press. */
+  .btn-primary {
+    @apply text-slate-950 transition;
+    background-image: linear-gradient(135deg, #7ff0c4 0%, #22c98a 55%, #0ea86f 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.45),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.15),
+      0 8px 20px -10px rgba(16, 185, 129, 0.7);
+  }
+  .btn-primary:hover:not(:disabled) {
+    filter: brightness(1.06);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.15),
+      0 12px 26px -10px rgba(16, 185, 129, 0.8);
+  }
+  .btn-primary:active:not(:disabled) {
+    transform: translateY(1px);
+    filter: brightness(0.97);
+  }
+  .btn-primary:disabled {
+    filter: saturate(0.4);
+  }
+
+  .btn-gold {
+    @apply text-amber-950 transition;
+    background-image: linear-gradient(135deg, #ffe9a6 0%, #f5c451 55%, #d99a1a 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.15),
+      0 8px 20px -10px rgba(245, 196, 81, 0.6);
+  }
+  .btn-gold:hover:not(:disabled) {
+    filter: brightness(1.05);
+  }
+  .btn-gold:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  /* Quiet buttons and inactive pills: a hairline and a whisper of fill. */
+  .btn-ghost {
+    @apply text-slate-300 transition;
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  }
+  .btn-ghost:hover:not(:disabled) {
+    color: #f8fafc;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+  }
+  .btn-ghost:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  .input {
+    @apply text-white outline-none transition;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+  .input:focus {
+    box-shadow:
+      inset 0 0 0 1px rgba(110, 231, 183, 0.7),
+      0 0 0 3px rgba(16, 185, 129, 0.18);
+  }
+
+  /* The top bar: darker glass with a gold hairline under it. */
+  .app-header {
+    background:
+      linear-gradient(180deg, rgba(14, 26, 44, 0.92), rgba(9, 16, 28, 0.86));
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 1px 0 rgba(245, 196, 81, 0.12);
+  }
+
+  .brand-mark {
+    @apply text-slate-950;
+    background-image: linear-gradient(135deg, #7ff0c4, #10b981 60%, #0b8a5c);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      0 6px 16px -8px rgba(16, 185, 129, 0.8);
+  }
+
+  .gold-plate {
+    background: linear-gradient(180deg, rgba(245, 196, 81, 0.16), rgba(245, 196, 81, 0.06));
+    box-shadow: inset 0 0 0 1px rgba(245, 196, 81, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .stat-plate {
+    background: rgba(255, 255, 255, 0.035);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07);
+  }
+
+  /* Tab underline that glows rather than a flat 2px bar. */
+  .tab-active {
+    color: #a7f3d0;
+    text-shadow: 0 0 14px rgba(110, 231, 183, 0.35);
+    border-image: linear-gradient(90deg, transparent, #34d399 25%, #f5c451 75%, transparent) 1;
+  }
 }
 
 @keyframes cardPop {

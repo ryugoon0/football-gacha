@@ -42,7 +42,7 @@ export default function RewardsPanel() {
 
   return (
     <div className="space-y-4">
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+      <section className="panel p-4">
         <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">경기별 골드 지급표</h3>
         <p className="mt-0.5 text-[11px] leading-relaxed text-slate-500">
           아래 슬라이더를 움직이면 표가 바로 바뀝니다(저장 전 미리보기). 금액은 <b>1골 기준</b>이고, 골 하나마다
@@ -157,7 +157,7 @@ export default function RewardsPanel() {
         </p>
       </section>
 
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+      <section className="panel p-4">
         <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">보상 배율 조절</h3>
         <p className="mt-0.5 text-[11px] leading-relaxed text-slate-500">
           슬라이더를 놓으면 저장되고 모두에게 곧바로 적용됩니다. 서버 정산도 같은 값을 읽습니다.

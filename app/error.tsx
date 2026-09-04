@@ -38,7 +38,7 @@ export default function GameError({
         </p>
         <button
           onClick={reset}
-          className="mt-4 w-full rounded-xl bg-emerald-400 py-2.5 text-sm font-black text-slate-900 transition hover:bg-emerald-300"
+          className="mt-4 w-full rounded-xl btn-primary py-2.5 text-sm font-black transition"
         >
           다시 시도
         </button>

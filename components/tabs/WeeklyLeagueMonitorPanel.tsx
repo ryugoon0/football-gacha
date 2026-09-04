@@ -178,7 +178,7 @@ export default function WeeklyLeagueMonitorPanel() {
     members.find((m) => m.group_id === groupId && m.slot === slot)?.club_name ?? `슬롯 ${slot}`
 
   return (
-    <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+    <section className="panel p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">주간 대회 운영 현황</h3>
         <div className="flex items-center gap-1.5">

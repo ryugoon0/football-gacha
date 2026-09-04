@@ -313,7 +313,7 @@ export default function WeeklyTab() {
 
   if (!userId) {
     return (
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-6 text-center">
+      <section className="panel p-6 text-center">
         <p className="text-sm text-slate-500">로그인하면 주간리그 소식을 볼 수 있습니다.</p>
       </section>
     )
@@ -331,7 +331,7 @@ export default function WeeklyTab() {
     return (
       <div className="space-y-4">
         <ModeBadge />
-        <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-6 text-center">
+        <section className="panel p-6 text-center">
           <h3 className="text-sm font-bold text-slate-200">아직 이번 주 리그에 배정되지 않았습니다</h3>
           <p className="mt-2 text-xs leading-relaxed text-slate-500">
             매주 정해진 시각에 자동으로 조가 만들어집니다. 잠시 뒤 다시 확인해 주세요.
@@ -376,14 +376,14 @@ export default function WeeklyTab() {
             <button
               type="button"
               onClick={dismissRecap}
-              className="shrink-0 rounded-lg bg-white/10 px-2.5 py-1.5 text-xs font-bold text-slate-200"
+              className="shrink-0 rounded-lg btn-ghost px-2.5 py-1.5 text-xs font-bold text-slate-200"
             >
               확인
             </button>
           </div>
         </section>
       )}
-      <div className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-white/10 bg-slate-900/60 p-3">
+      <div className="flex flex-wrap items-center justify-between gap-2 panel p-3">
         <span className="text-xs font-bold text-slate-300">
           {membership.tier}등급 · {clubName(membership.slot)}
         </span>
@@ -400,7 +400,7 @@ export default function WeeklyTab() {
               key={key}
               onClick={() => setSub(key)}
               className={`rounded-lg px-3 py-1.5 text-xs font-bold ${
-                sub === key ? 'bg-emerald-400 text-slate-900' : 'bg-white/10 text-slate-300'
+                sub === key ? 'btn-primary' : 'btn-ghost'
               }`}
             >
               {label}
@@ -412,7 +412,7 @@ export default function WeeklyTab() {
       {sub === 'mine' && (
         <>
           {discipline.length > 0 && (
-            <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-3">
+            <section className="panel p-3">
               <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400">징계</div>
               <div className="mt-1 flex flex-wrap gap-1.5 text-[11px]">
                 {[...discipline]
@@ -503,7 +503,7 @@ export default function WeeklyTab() {
 
       {sub === 'teamStandings' && (
         <>
-          <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+          <section className="panel p-4">
             <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">리그 순위</h3>
             {table.length === 0 ? (
               <p className="mt-2 text-xs text-slate-500">아직 정산된 리그 경기가 없습니다.</p>
@@ -555,7 +555,7 @@ export default function WeeklyTab() {
             )}
           </section>
 
-          <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+          <section className="panel p-4">
             <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">컵 경기 결과</h3>
             {cupTies.length === 0 ? (
               <p className="mt-2 text-xs text-slate-500">이번 시즌은 컵 경기가 없습니다.</p>
@@ -589,7 +589,7 @@ export default function WeeklyTab() {
       )}
 
       {sub === 'playerStandings' && (
-        <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+        <section className="panel p-4">
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">득점 순위</h3>
           {topScorers.length === 0 ? (
             <p className="mt-2 text-xs leading-relaxed text-slate-500">
@@ -730,7 +730,7 @@ function FixtureList({
 }) {
   const now = Date.now()
   return (
-    <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+    <section className="panel p-4">
       <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">{title}</h3>
       {fixtures.length === 0 ? (
         <p className="mt-2 text-[11px] text-slate-500">{empty}</p>
@@ -785,8 +785,8 @@ function FixtureList({
                     onClick={() => onOpen(f.id)}
                     className={`rounded-md px-2 py-1 text-[10px] font-bold ${
                       liveStatusOf(f, now) === 'live' || liveStatusOf(f, now) === 'pre'
-                        ? 'bg-emerald-400 text-slate-900'
-                        : 'bg-white/10 text-slate-300 hover:bg-white/20'
+                        ? 'btn-primary'
+                        : 'btn-ghost'
                     }`}
                   >
                     {liveStatusOf(f, now) === 'live' ? '라이브 보기' : liveStatusOf(f, now) === 'pre' ? '입장' : '보기'}

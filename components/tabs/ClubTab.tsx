@@ -75,7 +75,7 @@ function VaultPanel() {
   const affordable = state.gold >= cost
 
   return (
-    <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+    <section className="panel p-4">
       <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">보관함</h3>
       <div className="mt-2 text-2xl font-black text-white">
         {held}
@@ -280,7 +280,7 @@ export default function ClubTab() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+      <section className="panel p-4">
         <div className="mb-4 flex flex-wrap gap-2">
           {MODES.map((item) => (
             <button
@@ -291,8 +291,8 @@ export default function ClubTab() {
               }}
               className={`whitespace-nowrap rounded-lg px-2.5 py-1.5 text-[13px] font-bold transition sm:px-3 sm:text-sm ${
                 mode === item.id
-                  ? 'bg-emerald-400 text-slate-900'
-                  : 'bg-white/5 text-slate-300 hover:bg-white/10'
+                  ? 'btn-primary'
+                  : 'btn-ghost'
               }`}
             >
               {item.label}
@@ -445,7 +445,7 @@ export default function ClubTab() {
       <div className="space-y-4">
         <VaultPanel />
 
-        <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+        <section className="panel p-4">
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">도감</h3>
           <div className="mt-2 text-2xl font-black text-white">
             {state.collected.length}
@@ -519,7 +519,7 @@ export default function ClubTab() {
             }}
           />
         ) : !selected ? (
-          <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+          <section className="panel p-4">
             <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">선수 상세</h3>
             <p className="mt-3 text-sm text-slate-500">
               카드를 선택하면 가능 포지션과 세부 능력치를 보고 관리할 수 있습니다.
@@ -579,7 +579,7 @@ export default function ClubTab() {
               sell(releaseUids)
               setReleaseUids([])
             }}
-            className="rounded-xl bg-emerald-400 px-4 py-2 text-xs font-black text-slate-900"
+            className="rounded-xl btn-primary px-4 py-2 text-xs font-black"
           >
             방출하기
           </button>
@@ -615,7 +615,7 @@ function ReleasePanel({
   const { gold, shards } = releaseValue(cards)
 
   return (
-    <section className="space-y-3 rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+    <section className="space-y-3 panel p-4">
       <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">일괄 방출</h3>
       <p className="text-sm text-slate-400">
         여러 명을 한 번에 정리합니다. 선발과 벤치에 있는 선수는 선택할 수 없습니다.
@@ -679,7 +679,7 @@ function ReleasePanel({
         <button
           onClick={onClear}
           disabled={cards.length === 0}
-          className="rounded-lg bg-white/10 px-3 py-2 text-sm font-bold text-white transition hover:bg-white/20 disabled:opacity-40"
+          className="rounded-lg btn-ghost px-3 py-2 text-sm font-bold text-white disabled:opacity-40"
         >
           선택 해제
         </button>
@@ -703,7 +703,7 @@ function TrainPanel({
 }) {
   if (!target) {
     return (
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+      <section className="panel p-4">
         <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">훈련</h3>
         <p className="mt-3 text-sm text-slate-500">
           키울 카드를 먼저 고른 뒤, 재료로 쓸 카드를 선택하세요. 재료는 사라집니다.
@@ -719,7 +719,7 @@ function TrainPanel({
   const needed = expForLevel(target.card.level)
 
   return (
-    <section className="space-y-3 rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+    <section className="space-y-3 panel p-4">
       <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">훈련 (경험치)</h3>
       <div className="flex justify-center">
         <PlayerCard player={target.player} level={target.card.level} size="md" />
@@ -759,14 +759,14 @@ function TrainPanel({
         <button
           onClick={onTrain}
           disabled={materials.length === 0 || gold < fee || atLimit}
-          className="flex-1 rounded-lg bg-amber-400 px-3 py-2 text-sm font-bold text-slate-900 transition hover:bg-amber-300 disabled:opacity-40"
+          className="flex-1 rounded-lg btn-gold px-3 py-2 text-sm font-bold disabled:opacity-40"
         >
           훈련하기 ({fee}G)
         </button>
         <button
           onClick={onClear}
           disabled={materials.length === 0}
-          className="rounded-lg bg-white/10 px-3 py-2 text-sm font-bold text-white transition hover:bg-white/20 disabled:opacity-40"
+          className="rounded-lg btn-ghost px-3 py-2 text-sm font-bold text-white disabled:opacity-40"
         >
           재료 해제
         </button>
@@ -786,7 +786,7 @@ function BreakPanel({
 }) {
   if (!target) {
     return (
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+      <section className="panel p-4">
         <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">한계 돌파</h3>
         <p className="mt-3 text-sm text-slate-500">
           한계를 올릴 카드를 고르세요. 같은 선수 카드 1장을 소모합니다.
@@ -800,7 +800,7 @@ function BreakPanel({
   const ready = Boolean(material) && !maxed
 
   return (
-    <section className="space-y-3 rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+    <section className="space-y-3 panel p-4">
       <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">한계 돌파</h3>
       <div className="flex justify-center">
         <PlayerCard player={target.player} level={target.card.level} size="md" />
@@ -856,7 +856,7 @@ function FusionPanel({
   onClear: () => void
 }) {
   return (
-    <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+    <section className="panel p-4">
       <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">승급 합성</h3>
       <p className="mt-2 text-sm text-slate-400">
         같은 등급 카드 {FUSION_SIZE}장과 {FUSION_FEE}G로 한 단계 위 등급 카드 1장을 만듭니다.
@@ -893,14 +893,14 @@ function FusionPanel({
         <button
           onClick={onFuse}
           disabled={!check.ok}
-          className="flex-1 rounded-lg bg-amber-400 px-3 py-2 text-sm font-bold text-slate-900 transition hover:bg-amber-300 disabled:opacity-40"
+          className="flex-1 rounded-lg btn-gold px-3 py-2 text-sm font-bold disabled:opacity-40"
         >
           합성하기 ({FUSION_FEE}G)
         </button>
         <button
           onClick={onClear}
           disabled={uids.length === 0}
-          className="rounded-lg bg-white/10 px-3 py-2 text-sm font-bold text-white transition hover:bg-white/20 disabled:opacity-40"
+          className="rounded-lg btn-ghost px-3 py-2 text-sm font-bold text-white disabled:opacity-40"
         >
           선택 해제
         </button>
@@ -929,7 +929,7 @@ function FilterChip({
     <button
       onClick={onClick}
       className={`rounded-lg px-3 py-1.5 text-xs font-bold transition ${
-        active ? 'bg-white text-slate-900' : 'bg-white/5 text-slate-300 hover:bg-white/10'
+        active ? 'bg-white text-slate-900' : 'btn-ghost'
       }`}
     >
       {children}

@@ -11,7 +11,7 @@ const FEATURES = [
 
 export default function LeagueHub() {
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100">
+    <main className="min-h-screen text-slate-100">
       <section className="border-b border-white/10">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 py-10 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:py-16">
           <div className="flex flex-col justify-center">
@@ -22,7 +22,7 @@ export default function LeagueHub() {
             </h1>
             <p className="mt-5 max-w-lg text-base leading-relaxed text-slate-400">{BRAND_NAME}은 스쿼드를 만들고, 경기를 준비하고, 같은 리그의 감독들과 시즌을 쌓아 가는 축구 클럽 매니저입니다. {BRAND_TAGLINE}</p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <Link href="/game" className="rounded-lg bg-emerald-400 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-emerald-300">감독실 열기</Link>
+              <Link href="/game" className="rounded-lg btn-primary px-5 py-3 text-sm font-black transition">감독실 열기</Link>
               <Link href="/cards" className="rounded-lg border border-white/15 px-5 py-3 text-sm font-bold text-slate-200 transition hover:border-white/30 hover:bg-white/5">선수 도감 보기</Link>
             </div>
           </div>

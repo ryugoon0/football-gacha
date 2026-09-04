@@ -49,7 +49,7 @@ export default function AssistantSettings() {
               saveAssistantMode(key)
             }}
             className={`rounded-lg py-2 text-xs font-black transition ${
-              mode === key ? 'bg-emerald-400 text-slate-950' : 'bg-white/5 text-slate-300 hover:bg-white/10'
+              mode === key ? 'btn-primary' : 'btn-ghost'
             }`}
           >
             {label} 그림
@@ -62,7 +62,7 @@ export default function AssistantSettings() {
           setQuiet(!quiet)
           saveAssistantQuiet(!quiet)
         }}
-        className="mt-2 w-full rounded-lg bg-white/5 py-2 text-xs font-bold text-slate-300 transition hover:bg-white/10"
+        className="mt-2 w-full rounded-lg btn-ghost py-2 text-xs font-bold"
       >
         {quiet ? '비서 다시 보기' : '비서 숨기기'}
       </button>

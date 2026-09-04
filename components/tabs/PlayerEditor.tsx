@@ -117,7 +117,7 @@ export default function PlayerEditor() {
   if (!checked) return <p className="p-6 text-sm text-slate-500">확인하는 중...</p>
   if (!isAdmin) {
     return (
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-6">
+      <section className="panel p-6">
         <h3 className="text-sm font-bold text-slate-300">운영자 전용</h3>
         <p className="mt-2 text-[12px] leading-relaxed text-slate-500">
           이 화면은 운영자 계정에서만 열립니다.
@@ -128,7 +128,7 @@ export default function PlayerEditor() {
 
   return (
     <div className="space-y-4">
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+      <section className="panel p-4">
         <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">선수 찾기</h3>
         <p className="mt-0.5 text-[11px] leading-relaxed text-slate-500">
           이름, 소속팀, 카드 번호 중 아무거나로 찾을 수 있습니다.
@@ -215,7 +215,7 @@ export default function PlayerEditor() {
 
       {selected && base && preview && (
         <>
-          <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+          <section className="panel p-4">
             <div className="flex flex-wrap items-start gap-3">
               <PlayerCard player={preview} level={1} size="lg" />
               <div className="min-w-0 flex-1 space-y-1 text-[11px] text-slate-500">
@@ -273,7 +273,7 @@ export default function PlayerEditor() {
                       }
                       disabled={on && preview.positions.length === 1}
                       className={`rounded-lg px-2.5 py-1 text-[11px] font-bold ${
-                        on ? 'bg-emerald-400 text-slate-900' : 'bg-white/10 text-slate-300'
+                        on ? 'btn-primary' : 'btn-ghost'
                       } disabled:opacity-40`}
                     >
                       {item}
@@ -291,7 +291,7 @@ export default function PlayerEditor() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+          <section className="panel p-4">
             <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">능력치</h3>
             <p className="mt-0.5 text-[11px] leading-relaxed text-slate-500">
               손대지 않은 항목은 지금처럼 자동으로 정해집니다. 포지션을 바꾸면 자동 값도 함께
@@ -340,7 +340,7 @@ export default function PlayerEditor() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+          <section className="panel p-4">
             <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">
               세부 능력치 (23개)
             </h3>
@@ -404,7 +404,7 @@ export default function PlayerEditor() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+          <section className="panel p-4">
             <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">히든 능력치</h3>
             <div className="mt-2 space-y-2">
               {HIDDEN_KEYS.map((key) => {
@@ -456,7 +456,7 @@ export default function PlayerEditor() {
         </>
       )}
 
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+      <section className="panel p-4">
         <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">
           붙여넣을 내용 {touched > 0 && <span className="text-emerald-300">{touched}명</span>}
         </h3>
@@ -466,7 +466,7 @@ export default function PlayerEditor() {
         <button
           onClick={() => void copy()}
           disabled={Boolean(problem)}
-          className="mt-2 w-full rounded-xl bg-emerald-400 px-4 py-2 text-xs font-black text-slate-900 disabled:opacity-40"
+          className="mt-2 w-full rounded-xl btn-primary px-4 py-2 text-xs font-black disabled:opacity-40"
         >
           {copied ? '복사했습니다' : '전체 복사'}
         </button>

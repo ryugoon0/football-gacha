@@ -71,7 +71,7 @@ export default function HomeTab({ onJump }: { onJump: (tab: string) => void }) {
         </div>
       </section>
 
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+      <section className="panel p-4">
         <div className="flex items-center justify-between gap-2">
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">다음 경기</h3>
           <span className="whitespace-nowrap text-[11px] font-bold text-slate-500">
@@ -96,7 +96,7 @@ export default function HomeTab({ onJump }: { onJump: (tab: string) => void }) {
             </div>
             <button
               onClick={() => onJump('match')}
-              className="shrink-0 whitespace-nowrap rounded-xl bg-emerald-400 px-4 py-2.5 text-sm font-black text-slate-900 transition hover:bg-emerald-300"
+              className="shrink-0 whitespace-nowrap rounded-xl btn-primary px-4 py-2.5 text-sm font-black transition"
             >
               경기장으로
             </button>
@@ -141,7 +141,7 @@ export default function HomeTab({ onJump }: { onJump: (tab: string) => void }) {
         />
       </div>
 
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+      <section className="panel p-4">
         <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">오늘 할 일</h3>
         <ul className="mt-2 space-y-1.5 text-xs">
           {claimable > 0 && (
@@ -176,7 +176,7 @@ export default function HomeTab({ onJump }: { onJump: (tab: string) => void }) {
       </section>
 
       {form.length > 0 && (
-        <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+        <section className="panel p-4">
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">최근 전적</h3>
           <div className="mt-2 flex flex-wrap gap-2">
             {form.map((item) => (
@@ -215,7 +215,7 @@ function Tile({
   alert?: boolean
 }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-slate-900/60 p-3">
+    <div className="panel p-3">
       <div className="text-[10px] font-bold uppercase tracking-wide text-slate-500">{label}</div>
       <div className={`mt-0.5 text-lg font-black ${alert ? 'text-amber-300' : 'text-white'}`}>
         {value}

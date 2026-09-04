@@ -83,7 +83,7 @@ export default function WeeklyLeaguePanel() {
   }
 
   return (
-    <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+    <section className="panel p-4">
       <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">개막 배치 리그 생성</h3>
       <p className="mt-0.5 text-[11px] leading-relaxed text-slate-500">
         정규 주간 시스템이 시작되기 전, 금·토·일 사흘짜리 배치 리그를 등급별로 한 번씩 만듭니다.
@@ -156,7 +156,7 @@ export default function WeeklyLeaguePanel() {
       <button
         onClick={submit}
         disabled={busy}
-        className="mt-3 w-full rounded-xl bg-emerald-400 px-4 py-2.5 text-sm font-black text-slate-900 disabled:opacity-40"
+        className="mt-3 w-full rounded-xl btn-primary px-4 py-2.5 text-sm font-black disabled:opacity-40"
       >
         {busy ? '생성하는 중...' : '이 등급 배치 리그 생성'}
       </button>

@@ -96,7 +96,7 @@ export default function ShopPanel() {
   }
 
   return (
-    <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+    <section className="panel p-4">
       <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">상점</h3>
       <p className="mt-0.5 text-[11px] leading-relaxed text-slate-500">
         저장하면 상점에 곧바로 반영됩니다. 가격이 없는 통화는 여기서도 만들 수 없습니다 — 파는

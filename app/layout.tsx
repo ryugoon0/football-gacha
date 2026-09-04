@@ -18,7 +18,15 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko">
-      <body className={`${inter.className} bg-slate-950 text-slate-100 antialiased`}>
+      <head>
+        {/* Pretendard for Korean: tighter, more even than the system faces; Inter stays for Latin. */}
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+          crossOrigin="anonymous"
+        />
+      </head>
+      <body className={`${inter.className} text-slate-100 antialiased`}>
         {children}
       </body>
     </html>

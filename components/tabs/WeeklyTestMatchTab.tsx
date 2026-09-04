@@ -137,7 +137,7 @@ export default function WeeklyTestMatchTab() {
         </p>
       </section>
 
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+      <section className="panel p-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">등급 선택</h3>
           <button
@@ -153,7 +153,7 @@ export default function WeeklyTestMatchTab() {
               key={t}
               onClick={() => setTier(t)}
               className={`rounded-lg px-3 py-1.5 text-xs font-bold ${
-                tier === t ? 'bg-amber-400 text-slate-900' : 'bg-white/10 text-slate-300'
+                tier === t ? 'bg-amber-400 text-slate-900' : 'btn-ghost'
               }`}
             >
               {t}등급
@@ -200,7 +200,7 @@ function FixtureList({
   empty: string
 }) {
   return (
-    <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+    <section className="panel p-4">
       <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">{title}</h3>
       {fixtures.length === 0 ? (
         <p className="mt-2 text-[11px] text-slate-500">{empty}</p>

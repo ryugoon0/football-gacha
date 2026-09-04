@@ -39,7 +39,7 @@ export default function TacticCardHelp({ onClose }: { onClose: () => void }) {
           </div>
           <button
             onClick={onClose}
-            className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-bold text-slate-300 hover:bg-white/20"
+            className="rounded-lg btn-ghost px-3 py-1.5 text-xs font-bold"
           >
             닫기
           </button>

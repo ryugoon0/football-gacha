@@ -94,7 +94,7 @@ export default function BoardTab() {
 
   if (!account.configured) {
     return (
-      <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-6 text-center">
+      <section className="panel p-6 text-center">
         <h2 className="text-lg font-black text-white">게시판은 서버가 연결되면 열립니다</h2>
         <p className="mx-auto mt-2 max-w-md text-sm text-slate-400">
           글과 댓글은 모두가 함께 보는 것이라 저장할 서버가 필요합니다. Supabase 키 두 개를
@@ -122,7 +122,7 @@ export default function BoardTab() {
   }
 
   return (
-    <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
+    <section className="panel p-5">
       <div className="mb-4 flex items-center justify-between gap-2">
         <div>
           <h2 className="text-xl font-bold text-white">게시판</h2>
@@ -131,7 +131,7 @@ export default function BoardTab() {
         <button
           onClick={() => setWriting((value) => !value)}
           disabled={account.status !== 'signedIn'}
-          className="whitespace-nowrap rounded-xl bg-emerald-400 px-4 py-2 text-sm font-black text-slate-900 transition hover:bg-emerald-300 disabled:bg-white/10 disabled:text-slate-500"
+          className="whitespace-nowrap rounded-xl btn-primary px-4 py-2 text-sm font-black transition disabled:bg-white/10 disabled:text-slate-500"
         >
           {writing ? '취소' : '글쓰기'}
         </button>
@@ -176,7 +176,7 @@ export default function BoardTab() {
               >
                 <div className="flex min-w-0 items-center gap-1.5">
                   {post.notice && (
-                    <span className="shrink-0 whitespace-nowrap rounded bg-emerald-400 px-1.5 py-0.5 text-[10px] font-black text-slate-900">
+                    <span className="shrink-0 whitespace-nowrap rounded btn-primary px-1.5 py-0.5 text-[10px] font-black">
                       공지
                     </span>
                   )}
@@ -249,14 +249,14 @@ function PostForm({
         placeholder="내용"
         rows={5}
         maxLength={BODY_MAX}
-        className="w-full rounded-lg bg-white/10 px-3 py-2 text-sm text-white outline-none focus:ring-2 focus:ring-emerald-400"
+        className="w-full rounded-lg input px-3 py-2 text-sm"
       />
       <div className="flex items-center justify-between gap-2">
         <span className="text-[11px] text-slate-500">{nickname} 이름으로 올라갑니다</span>
         <button
           type="submit"
           disabled={saving}
-          className="whitespace-nowrap rounded-lg bg-emerald-400 px-4 py-2 text-sm font-black text-slate-900 disabled:opacity-50"
+          className="whitespace-nowrap rounded-lg btn-primary px-4 py-2 text-sm font-black disabled:opacity-50"
         >
           등록
         </button>
@@ -343,7 +343,7 @@ function PostView({
   const mine = account.user?.id === post.userId
 
   return (
-    <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
+    <section className="panel p-5">
       <div className="mb-3 flex items-center justify-between gap-2">
         <button
           onClick={onBack}
@@ -363,7 +363,7 @@ function PostView({
       </div>
 
       {post.notice && (
-        <span className="mb-1 inline-block whitespace-nowrap rounded bg-emerald-400 px-1.5 py-0.5 text-[10px] font-black text-slate-900">
+        <span className="mb-1 inline-block whitespace-nowrap rounded btn-primary px-1.5 py-0.5 text-[10px] font-black">
           공지
         </span>
       )}
@@ -395,12 +395,12 @@ function PostView({
             onChange={(event) => setBody(event.target.value)}
             placeholder="댓글"
             maxLength={COMMENT_MAX}
-            className="min-w-0 flex-1 rounded-lg bg-white/10 px-3 py-2 text-sm text-white outline-none focus:ring-2 focus:ring-emerald-400"
+            className="min-w-0 flex-1 rounded-lg input px-3 py-2 text-sm"
           />
           <button
             type="submit"
             disabled={busy}
-            className="whitespace-nowrap rounded-lg bg-emerald-400 px-4 text-sm font-black text-slate-900 disabled:opacity-50"
+            className="whitespace-nowrap rounded-lg btn-primary px-4 text-sm font-black disabled:opacity-50"
           >
             등록
           </button>

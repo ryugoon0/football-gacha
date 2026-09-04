@@ -101,7 +101,7 @@ function Shell() {
         />
         <button
           onClick={() => void account.signOut()}
-          className="mt-4 rounded-lg bg-white/10 px-3 py-1.5 text-xs font-bold text-slate-300 hover:bg-white/15"
+          className="mt-4 rounded-lg btn-ghost px-3 py-1.5 text-xs font-bold"
         >
           로그아웃
         </button>
@@ -126,7 +126,7 @@ function Shell() {
         />
         <button
           onClick={() => void account.signOut()}
-          className="mt-4 rounded-lg bg-white/10 px-3 py-1.5 text-xs font-bold text-slate-300 hover:bg-white/15"
+          className="mt-4 rounded-lg btn-ghost px-3 py-1.5 text-xs font-bold"
         >
           다른 계정으로
         </button>
@@ -145,7 +145,7 @@ function Shell() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100">
+    <main className="min-h-screen text-slate-100">
       <header className="sticky top-0 z-30 border-b border-white/10 bg-slate-950/85 backdrop-blur">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-3 px-4 py-3">
           <div className="flex items-center gap-3">
@@ -161,7 +161,7 @@ function Shell() {
           </div>
           <button
             onClick={() => void account.signOut()}
-            className="ml-auto whitespace-nowrap rounded-xl bg-white/5 px-3 py-2 text-xs font-bold text-slate-300 hover:bg-white/10 hover:text-white"
+            className="ml-auto whitespace-nowrap rounded-xl btn-ghost px-3 py-2 text-xs font-bold"
           >
             로그아웃
           </button>
