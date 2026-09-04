@@ -17,6 +17,7 @@ ap.add_argument("pairs", nargs="+", help="원본경로=카드id")
 ap.add_argument("--out", default="out")
 ap.add_argument("--upscale", action="store_true", help="컷아웃 전에 Real-ESRGAN 4배")
 ap.add_argument("--size", type=int, default=512)
+ap.add_argument("--head", type=float, default=2.8, help="머리 폭의 몇 배로 자를지(작을수록 얼굴이 크게)")
 args = ap.parse_args()
 os.makedirs(args.out, exist_ok=True)
 for pair in args.pairs:
@@ -25,5 +26,5 @@ for pair in args.pairs:
     if args.upscale:
         work = os.path.join(tempfile.gettempdir(), f"fp_{card}_x4.png")
         upscale(src, work)
-    cut(work, os.path.join(args.out, f"{card}.png"), size=args.size)
+    cut(work, os.path.join(args.out, f"{card}.png"), size=args.size, head=args.head)
 print("완료:", args.out)

@@ -15,7 +15,7 @@ from rembg import remove, new_session
 # onnxruntime-gpu 가 설치돼 있으면 CUDA 를 쓴다(없으면 CPU).
 session = new_session("u2net_human_seg", providers=["CUDAExecutionProvider", "CPUExecutionProvider"])
 
-def cut(src, dst, size=512):
+def cut(src, dst, size=512, head=2.8):
     img = Image.open(src).convert("RGBA")
     out = remove(img, session=session, alpha_matting=False, post_process_mask=True)
     alpha = out.split()[-1]
@@ -71,8 +71,10 @@ def cut(src, dst, size=512):
     out.putalpha(alpha)
     # Head-first crop without a face detector: from the mask's top edge, look
     # at the rows in the first slice of the subject (the head), take the widest
-    # run there as the head width, and cut a square 2.3 heads wide centred on
-    # it. Neighbours in a group photo usually sit outside that square.
+    # run there as the head width, and cut a square `head` heads wide centred on
+    # it. Neighbours in a group photo usually sit outside that square — when a
+    # team-mate's arm still creeps into a corner, a tighter --head (2.4~2.5)
+    # usually crops it away.
     bbox = alpha.getbbox()
     if not bbox:
         raise SystemExit(f"no subject in {src}")
@@ -96,7 +98,7 @@ def cut(src, dst, size=512):
         if longest > best_w:
             best_w, best_cx = longest, longest_start + longest // 2
     head_w = max(best_w, sub_h // 12)
-    side = int(head_w * 2.8)
+    side = int(head_w * head)
     l = int(best_cx - side / 2)
     t = int(top - side * 0.08)
     l = max(0, min(l, img.width - side)) if img.width >= side else 0
