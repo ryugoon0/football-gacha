@@ -50,6 +50,8 @@ export interface Env {
   url: string
   anon: string
   service: string
+  /** Shared token for pg_cron's drain_stale call; unset disables that path. */
+  drainToken?: string
 }
 
 const cors = {
@@ -381,6 +383,24 @@ export async function handle(request: Request, env: Env): Promise<Response> {
   if (!authorization) return refuse('not signed in')
 
   try {
+    // Server-to-server: pg_cron drains the safety-net queue with a dedicated
+    // shared token (WEEKLY_DRAIN_TOKEN, mirrored in Vault), so user fixtures
+    // settle even when nobody has the app open. The gateway still wants a
+    // JWT in Authorization, so the caller sends the anon key there.
+    if (env.drainToken && request.headers.get('x-drain-token') === env.drainToken) {
+      let body: Body = {}
+      try {
+        body = await request.json()
+      } catch {
+        return refuse('bad request')
+      }
+      if (body.action !== 'drain_stale') return refuse('bad request')
+      const server: ServerHeaders = { apikey: service, Authorization: `Bearer ${service}` }
+      await loadTuning(url, server)
+      const settled = await drainQueue(url, server)
+      return json({ ok: true, settled })
+    }
+
     const whoami = await fetch(`${url}/auth/v1/user`, {
       headers: { Authorization: authorization, apikey: anon },
     })

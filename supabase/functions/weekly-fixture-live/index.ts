@@ -6,5 +6,7 @@ Deno.serve((request: Request) =>
     url: Deno.env.get('SUPABASE_URL') ?? '',
     anon: Deno.env.get('SUPABASE_ANON_KEY') ?? '',
     service: Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+    // pg_cron의 안전망 큐 비우기 호출을 알아보는 공유 토큰(supabase secrets set).
+    drainToken: Deno.env.get('WEEKLY_DRAIN_TOKEN') ?? '',
   }),
 )
