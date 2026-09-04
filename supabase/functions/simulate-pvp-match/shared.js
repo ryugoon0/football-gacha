@@ -175,7 +175,7 @@ var KNOBS = {
     min: 0,
     max: 1,
     step: 0.05,
-    group: "\uD558\uB8E8"
+    group: "\uBCF4\uC0C1"
   },
   casualMatchDailyLimit: {
     label: "\uCE90\uC8FC\uC5BC \uBAA8\uB4DC \uD558\uB8E8 \uACBD\uAE30 \uC218 (\uC548\uC804\uB9DD)",
@@ -194,16 +194,62 @@ var KNOBS = {
     min: 0,
     max: 2,
     step: 0.05,
-    group: "\uD558\uB8E8"
+    group: "\uBCF4\uC0C1"
   },
   competitiveGoldMultiplier: {
     label: "\uACBD\uC7C1 \uB9AC\uADF8 \uBCF4\uC0C1 \uBC30\uC728",
-    note: "\uC8FC\uAC04\uB9AC\uADF8 \uACBD\uAE30 \uACE8\uB4DC \uBCF4\uC0C1\uC5D0 \uACF1\uD560 \uBC30\uC728\uC785\uB2C8\uB2E4. \uC9C0\uAE08\uC740 \uC8FC\uAC04\uB9AC\uADF8\uAC00 \uACE8\uB4DC\uB97C \uC9C0\uAE09\uD558\uC9C0 \uC54A\uC544 \uB300\uAE30 \uC911\uC785\uB2C8\uB2E4 \u2014 \uC9C0\uAE09 \uB85C\uC9C1\uC774 \uC0DD\uAE30\uBA74 \uBC14\uB85C \uC501\uB2C8\uB2E4.",
+    note: "\uACBD\uC7C1 \uB9AC\uADF8 \uACBD\uAE30 \uACE8\uB4DC \uBCF4\uC0C1 \uC804\uCCB4\uC5D0 \uACF1\uD558\uB294 \uBC30\uC728\uC785\uB2C8\uB2E4. \uB4F1\uAE09\uBCC4 \uCC28\uB4F1\uC740 \uC544\uB798 \uB4F1\uAE09 \uBC30\uC728\uB85C \uB530\uB85C \uACF1\uD574\uC9D1\uB2C8\uB2E4. \uCE90\uC8FC\uC5BC \uBAA8\uB4DC\uAC00 \uD558\uB8E8 1\uC2DC\uC98C\uC73C\uB85C \uBB36\uC778 \uB9CC\uD07C, \uACBD\uC7C1 \uB9AC\uADF8\uAC00 \uADF8 \uC790\uB9AC\uB97C \uB300\uC2E0\uD558\uB3C4\uB85D \uAE30\uBCF8\uAC12\uC744 1.5\uB85C \uB450\uC5C8\uC2B5\uB2C8\uB2E4.",
+    default: 1.5,
+    min: 0,
+    max: 3,
+    step: 0.05,
+    group: "\uBCF4\uC0C1"
+  },
+  weeklyTierMultiplier0: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 0\uB4F1\uAE09(\uCD5C\uC0C1\uC704) \uBCF4\uC0C1 \uBC30\uC728",
+    note: "0\uB4F1\uAE09 \uACBD\uAE30 \uBCF4\uC0C1\uC5D0 \uACF1\uD569\uB2C8\uB2E4. \uAC19\uC740 \uC2B9\uB9AC\uB77C\uB3C4 \uC717 \uB4F1\uAE09\uC774 \uB354 \uBC1B\uB3C4\uB85D \uB4F1\uAE09\uBCC4\uB85C \uCC28\uB4F1\uC744 \uB461\uB2C8\uB2E4.",
     default: 1,
     min: 0,
     max: 2,
     step: 0.05,
-    group: "\uD558\uB8E8"
+    group: "\uBCF4\uC0C1"
+  },
+  weeklyTierMultiplier1: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 1\uB4F1\uAE09 \uBCF4\uC0C1 \uBC30\uC728",
+    note: "1\uB4F1\uAE09 \uACBD\uAE30 \uBCF4\uC0C1\uC5D0 \uACF1\uD569\uB2C8\uB2E4.",
+    default: 0.85,
+    min: 0,
+    max: 2,
+    step: 0.05,
+    group: "\uBCF4\uC0C1"
+  },
+  weeklyTierMultiplier2: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 2\uB4F1\uAE09 \uBCF4\uC0C1 \uBC30\uC728",
+    note: "2\uB4F1\uAE09 \uACBD\uAE30 \uBCF4\uC0C1\uC5D0 \uACF1\uD569\uB2C8\uB2E4.",
+    default: 0.7,
+    min: 0,
+    max: 2,
+    step: 0.05,
+    group: "\uBCF4\uC0C1"
+  },
+  weeklyTierMultiplier3: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 3\uB4F1\uAE09(\uCD5C\uD558\uC704) \uBCF4\uC0C1 \uBC30\uC728",
+    note: "3\uB4F1\uAE09 \uACBD\uAE30 \uBCF4\uC0C1\uC5D0 \uACF1\uD569\uB2C8\uB2E4.",
+    default: 0.55,
+    min: 0,
+    max: 2,
+    step: 0.05,
+    group: "\uBCF4\uC0C1"
+  },
+  hotTimeBonus: {
+    label: "\uD56B\uD0C0\uC784 \uAC1C\uC785 \uBCF4\uB108\uC2A4",
+    note: "15\uC2DC\xB721\uC2DC(KST) \uD0A5\uC624\uD504 \uACBD\uAE30\uC5D0\uC11C \uCC38\uAC00 \uAC10\uB3C5\uC774 \uB77C\uC774\uBE0C \uCC3D \uC548\uC5D0 \uC9C0\uC2DC\uB97C \uD558\uB098\uB77C\uB3C4 \uBCF4\uB0B4\uBA74 \uBC1B\uB294 \uBCF4\uB108\uC2A4 \uACE8\uB4DC\uC785\uB2C8\uB2E4. \uAD00\uC804\uB9CC\uC73C\uB85C\uB294 \uBC1B\uC9C0 \uBABB\uD569\uB2C8\uB2E4.",
+    default: 1e3,
+    min: 0,
+    max: 1e4,
+    step: 100,
+    group: "\uBCF4\uC0C1",
+    integer: true
   },
   pvpDailyLimit: {
     label: "\uB370\uC77C\uB9AC PvP \uD558\uB8E8 \uB3C4\uC804 \uD69F\uC218",
@@ -222,7 +268,7 @@ var KNOBS = {
     min: 0,
     max: 2,
     step: 0.05,
-    group: "\uD558\uB8E8"
+    group: "\uBCF4\uC0C1"
   },
   recoveryCostPerPoint: {
     label: "\uCCB4\uB825 \uD68C\uBCF5 \uBE44\uC6A9",
@@ -313,12 +359,14 @@ var PLAYER_OVERRIDES = {
   // 엘링 홀란
   "w03": { positions: ["CM", "CDM", "CAM"], stats: { pac: 86, sho: 97, pas: 98, dri: 94, def: 78, phy: 85 } },
   // 케빈 더브라
-  "w04": { positions: ["CAM", "ST", "RW"], stats: { pac: 98, sho: 96, pas: 98, dri: 98, def: 63 }, hidden: { stamina: 10, consistency: 12 } },
+  "w04": { positions: ["CAM", "ST", "RW"], stats: { pac: 98, sho: 84, pas: 98, dri: 98, def: 63 }, hidden: { stamina: 10, consistency: 12 } },
   // 리오 메시아
   "w05": { positions: ["LW", "ST"], stats: { pac: 98, sho: 98, def: 70, phy: 95 }, hidden: { clutch: 11, stamina: 11, consistency: 10 } },
   // 크리스 호날드
-  "w06": { positions: ["ST", "LW"], stats: { pac: 98, dri: 97, phy: 92 } }
+  "w06": { positions: ["ST", "LW"], stats: { pac: 98, dri: 97, phy: 92 } },
   // 킬리안 음바피
+  "w75": { positions: ["CAM", "LW", "LM"], stats: { dri: 69 } }
+  // 마르쿠 로이센
 };
 
 // lib/rosterData.ts
@@ -5004,11 +5052,14 @@ function chemistryOf(evaluations) {
 
 // lib/match.ts
 var MINI_GAME_REWARD = KNOBS.miniGameReward.default;
-function matchReward(result, division, scoreFor) {
+function rawMatchReward(result, division, scoreFor) {
   const base = result === "W" ? 420 : result === "D" ? 180 : 70;
   const divisionBonus = (BOTTOM_DIVISION + 1 - division) * 60;
   const share = result === "W" ? divisionBonus : Math.round(divisionBonus / 3);
-  return Math.round((base + share + scoreFor * 30) * tune("casualGoldMultiplier"));
+  return base + share + scoreFor * 30;
+}
+function matchReward(result, division, scoreFor) {
+  return Math.round(rawMatchReward(result, division, scoreFor) * tune("casualGoldMultiplier"));
 }
 export {
   DEFAULT_TACTIC,
