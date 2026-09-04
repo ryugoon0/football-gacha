@@ -13,7 +13,7 @@
 | Claude Code | `winget install -e --id Anthropic.ClaudeCode` | 같은 계정으로 로그인 |
 | 저장소 | `git clone https://github.com/ryugoon0/football-gacha.git` → `npm install` | |
 | Codex CLI | `npm i -g @openai/codex` → `codex login` | ChatGPT 계정, 브라우저 로그인 |
-| Codex 플러그인 | `claude plugin marketplace add openai/codex-plugin-cc` → `claude plugin install codex@codex-plugin-cc` → 세션에서 `/codex:setup` | 이미지 생성·독립 리뷰용, 선택 |
+| Codex 플러그인 | `claude plugin marketplace add openai/codex-plugin-cc` → `claude plugin install codex@openai-codex`(마켓플레이스 등록 이름이 `openai-codex`) → 세션 재시작 후 `/codex:setup` | 이미지 생성·독립 리뷰용, 선택 |
 | Supabase | `npx supabase login` → `npx supabase link --project-ref mpndwtqvwmarkepxzhew` | 마이그레이션·함수 수동 배포가 필요할 때만 |
 | `.env.local` | 다른 PC에서 복사 | 로컬에서 앱을 띄울 때만 |
 | 권한 | `.claude/settings.local.json` 의 `permissions.allow` | 예: `Bash(python:*)`, `Bash(python -m pip:*)` |
