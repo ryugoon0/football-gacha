@@ -116,6 +116,11 @@ export default function ClubTab() {
   const [mode, setMode] = useState<Mode>('manage')
   const [rarityFilter, setRarityFilter] = useState<RarityFilter>('all')
   const [groupFilter, setGroupFilter] = useState<GroupFilter>('all')
+  // 테스터 요청: 팀컬러("같은 클럽 3명" 등)를 맞출 때 보유 카드를 리그·클럽으로
+  // 좁혀 볼 수 있게. 목록은 내가 가진 카드에서만 뽑는다 — 140개 클럽 전부를
+  // 보여 주면 대부분 빈 항목이다.
+  const [leagueFilter, setLeagueFilter] = useState<string>('all')
+  const [clubFilter, setClubFilter] = useState<string>('all')
   const [sortKey, setSortKey] = useState<SortKey>('ovr')
   const [selectedUid, setSelectedUid] = useState<string | null>(null)
   const [materialUids, setMaterialUids] = useState<string[]>([])
@@ -133,6 +138,20 @@ export default function ClubTab() {
     [state.squad],
   )
 
+  /** Leagues and clubs present in this collection, for the two dropdowns. */
+  const { leagues, clubs } = useMemo(() => {
+    const leagueSet = new Set<string>()
+    const clubSet = new Set<string>()
+    for (const card of state.cards) {
+      const player = getPlayer(card.playerId)
+      if (!player) continue
+      leagueSet.add(player.league)
+      if (leagueFilter === 'all' || player.league === leagueFilter) clubSet.add(player.club)
+    }
+    const sorted = (set: Set<string>) => [...set].sort((a, b) => a.localeCompare(b, 'ko'))
+    return { leagues: sorted(leagueSet), clubs: sorted(clubSet) }
+  }, [state.cards, leagueFilter])
+
   const rows = useMemo(() => {
     const rarityOrder = (rarity: Rarity) => RARITIES.indexOf(rarity)
     return state.cards
@@ -143,6 +162,8 @@ export default function ClubTab() {
       .filter((row): row is NonNullable<typeof row> => Boolean(row))
       .filter((row) => rarityFilter === 'all' || row.player.rarity === rarityFilter)
       .filter((row) => groupFilter === 'all' || POSITION_GROUP[row.player.position] === groupFilter)
+      .filter((row) => leagueFilter === 'all' || row.player.league === leagueFilter)
+      .filter((row) => clubFilter === 'all' || row.player.club === clubFilter)
       .sort((a, b) => {
         if (sortKey === 'rarity') {
           const diff = rarityOrder(b.player.rarity) - rarityOrder(a.player.rarity)
@@ -159,7 +180,7 @@ export default function ClubTab() {
         }
         return b.ovr - a.ovr
       })
-  }, [state.cards, rarityFilter, groupFilter, sortKey])
+  }, [state.cards, rarityFilter, groupFilter, leagueFilter, clubFilter, sortKey])
 
   const selected = rows.find((row) => row.card.uid === selectedUid) ?? null
   const detailCard = detailUid
@@ -339,6 +360,36 @@ export default function ClubTab() {
               {GROUP_LABELS[group]}
             </FilterChip>
           ))}
+          <select
+            value={leagueFilter}
+            onChange={(event) => {
+              setLeagueFilter(event.target.value)
+              // A club from another league would silently match nothing.
+              setClubFilter('all')
+            }}
+            aria-label="리그 필터"
+            className="rounded-lg bg-white/5 px-3 py-1.5 text-sm font-semibold text-slate-200 outline-none"
+          >
+            <option value="all">모든 리그</option>
+            {leagues.map((league) => (
+              <option key={league} value={league}>
+                {league}
+              </option>
+            ))}
+          </select>
+          <select
+            value={clubFilter}
+            onChange={(event) => setClubFilter(event.target.value)}
+            aria-label="클럽 필터"
+            className="rounded-lg bg-white/5 px-3 py-1.5 text-sm font-semibold text-slate-200 outline-none"
+          >
+            <option value="all">모든 클럽</option>
+            {clubs.map((club) => (
+              <option key={club} value={club}>
+                {club}
+              </option>
+            ))}
+          </select>
           <select
             value={sortKey}
             onChange={(event) => setSortKey(event.target.value as SortKey)}
