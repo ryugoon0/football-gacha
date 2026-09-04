@@ -3166,6 +3166,7 @@ var HAND_WRITTEN = {
   ]
 };
 var LATE_ADDITIONS = {
+  Normal: [["\uD1F4\uC7A5\uAC10", "ST", 40, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { hidden: { clutch: 8, stamina: 8, bigMatch: 8, consistency: 8 } }]],
   World: [["\uB9C8\uB974\uCFE0 \uB85C\uC774\uC13C", "CAM", 90, "\uB3C4\uB974\uD2B8 \uC610\uB85C\uC6B0", "\uB3C5\uC77C"]]
 };
 var ROSTER = {

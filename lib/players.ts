@@ -341,6 +341,7 @@ const HAND_WRITTEN: Record<Rarity, RosterRow[]> = {
  * so far at exactly the id it already has in players' saves.
  */
 const LATE_ADDITIONS: Partial<Record<Rarity, RosterRow[]>> = {
+  Normal: [['퇴장감', 'ST', 40, '울산 호랑', '대한민국', { hidden: { clutch: 8, stamina: 8, bigMatch: 8, consistency: 8 } }]],
   World: [['마르쿠 로이센', 'CAM', 90, '도르트 옐로우', '독일']],
 }
 
