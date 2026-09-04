@@ -13,12 +13,18 @@ import {
   type LiveSnapshot,
 } from '../lib/weeklyLeague/liveReplay'
 import { getPlayer } from '../lib/players'
+import { evaluateSquad } from '../lib/squad'
+import type { Card, Squad } from '../lib/types'
+
+const evaluateSquadFor = (cards: Card[], squad: Squad) => evaluateSquad(cards, squad, 5)
 
 function snapshotOf(): LiveSnapshot {
   const state = initialState()
   const ai = weeklyAiSquad(7, 3, 62)
-  const home = { cards: state.cards, squad: state.squad, division: 5 }
-  const away = { cards: ai.cards, squad: ai.squad, division: 5 }
+  // Automatic substitution off by default so the tests below see exactly the
+  // orders they send; the one test about it turns it on explicitly.
+  const home = { cards: state.cards, squad: state.squad, division: 5, autoSub: false }
+  const away = { cards: ai.cards, squad: ai.squad, division: 5, autoSub: false }
   const setup = buildWeeklyMatchSetup({
     groupId: 7,
     home: { slot: 2, kind: 'user', clubName: state.club, rating: 70 },
@@ -102,6 +108,28 @@ describe('replaying a live fixture', () => {
     expect(result.subsUsed.home).toBeLessThanOrEqual(5)
     expect(result.rejected.some((item) => item.id === 99)).toBe(true)
     if (count === 6) expect(result.rejected.some((item) => item.id === 6)).toBe(true)
+  })
+
+  it('turns an autosub order down when nobody is tired yet', () => {
+    const snapshot = snapshotOf()
+    const command: LiveCommand = { id: 1, side: 'home', minute: 1, payload: { kind: 'autosub' } }
+    const result = replayFixture(snapshot, 'seed-8', [command], 20)
+    expect(result.rejected.some((item) => item.id === 1)).toBe(true)
+    expect(result.subsUsed.home).toBe(0)
+  })
+
+  it('swaps exhausted starters on its own when automatic substitution is on', () => {
+    const snapshot = snapshotOf()
+    const slotId = Object.keys(snapshot.home.squad.slots).find((id) => snapshot.home.squad.slots[id])!
+    const uid = snapshot.home.squad.slots[slotId]!
+    // Run the starter's legs down so the tired rule fires at the first stoppage.
+    const cards = snapshot.home.cards.map((card) => (card.uid === uid ? { ...card, condition: 12 } : card))
+    const setup = { ...snapshot.setup, team: evaluateSquadFor(cards, snapshot.home.squad) }
+    const on = replayFixture({ ...snapshot, setup, home: { ...snapshot.home, cards, autoSub: true } }, 'seed-9', [], 90)
+    const off = replayFixture({ ...snapshot, setup, home: { ...snapshot.home, cards, autoSub: false } }, 'seed-9', [], 90)
+    expect(on.subsUsed.home).toBeGreaterThan(0)
+    expect(on.home.squad.slots[slotId]).not.toBe(uid)
+    expect(off.subsUsed.home).toBe(0)
   })
 
   it('lets the away side change tactics and records it in the feed', () => {

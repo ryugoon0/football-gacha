@@ -15,7 +15,9 @@
  * minute at which the server received it and takes effect at the first
  * stoppage on or after that minute — never retroactively.
  */
-import { advance, createMatch, type LiveMatchState, type MatchSetup } from '../matchEngine'
+import { applyAutoSubs } from '../autoSub'
+import { advance, createMatch, shapeFromSquad, type Dot, type LiveMatchState, type MatchSetup } from '../matchEngine'
+import { tune } from '../tuning'
 import { hashString, seededRandom } from '../random'
 import { evaluateSquad } from '../squad'
 import { normalizeTactic, type TacticSetup } from '../tactics'
@@ -44,6 +46,13 @@ export interface LiveSideMaterial {
   cards: Card[]
   squad: Squad
   division: number
+  /**
+   * The manager's automatic-substitution setting, as in casual mode: when on,
+   * a starter whose legs drop under the live tired mark is swapped for a
+   * fresh bench player at the next stoppage without an order. Absent on
+   * snapshots from before this existed — treated as on, the game's default.
+   */
+  autoSub?: boolean
 }
 
 /** Everything fixed at kick-off. Stored as JSON in weekly_fixture_engine_state. */
@@ -56,6 +65,8 @@ export interface LiveSnapshot {
 export type LiveCommandPayload =
   | { kind: 'tactic'; tactic: TacticSetup }
   | { kind: 'substitution'; slotId: string; inUid: string }
+  /** "Swap whoever is tired" — the casual-mode button, decided server-side from live legs. */
+  | { kind: 'autosub' }
 
 export interface LiveCommand {
   id: number
@@ -106,6 +117,64 @@ function nameOf(material: LiveSideMaterial, uid: string, setupSide: MatchSetup['
   return card ? card.playerId : '선수'
 }
 
+interface Applied {
+  setup: MatchSetup
+  home: LiveSideMaterial
+  away: LiveSideMaterial
+  text?: string
+  reason?: string
+  /** Substitutions this step spent — 0, 1, or several for an auto swap. */
+  subs: number
+}
+
+/** A side's squad changed: re-rate it and put it back into the setup. */
+function withSquad(setup: MatchSetup, side: LiveSide, home: LiveSideMaterial, away: LiveSideMaterial, squad: Squad): Applied {
+  const material = side === 'home' ? home : away
+  const rating = evaluateSquad(material.cards, squad, material.division)
+  const nextMaterial = { ...material, squad }
+  if (side === 'home') {
+    // New starter, new dot: keep the pitch view's labels in step with the eleven.
+    const homeShape = setup.homeShape ? shapeFromSquad(squad.formation, rating.evaluations) : undefined
+    return { setup: { ...setup, team: rating, traits: rating.traits, homeShape }, home: nextMaterial, away, subs: 0 }
+  }
+  return { setup: { ...setup, opponentSquad: rating, opponentTraits: rating.traits }, home, away: nextMaterial, subs: 0 }
+}
+
+/**
+ * Tired-legs substitutions for one side, from the engine's live stamina —
+ * the same rule as casual mode's "지친 선수 교체" and its automatic version
+ * (lib/autoSub.ts, tune('liveTired')). Nothing to do returns null.
+ */
+function tiredSubsFor(
+  side: LiveSide,
+  setup: MatchSetup,
+  home: LiveSideMaterial,
+  away: LiveSideMaterial,
+  state: LiveMatchState,
+  subsUsed: Record<LiveSide, number>,
+): Applied | null {
+  const material = side === 'home' ? home : away
+  if (material.cards.length === 0) return null
+  const allowance = SQUAD_RULES.maxSubsPerMatch - subsUsed[side]
+  if (allowance <= 0) return null
+  const stamina = side === 'home' ? state.stamina : state.opponentStamina
+  const auto = applyAutoSubs(
+    material.cards,
+    material.squad,
+    material.division,
+    (card) => stamina[card.uid] ?? card.condition,
+    tune('liveTired'),
+    allowance,
+  )
+  if (auto.subs.length === 0) return null
+  const next = withSquad(setup, side, home, away, auto.squad)
+  return {
+    ...next,
+    subs: auto.subs.length,
+    text: `지친 선수 교체 — ${auto.subs.map((sub) => `${sub.outName} → ${sub.inName}`).join(', ')}`,
+  }
+}
+
 /** Puts one command into the setup. Returns the text to show, or a rejection reason. */
 function applyCommand(
   command: LiveCommand,
@@ -113,9 +182,19 @@ function applyCommand(
   home: LiveSideMaterial,
   away: LiveSideMaterial,
   subsUsed: Record<LiveSide, number>,
-): { setup: MatchSetup; home: LiveSideMaterial; away: LiveSideMaterial; text?: string; reason?: string } {
+  state: LiveMatchState,
+): Applied {
   const side = command.side
   const material = side === 'home' ? home : away
+
+  if (command.payload.kind === 'autosub') {
+    if (subsUsed[side] >= SQUAD_RULES.maxSubsPerMatch) {
+      return { setup, home, away, subs: 0, reason: `교체 인원을 모두 썼습니다 (${SQUAD_RULES.maxSubsPerMatch}명)` }
+    }
+    const auto = tiredSubsFor(side, setup, home, away, state, subsUsed)
+    if (!auto) return { setup, home, away, subs: 0, reason: '지금 빼야 할 만큼 지친 선수가 없습니다' }
+    return auto
+  }
 
   if (command.payload.kind === 'tactic') {
     const tactic = normalizeTactic(command.payload.tactic)
@@ -137,32 +216,23 @@ function applyCommand(
               phased: undefined,
             },
           }
-    return { setup: next, home, away, text: `전술 변경 — ${tactic.plan}/${tactic.pressing}/${tactic.line}/${tactic.tempo}` }
+    return { setup: next, home, away, subs: 0, text: `전술 변경 — ${tactic.plan}/${tactic.pressing}/${tactic.line}/${tactic.tempo}` }
   }
 
   if (subsUsed[side] >= SQUAD_RULES.maxSubsPerMatch) {
-    return { setup, home, away, reason: `교체 인원을 모두 썼습니다 (${SQUAD_RULES.maxSubsPerMatch}명)` }
+    return { setup, home, away, subs: 0, reason: `교체 인원을 모두 썼습니다 (${SQUAD_RULES.maxSubsPerMatch}명)` }
   }
   const swapped = applySub(material.squad, command.payload.slotId, command.payload.inUid)
-  if (!swapped) return { setup, home, away, reason: '교체 대상이 유효하지 않습니다' }
+  if (!swapped) return { setup, home, away, subs: 0, reason: '교체 대상이 유효하지 않습니다' }
 
-  const rating = evaluateSquad(material.cards, swapped.squad, material.division)
-  const nextMaterial = { ...material, squad: swapped.squad }
   const sideSetup = side === 'home' ? setup.team : setup.opponentSquad ?? setup.team
-  const text = `교체 — ${nameOf(material, swapped.outUid, sideSetup)} → ${nameOf(nextMaterial, command.payload.inUid, rating)}`
-  if (side === 'home') {
-    return {
-      setup: { ...setup, team: rating, traits: rating.traits },
-      home: nextMaterial,
-      away,
-      text,
-    }
-  }
+  const next = withSquad(setup, side, home, away, swapped.squad)
+  const nextRating = side === 'home' ? next.setup.team : next.setup.opponentSquad ?? next.setup.team
+  const nextMaterial = side === 'home' ? next.home : next.away
   return {
-    setup: { ...setup, opponentSquad: rating, opponentTraits: rating.traits },
-    home,
-    away: nextMaterial,
-    text,
+    ...next,
+    subs: 1,
+    text: `교체 — ${nameOf(material, swapped.outUid, sideSetup)} → ${nameOf(nextMaterial, command.payload.inUid, nextRating)}`,
   }
 }
 
@@ -188,26 +258,40 @@ export function replayFixture(
   const rejected: RejectedCommand[] = []
   const subsUsed: Record<LiveSide, number> = { home: 0, away: 0 }
 
+  const note = (side: LiveSide, text: string) => {
+    state = { ...state, events: [...state.events, { minute: state.minute, type: 'note', side, text }] }
+  }
+
+  const take = (result: Applied, side: LiveSide) => {
+    setup = result.setup
+    home = result.home
+    away = result.away
+    subsUsed[side] += result.subs
+  }
+
   const flush = () => {
     while (pending.length && pending[0].minute <= state.minute) {
       const command = pending.shift()!
-      const result = applyCommand(command, setup, home, away, subsUsed)
+      const result = applyCommand(command, setup, home, away, subsUsed, state)
       if (result.reason) {
         rejected.push({ id: command.id, side: command.side, reason: result.reason })
         continue
       }
-      setup = result.setup
-      home = result.home
-      away = result.away
-      if (command.payload.kind === 'substitution') subsUsed[command.side] += 1
+      take(result, command.side)
       applied.push({ id: command.id, side: command.side, appliedMinute: state.minute, text: result.text ?? '' })
-      state = {
-        ...state,
-        events: [
-          ...state.events,
-          { minute: state.minute, type: 'note', side: command.side, text: result.text ?? '' },
-        ],
-      }
+      note(command.side, result.text ?? '')
+    }
+    // Then the automatic version, for managers who left it on — same as the
+    // casual-mode screen queuing tired starters at each stoppage. Runs after
+    // the manager's own orders so an explicit swap is never doubled.
+    for (const side of ['home', 'away'] as LiveSide[]) {
+      const material = side === 'home' ? home : away
+      if (material.autoSub === false || state.minute === 0) continue
+      const auto = tiredSubsFor(side, setup, home, away, state, subsUsed)
+      if (!auto) continue
+      take(auto, side)
+      applied.push({ id: -state.minute, side, appliedMinute: state.minute, text: `자동 ${auto.text ?? ''}` })
+      note(side, `자동 ${auto.text ?? ''}`)
     }
   }
 
@@ -247,6 +331,10 @@ export interface LivePublicState {
   shotsAway: number
   possessionHome: number
   events: LiveMatchState['events']
+  /** For the pitch view — where everyone stands this minute. */
+  ball: { x: number; y: number }
+  home: Dot[]
+  away: Dot[]
 }
 
 export function publicStateOf(state: LiveMatchState): LivePublicState {
@@ -262,6 +350,9 @@ export function publicStateOf(state: LiveMatchState): LivePublicState {
     shotsAway: state.shotsAgainst,
     possessionHome: ticks ? Math.round((state.possessionTicks.home / ticks) * 100) : 50,
     events: state.events,
+    ball: state.ball,
+    home: state.home,
+    away: state.away,
   }
 }
 

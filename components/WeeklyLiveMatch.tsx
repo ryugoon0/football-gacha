@@ -5,9 +5,11 @@ import { LINES, PLANS, PRESSINGS, TEMPOS, DEFAULT_TACTIC, type TacticSetup } fro
 import {
   LIVE_COMMAND_FAILURE_MESSAGE,
   getWeeklyLiveState,
+  pitchStateOf,
   submitWeeklyCommand,
   type WeeklyLiveView,
 } from '../lib/weeklyLive'
+import PitchView from './PitchView'
 
 /**
  * A live weekly fixture, as the server replays it. Polls get_state every few
@@ -29,6 +31,8 @@ export default function WeeklyLiveMatch({ fixtureId, onClose }: { fixtureId: num
   const [tactic, setTactic] = useState<TacticSetup>(DEFAULT_TACTIC)
   const [subSlot, setSubSlot] = useState<string>('')
   const [subIn, setSubIn] = useState<string>('')
+  // Same two ways to watch as casual mode; here the pitch sits above the feed.
+  const [showPitch, setShowPitch] = useState(true)
   const feedRef = useRef<HTMLDivElement | null>(null)
 
   const refresh = useCallback(async () => {
@@ -64,6 +68,18 @@ export default function WeeklyLiveMatch({ fixtureId, onClose }: { fixtureId: num
     setNotice(
       result.ok
         ? `전술 지시 접수 (${result.minute}분) — 다음 정지 때 적용됩니다`
+        : LIVE_COMMAND_FAILURE_MESSAGE[result.reason] ?? '지시를 보내지 못했습니다.',
+    )
+    void refresh()
+  }
+
+  const sendAutoSub = async () => {
+    setBusy(true)
+    const result = await submitWeeklyCommand(fixtureId, { kind: 'autosub' })
+    setBusy(false)
+    setNotice(
+      result.ok
+        ? `지친 선수 교체 지시 접수 (${result.minute}분) — 다음 정지 때 체력이 부족한 선수를 빼고 투입합니다`
         : LIVE_COMMAND_FAILURE_MESSAGE[result.reason] ?? '지시를 보내지 못했습니다.',
     )
     void refresh()
@@ -136,6 +152,23 @@ export default function WeeklyLiveMatch({ fixtureId, onClose }: { fixtureId: num
             <span>슛 {view.state.shotsHome} · 점유 {view.state.possessionHome}%</span>
             <span>점유 {100 - view.state.possessionHome}% · 슛 {view.state.shotsAway}</span>
           </div>
+
+          <div className="mt-3 flex items-center justify-between">
+            <span className="text-[11px] text-slate-500">
+              {showPitch ? '바둑판 + 텍스트' : '텍스트만'} · 5초마다 갱신
+            </span>
+            <button
+              onClick={() => setShowPitch((value) => !value)}
+              className="rounded-md bg-white/10 px-2 py-1 text-[10px] font-bold text-slate-300 hover:bg-white/20"
+            >
+              {showPitch ? '바둑판 숨기기' : '바둑판 보기'}
+            </button>
+          </div>
+          {showPitch && (view.state.home?.length ?? 0) > 0 && (
+            <div className="mt-2">
+              <PitchView state={pitchStateOf(view.state)} homeName={view.home} awayName={view.away} />
+            </div>
+          )}
 
           <div ref={feedRef} className="mt-3 max-h-56 space-y-1 overflow-y-auto rounded-xl bg-black/30 p-2 text-[12px]">
             {events.map((event, index) => (
@@ -232,6 +265,13 @@ export default function WeeklyLiveMatch({ fixtureId, onClose }: { fixtureId: num
               교체
             </button>
           </div>
+          <button
+            onClick={() => void sendAutoSub()}
+            disabled={busy || lineup.subsLeft <= 0}
+            className="w-full rounded-lg bg-white/10 py-1.5 text-xs font-bold text-slate-200 hover:bg-white/20 disabled:text-slate-500"
+          >
+            지친 선수 자동 교체
+          </button>
           {notice && <p className="text-[11px] text-emerald-200">{notice}</p>}
         </div>
       )}

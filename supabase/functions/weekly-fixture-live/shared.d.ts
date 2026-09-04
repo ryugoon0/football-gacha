@@ -37,7 +37,10 @@ export interface SharedRealSquadInput {
   division: number
   tactic?: unknown
   plan?: unknown
+  autoSub?: boolean
 }
+
+export function kickoffSquadOf(input: SharedRealSquadInput): SharedSquad
 
 /** Opaque — built by buildWeeklyMatchSetup, consumed by the replay only. */
 export type SharedMatchSetup = { readonly __brand: 'MatchSetup' }
@@ -46,6 +49,7 @@ export interface SharedSideMaterial {
   cards: SharedCard[]
   squad: SharedSquad
   division: number
+  autoSub?: boolean
 }
 
 export interface SharedSnapshot {
@@ -90,6 +94,9 @@ export interface SharedPublicState {
   shotsAway: number
   possessionHome: number
   events: SharedMatchEvent[]
+  ball: { x: number; y: number }
+  home: unknown[]
+  away: unknown[]
 }
 
 export interface SharedLineupView {

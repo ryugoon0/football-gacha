@@ -14,13 +14,14 @@
  * lib/weeklyLeagueServer.ts, same pattern as lib/serverMatch.ts.
  */
 import { buildLineup } from '../aiClub'
+import { applyAutoSubs } from '../autoSub'
 import { FORMATION_KEYS } from '../formations'
 import { evaluateSquad, type SquadRating } from '../squad'
 import { DEFAULT_TACTIC, type TacticSetup } from '../tactics'
 import type { PhasedTactics } from '../tactics/phases'
 import { hashString, seededRandom } from '../random'
 import type { Card, Squad } from '../types'
-import type { MatchSetup } from '../matchEngine'
+import { shapeFromSquad, type MatchSetup } from '../matchEngine'
 
 export interface WeeklyMemberSummary {
   slot: number
@@ -119,6 +120,19 @@ export interface WeeklyRealSquadInput {
   division: number
   tactic?: TacticSetup
   plan?: PhasedTactics
+  /** Casual mode's automatic substitution setting; on by default. */
+  autoSub?: boolean
+}
+
+/**
+ * The eleven that actually kicks off: with automatic substitution on, an
+ * injured or exhausted starter is swapped for a bench player first — exactly
+ * what casual mode does before its kick-off (MatchTab readiness). A weekly
+ * fixture the manager never opens still fields a sensible team.
+ */
+export function kickoffSquadOf(input: WeeklyRealSquadInput): Squad {
+  if (input.autoSub === false) return input.squad
+  return applyAutoSubs(input.cards, input.squad, input.division).squad
 }
 
 /**
@@ -138,15 +152,21 @@ export function buildWeeklyMatchSetup(args: {
 }): MatchSetup {
   const { groupId, home, away, homeInput, awayInput, neutralVenue, aiAnchor } = args
 
-  const homeSquad = homeInput
-    ? evaluateSquad(homeInput.cards, homeInput.squad, homeInput.division)
-    : weeklyAiSquad(groupId, home.slot, aiAnchor ?? home.rating).rating
+  const homeKickoff = homeInput ? kickoffSquadOf(homeInput) : null
+  const homeAi = homeInput ? null : weeklyAiSquad(groupId, home.slot, aiAnchor ?? home.rating)
+  const homeSquad = homeInput && homeKickoff
+    ? evaluateSquad(homeInput.cards, homeKickoff, homeInput.division)
+    : homeAi!.rating
+  const homeFormation = homeKickoff?.formation ?? homeAi!.squad.formation
   const awaySquad = awayInput
-    ? evaluateSquad(awayInput.cards, awayInput.squad, awayInput.division)
+    ? evaluateSquad(awayInput.cards, kickoffSquadOf(awayInput), awayInput.division)
     : weeklyAiSquad(groupId, away.slot, aiAnchor ?? away.rating).rating
 
   return {
     team: homeSquad,
+    // Dots for the pitch view: the engine only moves players it has anchors
+    // for, so the live screen's 바둑판 needs this in the snapshot.
+    homeShape: shapeFromSquad(homeFormation, homeSquad.evaluations),
     teamName: home.clubName,
     opponent: { id: `weekly:${groupId}:${away.slot}`, name: away.clubName, badge: '', rating: away.rating },
     opponentSquad: awaySquad,

@@ -4388,6 +4388,19 @@ function awayShape() {
     y: 100 - y
   }));
 }
+function shapeFromSquad(formationKey, evaluations) {
+  const formation = FORMATIONS[formationKey] ?? FORMATIONS["4-3-3"];
+  return formation.slots.map((slot) => {
+    const evaluation = evaluations.find((item) => item.slotId === slot.id);
+    return {
+      id: slot.id,
+      label: evaluation?.player?.name ?? slot.position,
+      role: slot.position,
+      x: slot.x,
+      y: slot.y
+    };
+  });
+}
 function toDots(anchors) {
   return anchors.map((anchor) => ({ ...anchor, liveX: anchor.x, liveY: anchor.y }));
 }
@@ -5043,6 +5056,64 @@ function chemistryOf(evaluations) {
   return Math.max(0, Math.min(100, Math.round(base)));
 }
 
+// lib/autoSub.ts
+var TIRED_SUB_THRESHOLD = KNOBS.tiredSubThreshold.default;
+var SUB_READY_CONDITION = 55;
+function applyAutoSubs(cards, squad, division, conditionOf = (card) => card.condition, tiredBelow = tune("tiredSubThreshold"), allowance = Number.POSITIVE_INFINITY) {
+  if (allowance <= 0) return { squad, subs: [] };
+  const formation = FORMATIONS[squad.formation] ?? FORMATIONS["4-3-3"];
+  const byUid = new Map(cards.map((card) => [card.uid, card]));
+  const cap = lineupCapOf(division);
+  const slots = { ...squad.slots };
+  const bench = [...squad.bench];
+  const subs = [];
+  let levelTotal = Object.values(slots).reduce(
+    (sum, uid) => sum + (uid ? byUid.get(uid)?.level ?? 0 : 0),
+    0
+  );
+  for (const slot of formation.slots) {
+    if (subs.length >= allowance) break;
+    const uid = slots[slot.id];
+    const starter = uid ? byUid.get(uid) : void 0;
+    if (!starter) continue;
+    const injured = isInjured(starter);
+    const tired = conditionOf(starter) < tiredBelow;
+    if (!injured && !tired) continue;
+    let bestIndex = -1;
+    let bestScore = -1;
+    bench.forEach((benchUid, index) => {
+      if (!benchUid) return;
+      const candidate = byUid.get(benchUid);
+      const player = candidate ? getPlayer(candidate.playerId) : void 0;
+      if (!candidate || !player) return;
+      const readyAt = Math.max(SUB_READY_CONDITION, tiredBelow);
+      if (isInjured(candidate) || conditionOf(candidate) < readyAt) return;
+      if (levelTotal - starter.level + candidate.level > cap) return;
+      if (player.positions.includes("GK") !== (slot.position === "GK")) return;
+      const score = ratingInSlot(player, candidate.level, slot.position);
+      if (score > bestScore) {
+        bestScore = score;
+        bestIndex = index;
+      }
+    });
+    if (bestIndex < 0) continue;
+    const incomingUid = bench[bestIndex];
+    const incoming = byUid.get(incomingUid);
+    slots[slot.id] = incomingUid;
+    bench[bestIndex] = starter.uid;
+    levelTotal += incoming.level - starter.level;
+    subs.push({
+      slotId: slot.id,
+      outUid: starter.uid,
+      inUid: incomingUid,
+      outName: getPlayer(starter.playerId)?.name ?? "\uC120\uC218",
+      inName: getPlayer(incoming.playerId)?.name ?? "\uC120\uC218",
+      reason: injured ? "injury" : "fatigue"
+    });
+  }
+  return { squad: { ...squad, slots, bench }, subs };
+}
+
 // lib/weeklyLeague/liveMatch.ts
 function weeklyAiSquad(groupId, slot, targetRating) {
   const seed = hashString(`weekly-ai:${groupId}:${slot}`);
@@ -5082,12 +5153,22 @@ function starterAverageOf(rating) {
   if (starters.length === 0) return 0;
   return starters.reduce((total, item) => total + item.rating, 0) / starters.length;
 }
+function kickoffSquadOf(input) {
+  if (input.autoSub === false) return input.squad;
+  return applyAutoSubs(input.cards, input.squad, input.division).squad;
+}
 function buildWeeklyMatchSetup(args) {
   const { groupId, home, away, homeInput, awayInput, neutralVenue, aiAnchor } = args;
-  const homeSquad = homeInput ? evaluateSquad(homeInput.cards, homeInput.squad, homeInput.division) : weeklyAiSquad(groupId, home.slot, aiAnchor ?? home.rating).rating;
-  const awaySquad = awayInput ? evaluateSquad(awayInput.cards, awayInput.squad, awayInput.division) : weeklyAiSquad(groupId, away.slot, aiAnchor ?? away.rating).rating;
+  const homeKickoff = homeInput ? kickoffSquadOf(homeInput) : null;
+  const homeAi = homeInput ? null : weeklyAiSquad(groupId, home.slot, aiAnchor ?? home.rating);
+  const homeSquad = homeInput && homeKickoff ? evaluateSquad(homeInput.cards, homeKickoff, homeInput.division) : homeAi.rating;
+  const homeFormation = homeKickoff?.formation ?? homeAi.squad.formation;
+  const awaySquad = awayInput ? evaluateSquad(awayInput.cards, kickoffSquadOf(awayInput), awayInput.division) : weeklyAiSquad(groupId, away.slot, aiAnchor ?? away.rating).rating;
   return {
     team: homeSquad,
+    // Dots for the pitch view: the engine only moves players it has anchors
+    // for, so the live screen's 바둑판 needs this in the snapshot.
+    homeShape: shapeFromSquad(homeFormation, homeSquad.evaluations),
     teamName: home.clubName,
     opponent: { id: `weekly:${groupId}:${away.slot}`, name: away.clubName, badge: "", rating: away.rating },
     opponentSquad: awaySquad,
@@ -5197,12 +5278,52 @@ function nameOf(material, uid, setupSide) {
   const card = material.cards.find((entry) => entry.uid === uid);
   return card ? card.playerId : "\uC120\uC218";
 }
-function applyCommand(command, setup, home, away, subsUsed) {
+function withSquad(setup, side, home, away, squad) {
+  const material = side === "home" ? home : away;
+  const rating = evaluateSquad(material.cards, squad, material.division);
+  const nextMaterial = { ...material, squad };
+  if (side === "home") {
+    const homeShape = setup.homeShape ? shapeFromSquad(squad.formation, rating.evaluations) : void 0;
+    return { setup: { ...setup, team: rating, traits: rating.traits, homeShape }, home: nextMaterial, away, subs: 0 };
+  }
+  return { setup: { ...setup, opponentSquad: rating, opponentTraits: rating.traits }, home, away: nextMaterial, subs: 0 };
+}
+function tiredSubsFor(side, setup, home, away, state, subsUsed) {
+  const material = side === "home" ? home : away;
+  if (material.cards.length === 0) return null;
+  const allowance = SQUAD_RULES.maxSubsPerMatch - subsUsed[side];
+  if (allowance <= 0) return null;
+  const stamina = side === "home" ? state.stamina : state.opponentStamina;
+  const auto = applyAutoSubs(
+    material.cards,
+    material.squad,
+    material.division,
+    (card) => stamina[card.uid] ?? card.condition,
+    tune("liveTired"),
+    allowance
+  );
+  if (auto.subs.length === 0) return null;
+  const next = withSquad(setup, side, home, away, auto.squad);
+  return {
+    ...next,
+    subs: auto.subs.length,
+    text: `\uC9C0\uCE5C \uC120\uC218 \uAD50\uCCB4 \u2014 ${auto.subs.map((sub) => `${sub.outName} \u2192 ${sub.inName}`).join(", ")}`
+  };
+}
+function applyCommand(command, setup, home, away, subsUsed, state) {
   const side = command.side;
   const material = side === "home" ? home : away;
+  if (command.payload.kind === "autosub") {
+    if (subsUsed[side] >= SQUAD_RULES.maxSubsPerMatch) {
+      return { setup, home, away, subs: 0, reason: `\uAD50\uCCB4 \uC778\uC6D0\uC744 \uBAA8\uB450 \uC37C\uC2B5\uB2C8\uB2E4 (${SQUAD_RULES.maxSubsPerMatch}\uBA85)` };
+    }
+    const auto = tiredSubsFor(side, setup, home, away, state, subsUsed);
+    if (!auto) return { setup, home, away, subs: 0, reason: "\uC9C0\uAE08 \uBE7C\uC57C \uD560 \uB9CC\uD07C \uC9C0\uCE5C \uC120\uC218\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4" };
+    return auto;
+  }
   if (command.payload.kind === "tactic") {
     const tactic = normalizeTactic(command.payload.tactic);
-    const next = side === "home" ? { ...setup, tactic, phased: void 0, params: void 0 } : {
+    const next2 = side === "home" ? { ...setup, tactic, phased: void 0, params: void 0 } : {
       ...setup,
       opponentTactics: {
         profile: setup.opponentTactics?.profile,
@@ -5210,30 +5331,21 @@ function applyCommand(command, setup, home, away, subsUsed) {
         phased: void 0
       }
     };
-    return { setup: next, home, away, text: `\uC804\uC220 \uBCC0\uACBD \u2014 ${tactic.plan}/${tactic.pressing}/${tactic.line}/${tactic.tempo}` };
+    return { setup: next2, home, away, subs: 0, text: `\uC804\uC220 \uBCC0\uACBD \u2014 ${tactic.plan}/${tactic.pressing}/${tactic.line}/${tactic.tempo}` };
   }
   if (subsUsed[side] >= SQUAD_RULES.maxSubsPerMatch) {
-    return { setup, home, away, reason: `\uAD50\uCCB4 \uC778\uC6D0\uC744 \uBAA8\uB450 \uC37C\uC2B5\uB2C8\uB2E4 (${SQUAD_RULES.maxSubsPerMatch}\uBA85)` };
+    return { setup, home, away, subs: 0, reason: `\uAD50\uCCB4 \uC778\uC6D0\uC744 \uBAA8\uB450 \uC37C\uC2B5\uB2C8\uB2E4 (${SQUAD_RULES.maxSubsPerMatch}\uBA85)` };
   }
   const swapped = applySub(material.squad, command.payload.slotId, command.payload.inUid);
-  if (!swapped) return { setup, home, away, reason: "\uAD50\uCCB4 \uB300\uC0C1\uC774 \uC720\uD6A8\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4" };
-  const rating = evaluateSquad(material.cards, swapped.squad, material.division);
-  const nextMaterial = { ...material, squad: swapped.squad };
+  if (!swapped) return { setup, home, away, subs: 0, reason: "\uAD50\uCCB4 \uB300\uC0C1\uC774 \uC720\uD6A8\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4" };
   const sideSetup = side === "home" ? setup.team : setup.opponentSquad ?? setup.team;
-  const text = `\uAD50\uCCB4 \u2014 ${nameOf(material, swapped.outUid, sideSetup)} \u2192 ${nameOf(nextMaterial, command.payload.inUid, rating)}`;
-  if (side === "home") {
-    return {
-      setup: { ...setup, team: rating, traits: rating.traits },
-      home: nextMaterial,
-      away,
-      text
-    };
-  }
+  const next = withSquad(setup, side, home, away, swapped.squad);
+  const nextRating = side === "home" ? next.setup.team : next.setup.opponentSquad ?? next.setup.team;
+  const nextMaterial = side === "home" ? next.home : next.away;
   return {
-    setup: { ...setup, opponentSquad: rating, opponentTraits: rating.traits },
-    home,
-    away: nextMaterial,
-    text
+    ...next,
+    subs: 1,
+    text: `\uAD50\uCCB4 \u2014 ${nameOf(material, swapped.outUid, sideSetup)} \u2192 ${nameOf(nextMaterial, command.payload.inUid, nextRating)}`
   };
 }
 function replayFixture(snapshot, seed, commands, targetMinute = LIVE_MATCH_MINUTES) {
@@ -5246,26 +5358,35 @@ function replayFixture(snapshot, seed, commands, targetMinute = LIVE_MATCH_MINUT
   const applied = [];
   const rejected = [];
   const subsUsed = { home: 0, away: 0 };
+  const note = (side, text) => {
+    state = { ...state, events: [...state.events, { minute: state.minute, type: "note", side, text }] };
+  };
+  const take = (result, side) => {
+    setup = result.setup;
+    home = result.home;
+    away = result.away;
+    subsUsed[side] += result.subs;
+  };
   const flush = () => {
     while (pending.length && pending[0].minute <= state.minute) {
       const command = pending.shift();
-      const result = applyCommand(command, setup, home, away, subsUsed);
+      const result = applyCommand(command, setup, home, away, subsUsed, state);
       if (result.reason) {
         rejected.push({ id: command.id, side: command.side, reason: result.reason });
         continue;
       }
-      setup = result.setup;
-      home = result.home;
-      away = result.away;
-      if (command.payload.kind === "substitution") subsUsed[command.side] += 1;
+      take(result, command.side);
       applied.push({ id: command.id, side: command.side, appliedMinute: state.minute, text: result.text ?? "" });
-      state = {
-        ...state,
-        events: [
-          ...state.events,
-          { minute: state.minute, type: "note", side: command.side, text: result.text ?? "" }
-        ]
-      };
+      note(command.side, result.text ?? "");
+    }
+    for (const side of ["home", "away"]) {
+      const material = side === "home" ? home : away;
+      if (material.autoSub === false || state.minute === 0) continue;
+      const auto = tiredSubsFor(side, setup, home, away, state, subsUsed);
+      if (!auto) continue;
+      take(auto, side);
+      applied.push({ id: -state.minute, side, appliedMinute: state.minute, text: `\uC790\uB3D9 ${auto.text ?? ""}` });
+      note(side, `\uC790\uB3D9 ${auto.text ?? ""}`);
     }
   };
   flush();
@@ -5294,7 +5415,10 @@ function publicStateOf(state) {
     shotsHome: state.shotsFor,
     shotsAway: state.shotsAgainst,
     possessionHome: ticks ? Math.round(state.possessionTicks.home / ticks * 100) : 50,
-    events: state.events
+    events: state.events,
+    ball: state.ball,
+    home: state.home,
+    away: state.away
   };
 }
 function lineupViewOf(result, side, playerNameOf) {
@@ -5322,6 +5446,7 @@ export {
   buildWeeklyMatchSetup,
   evaluateSquad,
   getPlayer,
+  kickoffSquadOf,
   lineupViewOf,
   liveWindowEnded,
   matchMinuteAt,

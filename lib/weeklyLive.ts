@@ -1,5 +1,7 @@
+import type { Dot, LiveMatchState } from './matchEngine'
 import { getSupabase } from './supabase'
 import type { TacticSetup } from './tactics'
+import { emptyMetrics } from './tactics/metrics'
 import type { MatchEvent } from './types'
 
 /**
@@ -43,6 +45,38 @@ export interface LivePublicState {
   shotsAway: number
   possessionHome: number
   events: MatchEvent[]
+  ball?: { x: number; y: number }
+  home?: Dot[]
+  away?: Dot[]
+}
+
+/**
+ * PitchView takes the engine's own LiveMatchState; the server sends only the
+ * parts it draws, so this fills the rest with placeholders. Nothing here is
+ * simulated — the positions are the server's.
+ */
+export function pitchStateOf(state: LivePublicState): LiveMatchState {
+  return {
+    minute: state.minute,
+    phase: state.phase as LiveMatchState['phase'],
+    stoppage: state.stoppage ? { kind: 'out', ticksLeft: 0, text: state.stoppage } : null,
+    possession: 'home',
+    ball: state.ball ?? { x: 50, y: 50 },
+    home: state.home ?? [],
+    away: state.away ?? [],
+    scoreFor: state.scoreHome,
+    scoreAgainst: state.scoreAway,
+    shotsFor: state.shotsHome,
+    shotsAgainst: state.shotsAway,
+    possessionTicks: { home: state.possessionHome, away: 100 - state.possessionHome },
+    events: state.events,
+    scorerUids: [],
+    opponentScorerUids: [],
+    stamina: {},
+    opponentStamina: {},
+    metrics: emptyMetrics(),
+    finished: state.finished,
+  }
 }
 
 export interface LiveLineupView {
@@ -112,6 +146,8 @@ export async function getWeeklyLiveState(
 export type LiveCommandInput =
   | { kind: 'tactic'; tactic: TacticSetup }
   | { kind: 'substitution'; slotId: string; inUid: string }
+  /** Server decides who is tired from live legs — same rule as casual mode's button. */
+  | { kind: 'autosub' }
 
 export async function submitWeeklyCommand(
   fixtureId: number,

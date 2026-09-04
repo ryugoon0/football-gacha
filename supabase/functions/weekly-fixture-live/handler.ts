@@ -25,6 +25,7 @@ import {
   buildWeeklyMatchSetup,
   evaluateSquad,
   getPlayer,
+  kickoffSquadOf,
   starterAverageOf,
   weeklyAiAnchor,
   lineupViewOf,
@@ -109,6 +110,7 @@ interface SaveShape {
   season?: { division?: number }
   tactic?: unknown
   plan?: unknown
+  autoSub?: unknown
 }
 
 function isSquad(value: unknown): value is SharedSquad {
@@ -161,6 +163,7 @@ async function realSideOf(url: string, server: ServerHeaders, userId: string): P
     division: Number.isFinite(division) && division >= 1 && division <= 5 ? division : 5,
     tactic: save.tactic && typeof save.tactic === 'object' ? save.tactic : undefined,
     plan: save.plan && typeof save.plan === 'object' ? save.plan : undefined,
+    autoSub: save.autoSub !== false,
   }
 }
 
@@ -228,10 +231,18 @@ async function buildSnapshot(url: string, server: ServerHeaders, fixture: Fixtur
   // replay only needs cards/squad for sides that can be substituted, which is
   // real users. An AI side gets an empty material and never issues commands.
   const empty = { cards: [] as SharedCard[], squad: { formation: '4-3-3', slots: {}, bench: [] }, division: 5 }
+  // The material carries the eleven that actually kicked off (pre-match auto
+  // substitutions applied), the same squad the setup was rated from.
+  const material = (input: SharedRealSquadInput) => ({
+    cards: input.cards,
+    squad: kickoffSquadOf(input),
+    division: input.division,
+    autoSub: input.autoSub !== false,
+  })
   return {
     setup,
-    home: homeInput ? { cards: homeInput.cards, squad: homeInput.squad, division: homeInput.division } : empty,
-    away: awayInput ? { cards: awayInput.cards, squad: awayInput.squad, division: awayInput.division } : empty,
+    home: homeInput ? material(homeInput) : empty,
+    away: awayInput ? material(awayInput) : empty,
   }
 }
 
@@ -379,9 +390,10 @@ export async function handle(request: Request, env: Env): Promise<Response> {
     if (!Number.isInteger(fixtureId) || fixtureId <= 0) return refuse('bad fixture')
 
     if (body.action === 'submit_command') {
-      const kind = body.kind === 'tactic' || body.kind === 'substitution' ? body.kind : null
+      const kind =
+        body.kind === 'tactic' || body.kind === 'substitution' || body.kind === 'autosub' ? body.kind : null
       if (!kind) return refuse('bad command')
-      const payload = body.payload && typeof body.payload === 'object' ? (body.payload as Record<string, unknown>) : null
+      const payload = body.payload && typeof body.payload === 'object' ? (body.payload as Record<string, unknown>) : kind === 'autosub' ? {} : null
       if (!payload) return refuse('bad command')
       if (kind === 'tactic' && (!payload.tactic || typeof payload.tactic !== 'object')) return refuse('bad command')
       if (kind === 'substitution' && (typeof payload.slotId !== 'string' || typeof payload.inUid !== 'string')) {
