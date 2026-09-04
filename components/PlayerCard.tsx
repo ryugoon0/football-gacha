@@ -3,6 +3,7 @@
 import { MAX_CONDITION, TIRED_CONDITION } from '../lib/condition'
 import { GK_STAT_LABELS, STAT_LABELS, effectiveOvr, effectiveStats } from '../lib/players'
 import { TRAITS, traitsOf } from '../lib/traits'
+import { clubColor, clubInitials } from '../lib/clubBadge'
 import { flagOf, leagueTag } from '../lib/flags'
 import { RARITY_STYLES } from '../lib/rarity'
 import type { PlayerDef, Stats } from '../lib/types'
@@ -110,7 +111,19 @@ function ModernPlayerCard({
             Lv.{level}
           </span>
         </div>
-        <PlayerAvatar player={player} className="min-w-0 flex-1" />
+        <div className="relative min-w-0 flex-1">
+          <PlayerAvatar player={player} className="w-full" />
+          {/* Club badge — initials in the club's colour, so a line-up reads by club at a glance. */}
+          <span
+            title={player.club}
+            className={`absolute bottom-0 right-0 flex items-center justify-center rounded-full font-black leading-none text-white ring-1 ring-black/40 ${
+              size === 'sm' ? 'h-4 w-4 text-[7px]' : size === 'md' ? 'h-6 w-6 text-[9px]' : 'h-8 w-8 text-xs'
+            }`}
+            style={{ backgroundColor: clubColor(player.club) }}
+          >
+            {clubInitials(player.club)}
+          </span>
+        </div>
       </div>
 
       {typeof condition === 'number' && (
