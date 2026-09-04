@@ -74,13 +74,27 @@ for (const file of readdirSync('data/squads').filter((f) => f.endsWith('.json'))
     if (only && !p.key.startsWith(only)) continue
     const age = YEAR - p.birthYear
     const seed = hash(p.key)
-    const prompt = [
-      `Photorealistic official club headshot of a fictional ${ETHNICITY[p.nation] ?? p.nation} male professional footballer, age ${age},`,
-      `${BUILD[p.pos] ?? 'athletic build'}, ${pick(HAIR, seed)}, ${pick(FACIAL, seed >> 3)}, ${pick(MOOD, seed >> 6)} expression.`,
-      'Head and shoulders, facing the camera, wearing a plain dark training top with no logos or text,',
-      'neutral dark grey studio background, soft even lighting, sharp focus, 3:4 vertical.',
-      'The face must be an invented person and must not resemble any real athlete or celebrity.',
-    ].join(' ')
+    // Two looks. 'photo' (default): photoreal fictional headshot from attributes.
+    // 'illustration': a flat, stylised drawing where the silhouette — hairstyle,
+    // facial hair, build, skin tone from the squad file's `look` — carries the
+    // character, and the face itself stays generic. No photo is referenced.
+    const look = p.look ? `${p.look}, ` : `${pick(HAIR, seed)}, ${pick(FACIAL, seed >> 3)}, `
+    const prompt =
+      squad.style === 'illustration'
+        ? [
+            `Stylised flat vector illustration of a fictional ${ETHNICITY[p.nation] ?? p.nation} male professional footballer, age ${age},`,
+            `${BUILD[p.pos] ?? 'athletic build'}, ${look}${pick(MOOD, seed >> 6)} expression.`,
+            'Clean bold outlines, cel shading with two or three tones, simplified generic facial features, strong recognisable silhouette of hair and head shape.',
+            'Head and shoulders, facing the camera, plain dark training top with no logos or text, flat dark slate background, 3:4 vertical.',
+            'Not photorealistic. An invented character that must not resemble any real athlete or celebrity.',
+          ].join(' ')
+        : [
+            `Photorealistic official club headshot of a fictional ${ETHNICITY[p.nation] ?? p.nation} male professional footballer, age ${age},`,
+            `${BUILD[p.pos] ?? 'athletic build'}, ${look}${pick(MOOD, seed >> 6)} expression.`,
+            'Head and shoulders, facing the camera, wearing a plain dark training top with no logos or text,',
+            'neutral dark grey studio background, soft even lighting, sharp focus, 3:4 vertical.',
+            'The face must be an invented person and must not resemble any real athlete or celebrity.',
+          ].join(' ')
     console.log(JSON.stringify({ key: p.key, prompt }))
   }
 }

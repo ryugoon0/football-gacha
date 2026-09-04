@@ -13,7 +13,8 @@
       "pos": "GK",
       "nation": "벨기에",
       "birthYear": 2002,
-      "ovr": 79
+      "ovr": 79,
+      "look": "short brown hair, clean-shaven, fair skin"
     },
     {
       "key": "manred-02",
@@ -23,7 +24,8 @@
       "pos": "RB",
       "nation": "포르투갈",
       "birthYear": 1999,
-      "ovr": 80
+      "ovr": 80,
+      "look": "short dark hair, trimmed beard, olive skin"
     },
     {
       "key": "manred-03",
@@ -33,7 +35,8 @@
       "pos": "RB",
       "nation": "모로코",
       "birthYear": 1997,
-      "ovr": 81
+      "ovr": 81,
+      "look": "short black hair, full dark beard, light brown skin"
     },
     {
       "key": "manred-04",
@@ -43,7 +46,8 @@
       "pos": "CB",
       "nation": "네덜란드",
       "birthYear": 1999,
-      "ovr": 83
+      "ovr": 83,
+      "look": "short light-brown hair, clean-shaven, fair skin, strong jaw"
     },
     {
       "key": "manred-05",
@@ -53,7 +57,8 @@
       "pos": "CB",
       "nation": "잉글랜드",
       "birthYear": 1993,
-      "ovr": 79
+      "ovr": 79,
+      "look": "short dark hair, clean-shaven, fair skin, tall with a high forehead"
     },
     {
       "key": "manred-06",
@@ -63,7 +68,8 @@
       "pos": "CB",
       "nation": "아르헨티나",
       "birthYear": 1998,
-      "ovr": 84
+      "ovr": 84,
+      "look": "short dark hair, light stubble, olive skin, compact and sturdy"
     },
     {
       "key": "manred-07",
@@ -73,7 +79,8 @@
       "pos": "CM",
       "nation": "잉글랜드",
       "birthYear": 1999,
-      "ovr": 79
+      "ovr": 79,
+      "look": "short brown hair swept up, clean-shaven, fair skin"
     },
     {
       "key": "manred-08",
@@ -83,7 +90,8 @@
       "pos": "CAM",
       "nation": "포르투갈",
       "birthYear": 1994,
-      "ovr": 88
+      "ovr": 88,
+      "look": "short dark hair, light stubble, olive skin, sharp features"
     },
     {
       "key": "manred-09",
@@ -93,7 +101,8 @@
       "pos": "LW",
       "nation": "잉글랜드",
       "birthYear": 1997,
-      "ovr": 82
+      "ovr": 82,
+      "look": "very short black hair, clean-shaven, dark skin"
     },
     {
       "key": "manred-10",
@@ -103,7 +112,8 @@
       "pos": "CAM",
       "nation": "브라질",
       "birthYear": 1999,
-      "ovr": 84
+      "ovr": 84,
+      "look": "medium-length dark wavy hair, stubble, light brown skin"
     },
     {
       "key": "manred-11",
@@ -113,7 +123,8 @@
       "pos": "ST",
       "nation": "네덜란드",
       "birthYear": 2001,
-      "ovr": 78
+      "ovr": 78,
+      "look": "short black hair, clean-shaven, brown skin, tall and lean"
     },
     {
       "key": "manred-12",
@@ -123,7 +134,8 @@
       "pos": "GK",
       "nation": "웨일스",
       "birthYear": 1990,
-      "ovr": 72
+      "ovr": 72,
+      "look": "short brown hair, short beard, fair skin"
     },
     {
       "key": "manred-13",
@@ -133,7 +145,8 @@
       "pos": "LB",
       "nation": "덴마크",
       "birthYear": 2004,
-      "ovr": 77
+      "ovr": 77,
+      "look": "short black hair, clean-shaven, dark skin"
     },
     {
       "key": "manred-15",
@@ -143,7 +156,8 @@
       "pos": "CB",
       "nation": "프랑스",
       "birthYear": 2005,
-      "ovr": 80
+      "ovr": 80,
+      "look": "very short black hair, clean-shaven, dark skin, tall"
     },
     {
       "key": "manred-16",
@@ -153,7 +167,8 @@
       "pos": "RW",
       "nation": "코트디부아르",
       "birthYear": 2002,
-      "ovr": 82
+      "ovr": 82,
+      "look": "short black hair, clean-shaven, dark skin, slight build"
     },
     {
       "key": "manred-17",
@@ -163,7 +178,8 @@
       "pos": "CM",
       "nation": "브라질",
       "birthYear": 2004,
-      "ovr": 78
+      "ovr": 78,
+      "look": "short dark curly hair, clean-shaven, light brown skin"
     },
     {
       "key": "manred-18",
@@ -173,7 +189,8 @@
       "pos": "CM",
       "nation": "벨기에",
       "birthYear": 1997,
-      "ovr": 81
+      "ovr": 81,
+      "look": "short brown hair, light stubble, fair skin"
     },
     {
       "key": "manred-19",
@@ -183,7 +200,8 @@
       "pos": "RW",
       "nation": "카메룬",
       "birthYear": 1999,
-      "ovr": 84
+      "ovr": 84,
+      "look": "short black twists, clean-shaven, dark skin"
     },
     {
       "key": "manred-20",
@@ -193,7 +211,8 @@
       "pos": "CDM",
       "nation": "카메룬",
       "birthYear": 2004,
-      "ovr": 80
+      "ovr": 80,
+      "look": "very short black hair, clean-shaven, dark skin, powerful build"
     },
     {
       "key": "manred-22",
@@ -203,7 +222,8 @@
       "pos": "GK",
       "nation": "잉글랜드",
       "birthYear": 1986,
-      "ovr": 68
+      "ovr": 68,
+      "look": "shaved head, grey stubble, fair skin, veteran"
     },
     {
       "key": "manred-23",
@@ -213,7 +233,8 @@
       "pos": "LB",
       "nation": "잉글랜드",
       "birthYear": 1995,
-      "ovr": 79
+      "ovr": 79,
+      "look": "short brown hair, light stubble, fair skin"
     },
     {
       "key": "manred-25",
@@ -223,7 +244,8 @@
       "pos": "CDM",
       "nation": "우루과이",
       "birthYear": 2001,
-      "ovr": 79
+      "ovr": 79,
+      "look": "short dark hair, short beard, olive skin"
     },
     {
       "key": "manred-26",
@@ -233,7 +255,8 @@
       "pos": "CB",
       "nation": "잉글랜드",
       "birthYear": 2006,
-      "ovr": 72
+      "ovr": 72,
+      "look": "short black hair, clean-shaven, dark skin, tall and lanky"
     },
     {
       "key": "manred-30",
@@ -243,7 +266,8 @@
       "pos": "ST",
       "nation": "슬로베니아",
       "birthYear": 2003,
-      "ovr": 82
+      "ovr": 82,
+      "look": "short light-brown hair, clean-shaven, fair skin, very tall"
     },
     {
       "key": "manred-31",
@@ -253,7 +277,8 @@
       "pos": "RW",
       "nation": "잉글랜드",
       "birthYear": 2007,
-      "ovr": 66
+      "ovr": 66,
+      "look": "short brown hair, clean-shaven, fair skin, youthful"
     },
     {
       "key": "manred-37",
@@ -263,7 +288,8 @@
       "pos": "CM",
       "nation": "잉글랜드",
       "birthYear": 2005,
-      "ovr": 79
+      "ovr": 79,
+      "look": "short black hair, clean-shaven, dark skin, youthful"
     },
     {
       "key": "manred-38",
@@ -273,7 +299,8 @@
       "pos": "CM",
       "nation": "잉글랜드",
       "birthYear": 2007,
-      "ovr": 65
+      "ovr": 65,
+      "look": "short brown hair, clean-shaven, fair skin, youthful"
     },
     {
       "key": "manred-39",
@@ -283,7 +310,8 @@
       "pos": "CM",
       "nation": "스코틀랜드",
       "birthYear": 2007,
-      "ovr": 63
+      "ovr": 63,
+      "look": "short brown hair, clean-shaven, fair skin, youthful"
     },
     {
       "key": "manred-41",
@@ -293,7 +321,8 @@
       "pos": "LB",
       "nation": "잉글랜드",
       "birthYear": 2007,
-      "ovr": 68
+      "ovr": 68,
+      "look": "short brown hair, clean-shaven, fair skin, youthful"
     },
     {
       "key": "manred-45",
@@ -303,7 +332,9 @@
       "pos": "GK",
       "nation": "북아일랜드",
       "birthYear": 2005,
-      "ovr": 58
+      "ovr": 58,
+      "look": "short brown hair, clean-shaven, fair skin, youthful"
     }
-  ]
+  ],
+  "style": "illustration"
 }
