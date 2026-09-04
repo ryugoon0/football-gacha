@@ -14,6 +14,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "build:functions": "node scripts/bundle-functions.mjs",
+    "build:squads": "node scripts/build-squad-cards.mjs",
+    "build:portraits": "node scripts/build-portraits.mjs",
     "build:assistants": "node scripts/build-assistants.mjs",
     "db:push": "supabase db push",
     "db:diff": "supabase db diff --linked",

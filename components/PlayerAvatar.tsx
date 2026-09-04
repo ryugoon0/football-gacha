@@ -1,4 +1,6 @@
 import { seededRandom } from '../lib/players'
+import { PORTRAIT_KEYS } from '../lib/portraitManifest'
+import { SQUAD_PORTRAITS } from '../lib/rosterSquads'
 import type { PlayerDef } from '../lib/types'
 
 const SKIN = ['#f2c9a0', '#e8b487', '#c98a5b', '#a2673f', '#7b4a2c']
@@ -25,6 +27,20 @@ export default function PlayerAvatar({
   player: PlayerDef
   className?: string
 }) {
+  // A generated portrait when one exists for this card; the drawn face otherwise.
+  const portraitKey = SQUAD_PORTRAITS[player.name]
+  if (portraitKey && PORTRAIT_KEYS.has(portraitKey)) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={`/players/${portraitKey}.webp`}
+        alt={`${player.name} 초상`}
+        loading="lazy"
+        className={`aspect-[100/116] w-full object-cover object-top ${className}`}
+      />
+    )
+  }
+
   const rng = seededRandom(hash(player.id + player.name))
   const skin = SKIN[Math.floor(rng() * SKIN.length)]
   const hair = HAIR[Math.floor(rng() * HAIR.length)]

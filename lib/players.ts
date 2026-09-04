@@ -1,6 +1,7 @@
 import { hashString, pickInRange, seededRandom } from './random'
 import { PLAYER_OVERRIDES, type PlayerOverride } from './rosterOverrides'
 import { GENERATED_CLUBS, GENERATED_ROSTER } from './rosterData'
+import { SQUAD_ROSTER } from './rosterSquads'
 import { RARITY_TIERS, startLevelOf, MAX_LEVEL } from './rarity'
 import type { HiddenStats, PlayerDef, Position, PositionGroup, Rarity, Stats } from './types'
 
@@ -245,6 +246,8 @@ export const LEAGUES = Array.from(new Set(CLUBS.map((club) => club.league)))
 export interface RosterExtras {
   stats?: Partial<Stats>
   hidden?: Partial<HiddenStats>
+  /** Kept out of packs, market, fusion and shards until the card is approved. */
+  unreleased?: boolean
 }
 
 export type RosterRow = [
@@ -354,11 +357,11 @@ const LATE_ADDITIONS: Partial<Record<Rarity, RosterRow[]>> = {
  * different set of players.
  */
 export const ROSTER: Record<Rarity, RosterRow[]> = {
-  Normal: [...HAND_WRITTEN.Normal, ...GENERATED_ROSTER.Normal, ...(LATE_ADDITIONS.Normal ?? [])],
-  Rare: [...HAND_WRITTEN.Rare, ...GENERATED_ROSTER.Rare, ...(LATE_ADDITIONS.Rare ?? [])],
-  Legend: [...HAND_WRITTEN.Legend, ...GENERATED_ROSTER.Legend, ...(LATE_ADDITIONS.Legend ?? [])],
-  Live: [...HAND_WRITTEN.Live, ...GENERATED_ROSTER.Live, ...(LATE_ADDITIONS.Live ?? [])],
-  World: [...HAND_WRITTEN.World, ...GENERATED_ROSTER.World, ...(LATE_ADDITIONS.World ?? [])],
+  Normal: [...HAND_WRITTEN.Normal, ...GENERATED_ROSTER.Normal, ...(LATE_ADDITIONS.Normal ?? []), ...SQUAD_ROSTER.Normal],
+  Rare: [...HAND_WRITTEN.Rare, ...GENERATED_ROSTER.Rare, ...(LATE_ADDITIONS.Rare ?? []), ...SQUAD_ROSTER.Rare],
+  Legend: [...HAND_WRITTEN.Legend, ...GENERATED_ROSTER.Legend, ...(LATE_ADDITIONS.Legend ?? []), ...SQUAD_ROSTER.Legend],
+  Live: [...HAND_WRITTEN.Live, ...GENERATED_ROSTER.Live, ...(LATE_ADDITIONS.Live ?? []), ...SQUAD_ROSTER.Live],
+  World: [...HAND_WRITTEN.World, ...GENERATED_ROSTER.World, ...(LATE_ADDITIONS.World ?? []), ...SQUAD_ROSTER.World],
 }
 
 export const RARITY_PREFIX: Record<Rarity, string> = {
@@ -415,6 +418,7 @@ export function buildPlayer(id: string, fix: PlayerOverride = PLAYER_OVERRIDES[i
     subStats: fix.subStats,
     hidden: { ...buildHidden(id, rarity), ...(extras?.hidden ?? {}), ...(fix.hidden ?? {}) },
     ovr: computeOvr(stats, slot),
+    unreleased: extras?.unreleased === true ? true : undefined,
   }
 }
 
@@ -434,9 +438,11 @@ export const PLAYERS_BY_ID: Record<string, PlayerDef> = PLAYERS.reduce(
   {} as Record<string, PlayerDef>,
 )
 
+// The pools packs, the market, fusion and shards draw from — an unreleased
+// card is in PLAYERS (so it can be viewed, edited and owned) but not here.
 export const PLAYERS_BY_RARITY: Record<Rarity, PlayerDef[]> = PLAYERS.reduce(
   (map, player) => {
-    ;(map[player.rarity] ||= []).push(player)
+    if (!player.unreleased) (map[player.rarity] ||= []).push(player)
     return map
   },
   {} as Record<Rarity, PlayerDef[]>,

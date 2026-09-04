@@ -25,6 +25,8 @@
  * 높다. Normal 등급은 축구 용어 말장난(문전앞·유골넣 등)이라 실명 힌트가
  * 없다.
  */
+import { SQUAD_REAL_HINTS } from './rosterSquads'
+
 export const HAND_WRITTEN_REAL_HINTS: Record<string, string> = {
   // Rare 중 명백한 것만
   손흥맨: '손흥민',
@@ -360,6 +362,9 @@ function splitName(name: string, nation: string): { first: string; last: string 
  * 클럽·선수 추정을 만든다. 확실한 근거가 없으면 그 부분은 생략한다.
  */
 export function realHintFor(name: string, club: string, nation: string): string | null {
+  // Squad-based cards map 1:1 (data/squads/*.json) — no guessing needed.
+  const exact = SQUAD_REAL_HINTS[name]
+  if (exact) return `선수: ${exact}`
   const direct = HAND_WRITTEN_REAL_HINTS[name]
   if (direct) return `선수: ${direct}${CLUB_REAL_HINTS[club] ? ` · 클럽: ${CLUB_REAL_HINTS[club]}` : ''}`
 

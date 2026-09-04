@@ -72,6 +72,8 @@ export interface PlayerDef {
   /** Never rendered as numbers; drives the rarity gap at max level. */
   hidden: HiddenStats
   ovr: number
+  /** Not yet in packs or the market (a pilot squad awaiting approval). */
+  unreleased?: boolean
 }
 
 /** An owned copy of a player. Duplicates get their own uid. */
