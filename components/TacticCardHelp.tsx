@@ -56,7 +56,7 @@ export default function TacticCardHelp({ onClose }: { onClose: () => void }) {
           <li className="flex gap-3">
             <span className="shrink-0 font-black text-fuchsia-300">2</span>
             <span>
-              <b>킥오프 3분 전에 입장합니다.</b> 경쟁 리그 → 내 경기에서 내 경기에 <span className="rounded bg-emerald-400/20 px-1 text-[11px] font-bold text-emerald-300">입장 가능</span> 배지가
+              <b>킥오프 10분 전에 입장합니다.</b> 경쟁 리그 → 내 경기에서 내 경기에 <span className="rounded bg-emerald-400/20 px-1 text-[11px] font-bold text-emerald-300">입장 가능</span> 배지가
               뜨면 「입장」. 이때 라인업이 확정됩니다.
             </span>
           </li>

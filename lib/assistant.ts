@@ -290,11 +290,11 @@ function hanareum(ctx: AssistantContext): AssistantSpeech {
     parts.push(
       ctx.nextKickoffHotTime
         ? `${left}분 뒤 🔥 핫타임 킥오프예요! 경쟁 리그 탭에서 입장하면 보너스 골드까지 챙겨요.`
-        : `${left}분 뒤 경쟁 리그 킥오프예요. 3분 전부터 입장할 수 있어요!`,
+        : `${left}분 뒤 경쟁 리그 킥오프예요. 10분 전부터 입장할 수 있어요!`,
     )
     expression = 'determined'
   } else if (ctx.nextKickoffHotTime) {
-    parts.push('다음 정각은 🔥 핫타임 경기예요! 3분 전에 입장해서 지시 하나만 내려도 보너스 골드예요.')
+    parts.push('다음 정각은 🔥 핫타임 경기예요! 10분 전에 입장해서 지시 하나만 내려도 보너스 골드예요.')
     expression = 'determined'
   } else if (friendlies > 0) {
     parts.push(`친선 경기 ${friendlies}판 남았어요. 가볍게 한 판 어때요?`)
@@ -348,8 +348,8 @@ function baeksoyeon(ctx: AssistantContext): AssistantSpeech {
       return { text: `받지 않은 보상이 ${ctx.unclaimedRewards!.toLocaleString('ko-KR')}G 있어요. 챙겨 두세요 — 안 받는다고 늘진 않아요.`, expression: 'surprised' }
     }
     const left = minutesToNextKickoff(ctx.hourKst, ctx.minuteKst)
-    if (left !== null && left <= 3) return { text: `${left}분 뒤 킥오프. 지금 입장하면 라인업과 히든 카드를 낼 수 있어요.`, expression: 'serious' }
-    if (ctx.nextKickoffHotTime) return { text: '다음 정각이 핫타임이에요. 3분 전에 들어가서 라인업만 잘 내도 반은 한 겁니다.', expression: 'serious' }
+    if (left !== null && left <= 10) return { text: `${left}분 뒤 킥오프. 지금 입장하면 라인업과 히든 카드를 낼 수 있어요.`, expression: 'serious' }
+    if (ctx.nextKickoffHotTime) return { text: '다음 정각이 핫타임이에요. 10분 전에 들어가서 라인업만 잘 내도 반은 한 겁니다.', expression: 'serious' }
     return {
       text: pick(
         [

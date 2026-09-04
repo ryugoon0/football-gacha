@@ -214,7 +214,7 @@ async function aiAnchorFor(url: string, server: ServerHeaders, groupId: number):
 }
 
 /** Managers may enter, see their eleven and queue orders this long before kick-off. */
-const PRE_WINDOW_MS = 3 * 60 * 1000
+const PRE_WINDOW_MS = 10 * 60 * 1000
 
 /** Kick-off snapshot: both sides' material plus the setup built from it. */
 /** Players banned for this fixture, by slot — from the league's discipline ledger. */

@@ -173,7 +173,7 @@ export default function WeeklyLiveMatch({
 
       {view?.status === 'upcoming' && (
         <p className="mt-3 text-sm text-slate-400">
-          {Math.max(1, Math.ceil(view.secondsToKickoff / 60))}분 뒤 킥오프. 3분 전부터 입장해 라인업을 확인하고 지시를 준비할 수 있고, 킥오프 뒤 15분 동안 경기가 진행됩니다.
+          {Math.max(1, Math.ceil(view.secondsToKickoff / 60))}분 뒤 킥오프. 10분 전부터 입장해 라인업을 확인하고 지시를 준비할 수 있고, 킥오프 뒤 15분 동안 경기가 진행됩니다.
         </p>
       )}
 

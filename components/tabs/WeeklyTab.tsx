@@ -651,7 +651,7 @@ export default function WeeklyTab() {
 }
 
 const LIVE_WINDOW_MS = 15 * 60 * 1000
-const PRE_WINDOW_MS = 3 * 60 * 1000
+const PRE_WINDOW_MS = 10 * 60 * 1000
 
 /** 'pre' from three minutes before kick-off, 'live' inside the 15-minute window after it. */
 function liveStatusOf(f: FixtureRow, now: number): 'upcoming' | 'pre' | 'live' | 'ended' {
