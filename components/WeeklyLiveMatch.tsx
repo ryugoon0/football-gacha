@@ -10,6 +10,7 @@ import {
   type WeeklyLiveView,
 } from '../lib/weeklyLive'
 import PitchView from './PitchView'
+import TacticCardHelp from './TacticCardHelp'
 import { isHotTime } from '../lib/weeklyLeague/rewards'
 import { TACTIC_CARDS, TACTIC_CARD_IDS, boostLabel, type TacticCardId } from '../lib/weeklyLeague/tacticCards'
 import { itemCount } from '../lib/items'
@@ -48,6 +49,7 @@ export default function WeeklyLiveMatch({
   const [subIn, setSubIn] = useState<string>('')
   // Same two ways to watch as casual mode; here the pitch sits above the feed.
   const [showPitch, setShowPitch] = useState(true)
+  const [showHelp, setShowHelp] = useState(false)
   const feedRef = useRef<HTMLDivElement | null>(null)
 
   const refresh = useCallback(async () => {
@@ -138,6 +140,7 @@ export default function WeeklyLiveMatch({
 
   return (
     <section className="rounded-2xl border border-emerald-400/30 bg-slate-950/80 p-4">
+      {showHelp && <TacticCardHelp onClose={() => setShowHelp(false)} />
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="text-[10px] font-bold uppercase tracking-widest text-emerald-400">
@@ -238,8 +241,16 @@ export default function WeeklyLiveMatch({
 
           {live.status === 'pre' && (
             <div className="rounded-lg border border-fuchsia-400/30 bg-fuchsia-400/10 p-2.5">
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] font-bold text-fuchsia-200">작전카드 · 킥오프 전에만, 한 경기 한 장</span>
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-[11px] font-bold text-fuchsia-200">
+                  작전카드 · 킥오프 전에만, 한 경기 한 장
+                  <button
+                    onClick={() => setShowHelp(true)}
+                    className="ml-2 rounded bg-white/10 px-1.5 py-0.5 text-[10px] font-bold text-slate-200 hover:bg-white/20"
+                  >
+                    사용법
+                  </button>
+                </span>
                 {live.cardPlayed && (
                   <span className="text-[11px] font-black text-fuchsia-100">
                     {TACTIC_CARDS[live.cardPlayed].icon} {TACTIC_CARDS[live.cardPlayed].name} 발동 예정

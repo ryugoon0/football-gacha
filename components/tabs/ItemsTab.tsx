@@ -19,6 +19,7 @@ import { getPlayer } from '../../lib/players'
 import { MAX_CAPACITY } from '../../lib/vault'
 import { useGame } from '../GameProvider'
 import PlayerCard from '../PlayerCard'
+import TacticCardHelp from '../TacticCardHelp'
 
 const COUNTS = [1, 5, 10]
 
@@ -42,6 +43,7 @@ export default function ItemsTab() {
   const [count, setCount] = useState(1)
   const [note, setNote] = useState<string | null>(null)
   const [picking, setPicking] = useState<ItemId | null>(null)
+  const [showCardHelp, setShowCardHelp] = useState(false)
 
   const owned = useMemo(
     () =>
@@ -99,6 +101,7 @@ export default function ItemsTab() {
 
   return (
     <div className="space-y-4">
+      {showCardHelp && <TacticCardHelp onClose={() => setShowCardHelp(false)} />}
       <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex gap-1.5">
@@ -231,9 +234,12 @@ export default function ItemsTab() {
                         </p>
                       </div>
                       {item.target === 'match' ? (
-                        <span className="shrink-0 whitespace-nowrap rounded-lg bg-white/10 px-3 py-1.5 text-[11px] font-bold text-slate-300">
-                          경쟁 리그 입장 화면에서 사용
-                        </span>
+                        <button
+                          onClick={() => setShowCardHelp(true)}
+                          className="shrink-0 whitespace-nowrap rounded-lg bg-white/10 px-3 py-1.5 text-[11px] font-bold text-slate-300 hover:bg-white/20"
+                        >
+                          사용법 보기
+                        </button>
                       ) : (
                         <button
                           onClick={() =>
