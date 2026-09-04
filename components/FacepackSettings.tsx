@@ -43,8 +43,10 @@ export default function FacepackSettings() {
           <h3 className="text-sm font-black text-white">페이스팩</h3>
           <p className="mt-1 text-[11px] leading-relaxed text-slate-400">
             내가 고른 사진을 선수 카드에 씁니다. 이 기기에만 저장되고 서버에는 올라가지 않으며, 다른
-            감독에게는 보이지 않습니다. 파일명은 카드 id·선수명·초상 키 중 하나로 맞춥니다(예:{' '}
-            <code className="text-slate-300">lg457.png</code>, <code className="text-slate-300">세네 라멘츠.jpg</code>).
+            감독에게는 보이지 않습니다. <b className="text-slate-200">배경을 미리 지운 투명 PNG</b>가 가장
+            깔끔하게 붙고, 배경이 있는 사진은 가장자리를 흐려서 얹습니다. 파일명은 카드 id·선수명·초상 키 중
+            하나로 맞춥니다(예: <code className="text-slate-300">lg457.png</code>,{' '}
+            <code className="text-slate-300">세네 라멘츠.png</code>).
           </p>
         </div>
         <span className="shrink-0 rounded-full bg-white/5 px-2 py-1 text-[10px] font-black text-slate-400">{count}장</span>

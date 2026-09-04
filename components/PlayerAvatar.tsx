@@ -26,7 +26,16 @@ function hash(value: string): number {
  * card's own ground so only the head and shoulders remain, the way the drawn
  * face sits there with nothing behind it.
  */
-function Photo({ src, name, className }: { src: string; name: string; className: string }) {
+function Photo({ src, name, className, cutout = false }: { src: string; name: string; className: string; cutout?: boolean }) {
+  // A cut-out already has no ground to hide — show every pixel the manager gave us.
+  if (cutout) {
+    return (
+      <div className={`aspect-[100/116] w-full overflow-hidden ${className}`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={src} alt={`${name} 초상`} loading="lazy" className="h-full w-full object-contain object-bottom" />
+      </div>
+    )
+  }
   return (
     <div
       className={`aspect-[100/116] w-full overflow-hidden ${className}`}
@@ -58,10 +67,10 @@ export default function PlayerAvatar({
 }) {
   // The manager's own facepack first, then a shipped portrait, then the drawn face.
   const face = useFace(player.id)
+  if (face) return <Photo src={face.url} name={player.name} className={className} cutout={face.cutout} />
   const portraitKey = SQUAD_PORTRAITS[player.name]
   const shipped = portraitKey && PORTRAIT_KEYS.has(portraitKey) ? `/players/${portraitKey}.webp` : null
-  const photo = face ?? shipped
-  if (photo) return <Photo src={photo} name={player.name} className={className} />
+  if (shipped) return <Photo src={shipped} name={player.name} className={className} />
 
   const rng = seededRandom(hash(player.id + player.name))
   const skin = SKIN[Math.floor(rng() * SKIN.length)]
