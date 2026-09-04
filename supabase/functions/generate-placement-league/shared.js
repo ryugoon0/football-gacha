@@ -2935,6 +2935,83 @@ var GENERATED_ROSTER = {
   ]
 };
 
+// lib/rosterSquads.ts
+var SQUAD_ROSTER = {
+  Normal: [
+    ["\uCD5C\uC8FC\uD5CC", "GK", 60, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uB958\uC2B9\uBBFC", "GK", 64, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uD669\uBCD1\uAC74", "GK", 67, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uC870\uBBFC\uC11D", "CM", 65, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uBC31\uC778\uC720", "CM", 66, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uCD5C\uC11D\uD5CC", "CB", 66, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uC170\uC774 \uB808\uC774\uC2A4", "RW", 66, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uC789\uAE00\uB79C\uB4DC", { "unreleased": true }],
+    ["\uC7AD \uD50C\uB808\uCCD0", "CM", 65, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uC789\uAE00\uB79C\uB4DC", { "unreleased": true }],
+    ["\uD0C0\uC77C\uB7EC \uD50C\uB808\uCCD0", "CM", 63, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uC2A4\uCF54\uD2C0\uB79C\uB4DC", { "unreleased": true }],
+    ["\uB354\uBABB \uBBF8\uC774", "GK", 58, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uBD81\uC544\uC77C\uB79C\uB4DC", { "unreleased": true }]
+  ],
+  Rare: [
+    ["\uC724\uC911\uADDC", "RB", 71, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uC815\uC120\uBE48", "CB", 68, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uC11C\uBA85\uAD8C", "CB", 72, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uC774\uD76C\uADFC", "RW", 74, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uC774\uC9C4\uD5CC", "CM", 74, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uBC15\uC6B0\uC7AC", "CM", 69, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uAC15\uC0C1\uC720", "LB", 74, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uC815\uC7AC\uC0BC", "ST", 71, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uBB38\uC815\uC77C", "GK", 68, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uC774\uADDC\uC120", "CDM", 75, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uC870\uD604\uD0C1", "LB", 73, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uD398\uB4DC\uB9AC\uB178", "RW", 75, "\uC6B8\uC0B0 \uD638\uB791", "\uBE0C\uB77C\uC9C8", { "unreleased": true }],
+    ["\uC774\uC7AC\uC5B5", "CB", 71, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uC7A5\uC2DC\uC5F0", "RM", 70, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uD1A0\uB9C8\uC2A4 \uC624\uB370\uCF54\uD2B8", "CB", 72, "\uC6B8\uC0B0 \uD638\uB791", "\uB124\uB35C\uB780\uB4DC", { "unreleased": true }],
+    ["\uBC00\uB85C\uC2DC \uD2B8\uB85C\uC57D", "CB", 73, "\uC6B8\uC0B0 \uD638\uB791", "\uD3F4\uB780\uB4DC", { "unreleased": true }],
+    ["\uC2EC\uC0C1\uB9CC", "LB", 70, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uBCA4\uC9C0 \uBBF8\uC140", "LM", 72, "\uC6B8\uC0B0 \uD638\uB791", "\uBBF8\uAD6D", { "unreleased": true }],
+    ["\uCE7C \uB2E4\uB97C\uB85C", "GK", 72, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uC6E8\uC77C\uC2A4", { "unreleased": true }],
+    ["\uD1B0 \uD788\uD2BC", "GK", 68, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uC789\uAE00\uB79C\uB4DC", { "unreleased": true }],
+    ["\uC5D0\uC774\uB4E0 \uD5E4\uBC88", "CB", 72, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uC789\uAE00\uB79C\uB4DC", { "unreleased": true }],
+    ["\uD574\uB9AC \uC544\uB9C8\uC988", "LB", 68, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uC789\uAE00\uB79C\uB4DC", { "unreleased": true }]
+  ],
+  Legend: [
+    ["\uB2E4\uB9AC\uC548 \uBCF4\uC57C\uB2C9", "CM", 78, "\uC6B8\uC0B0 \uD638\uB791", "\uC2A4\uC6E8\uB374", { "unreleased": true }],
+    ["\uB9C8\uB974\uCE74\uB178", "ST", 78, "\uC6B8\uC0B0 \uD638\uB791", "\uBE0C\uB77C\uC9C8", { "unreleased": true }],
+    ["\uC774\uB3D9\uACB8", "CAM", 79, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uC5D0\uB9AD \uD30C\uB9AC\uC2A4", "LW", 77, "\uC6B8\uC0B0 \uD638\uB791", "\uBE0C\uB77C\uC9C8", { "unreleased": true }],
+    ["\uC815\uC2B9\uD5CC", "CB", 77, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uAE40\uC601\uAD81", "CB", 80, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uBC15\uC6A9\uC720", "CDM", 76, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uC57C\uACE0 \uCE74\uB9AC\uC5D8", "ST", 76, "\uC6B8\uC0B0 \uD638\uB791", "\uBE0C\uB77C\uC9C8", { "unreleased": true }],
+    ["\uC138\uB124 \uB77C\uBA58\uCE20", "GK", 79, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uBCA8\uAE30\uC5D0", { "unreleased": true }],
+    ["\uB514\uC624\uACE0 \uB2EC\uB85C", "RB", 80, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uD3EC\uB974\uD22C\uAC08", { "unreleased": true }],
+    ["\uB204\uC0AC\uC774\uB974 \uB9C8\uC988\uB77C\uC6B0", "RB", 81, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uBAA8\uB85C\uCF54", { "unreleased": true }],
+    ["\uD574\uB9AC \uB9E5\uACFC\uC774", "CB", 79, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uC789\uAE00\uB79C\uB4DC", { "unreleased": true }],
+    ["\uBA54\uC774\uC2A8 \uB9C8\uC6B4\uB4DC", "CM", 79, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uC789\uAE00\uB79C\uB4DC", { "unreleased": true }],
+    ["\uC870\uC288\uC544 \uC9C0\uB974\uD06C", "ST", 78, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uB124\uB35C\uB780\uB4DC", { "unreleased": true }],
+    ["\uD328\uD2B8\uB9AD \uB3C4\uB974\uADF8", "LB", 77, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uB374\uB9C8\uD06C", { "unreleased": true }],
+    ["\uB808\uB2C8 \uC694\uB8E8", "CB", 80, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uD504\uB791\uC2A4", { "unreleased": true }],
+    ["\uC548\uB4DC\uB808\uC774 \uC0B0\uD1A0", "CM", 78, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uBE0C\uB77C\uC9C8", { "unreleased": true }],
+    ["\uC720\uB9AC \uD2F8\uB808\uB9DD", "CM", 81, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uBCA8\uAE30\uC5D0", { "unreleased": true }],
+    ["\uCE74\uB97C\uB85C\uC2A4 \uBC1C\uB808\uBE0C", "CDM", 80, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uCE74\uBA54\uB8EC", { "unreleased": true }],
+    ["\uB8E8\uD06C \uC1FC\uC5B4", "LB", 79, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uC789\uAE00\uB79C\uB4DC", { "unreleased": true }],
+    ["\uB9C8\uB204\uC5D8 \uC6B0\uAC00\uB974\uD0C0", "CDM", 79, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uC6B0\uB8E8\uACFC\uC774", { "unreleased": true }],
+    ["\uCF54\uBE44 \uB9C8\uC774\uB178", "CM", 79, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uC789\uAE00\uB79C\uB4DC", { "unreleased": true }]
+  ],
+  Live: [
+    ["\uC870\uD604\uC6B4", "GK", 84, "\uC6B8\uC0B0 \uD638\uB791", "\uB300\uD55C\uBBFC\uAD6D", { "unreleased": true }],
+    ["\uB9C8\uD14C\uC774\uC2A4 \uB370 \uB9AC\uD2B8", "CB", 83, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uB124\uB35C\uB780\uB4DC", { "unreleased": true }],
+    ["\uB9AC\uC0B0\uB4DC\uB85C \uB9C8\uB974\uD2F0\uB178", "CB", 84, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uC544\uB974\uD5E8\uD2F0\uB098", { "unreleased": true }],
+    ["\uB9C8\uCEE4\uC2A4 \uB798\uC2DC\uD3EC", "LW", 82, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uC789\uAE00\uB79C\uB4DC", { "unreleased": true }],
+    ["\uB9C8\uD14C\uC6B0\uC2A4 \uCFE0\uB274", "CAM", 84, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uBE0C\uB77C\uC9C8", { "unreleased": true }],
+    ["\uC544\uB9C8\uB4DC \uB514\uC54C", "RW", 82, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uCF54\uD2B8\uB514\uBD80\uC544\uB974", { "unreleased": true }],
+    ["\uBE0C\uB77C\uC774\uC5B8 \uC74C\uBCF4\uBAA8", "RW", 84, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uCE74\uBA54\uB8EC", { "unreleased": true }],
+    ["\uBCA4\uC57C\uBBFC \uC170\uC2A4\uCF54", "ST", 82, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uC2AC\uB85C\uBCA0\uB2C8\uC544", { "unreleased": true }]
+  ],
+  World: [
+    ["\uBE0C\uB8E8\uB178 \uD398\uB974\uB09C\uB3C4", "CAM", 88, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uD3EC\uB974\uD22C\uAC08", { "unreleased": true }]
+  ]
+};
+
 // lib/players.ts
 var OVR_WEIGHTS = {
   GK: { pac: 0.05, sho: 0, pas: 0.1, dri: 0.05, def: 0.6, phy: 0.2 },
@@ -3153,11 +3230,11 @@ var LATE_ADDITIONS = {
   World: [["\uB9C8\uB974\uCFE0 \uB85C\uC774\uC13C", "CAM", 90, "\uB3C4\uB974\uD2B8 \uC610\uB85C\uC6B0", "\uB3C5\uC77C"]]
 };
 var ROSTER = {
-  Normal: [...HAND_WRITTEN.Normal, ...GENERATED_ROSTER.Normal, ...LATE_ADDITIONS.Normal ?? []],
-  Rare: [...HAND_WRITTEN.Rare, ...GENERATED_ROSTER.Rare, ...LATE_ADDITIONS.Rare ?? []],
-  Legend: [...HAND_WRITTEN.Legend, ...GENERATED_ROSTER.Legend, ...LATE_ADDITIONS.Legend ?? []],
-  Live: [...HAND_WRITTEN.Live, ...GENERATED_ROSTER.Live, ...LATE_ADDITIONS.Live ?? []],
-  World: [...HAND_WRITTEN.World, ...GENERATED_ROSTER.World, ...LATE_ADDITIONS.World ?? []]
+  Normal: [...HAND_WRITTEN.Normal, ...GENERATED_ROSTER.Normal, ...LATE_ADDITIONS.Normal ?? [], ...SQUAD_ROSTER.Normal],
+  Rare: [...HAND_WRITTEN.Rare, ...GENERATED_ROSTER.Rare, ...LATE_ADDITIONS.Rare ?? [], ...SQUAD_ROSTER.Rare],
+  Legend: [...HAND_WRITTEN.Legend, ...GENERATED_ROSTER.Legend, ...LATE_ADDITIONS.Legend ?? [], ...SQUAD_ROSTER.Legend],
+  Live: [...HAND_WRITTEN.Live, ...GENERATED_ROSTER.Live, ...LATE_ADDITIONS.Live ?? [], ...SQUAD_ROSTER.Live],
+  World: [...HAND_WRITTEN.World, ...GENERATED_ROSTER.World, ...LATE_ADDITIONS.World ?? [], ...SQUAD_ROSTER.World]
 };
 var RARITY_PREFIX = {
   Normal: "n",
@@ -3197,7 +3274,8 @@ function buildPlayer(id, fix = PLAYER_OVERRIDES[id] ?? {}) {
     stats,
     subStats: fix.subStats,
     hidden: { ...buildHidden(id, rarity), ...extras?.hidden ?? {}, ...fix.hidden ?? {} },
-    ovr: computeOvr(stats, slot)
+    ovr: computeOvr(stats, slot),
+    unreleased: extras?.unreleased === true ? true : void 0
   };
 }
 function buildRoster() {
@@ -3213,8 +3291,7 @@ var PLAYERS_BY_ID = PLAYERS.reduce(
 );
 var PLAYERS_BY_RARITY = PLAYERS.reduce(
   (map, player) => {
-    ;
-    (map[player.rarity] ||= []).push(player);
+    if (!player.unreleased) (map[player.rarity] ||= []).push(player);
     return map;
   },
   {}
