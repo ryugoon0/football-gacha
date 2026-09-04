@@ -103,6 +103,8 @@ export interface PlayerRating {
   name: string
   rating: number
   goals: number
+  /** Optional: saves from before assists were tracked have none. */
+  assists?: number
   exp: number
   levelUp?: boolean
 }
@@ -114,16 +116,29 @@ export interface RatingInput {
 }
 
 /** Marks every starter out of ten. */
+/** The rest of a match sheet that moves a mark: assists up, bookings down. */
+export interface RatingExtras {
+  assistUids?: string[]
+  yellowUids?: string[]
+  redUids?: string[]
+}
+
 export function matchRatings(
   starters: RatingInput[],
   outcome: { result: 'W' | 'D' | 'L'; scoreAgainst: number },
   scorerUids: string[],
   rng: () => number = Math.random,
+  extras: RatingExtras = {},
 ): PlayerRating[] {
   const resultBonus = outcome.result === 'W' ? 0.6 : outcome.result === 'D' ? 0.2 : -0.25
+  const assistUids = extras.assistUids ?? []
+  const yellowUids = extras.yellowUids ?? []
+  const redUids = new Set(extras.redUids ?? [])
 
   return starters.map((starter) => {
     const goals = scorerUids.filter((uid) => uid === starter.uid).length
+    const assists = assistUids.filter((uid) => uid === starter.uid).length
+    const yellows = yellowUids.filter((uid) => uid === starter.uid).length
     const cleanSheet =
       outcome.scoreAgainst === 0 &&
       (POSITION_GROUP[starter.player.position] === 'GK' || starter.position === 'GK')
@@ -134,7 +149,14 @@ export function matchRatings(
       4,
       Math.min(
         10,
-        6.4 + resultBonus + goals * 0.9 + (cleanSheet ? 0.5 : 0) + (rng() * swing - swing / 2),
+        6.4 +
+          resultBonus +
+          goals * 0.9 +
+          assists * 0.5 +
+          (cleanSheet ? 0.5 : 0) -
+          yellows * 0.3 -
+          (redUids.has(starter.uid) ? 1.5 : 0) +
+          (rng() * swing - swing / 2),
       ),
     )
     return {
@@ -142,6 +164,7 @@ export function matchRatings(
       name: starter.player.name,
       rating: Math.round(rating * 10) / 10,
       goals,
+      assists,
       exp: Math.max(6, Math.round((rating - 5.5) * 18)),
     }
   })

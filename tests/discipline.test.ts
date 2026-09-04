@@ -4,7 +4,7 @@ import { createMatch, runToEnd } from '../lib/matchEngine'
 import { seededRandom } from '../lib/random'
 import { initialState } from '../lib/storage'
 import { buildWeeklyMatchSetup, weeklyAiSquad } from '../lib/weeklyLeague/liveMatch'
-import { disciplineOf, replayFixture } from '../lib/weeklyLeague/liveReplay'
+import { disciplineOf, mvpOf, ratingsOf, replayFixture } from '../lib/weeklyLeague/liveReplay'
 import type { Card } from '../lib/types'
 
 const card = (uid: string, extra: Partial<Card> = {}): Card => ({
@@ -77,6 +77,32 @@ describe('bookings in the engine', () => {
       expect(line.yellows + (line.red ? 1 : 0)).toBeGreaterThan(0)
       if (line.secondYellow) expect(line.red).toBe(true)
     }
+  })
+
+  it('marks every starter and names one MVP, the same one every time the match is re-read', () => {
+    const state = initialState()
+    const ai = weeklyAiSquad(3, 5, 70)
+    const home = { cards: state.cards, squad: state.squad, division: 5, autoSub: false }
+    const away = { cards: ai.cards, squad: ai.squad, division: 5, autoSub: false }
+    const setup = buildWeeklyMatchSetup({
+      groupId: 3,
+      home: { slot: 1, kind: 'user', clubName: state.club, rating: 70 },
+      away: { slot: 5, kind: 'ai', clubName: 'AI', rating: 70 },
+      homeInput: home,
+      awayInput: away,
+      neutralVenue: false,
+    })
+    const replay = replayFixture({ setup, home, away }, 'seed-mvp', [], 90)
+    const sheet = ratingsOf(replay, 'seed-mvp')
+    expect(sheet.filter((l) => l.side === 'home')).toHaveLength(11)
+    expect(sheet.filter((l) => l.side === 'away')).toHaveLength(11)
+    for (const line of sheet) {
+      expect(line.rating).toBeGreaterThanOrEqual(4)
+      expect(line.rating).toBeLessThanOrEqual(10)
+    }
+    const mvp = mvpOf(replay, 'seed-mvp')!
+    expect(mvp.rating).toBe(Math.max(...sheet.map((l) => l.rating)))
+    expect(mvpOf(replayFixture({ setup, home, away }, 'seed-mvp', [], 90), 'seed-mvp')).toEqual(mvp)
   })
 })
 

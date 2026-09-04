@@ -37,6 +37,7 @@ import {
   rewardsForFixture,
   scorersOf,
   disciplineOf,
+  mvpOf,
   setTuning,
   toResult,
   type SharedCard,
@@ -342,6 +343,12 @@ async function settleFromEngine(
       goals: line.goals,
       assists: line.assists,
     })),
+    p_mvp: (() => {
+      const mvp = mvpOf(replay, engine.seed)
+      return mvp
+        ? { slot: mvp.side === 'home' ? fixture.homeSlot : fixture.awaySlot, playerId: mvp.playerId, name: mvp.name, rating: mvp.rating }
+        : null
+    })(),
     // Only real clubs carry a ledger — an AI eleven is regenerated every fixture.
     p_discipline: disciplineOf(replay)
       .filter((line) => (line.side === 'home' ? fixture.home.kind : fixture.away.kind) === 'user')

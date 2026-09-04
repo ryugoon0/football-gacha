@@ -5609,6 +5609,36 @@ function boostRating(rating, boost) {
   };
 }
 
+// lib/growth.ts
+function matchRatings(starters, outcome, scorerUids, rng = Math.random, extras = {}) {
+  const resultBonus = outcome.result === "W" ? 0.6 : outcome.result === "D" ? 0.2 : -0.25;
+  const assistUids = extras.assistUids ?? [];
+  const yellowUids = extras.yellowUids ?? [];
+  const redUids = new Set(extras.redUids ?? []);
+  return starters.map((starter) => {
+    const goals = scorerUids.filter((uid) => uid === starter.uid).length;
+    const assists = assistUids.filter((uid) => uid === starter.uid).length;
+    const yellows = yellowUids.filter((uid) => uid === starter.uid).length;
+    const cleanSheet = outcome.scoreAgainst === 0 && (POSITION_GROUP[starter.player.position] === "GK" || starter.position === "GK");
+    const swing = 0.6 * (1 - starter.player.hidden.consistency / 24);
+    const rating = Math.max(
+      4,
+      Math.min(
+        10,
+        6.4 + resultBonus + goals * 0.9 + assists * 0.5 + (cleanSheet ? 0.5 : 0) - yellows * 0.3 - (redUids.has(starter.uid) ? 1.5 : 0) + (rng() * swing - swing / 2)
+      )
+    );
+    return {
+      uid: starter.uid,
+      name: starter.player.name,
+      rating: Math.round(rating * 10) / 10,
+      goals,
+      assists,
+      exp: Math.max(6, Math.round((rating - 5.5) * 18))
+    };
+  });
+}
+
 // lib/weeklyLeague/liveReplay.ts
 var LIVE_REAL_SECONDS_PER_MINUTE = 10;
 var LIVE_MATCH_MINUTES = 90;
@@ -5875,6 +5905,41 @@ function disciplineOf(result) {
   }
   return [...lines.values()];
 }
+function ratingsOf(result, seed) {
+  const rng = seededRandom(hashString(`ratings:${seed}`));
+  const state = result.state;
+  const lines = [];
+  const sides = [
+    ["home", result.setup.team, state.scorerUids, state.assistUids ?? [], state.yellowUids ?? [], state.redUids ?? []],
+    ["away", result.setup.opponentSquad, state.opponentScorerUids, state.opponentAssistUids ?? [], state.opponentYellowUids ?? [], state.opponentRedUids ?? []]
+  ];
+  for (const [side, rating, scorers, assists, yellows, reds] of sides) {
+    if (!rating) continue;
+    const scoreFor = side === "home" ? state.scoreFor : state.scoreAgainst;
+    const scoreAgainst = side === "home" ? state.scoreAgainst : state.scoreFor;
+    const outcome = { result: scoreFor > scoreAgainst ? "W" : scoreFor < scoreAgainst ? "L" : "D", scoreAgainst };
+    const starters = rating.evaluations.filter((item) => item.card && item.player && !item.injured).map((item) => ({ uid: item.card.uid, player: item.player, position: item.slotPosition }));
+    for (const mark of matchRatings(starters, outcome, scorers, rng, { assistUids: assists, yellowUids: yellows, redUids: reds })) {
+      const item = rating.evaluations.find((entry) => entry.card?.uid === mark.uid);
+      lines.push({
+        side,
+        playerId: item?.card?.playerId ?? mark.uid,
+        name: mark.name,
+        rating: mark.rating,
+        goals: mark.goals,
+        assists: mark.assists ?? 0
+      });
+    }
+  }
+  return lines;
+}
+function mvpOf(result, seed) {
+  const lines = ratingsOf(result, seed);
+  if (lines.length === 0) return null;
+  return [...lines].sort(
+    (a, b) => b.rating - a.rating || b.goals - a.goals || b.assists - a.assists || Number(a.side === "away") - Number(b.side === "away")
+  )[0];
+}
 function publicStateOf(state) {
   const ticks = state.possessionTicks.home + state.possessionTicks.away;
   return {
@@ -5925,6 +5990,7 @@ export {
   lineupViewOf,
   liveWindowEnded,
   matchMinuteAt,
+  mvpOf,
   publicStateOf,
   replayFixture,
   rewardsForFixture,

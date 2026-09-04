@@ -18,9 +18,10 @@
 import { applyAutoSubs } from '../autoSub'
 import { advance, createMatch, shapeFromSquad, type Dot, type LiveMatchState, type MatchSetup } from '../matchEngine'
 import { getPlayer } from '../players'
+import { matchRatings } from '../growth'
 import { tune } from '../tuning'
 import { hashString, seededRandom } from '../random'
-import { evaluateSquad } from '../squad'
+import { evaluateSquad, type SquadRating } from '../squad'
 import { normalizeTactic, type TacticSetup } from '../tactics'
 import { paramsFromSetup } from '../tactics/bridge'
 import type { Card, Squad } from '../types'
@@ -488,6 +489,60 @@ export function disciplineOf(result: ReplayResult): DisciplineLine[] {
     }
   }
   return [...lines.values()]
+}
+
+export interface FixtureRatingLine {
+  side: LiveSide
+  playerId: string
+  name: string
+  rating: number
+  goals: number
+  assists: number
+}
+
+/**
+ * Every starter's mark out of ten, both sides, from the same formula the
+ * casual game uses (lib/growth.ts). The rng is seeded from the fixture's seed
+ * so the sheet is the same however many times the match is re-read.
+ */
+export function ratingsOf(result: ReplayResult, seed: string): FixtureRatingLine[] {
+  const rng = seededRandom(hashString(`ratings:${seed}`))
+  const state = result.state
+  const lines: FixtureRatingLine[] = []
+  const sides: [LiveSide, SquadRating | undefined, string[], string[], string[], string[]][] = [
+    ['home', result.setup.team, state.scorerUids, state.assistUids ?? [], state.yellowUids ?? [], state.redUids ?? []],
+    ['away', result.setup.opponentSquad, state.opponentScorerUids, state.opponentAssistUids ?? [], state.opponentYellowUids ?? [], state.opponentRedUids ?? []],
+  ]
+  for (const [side, rating, scorers, assists, yellows, reds] of sides) {
+    if (!rating) continue
+    const scoreFor = side === 'home' ? state.scoreFor : state.scoreAgainst
+    const scoreAgainst = side === 'home' ? state.scoreAgainst : state.scoreFor
+    const outcome = { result: scoreFor > scoreAgainst ? 'W' : scoreFor < scoreAgainst ? 'L' : 'D', scoreAgainst } as const
+    const starters = rating.evaluations
+      .filter((item) => item.card && item.player && !item.injured)
+      .map((item) => ({ uid: item.card!.uid, player: item.player!, position: item.slotPosition as string }))
+    for (const mark of matchRatings(starters, outcome, scorers, rng, { assistUids: assists, yellowUids: yellows, redUids: reds })) {
+      const item = rating.evaluations.find((entry) => entry.card?.uid === mark.uid)
+      lines.push({
+        side,
+        playerId: item?.card?.playerId ?? mark.uid,
+        name: mark.name,
+        rating: mark.rating,
+        goals: mark.goals,
+        assists: mark.assists ?? 0,
+      })
+    }
+  }
+  return lines
+}
+
+/** The best mark on the pitch; goals then assists break a tie, home first after that. */
+export function mvpOf(result: ReplayResult, seed: string): FixtureRatingLine | null {
+  const lines = ratingsOf(result, seed)
+  if (lines.length === 0) return null
+  return [...lines].sort(
+    (a, b) => b.rating - a.rating || b.goals - a.goals || b.assists - a.assists || Number(a.side === 'away') - Number(b.side === 'away'),
+  )[0]
 }
 
 /** What a viewer gets: the match as it stands, nothing private (no seed, no other side's plan). */

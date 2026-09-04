@@ -38,6 +38,10 @@ interface FixtureRow {
   status: string
   score_home: number | null
   score_away: number | null
+  mvp_slot?: number | null
+  mvp_player_id?: string | null
+  mvp_player_name?: string | null
+  mvp_rating?: number | null
 }
 
 interface CupTieRow {
@@ -160,7 +164,7 @@ export default function WeeklyTab() {
       supabase.from('weekly_league_members').select('slot, kind, club_name').eq('group_id', row.group_id),
       supabase
         .from('weekly_fixtures')
-        .select('id, round, home_slot, away_slot, scheduled_at_utc, status, score_home, score_away')
+        .select('id, round, home_slot, away_slot, scheduled_at_utc, status, score_home, score_away, mvp_slot, mvp_player_id, mvp_player_name, mvp_rating')
         .eq('group_id', row.group_id)
         .order('scheduled_at_utc', { ascending: true }),
       supabase
@@ -271,6 +275,19 @@ export default function WeeklyTab() {
         .slice(0, 15),
     [playerTotals],
   )
+  /** MVP awards per (club, player) — from the settled fixtures' sheets. */
+  const topMvps = useMemo(() => {
+    const byKey = new Map<string, { slot: number; playerId: string; name: string; count: number; best: number }>()
+    for (const f of fixtures) {
+      if (f.status !== 'played' || !f.mvp_player_id || f.mvp_slot === null || f.mvp_slot === undefined) continue
+      const key = `${f.mvp_slot}:${f.mvp_player_id}`
+      const entry = byKey.get(key) ?? { slot: f.mvp_slot, playerId: f.mvp_player_id, name: f.mvp_player_name ?? '선수', count: 0, best: 0 }
+      entry.count += 1
+      entry.best = Math.max(entry.best, Number(f.mvp_rating ?? 0))
+      byKey.set(key, entry)
+    }
+    return [...byKey.values()].sort((a, b) => b.count - a.count || b.best - a.best || a.name.localeCompare(b.name, 'ko')).slice(0, 10)
+  }, [fixtures])
   const topAssists = useMemo(
     () =>
       [...playerTotals]
@@ -643,7 +660,39 @@ export default function WeeklyTab() {
               </div>
             </>
           )}
-          <p className="mt-2 text-[10px] text-slate-600">AI 대 AI 경기는 득점자 기록이 없어 집계에서 빠집니다.</p>
+          {topMvps.length > 0 && (
+            <>
+              <h3 className="mt-4 text-sm font-bold uppercase tracking-wide text-slate-400">MVP 순위</h3>
+              <div className="mt-2 overflow-x-auto">
+                <table className="w-full min-w-[300px] text-[11px]">
+                  <thead>
+                    <tr className="text-left text-slate-500">
+                      <th className="py-1 pr-2">#</th>
+                      <th className="py-1 pr-2">선수</th>
+                      <th className="py-1 pr-2">클럽</th>
+                      <th className="py-1 pr-1 text-right">MVP</th>
+                      <th className="py-1 text-right">최고 평점</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {topMvps.map((row, index) => (
+                      <tr
+                        key={`${row.slot}-${row.playerId}`}
+                        className={`border-t border-white/5 ${row.slot === membership.slot ? 'bg-emerald-400/10' : ''}`}
+                      >
+                        <td className="py-1 pr-2 tabular-nums text-slate-500">{index + 1}</td>
+                        <td className="py-1 pr-2 font-bold text-slate-100">{row.name}</td>
+                        <td className="py-1 pr-2 text-slate-400">{clubName(row.slot)}</td>
+                        <td className="py-1 pr-1 text-right font-black tabular-nums text-amber-300">{row.count}</td>
+                        <td className="py-1 text-right tabular-nums text-slate-400">{row.best.toFixed(1)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+          <p className="mt-2 text-[10px] text-slate-600">AI 대 AI 경기는 득점자·MVP 기록이 없어 집계에서 빠집니다.</p>
         </section>
       )}
     </div>
@@ -707,8 +756,20 @@ function FixtureList({
                   <span className={isAway ? 'text-emerald-300' : ''}>{clubName(f.away_slot)}</span>
                 </span>
                 {f.status === 'played' ? (
-                  <span className="font-black text-emerald-300">
-                    {f.score_home} : {f.score_away}
+                  <span className="flex items-center gap-2">
+                    <span className="font-black text-emerald-300">
+                      {f.score_home} : {f.score_away}
+                    </span>
+                    {f.mvp_player_name && (
+                      <span
+                        title={`MVP · ${clubName(f.mvp_slot ?? -1)}`}
+                        className={`rounded px-1.5 py-0.5 text-[10px] font-bold ${
+                          f.mvp_slot === mySlot ? 'bg-amber-400/20 text-amber-200' : 'bg-white/5 text-slate-400'
+                        }`}
+                      >
+                        ★ {f.mvp_player_name} {Number(f.mvp_rating).toFixed(1)}
+                      </span>
+                    )}
                   </span>
                 ) : liveStatusOf(f, now) === 'live' ? (
                   <span className="rounded bg-rose-500/20 px-1.5 py-0.5 text-[10px] font-black text-rose-300">LIVE</span>

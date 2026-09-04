@@ -190,6 +190,8 @@ function afterMatch(
     starters,
     { result: result.result, scoreAgainst: result.scoreAgainst },
     result.scorerUids,
+    Math.random,
+    { assistUids: result.assistUids, yellowUids: result.yellowUids, redUids: result.redUids },
   )
   const grown = applyExperience(state.cards, ratings)
   const worn = applyMatchWear(

@@ -22,6 +22,7 @@ export {
   replayFixture,
   scorersOf,
   disciplineOf,
+  mvpOf,
 } from './weeklyLeague/liveReplay'
 export { getPlayer } from './players'
 export { setTuning, KNOB_KEYS } from './tuning'
