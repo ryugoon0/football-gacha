@@ -51,8 +51,29 @@ export function assistantForTab(tab: string): AssistantId | null {
   }
 }
 
-export function assistantImage(id: AssistantId, mode: AssistantMode, crop: 'full' | 'bust' = 'bust'): string {
-  return `/assistants/${mode}/${id}${crop === 'bust' ? '-bust' : ''}.webp`
+/**
+ * Expressions each assistant has art for (public/assistants/<mode>/<id>-<expression>*.webp);
+ * 'base' is the plain portrait. A line names one and the card shows it.
+ */
+export const EXPRESSIONS: Record<AssistantId, readonly string[]> = {
+  hanareum: ['base', 'surprised', 'sad', 'determined', 'soft'],
+  seojian: ['base', 'smile', 'frown'],
+  baeksoyeon: ['base', 'surprised', 'serious'],
+}
+
+export function assistantImage(
+  id: AssistantId,
+  mode: AssistantMode,
+  crop: 'full' | 'bust' = 'bust',
+  expression = 'base',
+): string {
+  const face = expression !== 'base' && EXPRESSIONS[id].includes(expression) ? `-${expression}` : ''
+  return `/assistants/${mode}/${id}${face}${crop === 'bust' ? '-bust' : ''}.webp`
+}
+
+export interface AssistantSpeech {
+  text: string
+  expression: string
 }
 
 const MODE_KEY = 'cs.assistantMode'
@@ -123,32 +144,37 @@ function pick<T>(items: T[], seed: number): T {
   return items[Math.abs(seed) % items.length]
 }
 
-function hanareum(ctx: AssistantContext): string {
+function hanareum(ctx: AssistantContext): AssistantSpeech {
   const daily = dailyOf(ctx.state)
   const seed = ctx.hourKst + ctx.state.record.w
   if (ctx.tab === 'match') {
     if (casualModeLocked(daily)) {
-      return '감독님, 오늘 캐주얼 시즌은 끝났어요! 골드는 경쟁 리그에서 벌어 볼까요? 저도 볼게요.'
+      return { text: '감독님, 오늘 캐주얼 시즌은 끝났어요! 골드는 경쟁 리그에서 벌어 볼까요? 저도 볼게요.', expression: 'soft' }
     }
-    if (ctx.state.season.finished) return '시즌이 끝났어요! 새 시즌 시작 버튼 눌러 주세요, 다음 시즌은 더 잘할 거예요.'
-    return pick(
-      [
-        `리그 ${ctx.state.season.round + 1}라운드예요. 오늘도 이겨 봐요!`,
-        '경기 전에 스쿼드 한 번만 봐 주세요 — 지친 선수가 있으면 제가 알려 드릴게요.',
-        '전술 바꾸실 거면 경기가 멈출 때 눌러야 바로 들어가요. 제가 옆에서 볼게요!',
-      ],
-      seed,
-    )
+    if (ctx.state.season.finished) return { text: '시즌이 끝났어요! 새 시즌 시작 버튼 눌러 주세요, 다음 시즌은 더 잘할 거예요.', expression: 'determined' }
+    return {
+      text: pick(
+        [
+          `리그 ${ctx.state.season.round + 1}라운드예요. 오늘도 이겨 봐요!`,
+          '경기 전에 스쿼드 한 번만 봐 주세요 — 지친 선수가 있으면 제가 알려 드릴게요.',
+          '전술 바꾸실 거면 경기가 멈출 때 눌러야 바로 들어가요. 제가 옆에서 볼게요!',
+        ],
+        seed,
+      ),
+      expression: 'base',
+    }
   }
   if (ctx.tab === 'pvp') {
     const left = pvpMatchesLeft(daily)
-    if (left <= 0) return '오늘 PvP는 다 썼어요! 내일 또 도전해요. 상대는 제가 미리 찾아 둘게요.'
-    return `데일리 PvP ${left}회 남았어요! 진짜 감독님이랑 붙는 거라 두근두근해요.`
+    if (left <= 0) return { text: '오늘 PvP는 다 썼어요! 내일 또 도전해요. 상대는 제가 미리 찾아 둘게요.', expression: 'soft' }
+    return { text: `데일리 PvP ${left}회 남았어요! 진짜 감독님이랑 붙는 거라 두근두근해요.`, expression: 'determined' }
   }
   // home
   const friendlies = miniGamesLeft(daily)
   const parts = [timeGreeting(ctx.hourKst)]
+  let expression = 'base'
   if (ctx.squadGaps && (ctx.squadGaps.empty > 0 || ctx.squadGaps.injured > 0)) {
+    expression = ctx.squadGaps.empty > 0 ? 'surprised' : 'sad'
     parts.push(
       ctx.squadGaps.empty > 0
         ? `앗, 선발에 빈 자리가 ${ctx.squadGaps.empty}개 있어요… 스쿼드 탭에서 자동 배치 한 번 눌러 볼까요?`
@@ -156,76 +182,98 @@ function hanareum(ctx: AssistantContext): string {
     )
   } else if (ctx.nextKickoffHotTime) {
     parts.push('다음 정각은 🔥 핫타임 경기예요! 3분 전에 입장해서 지시 하나만 내려도 보너스 골드예요.')
+    expression = 'determined'
   } else if (friendlies > 0) {
     parts.push(`친선 경기 ${friendlies}판 남았어요. 가볍게 한 판 어때요?`)
   } else {
     parts.push('오늘 할 일은 다 했네요! 경쟁 리그 다음 경기 시간 확인해 볼까요?')
+    expression = 'soft'
   }
-  return parts.join(' ')
+  return { text: parts.join(' '), expression }
 }
 
-function seojian(ctx: AssistantContext): string {
+function seojian(ctx: AssistantContext): AssistantSpeech {
   const seed = ctx.hourKst + ctx.state.cards.length
   if (ctx.squadGaps && ctx.squadGaps.empty > 0) {
-    return `선발 ${ctx.squadGaps.empty}자리가 비어 있습니다. 이대로는 경기가 시작되지 않습니다.`
+    return { text: `선발 ${ctx.squadGaps.empty}자리가 비어 있습니다. 이대로는 경기가 시작되지 않습니다.`, expression: 'frown' }
   }
   if (ctx.squadGaps && ctx.squadGaps.injured > 0) {
-    return `선발에 부상 ${ctx.squadGaps.injured}명. 컨디션 수치가 아니라 결장입니다 — 교체하십시오.`
+    return { text: `선발에 부상 ${ctx.squadGaps.injured}명. 컨디션 수치가 아니라 결장입니다 — 교체하십시오.`, expression: 'frown' }
   }
   if (ctx.tab === 'club') {
-    return pick(
+    return {
+      text: pick(
+        [
+          `보유 카드 ${ctx.state.cards.length}장. 같은 클럽·리그로 정렬하면 팀컬러 조건이 한눈에 보입니다.`,
+          '강화는 선발 11명에 집중하는 편이 효율적입니다. 벤치는 나중입니다.',
+          '히든 능력치는 카드 앞면에 없습니다. 같은 종합이라도 경기에서는 다른 선수입니다.',
+        ],
+        seed,
+      ),
+      expression: seed % 3 === 0 ? 'smile' : 'base',
+    }
+  }
+  return {
+    text: pick(
       [
-        `보유 카드 ${ctx.state.cards.length}장. 같은 클럽·리그로 정렬하면 팀컬러 조건이 한눈에 보입니다.`,
-        '강화는 선발 11명에 집중하는 편이 효율적입니다. 벤치는 나중입니다.',
-        '히든 능력치는 카드 앞면에 없습니다. 같은 종합이라도 경기에서는 다른 선수입니다.',
+        '포메이션 슬롯 밖의 포지션에 선 선수는 평점이 크게 깎입니다. 위치를 확인하십시오.',
+        '팀컬러 보너스는 같은 클럽 3명부터 붙습니다. 지금 배치에서 확인해 보십시오.',
+        '자동 배치는 종합만 봅니다. 팀컬러까지 맞추려면 직접 배치가 낫습니다.',
       ],
       seed,
-    )
+    ),
+    expression: 'base',
   }
-  return pick(
-    [
-      '포메이션 슬롯 밖의 포지션에 선 선수는 평점이 크게 깎입니다. 위치를 확인하십시오.',
-      '팀컬러 보너스는 같은 클럽 3명부터 붙습니다. 지금 배치에서 확인해 보십시오.',
-      '자동 배치는 종합만 봅니다. 팀컬러까지 맞추려면 직접 배치가 낫습니다.',
-    ],
-    seed,
-  )
 }
 
-function baeksoyeon(ctx: AssistantContext): string {
+function baeksoyeon(ctx: AssistantContext): AssistantSpeech {
   const seed = ctx.hourKst + Math.floor(ctx.state.gold / 1000)
   if (ctx.tab === 'weekly') {
     if ((ctx.unclaimedRewards ?? 0) > 0) {
-      return `받지 않은 보상이 ${ctx.unclaimedRewards!.toLocaleString('ko-KR')}G 있어요. 챙겨 두세요 — 안 받는다고 늘진 않아요.`
+      return { text: `받지 않은 보상이 ${ctx.unclaimedRewards!.toLocaleString('ko-KR')}G 있어요. 챙겨 두세요 — 안 받는다고 늘진 않아요.`, expression: 'surprised' }
     }
-    if (ctx.nextKickoffHotTime) return '다음 정각이 핫타임이에요. 3분 전에 들어가서 라인업만 잘 내도 반은 한 겁니다.'
-    return pick(
-      [
-        '경쟁 리그 첫 경기는 원래 다 떨려요. 라인업만 제대로 냈으면 반은 한 겁니다.',
-        '히든 카드는 킥오프 전에만 씁니다. 조건 맞는 경기에 아껴 두세요.',
-        '한 주 끝나면 순위 보상으로 히든 카드가 옵니다. 컵 결승도요.',
-      ],
-      seed,
-    )
+    if (ctx.nextKickoffHotTime) return { text: '다음 정각이 핫타임이에요. 3분 전에 들어가서 라인업만 잘 내도 반은 한 겁니다.', expression: 'serious' }
+    return {
+      text: pick(
+        [
+          '경쟁 리그 첫 경기는 원래 다 떨려요. 라인업만 제대로 냈으면 반은 한 겁니다.',
+          '히든 카드는 킥오프 전에만 씁니다. 조건 맞는 경기에 아껴 두세요.',
+          '한 주 끝나면 순위 보상으로 히든 카드가 옵니다. 컵 결승도요.',
+        ],
+        seed,
+      ),
+      expression: 'base',
+    }
   }
   if (ctx.tab === 'market') {
     return ctx.state.gold < 2000
-      ? '골드가 좀 헐렁하네요. 이적시장은 내일 봐도 안 늦어요.'
-      : pick(['매물은 매일 바뀝니다. 오늘 없는 선수는 내일 있을 수도 있어요.', '갱신권 남발하면 금방 빈털터리예요. 하루 한 번이면 충분해요.'], seed)
+      ? { text: '골드가 좀 헐렁하네요. 이적시장은 내일 봐도 안 늦어요.', expression: 'serious' }
+      : {
+          text: pick(['매물은 매일 바뀝니다. 오늘 없는 선수는 내일 있을 수도 있어요.', '갱신권 남발하면 금방 빈털터리예요. 하루 한 번이면 충분해요.'], seed),
+          expression: 'base',
+        }
   }
   // items
-  return pick(
-    [
-      '히든 카드는 상점에서도 삽니다. 조건 맞는 경기 하나 정해 두고 사세요.',
-      '치료 키트는 결장 경기 수와 상관없이 낫게 해요. 주력 선수에게만 쓰세요.',
-      `골드 ${ctx.state.gold.toLocaleString('ko-KR')}. 오늘은 여기까지가 좋겠네요.`,
-    ],
-    seed,
-  )
+  return {
+    text: pick(
+      [
+        '히든 카드는 상점에서도 삽니다. 조건 맞는 경기 하나 정해 두고 사세요.',
+        '치료 키트는 결장 경기 수와 상관없이 낫게 해요. 주력 선수에게만 쓰세요.',
+        `골드 ${ctx.state.gold.toLocaleString('ko-KR')}. 오늘은 여기까지가 좋겠네요.`,
+      ],
+      seed,
+    ),
+    expression: 'base',
+  }
 }
 
-export function assistantLine(id: AssistantId, ctx: AssistantContext): string {
+export function assistantSpeech(id: AssistantId, ctx: AssistantContext): AssistantSpeech {
   if (id === 'hanareum') return hanareum(ctx)
   if (id === 'seojian') return seojian(ctx)
   return baeksoyeon(ctx)
+}
+
+/** The line alone — for callers that do not show a face. */
+export function assistantLine(id: AssistantId, ctx: AssistantContext): string {
+  return assistantSpeech(id, ctx).text
 }

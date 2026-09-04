@@ -6,7 +6,7 @@ import {
   ASSISTANTS,
   assistantForTab,
   assistantImage,
-  assistantLine,
+  assistantSpeech,
   loadAssistantMode,
   loadAssistantQuiet,
   saveAssistantMode,
@@ -43,13 +43,13 @@ export default function AssistantCard({ tab }: { tab: string }) {
     return { empty: gaps.empty.length, injured: gaps.injured.length }
   }, [state.cards, state.squad, state.season.division])
 
-  const line = useMemo(() => {
-    if (!id) return ''
+  const speech = useMemo(() => {
+    if (!id) return { text: '', expression: 'base' }
     const now = Date.now()
     const kst = new Date(now + KST_OFFSET_MINUTES * 60_000)
     const hourKst = kst.getUTCHours()
     const nextHour = (hourKst + 1) % 24
-    return assistantLine(id, {
+    return assistantSpeech(id, {
       tab,
       state,
       squadGaps,
@@ -83,12 +83,18 @@ export default function AssistantCard({ tab }: { tab: string }) {
   return (
     <section className="mb-4 flex items-stretch gap-3 rounded-2xl border border-white/10 bg-slate-900/60 p-3">
       <img
-        src={assistantImage(id, mode, 'bust')}
+        src={assistantImage(id, mode, 'bust', speech.expression)}
         alt={`${who.name} — ${who.role}`}
         width={96}
         height={96}
         className="h-20 w-20 shrink-0 rounded-xl object-cover sm:h-24 sm:w-24"
         loading="lazy"
+        onError={(event) => {
+          // An expression not drawn yet for this mode falls back to the plain portrait.
+          const base = assistantImage(id, mode, 'bust')
+          if (event.currentTarget.src.endsWith(base)) return
+          event.currentTarget.src = base
+        }}
       />
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
@@ -121,7 +127,7 @@ export default function AssistantCard({ tab }: { tab: string }) {
           </div>
         </div>
         <p className="mt-1.5 rounded-xl rounded-tl-sm bg-white/5 px-3 py-2 text-[13px] leading-relaxed text-slate-100">
-          {line}
+          {speech.text}
         </p>
       </div>
     </section>
