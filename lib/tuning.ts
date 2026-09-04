@@ -19,7 +19,7 @@ export interface Knob {
   min: number
   max: number
   step: number
-  group: '경기' | '체력' | '비용' | '하루'
+  group: '경기' | '체력' | '비용' | '하루' | '보상'
   /** Whole numbers only — gold amounts, counts. */
   integer?: boolean
 }
@@ -119,7 +119,7 @@ export const KNOBS = {
     min: 0,
     max: 1,
     step: 0.05,
-    group: '하루',
+    group: '보상',
   },
   casualMatchDailyLimit: {
     label: '캐주얼 모드 하루 경기 수 (안전망)',
@@ -138,16 +138,52 @@ export const KNOBS = {
     min: 0,
     max: 2,
     step: 0.05,
-    group: '하루',
+    group: '보상',
   },
   competitiveGoldMultiplier: {
     label: '경쟁 리그 보상 배율',
-    note: '경쟁 리그 경기 골드 보상 전체에 곱하는 배율입니다. 등급별 차등(최상위 1.0 → 최하위 0.55)은 이 위에 따로 곱해집니다. 캐주얼 모드가 하루 1시즌으로 묶인 만큼, 경쟁 리그가 그 자리를 대신하도록 기본값을 1.5로 두었습니다.',
+    note: '경쟁 리그 경기 골드 보상 전체에 곱하는 배율입니다. 등급별 차등은 아래 등급 배율로 따로 곱해집니다. 캐주얼 모드가 하루 1시즌으로 묶인 만큼, 경쟁 리그가 그 자리를 대신하도록 기본값을 1.5로 두었습니다.',
     default: 1.5,
     min: 0,
     max: 3,
     step: 0.05,
-    group: '하루',
+    group: '보상',
+  },
+  weeklyTierMultiplier0: {
+    label: '경쟁 리그 0등급(최상위) 보상 배율',
+    note: '0등급 경기 보상에 곱합니다. 같은 승리라도 윗 등급이 더 받도록 등급별로 차등을 둡니다.',
+    default: 1,
+    min: 0,
+    max: 2,
+    step: 0.05,
+    group: '보상',
+  },
+  weeklyTierMultiplier1: {
+    label: '경쟁 리그 1등급 보상 배율',
+    note: '1등급 경기 보상에 곱합니다.',
+    default: 0.85,
+    min: 0,
+    max: 2,
+    step: 0.05,
+    group: '보상',
+  },
+  weeklyTierMultiplier2: {
+    label: '경쟁 리그 2등급 보상 배율',
+    note: '2등급 경기 보상에 곱합니다.',
+    default: 0.7,
+    min: 0,
+    max: 2,
+    step: 0.05,
+    group: '보상',
+  },
+  weeklyTierMultiplier3: {
+    label: '경쟁 리그 3등급(최하위) 보상 배율',
+    note: '3등급 경기 보상에 곱합니다.',
+    default: 0.55,
+    min: 0,
+    max: 2,
+    step: 0.05,
+    group: '보상',
   },
   hotTimeBonus: {
     label: '핫타임 개입 보너스',
@@ -156,7 +192,7 @@ export const KNOBS = {
     min: 0,
     max: 10000,
     step: 100,
-    group: '하루',
+    group: '보상',
     integer: true,
   },
   pvpDailyLimit: {
@@ -176,7 +212,7 @@ export const KNOBS = {
     min: 0,
     max: 2,
     step: 0.05,
-    group: '하루',
+    group: '보상',
   },
   recoveryCostPerPoint: {
     label: '체력 회복 비용',

@@ -24,6 +24,11 @@ export type ItemId =
   | 'cardAllOutAttack'
   | 'cardCalmDefence'
   | 'cardQuickCounter'
+  | 'cardHighPress'
+  | 'cardWingOverload'
+  | 'cardMidfieldControl'
+  | 'cardLongBall'
+  | 'cardParkTheBus'
 
 /** What an item is used on. 'match' is played from the live screen before a weekly kick-off. */
 export type ItemTarget = 'card' | 'club' | 'match'
@@ -140,6 +145,56 @@ export const ITEMS: Record<ItemId, ItemDef> = {
     note: '경쟁 리그 경기 시작 전에 씁니다. 킥오프 10분간 되찾은 공을 즉시 앞으로, 대가로 빌드업이 거칠어집니다. 한 경기 한 장.',
     target: 'match',
     icon: '⚡',
+    gold: 1200,
+    shards: 60,
+    dailyLimit: 3,
+  },
+  cardHighPress: {
+    id: 'cardHighPress',
+    name: '작전카드 · 전방 압박',
+    note: '경쟁 리그 경기 시작 전에 씁니다. 킥오프 12분간 첫 라인부터 강한 압박·즉시 되찾기, 대가로 뒷공간이 넓어집니다. 한 경기 한 장.',
+    target: 'match',
+    icon: '🏃',
+    gold: 1200,
+    shards: 60,
+    dailyLimit: 3,
+  },
+  cardWingOverload: {
+    id: 'cardWingOverload',
+    name: '작전카드 · 측면 폭격',
+    note: '경쟁 리그 경기 시작 전에 씁니다. 킥오프 15분간 넓게 벌려 오버래핑·크로스 집중, 대가로 수비 폭이 좁아집니다. 한 경기 한 장.',
+    target: 'match',
+    icon: '🎯',
+    gold: 1200,
+    shards: 60,
+    dailyLimit: 3,
+  },
+  cardMidfieldControl: {
+    id: 'cardMidfieldControl',
+    name: '작전카드 · 중원 장악',
+    note: '경쟁 리그 경기 시작 전에 씁니다. 킥오프 20분간 짧고 안전한 점유, 대가로 직선 공격·역습이 줄어듭니다. 한 경기 한 장.',
+    target: 'match',
+    icon: '🧠',
+    gold: 1200,
+    shards: 60,
+    dailyLimit: 3,
+  },
+  cardLongBall: {
+    id: 'cardLongBall',
+    name: '작전카드 · 롱볼 전환',
+    note: '경쟁 리그 경기 시작 전에 씁니다. 킥오프 15분간 길게 뒷공간으로, 대가로 패스 성공률이 떨어집니다. 한 경기 한 장.',
+    target: 'match',
+    icon: '🚀',
+    gold: 1200,
+    shards: 60,
+    dailyLimit: 3,
+  },
+  cardParkTheBus: {
+    id: 'cardParkTheBus',
+    name: '작전카드 · 수비 잠금',
+    note: '경쟁 리그 경기 시작 전에 씁니다. 킥오프 20분간 깊은 라인과 잔류 수비로 잠금, 대가로 공격 가담·템포가 크게 줍니다. 한 경기 한 장.',
+    target: 'match',
+    icon: '🚌',
     gold: 1200,
     shards: 60,
     dailyLimit: 3,

@@ -13,7 +13,15 @@
  */
 import { normalizeParams, type TacticalParams } from '../tactics/params'
 
-export type TacticCardId = 'cardAllOutAttack' | 'cardCalmDefence' | 'cardQuickCounter'
+export type TacticCardId =
+  | 'cardAllOutAttack'
+  | 'cardCalmDefence'
+  | 'cardQuickCounter'
+  | 'cardHighPress'
+  | 'cardWingOverload'
+  | 'cardMidfieldControl'
+  | 'cardLongBall'
+  | 'cardParkTheBus'
 
 export interface TacticCardDef {
   id: TacticCardId
@@ -54,6 +62,51 @@ export const TACTIC_CARDS: Record<TacticCardId, TacticCardDef> = {
     effect: { counterAttackIntensity: 30, transitionSpeed: 20 },
     tradeoff: { buildUpShortness: -20 },
     durationMinutes: 10,
+  },
+  cardHighPress: {
+    id: 'cardHighPress',
+    name: '전방 압박',
+    note: '킥오프부터 12분간 첫 라인부터 강하게 압박하고 공을 잃으면 즉시 되찾으러 갑니다. 대가로 최종 라인이 올라가 뒷공간이 넓어집니다.',
+    icon: '🏃',
+    effect: { pressingIntensity: 25, blockHeight: 20, counterPressIntensity: 20 },
+    tradeoff: { defensiveLine: 15, restDefence: -15 },
+    durationMinutes: 12,
+  },
+  cardWingOverload: {
+    id: 'cardWingOverload',
+    name: '측면 폭격',
+    note: '킥오프부터 15분간 넓게 벌려 풀백이 오버래핑하고 크로스를 쏟아 넣습니다. 대가로 수비 폭이 좁아지고 빌드업이 급해집니다.',
+    icon: '🎯',
+    effect: { attackingWidth: 25, overlapFrequency: 25, crossFrequency: 15 },
+    tradeoff: { defensiveWidth: -15, buildUpShortness: -15 },
+    durationMinutes: 15,
+  },
+  cardMidfieldControl: {
+    id: 'cardMidfieldControl',
+    name: '중원 장악',
+    note: '킥오프부터 20분간 짧게 안전하게 돌리며 기회를 기다립니다. 대가로 직선적인 공격·역습·전진이 줄어듭니다.',
+    icon: '🧠',
+    effect: { buildUpShortness: 20, passingRisk: -20, finalThirdPatience: 20 },
+    tradeoff: { directness: -20, counterAttackIntensity: -20, forwardRunFrequency: -15 },
+    durationMinutes: 20,
+  },
+  cardLongBall: {
+    id: 'cardLongBall',
+    name: '롱볼 전환',
+    note: '킥오프부터 15분간 길게, 뒷공간으로 찔러 넣습니다. 대가로 패스 성공률이 떨어지고 빌드업이 거칠어집니다.',
+    icon: '🚀',
+    effect: { directness: 30, throughBallFrequency: 20 },
+    tradeoff: { passingRisk: 20, buildUpShortness: -25 },
+    durationMinutes: 15,
+  },
+  cardParkTheBus: {
+    id: 'cardParkTheBus',
+    name: '수비 잠금',
+    note: '킥오프부터 20분간 라인을 깊게 내리고 뒤에 사람을 남겨 잠급니다. 대가로 공격 가담과 템포가 크게 줄어듭니다.',
+    icon: '🚌',
+    effect: { defensiveLine: -25, blockHeight: -20, restDefence: 25 },
+    tradeoff: { forwardRunFrequency: -25, tempo: -15 },
+    durationMinutes: 20,
   },
 }
 

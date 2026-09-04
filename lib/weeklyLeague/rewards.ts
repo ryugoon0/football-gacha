@@ -7,12 +7,27 @@
  * ("보상 받기"), which is when the gold reaches their save — the same
  * "server decides the amount, the client holds the balance" shape as every
  * other reward in the game.
+ *
+ * Every rate here is an operator knob (lib/tuning.ts, group '보상'), shown
+ * and adjusted from the operator console's 보상 tab.
  */
 import { rawMatchReward } from '../match'
-import { tune } from '../tuning'
-import { HOT_TIME_HOURS_KST, KST_OFFSET_MINUTES, TIERS } from './config'
+import { tune, type KnobKey } from '../tuning'
+import { HOT_TIME_HOURS_KST, KST_OFFSET_MINUTES } from './config'
 
 export type WeeklyOutcome = 'W' | 'D' | 'L'
+
+/** The knob holding each tier's reward multiplier — index is the tier. */
+export const TIER_MULTIPLIER_KNOBS: KnobKey[] = [
+  'weeklyTierMultiplier0',
+  'weeklyTierMultiplier1',
+  'weeklyTierMultiplier2',
+  'weeklyTierMultiplier3',
+]
+
+export function tierMultiplierKnob(tier: number): KnobKey {
+  return TIER_MULTIPLIER_KNOBS[Math.max(0, Math.min(TIER_MULTIPLIER_KNOBS.length - 1, tier))]
+}
 
 /** Tier 0 is the top flight; it maps onto casual mode's division 1 for the division bonus. */
 export function divisionForTier(tier: number): number {
@@ -21,13 +36,20 @@ export function divisionForTier(tier: number): number {
 
 /**
  * One manager's gold for one fixture. Casual mode's reward shape, the tier's
- * gradient (TIERS.rewardMultiplier — a top-flight win pays more than a
+ * gradient (weeklyTierMultiplier knobs — a top-flight win pays more than a
  * bottom-tier one), and the operator's competitiveGoldMultiplier on top.
+ * `rates` lets the operator console preview an unsaved slider position;
+ * the server always passes nothing and reads the saved knobs.
  */
-export function weeklyMatchReward(outcome: WeeklyOutcome, tier: number, goalsFor: number): number {
-  const tierDef = TIERS[Math.max(0, Math.min(TIERS.length - 1, tier))]
+export function weeklyMatchReward(
+  outcome: WeeklyOutcome,
+  tier: number,
+  goalsFor: number,
+  rates: Partial<Record<KnobKey, number>> = {},
+): number {
+  const read = (key: KnobKey) => rates[key] ?? tune(key)
   const raw = rawMatchReward(outcome, divisionForTier(tier), goalsFor)
-  return Math.round(raw * tierDef.rewardMultiplier * tune('competitiveGoldMultiplier'))
+  return Math.round(raw * read(tierMultiplierKnob(tier)) * read('competitiveGoldMultiplier'))
 }
 
 export function outcomeOf(goalsFor: number, goalsAgainst: number): WeeklyOutcome {

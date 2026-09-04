@@ -8,6 +8,7 @@ import { buildLabel } from '../lib/build'
 import AccountPanel from './AccountPanel'
 import MonitoringTab from './tabs/MonitoringTab'
 import BalancePanel from './tabs/BalancePanel'
+import RewardsPanel from './tabs/RewardsPanel'
 import ShopPanel from './tabs/ShopPanel'
 import WeeklyLeagueTab from './tabs/WeeklyLeagueTab'
 import NoticePanel from './tabs/NoticePanel'
@@ -19,6 +20,7 @@ import WeeklyTestMatchTab from './tabs/WeeklyTestMatchTab'
 const TABS = [
   { key: 'monitor', label: '모니터링' },
   { key: 'balance', label: '밸런스' },
+  { key: 'rewards', label: '보상' },
   { key: 'shop', label: '상점' },
   { key: 'league', label: '주간리그' },
   { key: 'launch', label: '내일 오픈' },
@@ -185,6 +187,7 @@ function Shell() {
       <div className="mx-auto max-w-6xl px-4 py-6">
         {tab === 'monitor' && <MonitoringTab />}
         {tab === 'balance' && <BalancePanel />}
+        {tab === 'rewards' && <RewardsPanel />}
         {tab === 'shop' && <ShopPanel />}
         {tab === 'league' && <WeeklyLeagueTab />}
         {tab === 'launch' && <LaunchReadinessTab />}

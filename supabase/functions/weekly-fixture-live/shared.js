@@ -175,7 +175,7 @@ var KNOBS = {
     min: 0,
     max: 1,
     step: 0.05,
-    group: "\uD558\uB8E8"
+    group: "\uBCF4\uC0C1"
   },
   casualMatchDailyLimit: {
     label: "\uCE90\uC8FC\uC5BC \uBAA8\uB4DC \uD558\uB8E8 \uACBD\uAE30 \uC218 (\uC548\uC804\uB9DD)",
@@ -194,16 +194,52 @@ var KNOBS = {
     min: 0,
     max: 2,
     step: 0.05,
-    group: "\uD558\uB8E8"
+    group: "\uBCF4\uC0C1"
   },
   competitiveGoldMultiplier: {
     label: "\uACBD\uC7C1 \uB9AC\uADF8 \uBCF4\uC0C1 \uBC30\uC728",
-    note: "\uACBD\uC7C1 \uB9AC\uADF8 \uACBD\uAE30 \uACE8\uB4DC \uBCF4\uC0C1 \uC804\uCCB4\uC5D0 \uACF1\uD558\uB294 \uBC30\uC728\uC785\uB2C8\uB2E4. \uB4F1\uAE09\uBCC4 \uCC28\uB4F1(\uCD5C\uC0C1\uC704 1.0 \u2192 \uCD5C\uD558\uC704 0.55)\uC740 \uC774 \uC704\uC5D0 \uB530\uB85C \uACF1\uD574\uC9D1\uB2C8\uB2E4. \uCE90\uC8FC\uC5BC \uBAA8\uB4DC\uAC00 \uD558\uB8E8 1\uC2DC\uC98C\uC73C\uB85C \uBB36\uC778 \uB9CC\uD07C, \uACBD\uC7C1 \uB9AC\uADF8\uAC00 \uADF8 \uC790\uB9AC\uB97C \uB300\uC2E0\uD558\uB3C4\uB85D \uAE30\uBCF8\uAC12\uC744 1.5\uB85C \uB450\uC5C8\uC2B5\uB2C8\uB2E4.",
+    note: "\uACBD\uC7C1 \uB9AC\uADF8 \uACBD\uAE30 \uACE8\uB4DC \uBCF4\uC0C1 \uC804\uCCB4\uC5D0 \uACF1\uD558\uB294 \uBC30\uC728\uC785\uB2C8\uB2E4. \uB4F1\uAE09\uBCC4 \uCC28\uB4F1\uC740 \uC544\uB798 \uB4F1\uAE09 \uBC30\uC728\uB85C \uB530\uB85C \uACF1\uD574\uC9D1\uB2C8\uB2E4. \uCE90\uC8FC\uC5BC \uBAA8\uB4DC\uAC00 \uD558\uB8E8 1\uC2DC\uC98C\uC73C\uB85C \uBB36\uC778 \uB9CC\uD07C, \uACBD\uC7C1 \uB9AC\uADF8\uAC00 \uADF8 \uC790\uB9AC\uB97C \uB300\uC2E0\uD558\uB3C4\uB85D \uAE30\uBCF8\uAC12\uC744 1.5\uB85C \uB450\uC5C8\uC2B5\uB2C8\uB2E4.",
     default: 1.5,
     min: 0,
     max: 3,
     step: 0.05,
-    group: "\uD558\uB8E8"
+    group: "\uBCF4\uC0C1"
+  },
+  weeklyTierMultiplier0: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 0\uB4F1\uAE09(\uCD5C\uC0C1\uC704) \uBCF4\uC0C1 \uBC30\uC728",
+    note: "0\uB4F1\uAE09 \uACBD\uAE30 \uBCF4\uC0C1\uC5D0 \uACF1\uD569\uB2C8\uB2E4. \uAC19\uC740 \uC2B9\uB9AC\uB77C\uB3C4 \uC717 \uB4F1\uAE09\uC774 \uB354 \uBC1B\uB3C4\uB85D \uB4F1\uAE09\uBCC4\uB85C \uCC28\uB4F1\uC744 \uB461\uB2C8\uB2E4.",
+    default: 1,
+    min: 0,
+    max: 2,
+    step: 0.05,
+    group: "\uBCF4\uC0C1"
+  },
+  weeklyTierMultiplier1: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 1\uB4F1\uAE09 \uBCF4\uC0C1 \uBC30\uC728",
+    note: "1\uB4F1\uAE09 \uACBD\uAE30 \uBCF4\uC0C1\uC5D0 \uACF1\uD569\uB2C8\uB2E4.",
+    default: 0.85,
+    min: 0,
+    max: 2,
+    step: 0.05,
+    group: "\uBCF4\uC0C1"
+  },
+  weeklyTierMultiplier2: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 2\uB4F1\uAE09 \uBCF4\uC0C1 \uBC30\uC728",
+    note: "2\uB4F1\uAE09 \uACBD\uAE30 \uBCF4\uC0C1\uC5D0 \uACF1\uD569\uB2C8\uB2E4.",
+    default: 0.7,
+    min: 0,
+    max: 2,
+    step: 0.05,
+    group: "\uBCF4\uC0C1"
+  },
+  weeklyTierMultiplier3: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 3\uB4F1\uAE09(\uCD5C\uD558\uC704) \uBCF4\uC0C1 \uBC30\uC728",
+    note: "3\uB4F1\uAE09 \uACBD\uAE30 \uBCF4\uC0C1\uC5D0 \uACF1\uD569\uB2C8\uB2E4.",
+    default: 0.55,
+    min: 0,
+    max: 2,
+    step: 0.05,
+    group: "\uBCF4\uC0C1"
   },
   hotTimeBonus: {
     label: "\uD56B\uD0C0\uC784 \uAC1C\uC785 \uBCF4\uB108\uC2A4",
@@ -212,7 +248,7 @@ var KNOBS = {
     min: 0,
     max: 1e4,
     step: 100,
-    group: "\uD558\uB8E8",
+    group: "\uBCF4\uC0C1",
     integer: true
   },
   pvpDailyLimit: {
@@ -232,7 +268,7 @@ var KNOBS = {
     min: 0,
     max: 2,
     step: 0.05,
-    group: "\uD558\uB8E8"
+    group: "\uBCF4\uC0C1"
   },
   recoveryCostPerPoint: {
     label: "\uCCB4\uB825 \uD68C\uBCF5 \uBE44\uC6A9",
@@ -5244,11 +5280,11 @@ var MATCHES_PER_LEAGUE_ROUND = CLUB_COUNT / 2;
 var TIERS = [
   // 최상위는 실유저 상한을 두지 않는다 — CLUB_COUNT(그룹 정원)가 자연스러운
   // 물리적 한계이므로 그 값 자체를 상한으로 쓴다.
-  { maxRealUsers: CLUB_COUNT, aiBaseRating: 75, rewardMultiplier: 1 },
+  { maxRealUsers: CLUB_COUNT, aiBaseRating: 75 },
   // 0: 최상위, 사실상 무제한
-  { maxRealUsers: 4, aiBaseRating: 68, rewardMultiplier: 0.85 },
-  { maxRealUsers: 2, aiBaseRating: 61, rewardMultiplier: 0.7 },
-  { maxRealUsers: 1, aiBaseRating: 54, rewardMultiplier: 0.55 }
+  { maxRealUsers: 4, aiBaseRating: 68 },
+  { maxRealUsers: 2, aiBaseRating: 61 },
+  { maxRealUsers: 1, aiBaseRating: 54 }
   // 3: 최하위
 ];
 var TIER_COUNT = TIERS.length;
@@ -5274,13 +5310,22 @@ function rawMatchReward(result, division, scoreFor) {
 }
 
 // lib/weeklyLeague/rewards.ts
+var TIER_MULTIPLIER_KNOBS = [
+  "weeklyTierMultiplier0",
+  "weeklyTierMultiplier1",
+  "weeklyTierMultiplier2",
+  "weeklyTierMultiplier3"
+];
+function tierMultiplierKnob(tier) {
+  return TIER_MULTIPLIER_KNOBS[Math.max(0, Math.min(TIER_MULTIPLIER_KNOBS.length - 1, tier))];
+}
 function divisionForTier(tier) {
   return Math.max(1, Math.min(5, tier + 1));
 }
-function weeklyMatchReward(outcome, tier, goalsFor) {
-  const tierDef = TIERS[Math.max(0, Math.min(TIERS.length - 1, tier))];
+function weeklyMatchReward(outcome, tier, goalsFor, rates = {}) {
+  const read = (key) => rates[key] ?? tune(key);
   const raw = rawMatchReward(outcome, divisionForTier(tier), goalsFor);
-  return Math.round(raw * tierDef.rewardMultiplier * tune("competitiveGoldMultiplier"));
+  return Math.round(raw * read(tierMultiplierKnob(tier)) * read("competitiveGoldMultiplier"));
 }
 function outcomeOf(goalsFor, goalsAgainst) {
   if (goalsFor > goalsAgainst) return "W";
@@ -5337,6 +5382,51 @@ var TACTIC_CARDS = {
     effect: { counterAttackIntensity: 30, transitionSpeed: 20 },
     tradeoff: { buildUpShortness: -20 },
     durationMinutes: 10
+  },
+  cardHighPress: {
+    id: "cardHighPress",
+    name: "\uC804\uBC29 \uC555\uBC15",
+    note: "\uD0A5\uC624\uD504\uBD80\uD130 12\uBD84\uAC04 \uCCAB \uB77C\uC778\uBD80\uD130 \uAC15\uD558\uAC8C \uC555\uBC15\uD558\uACE0 \uACF5\uC744 \uC783\uC73C\uBA74 \uC989\uC2DC \uB418\uCC3E\uC73C\uB7EC \uAC11\uB2C8\uB2E4. \uB300\uAC00\uB85C \uCD5C\uC885 \uB77C\uC778\uC774 \uC62C\uB77C\uAC00 \uB4B7\uACF5\uAC04\uC774 \uB113\uC5B4\uC9D1\uB2C8\uB2E4.",
+    icon: "\u{1F3C3}",
+    effect: { pressingIntensity: 25, blockHeight: 20, counterPressIntensity: 20 },
+    tradeoff: { defensiveLine: 15, restDefence: -15 },
+    durationMinutes: 12
+  },
+  cardWingOverload: {
+    id: "cardWingOverload",
+    name: "\uCE21\uBA74 \uD3ED\uACA9",
+    note: "\uD0A5\uC624\uD504\uBD80\uD130 15\uBD84\uAC04 \uB113\uAC8C \uBC8C\uB824 \uD480\uBC31\uC774 \uC624\uBC84\uB798\uD551\uD558\uACE0 \uD06C\uB85C\uC2A4\uB97C \uC3DF\uC544 \uB123\uC2B5\uB2C8\uB2E4. \uB300\uAC00\uB85C \uC218\uBE44 \uD3ED\uC774 \uC881\uC544\uC9C0\uACE0 \uBE4C\uB4DC\uC5C5\uC774 \uAE09\uD574\uC9D1\uB2C8\uB2E4.",
+    icon: "\u{1F3AF}",
+    effect: { attackingWidth: 25, overlapFrequency: 25, crossFrequency: 15 },
+    tradeoff: { defensiveWidth: -15, buildUpShortness: -15 },
+    durationMinutes: 15
+  },
+  cardMidfieldControl: {
+    id: "cardMidfieldControl",
+    name: "\uC911\uC6D0 \uC7A5\uC545",
+    note: "\uD0A5\uC624\uD504\uBD80\uD130 20\uBD84\uAC04 \uC9E7\uAC8C \uC548\uC804\uD558\uAC8C \uB3CC\uB9AC\uBA70 \uAE30\uD68C\uB97C \uAE30\uB2E4\uB9BD\uB2C8\uB2E4. \uB300\uAC00\uB85C \uC9C1\uC120\uC801\uC778 \uACF5\uACA9\xB7\uC5ED\uC2B5\xB7\uC804\uC9C4\uC774 \uC904\uC5B4\uB4ED\uB2C8\uB2E4.",
+    icon: "\u{1F9E0}",
+    effect: { buildUpShortness: 20, passingRisk: -20, finalThirdPatience: 20 },
+    tradeoff: { directness: -20, counterAttackIntensity: -20, forwardRunFrequency: -15 },
+    durationMinutes: 20
+  },
+  cardLongBall: {
+    id: "cardLongBall",
+    name: "\uB871\uBCFC \uC804\uD658",
+    note: "\uD0A5\uC624\uD504\uBD80\uD130 15\uBD84\uAC04 \uAE38\uAC8C, \uB4B7\uACF5\uAC04\uC73C\uB85C \uCC14\uB7EC \uB123\uC2B5\uB2C8\uB2E4. \uB300\uAC00\uB85C \uD328\uC2A4 \uC131\uACF5\uB960\uC774 \uB5A8\uC5B4\uC9C0\uACE0 \uBE4C\uB4DC\uC5C5\uC774 \uAC70\uCE60\uC5B4\uC9D1\uB2C8\uB2E4.",
+    icon: "\u{1F680}",
+    effect: { directness: 30, throughBallFrequency: 20 },
+    tradeoff: { passingRisk: 20, buildUpShortness: -25 },
+    durationMinutes: 15
+  },
+  cardParkTheBus: {
+    id: "cardParkTheBus",
+    name: "\uC218\uBE44 \uC7A0\uAE08",
+    note: "\uD0A5\uC624\uD504\uBD80\uD130 20\uBD84\uAC04 \uB77C\uC778\uC744 \uAE4A\uAC8C \uB0B4\uB9AC\uACE0 \uB4A4\uC5D0 \uC0AC\uB78C\uC744 \uB0A8\uACA8 \uC7A0\uAE09\uB2C8\uB2E4. \uB300\uAC00\uB85C \uACF5\uACA9 \uAC00\uB2F4\uACFC \uD15C\uD3EC\uAC00 \uD06C\uAC8C \uC904\uC5B4\uB4ED\uB2C8\uB2E4.",
+    icon: "\u{1F68C}",
+    effect: { defensiveLine: -25, blockHeight: -20, restDefence: 25 },
+    tradeoff: { forwardRunFrequency: -25, tempo: -15 },
+    durationMinutes: 20
   }
 };
 var TACTIC_CARD_IDS = Object.keys(TACTIC_CARDS);
