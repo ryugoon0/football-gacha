@@ -1,2 +1,2 @@
 // scripts/build-portraits.mjs가 만든다. public/players/<key>.webp 가 있는 키.
-export const PORTRAIT_KEYS: ReadonlySet<string> = new Set(["ulsan-01","ulsan-02","ulsan-03","ulsan-04","ulsan-06","ulsan-08","ulsan-09","ulsan-10","ulsan-11","ulsan-13","ulsan-14","ulsan-15","ulsan-16","ulsan-17","ulsan-19","ulsan-20","ulsan-21","ulsan-23","ulsan-24","ulsan-26","ulsan-27","ulsan-28","ulsan-31","ulsan-33","ulsan-38","ulsan-43","ulsan-55","ulsan-66","ulsan-72","ulsan-77","ulsan-91","ulsan-96","ulsan-99"])
+export const PORTRAIT_KEYS: ReadonlySet<string> = new Set([])
