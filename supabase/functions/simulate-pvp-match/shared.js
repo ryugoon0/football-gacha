@@ -4851,20 +4851,22 @@ var COLOR_TIERS = {
   club: [
     { count: 3, rating: 2, chemistry: 3 },
     { count: 5, rating: 5, chemistry: 6 },
-    { count: 7, rating: 9, chemistry: 10 }
+    { count: 7, rating: 8, chemistry: 10 },
+    { count: 9, rating: 11, chemistry: 13 },
+    { count: 11, rating: 14, chemistry: 17 }
   ],
   league: [
-    { count: 5, rating: 2, chemistry: 2 },
-    { count: 8, rating: 4, chemistry: 4 },
-    { count: 11, rating: 7, chemistry: 8 }
+    { count: 5, rating: 1, chemistry: 1 },
+    { count: 8, rating: 2, chemistry: 2 },
+    { count: 11, rating: 4, chemistry: 4 }
   ],
   nation: [
-    { count: 5, rating: 2, chemistry: 3 },
-    { count: 8, rating: 4, chemistry: 6 },
-    { count: 11, rating: 7, chemistry: 10 }
+    { count: 5, rating: 1, chemistry: 1 },
+    { count: 8, rating: 2, chemistry: 3 },
+    { count: 11, rating: 4, chemistry: 5 }
   ]
 };
-var COLOR_CAPS = { rating: 14, chemistry: 20 };
+var COLOR_CAPS = { rating: 22, chemistry: 26 };
 function tally(players, pick) {
   const counts = /* @__PURE__ */ new Map();
   for (const player of players) {
@@ -4883,6 +4885,8 @@ function teamColors(players) {
   const hints = [];
   for (const kind of Object.keys(PICKERS)) {
     const tiers = COLOR_TIERS[kind];
+    const reached = [];
+    const near = [];
     for (const [key, count] of tally(players, PICKERS[kind])) {
       const reachedIndex = tiers.reduce(
         (best, tier, index) => count >= tier.count ? index : best,
@@ -4890,25 +4894,28 @@ function teamColors(players) {
       );
       const next = tiers[reachedIndex + 1] ?? null;
       if (reachedIndex >= 0) {
-        active.push({
+        reached.push({
           kind,
           key,
           count,
           tier: tiers[reachedIndex],
-          next: next ? { count: next.count, missing: next.count - count, tier: next } : null
+          next: next ? { count: next.count, missing: next.count - count, tier: next } : null,
+          counted: false
         });
       } else if (next && next.count - count <= 2) {
-        hints.push({ kind, key, count, missing: next.count - count, tier: next });
+        near.push({ kind, key, count, missing: next.count - count, tier: next });
       }
     }
+    reached.sort((a, b) => b.tier.rating - a.tier.rating || b.count - a.count || a.key.localeCompare(b.key, "ko"));
+    if (reached[0]) reached[0].counted = true;
+    active.push(...reached);
+    const countedRating = reached[0]?.tier.rating ?? 0;
+    hints.push(...near.filter((hint) => hint.tier.rating > countedRating));
   }
-  active.sort((a, b) => b.tier.rating - a.tier.rating || b.count - a.count);
+  active.sort((a, b) => Number(b.counted) - Number(a.counted) || b.tier.rating - a.tier.rating || b.count - a.count);
   hints.sort((a, b) => a.missing - b.missing || b.count - a.count);
   const bonus = active.reduce(
-    (sum, color) => ({
-      rating: sum.rating + color.tier.rating,
-      chemistry: sum.chemistry + color.tier.chemistry
-    }),
+    (sum, color) => color.counted ? { rating: sum.rating + color.tier.rating, chemistry: sum.chemistry + color.tier.chemistry } : sum,
     { rating: 0, chemistry: 0 }
   );
   return {

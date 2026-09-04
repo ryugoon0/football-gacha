@@ -11,21 +11,31 @@ export interface ColorTier {
   chemistry: number
 }
 
+/**
+ * Only the biggest group of each kind counts (see teamColors), so the club
+ * ladder has to reward a full eleven more than any split ever could: 7+4 used
+ * to beat 11 outright because the 7-tier and the 3-tier stacked. Now 11 of
+ * one club is the strongest thing a squad can do, and every split is strictly
+ * worse than the larger half alone. League and nation are a smaller topping —
+ * eleven of one club are already eleven of one league.
+ */
 export const COLOR_TIERS: Record<ColorKind, ColorTier[]> = {
   club: [
     { count: 3, rating: 2, chemistry: 3 },
     { count: 5, rating: 5, chemistry: 6 },
-    { count: 7, rating: 9, chemistry: 10 },
+    { count: 7, rating: 8, chemistry: 10 },
+    { count: 9, rating: 11, chemistry: 13 },
+    { count: 11, rating: 14, chemistry: 17 },
   ],
   league: [
-    { count: 5, rating: 2, chemistry: 2 },
-    { count: 8, rating: 4, chemistry: 4 },
-    { count: 11, rating: 7, chemistry: 8 },
+    { count: 5, rating: 1, chemistry: 1 },
+    { count: 8, rating: 2, chemistry: 2 },
+    { count: 11, rating: 4, chemistry: 4 },
   ],
   nation: [
-    { count: 5, rating: 2, chemistry: 3 },
-    { count: 8, rating: 4, chemistry: 6 },
-    { count: 11, rating: 7, chemistry: 10 },
+    { count: 5, rating: 1, chemistry: 1 },
+    { count: 8, rating: 2, chemistry: 3 },
+    { count: 11, rating: 4, chemistry: 5 },
   ],
 }
 
@@ -35,8 +45,8 @@ export const COLOR_LABELS: Record<ColorKind, string> = {
   nation: '국가',
 }
 
-/** Nothing stacks past this, so one mega squad cannot run away with it. */
-export const COLOR_CAPS = { rating: 14, chemistry: 20 }
+/** Club 11 + league 11 + nation 11 lands exactly here; nothing can pass it. */
+export const COLOR_CAPS = { rating: 22, chemistry: 26 }
 
 export interface ActiveColor {
   kind: ColorKind
@@ -46,6 +56,8 @@ export interface ActiveColor {
   tier: ColorTier
   /** The next step up, when there is one. */
   next: { count: number; missing: number; tier: ColorTier } | null
+  /** False when a bigger group of the same kind already takes the bonus. */
+  counted: boolean
 }
 
 export interface ColorHint {
@@ -81,6 +93,11 @@ const PICKERS: Record<ColorKind, (player: PlayerDef) => string> = {
 /**
  * Works out which team colours the starting eleven triggers, and which ones are
  * within reach.
+ *
+ * One rule the testers found the hard way: per kind (club / league / nation)
+ * only the biggest group counts. Two clubs of five used to stack to more than
+ * one club of seven, so mixing beat commitment. Smaller groups still show up
+ * in `active` with `counted: false` so the screen can say why they give nothing.
  */
 export function teamColors(players: PlayerDef[]): TeamColors {
   const active: ActiveColor[] = []
@@ -88,6 +105,8 @@ export function teamColors(players: PlayerDef[]): TeamColors {
 
   for (const kind of Object.keys(PICKERS) as ColorKind[]) {
     const tiers = COLOR_TIERS[kind]
+    const reached: ActiveColor[] = []
+    const near: ColorHint[] = []
     for (const [key, count] of tally(players, PICKERS[kind])) {
       const reachedIndex = tiers.reduce(
         (best, tier, index) => (count >= tier.count ? index : best),
@@ -96,27 +115,34 @@ export function teamColors(players: PlayerDef[]): TeamColors {
       const next = tiers[reachedIndex + 1] ?? null
 
       if (reachedIndex >= 0) {
-        active.push({
+        reached.push({
           kind,
           key,
           count,
           tier: tiers[reachedIndex],
           next: next ? { count: next.count, missing: next.count - count, tier: next } : null,
+          counted: false,
         })
       } else if (next && next.count - count <= 2) {
-        hints.push({ kind, key, count, missing: next.count - count, tier: next })
+        near.push({ kind, key, count, missing: next.count - count, tier: next })
       }
     }
+    reached.sort((a, b) => b.tier.rating - a.tier.rating || b.count - a.count || a.key.localeCompare(b.key, 'ko'))
+    if (reached[0]) reached[0].counted = true
+    active.push(...reached)
+    // A hint is only worth showing when reaching it would beat what already counts.
+    const countedRating = reached[0]?.tier.rating ?? 0
+    hints.push(...near.filter((hint) => hint.tier.rating > countedRating))
   }
 
-  active.sort((a, b) => b.tier.rating - a.tier.rating || b.count - a.count)
+  active.sort((a, b) => Number(b.counted) - Number(a.counted) || b.tier.rating - a.tier.rating || b.count - a.count)
   hints.sort((a, b) => a.missing - b.missing || b.count - a.count)
 
   const bonus = active.reduce(
-    (sum, color) => ({
-      rating: sum.rating + color.tier.rating,
-      chemistry: sum.chemistry + color.tier.chemistry,
-    }),
+    (sum, color) =>
+      color.counted
+        ? { rating: sum.rating + color.tier.rating, chemistry: sum.chemistry + color.tier.chemistry }
+        : sum,
     { rating: 0, chemistry: 0 },
   )
 

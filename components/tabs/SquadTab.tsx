@@ -23,6 +23,7 @@ import TacticsSliders from '../TacticsSliders'
 import TacticsCompare from '../TacticsCompare'
 import PlayerCard from '../PlayerCard'
 import PlayerStatsModal from '../PlayerStatsModal'
+import TeamColorHelp from '../TeamColorHelp'
 
 const FIT_RING: Record<string, string> = {
   main: 'ring-emerald-400',
@@ -50,6 +51,7 @@ export default function SquadTab() {
   // Looking a player up is not the same as picking one. Selecting a slot still
   // opens the swap list; this opens over it and changes nothing.
   const [inspecting, setInspecting] = useState<string | null>(null)
+  const [showColorHelp, setShowColorHelp] = useState(false)
 
   const formation = FORMATIONS[state.squad.formation] ?? FORMATIONS['4-3-3']
   const rating = useMemo(
@@ -373,31 +375,42 @@ export default function SquadTab() {
         <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">팀 컬러</h3>
-            <span className="text-xs font-bold text-emerald-300">
-              +{rating.colors.bonus.rating} 전력 · +{rating.colors.bonus.chemistry} 케미
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold text-emerald-300">
+                +{rating.colors.bonus.rating} 전력 · +{rating.colors.bonus.chemistry} 케미
+              </span>
+              <button
+                type="button"
+                onClick={() => setShowColorHelp(true)}
+                className="rounded-lg bg-white/5 px-2 py-1 text-[10px] font-bold text-slate-300 hover:bg-white/10"
+              >
+                규칙
+              </button>
+            </div>
           </div>
 
           {rating.colors.active.length === 0 ? (
             <p className="mt-2 text-xs text-slate-500">
-              같은 클럽 3명, 같은 리그·국가 5명을 모으면 팀 컬러가 발동합니다.
+              같은 클럽 3명, 같은 리그·국가 5명을 모으면 팀 컬러가 발동합니다. 같은 종류는 가장 큰 그룹 하나만 칩니다.
             </p>
           ) : (
             <div className="mt-3 space-y-1.5">
               {rating.colors.active.map((color) => (
                 <div
                   key={`${color.kind}-${color.key}`}
-                  className="rounded-lg bg-emerald-400/10 px-2.5 py-1.5"
+                  className={`rounded-lg px-2.5 py-1.5 ${color.counted ? 'bg-emerald-400/10' : 'bg-white/5 opacity-70'}`}
                 >
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold text-emerald-200">{colorName(color)}</span>
-                    <span className="font-bold text-white">
+                    <span className={`font-bold ${color.counted ? 'text-emerald-200' : 'text-slate-400 line-through'}`}>
+                      {colorName(color)}
+                    </span>
+                    <span className={`font-bold ${color.counted ? 'text-white' : 'text-slate-500'}`}>
                       +{color.tier.rating} / 케미 +{color.tier.chemistry}
                     </span>
                   </div>
                   <div className="text-[10px] text-slate-400">
-                    {color.count}명 발동
-                    {color.next && ` · ${color.next.missing}명 더 넣으면 +${color.next.tier.rating}`}
+                    {color.counted ? `${color.count}명 발동` : `${color.count}명 · 같은 종류의 더 큰 그룹이 있어 발동하지 않음`}
+                    {color.counted && color.next && ` · ${color.next.missing}명 더 넣으면 +${color.next.tier.rating}`}
                   </div>
                 </div>
               ))}
@@ -609,6 +622,7 @@ export default function SquadTab() {
           onClose={() => setInspecting(null)}
         />
       )}
+      {showColorHelp && <TeamColorHelp onClose={() => setShowColorHelp(false)} />}
     </div>
   )
 }

@@ -100,8 +100,10 @@ describe('auto fill', () => {
     expect(used).toHaveLength(FORMATIONS[state.squad.formation].slots.length)
     expect(new Set(used).size).toBe(used.length)
     expect(used).toContain('star')
-    expect(evaluateSquad(cards, squad).overall).toBeGreaterThan(
-      evaluateSquad(state.cards, state.squad).overall,
+    // A star from another club can cost a team-colour tier, so the fair bar is
+    // "no worse than auto-filling without the star", not strictly better.
+    expect(evaluateSquad(cards, squad).overall).toBeGreaterThanOrEqual(
+      evaluateSquad(state.cards, autoFill(state.cards, state.squad)).overall,
     )
   })
 

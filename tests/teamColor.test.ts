@@ -73,7 +73,44 @@ describe('team colours', () => {
     ])
     const club = teamColors(seven).active.find((color) => color.kind === 'club')!
     expect(club.tier).toEqual(COLOR_TIERS.club[2])
-    expect(club.next).toBeNull()
+    expect(club.next?.count).toBe(9)
+    const eleven = squad(Array.from({ length: 11 }, () => ({ club: '한강 FC', league: 'K리그', nation: '대한민국' })))
+    expect(teamColors(eleven).active.find((color) => color.kind === 'club')!.next).toBeNull()
+  })
+
+  it('counts only the biggest group of a kind, so a full eleven beats any split', () => {
+    const same = { league: 'K리그', nation: '대한민국' }
+    const split = squad([
+      ...Array.from({ length: 5 }, () => ({ club: '한강 FC', ...same })),
+      ...Array.from({ length: 5 }, () => ({ club: '남산 FC', ...same })),
+      { club: '북한산 FC', ...same },
+    ])
+    const colors = teamColors(split)
+    const clubs = colors.active.filter((color) => color.kind === 'club')
+    expect(clubs).toHaveLength(2)
+    expect(clubs.filter((color) => color.counted)).toHaveLength(1)
+    // 5 + 5 pays one five-tier, not two.
+    expect(colors.bonus.rating).toBe(COLOR_TIERS.club[1].rating + COLOR_TIERS.league[2].rating + COLOR_TIERS.nation[2].rating)
+
+    const sevenFour = squad([
+      ...Array.from({ length: 7 }, () => ({ club: '한강 FC', ...same })),
+      ...Array.from({ length: 4 }, () => ({ club: '남산 FC', ...same })),
+    ])
+    const eleven = squad(Array.from({ length: 11 }, () => ({ club: '한강 FC', ...same })))
+    expect(teamColors(eleven).bonus.rating).toBeGreaterThan(teamColors(sevenFour).bonus.rating)
+    expect(teamColors(sevenFour).bonus.rating).toBeGreaterThan(teamColors(split).bonus.rating)
+    expect(teamColors(eleven).bonus.rating).toBe(COLOR_CAPS.rating)
+    expect(teamColors(eleven).bonus.chemistry).toBe(COLOR_CAPS.chemistry)
+  })
+
+  it('does not hint at a smaller group that would count for nothing', () => {
+    const same = { league: 'K리그', nation: '대한민국' }
+    const players = squad([
+      ...Array.from({ length: 7 }, () => ({ club: '한강 FC', ...same })),
+      ...Array.from({ length: 2 }, () => ({ club: '남산 FC', ...same })),
+      ...filler(2),
+    ])
+    expect(teamColors(players).hints.find((hint) => hint.key === '남산 FC')).toBeUndefined()
   })
 
   it('stacks club, league and nation but never past the cap', () => {
