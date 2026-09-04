@@ -1,3 +1,6 @@
+'use client'
+
+import { useFace } from '../lib/facepack'
 import { seededRandom } from '../lib/players'
 import { PORTRAIT_KEYS } from '../lib/portraitManifest'
 import { SQUAD_PORTRAITS } from '../lib/rosterSquads'
@@ -27,7 +30,14 @@ export default function PlayerAvatar({
   player: PlayerDef
   className?: string
 }) {
-  // A generated portrait when one exists for this card; the drawn face otherwise.
+  // The manager's own facepack first, then a shipped portrait, then the drawn face.
+  const face = useFace(player.id)
+  if (face) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img src={face} alt={`${player.name} 초상`} className={`aspect-[100/116] w-full object-cover object-top ${className}`} />
+    )
+  }
   const portraitKey = SQUAD_PORTRAITS[player.name]
   if (portraitKey && PORTRAIT_KEYS.has(portraitKey)) {
     return (
