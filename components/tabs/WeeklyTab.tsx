@@ -16,7 +16,7 @@ import { standings, type StandingsMatch, type StandingsResult } from '../../lib/
  * to show yet — see docs/WEEKLY_LIVE_MATCH_DESIGN.md.
  */
 
-type SubTab = 'mine' | 'others' | 'standings'
+type SubTab = 'mine' | 'others' | 'teamStandings' | 'playerStandings'
 
 interface MemberRow {
   slot: number
@@ -231,7 +231,8 @@ export default function WeeklyTab() {
             [
               ['mine', '내 경기'],
               ['others', '경기결과'],
-              ['standings', '순위'],
+              ['teamStandings', '팀 순위'],
+              ['playerStandings', '선수 순위'],
             ] as [SubTab, string][]
           ).map(([key, label]) => (
             <button
@@ -276,7 +277,7 @@ export default function WeeklyTab() {
         />
       )}
 
-      {sub === 'standings' && (
+      {sub === 'teamStandings' && (
         <>
           <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
             <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">리그 순위</h3>
@@ -360,15 +361,17 @@ export default function WeeklyTab() {
               </div>
             )}
           </section>
-
-          <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
-            <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">선수 개인 순위</h3>
-            <p className="mt-2 text-xs leading-relaxed text-slate-500">
-              득점왕·도움왕·MVP는 아직 지원하지 않습니다. 지금은 경기가 카드 능력치 없이 순위만으로
-              자동 정산돼서 개인 기록이 만들어지지 않습니다.
-            </p>
-          </section>
         </>
+      )}
+
+      {sub === 'playerStandings' && (
+        <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+          <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">선수 개인 순위</h3>
+          <p className="mt-2 text-xs leading-relaxed text-slate-500">
+            득점왕·도움왕·MVP는 아직 지원하지 않습니다. 지금은 경기가 카드 능력치 없이 순위만으로
+            자동 정산돼서 개인 기록이 만들어지지 않습니다.
+          </p>
+        </section>
       )}
     </div>
   )
