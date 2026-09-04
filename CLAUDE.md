@@ -78,3 +78,28 @@ Claude가 작업을 조율하고, 판단이 무거운 일만 Codex에 넘긴다.
 Codex는 로컬 Codex CLI의 ChatGPT 로그인 상태를 그대로 쓴다. API 키를 코드나 설정
 파일에 적지 않는다. 따라서 이 연동은 Codex CLI가 설치·로그인된 PC의 로컬 세션에서만
 동작하고, 클라우드 세션(claude.ai/code)에서는 동작하지 않는다.
+
+## 어느 PC에서든 지켜야 할 결정 (2026-09-05 기준)
+
+이 목록은 세션 메모리와 무관하게 저장소에 남긴다. 새 PC·새 세션에서도 그대로 적용한다.
+
+- **실명 금지**: 선수·클럽 실명을 명단(`lib/players.ts`, `data/squads/*.json`의 `name`)에 넣지 않는다. 힌트
+  스타일 가명만 쓴다. 실명은 운영자 전용 매핑(`lib/rosterRealHints.ts`, squads JSON의 `real`)에만 둔다.
+- **초상은 SVG 그림 + 유저 페이스팩**: AI 생성 초상(실사·일러스트 모두)은 게임에 배포하지 않는다.
+  `public/players/`와 `lib/portraitManifest.ts`는 비워 둔다. 생성물은 `assets/players-hold/`에만 보관.
+- **페이스팩 사진은 저장소에 넣지 않는다**: 사진·결과 PNG·zip은 각자 기기에서 `tools/facepack/`으로 만들어
+  게임 「계정 → 페이스팩」으로 불러온다. 사진 권리 확인과 출처 표기(CREDITS)는 만드는 사람이 한다.
+- **「퇴장감」(n1125) 카드는 영구 유지**: 어떤 명단 개편·이관에서도 삭제·이관하지 않는다. 특수 히든도 없다.
+- **"레전드"는 최상위 등급(표시 라벨)을 뜻한다**, 내부 `Legend` 타입이 아니다.
+- **팀 컬러는 선발+후보 18명 기준**, 같은 종류(클럽/리그/국가)는 가장 큰 그룹 하나만 발동.
+- **라이브 입장·히든 카드는 킥오프 10분 전부터**.
+- **카드에 국기·등급·리그 표식·클럽 배지 넣지 않기** — 테스트 결과 지저분하다고 롤백됨.
+- 사용자에게 보이는 모든 출력은 한국어.
+
+## 다른 PC에서 작업을 시작할 때
+
+- Node 20+, Python 3.11~3.13, Git. `npm install` 후 `npx tsc --noEmit && npx next lint && npx vitest run`.
+- Supabase 마이그레이션·Edge Function 배포는 `npx supabase login` + `npx supabase link --project-ref mpndwtqvwmarkepxzhew`
+  가 먼저 필요하다. 프론트 배포는 main 푸시로 Vercel이, 함수 배포는 GitHub Actions가 맡는다.
+- `.env.local`(Supabase 키)은 깃에 없다. 로컬에서 앱을 띄울 때만 필요하다.
+- Codex 플러그인(이미지 생성)은 선택 사항이며 페이스팩 도구에는 필요 없다.
