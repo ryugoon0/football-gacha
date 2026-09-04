@@ -29,6 +29,7 @@ import {
 } from '../../lib/onlineMatch'
 import { hashString, seededRandom } from '../../lib/random'
 import { SEASON_SCHEDULE, TOTAL_MATCHDAYS } from '../../lib/schedule'
+import { averageRating, seasonLeaders, type SeasonPlayerStat } from '../../lib/seasonStats'
 import { evaluateSquad, missingSlots } from '../../lib/squad'
 import type { MatchResult, Squad } from '../../lib/types'
 import { MINI_GAME_REWARD, matchReward, matchSeed, simulateMatch } from '../../lib/match'
@@ -123,7 +124,14 @@ export default function MatchTab() {
             </button>
           ))}
         </div>
-        {side === 'table' ? <LeagueTable /> : <CupBracket />}
+        {side === 'table' ? (
+          <>
+            <LeagueTable />
+            <SeasonLeaders />
+          </>
+        ) : (
+          <CupBracket />
+        )}
         <ClubForm />
       </div>
       </div>
@@ -1374,6 +1382,50 @@ function MatchRatings() {
         ))}
       </div>
     </div>
+  )
+}
+
+/** 득점왕·도움왕·MVP for the running season — the club's own players, no gold attached. */
+function SeasonLeaders() {
+  const { state } = useGame()
+  const leaders = useMemo(() => seasonLeaders(state.seasonStats), [state.seasonStats])
+  const boards: [string, string, SeasonPlayerStat[], (row: SeasonPlayerStat) => string][] = [
+    ['득점왕', 'text-emerald-300', leaders.scorers, (row) => `${row.goals}골`],
+    ['도움왕', 'text-sky-300', leaders.assisters, (row) => `${row.assists}도움`],
+    ['MVP', 'text-amber-300', leaders.mvps, (row) => `${row.mvps}회 · 평점 ${averageRating(row).toFixed(1)}`],
+  ]
+  const empty = boards.every(([, , rows]) => rows.length === 0)
+  return (
+    <section className="mt-4 rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+      <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">시즌 개인 기록</h3>
+      {empty ? (
+        <p className="text-xs text-slate-500">리그·컵 경기를 치르면 우리 선수들의 골·도움·MVP가 여기 쌓입니다.</p>
+      ) : (
+        <div className="grid gap-3 sm:grid-cols-3">
+          {boards.map(([title, accent, rows, label]) => (
+            <div key={title}>
+              <div className={`text-[11px] font-black ${accent}`}>{title}</div>
+              {rows.length === 0 ? (
+                <p className="mt-1 text-[11px] text-slate-600">아직 없음</p>
+              ) : (
+                <ol className="mt-1 space-y-0.5 text-[11px]">
+                  {rows.map((row, index) => (
+                    <li key={row.uid} className="flex items-center justify-between gap-2 rounded bg-white/5 px-2 py-1">
+                      <span className="truncate text-slate-200">
+                        <span className="mr-1 tabular-nums text-slate-500">{index + 1}</span>
+                        {row.name}
+                      </span>
+                      <span className="shrink-0 font-bold tabular-nums text-slate-300">{label(row)}</span>
+                    </li>
+                  ))}
+                </ol>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+      <p className="mt-2 text-[10px] text-slate-600">기록은 명예입니다 — 골드 보너스는 없습니다. 새 시즌에 초기화됩니다.</p>
+    </section>
   )
 }
 

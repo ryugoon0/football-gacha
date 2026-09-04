@@ -1,5 +1,6 @@
 import type { SubEvent } from './autoSub'
 import { applyDiscipline, applyMatchWear, isSidelined, recoveryCost, treatmentCost, MAX_CONDITION } from './condition'
+import { recordSeasonStats } from './seasonStats'
 import { createCup, cupReward, resolveCupRound } from './cup'
 import {
   DAILY_MISSIONS,
@@ -475,6 +476,7 @@ export function reducer(state: GameState, action: Action): GameState {
         cards,
         lastRatings: ratings,
         lastSubs: lineup.subs,
+        seasonStats: recordSeasonStats(state.seasonStats, ratings),
         record,
         gf: state.gf + result.scoreFor,
         ga: state.ga + result.scoreAgainst,
@@ -573,6 +575,7 @@ export function reducer(state: GameState, action: Action): GameState {
         cards,
         lastRatings: ratings,
         lastSubs: lineup.subs,
+        seasonStats: recordSeasonStats(state.seasonStats, ratings),
         cup,
         record,
         gf: state.gf + result.scoreFor,
@@ -598,6 +601,7 @@ export function reducer(state: GameState, action: Action): GameState {
         season: createSeason(outcome.nextDivision, index, state.club),
         cup: createCup(outcome.nextDivision, index, state.club),
         matchday: 0,
+        seasonStats: {},
         market: { ...state.market, date: '' },
         trophies: outcome.promoted
           ? { ...state.trophies, promotions: state.trophies.promotions + 1 }

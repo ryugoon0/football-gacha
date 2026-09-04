@@ -124,6 +124,7 @@ export function initialState(): GameState {
     pulls: { total: 0, byRarity: { Normal: 0, Rare: 0, Legend: 0, Live: 0, World: 0 } },
     lastRatings: [],
     lastSubs: [],
+    seasonStats: {},
     // The real day is stamped on the client after hydration, so server and
     // browser render the same empty mission board.
     daily: freshDaily(''),
@@ -214,6 +215,7 @@ export function normalizeSave(value: unknown): GameState | null {
     collected: Array.isArray(state.collected) ? state.collected : [],
     lastRatings: Array.isArray(state.lastRatings) ? state.lastRatings : [],
     lastSubs: Array.isArray(state.lastSubs) ? state.lastSubs : [],
+    seasonStats: state.seasonStats && typeof state.seasonStats === 'object' ? state.seasonStats : {},
   }
 }
 

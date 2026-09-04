@@ -3,6 +3,7 @@ import type { SubEvent } from './autoSub'
 import type { CupState } from './cup'
 import type { DailyState } from './daily'
 import type { PlayerRating } from './growth'
+import type { SeasonStats } from './seasonStats'
 import type { Season } from './league'
 import type { MarketState } from './market'
 import type { TacticSetup } from './tactics'
@@ -150,6 +151,8 @@ export interface GameState {
   pulls: { total: number; byRarity: Record<Rarity, number> }
   /** Player marks from the most recent match. */
   lastRatings: PlayerRating[]
+  /** This season's 득점왕·도움왕·MVP tallies by card uid; reset with the season. */
+  seasonStats?: SeasonStats
   /** Substitutions the auto-sub made before the last match. */
   lastSubs: SubEvent[]
   daily: DailyState
