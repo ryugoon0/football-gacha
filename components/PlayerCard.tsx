@@ -3,6 +3,7 @@
 import { MAX_CONDITION, TIRED_CONDITION } from '../lib/condition'
 import { GK_STAT_LABELS, STAT_LABELS, effectiveOvr, effectiveStats } from '../lib/players'
 import { TRAITS, traitsOf } from '../lib/traits'
+import { flagOf, leagueTag } from '../lib/flags'
 import { RARITY_STYLES } from '../lib/rarity'
 import type { PlayerDef, Stats } from '../lib/types'
 import PlayerAvatar from './PlayerAvatar'
@@ -125,9 +126,18 @@ function ModernPlayerCard({
 
       <div className="bg-black/15 px-1.5 py-1 text-center">
         <div className={`truncate font-extrabold ${dimensions.name}`}>{player.name}</div>
-        {size !== 'sm' && (
+        {size !== 'sm' ? (
           <div className={`truncate font-medium opacity-70 ${dimensions.meta}`}>
             {style.label} · {player.club}
+          </div>
+        ) : (
+          // Thumbnail: what a manager scans a line-up for — rarity, nation, league.
+          <div className="mt-0.5 flex items-center justify-center gap-0.5 text-[8px] font-bold leading-none">
+            <span title={player.nation}>{flagOf(player.nation)}</span>
+            <span className="rounded bg-black/30 px-0.5 py-px">{style.label}</span>
+            <span title={player.league} className={`rounded px-0.5 py-px ${leagueTag(player.league).className}`}>
+              {leagueTag(player.league).short}
+            </span>
           </div>
         )}
       </div>

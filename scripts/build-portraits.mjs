@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, readdirSync, unlinkSync, writeFileSync } from 'fs'
 import { join, parse } from 'path'
 import sharp from 'sharp'
+import { knockoutBackground } from './knockout.mjs'
 
 /**
  * 선수 초상 — assets/players/<key>.png(생성 원본) → public/players/<key>.webp
@@ -34,9 +35,16 @@ for (const file of readdirSync(SRC).sort()) {
   const w = meta.width ?? SIZE
   const h = meta.height ?? SIZE
   const side = Math.min(w, Math.round(h * 0.75))
-  await sharp(master)
+  // Crop, shrink, then knock the studio background out so the card's own
+  // colour shows behind the head (flood fill from the border, feathered edge).
+  const { data, info } = await sharp(master)
     .extract({ left: Math.round((w - side) / 2), top: 0, width: side, height: side })
     .resize({ width: SIZE, height: SIZE })
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true })
+  knockoutBackground(data, info.width, info.height)
+  await sharp(data, { raw: { width: info.width, height: info.height, channels: 4 } })
     .webp({ quality: 80 })
     .toFile(join(OUT, `${name}.webp`))
   keys.push(name)

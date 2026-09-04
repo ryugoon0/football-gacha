@@ -85,14 +85,14 @@ for (const file of readdirSync('data/squads').filter((f) => f.endsWith('.json'))
             `Stylised flat vector illustration of a fictional ${ETHNICITY[p.nation] ?? p.nation} male professional footballer, age ${age},`,
             `${BUILD[p.pos] ?? 'athletic build'}, ${look}${pick(MOOD, seed >> 6)} expression.`,
             'Clean bold outlines, cel shading with two or three tones, simplified generic facial features, strong recognisable silhouette of hair and head shape.',
-            'Head and shoulders, facing the camera, plain dark training top with no logos or text, flat dark slate background, 3:4 vertical.',
+            'Head and shoulders, facing the camera, plain dark training top with no logos or text, on a solid flat pure green chroma-key background (#00FF00) with no gradient, 3:4 vertical.',
             'Not photorealistic. An invented character that must not resemble any real athlete or celebrity.',
           ].join(' ')
         : [
             `Photorealistic official club headshot of a fictional ${ETHNICITY[p.nation] ?? p.nation} male professional footballer, age ${age},`,
             `${BUILD[p.pos] ?? 'athletic build'}, ${look}${pick(MOOD, seed >> 6)} expression.`,
             'Head and shoulders, facing the camera, wearing a plain dark training top with no logos or text,',
-            'neutral dark grey studio background, soft even lighting, sharp focus, 3:4 vertical.',
+            'on a solid flat pure green chroma-key background (#00FF00) with no gradient or shadow, soft even lighting, sharp focus, 3:4 vertical.',
             'The face must be an invented person and must not resemble any real athlete or celebrity.',
           ].join(' ')
     console.log(JSON.stringify({ key: p.key, prompt }))
