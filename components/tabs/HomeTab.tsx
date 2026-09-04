@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react'
 import { tune } from '../../lib/tuning'
-import { isInjured } from '../../lib/condition'
+import { isInjured, isSidelined } from '../../lib/condition'
 import { CUP_ROUND_LABELS, cupTeamOf, myTie } from '../../lib/cup'
 import { DAILY_MISSIONS, miniGamesLeft, missionClaimable } from '../../lib/daily'
 import {
@@ -49,7 +49,7 @@ export default function HomeTab({ onJump }: { onJump: (tab: string) => void }) {
   const rank = myRank(state.season)
   const injured = state.cards.filter(isInjured).length
   const tired = state.cards.filter(
-    (card) => !isInjured(card) && card.condition < tune('tiredCondition'),
+    (card) => !isSidelined(card) && card.condition < tune('tiredCondition'),
   ).length
   const missionsLeft = DAILY_MISSIONS.filter((mission) => !state.daily.claimed.includes(mission.id))
   const claimable = DAILY_MISSIONS.filter((mission) => missionClaimable(state.daily, mission)).length

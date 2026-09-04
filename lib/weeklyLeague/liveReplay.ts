@@ -438,6 +438,58 @@ export function scorersOf(result: ReplayResult): ScorerLine[] {
   return [...lines.values()]
 }
 
+export interface DisciplineLine {
+  side: LiveSide
+  playerId: string
+  name: string
+  yellows: number
+  red: boolean
+  /** The red was a second yellow (one-match ban) rather than a straight red. */
+  secondYellow: boolean
+}
+
+/** Bookings by player, for the league's discipline ledger (weekly_discipline). */
+export function disciplineOf(result: ReplayResult): DisciplineLine[] {
+  const lines = new Map<string, DisciplineLine>()
+  const resolve = (side: LiveSide, uid: string) => {
+    const rating = side === 'home' ? result.setup.team : result.setup.opponentSquad
+    const material = side === 'home' ? result.home : result.away
+    const item = rating?.evaluations.find((entry) => entry.card?.uid === uid)
+    const card = material.cards.find((entry) => entry.uid === uid)
+    const playerId = item?.card?.playerId ?? card?.playerId
+    if (!playerId) return null
+    const key = `${side}:${playerId}`
+    const line = lines.get(key) ?? {
+      side,
+      playerId,
+      name: item?.player?.name ?? getPlayer(playerId)?.name ?? playerId,
+      yellows: 0,
+      red: false,
+      secondYellow: false,
+    }
+    lines.set(key, line)
+    return line
+  }
+  const state = result.state
+  const sides: [LiveSide, string[], string[]][] = [
+    ['home', state.yellowUids ?? [], state.redUids ?? []],
+    ['away', state.opponentYellowUids ?? [], state.opponentRedUids ?? []],
+  ]
+  for (const [side, yellows, reds] of sides) {
+    for (const uid of yellows) {
+      const line = resolve(side, uid)
+      if (line) line.yellows += 1
+    }
+    for (const uid of reds) {
+      const line = resolve(side, uid)
+      if (!line) continue
+      line.red = true
+      line.secondYellow = yellows.filter((entry) => entry === uid).length >= 2
+    }
+  }
+  return [...lines.values()]
+}
+
 /** What a viewer gets: the match as it stands, nothing private (no seed, no other side's plan). */
 export interface LivePublicState {
   minute: number

@@ -1,4 +1,4 @@
-import { isInjured } from './condition'
+import { isSidelined } from './condition'
 import { KNOBS, tune } from './tuning'
 import { FORMATIONS } from './formations'
 import { getPlayer } from './players'
@@ -57,7 +57,7 @@ export function applyAutoSubs(
     const starter = uid ? byUid.get(uid) : undefined
     if (!starter) continue
 
-    const injured = isInjured(starter)
+    const injured = isSidelined(starter)
     const tired = conditionOf(starter) < tiredBelow
     if (!injured && !tired) continue
 
@@ -72,7 +72,7 @@ export function applyAutoSubs(
       // for, or the pair swap places again the moment the whistle goes. The
       // operator can raise the tired threshold, so this cannot be a constant.
       const readyAt = Math.max(SUB_READY_CONDITION, tiredBelow)
-      if (isInjured(candidate) || conditionOf(candidate) < readyAt) return
+      if (isSidelined(candidate) || conditionOf(candidate) < readyAt) return
       if (levelTotal - starter.level + candidate.level > cap) return
       // Everywhere else, out of position is a penalty, not a ban — a full
       // eleven beats an empty slot. The goalkeeper is the one real exception:

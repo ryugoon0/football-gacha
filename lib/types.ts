@@ -86,6 +86,10 @@ export interface Card {
   injuredFor: number
   /** Experience banked towards the next level. */
   exp: number
+  /** Matches left of a ban (red card or four yellows). Absent on older saves. */
+  suspendedFor?: number
+  /** Yellow cards this season; four in a row cost a match and reset. */
+  yellows?: number
 }
 
 export interface Squad {
@@ -158,7 +162,7 @@ export interface GameState {
 }
 
 /** 'note' is a manager's order landing (전술 변경·교체) — a line in the feed, not a play. */
-export type MatchEventType = 'kickoff' | 'goal' | 'chance' | 'save' | 'foul' | 'half' | 'full' | 'note'
+export type MatchEventType = 'kickoff' | 'goal' | 'chance' | 'save' | 'foul' | 'card' | 'half' | 'full' | 'note'
 
 export interface MatchEvent {
   minute: number
@@ -176,6 +180,11 @@ export interface MatchResult {
   /** Providers, one per assisted goal. Optional so older saves still load. */
   assistUids?: string[]
   opponentAssistUids?: string[]
+  /** Bookings; a uid twice in yellows was sent off for two. Optional for older saves. */
+  yellowUids?: string[]
+  redUids?: string[]
+  opponentYellowUids?: string[]
+  opponentRedUids?: string[]
   opponentRating: number
   scoreFor: number
   scoreAgainst: number

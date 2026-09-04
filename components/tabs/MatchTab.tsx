@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import ModeBadge from '../ModeBadge'
 import { tune } from '../../lib/tuning'
 import { applyAutoSubs, type SubEvent } from '../../lib/autoSub'
-import { isInjured } from '../../lib/condition'
+import { isInjured, isSidelined } from '../../lib/condition'
 import { CUP_ROUND_LABELS, cupTeamOf, myTie, tiesOfRound, type CupTie } from '../../lib/cup'
 import { MINI_GAME_LIMIT, casualMatchesLeft, casualModeLocked, miniGamesLeft } from '../../lib/daily'
 import type { LeagueTeam } from '../../lib/league'
@@ -563,7 +563,7 @@ function MatchDay() {
   const squadStamina = live ? averageStamina(live, rating.evaluations) : 100
   const injured = state.cards.filter(isInjured).length
   const tired = state.cards.filter(
-    (card) => !isInjured(card) && card.condition < tune('tiredCondition'),
+    (card) => !isSidelined(card) && card.condition < tune('tiredCondition'),
   ).length
   const events = live ? [...live.events].reverse() : []
 
@@ -1062,7 +1062,7 @@ function SubPanel({
   const benchCards = squad.bench
     .filter(Boolean)
     .map((uid) => cards.find((card) => card.uid === uid))
-    .filter((card): card is Card => Boolean(card) && !isInjured(card!))
+    .filter((card): card is Card => Boolean(card) && !isSidelined(card!))
 
   return (
     <div className="mt-3 rounded-xl bg-slate-950/70 p-3" data-testid="sub-panel">

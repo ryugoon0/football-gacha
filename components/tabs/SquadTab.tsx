@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { conditionFactor, isInjured } from '../../lib/condition'
+import { conditionFactor, isSidelined } from '../../lib/condition'
 import { FORMATIONS, FORMATION_KEYS } from '../../lib/formations'
 import { getPlayer } from '../../lib/players'
 import { BENCH_SIZE, positionFit, ratingInSlot } from '../../lib/squad'
@@ -112,7 +112,7 @@ export default function SquadTab() {
       })
       .sort(
         (a, b) =>
-          Number(isInjured(a.card)) - Number(isInjured(b.card)) ||
+          Number(isSidelined(a.card)) - Number(isSidelined(b.card)) ||
           Number(a.fit === 'out') - Number(b.fit === 'out') ||
           b.score - a.score,
       )
@@ -196,6 +196,7 @@ export default function SquadTab() {
                     size="sm"
                     condition={evaluation.card.condition}
                     injuredFor={evaluation.card.injuredFor}
+                    suspendedFor={evaluation.card.suspendedFor ?? 0}
                     badge={slot.position}
                   />
                 ) : (
@@ -227,7 +228,7 @@ export default function SquadTab() {
                   key={index}
                   onClick={() => setTarget(isActive ? null : { kind: 'bench', index })}
                   className={`rounded-xl ring-2 transition ${
-                    card && isInjured(card) ? INJURED_RING : 'ring-white/15'
+                    card && isSidelined(card) ? INJURED_RING : 'ring-white/15'
                   } ${isActive ? 'scale-105 ring-4 ring-white' : 'hover:scale-105'}`}
                 >
                   {card && player ? (
@@ -237,6 +238,7 @@ export default function SquadTab() {
                       size="sm"
                       condition={card.condition}
                       injuredFor={card.injuredFor}
+                      suspendedFor={card.suspendedFor ?? 0}
                     />
                   ) : (
                     <span className="flex h-16 w-14 items-center justify-center rounded-xl border border-dashed border-white/30 bg-black/20 text-[10px] font-bold text-white/50">
@@ -523,6 +525,7 @@ export default function SquadTab() {
                 size="sm"
                 condition={occupant.card.condition}
                 injuredFor={occupant.card.injuredFor}
+                suspendedFor={occupant.card.suspendedFor ?? 0}
               />
               <div className="min-w-0 flex-1">
                 <div className="text-[10px] font-bold uppercase tracking-wide text-emerald-300">
@@ -564,6 +567,7 @@ export default function SquadTab() {
                       size="sm"
                       condition={card.condition}
                       injuredFor={card.injuredFor}
+                      suspendedFor={card.suspendedFor ?? 0}
                     />
                     <div className="min-w-0 flex-1">
                       <div className="truncate text-sm font-bold text-white">{player.name}</div>
@@ -580,6 +584,16 @@ export default function SquadTab() {
                         {target.kind === 'slot' && fit === 'sub' && (
                           <span className="rounded bg-amber-500/20 px-1.5 py-0.5 text-[10px] font-bold text-amber-300">
                             가능 포지션
+                          </span>
+                        )}
+                        {(card.suspendedFor ?? 0) > 0 && (
+                          <span className="rounded bg-red-700/30 px-1.5 py-0.5 text-[10px] font-bold text-red-200">
+                            🟥 출전정지 {card.suspendedFor}경기
+                          </span>
+                        )}
+                        {(card.yellows ?? 0) > 0 && (
+                          <span className="rounded bg-yellow-400/20 px-1.5 py-0.5 text-[10px] font-bold text-yellow-200">
+                            🟨 {card.yellows}장
                           </span>
                         )}
                         {card.injuredFor > 0 && (

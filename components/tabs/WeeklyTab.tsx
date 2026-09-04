@@ -50,6 +50,13 @@ interface CupTieRow {
   winner_slot: number | null
 }
 
+interface DisciplineRow {
+  player_id: string
+  player_name: string
+  yellows: number
+  ban_matches: number
+}
+
 interface ScorerRow {
   fixture_id: number
   slot: number
@@ -87,6 +94,8 @@ export default function WeeklyTab() {
   const [scorerRows, setScorerRows] = useState<ScorerRow[]>([])
   /** Last week's result, until the manager dismisses the banner. */
   const [recap, setRecap] = useState<WeeklyRecap | null>(null)
+  /** My club's bookings ledger this week: bans in force and yellows piling up. */
+  const [discipline, setDiscipline] = useState<DisciplineRow[]>([])
   /** The fixture open in the live view (my own matches only). */
   const [openFixture, setOpenFixture] = useState<number | null>(null)
 
@@ -147,7 +156,7 @@ export default function WeeklyTab() {
       setAssistantHints({ recap: fresh })
     })
 
-    const [membersRes, fixturesRes, competitionsRes, scorersRes] = await Promise.all([
+    const [membersRes, fixturesRes, competitionsRes, scorersRes, disciplineRes] = await Promise.all([
       supabase.from('weekly_league_members').select('slot, kind, club_name').eq('group_id', row.group_id),
       supabase
         .from('weekly_fixtures')
@@ -163,9 +172,16 @@ export default function WeeklyTab() {
         .from('weekly_goal_scorers')
         .select('fixture_id, slot, player_id, player_name, goals, assists')
         .eq('group_id', row.group_id),
+      supabase
+        .from('weekly_discipline')
+        .select('player_id, player_name, yellows, ban_matches')
+        .eq('group_id', row.group_id)
+        .eq('slot', row.slot)
+        .or('ban_matches.gt.0,yellows.gt.0'),
     ])
 
     if (!scorersRes.error) setScorerRows((scorersRes.data ?? []) as ScorerRow[])
+    if (!disciplineRes.error) setDiscipline((disciplineRes.data ?? []) as DisciplineRow[])
 
     if (membersRes.error) setError(membersRes.error.message)
     else setMembers((membersRes.data ?? []) as MemberRow[])
@@ -378,6 +394,26 @@ export default function WeeklyTab() {
 
       {sub === 'mine' && (
         <>
+          {discipline.length > 0 && (
+            <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-3">
+              <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400">징계</div>
+              <div className="mt-1 flex flex-wrap gap-1.5 text-[11px]">
+                {[...discipline]
+                  .sort((a, b) => b.ban_matches - a.ban_matches || b.yellows - a.yellows)
+                  .map((row) => (
+                    <span
+                      key={row.player_id}
+                      className={`rounded-lg px-2 py-1 font-bold ${
+                        row.ban_matches > 0 ? 'bg-red-700/30 text-red-200' : 'bg-yellow-400/15 text-yellow-200'
+                      }`}
+                    >
+                      {row.ban_matches > 0 ? `🟥 ${row.player_name} 출전정지 ${row.ban_matches}경기` : `🟨 ${row.player_name} 경고 ${row.yellows}장`}
+                    </span>
+                  ))}
+              </div>
+              <p className="mt-1 text-[10px] text-slate-500">경고 4장이면 1경기 정지. 출전정지 선수는 킥오프 때 자동으로 빠집니다.</p>
+            </section>
+          )}
           {(rewards.length > 0 || claimNotice) && (
             <section className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-400/30 bg-amber-400/10 p-4">
               <div>

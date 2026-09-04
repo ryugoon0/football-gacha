@@ -1,4 +1,4 @@
-import { conditionFactor, isInjured } from './condition'
+import { conditionFactor, isSidelined } from './condition'
 import { KNOBS, tune } from './tuning'
 import { FORMATIONS, emptySlots } from './formations'
 import { BOTTOM_DIVISION } from './league'
@@ -133,7 +133,7 @@ export function evaluateSquad(
       }
     }
 
-    const injured = isInjured(card)
+    const injured = isSidelined(card)
     const baseOvr = effectiveOvr(player, card.level)
     const rating = injured
       ? EMPTY_SLOT_RATING
@@ -171,7 +171,7 @@ export function evaluateSquad(
   // whole matchday squad to one club gets the top step, not only the eleven.
   const onBench = squad.bench
     .map((uid) => (uid ? byUid.get(uid) ?? null : null))
-    .filter((card): card is Card => Boolean(card) && !isInjured(card!))
+    .filter((card): card is Card => Boolean(card) && !isSidelined(card!))
     .map((card) => getPlayer(card.playerId))
     .filter((player): player is PlayerDef => Boolean(player))
   const colors = teamColors([...onPitch, ...onBench])
@@ -223,7 +223,7 @@ function chemistryOf(evaluations: SlotEvaluation[]): number {
 }
 
 function usableCards(cards: Card[]): Card[] {
-  return cards.filter((card) => !isInjured(card) && getPlayer(card.playerId))
+  return cards.filter((card) => !isSidelined(card) && getPlayer(card.playerId))
 }
 
 /**

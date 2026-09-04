@@ -1,5 +1,5 @@
 import type { SubEvent } from './autoSub'
-import { applyMatchWear, recoveryCost, treatmentCost, MAX_CONDITION } from './condition'
+import { applyDiscipline, applyMatchWear, isSidelined, recoveryCost, treatmentCost, MAX_CONDITION } from './condition'
 import { createCup, cupReward, resolveCupRound } from './cup'
 import {
   DAILY_MISSIONS,
@@ -182,7 +182,7 @@ function afterMatch(
     const uid = lineup.squad.slots[slot.id]
     const card = uid ? byUid.get(uid) : undefined
     const player = card ? getPlayer(card.playerId) : undefined
-    if (!card || !player || card.injuredFor > 0) return []
+    if (!card || !player || isSidelined(card)) return []
     return [{ uid: card.uid, player, position: slot.position as string }]
   })
 
@@ -198,8 +198,10 @@ function afterMatch(
     Math.random,
     allowInjuries,
   )
+  // Bookings from this match: bans start, yellows pile up (friendlies excepted).
+  const disciplined = allowInjuries ? applyDiscipline(worn.cards, result, Math.random) : worn.cards
   return {
-    cards: worn.cards,
+    cards: disciplined,
     ratings: ratings.map((rating) => ({
       ...rating,
       levelUp: grown.levelUps.some((levelUp) => levelUp.uid === rating.uid),
@@ -598,7 +600,7 @@ export function reducer(state: GameState, action: Action): GameState {
         trophies: outcome.promoted
           ? { ...state.trophies, promotions: state.trophies.promotions + 1 }
           : state.trophies,
-        cards: state.cards.map((card) => ({ ...card, condition: MAX_CONDITION, injuredFor: 0 })),
+        cards: state.cards.map((card) => ({ ...card, condition: MAX_CONDITION, injuredFor: 0, suspendedFor: 0, yellows: 0 })),
         lastRatings: [],
         lastSubs: [],
       }

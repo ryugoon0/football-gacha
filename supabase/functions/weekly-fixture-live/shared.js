@@ -4462,9 +4462,29 @@ function drift(dots, ball, rng) {
     };
   });
 }
-function pickAssister(evaluations, shooterUid, route, rng) {
+var CARD_ODDS = { yellow: 0.12, red: 0.01 };
+function pickFouler(evaluations, rng, exclude) {
   const candidates = evaluations.filter(
-    (item) => item.player && item.card && !item.injured && item.card.uid !== shooterUid && POSITION_GROUP[item.slotPosition] !== "GK"
+    (item) => item.player && item.card && !item.injured && POSITION_GROUP[item.slotPosition] !== "GK" && !exclude?.has(item.card.uid)
+  );
+  const roll = rng();
+  if (candidates.length === 0) return { name: "\uC6B0\uB9AC \uC120\uC218", uid: null };
+  const weights = candidates.map((item) => {
+    const group = POSITION_GROUP[item.slotPosition];
+    return group === "DF" ? 4 : group === "MF" ? 2.5 : 1;
+  });
+  const total = weights.reduce((sum, weight) => sum + weight, 0);
+  let cursor = roll * total;
+  for (let i = 0; i < candidates.length; i++) {
+    cursor -= weights[i];
+    if (cursor <= 0) return { name: candidates[i].player.name, uid: candidates[i].card.uid };
+  }
+  const last = candidates[candidates.length - 1];
+  return { name: last.player.name, uid: last.card.uid };
+}
+function pickAssister(evaluations, shooterUid, route, rng, exclude) {
+  const candidates = evaluations.filter(
+    (item) => item.player && item.card && !item.injured && item.card.uid !== shooterUid && POSITION_GROUP[item.slotPosition] !== "GK" && !exclude?.has(item.card.uid)
   );
   if (candidates.length === 0) return null;
   if (rng() < 0.25) return null;
@@ -4483,9 +4503,9 @@ function pickAssister(evaluations, shooterUid, route, rng) {
   const last = candidates[candidates.length - 1];
   return { name: last.player.name, uid: last.card.uid };
 }
-function pickScorer(evaluations, rng) {
+function pickScorer(evaluations, rng, exclude) {
   const candidates = evaluations.filter(
-    (item) => item.player && !item.injured && POSITION_GROUP[item.slotPosition] !== "GK"
+    (item) => item.player && !item.injured && POSITION_GROUP[item.slotPosition] !== "GK" && !(item.card && exclude?.has(item.card.uid))
   );
   if (candidates.length === 0) return { name: "\uC720\uC2A4 \uC120\uC218", uid: null, slotId: null };
   const weights = candidates.map((item) => {
@@ -4538,6 +4558,10 @@ function createMatch(setup) {
     opponentScorerUids: [],
     assistUids: [],
     opponentAssistUids: [],
+    yellowUids: [],
+    redUids: [],
+    opponentYellowUids: [],
+    opponentRedUids: [],
     stamina: seedStamina(setup.team.evaluations),
     opponentStamina: setup.opponentSquad ? seedStamina(setup.opponentSquad.evaluations) : {},
     metrics: emptyMetrics(),
@@ -4631,11 +4655,14 @@ function advance(state, setup, rng = Math.random) {
   const opponentEvaluations = setup.opponentSquad?.evaluations ?? [];
   const teamFatigue = 1 - clamp2(averageStamina(state, setup.team.evaluations) / 100, 0, 1);
   const preOpponentFatigue = setup.opponentSquad ? 1 - clamp2(averageStamina({ ...state, stamina: state.opponentStamina }, opponentEvaluations) / 100, 0, 1) : void 0;
+  const sentOffFactor = (count) => Math.max(0.6, 1 - 0.09 * count);
+  const mySentOff = sentOffFactor((state.redUids ?? []).length);
+  const oppSentOff = sentOffFactor((state.opponentRedUids ?? []).length);
   const preStrength = strengthOf(
     setup,
     rng,
-    staminaFactor(averageStamina(state, setup.team.evaluations)),
-    setup.opponentSquad ? staminaFactor(averageStamina({ ...state, stamina: state.opponentStamina }, opponentEvaluations)) : 1
+    staminaFactor(averageStamina(state, setup.team.evaluations)) * mySentOff,
+    setup.opponentSquad ? staminaFactor(averageStamina({ ...state, stamina: state.opponentStamina }, opponentEvaluations)) * oppSentOff : 1
   );
   const models = buildModels(setup, preStrength, teamFatigue, preOpponentFatigue);
   const fatigue = models.home.inPhase("IN_POSSESSION").state.fatigueDraw;
@@ -4661,8 +4688,8 @@ function advance(state, setup, rng = Math.random) {
   const strength = strengthOf(
     setup,
     rng,
-    staminaFactor(averageStamina({ ...state, stamina }, setup.team.evaluations)),
-    setup.opponentSquad ? staminaFactor(averageStamina({ ...state, stamina: opponentStamina }, opponentEvaluations)) : 1
+    staminaFactor(averageStamina({ ...state, stamina }, setup.team.evaluations)) * mySentOff,
+    setup.opponentSquad ? staminaFactor(averageStamina({ ...state, stamina: opponentStamina }, opponentEvaluations)) * oppSentOff : 1
   );
   const traits = setup.traits ?? NO_TRAIT_EFFECTS;
   const opponentTraits = setup.opponentTraits;
@@ -4673,6 +4700,12 @@ function advance(state, setup, rng = Math.random) {
   const opponentScorerUids = [...state.opponentScorerUids];
   const assistUids = [...state.assistUids ?? []];
   const opponentAssistUids = [...state.opponentAssistUids ?? []];
+  const yellowUids = [...state.yellowUids ?? []];
+  const redUids = [...state.redUids ?? []];
+  const opponentYellowUids = [...state.opponentYellowUids ?? []];
+  const opponentRedUids = [...state.opponentRedUids ?? []];
+  const offPitch = new Set(redUids);
+  const opponentOffPitch = new Set(opponentRedUids);
   let stoppage = null;
   if (minute > 90) {
     events.push({
@@ -4733,12 +4766,12 @@ function advance(state, setup, rng = Math.random) {
     const swing = weAttack ? traits.goal + setup.team.hidden * 2e-3 - (opponentTraits?.concede ?? 0) : (opponentTraits ? opponentTraits.goal + (setup.opponentSquad?.hidden ?? 0) * 2e-3 : 0) - traits.concede;
     const ratingEdge = 1 + (att - def) / 160;
     const goalChance = clamp2(quality * ratingEdge * (1.15 - keeper / 200) + swing, 0.02, 0.8);
-    const shooter = weAttack ? pickScorer(setup.team.evaluations, rng) : setup.opponentSquad ? pickScorer(setup.opponentSquad.evaluations, rng) : { name: OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)], uid: null, slotId: null };
+    const shooter = weAttack ? pickScorer(setup.team.evaluations, rng, offPitch) : setup.opponentSquad ? pickScorer(setup.opponentSquad.evaluations, rng, opponentOffPitch) : { name: OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)], uid: null, slotId: null };
     ball = { x: clamp2(ball.x + (rng() * 20 - 10), 20, 80), y: weAttack ? 94 : 6 };
     if (rng() < goalChance) {
       metrics[side].shotsOnTarget += 1;
       const sideRng = seededRandom(hashString(`assist:${minute}:${scoreFor}:${scoreAgainst}:${shooter.uid ?? ""}`));
-      const provider = weAttack ? pickAssister(setup.team.evaluations, shooter.uid, route, sideRng) : setup.opponentSquad ? pickAssister(setup.opponentSquad.evaluations, shooter.uid, route, sideRng) : null;
+      const provider = weAttack ? pickAssister(setup.team.evaluations, shooter.uid, route, sideRng, offPitch) : setup.opponentSquad ? pickAssister(setup.opponentSquad.evaluations, shooter.uid, route, sideRng, opponentOffPitch) : null;
       if (weAttack) {
         scoreFor++;
         if (shooter.uid) scorerUids.push(shooter.uid);
@@ -4798,14 +4831,36 @@ function advance(state, setup, rng = Math.random) {
     if (sequence.kind === "chance" && sequence.shot) {
       playShot(attackerSide, sequence.shot.quality, sequence.shot.route, false);
     } else if (sequence.kind === "foul") {
-      const fouler = attackerSide === "home" ? setup.opponentSquad ? pickScorer(setup.opponentSquad.evaluations, rng).name : OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)] : pickScorer(setup.team.evaluations, rng).name ?? "\uC6B0\uB9AC \uC120\uC218";
+      const fouler = attackerSide === "home" ? setup.opponentSquad ? pickFouler(setup.opponentSquad.evaluations, rng, opponentOffPitch) : { name: OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)], uid: null } : pickFouler(setup.team.evaluations, rng, offPitch);
       metrics[defenderSide].fouls += 1;
       events.push({
         minute,
         type: "foul",
         side: defenderSide,
-        text: `${fouler}\uC758 \uD30C\uC6B8, \uACBD\uAE30\uAC00 \uC7A0\uC2DC \uBA48\uCDA5\uB2C8\uB2E4.`
+        text: `${fouler.name}\uC758 \uD30C\uC6B8, \uACBD\uAE30\uAC00 \uC7A0\uC2DC \uBA48\uCDA5\uB2C8\uB2E4.`
       });
+      if (fouler.uid) {
+        const bookRng = seededRandom(hashString(`card:${minute}:${scoreFor}:${scoreAgainst}:${fouler.uid}`));
+        const roll = bookRng();
+        const ours = defenderSide === "home";
+        const yellows = ours ? yellowUids : opponentYellowUids;
+        const reds = ours ? redUids : opponentRedUids;
+        if (roll < CARD_ODDS.red) {
+          reds.push(fouler.uid);
+          (ours ? offPitch : opponentOffPitch).add(fouler.uid);
+          events.push({ minute, type: "card", side: defenderSide, text: `\u{1F7E5} ${fouler.name} \uD1F4\uC7A5! \uAC70\uCE5C \uBC18\uCE59\uC785\uB2C8\uB2E4.` });
+        } else if (roll < CARD_ODDS.red + CARD_ODDS.yellow) {
+          if (yellows.includes(fouler.uid)) {
+            yellows.push(fouler.uid);
+            reds.push(fouler.uid);
+            (ours ? offPitch : opponentOffPitch).add(fouler.uid);
+            events.push({ minute, type: "card", side: defenderSide, text: `\u{1F7E5} ${fouler.name} \uACBD\uACE0 \uB204\uC801 \uD1F4\uC7A5!` });
+          } else {
+            yellows.push(fouler.uid);
+            events.push({ minute, type: "card", side: defenderSide, text: `\u{1F7E8} ${fouler.name} \uACBD\uACE0.` });
+          }
+        }
+      }
       stoppage = { kind: "foul", ticksLeft: STOPPAGE_TICKS.foul, text: "\uD30C\uC6B8 \u2014 \uD504\uB9AC\uD0A5 \uC900\uBE44" };
     } else if (sequence.kind === "out") {
       stoppage = { kind: "out", ticksLeft: STOPPAGE_TICKS.out, text: "\uC2A4\uB85C\uC778 \uC900\uBE44" };
@@ -4854,6 +4909,10 @@ function advance(state, setup, rng = Math.random) {
     opponentScorerUids,
     assistUids,
     opponentAssistUids,
+    yellowUids,
+    redUids,
+    opponentYellowUids,
+    opponentRedUids,
     stamina,
     opponentStamina,
     metrics
@@ -4881,6 +4940,10 @@ function toResult(state, setup, meta) {
     opponentScorerUids: state.opponentScorerUids,
     assistUids: state.assistUids ?? [],
     opponentAssistUids: state.opponentAssistUids ?? [],
+    yellowUids: state.yellowUids ?? [],
+    redUids: state.redUids ?? [],
+    opponentYellowUids: state.opponentYellowUids ?? [],
+    opponentRedUids: state.opponentRedUids ?? [],
     opponentRating: setup.opponent.rating,
     scoreFor: state.scoreFor,
     scoreAgainst: state.scoreAgainst,
@@ -4944,6 +5007,12 @@ var RECOVERY_COST_PER_POINT = KNOBS.recoveryCostPerPoint.default;
 var TREATMENT_COST_PER_MATCH = KNOBS.treatmentCostPerMatch.default;
 function isInjured(card) {
   return card.injuredFor > 0;
+}
+function isSuspended(card) {
+  return (card.suspendedFor ?? 0) > 0;
+}
+function isSidelined(card) {
+  return isInjured(card) || isSuspended(card);
 }
 function conditionFactor(condition) {
   if (!Number.isFinite(condition)) return 1;
@@ -5080,7 +5149,7 @@ function evaluateSquad(cards, squad, division = BOTTOM_DIVISION) {
         injured: false
       };
     }
-    const injured = isInjured(card);
+    const injured = isSidelined(card);
     const baseOvr = effectiveOvr(player, card.level);
     const rating = injured ? EMPTY_SLOT_RATING : Math.round(ratingInSlot(player, card.level, slot.position) * conditionFactor(card.condition));
     return {
@@ -5106,7 +5175,7 @@ function evaluateSquad(cards, squad, division = BOTTOM_DIVISION) {
   const fw = groupAverage("FW");
   const onPitch = evaluations.filter((item) => item.player && !item.injured).map((item) => item.player);
   const traits = teamTraitEffects(onPitch);
-  const onBench = squad.bench.map((uid) => uid ? byUid.get(uid) ?? null : null).filter((card) => Boolean(card) && !isInjured(card)).map((card) => getPlayer(card.playerId)).filter((player) => Boolean(player));
+  const onBench = squad.bench.map((uid) => uid ? byUid.get(uid) ?? null : null).filter((card) => Boolean(card) && !isSidelined(card)).map((card) => getPlayer(card.playerId)).filter((player) => Boolean(player));
   const colors = teamColors([...onPitch, ...onBench]);
   const chemistry = Math.min(
     100,
@@ -5167,7 +5236,7 @@ function applyAutoSubs(cards, squad, division, conditionOf = (card) => card.cond
     const uid = slots[slot.id];
     const starter = uid ? byUid.get(uid) : void 0;
     if (!starter) continue;
-    const injured = isInjured(starter);
+    const injured = isSidelined(starter);
     const tired = conditionOf(starter) < tiredBelow;
     if (!injured && !tired) continue;
     let bestIndex = -1;
@@ -5178,7 +5247,7 @@ function applyAutoSubs(cards, squad, division, conditionOf = (card) => card.cond
       const player = candidate ? getPlayer(candidate.playerId) : void 0;
       if (!candidate || !player) return;
       const readyAt = Math.max(SUB_READY_CONDITION, tiredBelow);
-      if (isInjured(candidate) || conditionOf(candidate) < readyAt) return;
+      if (isSidelined(candidate) || conditionOf(candidate) < readyAt) return;
       if (levelTotal - starter.level + candidate.level > cap) return;
       if (player.positions.includes("GK") !== (slot.position === "GK")) return;
       const score = ratingInSlot(player, candidate.level, slot.position);
@@ -5765,6 +5834,46 @@ function scorersOf(result) {
   for (const uid of result.state.opponentAssistUids ?? []) add("away", uid, "assists");
   return [...lines.values()];
 }
+function disciplineOf(result) {
+  const lines = /* @__PURE__ */ new Map();
+  const resolve = (side, uid) => {
+    const rating = side === "home" ? result.setup.team : result.setup.opponentSquad;
+    const material = side === "home" ? result.home : result.away;
+    const item = rating?.evaluations.find((entry) => entry.card?.uid === uid);
+    const card = material.cards.find((entry) => entry.uid === uid);
+    const playerId = item?.card?.playerId ?? card?.playerId;
+    if (!playerId) return null;
+    const key = `${side}:${playerId}`;
+    const line = lines.get(key) ?? {
+      side,
+      playerId,
+      name: item?.player?.name ?? getPlayer(playerId)?.name ?? playerId,
+      yellows: 0,
+      red: false,
+      secondYellow: false
+    };
+    lines.set(key, line);
+    return line;
+  };
+  const state = result.state;
+  const sides = [
+    ["home", state.yellowUids ?? [], state.redUids ?? []],
+    ["away", state.opponentYellowUids ?? [], state.opponentRedUids ?? []]
+  ];
+  for (const [side, yellows, reds] of sides) {
+    for (const uid of yellows) {
+      const line = resolve(side, uid);
+      if (line) line.yellows += 1;
+    }
+    for (const uid of reds) {
+      const line = resolve(side, uid);
+      if (!line) continue;
+      line.red = true;
+      line.secondYellow = yellows.filter((entry) => entry === uid).length >= 2;
+    }
+  }
+  return [...lines.values()];
+}
 function publicStateOf(state) {
   const ticks = state.possessionTicks.home + state.possessionTicks.away;
   return {
@@ -5807,6 +5916,7 @@ export {
   TACTIC_CARDS,
   TIERS,
   buildWeeklyMatchSetup,
+  disciplineOf,
   evaluateSquad,
   getPlayer,
   isTacticCardId,

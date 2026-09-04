@@ -123,6 +123,11 @@ export interface LiveMatchState {
   /** One entry per goal that had a provider, parallel in meaning to scorerUids. */
   assistUids: string[]
   opponentAssistUids: string[]
+  /** Bookings so far — a uid twice in yellows means the second one became a red. */
+  yellowUids: string[]
+  redUids: string[]
+  opponentYellowUids: string[]
+  opponentRedUids: string[]
   /** How much each starter has left in the tank, 0-100, by card uid. */
   stamina: Record<string, number>
   /** Stamina for opponentSquad's eleven, same shape, only used in PvP. */
@@ -242,14 +247,54 @@ function drift(dots: Dot[], ball: { x: number; y: number }, rng: () => number): 
  * better passers are likelier; a wide route favours the flanks' habit of
  * crossing, a through ball the midfield. Roughly one goal in four is unassisted.
  */
+/** Per foul: a yellow about one time in eight, a straight red one in a hundred. */
+const CARD_ODDS = { yellow: 0.12, red: 0.01 }
+
+/**
+ * Who committed the foul — defenders and midfielders far more often than
+ * forwards, never the keeper. Exactly one rng draw, like pickScorer, so the
+ * main sequence is what it was before bookings existed.
+ */
+function pickFouler(
+  evaluations: SlotEvaluation[],
+  rng: () => number,
+  exclude?: Set<string>,
+): { name: string; uid: string | null } {
+  const candidates = evaluations.filter(
+    (item) =>
+      item.player && item.card && !item.injured && POSITION_GROUP[item.slotPosition] !== 'GK' && !exclude?.has(item.card.uid),
+  )
+  const roll = rng()
+  if (candidates.length === 0) return { name: '우리 선수', uid: null }
+  const weights = candidates.map((item) => {
+    const group = POSITION_GROUP[item.slotPosition]
+    return group === 'DF' ? 4 : group === 'MF' ? 2.5 : 1
+  })
+  const total = weights.reduce((sum, weight) => sum + weight, 0)
+  let cursor = roll * total
+  for (let i = 0; i < candidates.length; i++) {
+    cursor -= weights[i]
+    if (cursor <= 0) return { name: candidates[i].player!.name, uid: candidates[i].card!.uid }
+  }
+  const last = candidates[candidates.length - 1]
+  return { name: last.player!.name, uid: last.card!.uid }
+}
+
 function pickAssister(
   evaluations: SlotEvaluation[],
   shooterUid: string | null,
   route: string,
   rng: () => number,
+  exclude?: Set<string>,
 ): { name: string; uid: string } | null {
   const candidates = evaluations.filter(
-    (item) => item.player && item.card && !item.injured && item.card.uid !== shooterUid && POSITION_GROUP[item.slotPosition] !== 'GK',
+    (item) =>
+      item.player &&
+      item.card &&
+      !item.injured &&
+      item.card.uid !== shooterUid &&
+      POSITION_GROUP[item.slotPosition] !== 'GK' &&
+      !exclude?.has(item.card.uid),
   )
   if (candidates.length === 0) return null
   if (rng() < 0.25) return null
@@ -272,9 +317,11 @@ function pickAssister(
 function pickScorer(
   evaluations: SlotEvaluation[],
   rng: () => number,
+  exclude?: Set<string>,
 ): { name: string; uid: string | null; slotId: string | null } {
   const candidates = evaluations.filter(
-    (item) => item.player && !item.injured && POSITION_GROUP[item.slotPosition] !== 'GK',
+    (item) =>
+      item.player && !item.injured && POSITION_GROUP[item.slotPosition] !== 'GK' && !(item.card && exclude?.has(item.card.uid)),
   )
   if (candidates.length === 0) return { name: '유스 선수', uid: null, slotId: null }
   const weights = candidates.map((item) => {
@@ -330,6 +377,10 @@ export function createMatch(setup: MatchSetup): LiveMatchState {
     opponentScorerUids: [],
     assistUids: [],
     opponentAssistUids: [],
+    yellowUids: [],
+    redUids: [],
+    opponentYellowUids: [],
+    opponentRedUids: [],
     stamina: seedStamina(setup.team.evaluations),
     opponentStamina: setup.opponentSquad ? seedStamina(setup.opponentSquad.evaluations) : {},
     metrics: emptyMetrics(),
@@ -507,12 +558,16 @@ export function advance(
   const preOpponentFatigue = setup.opponentSquad
     ? 1 - clamp(averageStamina({ ...state, stamina: state.opponentStamina }, opponentEvaluations) / 100, 0, 1)
     : undefined
+  // Ten men play at ~91% — every sending-off costs a side a slice of all three lines.
+  const sentOffFactor = (count: number) => Math.max(0.6, 1 - 0.09 * count)
+  const mySentOff = sentOffFactor((state.redUids ?? []).length)
+  const oppSentOff = sentOffFactor((state.opponentRedUids ?? []).length)
   const preStrength = strengthOf(
     setup,
     rng,
-    staminaFactor(averageStamina(state, setup.team.evaluations)),
+    staminaFactor(averageStamina(state, setup.team.evaluations)) * mySentOff,
     setup.opponentSquad
-      ? staminaFactor(averageStamina({ ...state, stamina: state.opponentStamina }, opponentEvaluations))
+      ? staminaFactor(averageStamina({ ...state, stamina: state.opponentStamina }, opponentEvaluations)) * oppSentOff
       : 1,
   )
   const models = buildModels(setup, preStrength, teamFatigue, preOpponentFatigue)
@@ -547,9 +602,9 @@ export function advance(
   const strength = strengthOf(
     setup,
     rng,
-    staminaFactor(averageStamina({ ...state, stamina }, setup.team.evaluations)),
+    staminaFactor(averageStamina({ ...state, stamina }, setup.team.evaluations)) * mySentOff,
     setup.opponentSquad
-      ? staminaFactor(averageStamina({ ...state, stamina: opponentStamina }, opponentEvaluations))
+      ? staminaFactor(averageStamina({ ...state, stamina: opponentStamina }, opponentEvaluations)) * oppSentOff
       : 1,
   )
   const traits = setup.traits ?? NO_TRAIT_EFFECTS
@@ -561,6 +616,13 @@ export function advance(
   const opponentScorerUids = [...state.opponentScorerUids]
   const assistUids = [...(state.assistUids ?? [])]
   const opponentAssistUids = [...(state.opponentAssistUids ?? [])]
+  const yellowUids = [...(state.yellowUids ?? [])]
+  const redUids = [...(state.redUids ?? [])]
+  const opponentYellowUids = [...(state.opponentYellowUids ?? [])]
+  const opponentRedUids = [...(state.opponentRedUids ?? [])]
+  // Sent-off players take no further part: no shots, no assists, no fouls.
+  const offPitch = new Set(redUids)
+  const opponentOffPitch = new Set(opponentRedUids)
   let stoppage: Stoppage | null = null
 
   if (minute > 90) {
@@ -652,9 +714,9 @@ export function advance(
     const goalChance = clamp(quality * ratingEdge * (1.15 - keeper / 200) + swing, 0.02, 0.8)
 
     const shooter = weAttack
-      ? pickScorer(setup.team.evaluations, rng)
+      ? pickScorer(setup.team.evaluations, rng, offPitch)
       : setup.opponentSquad
-        ? pickScorer(setup.opponentSquad.evaluations, rng)
+        ? pickScorer(setup.opponentSquad.evaluations, rng, opponentOffPitch)
         : { name: OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)], uid: null, slotId: null }
 
     ball = { x: clamp(ball.x + (rng() * 20 - 10), 20, 80), y: weAttack ? 94 : 6 }
@@ -667,9 +729,9 @@ export function advance(
       // stays exactly as it was.
       const sideRng = seededRandom(hashString(`assist:${minute}:${scoreFor}:${scoreAgainst}:${shooter.uid ?? ''}`))
       const provider = weAttack
-        ? pickAssister(setup.team.evaluations, shooter.uid, route, sideRng)
+        ? pickAssister(setup.team.evaluations, shooter.uid, route, sideRng, offPitch)
         : setup.opponentSquad
-          ? pickAssister(setup.opponentSquad.evaluations, shooter.uid, route, sideRng)
+          ? pickAssister(setup.opponentSquad.evaluations, shooter.uid, route, sideRng, opponentOffPitch)
           : null
       if (weAttack) {
         scoreFor++
@@ -740,19 +802,44 @@ export function advance(
     if (sequence.kind === 'chance' && sequence.shot) {
       playShot(attackerSide, sequence.shot.quality, sequence.shot.route, false)
     } else if (sequence.kind === 'foul') {
+      // One rng draw for the fouler, exactly as before, so seeds replay the same.
       const fouler =
         attackerSide === 'home'
           ? setup.opponentSquad
-            ? pickScorer(setup.opponentSquad.evaluations, rng).name
-            : OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)]
-          : (pickScorer(setup.team.evaluations, rng).name ?? '우리 선수')
+            ? pickFouler(setup.opponentSquad.evaluations, rng, opponentOffPitch)
+            : { name: OPPONENT_PLAYERS[Math.floor(rng() * OPPONENT_PLAYERS.length)], uid: null }
+          : pickFouler(setup.team.evaluations, rng, offPitch)
       metrics[defenderSide].fouls += 1
       events.push({
         minute,
         type: 'foul',
         side: defenderSide,
-        text: `${fouler}의 파울, 경기가 잠시 멈춥니다.`,
+        text: `${fouler.name}의 파울, 경기가 잠시 멈춥니다.`,
       })
+      // Bookings come from a side stream seeded by the foul itself — the main
+      // sequence stays untouched, so every stored seed still replays its score.
+      if (fouler.uid) {
+        const bookRng = seededRandom(hashString(`card:${minute}:${scoreFor}:${scoreAgainst}:${fouler.uid}`))
+        const roll = bookRng()
+        const ours = defenderSide === 'home'
+        const yellows = ours ? yellowUids : opponentYellowUids
+        const reds = ours ? redUids : opponentRedUids
+        if (roll < CARD_ODDS.red) {
+          reds.push(fouler.uid)
+          ;(ours ? offPitch : opponentOffPitch).add(fouler.uid)
+          events.push({ minute, type: 'card', side: defenderSide, text: `🟥 ${fouler.name} 퇴장! 거친 반칙입니다.` })
+        } else if (roll < CARD_ODDS.red + CARD_ODDS.yellow) {
+          if (yellows.includes(fouler.uid)) {
+            yellows.push(fouler.uid)
+            reds.push(fouler.uid)
+            ;(ours ? offPitch : opponentOffPitch).add(fouler.uid)
+            events.push({ minute, type: 'card', side: defenderSide, text: `🟥 ${fouler.name} 경고 누적 퇴장!` })
+          } else {
+            yellows.push(fouler.uid)
+            events.push({ minute, type: 'card', side: defenderSide, text: `🟨 ${fouler.name} 경고.` })
+          }
+        }
+      }
       stoppage = { kind: 'foul', ticksLeft: STOPPAGE_TICKS.foul, text: '파울 — 프리킥 준비' }
     } else if (sequence.kind === 'out') {
       stoppage = { kind: 'out', ticksLeft: STOPPAGE_TICKS.out, text: '스로인 준비' }
@@ -805,6 +892,10 @@ export function advance(
     opponentScorerUids,
     assistUids,
     opponentAssistUids,
+    yellowUids,
+    redUids,
+    opponentYellowUids,
+    opponentRedUids,
     stamina,
     opponentStamina,
     metrics,
@@ -849,6 +940,10 @@ export function toResult(
     opponentScorerUids: state.opponentScorerUids,
     assistUids: state.assistUids ?? [],
     opponentAssistUids: state.opponentAssistUids ?? [],
+    yellowUids: state.yellowUids ?? [],
+    redUids: state.redUids ?? [],
+    opponentYellowUids: state.opponentYellowUids ?? [],
+    opponentRedUids: state.opponentRedUids ?? [],
     opponentRating: setup.opponent.rating,
     scoreFor: state.scoreFor,
     scoreAgainst: state.scoreAgainst,

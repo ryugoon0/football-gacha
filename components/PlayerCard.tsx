@@ -33,6 +33,7 @@ interface CardProps {
   /** Match fitness 0-100; omit for cards that are not owned yet. */
   condition?: number
   injuredFor?: number
+  suspendedFor?: number
   badge?: string
   onClick?: () => void
   className?: string
@@ -55,6 +56,7 @@ function ModernPlayerCard({
   dimmed = false,
   condition,
   injuredFor = 0,
+  suspendedFor = 0,
   badge,
   onClick,
   className = '',
@@ -78,11 +80,15 @@ function ModernPlayerCard({
         onClick ? 'hover:-translate-y-1 hover:shadow-xl' : ''
       } shadow-lg ${style.glow} ${className}`}
     >
-      {injuredFor > 0 && (
+      {injuredFor > 0 ? (
         <span className="absolute left-1 top-1 z-10 rounded bg-rose-600 px-1.5 py-0.5 text-[9px] font-black text-white">
           부상 {injuredFor}경기
         </span>
-      )}
+      ) : suspendedFor > 0 ? (
+        <span className="absolute left-1 top-1 z-10 rounded bg-red-700 px-1.5 py-0.5 text-[9px] font-black text-white">
+          🟥 출전정지 {suspendedFor}경기
+        </span>
+      ) : null}
       {badge && (
         <span className="absolute right-1 top-1 z-10 rounded bg-black/55 px-1.5 py-0.5 text-[9px] font-bold text-white">
           {badge}

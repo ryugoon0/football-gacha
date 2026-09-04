@@ -36,6 +36,7 @@ import {
   replayFixture,
   rewardsForFixture,
   scorersOf,
+  disciplineOf,
   setTuning,
   toResult,
   type SharedCard,
@@ -216,13 +217,41 @@ async function aiAnchorFor(url: string, server: ServerHeaders, groupId: number):
 const PRE_WINDOW_MS = 3 * 60 * 1000
 
 /** Kick-off snapshot: both sides' material plus the setup built from it. */
+/** Players banned for this fixture, by slot — from the league's discipline ledger. */
+async function bansFor(url: string, server: ServerHeaders, fixture: FixtureInfo): Promise<Map<number, Set<string>>> {
+  const bans = new Map<number, Set<string>>()
+  const res = await fetch(
+    `${url}/rest/v1/weekly_discipline?group_id=eq.${fixture.groupId}&slot=in.(${fixture.homeSlot},${fixture.awaySlot})&ban_matches=gt.0&select=slot,player_id`,
+    { headers: server },
+  )
+  if (!res.ok) return bans
+  for (const row of (await res.json()) as { slot: number; player_id: string }[]) {
+    const set = bans.get(row.slot) ?? new Set<string>()
+    set.add(row.player_id)
+    bans.set(row.slot, set)
+  }
+  return bans
+}
+
+/** A banned player is treated like an injured one: the auto-sub pulls them before kick-off. */
+function withBans(input: SharedRealSquadInput | null, banned: Set<string> | undefined): SharedRealSquadInput | null {
+  if (!input || !banned || banned.size === 0) return input
+  return {
+    ...input,
+    cards: input.cards.map((card) => (banned.has(card.playerId) ? { ...card, injuredFor: Math.max(1, card.injuredFor) } : card)),
+  }
+}
+
 async function buildSnapshot(url: string, server: ServerHeaders, fixture: FixtureInfo): Promise<SharedSnapshot> {
   const hasAi = fixture.home.kind !== 'user' || fixture.away.kind !== 'user'
-  const [homeInput, awayInput, aiAnchor] = await Promise.all([
+  const [rawHome, rawAway, aiAnchor, bans] = await Promise.all([
     fixture.home.kind === 'user' && fixture.home.userId ? realSideOf(url, server, fixture.home.userId) : null,
     fixture.away.kind === 'user' && fixture.away.userId ? realSideOf(url, server, fixture.away.userId) : null,
     hasAi ? aiAnchorFor(url, server, fixture.groupId) : Promise.resolve(undefined),
+    bansFor(url, server, fixture),
   ])
+  const homeInput = withBans(rawHome, bans.get(fixture.homeSlot))
+  const awayInput = withBans(rawAway, bans.get(fixture.awaySlot))
   const setup = buildWeeklyMatchSetup({
     groupId: fixture.groupId,
     home: summaryOf(fixture.home),
@@ -313,6 +342,17 @@ async function settleFromEngine(
       goals: line.goals,
       assists: line.assists,
     })),
+    // Only real clubs carry a ledger — an AI eleven is regenerated every fixture.
+    p_discipline: disciplineOf(replay)
+      .filter((line) => (line.side === 'home' ? fixture.home.kind : fixture.away.kind) === 'user')
+      .map((line) => ({
+        slot: line.side === 'home' ? fixture.homeSlot : fixture.awaySlot,
+        playerId: line.playerId,
+        name: line.name,
+        yellows: line.yellows,
+        red: line.red,
+        secondYellow: line.secondYellow,
+      })),
   })
   return settled?.ok === true
 }
