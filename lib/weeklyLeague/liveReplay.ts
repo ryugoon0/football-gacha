@@ -211,6 +211,10 @@ export function replayFixture(
     }
   }
 
+  // Kick-off is a legal moment too: orders sent in the pre-match window
+  // (stamped minute 0) shape the eleven and tactics before the first tick.
+  flush()
+
   const limit = Math.max(0, Math.min(LIVE_MATCH_MINUTES, Math.floor(targetMinute)))
   // The final whistle is the tick *after* minute 90 (advance() adds the
   // 'full' event when the next minute would be 91), so a full replay runs

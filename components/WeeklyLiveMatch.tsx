@@ -52,7 +52,9 @@ export default function WeeklyLiveMatch({ fixtureId, onClose }: { fixtureId: num
   }, [view])
 
   const isParticipant = Boolean(view && view.side)
-  const live = view?.status === 'live' ? view : null
+  // Orders are open from three minutes before kick-off ('pre') through the
+  // live window; a 'pre' order is stamped minute 0 and lands at kick-off.
+  const live = view?.status === 'live' || view?.status === 'pre' ? view : null
   const lineup = live?.lineup ?? null
 
   const sendTactic = async () => {
@@ -89,7 +91,13 @@ export default function WeeklyLiveMatch({ fixtureId, onClose }: { fixtureId: num
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="text-[10px] font-bold uppercase tracking-widest text-emerald-400">
-            {view?.status === 'live' ? 'LIVE' : view?.status === 'upcoming' ? '킥오프 전' : '경기 종료'}
+            {view?.status === 'live'
+              ? 'LIVE'
+              : view?.status === 'pre'
+                ? '킥오프 준비'
+                : view?.status === 'upcoming'
+                  ? '킥오프 전'
+                  : '경기 종료'}
           </div>
           <h3 className="mt-1 text-base font-black text-white">
             {view ? `${view.home} vs ${view.away}` : '불러오는 중...'}
@@ -104,7 +112,13 @@ export default function WeeklyLiveMatch({ fixtureId, onClose }: { fixtureId: num
 
       {view?.status === 'upcoming' && (
         <p className="mt-3 text-sm text-slate-400">
-          {Math.max(1, Math.ceil(view.secondsToKickoff / 60))}분 뒤 킥오프. 킥오프 뒤 15분 동안 경기가 진행되고, 그동안 지시를 내릴 수 있습니다.
+          {Math.max(1, Math.ceil(view.secondsToKickoff / 60))}분 뒤 킥오프. 3분 전부터 입장해 라인업을 확인하고 지시를 준비할 수 있고, 킥오프 뒤 15분 동안 경기가 진행됩니다.
+        </p>
+      )}
+
+      {view?.status === 'pre' && (
+        <p className="mt-3 rounded-xl bg-emerald-400/10 p-3 text-sm text-emerald-100">
+          킥오프 {Math.max(0, view.secondsToKickoff)}초 전 — 라인업이 확정됐습니다. 지금 내리는 지시는 킥오프와 함께 적용됩니다.
         </p>
       )}
 
@@ -142,7 +156,9 @@ export default function WeeklyLiveMatch({ fixtureId, onClose }: { fixtureId: num
       {live && isParticipant && lineup && (
         <div className="mt-4 space-y-3 rounded-xl border border-white/10 bg-white/5 p-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-200">지시 ({live.side === 'home' ? '홈' : '원정'} 감독)</span>
+            <span className="text-xs font-bold text-slate-200">
+              지시 ({live.side === 'home' ? '홈' : '원정'} 감독{live.status === 'pre' ? ' · 킥오프에 적용' : ''})
+            </span>
             <span className="text-[11px] text-slate-500">
               교체 {lineup.subsLeft}명 남음{live.pending ? ` · 대기 중 ${live.pending}` : ''}
             </span>

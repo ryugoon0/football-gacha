@@ -40,16 +40,8 @@ export interface WeeklyMemberSummary {
 export function weeklyAiSquad(
   groupId: number,
   slot: number,
+  /** Per-player OVR the picker aims at — see weeklyAiAnchor() for where it comes from. */
   targetRating: number,
-  /**
-   * The squad overall the AI should actually play at. The card pool caps a
-   * picked eleven well below what a real manager builds (team colours,
-   * chemistry and levels push real squads past 120 while a picked AI eleven
-   * stalls near 90), so the numbers the engine reads are scaled to this
-   * anchor — the players stay, for names and stamina. See
-   * weeklyAiAnchor().
-   */
-  anchorOverall?: number,
 ): { cards: Card[]; squad: Squad; rating: SquadRating } {
   const seed = hashString(`weekly-ai:${groupId}:${slot}`)
   const rng = seededRandom(seed)
@@ -76,36 +68,48 @@ export function weeklyAiSquad(
   // Pad the bench to the formation's outfield-plus-keeper count isn't needed —
   // evaluateSquad only reads the slots it has a formation entry for.
   const squad: Squad = { formation: formationKey, slots, bench }
-  const evaluated = evaluateSquad(cards, squad, 5)
-  if (!anchorOverall || anchorOverall <= 0 || evaluated.overall <= 0) {
-    return { cards, squad, rating: evaluated }
-  }
-  const scale = anchorOverall / evaluated.overall
-  const rating: SquadRating = {
-    ...evaluated,
-    overall: Math.round(evaluated.overall * scale),
-    att: Math.round(evaluated.att * scale),
-    mid: Math.round(evaluated.mid * scale),
-    def: Math.round(evaluated.def * scale),
-  }
-  return { cards, squad, rating }
+  return { cards, squad, rating: evaluateSquad(cards, squad, 5) }
 }
 
 /**
- * What an AI club in this group should play at: the real managers' squads
- * set the bar, and the tier's AI base rating (config.ts TIERS) keeps the
- * designed gradient — the top tier's AI plays at the anchor, lower tiers
- * proportionally below it. With no real overalls known, falls back to the
- * seeded member rating so a fixture still settles.
+ * Measured on the first live group (2026-09-04): an AI eleven whose players
+ * match the median real starter OVR still loses ~93% to that median manager,
+ * because real squads also bring team-colour traits (goal +0.08, tempo 1.18)
+ * that a mixed-club AI pick never has. About six OVR on top of the median
+ * brought the median manager to ~55% — a mid-table AI, which is the intent.
  */
-export function weeklyAiAnchor(realOveralls: number[], tierAiBaseRating: number, topTierAiBaseRating: number): number | undefined {
-  const values = realOveralls.filter((value) => Number.isFinite(value) && value > 0).sort((a, b) => a - b)
+export const AI_EDGE_OVER_MEDIAN_OVR = 6
+
+/**
+ * The per-player OVR an AI club in this group should be picked at: the real
+ * managers' starters set the bar (median of their average starter rating,
+ * plus the trait compensation above), and the tier's AI base rating
+ * (config.ts TIERS) keeps the designed gradient — top tier at the bar, lower
+ * tiers proportionally below. With no real squads known, undefined: the
+ * caller then falls back to the seeded member rating so a fixture still
+ * settles.
+ *
+ * Note this is *player* OVR, not squad overall — scaling the headline
+ * att/def/mid numbers was tried first and barely moved results, because the
+ * engine's tactical model runs on the players' own stats.
+ */
+export function weeklyAiAnchor(
+  realStarterAverages: number[],
+  tierAiBaseRating: number,
+  topTierAiBaseRating: number,
+): number | undefined {
+  const values = realStarterAverages.filter((value) => Number.isFinite(value) && value > 0).sort((a, b) => a - b)
   if (values.length === 0) return undefined
   const median = values[Math.floor((values.length - 1) / 2)]
   const gradient = topTierAiBaseRating > 0 ? tierAiBaseRating / topTierAiBaseRating : 1
-  // A touch below the median so a mid-table real manager beats the AI more
-  // often than not — casual mode's feel, not a coin flip.
-  return Math.round(median * gradient * 0.96)
+  return Math.max(40, Math.min(99, Math.round((median + AI_EDGE_OVER_MEDIAN_OVR) * gradient)))
+}
+
+/** Average rating of the starters actually on the pitch — the number weeklyAiAnchor() takes. */
+export function starterAverageOf(rating: SquadRating): number {
+  const starters = rating.evaluations.filter((item) => item.card)
+  if (starters.length === 0) return 0
+  return starters.reduce((total, item) => total + item.rating, 0) / starters.length
 }
 
 export interface WeeklyRealSquadInput {
@@ -129,17 +133,17 @@ export function buildWeeklyMatchSetup(args: {
   homeInput?: WeeklyRealSquadInput
   awayInput?: WeeklyRealSquadInput
   neutralVenue: boolean
-  /** Squad overall an AI side should play at — see weeklyAiAnchor(). */
+  /** Per-player OVR an AI side is picked at — see weeklyAiAnchor(). Falls back to the member rating. */
   aiAnchor?: number
 }): MatchSetup {
   const { groupId, home, away, homeInput, awayInput, neutralVenue, aiAnchor } = args
 
   const homeSquad = homeInput
     ? evaluateSquad(homeInput.cards, homeInput.squad, homeInput.division)
-    : weeklyAiSquad(groupId, home.slot, home.rating, aiAnchor).rating
+    : weeklyAiSquad(groupId, home.slot, aiAnchor ?? home.rating).rating
   const awaySquad = awayInput
     ? evaluateSquad(awayInput.cards, awayInput.squad, awayInput.division)
-    : weeklyAiSquad(groupId, away.slot, away.rating, aiAnchor).rating
+    : weeklyAiSquad(groupId, away.slot, aiAnchor ?? away.rating).rating
 
   return {
     team: homeSquad,

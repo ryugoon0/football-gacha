@@ -25,6 +25,7 @@ import {
   buildWeeklyMatchSetup,
   evaluateSquad,
   getPlayer,
+  starterAverageOf,
   weeklyAiAnchor,
   lineupViewOf,
   liveWindowEnded,
@@ -190,17 +191,21 @@ async function aiAnchorFor(url: string, server: ServerHeaders, groupId: number):
   const savesRes = await fetch(`${url}/rest/v1/saves?user_id=in.(${ids.join(',')})&select=data`, { headers: server })
   if (!savesRes.ok) return undefined
   const rows = (await savesRes.json()) as { data?: SaveShape }[]
-  const overalls: number[] = []
+  const averages: number[] = []
   for (const row of rows) {
     const save = row.data
     if (!save || !isSquad(save.squad) || !Array.isArray(save.cards)) continue
     const division = Number(save.season?.division)
     const rating = evaluateSquad(save.cards as SharedCard[], save.squad, Number.isFinite(division) ? division : 5)
-    if (rating.overall > 0) overalls.push(rating.overall)
+    const average = starterAverageOf(rating)
+    if (average > 0) averages.push(average)
   }
   const tier = Math.max(0, Math.min(TIERS.length - 1, Number(group?.tier ?? 0)))
-  return weeklyAiAnchor(overalls, TIERS[tier].aiBaseRating, TIERS[0].aiBaseRating)
+  return weeklyAiAnchor(averages, TIERS[tier].aiBaseRating, TIERS[0].aiBaseRating)
 }
+
+/** Managers may enter, see their eleven and queue orders this long before kick-off. */
+const PRE_WINDOW_MS = 3 * 60 * 1000
 
 /** Kick-off snapshot: both sides' material plus the setup built from it. */
 async function buildSnapshot(url: string, server: ServerHeaders, fixture: FixtureInfo): Promise<SharedSnapshot> {
@@ -424,7 +429,9 @@ export async function handle(request: Request, env: Env): Promise<Response> {
       })
     }
 
-    if (now < scheduledAt) {
+    const hasUser = fixture.home.kind === 'user' || fixture.away.kind === 'user'
+
+    if (now < scheduledAt - PRE_WINDOW_MS || (now < scheduledAt && !hasUser)) {
       return json({
         ok: true,
         status: 'upcoming',
@@ -438,9 +445,27 @@ export async function handle(request: Request, env: Env): Promise<Response> {
 
     // AI-only fixtures never reach here (the client only asks about fixtures
     // with a real user), but guard anyway: they belong to the SQL settlement.
-    if (fixture.home.kind !== 'user' && fixture.away.kind !== 'user') return refuse('not a live fixture')
+    if (!hasUser) return refuse('not a live fixture')
 
+    // Opening the fixture in the pre-match window freezes the kick-off
+    // snapshot now — the eleven is locked three minutes out, and changes
+    // from here on are substitutions, not a new team sheet.
     const engine = await ensureEngine(url, server, fixture, context.engine)
+
+    if (now < scheduledAt) {
+      const replay = replayFixture(engine.snapshot, engine.seed, context.commands, 0)
+      return json({
+        ok: true,
+        status: 'pre',
+        side,
+        home: fixture.home.clubName,
+        away: fixture.away.clubName,
+        kickoffAt: fixture.scheduledAtUtc,
+        secondsToKickoff: Math.ceil((scheduledAt - now) / 1000),
+        lineup: side ? lineupViewOf(replay, side, playerNameOf) : null,
+        pending: side ? context.commands.filter((c) => c.side === side).length : 0,
+      })
+    }
 
     if (liveWindowEnded(scheduledAt, now)) {
       await settleFromEngine(url, server, fixtureId, engine, context.commands)

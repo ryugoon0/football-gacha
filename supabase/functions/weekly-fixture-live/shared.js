@@ -5044,7 +5044,7 @@ function chemistryOf(evaluations) {
 }
 
 // lib/weeklyLeague/liveMatch.ts
-function weeklyAiSquad(groupId, slot, targetRating, anchorOverall) {
+function weeklyAiSquad(groupId, slot, targetRating) {
   const seed = hashString(`weekly-ai:${groupId}:${slot}`);
   const rng = seededRandom(seed);
   const formationKey = FORMATION_KEYS[Math.floor(rng() * FORMATION_KEYS.length)];
@@ -5067,31 +5067,25 @@ function weeklyAiSquad(groupId, slot, targetRating, anchorOverall) {
     else bench.push(uid);
   }
   const squad = { formation: formationKey, slots, bench };
-  const evaluated = evaluateSquad(cards, squad, 5);
-  if (!anchorOverall || anchorOverall <= 0 || evaluated.overall <= 0) {
-    return { cards, squad, rating: evaluated };
-  }
-  const scale = anchorOverall / evaluated.overall;
-  const rating = {
-    ...evaluated,
-    overall: Math.round(evaluated.overall * scale),
-    att: Math.round(evaluated.att * scale),
-    mid: Math.round(evaluated.mid * scale),
-    def: Math.round(evaluated.def * scale)
-  };
-  return { cards, squad, rating };
+  return { cards, squad, rating: evaluateSquad(cards, squad, 5) };
 }
-function weeklyAiAnchor(realOveralls, tierAiBaseRating, topTierAiBaseRating) {
-  const values = realOveralls.filter((value) => Number.isFinite(value) && value > 0).sort((a, b) => a - b);
+var AI_EDGE_OVER_MEDIAN_OVR = 6;
+function weeklyAiAnchor(realStarterAverages, tierAiBaseRating, topTierAiBaseRating) {
+  const values = realStarterAverages.filter((value) => Number.isFinite(value) && value > 0).sort((a, b) => a - b);
   if (values.length === 0) return void 0;
   const median = values[Math.floor((values.length - 1) / 2)];
   const gradient = topTierAiBaseRating > 0 ? tierAiBaseRating / topTierAiBaseRating : 1;
-  return Math.round(median * gradient * 0.96);
+  return Math.max(40, Math.min(99, Math.round((median + AI_EDGE_OVER_MEDIAN_OVR) * gradient)));
+}
+function starterAverageOf(rating) {
+  const starters = rating.evaluations.filter((item) => item.card);
+  if (starters.length === 0) return 0;
+  return starters.reduce((total, item) => total + item.rating, 0) / starters.length;
 }
 function buildWeeklyMatchSetup(args) {
   const { groupId, home, away, homeInput, awayInput, neutralVenue, aiAnchor } = args;
-  const homeSquad = homeInput ? evaluateSquad(homeInput.cards, homeInput.squad, homeInput.division) : weeklyAiSquad(groupId, home.slot, home.rating, aiAnchor).rating;
-  const awaySquad = awayInput ? evaluateSquad(awayInput.cards, awayInput.squad, awayInput.division) : weeklyAiSquad(groupId, away.slot, away.rating, aiAnchor).rating;
+  const homeSquad = homeInput ? evaluateSquad(homeInput.cards, homeInput.squad, homeInput.division) : weeklyAiSquad(groupId, home.slot, aiAnchor ?? home.rating).rating;
+  const awaySquad = awayInput ? evaluateSquad(awayInput.cards, awayInput.squad, awayInput.division) : weeklyAiSquad(groupId, away.slot, aiAnchor ?? away.rating).rating;
   return {
     team: homeSquad,
     teamName: home.clubName,
@@ -5274,6 +5268,7 @@ function replayFixture(snapshot, seed, commands, targetMinute = LIVE_MATCH_MINUT
       };
     }
   };
+  flush();
   const limit = Math.max(0, Math.min(LIVE_MATCH_MINUTES, Math.floor(targetMinute)));
   const toFullTime = limit >= LIVE_MATCH_MINUTES;
   while (!state.finished && (toFullTime || state.minute < limit)) {
@@ -5334,6 +5329,7 @@ export {
   replayFixture,
   runToEnd,
   setTuning,
+  starterAverageOf,
   toResult,
   weeklyAiAnchor,
   weeklyAiSquad

@@ -121,8 +121,13 @@ export function buildWeeklyMatchSetup(args: {
 }): SharedMatchSetup
 
 export const TIERS: { maxRealUsers: number; aiBaseRating: number }[]
-export function evaluateSquad(cards: SharedCard[], squad: SharedSquad, division?: number): { overall: number }
-export function weeklyAiAnchor(realOveralls: number[], tierAiBaseRating: number, topTierAiBaseRating: number): number | undefined
+export interface SharedSquadRatingLite {
+  overall: number
+  evaluations: { card: SharedCard | null; rating: number }[]
+}
+export function evaluateSquad(cards: SharedCard[], squad: SharedSquad, division?: number): SharedSquadRatingLite
+export function starterAverageOf(rating: SharedSquadRatingLite): number
+export function weeklyAiAnchor(realStarterAverages: number[], tierAiBaseRating: number, topTierAiBaseRating: number): number | undefined
 
 export function runToEnd(setup: SharedMatchSetup, rng?: () => number): SharedLiveState
 export function toResult(

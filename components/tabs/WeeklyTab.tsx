@@ -398,12 +398,14 @@ export default function WeeklyTab() {
 }
 
 const LIVE_WINDOW_MS = 15 * 60 * 1000
+const PRE_WINDOW_MS = 3 * 60 * 1000
 
-/** 'live' while the server clock is inside the 15-minute window after kick-off. */
-function liveStatusOf(f: FixtureRow, now: number): 'upcoming' | 'live' | 'ended' {
+/** 'pre' from three minutes before kick-off, 'live' inside the 15-minute window after it. */
+function liveStatusOf(f: FixtureRow, now: number): 'upcoming' | 'pre' | 'live' | 'ended' {
   if (f.status === 'played') return 'ended'
   const kickoff = Date.parse(f.scheduled_at_utc)
-  if (now < kickoff) return 'upcoming'
+  if (now < kickoff - PRE_WINDOW_MS) return 'upcoming'
+  if (now < kickoff) return 'pre'
   if (now < kickoff + LIVE_WINDOW_MS) return 'live'
   return 'ended'
 }
@@ -449,6 +451,8 @@ function FixtureList({
                   </span>
                 ) : liveStatusOf(f, now) === 'live' ? (
                   <span className="rounded bg-rose-500/20 px-1.5 py-0.5 text-[10px] font-black text-rose-300">LIVE</span>
+                ) : liveStatusOf(f, now) === 'pre' ? (
+                  <span className="rounded bg-emerald-400/20 px-1.5 py-0.5 text-[10px] font-black text-emerald-300">입장 가능</span>
                 ) : liveStatusOf(f, now) === 'ended' ? (
                   <span className="text-slate-500">정산 중</span>
                 ) : (
@@ -458,12 +462,12 @@ function FixtureList({
                   <button
                     onClick={() => onOpen(f.id)}
                     className={`rounded-md px-2 py-1 text-[10px] font-bold ${
-                      liveStatusOf(f, now) === 'live'
+                      liveStatusOf(f, now) === 'live' || liveStatusOf(f, now) === 'pre'
                         ? 'bg-emerald-400 text-slate-900'
                         : 'bg-white/10 text-slate-300 hover:bg-white/20'
                     }`}
                   >
-                    {liveStatusOf(f, now) === 'live' ? '라이브 보기' : '보기'}
+                    {liveStatusOf(f, now) === 'live' ? '라이브 보기' : liveStatusOf(f, now) === 'pre' ? '입장' : '보기'}
                   </button>
                 )}
               </div>

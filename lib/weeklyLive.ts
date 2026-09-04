@@ -67,6 +67,17 @@ export interface LiveRejected {
 export type WeeklyLiveView =
   | { status: 'upcoming'; side: LiveSide | null; home: string; away: string; kickoffAt: string; secondsToKickoff: number }
   | {
+      /** Inside the three minutes before kick-off: the eleven is locked and orders may be queued. */
+      status: 'pre'
+      side: LiveSide | null
+      home: string
+      away: string
+      kickoffAt: string
+      secondsToKickoff: number
+      lineup: LiveLineupView | null
+      pending: number
+    }
+  | {
       status: 'live'
       side: LiveSide | null
       home: string
