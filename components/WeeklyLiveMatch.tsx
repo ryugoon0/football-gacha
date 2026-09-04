@@ -140,7 +140,7 @@ export default function WeeklyLiveMatch({
 
   return (
     <section className="rounded-2xl border border-emerald-400/30 bg-slate-950/80 p-4">
-      {showHelp && <TacticCardHelp onClose={() => setShowHelp(false)} />
+      {showHelp && <TacticCardHelp onClose={() => setShowHelp(false)} />}
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="text-[10px] font-bold uppercase tracking-widest text-emerald-400">
