@@ -9,6 +9,7 @@ import {
   liveWindowEnded,
   matchMinuteAt,
   replayFixture,
+  scorersOf,
   type LiveCommand,
   type LiveSnapshot,
 } from '../lib/weeklyLeague/liveReplay'
@@ -155,6 +156,23 @@ describe('replaying a live fixture', () => {
     const b = replayFixture(snapshot, 'seed-6', commands, 90)
     expect(a.state.events).toEqual(b.state.events)
     expect(a.applied).toEqual(b.applied)
+  })
+
+  it('resolves every goal to a named player on the right side', () => {
+    const snapshot = snapshotOf()
+    // Try a few seeds so the match we inspect actually has goals on both sides.
+    for (const seed of ['scorer-1', 'scorer-2', 'scorer-3', 'scorer-4']) {
+      const replay = replayFixture(snapshot, seed, [], 90)
+      const lines = scorersOf(replay)
+      const homeGoals = lines.filter((l) => l.side === 'home').reduce((sum, l) => sum + l.goals, 0)
+      const awayGoals = lines.filter((l) => l.side === 'away').reduce((sum, l) => sum + l.goals, 0)
+      expect(homeGoals).toBe(replay.state.scoreFor)
+      expect(awayGoals).toBe(replay.state.scoreAgainst)
+      for (const line of lines) {
+        expect(line.name.length).toBeGreaterThan(0)
+        expect(line.playerId.length).toBeGreaterThan(0)
+      }
+    }
   })
 
   it('shows a manager their eleven, bench and substitutions left', () => {

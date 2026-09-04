@@ -48,6 +48,14 @@ interface CupTieRow {
   winner_slot: number | null
 }
 
+interface ScorerRow {
+  fixture_id: number
+  slot: number
+  player_id: string
+  player_name: string
+  goals: number
+}
+
 interface Membership {
   groupId: number
   tier: number
@@ -73,6 +81,7 @@ export default function WeeklyTab() {
   const [members, setMembers] = useState<MemberRow[]>([])
   const [fixtures, setFixtures] = useState<FixtureRow[]>([])
   const [cupTies, setCupTies] = useState<CupTieRow[]>([])
+  const [scorerRows, setScorerRows] = useState<ScorerRow[]>([])
   /** The fixture open in the live view (my own matches only). */
   const [openFixture, setOpenFixture] = useState<number | null>(null)
 
@@ -128,7 +137,7 @@ export default function WeeklyTab() {
     await catchUpWeeklyGroup(row.group_id)
     void fetchUnclaimedWeeklyRewards().then(setRewards)
 
-    const [membersRes, fixturesRes, competitionsRes] = await Promise.all([
+    const [membersRes, fixturesRes, competitionsRes, scorersRes] = await Promise.all([
       supabase.from('weekly_league_members').select('slot, kind, club_name').eq('group_id', row.group_id),
       supabase
         .from('weekly_fixtures')
@@ -140,7 +149,13 @@ export default function WeeklyTab() {
         .select('id, type')
         .eq('group_id', row.group_id)
         .in('type', ['CUP_A', 'CUP_B']),
+      supabase
+        .from('weekly_goal_scorers')
+        .select('fixture_id, slot, player_id, player_name, goals')
+        .eq('group_id', row.group_id),
     ])
+
+    if (!scorersRes.error) setScorerRows((scorersRes.data ?? []) as ScorerRow[])
 
     if (membersRes.error) setError(membersRes.error.message)
     else setMembers((membersRes.data ?? []) as MemberRow[])
@@ -208,6 +223,19 @@ export default function WeeklyTab() {
     ? fixtures.filter((f) => f.home_slot !== membership.slot && f.away_slot !== membership.slot && f.status === 'played')
     : []
   const othersRecent = [...others].reverse().slice(0, 40)
+
+  /** Goals per (club, player) across the group's settled fixtures — the 득점왕 table. */
+  const topScorers = useMemo(() => {
+    const byKey = new Map<string, { slot: number; playerId: string; name: string; goals: number; matches: number }>()
+    for (const row of scorerRows) {
+      const key = `${row.slot}:${row.player_id}`
+      const entry = byKey.get(key) ?? { slot: row.slot, playerId: row.player_id, name: row.player_name, goals: 0, matches: 0 }
+      entry.goals += row.goals
+      entry.matches += 1
+      byKey.set(key, entry)
+    }
+    return [...byKey.values()].sort((a, b) => b.goals - a.goals || a.matches - b.matches || a.name.localeCompare(b.name, 'ko')).slice(0, 20)
+  }, [scorerRows])
 
   const table: StandingsResult[] = useMemo(() => {
     if (members.length !== 16) return []
@@ -443,11 +471,41 @@ export default function WeeklyTab() {
 
       {sub === 'playerStandings' && (
         <section className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
-          <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">선수 개인 순위</h3>
-          <p className="mt-2 text-xs leading-relaxed text-slate-500">
-            득점왕·도움왕·MVP는 아직 지원하지 않습니다. 지금은 경기가 카드 능력치 없이 순위만으로
-            자동 정산돼서 개인 기록이 만들어지지 않습니다.
-          </p>
+          <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">득점 순위</h3>
+          {topScorers.length === 0 ? (
+            <p className="mt-2 text-xs leading-relaxed text-slate-500">
+              아직 기록된 골이 없습니다. 실유저가 낀 경기가 실제 엔진으로 정산되면 득점자가 여기 쌓입니다.
+            </p>
+          ) : (
+            <div className="mt-2 overflow-x-auto">
+              <table className="w-full min-w-[360px] text-[11px]">
+                <thead>
+                  <tr className="text-left text-slate-500">
+                    <th className="py-1 pr-2">#</th>
+                    <th className="py-1 pr-2">선수</th>
+                    <th className="py-1 pr-2">클럽</th>
+                    <th className="py-1 pr-1 text-right">경기</th>
+                    <th className="py-1 text-right">골</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {topScorers.map((row, index) => (
+                    <tr
+                      key={`${row.slot}-${row.playerId}`}
+                      className={`border-t border-white/5 ${row.slot === membership.slot ? 'bg-emerald-400/10' : ''}`}
+                    >
+                      <td className="py-1 pr-2 tabular-nums text-slate-500">{index + 1}</td>
+                      <td className="py-1 pr-2 font-bold text-slate-100">{row.name}</td>
+                      <td className="py-1 pr-2 text-slate-400">{clubName(row.slot)}</td>
+                      <td className="py-1 pr-1 text-right tabular-nums text-slate-400">{row.matches}</td>
+                      <td className="py-1 text-right font-black tabular-nums text-emerald-300">{row.goals}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+          <p className="mt-2 text-[10px] text-slate-600">AI 대 AI 경기는 득점자 기록이 없어 집계에서 빠집니다.</p>
         </section>
       )}
     </div>

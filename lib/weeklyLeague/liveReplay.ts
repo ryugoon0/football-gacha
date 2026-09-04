@@ -402,6 +402,38 @@ export function replayFixture(
   return { state, setup, home, away, applied, rejected, subsUsed, cardPlayed, cardActive }
 }
 
+export interface ScorerLine {
+  side: LiveSide
+  playerId: string
+  name: string
+  goals: number
+}
+
+/**
+ * Who scored, by player, from the engine's scorer uids — for the 득점왕 table.
+ * Uids are resolved against the eleven as it stood at full time; a scorer
+ * substituted off earlier is still found through the side's cards.
+ */
+export function scorersOf(result: ReplayResult): ScorerLine[] {
+  const lines = new Map<string, ScorerLine>()
+  const add = (side: LiveSide, uid: string) => {
+    const rating = side === 'home' ? result.setup.team : result.setup.opponentSquad
+    const material = side === 'home' ? result.home : result.away
+    const item = rating?.evaluations.find((entry) => entry.card?.uid === uid)
+    const card = material.cards.find((entry) => entry.uid === uid)
+    const playerId = item?.card?.playerId ?? card?.playerId
+    if (!playerId) return
+    const name = item?.player?.name ?? playerId
+    const key = `${side}:${playerId}`
+    const existing = lines.get(key)
+    if (existing) existing.goals += 1
+    else lines.set(key, { side, playerId, name, goals: 1 })
+  }
+  for (const uid of result.state.scorerUids) add('home', uid)
+  for (const uid of result.state.opponentScorerUids) add('away', uid)
+  return [...lines.values()]
+}
+
 /** What a viewer gets: the match as it stands, nothing private (no seed, no other side's plan). */
 export interface LivePublicState {
   minute: number

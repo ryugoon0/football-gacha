@@ -125,6 +125,63 @@ export interface AssistantContext {
   nextKickoffHotTime?: boolean
   /** Unclaimed weekly rewards, if known. */
   unclaimedRewards?: number
+  /** KST minute of the hour, for the "N분 뒤 킥오프" nudge. */
+  minuteKst?: number
+  /** Wall clock, so a just-finished match is briefed only while it is fresh. */
+  nowMs?: number
+}
+
+/** How long a finished match stays "just now" for the assistant's briefing. */
+export const BRIEFING_WINDOW_MS = 10 * 60_000
+/** Weekly slots kick off every hour on the hour, 09:00–23:00 KST. */
+const WEEKLY_KICKOFF_HOURS_KST = { first: 9, last: 23 }
+
+/** Minutes until the next weekly kick-off if one is within the nudge window, else null. */
+export function minutesToNextKickoff(hourKst: number, minuteKst: number | undefined): number | null {
+  if (minuteKst === undefined || minuteKst < 50) return null
+  const nextHour = hourKst + 1
+  if (nextHour < WEEKLY_KICKOFF_HOURS_KST.first || nextHour > WEEKLY_KICKOFF_HOURS_KST.last) return null
+  return 60 - minuteKst
+}
+
+/** The latest match if it ended within the briefing window. */
+export function freshResult(state: GameState, nowMs: number | undefined): GameState['history'][number] | null {
+  const latest = state.history[0]
+  if (!latest || nowMs === undefined) return null
+  return nowMs - latest.at <= BRIEFING_WINDOW_MS ? latest : null
+}
+
+const COMPETITION_LABEL: Record<GameState['history'][number]['competition'], string> = {
+  league: '리그',
+  cup: '컵',
+  friendly: '친선',
+  pvp: 'PvP',
+}
+
+function briefing(state: GameState, nowMs: number | undefined): AssistantSpeech | null {
+  const match = freshResult(state, nowMs)
+  if (!match) return null
+  const score = `${match.scoreFor}:${match.scoreAgainst}`
+  const label = COMPETITION_LABEL[match.competition]
+  if (match.result === 'W') {
+    const big = match.scoreFor - match.scoreAgainst >= 3
+    return {
+      text: big
+        ? `${label} ${match.opponent}전 ${score} 대승이에요! 이런 날은 저도 신나요. 보상 ${match.reward.toLocaleString('ko-KR')}G 챙겼어요.`
+        : `${label} ${match.opponent}전 ${score} 승리! 봤어요 감독님, 딱 필요한 만큼 이겼어요. +${match.reward.toLocaleString('ko-KR')}G.`,
+      expression: 'determined',
+    }
+  }
+  if (match.result === 'D') {
+    return { text: `${label} ${match.opponent}전은 ${score} 무승부… 아쉽지만 지진 않았어요. 다음 경기에서 갚아 줘요!`, expression: 'soft' }
+  }
+  return {
+    text:
+      match.scoreAgainst - match.scoreFor >= 3
+        ? `${label} ${match.opponent}전 ${score}… 오늘은 상대가 강했어요. 스쿼드 컨디션부터 같이 볼까요?`
+        : `${label} ${match.opponent}전 ${score}로 졌어요. 한 골 차예요, 다음엔 뒤집을 수 있어요.`,
+    expression: 'sad',
+  }
 }
 
 function timeGreeting(hour: number): string {
@@ -147,6 +204,9 @@ function pick<T>(items: T[], seed: number): T {
 function hanareum(ctx: AssistantContext): AssistantSpeech {
   const daily = dailyOf(ctx.state)
   const seed = ctx.hourKst + ctx.state.record.w
+  // A match that just ended is the one thing worth talking about, on any of her screens.
+  const brief = briefing(ctx.state, ctx.nowMs)
+  if (brief) return brief
   if (ctx.tab === 'match') {
     if (casualModeLocked(daily)) {
       return { text: '감독님, 오늘 캐주얼 시즌은 끝났어요! 골드는 경쟁 리그에서 벌어 볼까요? 저도 볼게요.', expression: 'soft' }
@@ -180,6 +240,14 @@ function hanareum(ctx: AssistantContext): AssistantSpeech {
         ? `앗, 선발에 빈 자리가 ${ctx.squadGaps.empty}개 있어요… 스쿼드 탭에서 자동 배치 한 번 눌러 볼까요?`
         : `선발에 부상 선수가 ${ctx.squadGaps.injured}명 있어요. 치료하거나 바꿔 주세요!`,
     )
+  } else if (minutesToNextKickoff(ctx.hourKst, ctx.minuteKst) !== null) {
+    const left = minutesToNextKickoff(ctx.hourKst, ctx.minuteKst)
+    parts.push(
+      ctx.nextKickoffHotTime
+        ? `${left}분 뒤 🔥 핫타임 킥오프예요! 경쟁 리그 탭에서 입장하면 보너스 골드까지 챙겨요.`
+        : `${left}분 뒤 경쟁 리그 킥오프예요. 3분 전부터 입장할 수 있어요!`,
+    )
+    expression = 'determined'
   } else if (ctx.nextKickoffHotTime) {
     parts.push('다음 정각은 🔥 핫타임 경기예요! 3분 전에 입장해서 지시 하나만 내려도 보너스 골드예요.')
     expression = 'determined'
@@ -232,6 +300,8 @@ function baeksoyeon(ctx: AssistantContext): AssistantSpeech {
     if ((ctx.unclaimedRewards ?? 0) > 0) {
       return { text: `받지 않은 보상이 ${ctx.unclaimedRewards!.toLocaleString('ko-KR')}G 있어요. 챙겨 두세요 — 안 받는다고 늘진 않아요.`, expression: 'surprised' }
     }
+    const left = minutesToNextKickoff(ctx.hourKst, ctx.minuteKst)
+    if (left !== null && left <= 3) return { text: `${left}분 뒤 킥오프. 지금 입장하면 라인업과 히든 카드를 낼 수 있어요.`, expression: 'serious' }
     if (ctx.nextKickoffHotTime) return { text: '다음 정각이 핫타임이에요. 3분 전에 들어가서 라인업만 잘 내도 반은 한 겁니다.', expression: 'serious' }
     return {
       text: pick(

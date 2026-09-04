@@ -43,6 +43,14 @@ export default function AssistantCard({ tab }: { tab: string }) {
     return { empty: gaps.empty.length, injured: gaps.injured.length }
   }, [state.cards, state.squad, state.season.division])
 
+  // A once-a-minute tick so the kick-off countdown and the "just finished"
+  // briefing move on without the user touching anything.
+  const [minuteTick, setMinuteTick] = useState(() => Math.floor(Date.now() / 60_000))
+  useEffect(() => {
+    const timer = setInterval(() => setMinuteTick(Math.floor(Date.now() / 60_000)), 60_000)
+    return () => clearInterval(timer)
+  }, [])
+
   const speech = useMemo(() => {
     if (!id) return { text: '', expression: 'base' }
     const now = Date.now()
@@ -54,12 +62,14 @@ export default function AssistantCard({ tab }: { tab: string }) {
       state,
       squadGaps,
       hourKst,
+      minuteKst: kst.getUTCMinutes(),
+      nowMs: now,
       nextKickoffHotTime: HOT_TIME_HOURS_KST.includes(nextHour),
     })
     // The line is meant to hold still while the screen is open; it reads the
-    // save when the tab or squad changes, not on every render.
+    // save when the tab, squad, latest result or the minute changes, not on every render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, tab, squadGaps, state.daily, state.season.round, state.season.finished, state.gold])
+  }, [id, tab, squadGaps, state.daily, state.season.round, state.season.finished, state.gold, state.history[0]?.id, minuteTick])
 
   if (!id || !hydrated) return null
   const who = ASSISTANTS[id]

@@ -26,7 +26,9 @@ import { useGame } from './GameProvider'
  * docs/WEEKLY_LIVE_MATCH_DESIGN.md — 2단계. Text feed first; a pitch view
  * can come later, the state it would need is already in `state`.
  */
-const POLL_MS = 5000
+/** 10 real seconds = 1 match minute, so 3s live polling never skips a minute; idle screens poll slower. */
+const POLL_MS_LIVE = 3000
+const POLL_MS_IDLE = 8000
 
 export default function WeeklyLiveMatch({
   fixtureId,
@@ -66,11 +68,12 @@ export default function WeeklyLiveMatch({
     }
   }, [fixtureId, onPlayed])
 
+  const pollMs = view?.status === 'live' || view?.status === 'pre' ? POLL_MS_LIVE : POLL_MS_IDLE
   useEffect(() => {
     void refresh()
-    const timer = setInterval(() => void refresh(), POLL_MS)
+    const timer = setInterval(() => void refresh(), pollMs)
     return () => clearInterval(timer)
-  }, [refresh])
+  }, [refresh, pollMs])
 
   useEffect(() => {
     feedRef.current?.scrollTo({ top: feedRef.current.scrollHeight })

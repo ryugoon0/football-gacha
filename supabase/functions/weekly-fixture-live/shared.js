@@ -5701,6 +5701,25 @@ function replayFixture(snapshot, seed, commands, targetMinute = LIVE_MATCH_MINUT
   }
   return { state, setup, home, away, applied, rejected, subsUsed, cardPlayed, cardActive };
 }
+function scorersOf(result) {
+  const lines = /* @__PURE__ */ new Map();
+  const add = (side, uid) => {
+    const rating = side === "home" ? result.setup.team : result.setup.opponentSquad;
+    const material = side === "home" ? result.home : result.away;
+    const item = rating?.evaluations.find((entry) => entry.card?.uid === uid);
+    const card = material.cards.find((entry) => entry.uid === uid);
+    const playerId = item?.card?.playerId ?? card?.playerId;
+    if (!playerId) return;
+    const name = item?.player?.name ?? playerId;
+    const key = `${side}:${playerId}`;
+    const existing = lines.get(key);
+    if (existing) existing.goals += 1;
+    else lines.set(key, { side, playerId, name, goals: 1 });
+  };
+  for (const uid of result.state.scorerUids) add("home", uid);
+  for (const uid of result.state.opponentScorerUids) add("away", uid);
+  return [...lines.values()];
+}
 function publicStateOf(state) {
   const ticks = state.possessionTicks.home + state.possessionTicks.away;
   return {
@@ -5754,6 +5773,7 @@ export {
   replayFixture,
   rewardsForFixture,
   runToEnd,
+  scorersOf,
   setTuning,
   starterAverageOf,
   toResult,

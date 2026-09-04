@@ -35,6 +35,7 @@ import {
   publicStateOf,
   replayFixture,
   rewardsForFixture,
+  scorersOf,
   setTuning,
   toResult,
   type SharedCard,
@@ -303,6 +304,12 @@ async function settleFromEngine(
     p_seed: engine.seed,
     p_engine_version: result.engineVersion,
     p_rewards: rewards,
+    p_scorers: scorersOf(replay).map((line) => ({
+      slot: line.side === 'home' ? fixture.homeSlot : fixture.awaySlot,
+      playerId: line.playerId,
+      name: line.name,
+      goals: line.goals,
+    })),
   })
   return settled?.ok === true
 }
