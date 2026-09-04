@@ -300,11 +300,29 @@ export function autoFill(cards: Card[], squad: Squad, division: number = BOTTOM_
   // never checked the bench against itself, so two different cards of the
   // same unstarted player could both survive the cut. Picking one at a time
   // and skipping any player already claimed closes both gaps at once.
+  //
+  // Team colours count the bench (18 in all), so among the leftovers the
+  // starters' biggest club — then their biggest league — is picked first;
+  // level only breaks ties. A bench of strangers would throw the colour away.
+  const starterPlayers = Object.values(slots)
+    .filter((uid): uid is string => Boolean(uid))
+    .map((uid) => getPlayer(uidToPlayerId.get(uid)!)!)
+  const dominant = (pick: (player: PlayerDef) => string) => {
+    const counts = new Map<string, number>()
+    for (const player of starterPlayers) counts.set(pick(player), (counts.get(pick(player)) ?? 0) + 1)
+    return [...counts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? ''
+  }
+  const mainClub = dominant((player) => player.club)
+  const mainLeague = dominant((player) => player.league)
+  const benchRank = (card: Card) => {
+    const player = getPlayer(card.playerId)!
+    return (player.club === mainClub ? 2 : 0) + (player.league === mainLeague ? 1 : 0)
+  }
   const bench: string[] = []
   const benchPlayers = new Set<string>()
   for (const card of pool
     .filter((c) => !takenCards.has(c.uid) && !takenPlayers.has(c.playerId))
-    .sort((a, b) => b.level - a.level)) {
+    .sort((a, b) => benchRank(b) - benchRank(a) || b.level - a.level)) {
     if (bench.length >= BENCH_SIZE) break
     if (benchPlayers.has(card.playerId)) continue
     bench.push(card.uid)

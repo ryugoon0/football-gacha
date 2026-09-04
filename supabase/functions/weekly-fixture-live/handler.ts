@@ -311,6 +311,7 @@ async function settleFromEngine(
       playerId: line.playerId,
       name: line.name,
       goals: line.goals,
+      assists: line.assists,
     })),
   })
   return settled?.ok === true

@@ -170,7 +170,7 @@ export function replayFixture(
   targetMinute?: number,
 ): SharedReplayResult
 export function publicStateOf(state: SharedLiveState): SharedPublicState
-export function scorersOf(result: SharedReplayResult): { side: SharedSide; playerId: string; name: string; goals: number }[]
+export function scorersOf(result: SharedReplayResult): { side: SharedSide; playerId: string; name: string; goals: number; assists: number }[]
 export function lineupViewOf(
   result: SharedReplayResult,
   side: SharedSide,

@@ -1,6 +1,7 @@
 import { FORMATIONS } from './formations'
 import { KNOBS, tune } from './tuning'
 import { POSITION_GROUP } from './players'
+import { hashString, seededRandom } from './random'
 import type { LeagueTeam } from './league'
 import type { SlotEvaluation, SquadRating } from './squad'
 import { DEFAULT_TACTIC, tacticEffects, type TacticSetup } from './tactics'
@@ -119,6 +120,9 @@ export interface LiveMatchState {
   scorerUids: string[]
   /** Only ever filled when opponentSquad is a real squad (PvP). */
   opponentScorerUids: string[]
+  /** One entry per goal that had a provider, parallel in meaning to scorerUids. */
+  assistUids: string[]
+  opponentAssistUids: string[]
   /** How much each starter has left in the tank, 0-100, by card uid. */
   stamina: Record<string, number>
   /** Stamina for opponentSquad's eleven, same shape, only used in PvP. */
@@ -233,6 +237,38 @@ function drift(dots: Dot[], ball: { x: number; y: number }, rng: () => number): 
   })
 }
 
+/**
+ * The provider of a goal, or null for a goal made alone. Midfielders and the
+ * better passers are likelier; a wide route favours the flanks' habit of
+ * crossing, a through ball the midfield. Roughly one goal in four is unassisted.
+ */
+function pickAssister(
+  evaluations: SlotEvaluation[],
+  shooterUid: string | null,
+  route: string,
+  rng: () => number,
+): { name: string; uid: string } | null {
+  const candidates = evaluations.filter(
+    (item) => item.player && item.card && !item.injured && item.card.uid !== shooterUid && POSITION_GROUP[item.slotPosition] !== 'GK',
+  )
+  if (candidates.length === 0) return null
+  if (rng() < 0.25) return null
+  const weights = candidates.map((item) => {
+    const group = POSITION_GROUP[item.slotPosition]
+    const bias = group === 'MF' ? 4 : group === 'FW' ? 3 : 1
+    const routeBias = route === 'wide' && /^(L|R)/.test(item.slotPosition) ? 2 : route === 'through' && group === 'MF' ? 1.5 : 1
+    return bias * routeBias * (item.player!.stats.pas / 50 + 0.4)
+  })
+  const total = weights.reduce((sum, weight) => sum + weight, 0)
+  let roll = rng() * total
+  for (let i = 0; i < candidates.length; i++) {
+    roll -= weights[i]
+    if (roll <= 0) return { name: candidates[i].player!.name, uid: candidates[i].card!.uid }
+  }
+  const last = candidates[candidates.length - 1]
+  return { name: last.player!.name, uid: last.card!.uid }
+}
+
 function pickScorer(
   evaluations: SlotEvaluation[],
   rng: () => number,
@@ -292,6 +328,8 @@ export function createMatch(setup: MatchSetup): LiveMatchState {
     ],
     scorerUids: [],
     opponentScorerUids: [],
+    assistUids: [],
+    opponentAssistUids: [],
     stamina: seedStamina(setup.team.evaluations),
     opponentStamina: setup.opponentSquad ? seedStamina(setup.opponentSquad.evaluations) : {},
     metrics: emptyMetrics(),
@@ -521,6 +559,8 @@ export function advance(
   const possessionTicks = { ...state.possessionTicks }
   const scorerUids = [...state.scorerUids]
   const opponentScorerUids = [...state.opponentScorerUids]
+  const assistUids = [...(state.assistUids ?? [])]
+  const opponentAssistUids = [...(state.opponentAssistUids ?? [])]
   let stoppage: Stoppage | null = null
 
   if (minute > 90) {
@@ -621,18 +661,30 @@ export function advance(
 
     if (rng() < goalChance) {
       metrics[side].shotsOnTarget += 1
+      // Who laid it on: a teammate weighted by passing, none for a solo run.
+      // Drawn from a side stream seeded by the goal itself so the main rng
+      // sequence — and every already-settled match replayed from its seed —
+      // stays exactly as it was.
+      const sideRng = seededRandom(hashString(`assist:${minute}:${scoreFor}:${scoreAgainst}:${shooter.uid ?? ''}`))
+      const provider = weAttack
+        ? pickAssister(setup.team.evaluations, shooter.uid, route, sideRng)
+        : setup.opponentSquad
+          ? pickAssister(setup.opponentSquad.evaluations, shooter.uid, route, sideRng)
+          : null
       if (weAttack) {
         scoreFor++
         if (shooter.uid) scorerUids.push(shooter.uid)
+        if (provider?.uid) assistUids.push(provider.uid)
       } else {
         scoreAgainst++
         if (shooter.uid) opponentScorerUids.push(shooter.uid)
+        if (provider?.uid) opponentAssistUids.push(provider.uid)
       }
       events.push({
         minute,
         type: 'goal',
         side,
-        text: `⚽ ${shooter.name} 골! ${scoreFor} : ${scoreAgainst}`,
+        text: `⚽ ${shooter.name} 골!${provider ? ` (도움 ${provider.name})` : ''} ${scoreFor} : ${scoreAgainst}`,
       })
       stoppage = { kind: 'goal', ticksLeft: STOPPAGE_TICKS.goal, text: '골! 경기 재개 준비' }
       return
@@ -751,6 +803,8 @@ export function advance(
     events,
     scorerUids,
     opponentScorerUids,
+    assistUids,
+    opponentAssistUids,
     stamina,
     opponentStamina,
     metrics,
@@ -793,6 +847,8 @@ export function toResult(
     opponent: setup.opponentSquad ? (setup.opponentName ?? setup.opponent.name) : setup.opponent.name,
     scorerUids: state.scorerUids,
     opponentScorerUids: state.opponentScorerUids,
+    assistUids: state.assistUids ?? [],
+    opponentAssistUids: state.opponentAssistUids ?? [],
     opponentRating: setup.opponent.rating,
     scoreFor: state.scoreFor,
     scoreAgainst: state.scoreAgainst,

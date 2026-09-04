@@ -17,6 +17,7 @@
  */
 import { applyAutoSubs } from '../autoSub'
 import { advance, createMatch, shapeFromSquad, type Dot, type LiveMatchState, type MatchSetup } from '../matchEngine'
+import { getPlayer } from '../players'
 import { tune } from '../tuning'
 import { hashString, seededRandom } from '../random'
 import { evaluateSquad } from '../squad'
@@ -407,30 +408,33 @@ export interface ScorerLine {
   playerId: string
   name: string
   goals: number
+  assists: number
 }
 
 /**
- * Who scored, by player, from the engine's scorer uids — for the 득점왕 table.
- * Uids are resolved against the eleven as it stood at full time; a scorer
- * substituted off earlier is still found through the side's cards.
+ * Who scored and who provided, by player, from the engine's uids — for the
+ * 득점·도움 table. Uids are resolved against the eleven as it stood at full
+ * time; a player substituted off earlier is still found through the side's cards.
  */
 export function scorersOf(result: ReplayResult): ScorerLine[] {
   const lines = new Map<string, ScorerLine>()
-  const add = (side: LiveSide, uid: string) => {
+  const add = (side: LiveSide, uid: string, what: 'goals' | 'assists') => {
     const rating = side === 'home' ? result.setup.team : result.setup.opponentSquad
     const material = side === 'home' ? result.home : result.away
     const item = rating?.evaluations.find((entry) => entry.card?.uid === uid)
     const card = material.cards.find((entry) => entry.uid === uid)
     const playerId = item?.card?.playerId ?? card?.playerId
     if (!playerId) return
-    const name = item?.player?.name ?? playerId
+    const name = item?.player?.name ?? getPlayer(playerId)?.name ?? playerId
     const key = `${side}:${playerId}`
-    const existing = lines.get(key)
-    if (existing) existing.goals += 1
-    else lines.set(key, { side, playerId, name, goals: 1 })
+    const line = lines.get(key) ?? { side, playerId, name, goals: 0, assists: 0 }
+    line[what] += 1
+    lines.set(key, line)
   }
-  for (const uid of result.state.scorerUids) add('home', uid)
-  for (const uid of result.state.opponentScorerUids) add('away', uid)
+  for (const uid of result.state.scorerUids) add('home', uid, 'goals')
+  for (const uid of result.state.opponentScorerUids) add('away', uid, 'goals')
+  for (const uid of result.state.assistUids ?? []) add('home', uid, 'assists')
+  for (const uid of result.state.opponentAssistUids ?? []) add('away', uid, 'assists')
   return [...lines.values()]
 }
 

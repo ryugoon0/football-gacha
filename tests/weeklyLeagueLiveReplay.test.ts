@@ -168,9 +168,16 @@ describe('replaying a live fixture', () => {
       const awayGoals = lines.filter((l) => l.side === 'away').reduce((sum, l) => sum + l.goals, 0)
       expect(homeGoals).toBe(replay.state.scoreFor)
       expect(awayGoals).toBe(replay.state.scoreAgainst)
+      // Never more providers than goals, and a provider is never the scorer of that goal.
+      const homeAssists = lines.filter((l) => l.side === 'home').reduce((sum, l) => sum + l.assists, 0)
+      const awayAssists = lines.filter((l) => l.side === 'away').reduce((sum, l) => sum + l.assists, 0)
+      expect(homeAssists).toBeLessThanOrEqual(replay.state.scoreFor)
+      expect(awayAssists).toBeLessThanOrEqual(replay.state.scoreAgainst)
+      expect(replay.state.assistUids.length).toBe(homeAssists)
       for (const line of lines) {
         expect(line.name.length).toBeGreaterThan(0)
         expect(line.playerId.length).toBeGreaterThan(0)
+        expect(line.goals + line.assists).toBeGreaterThan(0)
       }
     }
   })

@@ -4427,6 +4427,27 @@ function drift(dots, ball, rng) {
     };
   });
 }
+function pickAssister(evaluations, shooterUid, route, rng) {
+  const candidates = evaluations.filter(
+    (item) => item.player && item.card && !item.injured && item.card.uid !== shooterUid && POSITION_GROUP[item.slotPosition] !== "GK"
+  );
+  if (candidates.length === 0) return null;
+  if (rng() < 0.25) return null;
+  const weights = candidates.map((item) => {
+    const group = POSITION_GROUP[item.slotPosition];
+    const bias = group === "MF" ? 4 : group === "FW" ? 3 : 1;
+    const routeBias = route === "wide" && /^(L|R)/.test(item.slotPosition) ? 2 : route === "through" && group === "MF" ? 1.5 : 1;
+    return bias * routeBias * (item.player.stats.pas / 50 + 0.4);
+  });
+  const total = weights.reduce((sum, weight) => sum + weight, 0);
+  let roll = rng() * total;
+  for (let i = 0; i < candidates.length; i++) {
+    roll -= weights[i];
+    if (roll <= 0) return { name: candidates[i].player.name, uid: candidates[i].card.uid };
+  }
+  const last = candidates[candidates.length - 1];
+  return { name: last.player.name, uid: last.card.uid };
+}
 function pickScorer(evaluations, rng) {
   const candidates = evaluations.filter(
     (item) => item.player && !item.injured && POSITION_GROUP[item.slotPosition] !== "GK"
@@ -4480,6 +4501,8 @@ function createMatch(setup) {
     ],
     scorerUids: [],
     opponentScorerUids: [],
+    assistUids: [],
+    opponentAssistUids: [],
     stamina: seedStamina(setup.team.evaluations),
     opponentStamina: setup.opponentSquad ? seedStamina(setup.opponentSquad.evaluations) : {},
     metrics: emptyMetrics(),
@@ -4613,6 +4636,8 @@ function advance(state, setup, rng = Math.random) {
   const possessionTicks = { ...state.possessionTicks };
   const scorerUids = [...state.scorerUids];
   const opponentScorerUids = [...state.opponentScorerUids];
+  const assistUids = [...state.assistUids ?? []];
+  const opponentAssistUids = [...state.opponentAssistUids ?? []];
   let stoppage = null;
   if (minute > 90) {
     events.push({
@@ -4677,18 +4702,22 @@ function advance(state, setup, rng = Math.random) {
     ball = { x: clamp2(ball.x + (rng() * 20 - 10), 20, 80), y: weAttack ? 94 : 6 };
     if (rng() < goalChance) {
       metrics[side].shotsOnTarget += 1;
+      const sideRng = seededRandom(hashString(`assist:${minute}:${scoreFor}:${scoreAgainst}:${shooter.uid ?? ""}`));
+      const provider = weAttack ? pickAssister(setup.team.evaluations, shooter.uid, route, sideRng) : setup.opponentSquad ? pickAssister(setup.opponentSquad.evaluations, shooter.uid, route, sideRng) : null;
       if (weAttack) {
         scoreFor++;
         if (shooter.uid) scorerUids.push(shooter.uid);
+        if (provider?.uid) assistUids.push(provider.uid);
       } else {
         scoreAgainst++;
         if (shooter.uid) opponentScorerUids.push(shooter.uid);
+        if (provider?.uid) opponentAssistUids.push(provider.uid);
       }
       events.push({
         minute,
         type: "goal",
         side,
-        text: `\u26BD ${shooter.name} \uACE8! ${scoreFor} : ${scoreAgainst}`
+        text: `\u26BD ${shooter.name} \uACE8!${provider ? ` (\uB3C4\uC6C0 ${provider.name})` : ""} ${scoreFor} : ${scoreAgainst}`
       });
       stoppage = { kind: "goal", ticksLeft: STOPPAGE_TICKS.goal, text: "\uACE8! \uACBD\uAE30 \uC7AC\uAC1C \uC900\uBE44" };
       return;
@@ -4788,6 +4817,8 @@ function advance(state, setup, rng = Math.random) {
     events,
     scorerUids,
     opponentScorerUids,
+    assistUids,
+    opponentAssistUids,
     stamina,
     opponentStamina,
     metrics
@@ -4813,6 +4844,8 @@ function toResult(state, setup, meta) {
     opponent: setup.opponentSquad ? setup.opponentName ?? setup.opponent.name : setup.opponent.name,
     scorerUids: state.scorerUids,
     opponentScorerUids: state.opponentScorerUids,
+    assistUids: state.assistUids ?? [],
+    opponentAssistUids: state.opponentAssistUids ?? [],
     opponentRating: setup.opponent.rating,
     scoreFor: state.scoreFor,
     scoreAgainst: state.scoreAgainst,

@@ -73,6 +73,8 @@ export function pitchStateOf(state: LivePublicState): LiveMatchState {
     events: state.events,
     scorerUids: [],
     opponentScorerUids: [],
+    assistUids: [],
+    opponentAssistUids: [],
     stamina: {},
     opponentStamina: {},
     metrics: emptyMetrics(),

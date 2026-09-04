@@ -173,6 +173,9 @@ export interface MatchResult {
   scorerUids: string[]
   /** Only ever filled for a real PvP opponent — see MatchSetup.opponentSquad. */
   opponentScorerUids: string[]
+  /** Providers, one per assisted goal. Optional so older saves still load. */
+  assistUids?: string[]
+  opponentAssistUids?: string[]
   opponentRating: number
   scoreFor: number
   scoreAgainst: number

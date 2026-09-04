@@ -56,6 +56,7 @@ interface ScorerRow {
   player_id: string
   player_name: string
   goals: number
+  assists: number
 }
 
 interface Membership {
@@ -160,7 +161,7 @@ export default function WeeklyTab() {
         .in('type', ['CUP_A', 'CUP_B']),
       supabase
         .from('weekly_goal_scorers')
-        .select('fixture_id, slot, player_id, player_name, goals')
+        .select('fixture_id, slot, player_id, player_name, goals, assists')
         .eq('group_id', row.group_id),
     ])
 
@@ -233,18 +234,35 @@ export default function WeeklyTab() {
     : []
   const othersRecent = [...others].reverse().slice(0, 40)
 
-  /** Goals per (club, player) across the group's settled fixtures — the 득점왕 table. */
-  const topScorers = useMemo(() => {
-    const byKey = new Map<string, { slot: number; playerId: string; name: string; goals: number; matches: number }>()
+  /** Goals and assists per (club, player) across the group's settled fixtures. */
+  const playerTotals = useMemo(() => {
+    const byKey = new Map<string, { slot: number; playerId: string; name: string; goals: number; assists: number; matches: number }>()
     for (const row of scorerRows) {
       const key = `${row.slot}:${row.player_id}`
-      const entry = byKey.get(key) ?? { slot: row.slot, playerId: row.player_id, name: row.player_name, goals: 0, matches: 0 }
+      const entry = byKey.get(key) ?? { slot: row.slot, playerId: row.player_id, name: row.player_name, goals: 0, assists: 0, matches: 0 }
       entry.goals += row.goals
+      entry.assists += row.assists ?? 0
       entry.matches += 1
       byKey.set(key, entry)
     }
-    return [...byKey.values()].sort((a, b) => b.goals - a.goals || a.matches - b.matches || a.name.localeCompare(b.name, 'ko')).slice(0, 20)
+    return [...byKey.values()]
   }, [scorerRows])
+  const topScorers = useMemo(
+    () =>
+      [...playerTotals]
+        .filter((row) => row.goals > 0)
+        .sort((a, b) => b.goals - a.goals || b.assists - a.assists || a.matches - b.matches || a.name.localeCompare(b.name, 'ko'))
+        .slice(0, 15),
+    [playerTotals],
+  )
+  const topAssists = useMemo(
+    () =>
+      [...playerTotals]
+        .filter((row) => row.assists > 0)
+        .sort((a, b) => b.assists - a.assists || b.goals - a.goals || a.matches - b.matches || a.name.localeCompare(b.name, 'ko'))
+        .slice(0, 10),
+    [playerTotals],
+  )
 
   const table: StandingsResult[] = useMemo(() => {
     if (members.length !== 16) return []
@@ -533,7 +551,9 @@ export default function WeeklyTab() {
                     <th className="py-1 pr-2">선수</th>
                     <th className="py-1 pr-2">클럽</th>
                     <th className="py-1 pr-1 text-right">경기</th>
-                    <th className="py-1 text-right">골</th>
+                    <th className="py-1 pr-1 text-right">골</th>
+                    <th className="py-1 pr-1 text-right">도움</th>
+                    <th className="py-1 text-right">공격P</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -546,12 +566,46 @@ export default function WeeklyTab() {
                       <td className="py-1 pr-2 font-bold text-slate-100">{row.name}</td>
                       <td className="py-1 pr-2 text-slate-400">{clubName(row.slot)}</td>
                       <td className="py-1 pr-1 text-right tabular-nums text-slate-400">{row.matches}</td>
-                      <td className="py-1 text-right font-black tabular-nums text-emerald-300">{row.goals}</td>
+                      <td className="py-1 pr-1 text-right font-black tabular-nums text-emerald-300">{row.goals}</td>
+                      <td className="py-1 pr-1 text-right tabular-nums text-sky-300">{row.assists}</td>
+                      <td className="py-1 text-right font-bold tabular-nums text-slate-200">{row.goals + row.assists}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
+          )}
+          {topAssists.length > 0 && (
+            <>
+              <h3 className="mt-4 text-sm font-bold uppercase tracking-wide text-slate-400">도움 순위</h3>
+              <div className="mt-2 overflow-x-auto">
+                <table className="w-full min-w-[300px] text-[11px]">
+                  <thead>
+                    <tr className="text-left text-slate-500">
+                      <th className="py-1 pr-2">#</th>
+                      <th className="py-1 pr-2">선수</th>
+                      <th className="py-1 pr-2">클럽</th>
+                      <th className="py-1 pr-1 text-right">도움</th>
+                      <th className="py-1 text-right">골</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {topAssists.map((row, index) => (
+                      <tr
+                        key={`${row.slot}-${row.playerId}`}
+                        className={`border-t border-white/5 ${row.slot === membership.slot ? 'bg-emerald-400/10' : ''}`}
+                      >
+                        <td className="py-1 pr-2 tabular-nums text-slate-500">{index + 1}</td>
+                        <td className="py-1 pr-2 font-bold text-slate-100">{row.name}</td>
+                        <td className="py-1 pr-2 text-slate-400">{clubName(row.slot)}</td>
+                        <td className="py-1 pr-1 text-right font-black tabular-nums text-sky-300">{row.assists}</td>
+                        <td className="py-1 text-right tabular-nums text-slate-400">{row.goals}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
           )}
           <p className="mt-2 text-[10px] text-slate-600">AI 대 AI 경기는 득점자 기록이 없어 집계에서 빠집니다.</p>
         </section>

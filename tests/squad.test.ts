@@ -87,6 +87,33 @@ describe('fitness', () => {
 })
 
 describe('auto fill', () => {
+  it('fills the bench with the starters’ club before anyone stronger from elsewhere', () => {
+    const state = initialState()
+    const starters = autoFill(state.cards, state.squad)
+    const startingClubs = new Map<string, number>()
+    for (const uid of Object.values(starters.slots)) {
+      const card = state.cards.find((c) => c.uid === uid)!
+      const club = PLAYERS.find((p) => p.id === card.playerId)!.club
+      startingClubs.set(club, (startingClubs.get(club) ?? 0) + 1)
+    }
+    const mainClub = [...startingClubs.entries()].sort((a, b) => b[1] - a[1])[0][0]
+    const mate = PLAYERS.find((p) => p.club === mainClub && !state.cards.some((c) => c.playerId === p.id))
+    const stranger = PLAYERS.find((p) => p.club !== mainClub && !state.cards.some((c) => c.playerId === p.id))!
+    if (!mate) return
+    const cards: Card[] = [
+      ...state.cards,
+      { uid: 'mate', playerId: mate.id, level: 1, limit: 3, condition: 100, injuredFor: 0, exp: 0 },
+      { uid: 'stranger', playerId: stranger.id, level: 5, limit: 6, condition: 100, injuredFor: 0, exp: 0 },
+    ]
+    const squad = autoFill(cards, state.squad)
+    const onPitch = Object.values(squad.slots)
+    // If neither made the eleven, the club mate must be on the bench even
+    // though the stranger is four levels higher.
+    if (!onPitch.includes('mate') && !onPitch.includes('stranger')) {
+      expect(squad.bench).toContain('mate')
+    }
+  })
+
   it('fills every slot with a different card and prefers stronger players', () => {
     const state = initialState()
     const world = PLAYERS_BY_RARITY.World[0]
