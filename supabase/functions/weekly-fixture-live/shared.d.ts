@@ -56,6 +56,7 @@ export interface SharedSnapshot {
   setup: SharedMatchSetup
   home: SharedSideMaterial
   away: SharedSideMaterial
+  kickoffUtcMs?: number
 }
 
 export type SharedSide = 'home' | 'away'
@@ -84,7 +85,7 @@ export interface SharedReplayResult {
   cardPlayed: Record<SharedSide, string | null>
 }
 
-export const TACTIC_CARDS: Record<string, { id: string; name: string; durationMinutes: number }>
+export const TACTIC_CARDS: Record<string, { id: string; name: string; when: string; boost: number }>
 export function isTacticCardId(value: unknown): boolean
 
 export interface SharedPublicState {

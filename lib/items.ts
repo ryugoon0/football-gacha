@@ -20,15 +20,19 @@ export type ItemId =
   | 'friendlyTicket'
   | 'vaultPermit'
   | 'shardPouch'
-  // 작전카드 — 경쟁 리그 경기 시작 전에 쓰는 한 판짜리 전술 지시 (lib/weeklyLeague/tacticCards.ts).
-  | 'cardAllOutAttack'
-  | 'cardCalmDefence'
-  | 'cardQuickCounter'
-  | 'cardHighPress'
-  | 'cardWingOverload'
-  | 'cardMidfieldControl'
-  | 'cardLongBall'
-  | 'cardParkTheBus'
+  // 작전카드 — 경쟁 리그 경기 시작 전에 고르는 한 판짜리 조건부 능력치 카드 (lib/weeklyLeague/tacticCards.ts).
+  | 'cardUnderdog'
+  | 'cardEvenMatch'
+  | 'cardHomeCrowd'
+  | 'cardAwayGrit'
+  | 'cardBigStage'
+  | 'cardHotTime'
+  | 'cardChaser'
+  | 'cardLockdown'
+  | 'cardFastStart'
+  | 'cardSecondHalf'
+  | 'cardLateLegs'
+  | 'cardGoalmouth'
 
 /** What an item is used on. 'match' is played from the live screen before a weekly kick-off. */
 export type ItemTarget = 'card' | 'club' | 'match'
@@ -119,82 +123,122 @@ export const ITEMS: Record<ItemId, ItemDef> = {
     shards: null,
     dailyLimit: 3,
   },
-  cardAllOutAttack: {
-    id: 'cardAllOutAttack',
-    name: '작전카드 · 총공격 지시',
-    note: '경쟁 리그 경기 시작 전에 씁니다. 킥오프 15분간 공격 가담·크로스 급증, 대가로 뒷공간이 열립니다. 한 경기 한 장.',
+  cardUnderdog: {
+    id: 'cardUnderdog',
+    name: '작전카드 · 공은 원래 둥글다',
+    note: '경쟁 리그 경기 시작 전에 고릅니다. 상대 스쿼드 종합이 우리보다 5 이상 높은 경기에서 경기 내내 모든 선수 능력치 +5. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
+    target: 'match',
+    icon: '⚽',
+    gold: 1200,
+    shards: 60,
+    dailyLimit: 3,
+  },
+  cardEvenMatch: {
+    id: 'cardEvenMatch',
+    name: '작전카드 · 박빙 승부사',
+    note: '경쟁 리그 경기 시작 전에 고릅니다. 두 팀 종합 차이가 5 미만인 경기에서 경기 내내 능력치 +4. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
+    target: 'match',
+    icon: '⚖️',
+    gold: 1200,
+    shards: 60,
+    dailyLimit: 3,
+  },
+  cardHomeCrowd: {
+    id: 'cardHomeCrowd',
+    name: '작전카드 · 열두 번째 선수',
+    note: '경쟁 리그 경기 시작 전에 고릅니다. 홈 경기에서 경기 내내 능력치 +4. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
+    target: 'match',
+    icon: '📣',
+    gold: 1200,
+    shards: 60,
+    dailyLimit: 3,
+  },
+  cardAwayGrit: {
+    id: 'cardAwayGrit',
+    name: '작전카드 · 원정 투혼',
+    note: '경쟁 리그 경기 시작 전에 고릅니다. 원정 경기에서 경기 내내 능력치 +4. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
+    target: 'match',
+    icon: '🚩',
+    gold: 1200,
+    shards: 60,
+    dailyLimit: 3,
+  },
+  cardBigStage: {
+    id: 'cardBigStage',
+    name: '작전카드 · 큰 경기에 강하다',
+    note: '경쟁 리그 경기 시작 전에 고릅니다. 중립 구장 경기(컵 결승·Masters Final)에서 경기 내내 능력치 +6. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
+    target: 'match',
+    icon: '🏟️',
+    gold: 1200,
+    shards: 60,
+    dailyLimit: 3,
+  },
+  cardHotTime: {
+    id: 'cardHotTime',
+    name: '작전카드 · 핫타임 집중',
+    note: '경쟁 리그 경기 시작 전에 고릅니다. 핫타임(15시·21시) 킥오프 경기에서 경기 내내 능력치 +4. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
     target: 'match',
     icon: '🔥',
     gold: 1200,
     shards: 60,
     dailyLimit: 3,
   },
-  cardCalmDefence: {
-    id: 'cardCalmDefence',
-    name: '작전카드 · 침착한 수비',
-    note: '경쟁 리그 경기 시작 전에 씁니다. 킥오프 15분간 라인을 내리고 압박을 좁혀 실점 위험 감소, 대가로 역습·템포가 무뎌집니다. 한 경기 한 장.',
-    target: 'match',
-    icon: '🛡️',
-    gold: 1200,
-    shards: 60,
-    dailyLimit: 3,
-  },
-  cardQuickCounter: {
-    id: 'cardQuickCounter',
-    name: '작전카드 · 즉각 역습',
-    note: '경쟁 리그 경기 시작 전에 씁니다. 킥오프 10분간 되찾은 공을 즉시 앞으로, 대가로 빌드업이 거칠어집니다. 한 경기 한 장.',
-    target: 'match',
-    icon: '⚡',
-    gold: 1200,
-    shards: 60,
-    dailyLimit: 3,
-  },
-  cardHighPress: {
-    id: 'cardHighPress',
-    name: '작전카드 · 전방 압박',
-    note: '경쟁 리그 경기 시작 전에 씁니다. 킥오프 12분간 첫 라인부터 강한 압박·즉시 되찾기, 대가로 뒷공간이 넓어집니다. 한 경기 한 장.',
+  cardChaser: {
+    id: 'cardChaser',
+    name: '작전카드 · 추격자 본능',
+    note: '경쟁 리그 경기 시작 전에 고릅니다. 우리가 뒤지고 있는 동안 능력치 +6. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
     target: 'match',
     icon: '🏃',
     gold: 1200,
     shards: 60,
     dailyLimit: 3,
   },
-  cardWingOverload: {
-    id: 'cardWingOverload',
-    name: '작전카드 · 측면 폭격',
-    note: '경쟁 리그 경기 시작 전에 씁니다. 킥오프 15분간 넓게 벌려 오버래핑·크로스 집중, 대가로 수비 폭이 좁아집니다. 한 경기 한 장.',
+  cardLockdown: {
+    id: 'cardLockdown',
+    name: '작전카드 · 리드는 지킨다',
+    note: '경쟁 리그 경기 시작 전에 고릅니다. 우리가 앞서고 있는 동안 능력치 +4. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
     target: 'match',
-    icon: '🎯',
+    icon: '🔒',
     gold: 1200,
     shards: 60,
     dailyLimit: 3,
   },
-  cardMidfieldControl: {
-    id: 'cardMidfieldControl',
-    name: '작전카드 · 중원 장악',
-    note: '경쟁 리그 경기 시작 전에 씁니다. 킥오프 20분간 짧고 안전한 점유, 대가로 직선 공격·역습이 줄어듭니다. 한 경기 한 장.',
-    target: 'match',
-    icon: '🧠',
-    gold: 1200,
-    shards: 60,
-    dailyLimit: 3,
-  },
-  cardLongBall: {
-    id: 'cardLongBall',
-    name: '작전카드 · 롱볼 전환',
-    note: '경쟁 리그 경기 시작 전에 씁니다. 킥오프 15분간 길게 뒷공간으로, 대가로 패스 성공률이 떨어집니다. 한 경기 한 장.',
+  cardFastStart: {
+    id: 'cardFastStart',
+    name: '작전카드 · 초반 러시',
+    note: '경쟁 리그 경기 시작 전에 고릅니다. 킥오프부터 20분까지 능력치 +6. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
     target: 'match',
     icon: '🚀',
     gold: 1200,
     shards: 60,
     dailyLimit: 3,
   },
-  cardParkTheBus: {
-    id: 'cardParkTheBus',
-    name: '작전카드 · 수비 잠금',
-    note: '경쟁 리그 경기 시작 전에 씁니다. 킥오프 20분간 깊은 라인과 잔류 수비로 잠금, 대가로 공격 가담·템포가 크게 줍니다. 한 경기 한 장.',
+  cardSecondHalf: {
+    id: 'cardSecondHalf',
+    name: '작전카드 · 후반의 사나이',
+    note: '경쟁 리그 경기 시작 전에 고릅니다. 후반전(45분 이후) 내내 능력치 +4. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
     target: 'match',
-    icon: '🚌',
+    icon: '🌙',
+    gold: 1200,
+    shards: 60,
+    dailyLimit: 3,
+  },
+  cardLateLegs: {
+    id: 'cardLateLegs',
+    name: '작전카드 · 지지 않는 다리',
+    note: '경쟁 리그 경기 시작 전에 고릅니다. 70분 이후 경기 끝까지 능력치 +5. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
+    target: 'match',
+    icon: '🦵',
+    gold: 1200,
+    shards: 60,
+    dailyLimit: 3,
+  },
+  cardGoalmouth: {
+    id: 'cardGoalmouth',
+    name: '작전카드 · 골문 앞 집중',
+    note: '경쟁 리그 경기 시작 전에 고릅니다. 상대 슈팅이 8개를 넘은 뒤부터 능력치 +5. 한 경기 한 장, 조건이 맞는 동안만 발동합니다.',
+    target: 'match',
+    icon: '🧤',
     gold: 1200,
     shards: 60,
     dailyLimit: 3,

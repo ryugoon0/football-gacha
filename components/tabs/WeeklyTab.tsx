@@ -318,6 +318,11 @@ export default function WeeklyTab() {
                 setOpenFixture(null)
                 void load()
               }}
+              onPlayed={() => {
+                // The match just settled: its gold is in weekly_rewards now,
+                // so the claim banner should show it without a reload.
+                void fetchUnclaimedWeeklyRewards().then(setRewards)
+              }}
             />
           )}
           <FixtureList

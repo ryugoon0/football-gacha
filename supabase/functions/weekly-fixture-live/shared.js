@@ -5355,93 +5355,126 @@ function rewardsForFixture(args) {
 }
 
 // lib/weeklyLeague/tacticCards.ts
+var define = (card) => card;
 var TACTIC_CARDS = {
-  cardAllOutAttack: {
-    id: "cardAllOutAttack",
-    name: "\uCD1D\uACF5\uACA9 \uC9C0\uC2DC",
-    note: "\uD0A5\uC624\uD504\uBD80\uD130 15\uBD84\uAC04 \uACF5\uACA9 \uAC00\uB2F4\uACFC \uD06C\uB85C\uC2A4\uAC00 \uD06C\uAC8C \uB298\uACE0 \uB9C8\uBB34\uB9AC\uB97C \uC11C\uB450\uB985\uB2C8\uB2E4. \uB300\uAC00\uB85C \uADF8 \uC2DC\uAC04 \uB3D9\uC548 \uB4B7\uACF5\uAC04\uC774 \uC5F4\uB9BD\uB2C8\uB2E4.",
+  cardUnderdog: define({
+    id: "cardUnderdog",
+    name: "\uACF5\uC740 \uC6D0\uB798 \uB465\uAE00\uB2E4",
+    when: "\uC0C1\uB300 \uC2A4\uCFFC\uB4DC \uC885\uD569\uC774 \uC6B0\uB9AC\uBCF4\uB2E4 5 \uC774\uC0C1 \uB192\uC744 \uB54C, \uACBD\uAE30 \uB0B4\uB0B4",
+    boost: 5,
+    icon: "\u26BD",
+    triggers: (ctx) => ctx.theirOverall - ctx.myOverall >= 5
+  }),
+  cardEvenMatch: define({
+    id: "cardEvenMatch",
+    name: "\uBC15\uBE59 \uC2B9\uBD80\uC0AC",
+    when: "\uB450 \uD300 \uC2A4\uCFFC\uB4DC \uC885\uD569 \uCC28\uC774\uAC00 5 \uBBF8\uB9CC\uC77C \uB54C, \uACBD\uAE30 \uB0B4\uB0B4",
+    boost: 4,
+    icon: "\u2696\uFE0F",
+    triggers: (ctx) => Math.abs(ctx.theirOverall - ctx.myOverall) < 5
+  }),
+  cardHomeCrowd: define({
+    id: "cardHomeCrowd",
+    name: "\uC5F4\uB450 \uBC88\uC9F8 \uC120\uC218",
+    when: "\uD648 \uACBD\uAE30\uC77C \uB54C, \uACBD\uAE30 \uB0B4\uB0B4",
+    boost: 4,
+    icon: "\u{1F4E3}",
+    triggers: (ctx) => ctx.venue === "home"
+  }),
+  cardAwayGrit: define({
+    id: "cardAwayGrit",
+    name: "\uC6D0\uC815 \uD22C\uD63C",
+    when: "\uC6D0\uC815 \uACBD\uAE30\uC77C \uB54C, \uACBD\uAE30 \uB0B4\uB0B4",
+    boost: 4,
+    icon: "\u{1F6A9}",
+    triggers: (ctx) => ctx.venue === "away"
+  }),
+  cardBigStage: define({
+    id: "cardBigStage",
+    name: "\uD070 \uACBD\uAE30\uC5D0 \uAC15\uD558\uB2E4",
+    when: "\uC911\uB9BD \uAD6C\uC7A5 \uACBD\uAE30(\uCEF5 \uACB0\uC2B9\xB7Masters Final)\uC77C \uB54C, \uACBD\uAE30 \uB0B4\uB0B4",
+    boost: 6,
+    icon: "\u{1F3DF}\uFE0F",
+    triggers: (ctx) => ctx.venue === "neutral"
+  }),
+  cardHotTime: define({
+    id: "cardHotTime",
+    name: "\uD56B\uD0C0\uC784 \uC9D1\uC911",
+    when: "\uD56B\uD0C0\uC784(15\uC2DC\xB721\uC2DC) \uD0A5\uC624\uD504 \uACBD\uAE30\uC77C \uB54C, \uACBD\uAE30 \uB0B4\uB0B4",
+    boost: 4,
     icon: "\u{1F525}",
-    effect: { forwardRunFrequency: 25, crossFrequency: 20, finalThirdPatience: -20 },
-    tradeoff: { restDefence: -30, regroupPriority: -20 },
-    durationMinutes: 15
-  },
-  cardCalmDefence: {
-    id: "cardCalmDefence",
-    name: "\uCE68\uCC29\uD55C \uC218\uBE44",
-    note: "\uD0A5\uC624\uD504\uBD80\uD130 15\uBD84\uAC04 \uB77C\uC778\uC744 \uB0B4\uB9AC\uACE0 \uC555\uBC15 \uAC04\uACA9\uC744 \uC881\uD600 \uC2E4\uC810 \uC704\uD5D8\uC744 \uC904\uC785\uB2C8\uB2E4. \uB300\uAC00\uB85C \uC5ED\uC2B5\uACFC \uD15C\uD3EC\uAC00 \uBB34\uB38C\uC9D1\uB2C8\uB2E4.",
-    icon: "\u{1F6E1}\uFE0F",
-    effect: { defensiveLine: -15, pressingCompactness: 20 },
-    tradeoff: { counterAttackIntensity: -25, tempo: -15 },
-    durationMinutes: 15
-  },
-  cardQuickCounter: {
-    id: "cardQuickCounter",
-    name: "\uC989\uAC01 \uC5ED\uC2B5",
-    note: "\uD0A5\uC624\uD504\uBD80\uD130 10\uBD84\uAC04 \uACF5\uC744 \uB418\uCC3E\uB294 \uC989\uC2DC \uBE60\uB974\uAC8C \uC55E\uC73C\uB85C \uB098\uAC11\uB2C8\uB2E4. \uB300\uAC00\uB85C \uBE4C\uB4DC\uC5C5\uC774 \uAC70\uCE60\uC5B4\uC9D1\uB2C8\uB2E4.",
-    icon: "\u26A1",
-    effect: { counterAttackIntensity: 30, transitionSpeed: 20 },
-    tradeoff: { buildUpShortness: -20 },
-    durationMinutes: 10
-  },
-  cardHighPress: {
-    id: "cardHighPress",
-    name: "\uC804\uBC29 \uC555\uBC15",
-    note: "\uD0A5\uC624\uD504\uBD80\uD130 12\uBD84\uAC04 \uCCAB \uB77C\uC778\uBD80\uD130 \uAC15\uD558\uAC8C \uC555\uBC15\uD558\uACE0 \uACF5\uC744 \uC783\uC73C\uBA74 \uC989\uC2DC \uB418\uCC3E\uC73C\uB7EC \uAC11\uB2C8\uB2E4. \uB300\uAC00\uB85C \uCD5C\uC885 \uB77C\uC778\uC774 \uC62C\uB77C\uAC00 \uB4B7\uACF5\uAC04\uC774 \uB113\uC5B4\uC9D1\uB2C8\uB2E4.",
+    triggers: (ctx) => ctx.hotTime
+  }),
+  cardChaser: define({
+    id: "cardChaser",
+    name: "\uCD94\uACA9\uC790 \uBCF8\uB2A5",
+    when: "\uC6B0\uB9AC\uAC00 \uD55C \uACE8 \uC774\uC0C1 \uB4A4\uC9C0\uACE0 \uC788\uB294 \uB3D9\uC548",
+    boost: 6,
     icon: "\u{1F3C3}",
-    effect: { pressingIntensity: 25, blockHeight: 20, counterPressIntensity: 20 },
-    tradeoff: { defensiveLine: 15, restDefence: -15 },
-    durationMinutes: 12
-  },
-  cardWingOverload: {
-    id: "cardWingOverload",
-    name: "\uCE21\uBA74 \uD3ED\uACA9",
-    note: "\uD0A5\uC624\uD504\uBD80\uD130 15\uBD84\uAC04 \uB113\uAC8C \uBC8C\uB824 \uD480\uBC31\uC774 \uC624\uBC84\uB798\uD551\uD558\uACE0 \uD06C\uB85C\uC2A4\uB97C \uC3DF\uC544 \uB123\uC2B5\uB2C8\uB2E4. \uB300\uAC00\uB85C \uC218\uBE44 \uD3ED\uC774 \uC881\uC544\uC9C0\uACE0 \uBE4C\uB4DC\uC5C5\uC774 \uAE09\uD574\uC9D1\uB2C8\uB2E4.",
-    icon: "\u{1F3AF}",
-    effect: { attackingWidth: 25, overlapFrequency: 25, crossFrequency: 15 },
-    tradeoff: { defensiveWidth: -15, buildUpShortness: -15 },
-    durationMinutes: 15
-  },
-  cardMidfieldControl: {
-    id: "cardMidfieldControl",
-    name: "\uC911\uC6D0 \uC7A5\uC545",
-    note: "\uD0A5\uC624\uD504\uBD80\uD130 20\uBD84\uAC04 \uC9E7\uAC8C \uC548\uC804\uD558\uAC8C \uB3CC\uB9AC\uBA70 \uAE30\uD68C\uB97C \uAE30\uB2E4\uB9BD\uB2C8\uB2E4. \uB300\uAC00\uB85C \uC9C1\uC120\uC801\uC778 \uACF5\uACA9\xB7\uC5ED\uC2B5\xB7\uC804\uC9C4\uC774 \uC904\uC5B4\uB4ED\uB2C8\uB2E4.",
-    icon: "\u{1F9E0}",
-    effect: { buildUpShortness: 20, passingRisk: -20, finalThirdPatience: 20 },
-    tradeoff: { directness: -20, counterAttackIntensity: -20, forwardRunFrequency: -15 },
-    durationMinutes: 20
-  },
-  cardLongBall: {
-    id: "cardLongBall",
-    name: "\uB871\uBCFC \uC804\uD658",
-    note: "\uD0A5\uC624\uD504\uBD80\uD130 15\uBD84\uAC04 \uAE38\uAC8C, \uB4B7\uACF5\uAC04\uC73C\uB85C \uCC14\uB7EC \uB123\uC2B5\uB2C8\uB2E4. \uB300\uAC00\uB85C \uD328\uC2A4 \uC131\uACF5\uB960\uC774 \uB5A8\uC5B4\uC9C0\uACE0 \uBE4C\uB4DC\uC5C5\uC774 \uAC70\uCE60\uC5B4\uC9D1\uB2C8\uB2E4.",
+    triggers: (ctx) => ctx.myScore < ctx.theirScore
+  }),
+  cardLockdown: define({
+    id: "cardLockdown",
+    name: "\uB9AC\uB4DC\uB294 \uC9C0\uD0A8\uB2E4",
+    when: "\uC6B0\uB9AC\uAC00 \uC55E\uC11C\uACE0 \uC788\uB294 \uB3D9\uC548",
+    boost: 4,
+    icon: "\u{1F512}",
+    triggers: (ctx) => ctx.myScore > ctx.theirScore
+  }),
+  cardFastStart: define({
+    id: "cardFastStart",
+    name: "\uCD08\uBC18 \uB7EC\uC2DC",
+    when: "\uD0A5\uC624\uD504\uBD80\uD130 20\uBD84\uAE4C\uC9C0",
+    boost: 6,
     icon: "\u{1F680}",
-    effect: { directness: 30, throughBallFrequency: 20 },
-    tradeoff: { passingRisk: 20, buildUpShortness: -25 },
-    durationMinutes: 15
-  },
-  cardParkTheBus: {
-    id: "cardParkTheBus",
-    name: "\uC218\uBE44 \uC7A0\uAE08",
-    note: "\uD0A5\uC624\uD504\uBD80\uD130 20\uBD84\uAC04 \uB77C\uC778\uC744 \uAE4A\uAC8C \uB0B4\uB9AC\uACE0 \uB4A4\uC5D0 \uC0AC\uB78C\uC744 \uB0A8\uACA8 \uC7A0\uAE09\uB2C8\uB2E4. \uB300\uAC00\uB85C \uACF5\uACA9 \uAC00\uB2F4\uACFC \uD15C\uD3EC\uAC00 \uD06C\uAC8C \uC904\uC5B4\uB4ED\uB2C8\uB2E4.",
-    icon: "\u{1F68C}",
-    effect: { defensiveLine: -25, blockHeight: -20, restDefence: 25 },
-    tradeoff: { forwardRunFrequency: -25, tempo: -15 },
-    durationMinutes: 20
-  }
+    triggers: (ctx) => ctx.minute <= 20
+  }),
+  cardSecondHalf: define({
+    id: "cardSecondHalf",
+    name: "\uD6C4\uBC18\uC758 \uC0AC\uB098\uC774",
+    when: "\uD6C4\uBC18\uC804(45\uBD84 \uC774\uD6C4) \uB0B4\uB0B4",
+    boost: 4,
+    icon: "\u{1F319}",
+    triggers: (ctx) => ctx.minute >= 45
+  }),
+  cardLateLegs: define({
+    id: "cardLateLegs",
+    name: "\uC9C0\uC9C0 \uC54A\uB294 \uB2E4\uB9AC",
+    when: "70\uBD84 \uC774\uD6C4 \uACBD\uAE30 \uB05D\uAE4C\uC9C0",
+    boost: 5,
+    icon: "\u{1F9B5}",
+    triggers: (ctx) => ctx.minute >= 70
+  }),
+  cardGoalmouth: define({
+    id: "cardGoalmouth",
+    name: "\uACE8\uBB38 \uC55E \uC9D1\uC911",
+    when: "\uC0C1\uB300 \uC288\uD305\uC774 8\uAC1C\uB97C \uB118\uC740 \uB4A4\uBD80\uD130",
+    boost: 5,
+    icon: "\u{1F9E4}",
+    triggers: (ctx) => ctx.theirShots >= 8
+  })
 };
 var TACTIC_CARD_IDS = Object.keys(TACTIC_CARDS);
 function isTacticCardId(value) {
   return typeof value === "string" && value in TACTIC_CARDS;
 }
-function applyCardOverlay(base, card) {
-  const next = { ...base };
-  for (const [key, delta] of Object.entries({ ...card.effect, ...card.tradeoff })) {
-    if (typeof delta !== "number") continue;
-    const effect = card.effect[key] ?? 0;
-    const tradeoff = card.tradeoff[key] ?? 0;
-    next[key] = base[key] + effect + tradeoff;
-  }
-  return normalizeParams(next);
+var STAT_KEYS2 = ["pac", "sho", "pas", "dri", "def", "phy"];
+function boostRating(rating, boost) {
+  if (boost <= 0) return rating;
+  const lift = (value) => Math.min(99, value + boost);
+  return {
+    ...rating,
+    att: rating.att + boost,
+    mid: rating.mid + boost,
+    def: rating.def + boost,
+    overall: rating.overall + boost,
+    evaluations: rating.evaluations.map((item) => {
+      if (!item.player || !item.card) return item;
+      const stats = { ...item.player.stats };
+      for (const key of STAT_KEYS2) stats[key] = lift(stats[key]);
+      return { ...item, rating: lift(item.rating), player: { ...item.player, stats } };
+    })
+  };
 }
 
 // lib/weeklyLeague/liveReplay.ts
@@ -5454,16 +5487,6 @@ function matchMinuteAt(scheduledAtMs, nowMs) {
 }
 function liveWindowEnded(scheduledAtMs, nowMs) {
   return nowMs >= scheduledAtMs + LIVE_WINDOW_SECONDS * 1e3;
-}
-function sideParams(setup, side) {
-  if (side === "home") {
-    return setup.phased?.base ?? setup.params ?? paramsFromSetup(setup.tactic ?? DEFAULT_TACTIC);
-  }
-  return setup.opponentTactics?.phased?.base ?? setup.opponentTactics?.params ?? paramsFromSetup(DEFAULT_TACTIC);
-}
-function withSideParams(setup, side, params) {
-  if (side === "home") return { ...setup, params, phased: void 0 };
-  return { ...setup, opponentTactics: { profile: setup.opponentTactics?.profile, params, phased: void 0 } };
 }
 function applySub(squad, slotId, inUid) {
   const outUid = squad.slots[slotId];
@@ -5552,6 +5575,21 @@ function applyCommand(command, setup, home, away, subsUsed, state) {
     text: `\uAD50\uCCB4 \u2014 ${nameOf(material, swapped.outUid, sideSetup)} \u2192 ${nameOf(nextMaterial, command.payload.inUid, nextRating)}`
   };
 }
+function cardContextOf(setup, state, side, kickoffUtcMs) {
+  const home = side === "home";
+  const venue = setup.venue === "neutral" ? "neutral" : home ? "home" : "away";
+  return {
+    minute: state.minute,
+    myScore: home ? state.scoreFor : state.scoreAgainst,
+    theirScore: home ? state.scoreAgainst : state.scoreFor,
+    myShots: home ? state.shotsFor : state.shotsAgainst,
+    theirShots: home ? state.shotsAgainst : state.shotsFor,
+    venue,
+    myOverall: home ? setup.team.overall : setup.opponentSquad?.overall ?? setup.opponent.rating,
+    theirOverall: home ? setup.opponentSquad?.overall ?? setup.opponent.rating : setup.team.overall,
+    hotTime: kickoffUtcMs ? isHotTime(kickoffUtcMs) : false
+  };
+}
 function replayFixture(snapshot, seed, commands, targetMinute = LIVE_MATCH_MINUTES) {
   let setup = snapshot.setup;
   let home = snapshot.home;
@@ -5563,8 +5601,7 @@ function replayFixture(snapshot, seed, commands, targetMinute = LIVE_MATCH_MINUT
   const rejected = [];
   const subsUsed = { home: 0, away: 0 };
   const cardPlayed = { home: null, away: null };
-  const cardBase = { home: null, away: null };
-  const cardExpiry = { home: -1, away: -1 };
+  const cardActive = { home: false, away: false };
   const note = (side, text) => {
     state = { ...state, events: [...state.events, { minute: state.minute, type: "note", side, text }] };
   };
@@ -5575,16 +5612,10 @@ function replayFixture(snapshot, seed, commands, targetMinute = LIVE_MATCH_MINUT
     subsUsed[side] += result.subs;
   };
   const playCard = (command) => {
-    const side = command.side;
     if (command.minute > 0 || state.minute > 0) return "\uC791\uC804\uCE74\uB4DC\uB294 \uD0A5\uC624\uD504 \uC804\uC5D0\uB9CC \uC4F8 \uC218 \uC788\uC2B5\uB2C8\uB2E4";
-    if (cardPlayed[side]) return "\uC791\uC804\uCE74\uB4DC\uB294 \uD55C \uACBD\uAE30\uC5D0 \uD55C \uC7A5\uB9CC \uC4F8 \uC218 \uC788\uC2B5\uB2C8\uB2E4";
+    if (cardPlayed[command.side]) return "\uC791\uC804\uCE74\uB4DC\uB294 \uD55C \uACBD\uAE30\uC5D0 \uD55C \uC7A5\uB9CC \uC4F8 \uC218 \uC788\uC2B5\uB2C8\uB2E4";
     if (!isTacticCardId(command.payload.cardId)) return "\uC54C \uC218 \uC5C6\uB294 \uC791\uC804\uCE74\uB4DC\uC785\uB2C8\uB2E4";
-    const card = TACTIC_CARDS[command.payload.cardId];
-    const base = sideParams(setup, side);
-    cardBase[side] = base;
-    cardExpiry[side] = card.durationMinutes;
-    cardPlayed[side] = card.id;
-    setup = withSideParams(setup, side, applyCardOverlay(base, card));
+    cardPlayed[command.side] = command.payload.cardId;
     return null;
   };
   const flush = () => {
@@ -5597,7 +5628,7 @@ function replayFixture(snapshot, seed, commands, targetMinute = LIVE_MATCH_MINUT
           continue;
         }
         const card = TACTIC_CARDS[command.payload.cardId];
-        const text = `\uC791\uC804\uCE74\uB4DC \u2014 ${card.name} (${card.durationMinutes}\uBD84)`;
+        const text = `\uC791\uC804\uCE74\uB4DC \u2014 ${card.name} (${card.when})`;
         applied.push({ id: command.id, side: command.side, appliedMinute: 0, text });
         note(command.side, text);
         continue;
@@ -5608,10 +5639,6 @@ function replayFixture(snapshot, seed, commands, targetMinute = LIVE_MATCH_MINUT
         continue;
       }
       take(result, command.side);
-      if (command.payload.kind === "tactic" && cardPlayed[command.side] && cardExpiry[command.side] > state.minute) {
-        cardBase[command.side] = sideParams(setup, command.side);
-        setup = withSideParams(setup, command.side, applyCardOverlay(cardBase[command.side], TACTIC_CARDS[cardPlayed[command.side]]));
-      }
       applied.push({ id: command.id, side: command.side, appliedMinute: state.minute, text: result.text ?? "" });
       note(command.side, result.text ?? "");
     }
@@ -5625,18 +5652,27 @@ function replayFixture(snapshot, seed, commands, targetMinute = LIVE_MATCH_MINUT
       note(side, `\uC790\uB3D9 ${auto.text ?? ""}`);
     }
   };
+  const setupForTick = () => {
+    let run = setup;
+    for (const side of ["home", "away"]) {
+      const cardId = cardPlayed[side];
+      if (!cardId) continue;
+      const card = TACTIC_CARDS[cardId];
+      const on = card.triggers(cardContextOf(setup, state, side, snapshot.kickoffUtcMs));
+      if (on && !cardActive[side]) note(side, `\uC791\uC804\uCE74\uB4DC \uBC1C\uB3D9 \u2014 ${card.name} (+${card.boost})`);
+      if (!on && cardActive[side]) note(side, `\uC791\uC804\uCE74\uB4DC \uB300\uAE30 \u2014 ${card.name}`);
+      cardActive[side] = on;
+      if (!on) continue;
+      run = side === "home" ? { ...run, team: boostRating(run.team, card.boost) } : { ...run, opponentSquad: run.opponentSquad ? boostRating(run.opponentSquad, card.boost) : run.opponentSquad };
+    }
+    return run;
+  };
   flush();
   const limit = Math.max(0, Math.min(LIVE_MATCH_MINUTES, Math.floor(targetMinute)));
   const toFullTime = limit >= LIVE_MATCH_MINUTES;
   while (!state.finished && (toFullTime || state.minute < limit)) {
-    state = advance(state, setup, rng);
-    for (const side of ["home", "away"]) {
-      if (cardBase[side] && state.minute >= cardExpiry[side]) {
-        setup = withSideParams(setup, side, cardBase[side]);
-        cardBase[side] = null;
-        note(side, `\uC791\uC804\uCE74\uB4DC \uD6A8\uACFC \uC885\uB8CC \u2014 ${TACTIC_CARDS[cardPlayed[side]].name}`);
-      }
-    }
+    const run = setupForTick();
+    state = advance(state, run, rng);
     if (state.stoppage) flush();
   }
   if (state.finished) {
@@ -5644,7 +5680,7 @@ function replayFixture(snapshot, seed, commands, targetMinute = LIVE_MATCH_MINUT
       rejected.push({ id: command.id, side: command.side, reason: "\uACBD\uAE30\uAC00 \uB05D\uB098\uAE30 \uC804\uC5D0 \uC801\uC6A9\uD560 \uC21C\uAC04\uC774 \uC5C6\uC5C8\uC2B5\uB2C8\uB2E4" });
     }
   }
-  return { state, setup, home, away, applied, rejected, subsUsed, cardPlayed };
+  return { state, setup, home, away, applied, rejected, subsUsed, cardPlayed, cardActive };
 }
 function publicStateOf(state) {
   const ticks = state.possessionTicks.home + state.possessionTicks.away;

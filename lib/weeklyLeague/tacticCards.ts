@@ -1,113 +1,163 @@
 /**
- * 작전카드 — a one-off tactical push for a weekly fixture, chosen before
- * kick-off (docs/WEEKLY_LIVE_MATCH_DESIGN.md, "작전카드").
+ * 작전카드 — a one-off card for a weekly fixture, chosen before kick-off,
+ * that boosts the whole side's ability while a stated match condition holds.
  *
- * Not a stat buff. A card moves the same tactical parameters a manager can
- * set by hand (lib/tactics/params.ts) — hard, briefly, and always with a
- * price attached: every effect ships with a tradeoff of the same duration,
- * so a card is a bet on how the opening minutes go, not free power. One card
- * per match, played in the pre-match window only; it wears off on its own.
+ * The original 풋볼데이 cards worked this way ("공은 둥글다: 능력치가 5 이상
+ * 높은 팀을 상대할 때 능력치 +5"), and this game keeps the idea with its own
+ * names and conditions: each card names a situation — underdog, home crowd,
+ * chasing a goal, the last twenty minutes — and while that situation is true
+ * every player on the pitch plays `boost` points better. Outside it the card
+ * does nothing, so a card is a read on how the match will go, not a flat buff.
  *
- * Cards are items (lib/items.ts): bought with gold or shards, or earned at
- * the end of a league week and in cup finals (weekly_rewards 'tactic_card').
+ * "Plays better" means the six visible stats (pac/sho/pas/dri/def/phy) and the
+ * slot rating, because that is what the tactical model actually reads —
+ * scaling the headline att/def/mid alone barely moves a match (measured on
+ * the first live group). One card per side per match, played in the
+ * pre-match window only. Cards are items (lib/items.ts): bought with gold or
+ * shards, or earned at the end of a league week and in cup finals.
  */
-import { normalizeParams, type TacticalParams } from '../tactics/params'
+import type { SquadRating } from '../squad'
+import type { Stats } from '../types'
 
 export type TacticCardId =
-  | 'cardAllOutAttack'
-  | 'cardCalmDefence'
-  | 'cardQuickCounter'
-  | 'cardHighPress'
-  | 'cardWingOverload'
-  | 'cardMidfieldControl'
-  | 'cardLongBall'
-  | 'cardParkTheBus'
+  | 'cardUnderdog'
+  | 'cardEvenMatch'
+  | 'cardHomeCrowd'
+  | 'cardAwayGrit'
+  | 'cardBigStage'
+  | 'cardHotTime'
+  | 'cardChaser'
+  | 'cardLockdown'
+  | 'cardFastStart'
+  | 'cardSecondHalf'
+  | 'cardLateLegs'
+  | 'cardGoalmouth'
+
+/** What a card can look at to decide whether it is on, from the holder's point of view. */
+export interface CardContext {
+  minute: number
+  myScore: number
+  theirScore: number
+  myShots: number
+  theirShots: number
+  venue: 'home' | 'away' | 'neutral'
+  myOverall: number
+  theirOverall: number
+  /** Kick-off is a 핫타임 hour (15:00 / 21:00 KST). */
+  hotTime: boolean
+}
 
 export interface TacticCardDef {
   id: TacticCardId
   name: string
-  /** What it does, for the manager — effect first, then the price. */
-  note: string
+  /** The condition, as the manager reads it. */
+  when: string
+  /** Stat points added to every player on the pitch while the condition holds. */
+  boost: number
   icon: string
-  effect: Partial<TacticalParams>
-  tradeoff: Partial<TacticalParams>
-  /** Minutes from kick-off the card is live for. */
-  durationMinutes: number
+  /** Whether the card is on right now. Pure; called every minute. */
+  triggers: (ctx: CardContext) => boolean
 }
 
+const define = (card: TacticCardDef) => card
+
 export const TACTIC_CARDS: Record<TacticCardId, TacticCardDef> = {
-  cardAllOutAttack: {
-    id: 'cardAllOutAttack',
-    name: '총공격 지시',
-    note: '킥오프부터 15분간 공격 가담과 크로스가 크게 늘고 마무리를 서두릅니다. 대가로 그 시간 동안 뒷공간이 열립니다.',
+  cardUnderdog: define({
+    id: 'cardUnderdog',
+    name: '공은 원래 둥글다',
+    when: '상대 스쿼드 종합이 우리보다 5 이상 높을 때, 경기 내내',
+    boost: 5,
+    icon: '⚽',
+    triggers: (ctx) => ctx.theirOverall - ctx.myOverall >= 5,
+  }),
+  cardEvenMatch: define({
+    id: 'cardEvenMatch',
+    name: '박빙 승부사',
+    when: '두 팀 스쿼드 종합 차이가 5 미만일 때, 경기 내내',
+    boost: 4,
+    icon: '⚖️',
+    triggers: (ctx) => Math.abs(ctx.theirOverall - ctx.myOverall) < 5,
+  }),
+  cardHomeCrowd: define({
+    id: 'cardHomeCrowd',
+    name: '열두 번째 선수',
+    when: '홈 경기일 때, 경기 내내',
+    boost: 4,
+    icon: '📣',
+    triggers: (ctx) => ctx.venue === 'home',
+  }),
+  cardAwayGrit: define({
+    id: 'cardAwayGrit',
+    name: '원정 투혼',
+    when: '원정 경기일 때, 경기 내내',
+    boost: 4,
+    icon: '🚩',
+    triggers: (ctx) => ctx.venue === 'away',
+  }),
+  cardBigStage: define({
+    id: 'cardBigStage',
+    name: '큰 경기에 강하다',
+    when: '중립 구장 경기(컵 결승·Masters Final)일 때, 경기 내내',
+    boost: 6,
+    icon: '🏟️',
+    triggers: (ctx) => ctx.venue === 'neutral',
+  }),
+  cardHotTime: define({
+    id: 'cardHotTime',
+    name: '핫타임 집중',
+    when: '핫타임(15시·21시) 킥오프 경기일 때, 경기 내내',
+    boost: 4,
     icon: '🔥',
-    effect: { forwardRunFrequency: 25, crossFrequency: 20, finalThirdPatience: -20 },
-    tradeoff: { restDefence: -30, regroupPriority: -20 },
-    durationMinutes: 15,
-  },
-  cardCalmDefence: {
-    id: 'cardCalmDefence',
-    name: '침착한 수비',
-    note: '킥오프부터 15분간 라인을 내리고 압박 간격을 좁혀 실점 위험을 줄입니다. 대가로 역습과 템포가 무뎌집니다.',
-    icon: '🛡️',
-    effect: { defensiveLine: -15, pressingCompactness: 20 },
-    tradeoff: { counterAttackIntensity: -25, tempo: -15 },
-    durationMinutes: 15,
-  },
-  cardQuickCounter: {
-    id: 'cardQuickCounter',
-    name: '즉각 역습',
-    note: '킥오프부터 10분간 공을 되찾는 즉시 빠르게 앞으로 나갑니다. 대가로 빌드업이 거칠어집니다.',
-    icon: '⚡',
-    effect: { counterAttackIntensity: 30, transitionSpeed: 20 },
-    tradeoff: { buildUpShortness: -20 },
-    durationMinutes: 10,
-  },
-  cardHighPress: {
-    id: 'cardHighPress',
-    name: '전방 압박',
-    note: '킥오프부터 12분간 첫 라인부터 강하게 압박하고 공을 잃으면 즉시 되찾으러 갑니다. 대가로 최종 라인이 올라가 뒷공간이 넓어집니다.',
+    triggers: (ctx) => ctx.hotTime,
+  }),
+  cardChaser: define({
+    id: 'cardChaser',
+    name: '추격자 본능',
+    when: '우리가 한 골 이상 뒤지고 있는 동안',
+    boost: 6,
     icon: '🏃',
-    effect: { pressingIntensity: 25, blockHeight: 20, counterPressIntensity: 20 },
-    tradeoff: { defensiveLine: 15, restDefence: -15 },
-    durationMinutes: 12,
-  },
-  cardWingOverload: {
-    id: 'cardWingOverload',
-    name: '측면 폭격',
-    note: '킥오프부터 15분간 넓게 벌려 풀백이 오버래핑하고 크로스를 쏟아 넣습니다. 대가로 수비 폭이 좁아지고 빌드업이 급해집니다.',
-    icon: '🎯',
-    effect: { attackingWidth: 25, overlapFrequency: 25, crossFrequency: 15 },
-    tradeoff: { defensiveWidth: -15, buildUpShortness: -15 },
-    durationMinutes: 15,
-  },
-  cardMidfieldControl: {
-    id: 'cardMidfieldControl',
-    name: '중원 장악',
-    note: '킥오프부터 20분간 짧게 안전하게 돌리며 기회를 기다립니다. 대가로 직선적인 공격·역습·전진이 줄어듭니다.',
-    icon: '🧠',
-    effect: { buildUpShortness: 20, passingRisk: -20, finalThirdPatience: 20 },
-    tradeoff: { directness: -20, counterAttackIntensity: -20, forwardRunFrequency: -15 },
-    durationMinutes: 20,
-  },
-  cardLongBall: {
-    id: 'cardLongBall',
-    name: '롱볼 전환',
-    note: '킥오프부터 15분간 길게, 뒷공간으로 찔러 넣습니다. 대가로 패스 성공률이 떨어지고 빌드업이 거칠어집니다.',
+    triggers: (ctx) => ctx.myScore < ctx.theirScore,
+  }),
+  cardLockdown: define({
+    id: 'cardLockdown',
+    name: '리드는 지킨다',
+    when: '우리가 앞서고 있는 동안',
+    boost: 4,
+    icon: '🔒',
+    triggers: (ctx) => ctx.myScore > ctx.theirScore,
+  }),
+  cardFastStart: define({
+    id: 'cardFastStart',
+    name: '초반 러시',
+    when: '킥오프부터 20분까지',
+    boost: 6,
     icon: '🚀',
-    effect: { directness: 30, throughBallFrequency: 20 },
-    tradeoff: { passingRisk: 20, buildUpShortness: -25 },
-    durationMinutes: 15,
-  },
-  cardParkTheBus: {
-    id: 'cardParkTheBus',
-    name: '수비 잠금',
-    note: '킥오프부터 20분간 라인을 깊게 내리고 뒤에 사람을 남겨 잠급니다. 대가로 공격 가담과 템포가 크게 줄어듭니다.',
-    icon: '🚌',
-    effect: { defensiveLine: -25, blockHeight: -20, restDefence: 25 },
-    tradeoff: { forwardRunFrequency: -25, tempo: -15 },
-    durationMinutes: 20,
-  },
+    triggers: (ctx) => ctx.minute <= 20,
+  }),
+  cardSecondHalf: define({
+    id: 'cardSecondHalf',
+    name: '후반의 사나이',
+    when: '후반전(45분 이후) 내내',
+    boost: 4,
+    icon: '🌙',
+    triggers: (ctx) => ctx.minute >= 45,
+  }),
+  cardLateLegs: define({
+    id: 'cardLateLegs',
+    name: '지지 않는 다리',
+    when: '70분 이후 경기 끝까지',
+    boost: 5,
+    icon: '🦵',
+    triggers: (ctx) => ctx.minute >= 70,
+  }),
+  cardGoalmouth: define({
+    id: 'cardGoalmouth',
+    name: '골문 앞 집중',
+    when: '상대 슈팅이 8개를 넘은 뒤부터',
+    boost: 5,
+    icon: '🧤',
+    triggers: (ctx) => ctx.theirShots >= 8,
+  }),
 }
 
 export const TACTIC_CARD_IDS = Object.keys(TACTIC_CARDS) as TacticCardId[]
@@ -116,14 +166,28 @@ export function isTacticCardId(value: unknown): value is TacticCardId {
   return typeof value === 'string' && value in TACTIC_CARDS
 }
 
-/** The card's effect and its price laid over a side's parameters, kept inside 0–100. */
-export function applyCardOverlay(base: TacticalParams, card: TacticCardDef): TacticalParams {
-  const next: Record<string, number> = { ...base }
-  for (const [key, delta] of Object.entries({ ...card.effect, ...card.tradeoff })) {
-    if (typeof delta !== 'number') continue
-    const effect = card.effect[key as keyof TacticalParams] ?? 0
-    const tradeoff = card.tradeoff[key as keyof TacticalParams] ?? 0
-    next[key] = base[key as keyof TacticalParams] + effect + tradeoff
+const STAT_KEYS: (keyof Stats)[] = ['pac', 'sho', 'pas', 'dri', 'def', 'phy']
+
+/**
+ * The side playing `boost` points better: every fielded player's six stats
+ * and slot rating go up (capped at 99), and the headline numbers follow.
+ * Returns a new rating; the base is kept by the caller for when the card
+ * switches off.
+ */
+export function boostRating(rating: SquadRating, boost: number): SquadRating {
+  if (boost <= 0) return rating
+  const lift = (value: number) => Math.min(99, value + boost)
+  return {
+    ...rating,
+    att: rating.att + boost,
+    mid: rating.mid + boost,
+    def: rating.def + boost,
+    overall: rating.overall + boost,
+    evaluations: rating.evaluations.map((item) => {
+      if (!item.player || !item.card) return item
+      const stats = { ...item.player.stats } as Stats
+      for (const key of STAT_KEYS) stats[key] = lift(stats[key])
+      return { ...item, rating: lift(item.rating), player: { ...item.player, stats } }
+    }),
   }
-  return normalizeParams(next as Partial<TacticalParams>)
 }

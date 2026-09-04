@@ -27,9 +27,19 @@ import { useGame } from './GameProvider'
  */
 const POLL_MS = 5000
 
-export default function WeeklyLiveMatch({ fixtureId, onClose }: { fixtureId: number; onClose: () => void }) {
+export default function WeeklyLiveMatch({
+  fixtureId,
+  onClose,
+  onPlayed,
+}: {
+  fixtureId: number
+  onClose: () => void
+  /** Fired once when the fixture is seen settled — the moment its rewards exist. */
+  onPlayed?: () => void
+}) {
   const { state: game, consumeItem } = useGame()
   const [view, setView] = useState<WeeklyLiveView | null>(null)
+  const playedNotified = useRef(false)
   const [error, setError] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
@@ -48,7 +58,11 @@ export default function WeeklyLiveMatch({ fixtureId, onClose }: { fixtureId: num
     }
     setError(null)
     setView(result.view)
-  }, [fixtureId])
+    if (result.view.status === 'played' && !playedNotified.current) {
+      playedNotified.current = true
+      onPlayed?.()
+    }
+  }, [fixtureId, onPlayed])
 
   useEffect(() => {
     void refresh()
@@ -242,13 +256,14 @@ export default function WeeklyLiveMatch({ fixtureId, onClose }: { fixtureId: num
                         key={id}
                         onClick={() => void playCard(id)}
                         disabled={busy || held <= 0}
-                        title={card.note}
+                        title={`${card.when} — 모든 선수 능력치 +${card.boost}`}
                         className="rounded-md bg-white/10 px-2 py-1.5 text-left text-[11px] text-slate-200 hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-40"
                       >
                         <div className="font-bold">
                           {card.icon} {card.name} <span className="text-slate-400">×{held}</span>
+                          <span className="ml-1 text-fuchsia-200">+{card.boost}</span>
                         </div>
-                        <div className="text-[10px] text-slate-400">{card.durationMinutes}분</div>
+                        <div className="text-[10px] text-slate-400">{card.when}</div>
                       </button>
                     )
                   })}

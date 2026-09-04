@@ -245,6 +245,7 @@ async function buildSnapshot(url: string, server: ServerHeaders, fixture: Fixtur
     setup,
     home: homeInput ? material(homeInput) : empty,
     away: awayInput ? material(awayInput) : empty,
+    kickoffUtcMs: fixture.scheduledAtUtc ? Date.parse(fixture.scheduledAtUtc) : undefined,
   }
 }
 
