@@ -1,0 +1,8 @@
+# CPU 기본. GPU PC 에서는 아래 두 줄을 CUDA 빌드로 바꾼다:
+#   pip install torch --index-url https://download.pytorch.org/whl/cu124
+#   pip install onnxruntime-gpu
+torch
+rembg
+onnxruntime
+pillow
+numpy

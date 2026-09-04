@@ -12,3 +12,4 @@ npm-debug.log*
 # 들어갈 이유가 없습니다.
 supabase/.temp
 supabase/.branches
+tools/facepack/RealESRGAN_x4plus.pth
