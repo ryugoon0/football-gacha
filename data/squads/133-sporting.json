@@ -1,0 +1,290 @@
+{
+  "club": "리스본 레앙",
+  "realClub": "스포르팅 CP",
+  "league": "루소 프리메라",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Sporting_CP",
+  "pilot": false,
+  "players": [
+    {
+      "key": "spo-01",
+      "number": 1,
+      "name": "후이 실반",
+      "real": "후이 실바",
+      "pos": "GK",
+      "nation": "포르투갈",
+      "birthYear": 1994,
+      "ovr": 78
+    },
+    {
+      "key": "spo-02",
+      "number": 4,
+      "name": "실라스 안데르센드",
+      "real": "실라스 안데르센",
+      "pos": "CDM",
+      "nation": "덴마크",
+      "birthYear": 2004,
+      "ovr": 74
+    },
+    {
+      "key": "spo-03",
+      "number": 5,
+      "name": "세르지 알티미란",
+      "real": "세르지 알티미라",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 75
+    },
+    {
+      "key": "spo-04",
+      "number": 6,
+      "name": "제노 데바스튼",
+      "real": "제노 데바스트",
+      "pos": "CB",
+      "nation": "벨기에",
+      "birthYear": 2003,
+      "ovr": 79
+    },
+    {
+      "key": "spo-05",
+      "number": 7,
+      "name": "포티스 이오아니디손",
+      "real": "포티스 이오아니디스",
+      "pos": "ST",
+      "nation": "그리스",
+      "birthYear": 2000,
+      "ovr": 80
+    },
+    {
+      "key": "spo-06",
+      "number": 9,
+      "name": "하파엘 넬라",
+      "real": "하파엘 넬",
+      "pos": "ST",
+      "nation": "포르투갈",
+      "birthYear": 2005,
+      "ovr": 72
+    },
+    {
+      "key": "spo-07",
+      "number": 10,
+      "name": "제니 카타문",
+      "real": "제니 카타무",
+      "pos": "RW",
+      "nation": "모잠비크",
+      "birthYear": 2001,
+      "ovr": 77
+    },
+    {
+      "key": "spo-08",
+      "number": 11,
+      "name": "누누 산투손",
+      "real": "누누 산투스",
+      "pos": "LW",
+      "nation": "포르투갈",
+      "birthYear": 1995,
+      "ovr": 76
+    },
+    {
+      "key": "spo-09",
+      "number": 13,
+      "name": "요르요스 바야니디손",
+      "real": "요르요스 바야니디스",
+      "pos": "RB",
+      "nation": "그리스",
+      "birthYear": 2001,
+      "ovr": 75
+    },
+    {
+      "key": "spo-10",
+      "number": 17,
+      "name": "로드리고 살라사른",
+      "real": "로드리고 살라사르",
+      "pos": "CAM",
+      "nation": "우루과이",
+      "birthYear": 1999,
+      "ovr": 77
+    },
+    {
+      "key": "spo-11",
+      "number": 18,
+      "name": "몬세프 제크린",
+      "real": "몬세프 제크리",
+      "pos": "CB",
+      "nation": "모로코",
+      "birthYear": 2008,
+      "ovr": 64
+    },
+    {
+      "key": "spo-12",
+      "number": 19,
+      "name": "네스토리 이란쿤단",
+      "real": "네스토리 이란쿤다",
+      "pos": "RW",
+      "nation": "호주",
+      "birthYear": 2006,
+      "ovr": 74
+    },
+    {
+      "key": "spo-13",
+      "number": 20,
+      "name": "막시밀리아노 아라우혼",
+      "real": "막시밀리아노 아라우호",
+      "pos": "LW",
+      "nation": "우루과이",
+      "birthYear": 2000,
+      "ovr": 78
+    },
+    {
+      "key": "spo-14",
+      "number": 21,
+      "name": "페드루 리만",
+      "real": "페드루 리마",
+      "pos": "CM",
+      "nation": "브라질",
+      "birthYear": 2003,
+      "ovr": 73
+    },
+    {
+      "key": "spo-15",
+      "number": 22,
+      "name": "이반 프레스네단",
+      "real": "이반 프레스네다",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 77
+    },
+    {
+      "key": "spo-16",
+      "number": 25,
+      "name": "곤살루 이나시운",
+      "real": "곤살루 이나시우",
+      "pos": "CB",
+      "nation": "포르투갈",
+      "birthYear": 2001,
+      "ovr": 81
+    },
+    {
+      "key": "spo-17",
+      "number": 30,
+      "name": "카이키 페레이란",
+      "real": "카이키 페레이라",
+      "pos": "GK",
+      "nation": "브라질",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "spo-18",
+      "number": 31,
+      "name": "루이스 기예르민",
+      "real": "루이스 기예르미",
+      "pos": "LW",
+      "nation": "브라질",
+      "birthYear": 2006,
+      "ovr": 74
+    },
+    {
+      "key": "spo-19",
+      "number": 41,
+      "name": "디에고 칼라인",
+      "real": "디에고 칼라이",
+      "pos": "GK",
+      "nation": "브라질",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "spo-20",
+      "number": 50,
+      "name": "호드리구 디아손",
+      "real": "호드리구 디아스",
+      "pos": "CB",
+      "nation": "포르투갈",
+      "birthYear": 1994,
+      "ovr": 72
+    },
+    {
+      "key": "spo-21",
+      "number": 52,
+      "name": "주앙 시몽이손",
+      "real": "주앙 시몽이스",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 2007,
+      "ovr": 68
+    },
+    {
+      "key": "spo-22",
+      "number": 55,
+      "name": "이브라히마 바르",
+      "real": "이브라히마 바",
+      "pos": "CB",
+      "nation": "세네갈",
+      "birthYear": 2005,
+      "ovr": 70
+    },
+    {
+      "key": "spo-23",
+      "number": 58,
+      "name": "플라비우 곤살베손",
+      "real": "플라비우 곤살베스",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 2007,
+      "ovr": 68
+    },
+    {
+      "key": "spo-24",
+      "number": 72,
+      "name": "에두아르두 콰레스만",
+      "real": "에두아르두 콰레스마",
+      "pos": "CB",
+      "nation": "포르투갈",
+      "birthYear": 2002,
+      "ovr": 77
+    },
+    {
+      "key": "spo-25",
+      "number": 73,
+      "name": "에두아르두 펠리시시문",
+      "real": "에두아르두 펠리시시무",
+      "pos": "LB",
+      "nation": "포르투갈",
+      "birthYear": 2007,
+      "ovr": 67
+    },
+    {
+      "key": "spo-26",
+      "number": 77,
+      "name": "이사 둠비안",
+      "real": "이사 둠비아",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 2003,
+      "ovr": 72
+    },
+    {
+      "key": "spo-27",
+      "number": 97,
+      "name": "루이스 수아레손",
+      "real": "루이스 수아레스",
+      "pos": "ST",
+      "nation": "콜롬비아",
+      "birthYear": 1997,
+      "ovr": 78
+    },
+    {
+      "key": "spo-28",
+      "number": 99,
+      "name": "프란시스쿠 실반",
+      "real": "프란시스쿠 실바",
+      "pos": "GK",
+      "nation": "포르투갈",
+      "birthYear": 2005,
+      "ovr": 66
+    }
+  ]
+}

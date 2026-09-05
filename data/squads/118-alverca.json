@@ -1,0 +1,280 @@
+{
+  "club": "알베르카 히베이라",
+  "realClub": "FC 알베르카",
+  "league": "루소 프리메라",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/F.C._Alverca",
+  "pilot": false,
+  "players": [
+    {
+      "key": "alv-01",
+      "number": 1,
+      "name": "노아 라베이른",
+      "real": "노아 라베이르",
+      "pos": "GK",
+      "nation": "프랑스",
+      "birthYear": 2005,
+      "ovr": 69
+    },
+    {
+      "key": "alv-02",
+      "number": 2,
+      "name": "나빌 투아이진",
+      "real": "나빌 투아이지",
+      "pos": "RB",
+      "nation": "모로코",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "alv-03",
+      "number": 3,
+      "name": "훌리안 마르티네손",
+      "real": "훌리안 마르티네스",
+      "pos": "CB",
+      "nation": "온두라스",
+      "birthYear": 2003,
+      "ovr": 67
+    },
+    {
+      "key": "alv-04",
+      "number": 4,
+      "name": "야야 보장드",
+      "real": "야야 보장",
+      "pos": "CB",
+      "nation": "감비아",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "alv-05",
+      "number": 5,
+      "name": "사비트 압둘라인",
+      "real": "사비트 압둘라이",
+      "pos": "CDM",
+      "nation": "가나",
+      "birthYear": 1999,
+      "ovr": 68
+    },
+    {
+      "key": "alv-06",
+      "number": 6,
+      "name": "다비 기르",
+      "real": "다비 기",
+      "pos": "CM",
+      "nation": "코트디부아르",
+      "birthYear": 2006,
+      "ovr": 66
+    },
+    {
+      "key": "alv-07",
+      "number": 7,
+      "name": "안드레 비디갈라",
+      "real": "안드레 비디갈",
+      "pos": "RW",
+      "nation": "앙골라",
+      "birthYear": 1998,
+      "ovr": 70
+    },
+    {
+      "key": "alv-08",
+      "number": 9,
+      "name": "비발두 세메둔",
+      "real": "비발두 세메두",
+      "pos": "ST",
+      "nation": "포르투갈",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "alv-09",
+      "number": 10,
+      "name": "시키뉸",
+      "real": "시키뉴",
+      "pos": "CAM",
+      "nation": "포르투갈",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "alv-10",
+      "number": 11,
+      "name": "세드리크 누오친",
+      "real": "세드리크 누오치",
+      "pos": "CM",
+      "nation": "벨기에",
+      "birthYear": 2006,
+      "ovr": 66
+    },
+    {
+      "key": "alv-11",
+      "number": 12,
+      "name": "아이작 제임손",
+      "real": "아이작 제임스",
+      "pos": "CB",
+      "nation": "나이지리아",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "alv-12",
+      "number": 14,
+      "name": "스티븐 바세얀",
+      "real": "스티븐 바세야",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "alv-13",
+      "number": 17,
+      "name": "사미 메르헤근",
+      "real": "사미 메르헤그",
+      "pos": "LW",
+      "nation": "레바논",
+      "birthYear": 2006,
+      "ovr": 65
+    },
+    {
+      "key": "alv-14",
+      "number": 19,
+      "name": "마르코 에시민",
+      "real": "마르코 에시미",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 1999,
+      "ovr": 68
+    },
+    {
+      "key": "alv-15",
+      "number": 20,
+      "name": "디오구 스펜서스",
+      "real": "디오구 스펜서",
+      "pos": "LB",
+      "nation": "포르투갈",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "alv-16",
+      "number": 21,
+      "name": "세르지 고메손",
+      "real": "세르지 고메스",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 1992,
+      "ovr": 69
+    },
+    {
+      "key": "alv-17",
+      "number": 22,
+      "name": "피게이레둔",
+      "real": "피게이레두",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "alv-18",
+      "number": 23,
+      "name": "안드레 파울룬",
+      "real": "안드레 파울루",
+      "pos": "GK",
+      "nation": "포르투갈",
+      "birthYear": 1996,
+      "ovr": 67
+    },
+    {
+      "key": "alv-19",
+      "number": 24,
+      "name": "모페 제미덴",
+      "real": "모페 제미데",
+      "pos": "CB",
+      "nation": "잉글랜드",
+      "birthYear": 2006,
+      "ovr": 65
+    },
+    {
+      "key": "alv-20",
+      "number": 25,
+      "name": "이안 루카손",
+      "real": "이안 루카스",
+      "pos": "CM",
+      "nation": "브라질",
+      "birthYear": 2003,
+      "ovr": 67
+    },
+    {
+      "key": "alv-21",
+      "number": 27,
+      "name": "토니 타마리튼",
+      "real": "토니 타마리트",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "alv-22",
+      "number": 31,
+      "name": "마테우스 멘드손",
+      "real": "마테우스 멘드스",
+      "pos": "GK",
+      "nation": "브라질",
+      "birthYear": 1999,
+      "ovr": 66
+    },
+    {
+      "key": "alv-23",
+      "number": 33,
+      "name": "바스티앵 뫼피윤",
+      "real": "바스티앵 뫼피유",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 66
+    },
+    {
+      "key": "alv-24",
+      "number": 35,
+      "name": "라이안 루카스르",
+      "real": "라이안 루카스",
+      "pos": "CM",
+      "nation": "브라질",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "alv-25",
+      "number": 55,
+      "name": "프란시스쿠 시숨반",
+      "real": "프란시스쿠 시숨바",
+      "pos": "CB",
+      "nation": "포르투갈",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "alv-26",
+      "number": 91,
+      "name": "조나타느",
+      "real": "조나탄",
+      "pos": "GK",
+      "nation": "브라질",
+      "birthYear": 1991,
+      "ovr": 66
+    },
+    {
+      "key": "alv-27",
+      "number": 93,
+      "name": "제 하파에운",
+      "real": "제 하파에우",
+      "pos": "CAM",
+      "nation": "브라질",
+      "birthYear": 1993,
+      "ovr": 69
+    }
+  ]
+}

@@ -1,0 +1,180 @@
+{
+  "club": "아마도라 에스트렐라",
+  "realClub": "CF 이스트렐라 다 아마도라",
+  "league": "루소 프리메라",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/C.F._Estrela_da_Amadora",
+  "pilot": false,
+  "players": [
+    {
+      "key": "esa-01",
+      "number": 3,
+      "name": "뤼카 맹카렐린",
+      "real": "뤼카 맹카렐리",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "esa-02",
+      "number": 4,
+      "name": "베르나르두 샤폰",
+      "real": "베르나르두 샤포",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 1999,
+      "ovr": 68
+    },
+    {
+      "key": "esa-03",
+      "number": 5,
+      "name": "스테판 레코비츠",
+      "real": "스테판 레코비치",
+      "pos": "CB",
+      "nation": "세르비아",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "esa-04",
+      "number": 6,
+      "name": "케빈 회그 얀손드",
+      "real": "케빈 회그 얀손",
+      "pos": "CDM",
+      "nation": "스웨덴",
+      "birthYear": 2000,
+      "ovr": 68
+    },
+    {
+      "key": "esa-05",
+      "number": 8,
+      "name": "호비뉴스",
+      "real": "호비뉴",
+      "pos": "CM",
+      "nation": "브라질",
+      "birthYear": 1984,
+      "ovr": 66
+    },
+    {
+      "key": "esa-06",
+      "number": 10,
+      "name": "야니스 스토이칸",
+      "real": "야니스 스토이카",
+      "pos": "ST",
+      "nation": "루마니아",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "esa-07",
+      "number": 14,
+      "name": "로브로 즈보나레큰",
+      "real": "로브로 즈보나레크",
+      "pos": "CAM",
+      "nation": "크로아티아",
+      "birthYear": 2005,
+      "ovr": 70
+    },
+    {
+      "key": "esa-08",
+      "number": 17,
+      "name": "제페르손 엔카단",
+      "real": "제페르손 엔카다",
+      "pos": "CB",
+      "nation": "기니비사우",
+      "birthYear": 1998,
+      "ovr": 67
+    },
+    {
+      "key": "esa-09",
+      "number": 19,
+      "name": "호안 호르다느",
+      "real": "호안 호르단",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1994,
+      "ovr": 70
+    },
+    {
+      "key": "esa-10",
+      "number": 24,
+      "name": "레오 링큰",
+      "real": "레오 링크",
+      "pos": "GK",
+      "nation": "브라질",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "esa-11",
+      "number": 30,
+      "name": "루안 파트리큰",
+      "real": "루안 파트리크",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 2002,
+      "ovr": 67
+    },
+    {
+      "key": "esa-12",
+      "number": 37,
+      "name": "레안드로 안토네틴",
+      "real": "레안드로 안토네티",
+      "pos": "ST",
+      "nation": "푸에르토리코",
+      "birthYear": 2003,
+      "ovr": 66
+    },
+    {
+      "key": "esa-13",
+      "number": 39,
+      "name": "에디 두엔",
+      "real": "에디 두에",
+      "pos": "CM",
+      "nation": "코트디부아르",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "esa-14",
+      "number": 51,
+      "name": "디오구 핀툰",
+      "real": "디오구 핀투",
+      "pos": "GK",
+      "nation": "포르투갈",
+      "birthYear": 2004,
+      "ovr": 65
+    },
+    {
+      "key": "esa-15",
+      "number": 55,
+      "name": "하파 소아르손",
+      "real": "하파 소아르스",
+      "pos": "LB",
+      "nation": "포르투갈",
+      "birthYear": 1995,
+      "ovr": 68
+    },
+    {
+      "key": "esa-16",
+      "number": 79,
+      "name": "아타나스 체르네픈",
+      "real": "아타나스 체르네프",
+      "pos": "RB",
+      "nation": "불가리아",
+      "birthYear": 2002,
+      "ovr": 66
+    },
+    {
+      "key": "esa-17",
+      "number": 99,
+      "name": "에이브러햄 마커스르",
+      "real": "에이브러햄 마커스",
+      "pos": "ST",
+      "nation": "나이지리아",
+      "birthYear": 2000,
+      "ovr": 68
+    }
+  ]
+}

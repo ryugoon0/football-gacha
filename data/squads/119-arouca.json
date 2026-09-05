@@ -1,0 +1,220 @@
+{
+  "club": "아루카 몬타냐",
+  "realClub": "FC 아로우카",
+  "league": "루소 프리메라",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/F.C._Arouca",
+  "pilot": false,
+  "players": [
+    {
+      "key": "aro-01",
+      "number": 3,
+      "name": "호세 폰타느",
+      "real": "호세 폰탄",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "aro-02",
+      "number": 4,
+      "name": "디오구 몬테이룬",
+      "real": "디오구 몬테이루",
+      "pos": "CB",
+      "nation": "포르투갈",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "aro-03",
+      "number": 5,
+      "name": "보리스 포포비츠",
+      "real": "보리스 포포비치",
+      "pos": "CB",
+      "nation": "세르비아",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "aro-04",
+      "number": 6,
+      "name": "에스펀 판 에인",
+      "real": "에스펀 판 에이",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "aro-05",
+      "number": 7,
+      "name": "나이스 주아란",
+      "real": "나이스 주아라",
+      "pos": "RW",
+      "nation": "프랑스",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "aro-06",
+      "number": 8,
+      "name": "후쿠이 다이친",
+      "real": "후쿠이 다이치",
+      "pos": "CM",
+      "nation": "일본",
+      "birthYear": 2004,
+      "ovr": 70
+    },
+    {
+      "key": "aro-07",
+      "number": 9,
+      "name": "팔리 마율룬",
+      "real": "팔리 마율루",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "aro-08",
+      "number": 10,
+      "name": "파블로 고살베손",
+      "real": "파블로 고살베스",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "aro-09",
+      "number": 11,
+      "name": "미겔 푸첸",
+      "real": "미겔 푸체",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "aro-10",
+      "number": 12,
+      "name": "이그나시오 데 아루아바레난",
+      "real": "이그나시오 데 아루아바레나",
+      "pos": "GK",
+      "nation": "우루과이",
+      "birthYear": 1997,
+      "ovr": 69
+    },
+    {
+      "key": "aro-11",
+      "number": 14,
+      "name": "이현조",
+      "real": "이현주",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "aro-12",
+      "number": 15,
+      "name": "하비 산체노",
+      "real": "하비 산체스",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 1997,
+      "ovr": 70
+    },
+    {
+      "key": "aro-13",
+      "number": 17,
+      "name": "이반 바르베론",
+      "real": "이반 바르베로",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 1998,
+      "ovr": 70
+    },
+    {
+      "key": "aro-14",
+      "number": 18,
+      "name": "오레스트 레베덴콘",
+      "real": "오레스트 레베덴코",
+      "pos": "RB",
+      "nation": "우크라이나",
+      "birthYear": 1998,
+      "ovr": 69
+    },
+    {
+      "key": "aro-15",
+      "number": 19,
+      "name": "알폰소 트레산",
+      "real": "알폰소 트레사",
+      "pos": "ST",
+      "nation": "우루과이",
+      "birthYear": 1999,
+      "ovr": 69
+    },
+    {
+      "key": "aro-16",
+      "number": 21,
+      "name": "마테오 플로레손",
+      "real": "마테오 플로레스",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "aro-17",
+      "number": 23,
+      "name": "딜란 난디느",
+      "real": "딜란 난딘",
+      "pos": "LW",
+      "nation": "우루과이",
+      "birthYear": 2002,
+      "ovr": 68
+    },
+    {
+      "key": "aro-18",
+      "number": 24,
+      "name": "브라이언 만실란",
+      "real": "브라이언 만실라",
+      "pos": "RW",
+      "nation": "우루과이",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "aro-19",
+      "number": 28,
+      "name": "티아구 에스가이운",
+      "real": "티아구 에스가이우",
+      "pos": "RB",
+      "nation": "포르투갈",
+      "birthYear": 1995,
+      "ovr": 69
+    },
+    {
+      "key": "aro-20",
+      "number": 37,
+      "name": "마리오 클리멘튼",
+      "real": "마리오 클리멘트",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 68
+    },
+    {
+      "key": "aro-21",
+      "number": 89,
+      "name": "페드루 산투손",
+      "real": "페드루 산투스",
+      "pos": "CDM",
+      "nation": "포르투갈",
+      "birthYear": 2000,
+      "ovr": 69
+    }
+  ]
+}

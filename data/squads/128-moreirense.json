@@ -1,0 +1,180 @@
+{
+  "club": "모레이렌 코네고",
+  "realClub": "모레이렌스 FC",
+  "league": "루소 프리메라",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Moreirense_F.C.",
+  "pilot": false,
+  "players": [
+    {
+      "key": "mor-01",
+      "number": 2,
+      "name": "레안드룬",
+      "real": "레안드루",
+      "pos": "LB",
+      "nation": "포르투갈",
+      "birthYear": 2005,
+      "ovr": 67
+    },
+    {
+      "key": "mor-02",
+      "number": 7,
+      "name": "마누엘 멘돈산",
+      "real": "마누엘 멘돈사",
+      "pos": "CAM",
+      "nation": "포르투갈",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "mor-03",
+      "number": 8,
+      "name": "마테야 스테파노비츠",
+      "real": "마테야 스테파노비치",
+      "pos": "CM",
+      "nation": "세르비아",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "mor-04",
+      "number": 9,
+      "name": "알렉상드르 파르스맹드",
+      "real": "알렉상드르 파르스맹",
+      "pos": "ST",
+      "nation": "마르티니크",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "mor-05",
+      "number": 10,
+      "name": "키쿠 본도순",
+      "real": "키쿠 본도수",
+      "pos": "LW",
+      "nation": "포르투갈",
+      "birthYear": 1995,
+      "ovr": 70
+    },
+    {
+      "key": "mor-06",
+      "number": 13,
+      "name": "안드레 페레이라스",
+      "real": "안드레 페레이라",
+      "pos": "GK",
+      "nation": "포르투갈",
+      "birthYear": 1996,
+      "ovr": 69
+    },
+    {
+      "key": "mor-07",
+      "number": 20,
+      "name": "주앙 벨로순",
+      "real": "주앙 벨로수",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "mor-08",
+      "number": 21,
+      "name": "로드리스",
+      "real": "로드리",
+      "pos": "CDM",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "mor-09",
+      "number": 23,
+      "name": "나일 조느",
+      "real": "나일 존",
+      "pos": "CM",
+      "nation": "잉글랜드",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "mor-10",
+      "number": 25,
+      "name": "아폰수 아시손",
+      "real": "아폰수 아시스",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 2006,
+      "ovr": 65
+    },
+    {
+      "key": "mor-11",
+      "number": 26,
+      "name": "마라카손",
+      "real": "마라카스",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 1994,
+      "ovr": 69
+    },
+    {
+      "key": "mor-12",
+      "number": 27,
+      "name": "키쿤",
+      "real": "키쿠",
+      "pos": "RB",
+      "nation": "포르투갈",
+      "birthYear": 2002,
+      "ovr": 68
+    },
+    {
+      "key": "mor-13",
+      "number": 30,
+      "name": "지미 가워스",
+      "real": "지미 가워",
+      "pos": "CM",
+      "nation": "잉글랜드",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "mor-14",
+      "number": 44,
+      "name": "미카엘 다코스탄",
+      "real": "미카엘 다코스타",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "mor-15",
+      "number": 66,
+      "name": "질베르투 바티스탄",
+      "real": "질베르투 바티스타",
+      "pos": "CB",
+      "nation": "기니비사우",
+      "birthYear": 2003,
+      "ovr": 67
+    },
+    {
+      "key": "mor-16",
+      "number": 76,
+      "name": "디니스 핀투르",
+      "real": "디니스 핀투",
+      "pos": "CB",
+      "nation": "포르투갈",
+      "birthYear": 2000,
+      "ovr": 68
+    },
+    {
+      "key": "mor-17",
+      "number": 77,
+      "name": "코비 모톤",
+      "real": "코비 모토",
+      "pos": "RW",
+      "nation": "잉글랜드",
+      "birthYear": 2007,
+      "ovr": 64
+    }
+  ]
+}

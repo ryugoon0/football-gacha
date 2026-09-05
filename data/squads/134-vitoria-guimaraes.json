@@ -1,0 +1,200 @@
+{
+  "club": "기마랑 비토리",
+  "realClub": "비토리아 SC",
+  "league": "루소 프리메라",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Vitória_S.C.",
+  "pilot": false,
+  "players": [
+    {
+      "key": "vsc-01",
+      "number": 2,
+      "name": "미겔 마간",
+      "real": "미겔 마가",
+      "pos": "RB",
+      "nation": "포르투갈",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "vsc-02",
+      "number": 4,
+      "name": "오스카르 리바손",
+      "real": "오스카르 리바스",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "vsc-03",
+      "number": 5,
+      "name": "아메드 시디벤",
+      "real": "아메드 시디베",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "vsc-04",
+      "number": 6,
+      "name": "마티야 미트로비츠",
+      "real": "마티야 미트로비치",
+      "pos": "CDM",
+      "nation": "세르비아",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "vsc-05",
+      "number": 7,
+      "name": "우마르 카마란",
+      "real": "우마르 카마라",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 2007,
+      "ovr": 66
+    },
+    {
+      "key": "vsc-06",
+      "number": 11,
+      "name": "구스타부 실바르",
+      "real": "구스타부 실바",
+      "pos": "RW",
+      "nation": "브라질",
+      "birthYear": 1999,
+      "ovr": 71
+    },
+    {
+      "key": "vsc-07",
+      "number": 13,
+      "name": "주앙 멘드손",
+      "real": "주앙 멘드스",
+      "pos": "CB",
+      "nation": "포르투갈",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "vsc-08",
+      "number": 15,
+      "name": "예이마르 모스케란",
+      "real": "예이마르 모스케라",
+      "pos": "LB",
+      "nation": "콜롬비아",
+      "birthYear": 2005,
+      "ovr": 67
+    },
+    {
+      "key": "vsc-09",
+      "number": 16,
+      "name": "베니 무켄딘",
+      "real": "베니 무켄디",
+      "pos": "CM",
+      "nation": "앙골라",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "vsc-10",
+      "number": 18,
+      "name": "텔무 아르칸준",
+      "real": "텔무 아르칸주",
+      "pos": "ST",
+      "nation": "카보베르데",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "vsc-11",
+      "number": 19,
+      "name": "빅토르 안데르손드",
+      "real": "빅토르 안데르손",
+      "pos": "CM",
+      "nation": "스웨덴",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "vsc-12",
+      "number": 20,
+      "name": "사무르",
+      "real": "사무",
+      "pos": "CAM",
+      "nation": "포르투갈",
+      "birthYear": 1996,
+      "ovr": 71
+    },
+    {
+      "key": "vsc-13",
+      "number": 22,
+      "name": "후안 카스티욘",
+      "real": "후안 카스티요",
+      "pos": "GK",
+      "nation": "콜롬비아",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "vsc-14",
+      "number": 23,
+      "name": "토니 스트라탄",
+      "real": "토니 스트라타",
+      "pos": "RB",
+      "nation": "루마니아",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "vsc-15",
+      "number": 24,
+      "name": "알리운 은도옌",
+      "real": "알리운 은도예",
+      "pos": "ST",
+      "nation": "세네갈",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "vsc-16",
+      "number": 28,
+      "name": "치아구 발리에이룬",
+      "real": "치아구 발리에이루",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "vsc-17",
+      "number": 29,
+      "name": "패트릭 우오트론",
+      "real": "패트릭 우오트로",
+      "pos": "RW",
+      "nation": "코트디부아르",
+      "birthYear": 2005,
+      "ovr": 67
+    },
+    {
+      "key": "vsc-18",
+      "number": 44,
+      "name": "로안 두센",
+      "real": "로안 두세",
+      "pos": "CM",
+      "nation": "부르키나파소",
+      "birthYear": 2002,
+      "ovr": 68
+    },
+    {
+      "key": "vsc-19",
+      "number": 48,
+      "name": "올리비에르 지흔",
+      "real": "올리비에르 지흐",
+      "pos": "GK",
+      "nation": "폴란드",
+      "birthYear": 2004,
+      "ovr": 68
+    }
+  ]
+}

@@ -1,0 +1,240 @@
+{
+  "club": "히우아베 베르데",
+  "realClub": "히우 아브 FC",
+  "league": "루소 프리메라",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Rio_Ave_F.C.",
+  "pilot": false,
+  "players": [
+    {
+      "key": "ria-01",
+      "number": 1,
+      "name": "체자리 미슈탄",
+      "real": "체자리 미슈타",
+      "pos": "GK",
+      "nation": "폴란드",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "ria-02",
+      "number": 5,
+      "name": "안드레아스 은토인",
+      "real": "안드레아스 은토이",
+      "pos": "CB",
+      "nation": "그리스",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "ria-03",
+      "number": 6,
+      "name": "넬슨 애빈",
+      "real": "넬슨 애비",
+      "pos": "CB",
+      "nation": "잉글랜드",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "ria-04",
+      "number": 8,
+      "name": "히안 기예르민",
+      "real": "히안 기예르미",
+      "pos": "CM",
+      "nation": "브라질",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "ria-05",
+      "number": 9,
+      "name": "탐블레 몬테이룬",
+      "real": "탐블레 몬테이루",
+      "pos": "ST",
+      "nation": "기니비사우",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "ria-06",
+      "number": 10,
+      "name": "브랜던 아길레란",
+      "real": "브랜던 아길레라",
+      "pos": "CAM",
+      "nation": "코스타리카",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "ria-07",
+      "number": 11,
+      "name": "할렌 블레산",
+      "real": "할렌 블레사",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "ria-08",
+      "number": 13,
+      "name": "쥘리앵 롬보톤",
+      "real": "쥘리앵 롬보토",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 68
+    },
+    {
+      "key": "ria-09",
+      "number": 14,
+      "name": "야쿠프 브라베추",
+      "real": "야쿠프 브라베츠",
+      "pos": "CB",
+      "nation": "체코",
+      "birthYear": 1992,
+      "ovr": 69
+    },
+    {
+      "key": "ria-10",
+      "number": 17,
+      "name": "마리오스 브루사인",
+      "real": "마리오스 브루사이",
+      "pos": "RW",
+      "nation": "그리스",
+      "birthYear": 1998,
+      "ovr": 69
+    },
+    {
+      "key": "ria-11",
+      "number": 19,
+      "name": "말리크 셀루킨",
+      "real": "말리크 셀루키",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "ria-12",
+      "number": 20,
+      "name": "주앙 토멘",
+      "real": "주앙 토메",
+      "pos": "RB",
+      "nation": "포르투갈",
+      "birthYear": 2003,
+      "ovr": 67
+    },
+    {
+      "key": "ria-13",
+      "number": 22,
+      "name": "케빈 차모론",
+      "real": "케빈 차모로",
+      "pos": "GK",
+      "nation": "코스타리카",
+      "birthYear": 2000,
+      "ovr": 68
+    },
+    {
+      "key": "ria-14",
+      "number": 23,
+      "name": "프란시스코 페트라손",
+      "real": "프란시스코 페트라소",
+      "pos": "CB",
+      "nation": "아르헨티나",
+      "birthYear": 2002,
+      "ovr": 68
+    },
+    {
+      "key": "ria-15",
+      "number": 24,
+      "name": "페드루 아마랄라",
+      "real": "페드루 아마랄",
+      "pos": "LB",
+      "nation": "포르투갈",
+      "birthYear": 1997,
+      "ovr": 69
+    },
+    {
+      "key": "ria-16",
+      "number": 30,
+      "name": "롤란드 갈치큰",
+      "real": "롤란드 갈치크",
+      "pos": "ST",
+      "nation": "슬로바키아",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "ria-17",
+      "number": 39,
+      "name": "구스타부 만샨",
+      "real": "구스타부 만샤",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "ria-18",
+      "number": 44,
+      "name": "터마시 니키처스",
+      "real": "터마시 니키처",
+      "pos": "CDM",
+      "nation": "헝가리",
+      "birthYear": 1999,
+      "ovr": 69
+    },
+    {
+      "key": "ria-19",
+      "number": 54,
+      "name": "요르요스 리아바손",
+      "real": "요르요스 리아바스",
+      "pos": "CM",
+      "nation": "그리스",
+      "birthYear": 2001,
+      "ovr": 67
+    },
+    {
+      "key": "ria-20",
+      "number": 67,
+      "name": "사무에우 알베손",
+      "real": "사무에우 알베스",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 1991,
+      "ovr": 68
+    },
+    {
+      "key": "ria-21",
+      "number": 77,
+      "name": "다리오 슈피키츠",
+      "real": "다리오 슈피키치",
+      "pos": "RW",
+      "nation": "크로아티아",
+      "birthYear": 1999,
+      "ovr": 69
+    },
+    {
+      "key": "ria-22",
+      "number": 90,
+      "name": "디오구 나시멘툰",
+      "real": "디오구 나시멘투",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 2002,
+      "ovr": 67
+    },
+    {
+      "key": "ria-23",
+      "number": 99,
+      "name": "에니오 판 데르 하운",
+      "real": "에니오 판 데르 하우",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 2001,
+      "ovr": 67
+    }
+  ]
+}

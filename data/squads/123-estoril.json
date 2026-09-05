@@ -1,0 +1,230 @@
+{
+  "club": "에스토릴 카나리",
+  "realClub": "GD 이스토릴 프라이아",
+  "league": "루소 프리메라",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/G.D._Estoril_Praia",
+  "pilot": false,
+  "players": [
+    {
+      "key": "est-01",
+      "number": 1,
+      "name": "호엘 로블레손",
+      "real": "호엘 로블레스",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 1990,
+      "ovr": 70
+    },
+    {
+      "key": "est-02",
+      "number": 2,
+      "name": "리카르드 산체노",
+      "real": "리카르드 산체스",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "est-03",
+      "number": 3,
+      "name": "페르난도 메드라논",
+      "real": "페르난도 메드라노",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "est-04",
+      "number": 4,
+      "name": "페후르",
+      "real": "페후",
+      "pos": "CB",
+      "nation": "포르투갈",
+      "birthYear": 1997,
+      "ovr": 70
+    },
+    {
+      "key": "est-05",
+      "number": 5,
+      "name": "안테프 충긴",
+      "real": "안테프 충기",
+      "pos": "CB",
+      "nation": "벨기에",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "est-06",
+      "number": 7,
+      "name": "안드레 라시미칸튼",
+      "real": "안드레 라시미칸트",
+      "pos": "RW",
+      "nation": "포르투갈",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "est-07",
+      "number": 8,
+      "name": "셰칸",
+      "real": "셰카",
+      "pos": "CDM",
+      "nation": "포르투갈",
+      "birthYear": 1994,
+      "ovr": 70
+    },
+    {
+      "key": "est-08",
+      "number": 10,
+      "name": "조던 홀스그로븐",
+      "real": "조던 홀스그로브",
+      "pos": "CAM",
+      "nation": "스코틀랜드",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "est-09",
+      "number": 11,
+      "name": "카욘 에드워즈르",
+      "real": "카욘 에드워즈",
+      "pos": "ST",
+      "nation": "잉글랜드",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "est-10",
+      "number": 12,
+      "name": "주앙 카르발류스",
+      "real": "주앙 카르발류",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 1997,
+      "ovr": 71
+    },
+    {
+      "key": "est-11",
+      "number": 14,
+      "name": "야니스 베그라윈",
+      "real": "야니스 베그라위",
+      "pos": "LW",
+      "nation": "모로코",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "est-12",
+      "number": 16,
+      "name": "마르틴 투르큰",
+      "real": "마르틴 투르크",
+      "pos": "GK",
+      "nation": "슬로베니아",
+      "birthYear": 2003,
+      "ovr": 67
+    },
+    {
+      "key": "est-13",
+      "number": 17,
+      "name": "페이시뉸",
+      "real": "페이시뉴",
+      "pos": "LW",
+      "nation": "포르투갈",
+      "birthYear": 1993,
+      "ovr": 69
+    },
+    {
+      "key": "est-14",
+      "number": 18,
+      "name": "곤살루 코스탄",
+      "real": "곤살루 코스타",
+      "pos": "LB",
+      "nation": "포르투갈",
+      "birthYear": 2000,
+      "ovr": 68
+    },
+    {
+      "key": "est-15",
+      "number": 19,
+      "name": "티아구 파렌튼",
+      "real": "티아구 파렌트",
+      "pos": "RB",
+      "nation": "포르투갈",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "est-16",
+      "number": 22,
+      "name": "페드루 카르발륜",
+      "real": "페드루 카르발류",
+      "pos": "CB",
+      "nation": "포르투갈",
+      "birthYear": 2003,
+      "ovr": 67
+    },
+    {
+      "key": "est-17",
+      "number": 25,
+      "name": "스텔리오스 안드레운",
+      "real": "스텔리오스 안드레우",
+      "pos": "CB",
+      "nation": "키프로스",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "est-18",
+      "number": 35,
+      "name": "새뮤얼 아미산",
+      "real": "새뮤얼 아미사",
+      "pos": "CB",
+      "nation": "잉글랜드",
+      "birthYear": 2007,
+      "ovr": 64
+    },
+    {
+      "key": "est-19",
+      "number": 43,
+      "name": "플레처 스마이스론",
+      "real": "플레처 스마이스로",
+      "pos": "GK",
+      "nation": "남아프리카공화국",
+      "birthYear": 2007,
+      "ovr": 63
+    },
+    {
+      "key": "est-20",
+      "number": 90,
+      "name": "티아구 브리툰",
+      "real": "티아구 브리투",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "est-21",
+      "number": 98,
+      "name": "파브리시우 가르시안",
+      "real": "파브리시우 가르시아",
+      "pos": "LB",
+      "nation": "카보베르데",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "est-22",
+      "number": 99,
+      "name": "라피크 기타느",
+      "real": "라피크 기탄",
+      "pos": "RW",
+      "nation": "알제리",
+      "birthYear": 1999,
+      "ovr": 70
+    }
+  ]
+}

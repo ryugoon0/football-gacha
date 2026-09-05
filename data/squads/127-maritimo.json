@@ -1,0 +1,290 @@
+{
+  "club": "마데이라 마리티",
+  "realClub": "CS 마리티무",
+  "league": "루소 프리메라",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/C.S._Marítimo",
+  "pilot": false,
+  "players": [
+    {
+      "key": "mrt-01",
+      "number": 1,
+      "name": "곤살루 타부아순",
+      "real": "곤살루 타부아수",
+      "pos": "GK",
+      "nation": "포르투갈",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "mrt-02",
+      "number": 2,
+      "name": "이고르 줄리앙드",
+      "real": "이고르 줄리앙",
+      "pos": "RB",
+      "nation": "브라질",
+      "birthYear": 1994,
+      "ovr": 68
+    },
+    {
+      "key": "mrt-03",
+      "number": 3,
+      "name": "너새니얼 오그베탄",
+      "real": "너새니얼 오그베타",
+      "pos": "LB",
+      "nation": "잉글랜드",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "mrt-04",
+      "number": 4,
+      "name": "하파엘 페르난드손",
+      "real": "하파엘 페르난드스",
+      "pos": "CB",
+      "nation": "포르투갈",
+      "birthYear": 2002,
+      "ovr": 68
+    },
+    {
+      "key": "mrt-05",
+      "number": 5,
+      "name": "닐톤 바렐란",
+      "real": "닐톤 바렐라",
+      "pos": "LB",
+      "nation": "포르투갈",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "mrt-06",
+      "number": 6,
+      "name": "호드리구 안드라든",
+      "real": "호드리구 안드라드",
+      "pos": "CDM",
+      "nation": "포르투갈",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "mrt-07",
+      "number": 7,
+      "name": "엔리케 자우네른",
+      "real": "엔리케 자우네르",
+      "pos": "RW",
+      "nation": "베네수엘라",
+      "birthYear": 2000,
+      "ovr": 68
+    },
+    {
+      "key": "mrt-08",
+      "number": 8,
+      "name": "막심 도밍게손",
+      "real": "막심 도밍게스",
+      "pos": "CM",
+      "nation": "스위스",
+      "birthYear": 1996,
+      "ovr": 70
+    },
+    {
+      "key": "mrt-09",
+      "number": 9,
+      "name": "조제 멜룬",
+      "real": "조제 멜루",
+      "pos": "ST",
+      "nation": "포르투갈",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "mrt-10",
+      "number": 10,
+      "name": "마르틴 테혼드",
+      "real": "마르틴 테혼",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "mrt-11",
+      "number": 11,
+      "name": "시모 부자이딘",
+      "real": "시모 부자이디",
+      "pos": "LW",
+      "nation": "모로코",
+      "birthYear": 1999,
+      "ovr": 68
+    },
+    {
+      "key": "mrt-12",
+      "number": 13,
+      "name": "알폰소 파스토른",
+      "real": "알폰소 파스토르",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 67
+    },
+    {
+      "key": "mrt-13",
+      "number": 14,
+      "name": "하파에우 구준",
+      "real": "하파에우 구주",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 1995,
+      "ovr": 69
+    },
+    {
+      "key": "mrt-14",
+      "number": 15,
+      "name": "토마스 타바레손",
+      "real": "토마스 타바레스",
+      "pos": "RB",
+      "nation": "포르투갈",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "mrt-15",
+      "number": 17,
+      "name": "아드리안 부츠켄",
+      "real": "아드리안 부츠케",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 1999,
+      "ovr": 69
+    },
+    {
+      "key": "mrt-16",
+      "number": 18,
+      "name": "블라단 다닐로비츠",
+      "real": "블라단 다닐로비치",
+      "pos": "CM",
+      "nation": "보스니아헤르체고비나",
+      "birthYear": 1999,
+      "ovr": 69
+    },
+    {
+      "key": "mrt-17",
+      "number": 20,
+      "name": "프란시스쿠 고미손",
+      "real": "프란시스쿠 고미스",
+      "pos": "LW",
+      "nation": "포르투갈",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "mrt-18",
+      "number": 21,
+      "name": "이브라힘 알라닌",
+      "real": "이브라힘 알라니",
+      "pos": "CM",
+      "nation": "나이지리아",
+      "birthYear": 2006,
+      "ovr": 65
+    },
+    {
+      "key": "mrt-19",
+      "number": 22,
+      "name": "가보르 살러인",
+      "real": "가보르 살러이",
+      "pos": "CB",
+      "nation": "헝가리",
+      "birthYear": 2000,
+      "ovr": 68
+    },
+    {
+      "key": "mrt-20",
+      "number": 23,
+      "name": "파울루 엔히킨",
+      "real": "파울루 엔히키",
+      "pos": "RB",
+      "nation": "포르투갈",
+      "birthYear": 1996,
+      "ovr": 68
+    },
+    {
+      "key": "mrt-21",
+      "number": 25,
+      "name": "옐루 산티아곤",
+      "real": "옐루 산티아고",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "mrt-22",
+      "number": 27,
+      "name": "사무엘 밤반",
+      "real": "사무엘 밤바",
+      "pos": "RW",
+      "nation": "독일",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "mrt-23",
+      "number": 30,
+      "name": "프란 비에이테손",
+      "real": "프란 비에이테스",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 1999,
+      "ovr": 69
+    },
+    {
+      "key": "mrt-24",
+      "number": 34,
+      "name": "키미스 자발란",
+      "real": "키미스 자발라",
+      "pos": "GK",
+      "nation": "모잠비크",
+      "birthYear": 2004,
+      "ovr": 64
+    },
+    {
+      "key": "mrt-25",
+      "number": 35,
+      "name": "브라이언 림봄벤",
+      "real": "브라이언 림봄베",
+      "pos": "LW",
+      "nation": "벨기에",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "mrt-26",
+      "number": 44,
+      "name": "호맹 코헤이안",
+      "real": "호맹 코헤이아",
+      "pos": "CB",
+      "nation": "포르투갈",
+      "birthYear": 1999,
+      "ovr": 69
+    },
+    {
+      "key": "mrt-27",
+      "number": 66,
+      "name": "이스라엘 아유만",
+      "real": "이스라엘 아유마",
+      "pos": "CM",
+      "nation": "나이지리아",
+      "birthYear": 2005,
+      "ovr": 65
+    },
+    {
+      "key": "mrt-28",
+      "number": 90,
+      "name": "모리스 보아키엔",
+      "real": "모리스 보아키에",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 2004,
+      "ovr": 67
+    }
+  ]
+}

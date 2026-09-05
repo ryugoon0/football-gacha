@@ -1,0 +1,270 @@
+{
+  "club": "리스본 아길라",
+  "realClub": "SL 벤피카",
+  "league": "루소 프리메라",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/S.L._Benfica",
+  "pilot": false,
+  "players": [
+    {
+      "key": "ben-01",
+      "number": 1,
+      "name": "아나톨리 트루비느",
+      "real": "아나톨리 트루빈",
+      "pos": "GK",
+      "nation": "우크라이나",
+      "birthYear": 2001,
+      "ovr": 80
+    },
+    {
+      "key": "ben-02",
+      "number": 2,
+      "name": "클레망 랑글렌",
+      "real": "클레망 랑글레",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 1995,
+      "ovr": 76
+    },
+    {
+      "key": "ben-03",
+      "number": 3,
+      "name": "알레산드로 치르카틴",
+      "real": "알레산드로 치르카티",
+      "pos": "CB",
+      "nation": "호주",
+      "birthYear": 2003,
+      "ovr": 75
+    },
+    {
+      "key": "ben-04",
+      "number": 5,
+      "name": "엔소 바레네체안",
+      "real": "엔소 바레네체아",
+      "pos": "CDM",
+      "nation": "아르헨티나",
+      "birthYear": 2001,
+      "ovr": 76
+    },
+    {
+      "key": "ben-05",
+      "number": 6,
+      "name": "알렉산더 바르",
+      "real": "알렉산더 바",
+      "pos": "RB",
+      "nation": "덴마크",
+      "birthYear": 1997,
+      "ovr": 76
+    },
+    {
+      "key": "ben-06",
+      "number": 7,
+      "name": "브루만",
+      "real": "브루마",
+      "pos": "LW",
+      "nation": "포르투갈",
+      "birthYear": 1994,
+      "ovr": 75
+    },
+    {
+      "key": "ben-07",
+      "number": 8,
+      "name": "프레드리크 아우르스네손",
+      "real": "프레드리크 아우르스네스",
+      "pos": "CM",
+      "nation": "노르웨이",
+      "birthYear": 1995,
+      "ovr": 79
+    },
+    {
+      "key": "ben-08",
+      "number": 10,
+      "name": "헤오르히 수다코운",
+      "real": "헤오르히 수다코우",
+      "pos": "CAM",
+      "nation": "우크라이나",
+      "birthYear": 2002,
+      "ovr": 81
+    },
+    {
+      "key": "ben-09",
+      "number": 11,
+      "name": "도디 루케바키온",
+      "real": "도디 루케바키오",
+      "pos": "RW",
+      "nation": "벨기에",
+      "birthYear": 1997,
+      "ovr": 79
+    },
+    {
+      "key": "ben-10",
+      "number": 13,
+      "name": "야쿠프 카민스킨",
+      "real": "야쿠프 카민스키",
+      "pos": "LW",
+      "nation": "폴란드",
+      "birthYear": 2002,
+      "ovr": 76
+    },
+    {
+      "key": "ben-11",
+      "number": 14,
+      "name": "방겔리스 파블리디손",
+      "real": "방겔리스 파블리디스",
+      "pos": "ST",
+      "nation": "그리스",
+      "birthYear": 1998,
+      "ovr": 80
+    },
+    {
+      "key": "ben-12",
+      "number": 16,
+      "name": "마누 실반",
+      "real": "마누 실바",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 2001,
+      "ovr": 73
+    },
+    {
+      "key": "ben-13",
+      "number": 18,
+      "name": "레안드루 바헤이룬",
+      "real": "레안드루 바헤이루",
+      "pos": "CM",
+      "nation": "룩셈부르크",
+      "birthYear": 2000,
+      "ovr": 76
+    },
+    {
+      "key": "ben-14",
+      "number": 21,
+      "name": "안드레아스 셸데루픈",
+      "real": "안드레아스 셸데루프",
+      "pos": "LW",
+      "nation": "노르웨이",
+      "birthYear": 2004,
+      "ovr": 78
+    },
+    {
+      "key": "ben-15",
+      "number": 22,
+      "name": "욘 두라느",
+      "real": "욘 두란",
+      "pos": "ST",
+      "nation": "콜롬비아",
+      "birthYear": 2003,
+      "ovr": 80
+    },
+    {
+      "key": "ben-16",
+      "number": 24,
+      "name": "사무엘 소아르손",
+      "real": "사무엘 소아르스",
+      "pos": "GK",
+      "nation": "포르투갈",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "ben-17",
+      "number": 25,
+      "name": "잔루카 프레스티안닌",
+      "real": "잔루카 프레스티안니",
+      "pos": "RW",
+      "nation": "아르헨티나",
+      "birthYear": 2006,
+      "ovr": 76
+    },
+    {
+      "key": "ben-18",
+      "number": 26,
+      "name": "사무엘 달라",
+      "real": "사무엘 달",
+      "pos": "LB",
+      "nation": "스웨덴",
+      "birthYear": 2003,
+      "ovr": 74
+    },
+    {
+      "key": "ben-19",
+      "number": 27,
+      "name": "하파 실반",
+      "real": "하파 실바",
+      "pos": "LW",
+      "nation": "포르투갈",
+      "birthYear": 1993,
+      "ovr": 78
+    },
+    {
+      "key": "ben-20",
+      "number": 30,
+      "name": "클라우디오 에체베린",
+      "real": "클라우디오 에체베리",
+      "pos": "CAM",
+      "nation": "아르헨티나",
+      "birthYear": 2006,
+      "ovr": 77
+    },
+    {
+      "key": "ben-21",
+      "number": 33,
+      "name": "가브리에우 인디운",
+      "real": "가브리에우 인디우",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 2008,
+      "ovr": 64
+    },
+    {
+      "key": "ben-22",
+      "number": 34,
+      "name": "수피안 엘 카루아닌",
+      "real": "수피안 엘 카루아니",
+      "pos": "LB",
+      "nation": "모로코",
+      "birthYear": 2000,
+      "ovr": 74
+    },
+    {
+      "key": "ben-23",
+      "number": 36,
+      "name": "주앙 팔리뇬",
+      "real": "주앙 팔리냐",
+      "pos": "CDM",
+      "nation": "포르투갈",
+      "birthYear": 1995,
+      "ovr": 82
+    },
+    {
+      "key": "ben-24",
+      "number": 44,
+      "name": "토마스 아라우준",
+      "real": "토마스 아라우주",
+      "pos": "CB",
+      "nation": "포르투갈",
+      "birthYear": 2002,
+      "ovr": 78
+    },
+    {
+      "key": "ben-25",
+      "number": 66,
+      "name": "조슈아 윈더스",
+      "real": "조슈아 윈더",
+      "pos": "CB",
+      "nation": "미국",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "ben-26",
+      "number": 72,
+      "name": "아니지우 카브랄라",
+      "real": "아니지우 카브랄",
+      "pos": "ST",
+      "nation": "포르투갈",
+      "birthYear": 2008,
+      "ovr": 66
+    }
+  ]
+}

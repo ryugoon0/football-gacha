@@ -1,0 +1,280 @@
+{
+  "club": "나시오날 알비",
+  "realClub": "CD 나시오날",
+  "league": "루소 프리메라",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/C.D._Nacional",
+  "pilot": false,
+  "players": [
+    {
+      "key": "nac-01",
+      "number": 1,
+      "name": "레나토 마리느",
+      "real": "레나토 마린",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 2006,
+      "ovr": 70
+    },
+    {
+      "key": "nac-02",
+      "number": 2,
+      "name": "다니엘 데 라 크루손",
+      "real": "다니엘 데 라 크루스",
+      "pos": "RB",
+      "nation": "에콰도르",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "nac-03",
+      "number": 5,
+      "name": "조제 고미손",
+      "real": "조제 고미스",
+      "pos": "CB",
+      "nation": "포르투갈",
+      "birthYear": 1996,
+      "ovr": 70
+    },
+    {
+      "key": "nac-04",
+      "number": 6,
+      "name": "마테우스 지아손",
+      "real": "마테우스 지아스",
+      "pos": "CDM",
+      "nation": "브라질",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "nac-05",
+      "number": 7,
+      "name": "마르쿠스 옌센드",
+      "real": "마르쿠스 옌센",
+      "pos": "CM",
+      "nation": "덴마크",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "nac-06",
+      "number": 8,
+      "name": "미겔 바에산",
+      "real": "미겔 바에사",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "nac-07",
+      "number": 9,
+      "name": "알렌 오반돈",
+      "real": "알렌 오반도",
+      "pos": "ST",
+      "nation": "에콰도르",
+      "birthYear": 2006,
+      "ovr": 71
+    },
+    {
+      "key": "nac-08",
+      "number": 10,
+      "name": "다니에우 주니오른",
+      "real": "다니에우 주니오르",
+      "pos": "LW",
+      "nation": "브라질",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "nac-09",
+      "number": 11,
+      "name": "스타브로스 가브릴라",
+      "real": "스타브로스 가브릴",
+      "pos": "RW",
+      "nation": "키프로스",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "nac-10",
+      "number": 12,
+      "name": "송민귤",
+      "real": "송민규",
+      "pos": "ST",
+      "nation": "대한민국",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "nac-11",
+      "number": 13,
+      "name": "주앙 곤살베손",
+      "real": "주앙 곤살베스",
+      "pos": "GK",
+      "nation": "포르투갈",
+      "birthYear": 2000,
+      "ovr": 68
+    },
+    {
+      "key": "nac-12",
+      "number": 14,
+      "name": "이바닐두 페르난드손",
+      "real": "이바닐두 페르난드스",
+      "pos": "CB",
+      "nation": "카보베르데",
+      "birthYear": 1996,
+      "ovr": 70
+    },
+    {
+      "key": "nac-13",
+      "number": 15,
+      "name": "치헤브 라비딘",
+      "real": "치헤브 라비디",
+      "pos": "CM",
+      "nation": "튀니지",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "nac-14",
+      "number": 17,
+      "name": "페르난도 나반",
+      "real": "페르난도 나바",
+      "pos": "ST",
+      "nation": "볼리비아",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "nac-15",
+      "number": 19,
+      "name": "모테즈 누라닌",
+      "real": "모테즈 누라니",
+      "pos": "LW",
+      "nation": "튀니지",
+      "birthYear": 2002,
+      "ovr": 68
+    },
+    {
+      "key": "nac-16",
+      "number": 20,
+      "name": "마초이 잘룬",
+      "real": "마초이 잘루",
+      "pos": "LW",
+      "nation": "포르투갈",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "nac-17",
+      "number": 21,
+      "name": "윌리암 코콜론",
+      "real": "윌리암 코콜로",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "nac-18",
+      "number": 22,
+      "name": "필리프 소아르손",
+      "real": "필리프 소아르스",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "nac-19",
+      "number": 23,
+      "name": "마테우스 이세펜",
+      "real": "마테우스 이세페",
+      "pos": "CM",
+      "nation": "브라질",
+      "birthYear": 2006,
+      "ovr": 66
+    },
+    {
+      "key": "nac-20",
+      "number": 26,
+      "name": "조엘 실반",
+      "real": "조엘 실바",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "nac-21",
+      "number": 28,
+      "name": "이고르 리제룬",
+      "real": "이고르 리제루",
+      "pos": "CDM",
+      "nation": "브라질",
+      "birthYear": 1998,
+      "ovr": 70
+    },
+    {
+      "key": "nac-22",
+      "number": 30,
+      "name": "마르팀 와추",
+      "real": "마르팀 와츠",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "nac-23",
+      "number": 31,
+      "name": "다넬 동몬",
+      "real": "다넬 동모",
+      "pos": "CM",
+      "nation": "카메룬",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "nac-24",
+      "number": 33,
+      "name": "프란시스쿠 곤살베스르",
+      "real": "프란시스쿠 곤살베스",
+      "pos": "RB",
+      "nation": "포르투갈",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "nac-25",
+      "number": 34,
+      "name": "레우 산투손",
+      "real": "레우 산투스",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 1998,
+      "ovr": 71
+    },
+    {
+      "key": "nac-26",
+      "number": 38,
+      "name": "제 비토른",
+      "real": "제 비토르",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "nac-27",
+      "number": 52,
+      "name": "웨슬리 가솔리난",
+      "real": "웨슬리 가솔리나",
+      "pos": "RB",
+      "nation": "브라질",
+      "birthYear": 2000,
+      "ovr": 69
+    }
+  ]
+}

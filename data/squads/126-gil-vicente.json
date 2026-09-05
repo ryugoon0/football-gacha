@@ -1,0 +1,280 @@
+{
+  "club": "지우비센트 갈로",
+  "realClub": "질 비센트 FC",
+  "league": "루소 프리메라",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Gil_Vicente_F.C.",
+  "pilot": false,
+  "players": [
+    {
+      "key": "gil-01",
+      "number": 1,
+      "name": "안드레 피코르넬라",
+      "real": "안드레 피코르넬",
+      "pos": "GK",
+      "nation": "스웨덴",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "gil-02",
+      "number": 3,
+      "name": "기슬랭 코나느",
+      "real": "기슬랭 코난",
+      "pos": "LB",
+      "nation": "코트디부아르",
+      "birthYear": 1995,
+      "ovr": 70
+    },
+    {
+      "key": "gil-03",
+      "number": 4,
+      "name": "마르뱅 엘림빈",
+      "real": "마르뱅 엘림비",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "gil-04",
+      "number": 5,
+      "name": "파쿤도 카세레손",
+      "real": "파쿤도 카세레스",
+      "pos": "CM",
+      "nation": "아르헨티나",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "gil-05",
+      "number": 7,
+      "name": "티자니 투렌",
+      "real": "티자니 투레",
+      "pos": "RW",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "gil-06",
+      "number": 8,
+      "name": "모하메드 밤반드",
+      "real": "모하메드 밤바",
+      "pos": "CDM",
+      "nation": "코트디부아르",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "gil-07",
+      "number": 9,
+      "name": "왈라시 프란산",
+      "real": "왈라시 프란사",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "gil-08",
+      "number": 10,
+      "name": "산티 가르시안",
+      "real": "산티 가르시아",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "gil-09",
+      "number": 11,
+      "name": "조엘손 페르난드손",
+      "real": "조엘손 페르난드스",
+      "pos": "LW",
+      "nation": "포르투갈",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "gil-10",
+      "number": 12,
+      "name": "안드레아스 라우센드",
+      "real": "안드레아스 라우센",
+      "pos": "CM",
+      "nation": "덴마크",
+      "birthYear": 2002,
+      "ovr": 68
+    },
+    {
+      "key": "gil-11",
+      "number": 17,
+      "name": "세르히오 베르메혼",
+      "real": "세르히오 베르메호",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 1997,
+      "ovr": 70
+    },
+    {
+      "key": "gil-12",
+      "number": 23,
+      "name": "엑토르 에르난데손",
+      "real": "엑토르 에르난데스",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 1995,
+      "ovr": 70
+    },
+    {
+      "key": "gil-13",
+      "number": 26,
+      "name": "웨베르손드",
+      "real": "웨베르손",
+      "pos": "LB",
+      "nation": "브라질",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "gil-14",
+      "number": 27,
+      "name": "아구스틴 모레이란",
+      "real": "아구스틴 모레이라",
+      "pos": "ST",
+      "nation": "우루과이",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "gil-15",
+      "number": 28,
+      "name": "디오구 코스타스",
+      "real": "디오구 코스타",
+      "pos": "CB",
+      "nation": "포르투갈",
+      "birthYear": 1999,
+      "ovr": 69
+    },
+    {
+      "key": "gil-16",
+      "number": 29,
+      "name": "카를루스 에두아르둔",
+      "real": "카를루스 에두아르두",
+      "pos": "RW",
+      "nation": "브라질",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "gil-17",
+      "number": 30,
+      "name": "루캉드",
+      "real": "루캉",
+      "pos": "GK",
+      "nation": "브라질",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "gil-18",
+      "number": 32,
+      "name": "마르틴 페르난데손",
+      "real": "마르틴 페르난데스",
+      "pos": "CM",
+      "nation": "우루과이",
+      "birthYear": 2003,
+      "ovr": 67
+    },
+    {
+      "key": "gil-19",
+      "number": 39,
+      "name": "조나탄 부아툰",
+      "real": "조나탄 부아투",
+      "pos": "CB",
+      "nation": "앙골라",
+      "birthYear": 1993,
+      "ovr": 69
+    },
+    {
+      "key": "gil-20",
+      "number": 45,
+      "name": "다비드 모레이라스",
+      "real": "다비드 모레이라",
+      "pos": "CB",
+      "nation": "카보베르데",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "gil-21",
+      "number": 47,
+      "name": "히카르두 에스가이운",
+      "real": "히카르두 에스가이우",
+      "pos": "RB",
+      "nation": "포르투갈",
+      "birthYear": 1993,
+      "ovr": 70
+    },
+    {
+      "key": "gil-22",
+      "number": 48,
+      "name": "안토니오 에스피가레손",
+      "real": "안토니오 에스피가레스",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "gil-23",
+      "number": 77,
+      "name": "무릴루 코스타르",
+      "real": "무릴루 코스타",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 1994,
+      "ovr": 69
+    },
+    {
+      "key": "gil-24",
+      "number": 86,
+      "name": "디오구 프리오스튼",
+      "real": "디오구 프리오스트",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "gil-25",
+      "number": 88,
+      "name": "바스코 소예른",
+      "real": "바스코 소예르",
+      "pos": "CM",
+      "nation": "페루",
+      "birthYear": 2006,
+      "ovr": 65
+    },
+    {
+      "key": "gil-26",
+      "number": 94,
+      "name": "사무에우 포르투갈라",
+      "real": "사무에우 포르투갈",
+      "pos": "GK",
+      "nation": "브라질",
+      "birthYear": 1994,
+      "ovr": 68
+    },
+    {
+      "key": "gil-27",
+      "number": 99,
+      "name": "모하메드 카바르",
+      "real": "모하메드 카바",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 2001,
+      "ovr": 69
+    }
+  ]
+}

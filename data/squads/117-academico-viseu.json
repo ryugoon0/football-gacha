@@ -1,0 +1,210 @@
+{
+  "club": "비제우 아카데미",
+  "realClub": "아카데미쿠 드 비제우",
+  "league": "루소 프리메라",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Académico_de_Viseu_F.C.",
+  "pilot": false,
+  "players": [
+    {
+      "key": "acv-01",
+      "number": 1,
+      "name": "마르코스 라비느",
+      "real": "마르코스 라빈",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 1996,
+      "ovr": 67
+    },
+    {
+      "key": "acv-02",
+      "number": 2,
+      "name": "니코스 미헬리손",
+      "real": "니코스 미헬리스",
+      "pos": "RB",
+      "nation": "그리스",
+      "birthYear": 2001,
+      "ovr": 66
+    },
+    {
+      "key": "acv-03",
+      "number": 3,
+      "name": "미겔 앙헬 브라운",
+      "real": "미겔 앙헬 브라우",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 66
+    },
+    {
+      "key": "acv-04",
+      "number": 5,
+      "name": "페드루 바르셀루손",
+      "real": "페드루 바르셀루스",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 1996,
+      "ovr": 67
+    },
+    {
+      "key": "acv-05",
+      "number": 6,
+      "name": "안드레 세이틸라",
+      "real": "안드레 세이틸",
+      "pos": "CDM",
+      "nation": "포르투갈",
+      "birthYear": 1995,
+      "ovr": 67
+    },
+    {
+      "key": "acv-06",
+      "number": 7,
+      "name": "루이스 실반",
+      "real": "루이스 실바",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 1992,
+      "ovr": 67
+    },
+    {
+      "key": "acv-07",
+      "number": 8,
+      "name": "지한 카흐라마느",
+      "real": "지한 카흐라만",
+      "pos": "CM",
+      "nation": "튀르키예",
+      "birthYear": 1998,
+      "ovr": 67
+    },
+    {
+      "key": "acv-08",
+      "number": 9,
+      "name": "모하메드 불디닌",
+      "real": "모하메드 불디니",
+      "pos": "ST",
+      "nation": "모로코",
+      "birthYear": 1995,
+      "ovr": 68
+    },
+    {
+      "key": "acv-09",
+      "number": 10,
+      "name": "알바로 사모란",
+      "real": "알바로 사모라",
+      "pos": "LW",
+      "nation": "코스타리카",
+      "birthYear": 2002,
+      "ovr": 68
+    },
+    {
+      "key": "acv-10",
+      "number": 11,
+      "name": "도미니크 스테치큰",
+      "real": "도미니크 스테치크",
+      "pos": "ST",
+      "nation": "폴란드",
+      "birthYear": 1999,
+      "ovr": 67
+    },
+    {
+      "key": "acv-11",
+      "number": 14,
+      "name": "수피안 메세게므",
+      "real": "수피안 메세겜",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 2001,
+      "ovr": 66
+    },
+    {
+      "key": "acv-12",
+      "number": 17,
+      "name": "발레리 페르난데손",
+      "real": "발레리 페르난데스",
+      "pos": "RW",
+      "nation": "스페인",
+      "birthYear": 1999,
+      "ovr": 68
+    },
+    {
+      "key": "acv-13",
+      "number": 18,
+      "name": "크리스티안 페레이란",
+      "real": "크리스티안 페레이라",
+      "pos": "CAM",
+      "nation": "아르헨티나",
+      "birthYear": 1999,
+      "ovr": 67
+    },
+    {
+      "key": "acv-14",
+      "number": 21,
+      "name": "토마스 도밍구손",
+      "real": "토마스 도밍구스",
+      "pos": "RB",
+      "nation": "포르투갈",
+      "birthYear": 1999,
+      "ovr": 66
+    },
+    {
+      "key": "acv-15",
+      "number": 22,
+      "name": "닐스 모티머스",
+      "real": "닐스 모티머",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 66
+    },
+    {
+      "key": "acv-16",
+      "number": 33,
+      "name": "안드레 클로비손",
+      "real": "안드레 클로비스",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 1997,
+      "ovr": 67
+    },
+    {
+      "key": "acv-17",
+      "number": 41,
+      "name": "앙토니 코헤이안",
+      "real": "앙토니 코헤이아",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 1999,
+      "ovr": 66
+    },
+    {
+      "key": "acv-18",
+      "number": 44,
+      "name": "후벵 페레이란",
+      "real": "후벵 페레이라",
+      "pos": "CB",
+      "nation": "포르투갈",
+      "birthYear": 1991,
+      "ovr": 66
+    },
+    {
+      "key": "acv-19",
+      "number": 75,
+      "name": "호비뉸",
+      "real": "호비뉴",
+      "pos": "LB",
+      "nation": "포르투갈",
+      "birthYear": 1997,
+      "ovr": 66
+    },
+    {
+      "key": "acv-20",
+      "number": 77,
+      "name": "파울리뉸",
+      "real": "파울리뉴",
+      "pos": "LW",
+      "nation": "포르투갈",
+      "birthYear": 1999,
+      "ovr": 66
+    }
+  ]
+}

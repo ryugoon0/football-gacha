@@ -1,0 +1,240 @@
+{
+  "club": "카사피아 리스보",
+  "realClub": "카사 피아 AC",
+  "league": "루소 프리메라",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Casa_Pia_A.C.",
+  "pilot": false,
+  "players": [
+    {
+      "key": "cpa-01",
+      "number": 1,
+      "name": "패트릭 세케이란",
+      "real": "패트릭 세케이라",
+      "pos": "GK",
+      "nation": "코스타리카",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "cpa-02",
+      "number": 3,
+      "name": "칼린",
+      "real": "칼리",
+      "pos": "CB",
+      "nation": "앙골라",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "cpa-03",
+      "number": 4,
+      "name": "주앙 고울라르튼",
+      "real": "주앙 고울라르트",
+      "pos": "CB",
+      "nation": "포르투갈",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "cpa-04",
+      "number": 5,
+      "name": "압두 콘텐",
+      "real": "압두 콘테",
+      "pos": "LB",
+      "nation": "포르투갈",
+      "birthYear": 1998,
+      "ovr": 69
+    },
+    {
+      "key": "cpa-05",
+      "number": 9,
+      "name": "엔히키 아라우준",
+      "real": "엔히키 아라우주",
+      "pos": "ST",
+      "nation": "포르투갈",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "cpa-06",
+      "number": 10,
+      "name": "호시뇬",
+      "real": "호시냐",
+      "pos": "LW",
+      "nation": "포르투갈",
+      "birthYear": 1995,
+      "ovr": 70
+    },
+    {
+      "key": "cpa-07",
+      "number": 13,
+      "name": "코레데 오순디난",
+      "real": "코레데 오순디나",
+      "pos": "ST",
+      "nation": "미국",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "cpa-08",
+      "number": 16,
+      "name": "셀비 클루안",
+      "real": "셀비 클루아",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "cpa-09",
+      "number": 18,
+      "name": "안드레 제랄드손",
+      "real": "안드레 제랄드스",
+      "pos": "RB",
+      "nation": "포르투갈",
+      "birthYear": 1991,
+      "ovr": 68
+    },
+    {
+      "key": "cpa-10",
+      "number": 20,
+      "name": "알라사나 자탄",
+      "real": "알라사나 자타",
+      "pos": "ST",
+      "nation": "감비아",
+      "birthYear": 1999,
+      "ovr": 69
+    },
+    {
+      "key": "cpa-11",
+      "number": 22,
+      "name": "다니엘 아제베둔",
+      "real": "다니엘 아제베두",
+      "pos": "GK",
+      "nation": "포르투갈",
+      "birthYear": 1998,
+      "ovr": 68
+    },
+    {
+      "key": "cpa-12",
+      "number": 24,
+      "name": "이야드 모하메든",
+      "real": "이야드 모하메드",
+      "pos": "CDM",
+      "nation": "코모로",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "cpa-13",
+      "number": 27,
+      "name": "카이키 호샨",
+      "real": "카이키 호샤",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "cpa-14",
+      "number": 29,
+      "name": "제레미 리볼랑드",
+      "real": "제레미 리볼랑",
+      "pos": "RW",
+      "nation": "프랑스",
+      "birthYear": 1998,
+      "ovr": 70
+    },
+    {
+      "key": "cpa-15",
+      "number": 31,
+      "name": "안드레 고미스르",
+      "real": "안드레 고미스",
+      "pos": "GK",
+      "nation": "포르투갈",
+      "birthYear": 2004,
+      "ovr": 65
+    },
+    {
+      "key": "cpa-16",
+      "number": 42,
+      "name": "세바 페레손",
+      "real": "세바 페레스",
+      "pos": "CM",
+      "nation": "콜롬비아",
+      "birthYear": 1993,
+      "ovr": 69
+    },
+    {
+      "key": "cpa-17",
+      "number": 43,
+      "name": "다비드 소잔드",
+      "real": "다비드 소자",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "cpa-18",
+      "number": 75,
+      "name": "페드루 로자손",
+      "real": "페드루 로자스",
+      "pos": "RB",
+      "nation": "포르투갈",
+      "birthYear": 2000,
+      "ovr": 68
+    },
+    {
+      "key": "cpa-19",
+      "number": 77,
+      "name": "뱅자맹 파월손",
+      "real": "뱅자맹 파월스",
+      "pos": "CM",
+      "nation": "벨기에",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "cpa-20",
+      "number": 80,
+      "name": "로런스 오포린",
+      "real": "로런스 오포리",
+      "pos": "CDM",
+      "nation": "가나",
+      "birthYear": 1998,
+      "ovr": 69
+    },
+    {
+      "key": "cpa-21",
+      "number": 90,
+      "name": "카시아눈",
+      "real": "카시아누",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 1989,
+      "ovr": 68
+    },
+    {
+      "key": "cpa-22",
+      "number": 98,
+      "name": "제펜",
+      "real": "제페",
+      "pos": "CM",
+      "nation": "브라질",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "cpa-23",
+      "number": 99,
+      "name": "클라우디우 멘드손",
+      "real": "클라우디우 멘드스",
+      "pos": "LW",
+      "nation": "기니비사우",
+      "birthYear": 2000,
+      "ovr": 68
+    }
+  ]
+}

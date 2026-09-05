@@ -1,0 +1,270 @@
+{
+  "club": "포르투 드라강",
+  "realClub": "FC 포르투",
+  "league": "루소 프리메라",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/FC_Porto",
+  "pilot": false,
+  "players": [
+    {
+      "key": "por-01",
+      "number": 4,
+      "name": "야쿠프 키비오른",
+      "real": "야쿠프 키비오르",
+      "pos": "CB",
+      "nation": "폴란드",
+      "birthYear": 2000,
+      "ovr": 78
+    },
+    {
+      "key": "por-02",
+      "number": 5,
+      "name": "얀 베드나레큰",
+      "real": "얀 베드나레크",
+      "pos": "CB",
+      "nation": "폴란드",
+      "birthYear": 1996,
+      "ovr": 77
+    },
+    {
+      "key": "por-03",
+      "number": 7,
+      "name": "윌리앙 고미손",
+      "real": "윌리앙 고미스",
+      "pos": "RW",
+      "nation": "브라질",
+      "birthYear": 2006,
+      "ovr": 75
+    },
+    {
+      "key": "por-04",
+      "number": 8,
+      "name": "빅토르 프로홀튼",
+      "real": "빅토르 프로홀트",
+      "pos": "CM",
+      "nation": "덴마크",
+      "birthYear": 2006,
+      "ovr": 76
+    },
+    {
+      "key": "por-05",
+      "number": 9,
+      "name": "사무 아게호완",
+      "real": "사무 아게호와",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 81
+    },
+    {
+      "key": "por-06",
+      "number": 10,
+      "name": "가브리 베이간",
+      "real": "가브리 베이가",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 79
+    },
+    {
+      "key": "por-07",
+      "number": 11,
+      "name": "페펜",
+      "real": "페페",
+      "pos": "LW",
+      "nation": "브라질",
+      "birthYear": 1997,
+      "ovr": 78
+    },
+    {
+      "key": "por-08",
+      "number": 12,
+      "name": "자이두 사누신",
+      "real": "자이두 사누시",
+      "pos": "LB",
+      "nation": "나이지리아",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "por-09",
+      "number": 13,
+      "name": "파블로 로사리온",
+      "real": "파블로 로사리오",
+      "pos": "CDM",
+      "nation": "도미니카공화국",
+      "birthYear": 1997,
+      "ovr": 75
+    },
+    {
+      "key": "por-10",
+      "number": 14,
+      "name": "클라우디우 하무손",
+      "real": "클라우디우 하무스",
+      "pos": "GK",
+      "nation": "포르투갈",
+      "birthYear": 1991,
+      "ovr": 69
+    },
+    {
+      "key": "por-11",
+      "number": 16,
+      "name": "황인버므",
+      "real": "황인범",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 1996,
+      "ovr": 77
+    },
+    {
+      "key": "por-12",
+      "number": 17,
+      "name": "보르하 사인손",
+      "real": "보르하 사인스",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 77
+    },
+    {
+      "key": "por-13",
+      "number": 18,
+      "name": "네우엔 페레손",
+      "real": "네우엔 페레스",
+      "pos": "CB",
+      "nation": "아르헨티나",
+      "birthYear": 2000,
+      "ovr": 77
+    },
+    {
+      "key": "por-14",
+      "number": 19,
+      "name": "안드레 실바르",
+      "real": "안드레 실바",
+      "pos": "ST",
+      "nation": "포르투갈",
+      "birthYear": 1995,
+      "ovr": 76
+    },
+    {
+      "key": "por-15",
+      "number": 20,
+      "name": "알베르투 코스탄",
+      "real": "알베르투 코스타",
+      "pos": "RB",
+      "nation": "포르투갈",
+      "birthYear": 2003,
+      "ovr": 75
+    },
+    {
+      "key": "por-16",
+      "number": 21,
+      "name": "도미니크 프르피츠",
+      "real": "도미니크 프르피치",
+      "pos": "CB",
+      "nation": "크로아티아",
+      "birthYear": 2004,
+      "ovr": 72
+    },
+    {
+      "key": "por-17",
+      "number": 22,
+      "name": "알란 바렐란",
+      "real": "알란 바렐라",
+      "pos": "CDM",
+      "nation": "아르헨티나",
+      "birthYear": 2001,
+      "ovr": 79
+    },
+    {
+      "key": "por-18",
+      "number": 24,
+      "name": "주앙 코스탄",
+      "real": "주앙 코스타",
+      "pos": "GK",
+      "nation": "포르투갈",
+      "birthYear": 1996,
+      "ovr": 68
+    },
+    {
+      "key": "por-19",
+      "number": 29,
+      "name": "산티아고 히메네손",
+      "real": "산티아고 히메네스",
+      "pos": "ST",
+      "nation": "멕시코",
+      "birthYear": 2001,
+      "ovr": 78
+    },
+    {
+      "key": "por-20",
+      "number": 33,
+      "name": "소잔",
+      "real": "소자",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 2006,
+      "ovr": 71
+    },
+    {
+      "key": "por-21",
+      "number": 37,
+      "name": "가브리에우 메큰",
+      "real": "가브리에우 메크",
+      "pos": "RW",
+      "nation": "브라질",
+      "birthYear": 2008,
+      "ovr": 66
+    },
+    {
+      "key": "por-22",
+      "number": 42,
+      "name": "세코 포파난",
+      "real": "세코 포파나",
+      "pos": "CDM",
+      "nation": "코트디부아르",
+      "birthYear": 1995,
+      "ovr": 77
+    },
+    {
+      "key": "por-23",
+      "number": 52,
+      "name": "마르팀 페르난드손",
+      "real": "마르팀 페르난드스",
+      "pos": "RB",
+      "nation": "포르투갈",
+      "birthYear": 2006,
+      "ovr": 75
+    },
+    {
+      "key": "por-24",
+      "number": 74,
+      "name": "프란시스쿠 모란",
+      "real": "프란시스쿠 모라",
+      "pos": "LB",
+      "nation": "포르투갈",
+      "birthYear": 1999,
+      "ovr": 74
+    },
+    {
+      "key": "por-25",
+      "number": 77,
+      "name": "오스카르 피에투셰프스킨",
+      "real": "오스카르 피에투셰프스키",
+      "pos": "ST",
+      "nation": "폴란드",
+      "birthYear": 2008,
+      "ovr": 66
+    },
+    {
+      "key": "por-26",
+      "number": 99,
+      "name": "디오구 코스타르",
+      "real": "디오구 코스타",
+      "pos": "GK",
+      "nation": "포르투갈",
+      "birthYear": 1999,
+      "ovr": 83
+    }
+  ]
+}

@@ -1,0 +1,200 @@
+{
+  "club": "산타클라라 아소르",
+  "realClub": "CD 산타 클라라",
+  "league": "루소 프리메라",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/C.D._Santa_Clara",
+  "pilot": false,
+  "players": [
+    {
+      "key": "stc-01",
+      "number": 1,
+      "name": "루카스 프란산",
+      "real": "루카스 프란사",
+      "pos": "GK",
+      "nation": "브라질",
+      "birthYear": 1996,
+      "ovr": 69
+    },
+    {
+      "key": "stc-02",
+      "number": 4,
+      "name": "페드루 파셰쿤",
+      "real": "페드루 파셰쿠",
+      "pos": "CB",
+      "nation": "포르투갈",
+      "birthYear": 1997,
+      "ovr": 69
+    },
+    {
+      "key": "stc-03",
+      "number": 5,
+      "name": "기예르미 호망드",
+      "real": "기예르미 호망",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 1997,
+      "ovr": 69
+    },
+    {
+      "key": "stc-04",
+      "number": 6,
+      "name": "페드루 페레이란",
+      "real": "페드루 페레이라",
+      "pos": "CDM",
+      "nation": "포르투갈",
+      "birthYear": 1998,
+      "ovr": 69
+    },
+    {
+      "key": "stc-05",
+      "number": 7,
+      "name": "페르난둔",
+      "real": "페르난두",
+      "pos": "RW",
+      "nation": "브라질",
+      "birthYear": 2005,
+      "ovr": 67
+    },
+    {
+      "key": "stc-06",
+      "number": 8,
+      "name": "제 타바레손",
+      "real": "제 타바레스",
+      "pos": "CM",
+      "nation": "카보베르데",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "stc-07",
+      "number": 9,
+      "name": "곤살루 파시엔시안",
+      "real": "곤살루 파시엔시아",
+      "pos": "ST",
+      "nation": "포르투갈",
+      "birthYear": 1994,
+      "ovr": 71
+    },
+    {
+      "key": "stc-08",
+      "number": 10,
+      "name": "브레네르 루카손",
+      "real": "브레네르 루카스",
+      "pos": "CAM",
+      "nation": "브라질",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "stc-09",
+      "number": 11,
+      "name": "웰린톤 토항드",
+      "real": "웰린톤 토항",
+      "pos": "LW",
+      "nation": "브라질",
+      "birthYear": 1999,
+      "ovr": 69
+    },
+    {
+      "key": "stc-10",
+      "number": 12,
+      "name": "네네칸",
+      "real": "네네카",
+      "pos": "GK",
+      "nation": "브라질",
+      "birthYear": 2003,
+      "ovr": 66
+    },
+    {
+      "key": "stc-11",
+      "number": 17,
+      "name": "주앙 바스콘셀루손",
+      "real": "주앙 바스콘셀루스",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "stc-12",
+      "number": 20,
+      "name": "티아구 히베이룬",
+      "real": "티아구 히베이루",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 2002,
+      "ovr": 68
+    },
+    {
+      "key": "stc-13",
+      "number": 22,
+      "name": "비치뉸",
+      "real": "비치뉴",
+      "pos": "CAM",
+      "nation": "브라질",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "stc-14",
+      "number": 32,
+      "name": "엠텐",
+      "real": "엠테",
+      "pos": "RB",
+      "nation": "브라질",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "stc-15",
+      "number": 37,
+      "name": "히우둔",
+      "real": "히우두",
+      "pos": "CM",
+      "nation": "브라질",
+      "birthYear": 2000,
+      "ovr": 68
+    },
+    {
+      "key": "stc-16",
+      "number": 41,
+      "name": "다니 보르지손",
+      "real": "다니 보르지스",
+      "pos": "CM",
+      "nation": "브라질",
+      "birthYear": 2003,
+      "ovr": 67
+    },
+    {
+      "key": "stc-17",
+      "number": 42,
+      "name": "루카스 소아르손",
+      "real": "루카스 소아르스",
+      "pos": "LB",
+      "nation": "브라질",
+      "birthYear": 1998,
+      "ovr": 68
+    },
+    {
+      "key": "stc-18",
+      "number": 70,
+      "name": "비니시우스 로페손",
+      "real": "비니시우스 로페스",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 1999,
+      "ovr": 69
+    },
+    {
+      "key": "stc-19",
+      "number": 73,
+      "name": "레우 자콘",
+      "real": "레우 자코",
+      "pos": "LW",
+      "nation": "브라질",
+      "birthYear": 2005,
+      "ovr": 66
+    }
+  ]
+}

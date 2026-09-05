@@ -1,0 +1,250 @@
+{
+  "club": "파말리캉 파마",
+  "realClub": "FC 파말리캉",
+  "league": "루소 프리메라",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/F.C._Famalicão",
+  "pilot": false,
+  "players": [
+    {
+      "key": "fam-01",
+      "number": 1,
+      "name": "이반 즐로비느",
+      "real": "이반 즐로빈",
+      "pos": "GK",
+      "nation": "러시아",
+      "birthYear": 1997,
+      "ovr": 70
+    },
+    {
+      "key": "fam-02",
+      "number": 2,
+      "name": "구스타부 가르시안",
+      "real": "구스타부 가르시아",
+      "pos": "RB",
+      "nation": "브라질",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "fam-03",
+      "number": 3,
+      "name": "레오 레알펜",
+      "real": "레오 레알페",
+      "pos": "CB",
+      "nation": "에콰도르",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "fam-04",
+      "number": 4,
+      "name": "핀 판 브레먼드",
+      "real": "핀 판 브레먼",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "fam-05",
+      "number": 5,
+      "name": "레니 마이어스",
+      "real": "레니 마이어",
+      "pos": "CB",
+      "nation": "스위스",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "fam-06",
+      "number": 6,
+      "name": "톰 판 더 로인",
+      "real": "톰 판 더 로이",
+      "pos": "CDM",
+      "nation": "네덜란드",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "fam-07",
+      "number": 7,
+      "name": "소히준",
+      "real": "소히주",
+      "pos": "LW",
+      "nation": "브라질",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "fam-08",
+      "number": 8,
+      "name": "마르코스 페냔",
+      "real": "마르코스 페냐",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2005,
+      "ovr": 67
+    },
+    {
+      "key": "fam-09",
+      "number": 9,
+      "name": "우마르 아부바카른",
+      "real": "우마르 아부바카르",
+      "pos": "ST",
+      "nation": "나이지리아",
+      "birthYear": 2006,
+      "ovr": 68
+    },
+    {
+      "key": "fam-10",
+      "number": 11,
+      "name": "오스카르 아란단",
+      "real": "오스카르 아란다",
+      "pos": "RW",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "fam-11",
+      "number": 14,
+      "name": "마티아스 드 아모링크",
+      "real": "마티아스 드 아모링",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "fam-12",
+      "number": 17,
+      "name": "호드리구 피녜이룬",
+      "real": "호드리구 피녜이루",
+      "pos": "RB",
+      "nation": "포르투갈",
+      "birthYear": 2002,
+      "ovr": 68
+    },
+    {
+      "key": "fam-13",
+      "number": 18,
+      "name": "로메오 베넨",
+      "real": "로메오 베네",
+      "pos": "ST",
+      "nation": "스위스",
+      "birthYear": 2005,
+      "ovr": 69
+    },
+    {
+      "key": "fam-14",
+      "number": 19,
+      "name": "파울루 모레이란",
+      "real": "파울루 모레이라",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "fam-15",
+      "number": 21,
+      "name": "터마시 수친",
+      "real": "터마시 수치",
+      "pos": "CAM",
+      "nation": "헝가리",
+      "birthYear": 2005,
+      "ovr": 67
+    },
+    {
+      "key": "fam-16",
+      "number": 22,
+      "name": "가브리에우 카브랄라",
+      "real": "가브리에우 카브랄",
+      "pos": "GK",
+      "nation": "브라질",
+      "birthYear": 1997,
+      "ovr": 68
+    },
+    {
+      "key": "fam-17",
+      "number": 23,
+      "name": "질 디아손",
+      "real": "질 디아스",
+      "pos": "RW",
+      "nation": "포르투갈",
+      "birthYear": 1996,
+      "ovr": 70
+    },
+    {
+      "key": "fam-18",
+      "number": 24,
+      "name": "마티스 장제알라",
+      "real": "마티스 장제알",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2008,
+      "ovr": 62
+    },
+    {
+      "key": "fam-19",
+      "number": 25,
+      "name": "라자르 차레비츠",
+      "real": "라자르 차레비치",
+      "pos": "GK",
+      "nation": "몬테네그로",
+      "birthYear": 1999,
+      "ovr": 68
+    },
+    {
+      "key": "fam-20",
+      "number": 28,
+      "name": "페드루 본둔",
+      "real": "페드루 본두",
+      "pos": "LB",
+      "nation": "앙골라",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "fam-21",
+      "number": 30,
+      "name": "보인 세라피모비츠",
+      "real": "보인 세라피모비치",
+      "pos": "CB",
+      "nation": "세르비아",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "fam-22",
+      "number": 47,
+      "name": "곤살로 파스토른",
+      "real": "곤살로 파스토르",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2006,
+      "ovr": 66
+    },
+    {
+      "key": "fam-23",
+      "number": 70,
+      "name": "요르요스 쿠치아손",
+      "real": "요르요스 쿠치아스",
+      "pos": "ST",
+      "nation": "그리스",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "fam-24",
+      "number": 80,
+      "name": "페드루 산투스르",
+      "real": "페드루 산투스",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 2003,
+      "ovr": 67
+    }
+  ]
+}
