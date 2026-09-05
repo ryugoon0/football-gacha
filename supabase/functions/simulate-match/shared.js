@@ -8716,6 +8716,11 @@ function paramsForPhase(plan, phase) {
 // lib/traits.ts
 var MAX_TRAITS = 3;
 var RULES = [
+  // Keepers first: the outfield rules below rarely fit a goalkeeper's numbers,
+  // and a top keeper with no trait at all read as a bug. An 80+ keeper is
+  // eligible, an 85+ keeper always has it.
+  { id: "shotStopper", when: (p3) => p3.position === "GK" && p3.ovr >= 80, chance: 0.6 },
+  { id: "shotStopper", when: (p3) => p3.position === "GK" && p3.ovr >= 85, chance: 1 },
   { id: "speedster", when: (p3) => p3.stats.pac >= 80, chance: 0.7 },
   { id: "finisher", when: (p3) => p3.stats.sho >= 78, chance: 0.65 },
   { id: "playmaker", when: (p3) => p3.stats.pas >= 78, chance: 0.6 },
@@ -8750,7 +8755,7 @@ function traitsOf(player) {
   for (const rule of RULES) {
     const roll = rng();
     if (traits.length >= MAX_TRAITS) continue;
-    if (rule.when(player) && roll < rule.chance) traits.push(rule.id);
+    if (rule.when(player) && roll < rule.chance && !traits.includes(rule.id)) traits.push(rule.id);
   }
   cache2.set(player.id, traits);
   return traits;
@@ -8775,6 +8780,7 @@ function teamTraitEffects(players) {
       if (trait === "aerial") goal += 8e-3;
       if (trait === "dribbler") goal += 8e-3;
       if (trait === "wall") concede += 0.015;
+      if (trait === "shotStopper") concede += 0.012;
       if (trait === "speedster") tempo += 0.03;
       if (trait === "playmaker") tempo += 0.015;
       if (trait === "captain") chemistry += 4;

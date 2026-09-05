@@ -12,6 +12,7 @@ export type TraitId =
   | 'glass'
   | 'bigGame'
   | 'captain'
+  | 'shotStopper'
 
 export interface TraitDef {
   id: TraitId
@@ -75,6 +76,12 @@ export const TRAITS: Record<TraitId, TraitDef> = {
     description: '팀을 하나로 묶어 케미를 끌어올립니다',
     tone: 'good',
   },
+  shotStopper: {
+    id: 'shotStopper',
+    name: '선방 본능',
+    description: '골키퍼가 결정적인 슈팅을 막아 실점을 줄입니다',
+    tone: 'good',
+  },
   glass: {
     id: 'glass',
     name: '유리몸',
@@ -94,6 +101,11 @@ interface Rule {
 }
 
 const RULES: Rule[] = [
+  // Keepers first: the outfield rules below rarely fit a goalkeeper's numbers,
+  // and a top keeper with no trait at all read as a bug. An 80+ keeper is
+  // eligible, an 85+ keeper always has it.
+  { id: 'shotStopper', when: (p) => p.position === 'GK' && p.ovr >= 80, chance: 0.6 },
+  { id: 'shotStopper', when: (p) => p.position === 'GK' && p.ovr >= 85, chance: 1 },
   { id: 'speedster', when: (p) => p.stats.pac >= 80, chance: 0.7 },
   { id: 'finisher', when: (p) => p.stats.sho >= 78, chance: 0.65 },
   { id: 'playmaker', when: (p) => p.stats.pas >= 78, chance: 0.6 },
@@ -133,7 +145,7 @@ export function traitsOf(player: PlayerDef): TraitId[] {
   for (const rule of RULES) {
     const roll = rng()
     if (traits.length >= MAX_TRAITS) continue
-    if (rule.when(player) && roll < rule.chance) traits.push(rule.id)
+    if (rule.when(player) && roll < rule.chance && !traits.includes(rule.id)) traits.push(rule.id)
   }
   cache.set(player.id, traits)
   return traits
@@ -180,6 +192,7 @@ export function teamTraitEffects(players: PlayerDef[]): TraitEffects {
       if (trait === 'aerial') goal += 0.008
       if (trait === 'dribbler') goal += 0.008
       if (trait === 'wall') concede += 0.015
+      if (trait === 'shotStopper') concede += 0.012
       if (trait === 'speedster') tempo += 0.03
       if (trait === 'playmaker') tempo += 0.015
       if (trait === 'captain') chemistry += 4
