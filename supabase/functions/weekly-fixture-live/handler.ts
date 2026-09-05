@@ -511,7 +511,9 @@ export async function handle(request: Request, env: Env): Promise<Response> {
       if (target.kind === 'user' && target.user_id) {
         const input = await realSideOf(url, server, target.user_id)
         if (!input) return json({ ok: true, club: target.club_name, kind: 'user', sheet: null })
-        return json({ ok: true, club: target.club_name, kind: 'user', sheet: clubSheetOf(input.cards, input.squad, input.division, input.tactic) })
+        // Tactics are the manager's own business: only they see their dials.
+        const tactic = target.user_id === user.id ? input.tactic : null
+        return json({ ok: true, club: target.club_name, kind: 'user', sheet: clubSheetOf(input.cards, input.squad, input.division, tactic) })
       }
       const anchor = await aiAnchorFor(url, server, groupId)
       const ai = weeklyAiSquad(groupId, slot, anchor ?? target.rating)
@@ -567,6 +569,25 @@ export async function handle(request: Request, env: Env): Promise<Response> {
     const side = sideOf(fixture, user.id)
 
     if (fixture.status !== 'pending') {
+      // A fixture the engine judged can be replayed in full for the result
+      // view — shots, possession, positions at the whistle, both sheets. One
+      // the SQL settlement judged (AI vs AI, or pre-engine) has only its score
+      // and stored events.
+      if (context.engine) {
+        const replay = replayFixture(context.engine.snapshot, context.engine.seed, context.commands, 90)
+        const state = publicStateOf(replay.state)
+        return json({
+          ok: true,
+          status: 'played',
+          side,
+          home: fixture.home.clubName,
+          away: fixture.away.clubName,
+          state: { ...state, scoreHome: fixture.scoreHome ?? state.scoreHome, scoreAway: fixture.scoreAway ?? state.scoreAway, events: state.events.slice(-PUBLIC_EVENT_LIMIT) },
+          applied: replay.applied,
+          rejected: replay.rejected,
+          sheets: sheetsOf(replay, context.engine.seed, playerNameOf),
+        })
+      }
       return json({
         ok: true,
         status: 'played',
@@ -585,10 +606,6 @@ export async function handle(request: Request, env: Env): Promise<Response> {
           possessionHome: 50,
           events: Array.isArray(fixture.events) ? fixture.events.slice(-PUBLIC_EVENT_LIMIT) : [],
         },
-        // The team sheets need the engine; a fixture the SQL settlement judged has none.
-        sheets: context.engine
-          ? sheetsOf(replayFixture(context.engine.snapshot, context.engine.seed, context.commands, 90), context.engine.seed, playerNameOf)
-          : undefined,
       })
     }
 

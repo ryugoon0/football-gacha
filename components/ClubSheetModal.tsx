@@ -116,9 +116,9 @@ export default function ClubSheetModal({
               })}
             </div>
 
-            <section className="mt-3 rounded-xl bg-white/5 p-3">
-              <h4 className="text-[11px] font-bold uppercase tracking-wide text-slate-400">경기 전술</h4>
-              {tactic ? (
+            {tactic && (
+              <section className="mt-3 rounded-xl bg-white/5 p-3">
+                <h4 className="text-[11px] font-bold uppercase tracking-wide text-slate-400">경기 전술 · 나에게만 보임</h4>
                 <>
                   <p className="mt-1 text-sm font-bold text-white">{tacticSummary(tactic)}</p>
                   <div className="mt-2 grid grid-cols-2 gap-1.5 text-[11px]">
@@ -137,10 +137,8 @@ export default function ClubSheetModal({
                     ))}
                   </div>
                 </>
-              ) : (
-                <p className="mt-1 text-xs text-slate-400">기본 전술(균형 · 중간 압박 · 보통 라인 · 보통 템포)로 뜁니다.</p>
-              )}
-            </section>
+              </section>
+            )}
 
             <section className="mt-3 grid gap-3 sm:grid-cols-2">
               <div className="rounded-xl bg-white/5 p-3">

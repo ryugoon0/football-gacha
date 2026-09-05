@@ -412,6 +412,30 @@ export default function WeeklyTab() {
         </div>
       </div>
 
+      {/* The open match (live or result) and the tapped club sit above whichever list opened them. */}
+      {openFixture !== null && (
+        <WeeklyLiveMatch
+          fixtureId={openFixture}
+          onClose={() => {
+            setOpenFixture(null)
+            void load()
+          }}
+          onPlayed={() => {
+            // The match just settled: its gold is in weekly_rewards now,
+            // so the claim banner should show it without a reload.
+            void fetchUnclaimedWeeklyRewards().then(setRewards)
+          }}
+        />
+      )}
+      {sheetSlot !== null && (
+        <ClubSheetModal
+          groupId={membership.groupId}
+          slot={sheetSlot}
+          mine={sheetSlot === membership.slot}
+          onClose={() => setSheetSlot(null)}
+        />
+      )}
+
       {sub === 'mine' && (
         <>
           {discipline.length > 0 && (
@@ -461,20 +485,6 @@ export default function WeeklyTab() {
               )}
             </section>
           )}
-          {openFixture !== null && (
-            <WeeklyLiveMatch
-              fixtureId={openFixture}
-              onClose={() => {
-                setOpenFixture(null)
-                void load()
-              }}
-              onPlayed={() => {
-                // The match just settled: its gold is in weekly_rewards now,
-                // so the claim banner should show it without a reload.
-                void fetchUnclaimedWeeklyRewards().then(setRewards)
-              }}
-            />
-          )}
           <FixtureList
             title="다가오는 경기"
             fixtures={myUpcoming}
@@ -482,6 +492,7 @@ export default function WeeklyTab() {
             clubName={clubName}
             empty="예정된 경기가 없습니다."
             onOpen={setOpenFixture}
+            onClub={setSheetSlot}
           />
           <FixtureList
             title="지난 경기"
@@ -490,6 +501,7 @@ export default function WeeklyTab() {
             clubName={clubName}
             empty="아직 치른 경기가 없습니다."
             onOpen={setOpenFixture}
+            onClub={setSheetSlot}
           />
         </>
       )}
@@ -501,6 +513,8 @@ export default function WeeklyTab() {
           mySlot={null}
           clubName={clubName}
           empty="아직 정산된 다른 경기가 없습니다."
+          onOpen={setOpenFixture}
+          onClub={setSheetSlot}
         />
       )}
 
@@ -509,7 +523,7 @@ export default function WeeklyTab() {
           <section className="panel p-4">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">리그 순위</h3>
-              <span className="text-[10px] text-slate-500">클럽을 누르면 라인업·전술이 보입니다</span>
+              <span className="text-[10px] text-slate-500">클럽을 누르면 라인업이 보입니다</span>
             </div>
             {table.length === 0 ? (
               <p className="mt-2 text-xs text-slate-500">아직 정산된 리그 경기가 없습니다.</p>
@@ -567,15 +581,6 @@ export default function WeeklyTab() {
               </div>
             )}
           </section>
-
-          {sheetSlot !== null && (
-            <ClubSheetModal
-              groupId={membership.groupId}
-              slot={sheetSlot}
-              mine={sheetSlot === membership.slot}
-              onClose={() => setSheetSlot(null)}
-            />
-          )}
 
           <section className="panel p-4">
             <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">컵 경기 결과</h3>
@@ -741,15 +746,31 @@ function FixtureList({
   clubName,
   empty,
   onOpen,
+  onClub,
 }: {
   title: string
   fixtures: FixtureRow[]
   mySlot: number | null
   clubName: (slot: number) => string
   empty: string
-  /** When given, each row can be opened in the live view. */
+  /** When given, each row can be opened in the live / result view. */
   onOpen?: (fixtureId: number) => void
+  /** When given, a club name opens that club's lineup. */
+  onClub?: (slot: number) => void
 }) {
+  const club = (slot: number, mine: boolean) =>
+    onClub ? (
+      <button
+        type="button"
+        onClick={() => onClub(slot)}
+        title="라인업 보기"
+        className={`rounded px-1 py-0.5 hover:bg-white/10 hover:text-white ${mine ? 'text-emerald-300' : ''}`}
+      >
+        {clubName(slot)}
+      </button>
+    ) : (
+      <span className={mine ? 'text-emerald-300' : ''}>{clubName(slot)}</span>
+    )
   const now = Date.now()
   return (
     <section className="panel p-4">
@@ -773,9 +794,9 @@ function FixtureList({
                   </span>
                 )}
                 <span className="flex-1 font-bold text-slate-100">
-                  <span className={isHome ? 'text-emerald-300' : ''}>{clubName(f.home_slot)}</span>
+                  {club(f.home_slot, isHome)}
                   {' vs '}
-                  <span className={isAway ? 'text-emerald-300' : ''}>{clubName(f.away_slot)}</span>
+                  {club(f.away_slot, isAway)}
                 </span>
                 {f.status === 'played' ? (
                   <span className="flex items-center gap-2">
@@ -811,7 +832,13 @@ function FixtureList({
                         : 'btn-ghost'
                     }`}
                   >
-                    {liveStatusOf(f, now) === 'live' ? '라이브 보기' : liveStatusOf(f, now) === 'pre' ? '입장' : '보기'}
+                    {f.status === 'played'
+                      ? '결과'
+                      : liveStatusOf(f, now) === 'live'
+                        ? '라이브 보기'
+                        : liveStatusOf(f, now) === 'pre'
+                          ? '입장'
+                          : '보기'}
                   </button>
                 )}
               </div>

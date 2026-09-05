@@ -7,8 +7,11 @@ import {
   getWeeklyLiveState,
   pitchStateOf,
   submitWeeklyCommand,
+  type LiveSheetView,
+  type LiveSheets,
   type WeeklyLiveView,
 } from '../lib/weeklyLive'
+import type { MatchEvent } from '../lib/types'
 import PitchView from './PitchView'
 import LiveTeamSheet from './LiveTeamSheet'
 import TacticCardHelp from './TacticCardHelp'
@@ -53,6 +56,63 @@ export function nextPollDelay(view: WeeklyLiveView | null, nowMs: number): numbe
   if (view.state.minute < expectedMinute) return 1500
   const untilBoundary = MINUTE_MS - (elapsed % MINUTE_MS)
   return Math.min(MINUTE_MS + 700, Math.max(1000, untilBoundary + 700))
+}
+
+/**
+ * The result at a glance, once the whistle has gone: who scored and set up
+ * (from the sheets — players still on at the end), bookings, and the man of
+ * the match. Everything else about the match is in the feed below.
+ */
+function ResultSummary({ sheets, home, away, events }: { sheets: LiveSheets; home: string; away: string; events: MatchEvent[] }) {
+  const line = (sheet: LiveSheetView) => {
+    const scorers = sheet.slots.filter((slot) => slot.goals > 0).map((slot) => `${slot.name}${slot.goals > 1 ? ` ×${slot.goals}` : ''}`)
+    const assists = sheet.slots.filter((slot) => slot.assists > 0).map((slot) => `${slot.name}${slot.assists > 1 ? ` ×${slot.assists}` : ''}`)
+    const yellows = sheet.slots.reduce((sum, slot) => sum + Math.min(1, slot.yellows), 0)
+    const reds = sheet.slots.filter((slot) => slot.red).length
+    return { scorers, assists, yellows, reds }
+  }
+  const all = [...sheets.home.slots.map((slot) => ({ ...slot, club: home })), ...sheets.away.slots.map((slot) => ({ ...slot, club: away }))]
+  const mvp = all.filter((slot) => slot.rating !== null).sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0) || b.goals - a.goals || b.assists - a.assists)[0]
+  const goalEvents = events.filter((event) => event.type === 'goal').length
+  const columns: [string, ReturnType<typeof line>][] = [
+    [home, line(sheets.home)],
+    [away, line(sheets.away)],
+  ]
+  return (
+    <div className="mt-3 rounded-xl border border-white/10 bg-white/[0.03] p-3">
+      <div className="flex items-center justify-between">
+        <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">경기 요약</span>
+        {mvp && (
+          <span className="rounded bg-amber-400/20 px-1.5 py-0.5 text-[10px] font-black text-amber-200" title={mvp.club}>
+            ★ MVP {mvp.name} {mvp.rating?.toFixed(1)}
+          </span>
+        )}
+      </div>
+      <div className="mt-2 grid grid-cols-2 gap-2 text-[11px]">
+        {columns.map(([club, info]) => (
+          <div key={club} className="min-w-0">
+            <div className="truncate font-bold text-slate-200">{club}</div>
+            <div className="text-slate-300">⚽ {info.scorers.length ? info.scorers.join(', ') : '득점 없음'}</div>
+            {info.assists.length > 0 && (
+              <div className="text-sky-300">
+                <span className="font-black">A</span> {info.assists.join(', ')}
+              </div>
+            )}
+            {(info.yellows > 0 || info.reds > 0) && (
+              <div className="text-slate-400">
+                {info.yellows > 0 ? `경고 ${info.yellows}` : ''}
+                {info.yellows > 0 && info.reds > 0 ? ' · ' : ''}
+                {info.reds > 0 ? `퇴장 ${info.reds}` : ''}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      {goalEvents > sheets.home.slots.reduce((s, x) => s + x.goals, 0) + sheets.away.slots.reduce((s, x) => s + x.goals, 0) && (
+        <p className="mt-1.5 text-[10px] text-slate-500">교체돼 나간 선수의 골은 아래 기록에서 볼 수 있습니다.</p>
+      )}
+    </div>
+  )
 }
 
 export default function WeeklyLiveMatch({
@@ -235,6 +295,7 @@ export default function WeeklyLiveMatch({
             <span>슛 {view.state.shotsHome} · 점유 {view.state.possessionHome}%</span>
             <span>점유 {100 - view.state.possessionHome}% · 슛 {view.state.shotsAway}</span>
           </div>
+          {view.status === 'played' && sheets && <ResultSummary sheets={sheets} home={view.home} away={view.away} events={view.state.events} />}
 
           <div className="mt-3 flex items-center justify-between">
             <span className="text-[11px] text-slate-500">
