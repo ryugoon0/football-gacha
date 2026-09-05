@@ -101,7 +101,7 @@ export default function ClubSheetModal({
                   <div
                     key={slotDef.id}
                     style={{ left: `${slotDef.x}%`, bottom: `${slotDef.y}%` }}
-                    className={`absolute w-[64px] -translate-x-1/2 translate-y-1/2 rounded-lg bg-slate-950/80 px-1 py-0.5 text-center ring-1 ${
+                    className={`absolute w-[76px] -translate-x-1/2 translate-y-1/2 rounded-lg bg-slate-950/85 px-1 py-0.5 text-center ring-1 ${
                       player ? ring : 'ring-white/20'
                     }`}
                   >
@@ -109,7 +109,10 @@ export default function ClubSheetModal({
                       {slotDef.position}
                       {player && <span className="ml-1 text-slate-500">Lv.{player.level}</span>}
                     </div>
-                    <div className="truncate text-[10px] font-bold text-white">{player ? player.name : '비어 있음'}</div>
+                    {/* Two lines for a long name, never an ellipsis — a name cut short tells nothing. */}
+                    <div className="line-clamp-2 break-keep text-[10px] font-bold leading-[1.15] text-white">
+                      {player ? player.name : '비어 있음'}
+                    </div>
                     {player && <div className="text-[9px] font-black tabular-nums text-emerald-300">{player.rating}</div>}
                   </div>
                 )
