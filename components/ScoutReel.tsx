@@ -131,7 +131,7 @@ export default function ScoutReel({ plan, fast, onDone }: { plan: ReelPlan; fast
       />
       {plan.special && (
         <div className="pointer-events-none absolute left-1/2 top-1 z-20 -translate-x-1/2 rounded-full bg-amber-400/90 px-2 py-0.5 text-[10px] font-black tracking-widest text-slate-900">
-          SPECIAL
+          골드 이상 확정
         </div>
       )}
       <div

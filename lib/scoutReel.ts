@@ -7,18 +7,22 @@ import type { PlayerDef, Rarity } from './types'
  * gets — the result comes in fixed, and this only chooses the six cards that
  * ride alongside it and where in the strip it stops.
  *
- * Two moods. A plain reel carries only 일반·실버·골드 company and stops
- * quietly. A *special* reel — always when the result is 라이브 or better, and
- * one time in four when it is not — turns the board gold and puts 라이브+
- * cards into the strip, so the stop might be the big one or might be the
- * 실버 next to it. That near-miss is the point.
+ * Two moods. A plain reel — the result is 일반 or 실버 — carries only
+ * 일반·실버 company, does not sparkle and stops straight. A *special* reel —
+ * the result is 골드 or better — turns the board gold, puts 라이브+ cards
+ * into the strip and stops with a tease, so the stop might be the 라이브
+ * or the 골드 next to it. The board lighting up is itself the promise: 골드
+ * 이상 확정.
  */
 export const REEL_SIZE = 7
-/** How often a 실버·골드 result still gets the special reel, for the tease. */
-export const TEASE_CHANCE = 0.25
+/** Kept for callers that pass it; a plain result never gets the special board any more. */
+export const TEASE_CHANCE = 0
 
 const HIGH: Rarity[] = ['Live', 'World']
-const LOW_WEIGHTS: Partial<Record<Rarity, number>> = { Normal: 40, Rare: 35, Legend: 25 }
+/** Company for a plain reel: nothing above 실버, so the board never lies about what is coming. */
+const LOW_WEIGHTS: Partial<Record<Rarity, number>> = { Normal: 55, Rare: 45 }
+/** Company for a special reel besides the 라이브+ cards: mostly 골드 with some 실버 for contrast. */
+const SPECIAL_WEIGHTS: Partial<Record<Rarity, number>> = { Rare: 35, Legend: 65 }
 
 /**
  * How the strip comes to rest. `plain` eases straight in; `long` runs two or
@@ -36,10 +40,10 @@ export interface ReelPlan {
   stop: ReelStop
 }
 
-/** Weights per mood: a special reel leans on the two teasing stops. */
+/** Weights per mood: a plain reel just spins and stops; the teasing stops belong to the special board. */
 const STOP_WEIGHTS: Record<'plain' | 'special', Record<ReelStop, number>> = {
-  plain: { plain: 50, long: 20, overshoot: 18, crawl: 12 },
-  special: { plain: 15, long: 20, overshoot: 30, crawl: 35 },
+  plain: { plain: 85, long: 15, overshoot: 0, crawl: 0 },
+  special: { plain: 10, long: 20, overshoot: 32, crawl: 38 },
 }
 
 export function pickStop(special: boolean, rng: () => number = Math.random): ReelStop {
@@ -56,6 +60,8 @@ export function pickStop(special: boolean, rng: () => number = Math.random): Ree
 export type ReelPool = Partial<Record<Rarity, PlayerDef[]>>
 
 export const isHighRarity = (rarity: Rarity): boolean => HIGH.includes(rarity)
+/** 골드 or better — the results that earn the special board. */
+export const isGoldOrBetter = (rarity: Rarity): boolean => RARITIES.indexOf(rarity) >= RARITIES.indexOf('Legend')
 
 function pickFrom(list: PlayerDef[] | undefined, rng: () => number, exclude: Set<string>): PlayerDef | null {
   if (!list || list.length === 0) return null
@@ -90,13 +96,13 @@ function pickHigh(pool: ReelPool, rng: () => number, exclude: Set<string>): Play
 }
 
 export function planReel(result: PlayerDef, pool: ReelPool, rng: () => number = Math.random, teaseChance = TEASE_CHANCE): ReelPlan {
-  const special = isHighRarity(result.rarity) || rng() < teaseChance
+  const special = isGoldOrBetter(result.rarity) || rng() < teaseChance
   const exclude = new Set<string>([result.id])
   const decoys: PlayerDef[] = []
 
   // A special reel always shows at least one 라이브+ card that is *not* the
-  // result — when the result is high too, there are two to pick between; when
-  // it is not, the high card is the one that gets away.
+  // result — when the result is 라이브+ too, there are two to pick between;
+  // when it is 골드, the 라이브 is the one that gets away.
   const highCount = special ? 1 + (rng() < 0.4 ? 1 : 0) : 0
   for (let i = 0; i < highCount; i += 1) {
     const picked = pickHigh(pool, rng, exclude)
@@ -104,8 +110,10 @@ export function planReel(result: PlayerDef, pool: ReelPool, rng: () => number = 
     decoys.push(picked)
     exclude.add(picked.id)
   }
+  const company = special ? SPECIAL_WEIGHTS : LOW_WEIGHTS
   while (decoys.length < REEL_SIZE - 1) {
-    const picked = pickWeighted(pool, LOW_WEIGHTS, rng, exclude) ?? pickWeighted(pool, { Live: 1, World: 1 }, rng, exclude)
+    const picked =
+      pickWeighted(pool, company, rng, exclude) ?? pickWeighted(pool, { Normal: 1, Rare: 1, Legend: 1, Live: 1, World: 1 }, rng, exclude)
     if (!picked) break
     decoys.push(picked)
     exclude.add(picked.id)

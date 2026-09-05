@@ -354,7 +354,7 @@ export default function GachaTab() {
               <div className="flex items-center justify-between text-xs">
                 <span className="font-bold text-slate-300">
                   프리미엄 스카우트 {queue.length > 1 ? `${reelAt + 1} / ${queue.length}` : ''}
-                  {plan.special && <span className="ml-2 rounded bg-amber-400/20 px-1.5 py-0.5 text-[10px] font-black text-amber-200">특별 연출</span>}
+                  {plan.special && <span className="ml-2 rounded bg-amber-400/20 px-1.5 py-0.5 text-[10px] font-black text-amber-200">골드 이상 확정</span>}
                 </span>
                 {queue.length > 1 && !fast && (
                   <button onClick={() => setFast(true)} className="rounded-lg btn-ghost px-2.5 py-1 text-[11px] font-bold">
