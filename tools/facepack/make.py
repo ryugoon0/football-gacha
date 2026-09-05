@@ -18,6 +18,7 @@ ap.add_argument("--out", default="out")
 ap.add_argument("--upscale", action="store_true", help="컷아웃 전에 Real-ESRGAN 4배")
 ap.add_argument("--size", type=int, default=512)
 ap.add_argument("--head", type=float, default=2.8, help="머리 폭의 몇 배로 자를지(작을수록 얼굴이 크게)")
+ap.add_argument("--no-flood", action="store_true", help="검은/흰 스튜디오 배경 플러드 제거를 끈다(검은 배경에 검은 머리가 먹힐 때)")
 args = ap.parse_args()
 os.makedirs(args.out, exist_ok=True)
 for pair in args.pairs:
@@ -26,5 +27,5 @@ for pair in args.pairs:
     if args.upscale:
         work = os.path.join(tempfile.gettempdir(), f"fp_{card}_x4.png")
         upscale(src, work)
-    cut(work, os.path.join(args.out, f"{card}.png"), size=args.size, head=args.head)
+    cut(work, os.path.join(args.out, f"{card}.png"), size=args.size, head=args.head, flood=not args.no_flood)
 print("완료:", args.out)

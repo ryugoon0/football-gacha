@@ -15,7 +15,7 @@ from rembg import remove, new_session
 # onnxruntime-gpu 가 설치돼 있으면 CUDA 를 쓴다(없으면 CPU).
 session = new_session("u2net_human_seg", providers=["CUDAExecutionProvider", "CPUExecutionProvider"])
 
-def cut(src, dst, size=512, head=2.8):
+def cut(src, dst, size=512, head=2.8, flood=True):
     img = Image.open(src).convert("RGBA")
     # A file that already carries transparency (an official cut-out) keeps its
     # own mask — re-segmenting it only adds a blocky halo where the ground was.
@@ -67,7 +67,9 @@ def cut(src, dst, size=512, head=2.8):
     # Official headshots sit on a flat near-black (or near-white) ground that the
     # segmenter confuses with dark hair, leaving blocky chunks of ground around
     # the head. Flood the ground in from the border by colour and knock out
-    # whatever it reaches; the rembg alpha handles the rest.
+    # whatever it reaches; the rembg alpha handles the rest. Dark hair on a black
+    # ground (dreadlocks, a fringe) gets eaten by the same flood — pass
+    # flood=False (--no-flood) for those and let rembg alone decide.
     from PIL import ImageDraw as _ID, ImageChops as _IC
     rgb = img.convert("RGB")
     flat_bg = rgb.copy()
@@ -75,7 +77,7 @@ def cut(src, dst, size=512, head=2.8):
     W, H = flat_bg.size
     for seed in ((0, 0), (W - 1, 0), (0, H - 1), (W - 1, H - 1), (W // 2, 0), (0, H // 2), (W - 1, H // 2)):
         r0, g0, b0 = rgb.getpixel(seed)
-        if not already_cut and (max(r0, g0, b0) < 40 or min(r0, g0, b0) > 215):
+        if flood and not already_cut and (max(r0, g0, b0) < 40 or min(r0, g0, b0) > 215):
             _ID.floodfill(flat_bg, seed, marker, thresh=22)
     px = flat_bg.load()
     bg = Image.new("L", flat_bg.size, 0)
@@ -145,6 +147,9 @@ def cut(src, dst, size=512, head=2.8):
     print(dst, side)
 
 if __name__ == "__main__":
+    flood = "--no-flood" not in sys.argv
     for pair in sys.argv[1:]:
+        if pair.startswith("--"):
+            continue
         src, dst = pair.split("=")
-        cut(src, dst)
+        cut(src, dst, flood=flood)
