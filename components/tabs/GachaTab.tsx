@@ -29,7 +29,9 @@ import { offerLabel, shardOffers } from '../../lib/shards'
 import type { PlayerDef, Rarity } from '../../lib/types'
 import { useGame } from '../GameProvider'
 import PlayerCard from '../PlayerCard'
+import PlayerStatsModal from '../PlayerStatsModal'
 import ScoutReel from '../ScoutReel'
+import { newCard } from '../../lib/storage'
 import { useCardStyle } from '../CardStyle'
 import { RETRO_COLORS } from '../RetroPlayerCard'
 
@@ -64,6 +66,8 @@ export default function GachaTab() {
   const pauseTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   // 프리미엄 스카우트 티켓 — a server balance (gifts and rewards put it there); null until read.
   const [tickets, setTickets] = useState<number | null>(null)
+  // A result card tapped for its full numbers.
+  const [inspecting, setInspecting] = useState<PlayerDef | null>(null)
 
   const featured = useMemo(() => featuredPlayer(pickupWeekKey()), [])
   const rolling = reelAt >= 0 && plan !== null
@@ -412,17 +416,26 @@ export default function GachaTab() {
               )}
             </div>
           ) : results.length > 0 ? (
-            <div className="flex flex-wrap justify-center gap-3">
-              {results.slice(0, revealed).map((item, index) => (
-                <div key={index} className="card-pop relative">
-                  {item.isNew && (
-                    <span className="absolute -left-1 -top-2 z-20 rounded bg-rose-500 px-1.5 py-0.5 text-[10px] font-black text-white">
-                      NEW
-                    </span>
-                  )}
-                  <PlayerCard player={item.player} size={results.length === 1 ? 'lg' : 'md'} />
-                </div>
-              ))}
+            <div>
+              <div className="flex flex-wrap justify-center gap-3">
+                {results.slice(0, revealed).map((item, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => setInspecting(item.player)}
+                    title="선수 정보 보기"
+                    className="card-pop relative rounded-xl text-left transition hover:scale-[1.03] focus:outline-none focus:ring-2 focus:ring-emerald-300"
+                  >
+                    {item.isNew && (
+                      <span className="absolute -left-1 -top-2 z-20 rounded bg-rose-500 px-1.5 py-0.5 text-[10px] font-black text-white">
+                        NEW
+                      </span>
+                    )}
+                    <PlayerCard player={item.player} size={results.length === 1 ? 'lg' : 'md'} />
+                  </button>
+                ))}
+              </div>
+              <p className="mt-2 text-center text-[11px] text-slate-500">카드를 누르면 능력치와 포지션을 볼 수 있습니다.</p>
             </div>
           ) : (
             <p className="flex min-h-[180px] items-center justify-center text-sm text-slate-500">
@@ -431,6 +444,15 @@ export default function GachaTab() {
           )}
         </div>
       </section>
+
+      {inspecting && (
+        <PlayerStatsModal
+          // The copy just added to the collection, or a fresh card of the same player if it is not there yet.
+          card={[...state.cards].reverse().find((item) => item.playerId === inspecting.id) ?? newCard(inspecting.id)}
+          player={inspecting}
+          onClose={() => setInspecting(null)}
+        />
+      )}
 
       <section className="panel p-5">
         <div className="flex flex-wrap items-center justify-between gap-2">

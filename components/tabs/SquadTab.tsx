@@ -41,6 +41,8 @@ export default function SquadTab() {
   // Looking a player up is not the same as picking one. Selecting a slot still
   // opens the swap list; this opens over it and changes nothing.
   const [inspecting, setInspecting] = useState<string | null>(null)
+  // Tapping an occupied slot asks first: swap the player, or look at them.
+  const [choice, setChoice] = useState<{ target: Target; uid: string } | null>(null)
   const [showColorHelp, setShowColorHelp] = useState(false)
   // Edits here are a draft until 저장: leaving the tab without saving puts the
   // lineup back the way it was, so trying things out costs nothing.
@@ -137,6 +139,23 @@ export default function SquadTab() {
     setTarget(null)
   }
 
+  /** A tap on a slot or bench seat: empty seats go straight to the swap list, occupied ones ask. */
+  const tap = (next: Target, uid: string | null, isActive: boolean) => {
+    if (isActive) {
+      setTarget(null)
+      return
+    }
+    if (uid) setChoice({ target: next, uid })
+    else setTarget(next)
+  }
+  const chosenCard = choice ? state.cards.find((item: Card) => item.uid === choice.uid) : undefined
+  const chosenPlayer = chosenCard ? getPlayer(chosenCard.playerId) : undefined
+  const chosenLabel = !choice
+    ? ''
+    : choice.target.kind === 'slot'
+      ? `${formation.slots.find((slot) => choice.target.kind === 'slot' && slot.id === choice.target.id)?.position ?? ''} 자리`
+      : `벤치 ${choice.target.index + 1}번`
+
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
       {draft.dirty && (
@@ -191,7 +210,7 @@ export default function SquadTab() {
             return (
               <button
                 key={slot.id}
-                onClick={() => setTarget(isActive ? null : { kind: 'slot', id: slot.id })}
+                onClick={() => tap({ kind: 'slot', id: slot.id }, evaluation?.card?.uid ?? null, isActive)}
                 style={{ left: `${slot.x}%`, bottom: `${slot.y}%` }}
                 className={`absolute -translate-x-1/2 translate-y-1/2 rounded-xl ring-2 transition ${
                   evaluation?.injured ? INJURED_RING : FIT_RING[evaluation?.fit ?? 'empty']
@@ -234,7 +253,7 @@ export default function SquadTab() {
               return (
                 <button
                   key={index}
-                  onClick={() => setTarget(isActive ? null : { kind: 'bench', index })}
+                  onClick={() => tap({ kind: 'bench', index }, uid, isActive)}
                   className={`rounded-xl ring-2 transition ${
                     card && isSidelined(card) ? INJURED_RING : 'ring-white/15'
                   } ${isActive ? 'scale-105 ring-4 ring-white' : 'hover:scale-105'}`}
@@ -559,6 +578,53 @@ export default function SquadTab() {
           )}
         </section>
       </div>
+
+      {choice && chosenCard && chosenPlayer && (
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 p-3 sm:items-center" onClick={() => setChoice(null)}>
+          <div className="panel rise-in w-full max-w-sm p-4" onClick={(event) => event.stopPropagation()} role="dialog" aria-modal="true">
+            <div className="flex items-center gap-3">
+              <PlayerCard
+                player={chosenPlayer}
+                level={chosenCard.level}
+                size="sm"
+                condition={chosenCard.condition}
+                injuredFor={chosenCard.injuredFor}
+                suspendedFor={chosenCard.suspendedFor ?? 0}
+              />
+              <div className="min-w-0 flex-1">
+                <div className="text-[10px] font-bold uppercase tracking-wide text-slate-500">{chosenLabel}</div>
+                <div className="truncate text-sm font-black text-white">{chosenPlayer.name}</div>
+                <div className="truncate text-[11px] text-slate-400">
+                  {chosenPlayer.positions.join(' · ')} · Lv.{chosenCard.level} · 체력 {chosenCard.condition}
+                </div>
+              </div>
+            </div>
+            <div className="mt-3 grid grid-cols-2 gap-2">
+              <button
+                onClick={() => {
+                  setInspecting(choice.uid)
+                  setChoice(null)
+                }}
+                className="rounded-lg btn-ghost py-2 text-xs font-bold"
+              >
+                선수 정보
+              </button>
+              <button
+                onClick={() => {
+                  setTarget(choice.target)
+                  setChoice(null)
+                }}
+                className="rounded-lg btn-primary py-2 text-xs font-black"
+              >
+                교체하기
+              </button>
+            </div>
+            <button onClick={() => setChoice(null)} className="mt-2 w-full rounded-lg py-1.5 text-[11px] font-bold text-slate-500 hover:text-slate-300">
+              취소
+            </button>
+          </div>
+        </div>
+      )}
 
       {inspected && (
         <PlayerStatsModal
