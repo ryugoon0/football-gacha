@@ -51,6 +51,10 @@ def cut(src, dst, size=512, head=2.8):
     for i in best:
         kp[i % sw, i // sw] = 255
     keep = keep.resize(alpha.size, Image.BILINEAR)
+    # The blob mask was built at quarter size; grow it back out so it only
+    # removes stray blobs and never nibbles the subject's edge into 4px steps.
+    from PIL import ImageFilter as _IF
+    keep = keep.filter(_IF.MaxFilter(11)).point(lambda v: 255 if v > 0 else 0)
     from PIL import ImageChops
     alpha = ImageChops.multiply(alpha, keep)
     # Make the alpha binary-solid inside the subject: the segmenter leaves
