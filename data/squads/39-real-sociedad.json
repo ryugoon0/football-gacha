@@ -1,0 +1,250 @@
+{
+  "club": "도노스티 추리우르딘",
+  "realClub": "레알 소시에다드",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Real_Sociedad",
+  "pilot": false,
+  "players": [
+    {
+      "key": "rso-01",
+      "number": 1,
+      "name": "알렉스 레미론",
+      "real": "알렉스 레미로",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 1995,
+      "ovr": 81
+    },
+    {
+      "key": "rso-02",
+      "number": 2,
+      "name": "욘 아람부룬",
+      "real": "욘 아람부루",
+      "pos": "RB",
+      "nation": "베네수엘라",
+      "birthYear": 2002,
+      "ovr": 74
+    },
+    {
+      "key": "rso-03",
+      "number": 3,
+      "name": "아이엔 무뇨노",
+      "real": "아이엔 무뇨스",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 1997,
+      "ovr": 74
+    },
+    {
+      "key": "rso-04",
+      "number": 4,
+      "name": "욘 고로차테긴",
+      "real": "욘 고로차테기",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 73
+    },
+    {
+      "key": "rso-05",
+      "number": 5,
+      "name": "이고르 수벨디안",
+      "real": "이고르 수벨디아",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 1997,
+      "ovr": 79
+    },
+    {
+      "key": "rso-06",
+      "number": 6,
+      "name": "욘 마르티노",
+      "real": "욘 마르틴",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2006,
+      "ovr": 70
+    },
+    {
+      "key": "rso-07",
+      "number": 7,
+      "name": "안데르 바레네체안",
+      "real": "안데르 바레네체아",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 79
+    },
+    {
+      "key": "rso-08",
+      "number": 8,
+      "name": "베냐트 투리엔테노",
+      "real": "베냐트 투리엔테스",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 75
+    },
+    {
+      "key": "rso-09",
+      "number": 9,
+      "name": "오리 오스카르손드",
+      "real": "오리 오스카르손",
+      "pos": "ST",
+      "nation": "아이슬란드",
+      "birthYear": 2004,
+      "ovr": 76
+    },
+    {
+      "key": "rso-10",
+      "number": 10,
+      "name": "미켈 오야르사발라",
+      "real": "미켈 오야르사발",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 1997,
+      "ovr": 84
+    },
+    {
+      "key": "rso-11",
+      "number": 11,
+      "name": "곤살루 게데노",
+      "real": "곤살루 게데스",
+      "pos": "LW",
+      "nation": "포르투갈",
+      "birthYear": 1996,
+      "ovr": 78
+    },
+    {
+      "key": "rso-12",
+      "number": 12,
+      "name": "잡 오치엥그",
+      "real": "잡 오치엥",
+      "pos": "RW",
+      "nation": "케냐",
+      "birthYear": 2003,
+      "ovr": 66
+    },
+    {
+      "key": "rso-13",
+      "number": 13,
+      "name": "우나이 마레론",
+      "real": "우나이 마레로",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "rso-14",
+      "number": 14,
+      "name": "쿠보 다케후산",
+      "real": "쿠보 다케후사",
+      "pos": "RW",
+      "nation": "일본",
+      "birthYear": 2001,
+      "ovr": 83
+    },
+    {
+      "key": "rso-15",
+      "number": 15,
+      "name": "파블로 마리노",
+      "real": "파블로 마린",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 72
+    },
+    {
+      "key": "rso-16",
+      "number": 16,
+      "name": "욘 파체콘",
+      "real": "욘 파체코",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 76
+    },
+    {
+      "key": "rso-17",
+      "number": 17,
+      "name": "세르히오 고메노",
+      "real": "세르히오 고메스",
+      "pos": "LM",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 77
+    },
+    {
+      "key": "rso-18",
+      "number": 18,
+      "name": "카를로스 솔레른",
+      "real": "카를로스 솔레르",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1997,
+      "ovr": 78
+    },
+    {
+      "key": "rso-19",
+      "number": 19,
+      "name": "마마두 사른",
+      "real": "마마두 사르",
+      "pos": "CB",
+      "nation": "세네갈",
+      "birthYear": 2005,
+      "ovr": 73
+    },
+    {
+      "key": "rso-20",
+      "number": 20,
+      "name": "알바로 오드리오솔란",
+      "real": "알바로 오드리오솔라",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 1995,
+      "ovr": 74
+    },
+    {
+      "key": "rso-21",
+      "number": 21,
+      "name": "양헬 에레란",
+      "real": "양헬 에레라",
+      "pos": "CDM",
+      "nation": "베네수엘라",
+      "birthYear": 1998,
+      "ovr": 77
+    },
+    {
+      "key": "rso-22",
+      "number": 22,
+      "name": "엑토르 포르타",
+      "real": "엑토르 포르트",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 2006,
+      "ovr": 73
+    },
+    {
+      "key": "rso-23",
+      "number": 23,
+      "name": "아르센 자하리안드",
+      "real": "아르센 자하리안",
+      "pos": "CAM",
+      "nation": "러시아",
+      "birthYear": 2003,
+      "ovr": 74
+    },
+    {
+      "key": "rso-24",
+      "number": 24,
+      "name": "루카 수치츠",
+      "real": "루카 수치치",
+      "pos": "CM",
+      "nation": "크로아티아",
+      "birthYear": 2002,
+      "ovr": 77
+    }
+  ]
+}

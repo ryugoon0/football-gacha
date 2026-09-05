@@ -1,0 +1,270 @@
+{
+  "club": "마드리드 블랑코",
+  "realClub": "레알 마드리드",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Real_Madrid_CF",
+  "pilot": false,
+  "players": [
+    {
+      "key": "rma-01",
+      "number": 1,
+      "name": "티보 쿠르투안",
+      "real": "티보 쿠르투아",
+      "pos": "GK",
+      "nation": "벨기에",
+      "birthYear": 1992,
+      "ovr": 88
+    },
+    {
+      "key": "rma-02",
+      "number": 2,
+      "name": "라울 아센시온",
+      "real": "라울 아센시오",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 78
+    },
+    {
+      "key": "rma-03",
+      "number": 3,
+      "name": "에데르 밀리당",
+      "real": "에데르 밀리탕",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 1998,
+      "ovr": 84
+    },
+    {
+      "key": "rma-04",
+      "number": 4,
+      "name": "딘 하위섬",
+      "real": "딘 하위선",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2005,
+      "ovr": 82
+    },
+    {
+      "key": "rma-05",
+      "number": 5,
+      "name": "주드 벨링험",
+      "real": "주드 벨링엄",
+      "pos": "CAM",
+      "nation": "잉글랜드",
+      "birthYear": 2003,
+      "ovr": 89
+    },
+    {
+      "key": "rma-06",
+      "number": 6,
+      "name": "에두아르도 카마빙간",
+      "real": "에두아르도 카마빙가",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 84
+    },
+    {
+      "key": "rma-07",
+      "number": 7,
+      "name": "비니시우스 주니오른",
+      "real": "비니시우스 주니오르",
+      "pos": "LW",
+      "nation": "브라질",
+      "birthYear": 2000,
+      "ovr": 89
+    },
+    {
+      "key": "rma-08",
+      "number": 8,
+      "name": "페데리코 발베르덴",
+      "real": "페데리코 발베르데",
+      "pos": "CM",
+      "nation": "우루과이",
+      "birthYear": 1998,
+      "ovr": 87
+    },
+    {
+      "key": "rma-09",
+      "number": 9,
+      "name": "엔드리코",
+      "real": "엔드리크",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 2006,
+      "ovr": 79
+    },
+    {
+      "key": "rma-10",
+      "number": 10,
+      "name": "킬리안 음바펜",
+      "real": "킬리안 음바페",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 1998,
+      "ovr": 92
+    },
+    {
+      "key": "rma-11",
+      "number": 11,
+      "name": "호드리군",
+      "real": "호드리구",
+      "pos": "RW",
+      "nation": "브라질",
+      "birthYear": 2001,
+      "ovr": 85
+    },
+    {
+      "key": "rma-12",
+      "number": 12,
+      "name": "트렌트 알렉산더아널든",
+      "real": "트렌트 알렉산더아널드",
+      "pos": "RB",
+      "nation": "잉글랜드",
+      "birthYear": 1998,
+      "ovr": 84
+    },
+    {
+      "key": "rma-13",
+      "number": 13,
+      "name": "안드리 루니르",
+      "real": "안드리 루닌",
+      "pos": "GK",
+      "nation": "우크라이나",
+      "birthYear": 1999,
+      "ovr": 76
+    },
+    {
+      "key": "rma-14",
+      "number": 14,
+      "name": "오렐리앵 추아메닌",
+      "real": "오렐리앵 추아메니",
+      "pos": "CDM",
+      "nation": "프랑스",
+      "birthYear": 2000,
+      "ovr": 84
+    },
+    {
+      "key": "rma-15",
+      "number": 15,
+      "name": "아르다 귈레른",
+      "real": "아르다 귈레르",
+      "pos": "CAM",
+      "nation": "튀르키예",
+      "birthYear": 2005,
+      "ovr": 84
+    },
+    {
+      "key": "rma-16",
+      "number": 16,
+      "name": "이브라히마 코나텐",
+      "real": "이브라히마 코나테",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 1999,
+      "ovr": 84
+    },
+    {
+      "key": "rma-17",
+      "number": 17,
+      "name": "마르크 쿠쿠레얀",
+      "real": "마르크 쿠쿠레야",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 1998,
+      "ovr": 82
+    },
+    {
+      "key": "rma-18",
+      "number": 18,
+      "name": "알바로 카레라노",
+      "real": "알바로 카레라스",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 79
+    },
+    {
+      "key": "rma-19",
+      "number": 19,
+      "name": "카를로스 에스핀",
+      "real": "카를로스 에스피",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "rma-20",
+      "number": 20,
+      "name": "베르나르두 실반",
+      "real": "베르나르두 실바",
+      "pos": "RW",
+      "nation": "포르투갈",
+      "birthYear": 1994,
+      "ovr": 85
+    },
+    {
+      "key": "rma-21",
+      "number": 21,
+      "name": "브라힘 디아노",
+      "real": "브라힘 디아스",
+      "pos": "RW",
+      "nation": "모로코",
+      "birthYear": 1999,
+      "ovr": 81
+    },
+    {
+      "key": "rma-22",
+      "number": 22,
+      "name": "안토니오 뤼디건",
+      "real": "안토니오 뤼디거",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1993,
+      "ovr": 84
+    },
+    {
+      "key": "rma-23",
+      "number": 23,
+      "name": "페를랑 멘딘",
+      "real": "페를랑 멘디",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 1995,
+      "ovr": 78
+    },
+    {
+      "key": "rma-24",
+      "number": 24,
+      "name": "덴젤 뒴프리손",
+      "real": "덴젤 뒴프리스",
+      "pos": "RB",
+      "nation": "네덜란드",
+      "birthYear": 1996,
+      "ovr": 82
+    },
+    {
+      "key": "rma-25",
+      "number": 25,
+      "name": "얀 디오망덴",
+      "real": "얀 디오망데",
+      "pos": "RW",
+      "nation": "코트디부아르",
+      "birthYear": 2006,
+      "ovr": 72
+    },
+    {
+      "key": "rma-26",
+      "number": 27,
+      "name": "티아고 피타르친",
+      "real": "티아고 피타르치",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2007,
+      "ovr": 65
+    }
+  ]
+}

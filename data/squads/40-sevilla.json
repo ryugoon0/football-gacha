@@ -1,0 +1,260 @@
+{
+  "club": "세비야 로호",
+  "realClub": "세비야 FC",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Sevilla_FC",
+  "pilot": false,
+  "players": [
+    {
+      "key": "sev-01",
+      "number": 1,
+      "name": "오디세아스 블라호디모노",
+      "real": "오디세아스 블라호디모스",
+      "pos": "GK",
+      "nation": "그리스",
+      "birthYear": 1994,
+      "ovr": 76
+    },
+    {
+      "key": "sev-02",
+      "number": 2,
+      "name": "후안 이글레시아노",
+      "real": "후안 이글레시아스",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 1998,
+      "ovr": 73
+    },
+    {
+      "key": "sev-03",
+      "number": 3,
+      "name": "훌리오 디아노",
+      "real": "훌리오 디아스",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "sev-04",
+      "number": 4,
+      "name": "키케 살라노",
+      "real": "키케 살라스",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 74
+    },
+    {
+      "key": "sev-05",
+      "number": 5,
+      "name": "안드레스 카스트리노",
+      "real": "안드레스 카스트린",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "sev-06",
+      "number": 6,
+      "name": "뤼시앵 아구멘",
+      "real": "뤼시앵 아구메",
+      "pos": "CDM",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 75
+    },
+    {
+      "key": "sev-07",
+      "number": 7,
+      "name": "알폰 곤살레노",
+      "real": "알폰 곤살레스",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 1999,
+      "ovr": 73
+    },
+    {
+      "key": "sev-08",
+      "number": 8,
+      "name": "기오르기 코초라시빌린",
+      "real": "기오르기 코초라시빌리",
+      "pos": "CM",
+      "nation": "조지아",
+      "birthYear": 1999,
+      "ovr": 74
+    },
+    {
+      "key": "sev-09",
+      "number": 9,
+      "name": "로비 유언",
+      "real": "로비 유어",
+      "pos": "ST",
+      "nation": "스코틀랜드",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "sev-10",
+      "number": 10,
+      "name": "페케 페르난데노",
+      "real": "페케 페르난데스",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 73
+    },
+    {
+      "key": "sev-11",
+      "number": 11,
+      "name": "루벤 바르가노",
+      "real": "루벤 바르가스",
+      "pos": "LW",
+      "nation": "스위스",
+      "birthYear": 1998,
+      "ovr": 77
+    },
+    {
+      "key": "sev-12",
+      "number": 12,
+      "name": "아루나 상간텐",
+      "real": "아루나 상간테",
+      "pos": "CB",
+      "nation": "세네갈",
+      "birthYear": 2002,
+      "ovr": 72
+    },
+    {
+      "key": "sev-13",
+      "number": 13,
+      "name": "프란 곤살레산",
+      "real": "프란 곤살레스",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "sev-14",
+      "number": 14,
+      "name": "마누 부에논",
+      "real": "마누 부에노",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 72
+    },
+    {
+      "key": "sev-15",
+      "number": 16,
+      "name": "이사크 로메론",
+      "real": "이사크 로메로",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 74
+    },
+    {
+      "key": "sev-16",
+      "number": 17,
+      "name": "가브리엘 수아손",
+      "real": "가브리엘 수아소",
+      "pos": "LB",
+      "nation": "칠레",
+      "birthYear": 1997,
+      "ovr": 76
+    },
+    {
+      "key": "sev-17",
+      "number": 18,
+      "name": "욘 구리딘",
+      "real": "욘 구리디",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1995,
+      "ovr": 73
+    },
+    {
+      "key": "sev-18",
+      "number": 19,
+      "name": "루카스 스타생드",
+      "real": "루카스 스타생",
+      "pos": "ST",
+      "nation": "벨기에",
+      "birthYear": 2004,
+      "ovr": 74
+    },
+    {
+      "key": "sev-19",
+      "number": 20,
+      "name": "펠릭스 코헤이안",
+      "real": "펠릭스 코헤이아",
+      "pos": "RW",
+      "nation": "포르투갈",
+      "birthYear": 2001,
+      "ovr": 73
+    },
+    {
+      "key": "sev-20",
+      "number": 21,
+      "name": "치데라 에주켄",
+      "real": "치데라 에주케",
+      "pos": "LW",
+      "nation": "나이지리아",
+      "birthYear": 1998,
+      "ovr": 74
+    },
+    {
+      "key": "sev-21",
+      "number": 22,
+      "name": "호세 앙헬 카르모난",
+      "real": "호세 앙헬 카르모나",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 74
+    },
+    {
+      "key": "sev-22",
+      "number": 23,
+      "name": "마르캉드",
+      "real": "마르캉",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 1996,
+      "ovr": 74
+    },
+    {
+      "key": "sev-23",
+      "number": 24,
+      "name": "유수프 포파난",
+      "real": "유수프 포파나",
+      "pos": "CDM",
+      "nation": "프랑스",
+      "birthYear": 1999,
+      "ovr": 79
+    },
+    {
+      "key": "sev-24",
+      "number": 27,
+      "name": "니코 기옌드",
+      "real": "니코 기옌",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2008,
+      "ovr": 63
+    },
+    {
+      "key": "sev-25",
+      "number": 30,
+      "name": "미겔 시에란",
+      "real": "미겔 시에라",
+      "pos": "RW",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 66
+    }
+  ]
+}

@@ -1,0 +1,250 @@
+{
+  "club": "비야레 수브마리노",
+  "realClub": "비야레알 CF",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Villarreal_CF",
+  "pilot": false,
+  "players": [
+    {
+      "key": "vil-01",
+      "number": 1,
+      "name": "루이스 주니오른",
+      "real": "루이스 주니오르",
+      "pos": "GK",
+      "nation": "브라질",
+      "birthYear": 2001,
+      "ovr": 79
+    },
+    {
+      "key": "vil-02",
+      "number": 2,
+      "name": "로강 코스탄",
+      "real": "로강 코스타",
+      "pos": "CB",
+      "nation": "카보베르데",
+      "birthYear": 2001,
+      "ovr": 76
+    },
+    {
+      "key": "vil-03",
+      "number": 3,
+      "name": "알렉스 프리먼드",
+      "real": "알렉스 프리먼",
+      "pos": "RB",
+      "nation": "미국",
+      "birthYear": 2004,
+      "ovr": 72
+    },
+    {
+      "key": "vil-04",
+      "number": 5,
+      "name": "알라산 디아탄",
+      "real": "알라산 디아타",
+      "pos": "CDM",
+      "nation": "세네갈",
+      "birthYear": 2005,
+      "ovr": 71
+    },
+    {
+      "key": "vil-05",
+      "number": 6,
+      "name": "파우 나바론",
+      "real": "파우 나바로",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2005,
+      "ovr": 72
+    },
+    {
+      "key": "vil-06",
+      "number": 7,
+      "name": "제라르드 모레논",
+      "real": "제라르드 모레노",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 1992,
+      "ovr": 80
+    },
+    {
+      "key": "vil-07",
+      "number": 8,
+      "name": "후안 포이손",
+      "real": "후안 포이스",
+      "pos": "CB",
+      "nation": "아르헨티나",
+      "birthYear": 1998,
+      "ovr": 80
+    },
+    {
+      "key": "vil-08",
+      "number": 9,
+      "name": "조르제스 미카우타젠",
+      "real": "조르제스 미카우타제",
+      "pos": "ST",
+      "nation": "조지아",
+      "birthYear": 2000,
+      "ovr": 80
+    },
+    {
+      "key": "vil-09",
+      "number": 10,
+      "name": "알베르토 몰레이론",
+      "real": "알베르토 몰레이로",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 79
+    },
+    {
+      "key": "vil-10",
+      "number": 11,
+      "name": "일리아스 아코마친",
+      "real": "일리아스 아코마치",
+      "pos": "RW",
+      "nation": "모로코",
+      "birthYear": 2004,
+      "ovr": 75
+    },
+    {
+      "key": "vil-11",
+      "number": 12,
+      "name": "레나투 베이간",
+      "real": "레나투 베이가",
+      "pos": "CB",
+      "nation": "포르투갈",
+      "birthYear": 2003,
+      "ovr": 78
+    },
+    {
+      "key": "vil-12",
+      "number": 13,
+      "name": "루벤 고메노",
+      "real": "루벤 고메스",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 68
+    },
+    {
+      "key": "vil-13",
+      "number": 14,
+      "name": "산티 코메사뇬",
+      "real": "산티 코메사냐",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1996,
+      "ovr": 76
+    },
+    {
+      "key": "vil-14",
+      "number": 15,
+      "name": "산티아고 모우리뇬",
+      "real": "산티아고 모우리뇨",
+      "pos": "CB",
+      "nation": "우루과이",
+      "birthYear": 2002,
+      "ovr": 74
+    },
+    {
+      "key": "vil-15",
+      "number": 16,
+      "name": "카를로스 마시안",
+      "real": "카를로스 마시아",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2008,
+      "ovr": 63
+    },
+    {
+      "key": "vil-16",
+      "number": 17,
+      "name": "타종 뷰캐넌드",
+      "real": "타종 뷰캐넌",
+      "pos": "RW",
+      "nation": "캐나다",
+      "birthYear": 1999,
+      "ovr": 75
+    },
+    {
+      "key": "vil-17",
+      "number": 18,
+      "name": "파페 게옌드",
+      "real": "파페 게예",
+      "pos": "CDM",
+      "nation": "세네갈",
+      "birthYear": 1999,
+      "ovr": 76
+    },
+    {
+      "key": "vil-18",
+      "number": 19,
+      "name": "니콜라 페펜",
+      "real": "니콜라 페페",
+      "pos": "RW",
+      "nation": "코트디부아르",
+      "birthYear": 1995,
+      "ovr": 76
+    },
+    {
+      "key": "vil-19",
+      "number": 20,
+      "name": "카를로스 로메론",
+      "real": "카를로스 로메로",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 74
+    },
+    {
+      "key": "vil-20",
+      "number": 21,
+      "name": "타니 올루와세인",
+      "real": "타니 올루와세이",
+      "pos": "ST",
+      "nation": "캐나다",
+      "birthYear": 2000,
+      "ovr": 74
+    },
+    {
+      "key": "vil-21",
+      "number": 22,
+      "name": "아요세 페레노",
+      "real": "아요세 페레스",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 1993,
+      "ovr": 79
+    },
+    {
+      "key": "vil-22",
+      "number": 23,
+      "name": "세르지 카르도난",
+      "real": "세르지 카르도나",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 1999,
+      "ovr": 74
+    },
+    {
+      "key": "vil-23",
+      "number": 24,
+      "name": "네이선 살리반",
+      "real": "네이선 살리바",
+      "pos": "CM",
+      "nation": "캐나다",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "vil-24",
+      "number": 25,
+      "name": "페테르 굴라친",
+      "real": "페테르 굴라치",
+      "pos": "GK",
+      "nation": "헝가리",
+      "birthYear": 1990,
+      "ovr": 76
+    }
+  ]
+}

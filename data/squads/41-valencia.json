@@ -1,0 +1,260 @@
+{
+  "club": "발렌시아 무르시엘",
+  "realClub": "발렌시아 CF",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Valencia_CF",
+  "pilot": false,
+  "players": [
+    {
+      "key": "val-01",
+      "number": 1,
+      "name": "스톨레 디미트리에프스킨",
+      "real": "스톨레 디미트리에프스키",
+      "pos": "GK",
+      "nation": "북마케도니아",
+      "birthYear": 1993,
+      "ovr": 75
+    },
+    {
+      "key": "val-02",
+      "number": 2,
+      "name": "기도 로드리게노",
+      "real": "기도 로드리게스",
+      "pos": "CDM",
+      "nation": "아르헨티나",
+      "birthYear": 1994,
+      "ovr": 78
+    },
+    {
+      "key": "val-03",
+      "number": 3,
+      "name": "호세 코페텐",
+      "real": "호세 코페테",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 1999,
+      "ovr": 72
+    },
+    {
+      "key": "val-04",
+      "number": 4,
+      "name": "무크타르 디아카빈",
+      "real": "무크타르 디아카비",
+      "pos": "CB",
+      "nation": "기니",
+      "birthYear": 1996,
+      "ovr": 74
+    },
+    {
+      "key": "val-05",
+      "number": 5,
+      "name": "세사르 타레간",
+      "real": "세사르 타레가",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 74
+    },
+    {
+      "key": "val-06",
+      "number": 6,
+      "name": "우마르 사디큰",
+      "real": "우마르 사디크",
+      "pos": "ST",
+      "nation": "나이지리아",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "val-07",
+      "number": 7,
+      "name": "아르나우트 단주만",
+      "real": "아르나우트 단주마",
+      "pos": "LW",
+      "nation": "네덜란드",
+      "birthYear": 1997,
+      "ovr": 76
+    },
+    {
+      "key": "val-08",
+      "number": 8,
+      "name": "하비 게란",
+      "real": "하비 게라",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 78
+    },
+    {
+      "key": "val-09",
+      "number": 9,
+      "name": "우고 두론",
+      "real": "우고 두로",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 1999,
+      "ovr": 76
+    },
+    {
+      "key": "val-10",
+      "number": 10,
+      "name": "하비 엘리어트",
+      "real": "하비 엘리엇",
+      "pos": "CAM",
+      "nation": "잉글랜드",
+      "birthYear": 2003,
+      "ovr": 78
+    },
+    {
+      "key": "val-11",
+      "number": 11,
+      "name": "루이스 리오한",
+      "real": "루이스 리오하",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 1993,
+      "ovr": 73
+    },
+    {
+      "key": "val-12",
+      "number": 12,
+      "name": "유스틴 더 하손",
+      "real": "유스틴 더 하스",
+      "pos": "RB",
+      "nation": "네덜란드",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "val-13",
+      "number": 13,
+      "name": "크리스티안 리베론",
+      "real": "크리스티안 리베로",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 1998,
+      "ovr": 71
+    },
+    {
+      "key": "val-14",
+      "number": 14,
+      "name": "호세 가얀",
+      "real": "호세 가야",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 1995,
+      "ovr": 78
+    },
+    {
+      "key": "val-15",
+      "number": 15,
+      "name": "알리우 디엥그",
+      "real": "알리우 디엥",
+      "pos": "CDM",
+      "nation": "말리",
+      "birthYear": 1997,
+      "ovr": 72
+    },
+    {
+      "key": "val-16",
+      "number": 16,
+      "name": "디에고 로페노",
+      "real": "디에고 로페스",
+      "pos": "RW",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 74
+    },
+    {
+      "key": "val-17",
+      "number": 18,
+      "name": "페펠룬",
+      "real": "페펠루",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1998,
+      "ovr": 76
+    },
+    {
+      "key": "val-18",
+      "number": 19,
+      "name": "다니 라반",
+      "real": "다니 라바",
+      "pos": "RW",
+      "nation": "스페인",
+      "birthYear": 1995,
+      "ovr": 72
+    },
+    {
+      "key": "val-19",
+      "number": 20,
+      "name": "디미트리 풀키엔",
+      "real": "디미트리 풀키에",
+      "pos": "RB",
+      "nation": "과들루프",
+      "birthYear": 1993,
+      "ovr": 71
+    },
+    {
+      "key": "val-20",
+      "number": 21,
+      "name": "헤수스 바스케노",
+      "real": "헤수스 바스케스",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 72
+    },
+    {
+      "key": "val-21",
+      "number": 22,
+      "name": "아르나우 마르티네노",
+      "real": "아르나우 마르티네스",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 73
+    },
+    {
+      "key": "val-22",
+      "number": 23,
+      "name": "필리프 우그리니츠",
+      "real": "필리프 우그리니치",
+      "pos": "CM",
+      "nation": "스위스",
+      "birthYear": 1999,
+      "ovr": 74
+    },
+    {
+      "key": "val-23",
+      "number": 24,
+      "name": "파블로 마페온",
+      "real": "파블로 마페오",
+      "pos": "CB",
+      "nation": "아르헨티나",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "val-24",
+      "number": 25,
+      "name": "카이너 판 오벌른",
+      "real": "카이너 판 오벌런",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 66
+    },
+    {
+      "key": "val-25",
+      "number": 39,
+      "name": "사토 류노스켄",
+      "real": "사토 류노스케",
+      "pos": "CAM",
+      "nation": "일본",
+      "birthYear": 2006,
+      "ovr": 69
+    }
+  ]
+}
