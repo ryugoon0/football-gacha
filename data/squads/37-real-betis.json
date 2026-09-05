@@ -1,0 +1,260 @@
+{
+  "club": "베티스 베르데",
+  "realClub": "레알 베티스",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Real_Betis",
+  "pilot": false,
+  "players": [
+    {
+      "key": "bet-01",
+      "number": 1,
+      "name": "알바로 바예노",
+      "real": "알바로 바예스",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 1997,
+      "ovr": 79
+    },
+    {
+      "key": "bet-02",
+      "number": 2,
+      "name": "엑토르 베예리노",
+      "real": "엑토르 베예린",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 1995,
+      "ovr": 76
+    },
+    {
+      "key": "bet-03",
+      "number": 3,
+      "name": "디에고 요렌토",
+      "real": "디에고 요렌테",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 1993,
+      "ovr": 77
+    },
+    {
+      "key": "bet-04",
+      "number": 4,
+      "name": "나타른",
+      "real": "나탄",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 2001,
+      "ovr": 77
+    },
+    {
+      "key": "bet-05",
+      "number": 5,
+      "name": "마르크 바르트란",
+      "real": "마르크 바르트라",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 1991,
+      "ovr": 75
+    },
+    {
+      "key": "bet-06",
+      "number": 6,
+      "name": "파쿤도 베르날라",
+      "real": "파쿤도 베르날",
+      "pos": "CDM",
+      "nation": "우루과이",
+      "birthYear": 2003,
+      "ovr": 74
+    },
+    {
+      "key": "bet-07",
+      "number": 7,
+      "name": "안토닌",
+      "real": "안토니",
+      "pos": "RW",
+      "nation": "브라질",
+      "birthYear": 2000,
+      "ovr": 84
+    },
+    {
+      "key": "bet-08",
+      "number": 8,
+      "name": "파블로 포르날손",
+      "real": "파블로 포르날스",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1996,
+      "ovr": 79
+    },
+    {
+      "key": "bet-09",
+      "number": 9,
+      "name": "쿠초 에르난데노",
+      "real": "쿠초 에르난데스",
+      "pos": "ST",
+      "nation": "콜롬비아",
+      "birthYear": 1999,
+      "ovr": 79
+    },
+    {
+      "key": "bet-10",
+      "number": 10,
+      "name": "압데 에살술린",
+      "real": "압데 에살술리",
+      "pos": "LW",
+      "nation": "모로코",
+      "birthYear": 2001,
+      "ovr": 80
+    },
+    {
+      "key": "bet-11",
+      "number": 11,
+      "name": "프란 가르시안",
+      "real": "프란 가르시아",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 1999,
+      "ovr": 78
+    },
+    {
+      "key": "bet-12",
+      "number": 12,
+      "name": "앙헬 오르티노",
+      "real": "앙헬 오르티스",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "bet-13",
+      "number": 13,
+      "name": "디에고 콘덴",
+      "real": "디에고 콘데",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 1998,
+      "ovr": 73
+    },
+    {
+      "key": "bet-14",
+      "number": 14,
+      "name": "이케르 로사단",
+      "real": "이케르 로사다",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 73
+    },
+    {
+      "key": "bet-15",
+      "number": 15,
+      "name": "알바로 피달곤",
+      "real": "알바로 피달고",
+      "pos": "CM",
+      "nation": "멕시코",
+      "birthYear": 1997,
+      "ovr": 77
+    },
+    {
+      "key": "bet-16",
+      "number": 16,
+      "name": "발렌틴 고메노",
+      "real": "발렌틴 고메스",
+      "pos": "CB",
+      "nation": "아르헨티나",
+      "birthYear": 2003,
+      "ovr": 75
+    },
+    {
+      "key": "bet-17",
+      "number": 17,
+      "name": "로드리고 리켈멘",
+      "real": "로드리고 리켈메",
+      "pos": "RW",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 77
+    },
+    {
+      "key": "bet-18",
+      "number": 18,
+      "name": "넬손 데오산",
+      "real": "넬손 데오사",
+      "pos": "CM",
+      "nation": "콜롬비아",
+      "birthYear": 2000,
+      "ovr": 76
+    },
+    {
+      "key": "bet-19",
+      "number": 19,
+      "name": "트로이 패러트",
+      "real": "트로이 패럿",
+      "pos": "ST",
+      "nation": "아일랜드",
+      "birthYear": 2002,
+      "ovr": 77
+    },
+    {
+      "key": "bet-20",
+      "number": 20,
+      "name": "조반니 로 셀손",
+      "real": "조반니 로 셀소",
+      "pos": "CAM",
+      "nation": "아르헨티나",
+      "birthYear": 1996,
+      "ovr": 80
+    },
+    {
+      "key": "bet-21",
+      "number": 21,
+      "name": "마르크 로칸",
+      "real": "마르크 로카",
+      "pos": "CDM",
+      "nation": "스페인",
+      "birthYear": 1996,
+      "ovr": 77
+    },
+    {
+      "key": "bet-22",
+      "number": 22,
+      "name": "이스콘",
+      "real": "이스코",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 1992,
+      "ovr": 83
+    },
+    {
+      "key": "bet-23",
+      "number": 23,
+      "name": "주니오르 피르폰",
+      "real": "주니오르 피르포",
+      "pos": "LB",
+      "nation": "도미니카공화국",
+      "birthYear": 1996,
+      "ovr": 73
+    },
+    {
+      "key": "bet-24",
+      "number": 24,
+      "name": "아이토르 루이발라",
+      "real": "아이토르 루이발",
+      "pos": "RW",
+      "nation": "스페인",
+      "birthYear": 1996,
+      "ovr": 74
+    },
+    {
+      "key": "bet-25",
+      "number": 25,
+      "name": "다니 세바요노",
+      "real": "다니 세바요스",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1996,
+      "ovr": 79
+    }
+  ]
+}

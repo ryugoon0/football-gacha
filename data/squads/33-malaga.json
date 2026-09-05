@@ -1,0 +1,280 @@
+{
+  "club": "말라가 보케론",
+  "realClub": "말라가 CF",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Málaga_CF",
+  "pilot": false,
+  "players": [
+    {
+      "key": "mal-01",
+      "number": 1,
+      "name": "알폰소 에레론",
+      "real": "알폰소 에레로",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 1994,
+      "ovr": 72
+    },
+    {
+      "key": "mal-02",
+      "number": 2,
+      "name": "옌스 카유스텐",
+      "real": "옌스 카유스테",
+      "pos": "CM",
+      "nation": "스웨덴",
+      "birthYear": 1999,
+      "ovr": 74
+    },
+    {
+      "key": "mal-03",
+      "number": 3,
+      "name": "카를로스 푸간",
+      "real": "카를로스 푸가",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "mal-04",
+      "number": 4,
+      "name": "에이나르 갈릴레안",
+      "real": "에이나르 갈릴레아",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 1994,
+      "ovr": 70
+    },
+    {
+      "key": "mal-05",
+      "number": 5,
+      "name": "알렉스 파스토른",
+      "real": "알렉스 파스토르",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "mal-06",
+      "number": 6,
+      "name": "라모른",
+      "real": "라몬",
+      "pos": "CDM",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "mal-07",
+      "number": 7,
+      "name": "하이타름",
+      "real": "하이탐",
+      "pos": "RW",
+      "nation": "모로코",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "mal-08",
+      "number": 8,
+      "name": "카를로스 도토른",
+      "real": "카를로스 도토르",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 71
+    },
+    {
+      "key": "mal-09",
+      "number": 9,
+      "name": "추페텐",
+      "real": "추페테",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "mal-10",
+      "number": 10,
+      "name": "다비드 라루비안",
+      "real": "다비드 라루비아",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 72
+    },
+    {
+      "key": "mal-11",
+      "number": 11,
+      "name": "호아킨 무뇨노",
+      "real": "호아킨 무뇨스",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "mal-12",
+      "number": 12,
+      "name": "호세 살리나노",
+      "real": "호세 살리나스",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 68
+    },
+    {
+      "key": "mal-13",
+      "number": 14,
+      "name": "라파르",
+      "real": "라파",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "mal-14",
+      "number": 15,
+      "name": "앙헬 레시온",
+      "real": "앙헬 레시오",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 67
+    },
+    {
+      "key": "mal-15",
+      "number": 16,
+      "name": "디에고 무리욘",
+      "real": "디에고 무리요",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "mal-16",
+      "number": 17,
+      "name": "에네코 하우레긴",
+      "real": "에네코 하우레기",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 1996,
+      "ovr": 70
+    },
+    {
+      "key": "mal-17",
+      "number": 18,
+      "name": "파블로 마르티네산",
+      "real": "파블로 마르티네스",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1998,
+      "ovr": 69
+    },
+    {
+      "key": "mal-18",
+      "number": 19,
+      "name": "후안 크루손",
+      "real": "후안 크루스",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "mal-19",
+      "number": 20,
+      "name": "페르난도 칼레론",
+      "real": "페르난도 칼레로",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 1995,
+      "ovr": 72
+    },
+    {
+      "key": "mal-20",
+      "number": 21,
+      "name": "아드리안 니뇬",
+      "real": "아드리안 니뇨",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "mal-21",
+      "number": 22,
+      "name": "다니 로렌손",
+      "real": "다니 로렌소",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 71
+    },
+    {
+      "key": "mal-22",
+      "number": 23,
+      "name": "이산 메리논",
+      "real": "이산 메리노",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2006,
+      "ovr": 66
+    },
+    {
+      "key": "mal-23",
+      "number": 24,
+      "name": "훌렌 로베텐",
+      "real": "훌렌 로베테",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "mal-24",
+      "number": 25,
+      "name": "후안 베로칼라",
+      "real": "후안 베로칼",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 1999,
+      "ovr": 69
+    },
+    {
+      "key": "mal-25",
+      "number": 31,
+      "name": "라피탄",
+      "real": "라피타",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "mal-26",
+      "number": 35,
+      "name": "아론 오초안",
+      "real": "아론 오초아",
+      "pos": "CM",
+      "nation": "아일랜드",
+      "birthYear": 2007,
+      "ovr": 63
+    },
+    {
+      "key": "mal-27",
+      "number": 39,
+      "name": "아담 아즈눈",
+      "real": "아담 아즈누",
+      "pos": "LB",
+      "nation": "모로코",
+      "birthYear": 2006,
+      "ovr": 69
+    }
+  ]
+}

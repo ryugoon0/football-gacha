@@ -1,0 +1,230 @@
+{
+  "club": "오사수나 로하",
+  "realClub": "CA 오사수나",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/CA_Osasuna",
+  "pilot": false,
+  "players": [
+    {
+      "key": "osa-01",
+      "number": 1,
+      "name": "세르히오 에레란",
+      "real": "세르히오 에레라",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 1993,
+      "ovr": 75
+    },
+    {
+      "key": "osa-02",
+      "number": 5,
+      "name": "호르헤 에란돈",
+      "real": "호르헤 에란도",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 73
+    },
+    {
+      "key": "osa-03",
+      "number": 6,
+      "name": "루카스 토론",
+      "real": "루카스 토로",
+      "pos": "CDM",
+      "nation": "스페인",
+      "birthYear": 1994,
+      "ovr": 73
+    },
+    {
+      "key": "osa-04",
+      "number": 7,
+      "name": "욘 몬카욜란",
+      "real": "욘 몬카욜라",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1998,
+      "ovr": 76
+    },
+    {
+      "key": "osa-05",
+      "number": 8,
+      "name": "이케르 무뇨노",
+      "real": "이케르 무뇨스",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "osa-06",
+      "number": 9,
+      "name": "라울 가르시안",
+      "real": "라울 가르시아",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 72
+    },
+    {
+      "key": "osa-07",
+      "number": 10,
+      "name": "아이마르 오로산",
+      "real": "아이마르 오로스",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 77
+    },
+    {
+      "key": "osa-08",
+      "number": 11,
+      "name": "키케 바르한",
+      "real": "키케 바르하",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "osa-09",
+      "number": 13,
+      "name": "아이토르 페르난데노",
+      "real": "아이토르 페르난데스",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 1991,
+      "ovr": 73
+    },
+    {
+      "key": "osa-10",
+      "number": 14,
+      "name": "루벤 가르시안",
+      "real": "루벤 가르시아",
+      "pos": "RW",
+      "nation": "스페인",
+      "birthYear": 1993,
+      "ovr": 73
+    },
+    {
+      "key": "osa-11",
+      "number": 15,
+      "name": "디에고 리콘",
+      "real": "디에고 리코",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 1993,
+      "ovr": 73
+    },
+    {
+      "key": "osa-12",
+      "number": 16,
+      "name": "모이 고메노",
+      "real": "모이 고메스",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 1994,
+      "ovr": 73
+    },
+    {
+      "key": "osa-13",
+      "number": 17,
+      "name": "안테 부디미른",
+      "real": "안테 부디미르",
+      "pos": "ST",
+      "nation": "크로아티아",
+      "birthYear": 1991,
+      "ovr": 77
+    },
+    {
+      "key": "osa-14",
+      "number": 18,
+      "name": "라울 모론",
+      "real": "라울 모로",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 72
+    },
+    {
+      "key": "osa-15",
+      "number": 19,
+      "name": "발랑탱 로지엔",
+      "real": "발랑탱 로지에",
+      "pos": "RB",
+      "nation": "프랑스",
+      "birthYear": 1996,
+      "ovr": 72
+    },
+    {
+      "key": "osa-16",
+      "number": 21,
+      "name": "조너선 두바생드",
+      "real": "조너선 두바생",
+      "pos": "CM",
+      "nation": "벨기에",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "osa-17",
+      "number": 22,
+      "name": "엔조 보요몬",
+      "real": "엔조 보요모",
+      "pos": "CB",
+      "nation": "카메룬",
+      "birthYear": 2001,
+      "ovr": 74
+    },
+    {
+      "key": "osa-18",
+      "number": 23,
+      "name": "아벨 브레토네노",
+      "real": "아벨 브레토네스",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "osa-19",
+      "number": 24,
+      "name": "알레한드로 카테난",
+      "real": "알레한드로 카테나",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 1994,
+      "ovr": 72
+    },
+    {
+      "key": "osa-20",
+      "number": 27,
+      "name": "이니고 아르기비덴",
+      "real": "이니고 아르기비데",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "osa-21",
+      "number": 29,
+      "name": "아시에르 오삼벨란",
+      "real": "아시에르 오삼벨라",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "osa-22",
+      "number": 48,
+      "name": "록슨 예보안",
+      "real": "록슨 예보아",
+      "pos": "CB",
+      "nation": "가나",
+      "birthYear": 2004,
+      "ovr": 66
+    }
+  ]
+}

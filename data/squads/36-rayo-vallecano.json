@@ -1,0 +1,240 @@
+{
+  "club": "라요 프랑코",
+  "realClub": "라요 바예카노",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Rayo_Vallecano",
+  "pilot": false,
+  "players": [
+    {
+      "key": "ray-01",
+      "number": 1,
+      "name": "다니 카르데나노",
+      "real": "다니 카르데나스",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "ray-02",
+      "number": 2,
+      "name": "안드레이 라치운",
+      "real": "안드레이 라치우",
+      "pos": "RB",
+      "nation": "루마니아",
+      "birthYear": 1998,
+      "ovr": 77
+    },
+    {
+      "key": "ray-03",
+      "number": 3,
+      "name": "마라시 쿰불란",
+      "real": "마라시 쿰불라",
+      "pos": "CB",
+      "nation": "알바니아",
+      "birthYear": 2000,
+      "ovr": 73
+    },
+    {
+      "key": "ray-04",
+      "number": 4,
+      "name": "페드로 디아노",
+      "real": "페드로 디아스",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1998,
+      "ovr": 72
+    },
+    {
+      "key": "ray-05",
+      "number": 5,
+      "name": "루이스 펠리펜",
+      "real": "루이스 펠리페",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 1997,
+      "ovr": 75
+    },
+    {
+      "key": "ray-06",
+      "number": 6,
+      "name": "파테 시손",
+      "real": "파테 시스",
+      "pos": "CDM",
+      "nation": "세네갈",
+      "birthYear": 1994,
+      "ovr": 74
+    },
+    {
+      "key": "ray-07",
+      "number": 7,
+      "name": "이시 팔라손드",
+      "real": "이시 팔라손",
+      "pos": "RW",
+      "nation": "스페인",
+      "birthYear": 1994,
+      "ovr": 77
+    },
+    {
+      "key": "ray-08",
+      "number": 8,
+      "name": "우나이 로페노",
+      "real": "우나이 로페스",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1995,
+      "ovr": 73
+    },
+    {
+      "key": "ray-09",
+      "number": 9,
+      "name": "알레망드",
+      "real": "알레망",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 1998,
+      "ovr": 72
+    },
+    {
+      "key": "ray-10",
+      "number": 10,
+      "name": "세르히오 카메욘",
+      "real": "세르히오 카메요",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 75
+    },
+    {
+      "key": "ray-11",
+      "number": 11,
+      "name": "랜디 은테칸",
+      "real": "랜디 은테카",
+      "pos": "LW",
+      "nation": "앙골라",
+      "birthYear": 1997,
+      "ovr": 72
+    },
+    {
+      "key": "ray-12",
+      "number": 13,
+      "name": "아우구스토 바탈란",
+      "real": "아우구스토 바탈라",
+      "pos": "GK",
+      "nation": "아르헨티나",
+      "birthYear": 1996,
+      "ovr": 73
+    },
+    {
+      "key": "ray-13",
+      "number": 14,
+      "name": "기오르기 치타이시빌린",
+      "real": "기오르기 치타이시빌리",
+      "pos": "CAM",
+      "nation": "조지아",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "ray-14",
+      "number": 17,
+      "name": "아드리아 페드로산",
+      "real": "아드리아 페드로사",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 1998,
+      "ovr": 73
+    },
+    {
+      "key": "ray-15",
+      "number": 18,
+      "name": "알바로 가르시안",
+      "real": "알바로 가르시아",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 1992,
+      "ovr": 75
+    },
+    {
+      "key": "ray-16",
+      "number": 19,
+      "name": "호르헤 데 프루토노",
+      "real": "호르헤 데 프루토스",
+      "pos": "RW",
+      "nation": "스페인",
+      "birthYear": 1997,
+      "ovr": 76
+    },
+    {
+      "key": "ray-17",
+      "number": 20,
+      "name": "이반 발리운",
+      "real": "이반 발리우",
+      "pos": "RB",
+      "nation": "알바니아",
+      "birthYear": 1992,
+      "ovr": 73
+    },
+    {
+      "key": "ray-18",
+      "number": 21,
+      "name": "프란 페레노",
+      "real": "프란 페레스",
+      "pos": "RW",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "ray-19",
+      "number": 22,
+      "name": "펠라요 페르난데노",
+      "real": "펠라요 페르난데스",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "ray-20",
+      "number": 23,
+      "name": "오스카르 발렌티노",
+      "real": "오스카르 발렌틴",
+      "pos": "CDM",
+      "nation": "스페인",
+      "birthYear": 1994,
+      "ovr": 74
+    },
+    {
+      "key": "ray-21",
+      "number": 24,
+      "name": "플로리안 르죄른",
+      "real": "플로리안 르죈",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 1991,
+      "ovr": 73
+    },
+    {
+      "key": "ray-22",
+      "number": 33,
+      "name": "조주아 페르트라우트르",
+      "real": "조주아 페르트라우트",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "ray-23",
+      "number": 36,
+      "name": "낭고로 부아렌",
+      "real": "낭고로 부아레",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 66
+    }
+  ]
+}
