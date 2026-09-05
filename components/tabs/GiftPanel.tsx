@@ -5,7 +5,9 @@ import { ITEMS, type ItemId } from '../../lib/items'
 import {
   GIFT_FAILURE_MESSAGE,
   GIFT_TARGET_LABEL,
+  TICKET_KEY,
   describeTarget,
+  giftTickets,
   fetchGiftsForAdmin,
   findUsersForGift,
   giftAudienceCount,
@@ -28,6 +30,7 @@ export default function GiftPanel() {
   const [message, setMessage] = useState('')
   const [gold, setGold] = useState(0)
   const [items, setItems] = useState<Partial<Record<ItemId, number>>>({})
+  const [ticketCount, setTicketCount] = useState(0)
   const [kind, setKind] = useState<GiftTarget['kind']>('all')
   const [days, setDays] = useState(7)
   const [picked, setPicked] = useState<AdminUserRow[]>([])
@@ -84,20 +87,21 @@ export default function GiftPanel() {
   }, [kind, query])
 
   const itemLines = Object.entries(items).filter(([, count]) => (count ?? 0) > 0) as [ItemId, number][]
-  const canSend = title.trim().length > 0 && (gold > 0 || itemLines.length > 0) && (kind !== 'users' || picked.length > 0) && !busy
+  const canSend =
+    title.trim().length > 0 && (gold > 0 || itemLines.length > 0 || ticketCount > 0) && (kind !== 'users' || picked.length > 0) && !busy
 
   const send = async () => {
     if (!canSend) return
     const summary = `${describeTarget(target)}${audience !== null ? ` (${audience}명)` : ''}에게 「${title.trim()}」 — ${gold > 0 ? `${gold.toLocaleString('ko-KR')}G` : ''}${
-      itemLines.length ? ` ${itemLines.map(([id, count]) => `${ITEMS[id].name}×${count}`).join(', ')}` : ''
-    } 보낼까요?`
+      ticketCount > 0 ? ` 프리미엄 티켓×${ticketCount}` : ''
+    }${itemLines.length ? ` ${itemLines.map(([id, count]) => `${ITEMS[id].name}×${count}`).join(', ')}` : ''} 보낼까요?`
     if (!window.confirm(summary)) return
     setBusy(true)
     const result = await sendGift({
       title: title.trim(),
       message: message.trim(),
       gold,
-      items: Object.fromEntries(itemLines),
+      items: { ...Object.fromEntries(itemLines), ...(ticketCount > 0 ? { [TICKET_KEY]: ticketCount } : {}) },
       target,
       expiresAt: expires ? new Date(expires).toISOString() : null,
     })
@@ -111,6 +115,7 @@ export default function GiftPanel() {
     setMessage('')
     setGold(0)
     setItems({})
+    setTicketCount(0)
     setPicked([])
     void loadHistory()
   }
@@ -152,6 +157,19 @@ export default function GiftPanel() {
             rows={3}
             placeholder="함께 보낼 말"
             className={`${field} mt-1 resize-y`}
+          />
+        </label>
+
+        <label className="block text-xs text-slate-400">
+          🎟️ 프리미엄 스카우트 티켓 (장)
+          <span className="ml-2 text-[10px] text-slate-500">아이템이 아니라 서버 잔고입니다 — 스카우트 화면에서 골드 대신 한 장에 한 명, 상점에서는 팔지 않음</span>
+          <input
+            type="number"
+            min={0}
+            max={99}
+            value={ticketCount}
+            onChange={(event) => setTicketCount(Math.max(0, Math.min(99, Math.floor(Number(event.target.value) || 0))))}
+            className={`${field} mt-1 w-32 tabular-nums`}
           />
         </label>
 
@@ -280,6 +298,7 @@ export default function GiftPanel() {
                 </div>
                 <div className="mt-0.5 text-slate-300">
                   {row.gold > 0 ? `${row.gold.toLocaleString('ko-KR')}G` : ''}
+                  {giftTickets(row.items) > 0 ? ` 🎟️×${giftTickets(row.items)}` : ''}
                   {Object.entries(row.items ?? {})
                     .filter(([id, count]) => id in ITEMS && Number(count) > 0)
                     .map(([id, count]) => ` ${ITEMS[id as ItemId].name}×${count}`)

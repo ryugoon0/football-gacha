@@ -18,14 +18,21 @@ export interface ServerDraw {
   pity: number
   pityHit: boolean
   balance: number
+  /** 프리미엄 스카우트 티켓 left on the server after this pull, when the server reports it. */
+  tickets?: number
 }
 
 export type DrawFailure =
   | 'offline'
   | 'not signed in'
   | 'not enough gold'
+  | 'not enough tickets'
+  | 'ticket not allowed'
   | 'not seeded'
   | 'unavailable'
+
+/** What pays for the pull: gold from the ledger, or 프리미엄 스카우트 티켓 from the server balance. */
+export type PayWith = 'gold' | 'ticket'
 
 export function serverDrawAvailable(): boolean {
   return isSupabaseConfigured()
@@ -33,7 +40,7 @@ export function serverDrawAvailable(): boolean {
 
 type DrawResult = { ok: true; draw: ServerDraw } | { ok: false; reason: DrawFailure }
 
-const KNOWN: DrawFailure[] = ['not enough gold', 'not seeded', 'not signed in']
+const KNOWN: DrawFailure[] = ['not enough gold', 'not enough tickets', 'ticket not allowed', 'not seeded', 'not signed in']
 
 function known(reason: unknown): DrawFailure | null {
   return KNOWN.find((item) => item === reason) ?? null
@@ -61,13 +68,13 @@ async function reasonFromError(error: unknown): Promise<{ reason: string | null;
 /** Set when a pull fails for a reason worth reporting, so it can be pasted back. */
 export let lastDrawDetail = ''
 
-async function askServer(pack: string, group: string | null): Promise<DrawResult> {
+async function askServer(pack: string, group: string | null, payWith: PayWith): Promise<DrawResult> {
   const supabase = getSupabase()
   if (!supabase) return { ok: false, reason: 'offline' }
 
   try {
     const { data, error } = await supabase.functions.invoke('draw-pack', {
-      body: { pack, group },
+      body: { pack, group, payWith },
     })
 
     if (error) {
@@ -98,6 +105,7 @@ export async function drawOnServer(
    * ledger if that has not happened yet.
    */
   opening?: { gold: number; pity: number },
+  payWith: PayWith = 'gold',
 ): Promise<DrawResult> {
   const supabase = getSupabase()
   if (!supabase) return { ok: false, reason: 'offline' }
@@ -105,7 +113,7 @@ export async function drawOnServer(
   const { data: session } = await supabase.auth.getSession()
   if (!session.session) return { ok: false, reason: 'not signed in' }
 
-  const first = await askServer(pack, group)
+  const first = await askServer(pack, group, payWith)
   if (first.ok || first.reason !== 'not seeded' || !opening) return first
 
   // Every existing player crosses onto the ledger exactly once, and that one
@@ -114,13 +122,27 @@ export async function drawOnServer(
   // ever acts once, so asking again costs nothing.
   const seeded = await seedEconomy(opening.gold, opening.pity)
   if (!seeded) return first
-  return askServer(pack, group)
+  return askServer(pack, group, payWith)
+}
+
+/** How many 프리미엄 스카우트 티켓 this account holds on the server; null when it cannot be read. */
+export async function fetchScoutTickets(): Promise<number | null> {
+  const supabase = getSupabase()
+  if (!supabase) return null
+  const { data: session } = await supabase.auth.getSession()
+  const userId = session.session?.user.id
+  if (!userId) return null
+  const { data, error } = await supabase.from('scout_tickets').select('balance').eq('user_id', userId).maybeSingle()
+  if (error) return null
+  return Number((data as { balance?: number } | null)?.balance ?? 0)
 }
 
 export const DRAW_FAILURE_MESSAGE: Record<DrawFailure, string> = {
   offline: '서버에 연결되지 않아 뽑기를 진행할 수 없습니다.',
   'not signed in': '로그인이 풀렸습니다. 다시 로그인한 뒤 뽑아 주세요.',
   'not enough gold': '골드가 부족합니다.',
+  'not enough tickets': '프리미엄 스카우트 티켓이 부족합니다.',
+  'ticket not allowed': '티켓은 프리미엄 스카우트에만 쓸 수 있습니다.',
   'not seeded': '계정 준비가 아직 끝나지 않았습니다. 잠시 뒤 다시 시도해 주세요.',
   unavailable: '뽑기 서버에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요.',
 }

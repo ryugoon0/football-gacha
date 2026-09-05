@@ -59,11 +59,23 @@ export interface GiftRow {
   expiresAt: string | null
 }
 
-/** Items in a gift as the reducer wants them — unknown ids dropped here so the count shown matches what lands. */
+/**
+ * 프리미엄 스카우트 티켓 rides in a gift's `items` under this key, but it is
+ * not an inventory item: the server keeps the balance (scout_tickets) and the
+ * pull server spends it, so a save cannot be edited to mint tickets.
+ */
+export const TICKET_KEY = 'premiumTicket'
+
+/** Items in a gift as the reducer wants them — unknown ids (and tickets) dropped here so the count shown matches what lands. */
 export function giftItemLines(items: Record<string, number> | null | undefined): { id: ItemId; count: number }[] {
   return Object.entries(items ?? {})
     .filter((entry): entry is [ItemId, number] => entry[0] in ITEMS && Number(entry[1]) > 0)
     .map(([id, count]) => ({ id, count: Math.floor(Number(count)) }))
+}
+
+export function giftTickets(items: Record<string, number> | null | undefined): number {
+  const count = Number(items?.[TICKET_KEY] ?? 0)
+  return Number.isFinite(count) && count > 0 ? Math.floor(count) : 0
 }
 
 export async function fetchMyGifts(): Promise<GiftRow[]> {
@@ -76,14 +88,26 @@ export async function fetchMyGifts(): Promise<GiftRow[]> {
 
 export async function claimGifts(
   inboxIds?: number[],
-): Promise<{ ok: true; count: number; gold: number; items: { id: ItemId; count: number }[] } | { ok: false; reason: string }> {
+): Promise<
+  | { ok: true; count: number; gold: number; items: { id: ItemId; count: number }[]; tickets: number; ticketBalance: number | null }
+  | { ok: false; reason: string }
+> {
   const supabase = getSupabase()
   if (!supabase) return { ok: false, reason: 'offline' }
   const { data, error } = await supabase.rpc('claim_gifts', { p_inbox_ids: inboxIds ?? null })
   if (error) return { ok: false, reason: 'unavailable' }
-  const body = data as { ok?: boolean; reason?: string; count?: number; gold?: number; items?: Record<string, number> } | null
+  const body = data as
+    | { ok?: boolean; reason?: string; count?: number; gold?: number; items?: Record<string, number>; tickets?: number; ticketBalance?: number }
+    | null
   if (!body?.ok) return { ok: false, reason: body?.reason ?? 'unavailable' }
-  return { ok: true, count: Number(body.count ?? 0), gold: Number(body.gold ?? 0), items: giftItemLines(body.items) }
+  return {
+    ok: true,
+    count: Number(body.count ?? 0),
+    gold: Number(body.gold ?? 0),
+    items: giftItemLines(body.items),
+    tickets: Number(body.tickets ?? 0),
+    ticketBalance: typeof body.ticketBalance === 'number' ? body.ticketBalance : null,
+  }
 }
 
 // ---------------------------------------------------------------------------

@@ -8,6 +8,7 @@ export interface SharedPlayer {
 
 export interface SharedPack {
   id: string
+  family: 'basic' | 'premium'
   count: number
   cost: number
   rates: Record<string, number>

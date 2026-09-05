@@ -85,7 +85,7 @@ export async function handle(request: Request, env: Env): Promise<Response> {
     const user = (await whoami.json()) as { id?: string }
     if (!user?.id) return refuse('not signed in')
 
-    let body: { pack?: string; group?: string; probe?: boolean } = {}
+    let body: { pack?: string; group?: string; probe?: boolean; payWith?: string } = {}
     try {
       body = await request.json()
     } catch {
@@ -115,6 +115,13 @@ export async function handle(request: Request, env: Env): Promise<Response> {
     const packId = PACKS.some((item) => item.id === body.pack) ? (body.pack as string) : 'basic'
     const pack = packOf(packId)
     const group = body.group && GROUPS.includes(body.group) ? body.group : null
+    // 프리미엄 스카우트 티켓: a server-side balance (scout_tickets) that stands in
+    // for the gold. One ticket per card, premium packs only; commit_pull takes
+    // the tickets in the same transaction as the log and the pity counter.
+    const payWithTickets = body.payWith === 'ticket'
+    if (payWithTickets && pack.family !== 'premium') return refuse('ticket not allowed')
+    const ticketCost = payWithTickets ? pack.count : 0
+    const goldCost = payWithTickets ? 0 : pack.cost
 
     // service_role: the only key allowed to read the counter and settle a pull.
     const server = { apikey: service, Authorization: `Bearer ${service}` }
@@ -168,13 +175,14 @@ export async function handle(request: Request, env: Env): Promise<Response> {
       body: JSON.stringify({
         p_user: user.id,
         p_pack: pack.id,
-        p_cost: pack.cost,
+        p_cost: goldCost,
         p_seed: seed,
         p_rates: pack.rates,
         p_pity_before: pityBefore,
         p_pity_after: outcome.pity,
         p_pity_hit: outcome.pityHit,
         p_cards: cards,
+        p_tickets: ticketCost,
       }),
     })
 
@@ -185,10 +193,11 @@ export async function handle(request: Request, env: Env): Promise<Response> {
       ok?: boolean
       reason?: string
       balance?: number
+      tickets?: number
       pity?: number
       pull_id?: number
     }
-    if (!result?.ok) return refuse(result?.reason ?? 'refused', { balance: result?.balance })
+    if (!result?.ok) return refuse(result?.reason ?? 'refused', { balance: result?.balance, tickets: result?.tickets })
 
     return json({
       ok: true,
@@ -197,6 +206,7 @@ export async function handle(request: Request, env: Env): Promise<Response> {
       pityLimit: PITY_LIMIT,
       pityHit: outcome.pityHit,
       balance: result.balance,
+      tickets: result.tickets,
       pullId: result.pull_id,
     })
   } catch (error) {

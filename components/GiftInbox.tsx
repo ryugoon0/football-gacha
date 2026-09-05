@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { ITEMS } from '../lib/items'
-import { GIFT_FAILURE_MESSAGE, claimGifts, fetchMyGifts, giftItemLines, type GiftRow } from '../lib/gifts'
+import { GIFT_FAILURE_MESSAGE, claimGifts, fetchMyGifts, giftItemLines, giftTickets, type GiftRow } from '../lib/gifts'
 import { useGame } from './GameProvider'
 
 const SEEN_KEY = 'football-gacha:gifts-seen'
@@ -65,6 +65,7 @@ export function GiftArrivalPopup({ gifts, onOpen, onDismiss }: { gifts: GiftRow[
   if (gifts.length === 0) return null
   const first = gifts[0]
   const totalGold = gifts.reduce((sum, row) => sum + row.gold, 0)
+  const totalTickets = gifts.reduce((sum, row) => sum + giftTickets(row.items), 0)
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={onDismiss}>
       <div className="panel rise-in w-full max-w-sm p-5 text-center" onClick={(event) => event.stopPropagation()} role="dialog" aria-modal="true">
@@ -74,7 +75,11 @@ export function GiftArrivalPopup({ gifts, onOpen, onDismiss }: { gifts: GiftRow[
           {gifts.length === 1 ? `「${first.title}」이 도착했습니다` : `선물 ${gifts.length}개가 도착했습니다`}
         </h3>
         {first.message && gifts.length === 1 && <p className="mt-2 whitespace-pre-wrap text-xs leading-relaxed text-slate-300">{first.message}</p>}
-        {totalGold > 0 && <p className="mt-2 text-sm font-black text-amber-200">{totalGold.toLocaleString('ko-KR')}G 포함</p>}
+        {(totalGold > 0 || totalTickets > 0) && (
+          <p className="mt-2 text-sm font-black text-amber-200">
+            {[totalGold > 0 ? `${totalGold.toLocaleString('ko-KR')}G` : '', totalTickets > 0 ? `프리미엄 스카우트 티켓 ${totalTickets}장` : ''].filter(Boolean).join(' · ')} 포함
+          </p>
+        )}
         <div className="mt-4 grid grid-cols-2 gap-2">
           <button onClick={onDismiss} className="rounded-lg btn-ghost py-2 text-xs font-bold">
             나중에
@@ -121,6 +126,7 @@ export default function GiftInbox({ onClose, onChanged }: { onClose: () => void;
     setTimeout(() => void account.saveNow(), 50)
     const parts = [
       result.gold > 0 ? `${result.gold.toLocaleString('ko-KR')}G` : '',
+      result.tickets > 0 ? `프리미엄 스카우트 티켓 ×${result.tickets}${result.ticketBalance !== null ? ` (보유 ${result.ticketBalance}장)` : ''}` : '',
       ...result.items.map((line) => `${ITEMS[line.id].name} ×${line.count}`),
     ].filter(Boolean)
     setNotice(result.count === 0 ? '받을 선물이 없습니다.' : `${parts.join(' · ')}를 받았습니다.`)
@@ -179,6 +185,7 @@ export default function GiftInbox({ onClose, onChanged }: { onClose: () => void;
 
 function GiftCard({ row, action }: { row: GiftRow; action: React.ReactNode }) {
   const items = giftItemLines(row.items)
+  const tickets = giftTickets(row.items)
   return (
     <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3">
       <div className="flex items-start justify-between gap-2">
@@ -195,6 +202,11 @@ function GiftCard({ row, action }: { row: GiftRow; action: React.ReactNode }) {
       <div className="mt-2 flex flex-wrap gap-1.5">
         {row.gold > 0 && (
           <span className="gold-plate rounded-lg px-2 py-1 text-[11px] font-black text-amber-200">{row.gold.toLocaleString('ko-KR')}G</span>
+        )}
+        {tickets > 0 && (
+          <span className="rounded-lg bg-amber-400/20 px-2 py-1 text-[11px] font-bold text-amber-100" title="스카우트 화면에서 골드 대신 씁니다">
+            🎟️ 프리미엄 스카우트 티켓 ×{tickets}
+          </span>
         )}
         {items.map((line) => (
           <span key={line.id} className="rounded-lg bg-white/10 px-2 py-1 text-[11px] font-bold text-slate-200">

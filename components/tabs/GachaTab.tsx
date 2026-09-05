@@ -18,8 +18,10 @@ import { planReel, type ReelPlan } from '../../lib/scoutReel'
 import {
   DRAW_FAILURE_MESSAGE,
   drawOnServer,
+  fetchScoutTickets,
   lastDrawDetail,
   serverDrawAvailable,
+  type PayWith,
 } from '../../lib/serverDraw'
 import { RARITIES, RARITY_STYLES } from '../../lib/rarity'
 import { hasRoomFor } from '../../lib/vault'
@@ -60,10 +62,17 @@ export default function GachaTab() {
   const [plan, setPlan] = useState<ReelPlan | null>(null)
   const [fast, setFast] = useState(false)
   const pauseTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  // 프리미엄 스카우트 티켓 — a server balance (gifts and rewards put it there); null until read.
+  const [tickets, setTickets] = useState<number | null>(null)
 
   const featured = useMemo(() => featuredPlayer(pickupWeekKey()), [])
   const rolling = reelAt >= 0 && plan !== null
   const busy = spinning || rolling
+
+  useEffect(() => {
+    if (!serverDrawAvailable()) return
+    void fetchScoutTickets().then((balance) => setTickets(balance))
+  }, [])
 
   useEffect(() => {
     if (!spinning) return
@@ -106,9 +115,13 @@ export default function GachaTab() {
     )
   }
 
-  const openPack = async (pack: PackDef, free = false) => {
-    const cost = free ? 0 : pack.cost
+  const openPack = async (pack: PackDef, free = false, payWith: PayWith = 'gold') => {
+    const cost = free || payWith === 'ticket' ? 0 : pack.cost
     if (busy) return
+    if (payWith === 'ticket' && (tickets ?? 0) < pack.count) {
+      setError(`프리미엄 스카우트 티켓이 ${pack.count}장 필요합니다 (지금 ${tickets ?? 0}장).`)
+      return
+    }
     if (state.gold < cost) {
       setError('골드가 부족합니다. 리그 경기를 뛰거나 여분 선수를 방출해 보세요.')
       return
@@ -135,7 +148,7 @@ export default function GachaTab() {
     if (serverDrawAvailable()) {
       // With an account, only the server may open a pack. No fallback: a quiet
       // retreat to the browser would be the way around the server itself.
-      const outcome = await drawOnServer(pack.id, null, { gold: state.gold, pity: state.pity })
+      const outcome = await drawOnServer(pack.id, null, { gold: state.gold, pity: state.pity }, payWith)
       if (!outcome.ok) {
         setSpinning(false)
         setError(
@@ -143,6 +156,7 @@ export default function GachaTab() {
             ? `${DRAW_FAILURE_MESSAGE.unavailable} (${lastDrawDetail})`
             : DRAW_FAILURE_MESSAGE[outcome.reason],
         )
+        if (outcome.reason === 'not enough tickets') void fetchScoutTickets().then(setTickets)
         return
       }
       players = outcome.draw.cards
@@ -155,6 +169,7 @@ export default function GachaTab() {
       }
       pity = outcome.draw.pity
       pityHit = outcome.draw.pityHit
+      if (typeof outcome.draw.tickets === 'number') setTickets(outcome.draw.tickets)
     } else {
       // No server configured means no account and no economy to protect.
       const outcome = drawSession({
@@ -267,6 +282,27 @@ export default function GachaTab() {
             보관함이 가득 찼습니다 ({state.cards.length} / {state.capacity}). 선수단 탭에서 증설하거나
             선수를 방출해야 새 카드를 받을 수 있습니다.
           </p>
+        )}
+
+        {family === 'premium' && tickets !== null && (
+          <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-amber-400/30 bg-amber-400/5 px-3 py-2">
+            <span className="text-xs text-slate-300">
+              🎟️ 프리미엄 스카우트 티켓 <b className="text-amber-200">{tickets}장</b>
+              <span className="ml-2 text-[10px] text-slate-500">선물·보상으로 받고, 골드 대신 한 장에 한 명</span>
+            </span>
+            <div className="flex gap-1.5">
+              {packsOfFamily('premium').map((pack) => (
+                <button
+                  key={`ticket-${pack.id}`}
+                  onClick={() => openPack(pack, false, 'ticket')}
+                  disabled={busy || tickets < pack.count || !hasRoomFor(state.cards.length, state.capacity, pack.count)}
+                  className="rounded-lg btn-gold px-3 py-1.5 text-[11px] font-black disabled:opacity-40"
+                >
+                  티켓 {pack.count}장으로 {pack.count === 1 ? '1회' : '10연속'}
+                </button>
+              ))}
+            </div>
+          </div>
         )}
 
         <div className="mt-3 grid gap-2 sm:grid-cols-2">
