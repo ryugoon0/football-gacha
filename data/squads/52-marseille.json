@@ -1,0 +1,220 @@
+{
+  "club": "마르세유 올림피",
+  "realClub": "올랭피크 마르세유",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Olympique_de_Marseille",
+  "pilot": false,
+  "players": [
+    {
+      "key": "mar-01",
+      "number": 4,
+      "name": "CJ 이건라일린",
+      "real": "CJ 이건라일리",
+      "pos": "CB",
+      "nation": "잉글랜드",
+      "birthYear": 2003,
+      "ovr": 76
+    },
+    {
+      "key": "mar-02",
+      "number": 6,
+      "name": "토추크우 은나딘",
+      "real": "토추크우 은나디",
+      "pos": "CDM",
+      "nation": "나이지리아",
+      "birthYear": 2003,
+      "ovr": 71
+    },
+    {
+      "key": "mar-03",
+      "number": 7,
+      "name": "에인절 고메손",
+      "real": "에인절 고메스",
+      "pos": "CAM",
+      "nation": "잉글랜드",
+      "birthYear": 2000,
+      "ovr": 79
+    },
+    {
+      "key": "mar-04",
+      "number": 8,
+      "name": "히마드 압델린",
+      "real": "히마드 압델리",
+      "pos": "CAM",
+      "nation": "알제리",
+      "birthYear": 1999,
+      "ovr": 77
+    },
+    {
+      "key": "mar-05",
+      "number": 9,
+      "name": "아민 구이린",
+      "real": "아민 구이리",
+      "pos": "ST",
+      "nation": "알제리",
+      "birthYear": 2000,
+      "ovr": 80
+    },
+    {
+      "key": "mar-06",
+      "number": 11,
+      "name": "닐 모펜",
+      "real": "닐 모페",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 1996,
+      "ovr": 75
+    },
+    {
+      "key": "mar-07",
+      "number": 12,
+      "name": "제프리 더 랑엔",
+      "real": "제프리 더 랑에",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 1998,
+      "ovr": 73
+    },
+    {
+      "key": "mar-08",
+      "number": 13,
+      "name": "데릭 코넬리우손",
+      "real": "데릭 코넬리우스",
+      "pos": "CB",
+      "nation": "캐나다",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "mar-09",
+      "number": 14,
+      "name": "이고르 파이샹드",
+      "real": "이고르 파이샹",
+      "pos": "LW",
+      "nation": "브라질",
+      "birthYear": 2000,
+      "ovr": 80
+    },
+    {
+      "key": "mar-10",
+      "number": 18,
+      "name": "바모 메이텐",
+      "real": "바모 메이테",
+      "pos": "CB",
+      "nation": "코트디부아르",
+      "birthYear": 2001,
+      "ovr": 71
+    },
+    {
+      "key": "mar-11",
+      "number": 19,
+      "name": "조프리 콘도그비안",
+      "real": "조프리 콘도그비아",
+      "pos": "CDM",
+      "nation": "중앙아프리카공화국",
+      "birthYear": 1993,
+      "ovr": 77
+    },
+    {
+      "key": "mar-12",
+      "number": 21,
+      "name": "나예프 아게르든",
+      "real": "나예프 아게르드",
+      "pos": "CB",
+      "nation": "모로코",
+      "birthYear": 1996,
+      "ovr": 79
+    },
+    {
+      "key": "mar-13",
+      "number": 22,
+      "name": "티모시 웨안",
+      "real": "티모시 웨아",
+      "pos": "RW",
+      "nation": "미국",
+      "birthYear": 2000,
+      "ovr": 77
+    },
+    {
+      "key": "mar-14",
+      "number": 23,
+      "name": "피에르에밀 호이비에른",
+      "real": "피에르에밀 호이비에르",
+      "pos": "CM",
+      "nation": "덴마크",
+      "birthYear": 1995,
+      "ovr": 78
+    },
+    {
+      "key": "mar-15",
+      "number": 25,
+      "name": "울리세스 가르시안",
+      "real": "울리세스 가르시아",
+      "pos": "LB",
+      "nation": "스위스",
+      "birthYear": 1996,
+      "ovr": 73
+    },
+    {
+      "key": "mar-16",
+      "number": 29,
+      "name": "파리스 뭄바냔",
+      "real": "파리스 뭄바냐",
+      "pos": "ST",
+      "nation": "카메룬",
+      "birthYear": 2000,
+      "ovr": 73
+    },
+    {
+      "key": "mar-17",
+      "number": 33,
+      "name": "에메르송 팔미에린",
+      "real": "에메르송 팔미에리",
+      "pos": "LB",
+      "nation": "이탈리아",
+      "birthYear": 1994,
+      "ovr": 75
+    },
+    {
+      "key": "mar-18",
+      "number": 40,
+      "name": "옐러 판네큰",
+      "real": "옐러 판네크",
+      "pos": "GK",
+      "nation": "벨기에",
+      "birthYear": 2004,
+      "ovr": 65
+    },
+    {
+      "key": "mar-19",
+      "number": 43,
+      "name": "타지딘 음마딘",
+      "real": "타지딘 음마디",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2007,
+      "ovr": 64
+    },
+    {
+      "key": "mar-20",
+      "number": 48,
+      "name": "케일리안 압달란",
+      "real": "케일리안 압달라",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 68
+    },
+    {
+      "key": "mar-21",
+      "number": 77,
+      "name": "아민 아리트르",
+      "real": "아민 아리트",
+      "pos": "CAM",
+      "nation": "모로코",
+      "birthYear": 1997,
+      "ovr": 76
+    }
+  ]
+}

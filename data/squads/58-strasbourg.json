@@ -1,0 +1,240 @@
+{
+  "club": "스트라스 알자스",
+  "realClub": "RC 스트라스부르 알자스",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/RC_Strasbourg_Alsace",
+  "pilot": false,
+  "players": [
+    {
+      "key": "str-01",
+      "number": 1,
+      "name": "필리프 예르겐센드",
+      "real": "필리프 예르겐센",
+      "pos": "GK",
+      "nation": "덴마크",
+      "birthYear": 2002,
+      "ovr": 76
+    },
+    {
+      "key": "str-02",
+      "number": 4,
+      "name": "제일란드 미첼라",
+      "real": "제일란드 미첼",
+      "pos": "CB",
+      "nation": "코스타리카",
+      "birthYear": 2004,
+      "ovr": 72
+    },
+    {
+      "key": "str-03",
+      "number": 6,
+      "name": "이스마엘 두쿠렌",
+      "real": "이스마엘 두쿠레",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2003,
+      "ovr": 74
+    },
+    {
+      "key": "str-04",
+      "number": 7,
+      "name": "샘 아모아메야운",
+      "real": "샘 아모아메야우",
+      "pos": "RW",
+      "nation": "잉글랜드",
+      "birthYear": 2006,
+      "ovr": 71
+    },
+    {
+      "key": "str-05",
+      "number": 8,
+      "name": "막시 오예델렌",
+      "real": "막시 오예델레",
+      "pos": "CDM",
+      "nation": "폴란드",
+      "birthYear": 2004,
+      "ovr": 73
+    },
+    {
+      "key": "str-06",
+      "number": 9,
+      "name": "호아킨 파니첼린",
+      "real": "호아킨 파니첼리",
+      "pos": "ST",
+      "nation": "아르헨티나",
+      "birthYear": 2002,
+      "ovr": 78
+    },
+    {
+      "key": "str-07",
+      "number": 10,
+      "name": "조바니 레이난",
+      "real": "조바니 레이나",
+      "pos": "CAM",
+      "nation": "미국",
+      "birthYear": 2002,
+      "ovr": 75
+    },
+    {
+      "key": "str-08",
+      "number": 11,
+      "name": "세바스티안 나나신",
+      "real": "세바스티안 나나시",
+      "pos": "LW",
+      "nation": "스웨덴",
+      "birthYear": 2002,
+      "ovr": 75
+    },
+    {
+      "key": "str-09",
+      "number": 12,
+      "name": "미워시 피에쿠토프스킨",
+      "real": "미워시 피에쿠토프스키",
+      "pos": "GK",
+      "nation": "폴란드",
+      "birthYear": 2006,
+      "ovr": 64
+    },
+    {
+      "key": "str-10",
+      "number": 14,
+      "name": "세쿠 마란",
+      "real": "세쿠 마라",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 73
+    },
+    {
+      "key": "str-11",
+      "number": 15,
+      "name": "마테오 델 블랑콘",
+      "real": "마테오 델 블랑코",
+      "pos": "LB",
+      "nation": "아르헨티나",
+      "birthYear": 2003,
+      "ovr": 71
+    },
+    {
+      "key": "str-12",
+      "number": 16,
+      "name": "제네시스 안트윈",
+      "real": "제네시스 안트위",
+      "pos": "RB",
+      "nation": "스웨덴",
+      "birthYear": 2007,
+      "ovr": 66
+    },
+    {
+      "key": "str-13",
+      "number": 19,
+      "name": "파비우 발덴",
+      "real": "파비우 발데",
+      "pos": "LW",
+      "nation": "포르투갈",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "str-14",
+      "number": 20,
+      "name": "마르시알 고돈",
+      "real": "마르시알 고도",
+      "pos": "RW",
+      "nation": "코트디부아르",
+      "birthYear": 2003,
+      "ovr": 73
+    },
+    {
+      "key": "str-15",
+      "number": 21,
+      "name": "파프 뎀바 디오픈",
+      "real": "파프 뎀바 디오프",
+      "pos": "CM",
+      "nation": "세네갈",
+      "birthYear": 2003,
+      "ovr": 72
+    },
+    {
+      "key": "str-16",
+      "number": 23,
+      "name": "디오구 소잔",
+      "real": "디오구 소자",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 2006,
+      "ovr": 68
+    },
+    {
+      "key": "str-17",
+      "number": 24,
+      "name": "루카스 회그스베른",
+      "real": "루카스 회그스베르",
+      "pos": "CB",
+      "nation": "덴마크",
+      "birthYear": 2006,
+      "ovr": 68
+    },
+    {
+      "key": "str-18",
+      "number": 26,
+      "name": "오마리 켈리먼드",
+      "real": "오마리 켈리먼",
+      "pos": "CAM",
+      "nation": "잉글랜드",
+      "birthYear": 2005,
+      "ovr": 71
+    },
+    {
+      "key": "str-19",
+      "number": 29,
+      "name": "사미르 엘 무라베튼",
+      "real": "사미르 엘 무라베트",
+      "pos": "CM",
+      "nation": "모로코",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "str-20",
+      "number": 30,
+      "name": "하코보 오르테간",
+      "real": "하코보 오르테가",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 2006,
+      "ovr": 66
+    },
+    {
+      "key": "str-21",
+      "number": 31,
+      "name": "카림 쿨리발리스",
+      "real": "카림 쿨리발리",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2007,
+      "ovr": 64
+    },
+    {
+      "key": "str-22",
+      "number": 40,
+      "name": "콘라 하르데른",
+      "real": "콘라 하르데르",
+      "pos": "ST",
+      "nation": "덴마크",
+      "birthYear": 2005,
+      "ovr": 74
+    },
+    {
+      "key": "str-23",
+      "number": 80,
+      "name": "제심 야시느",
+      "real": "제심 야신",
+      "pos": "LW",
+      "nation": "모로코",
+      "birthYear": 2005,
+      "ovr": 68
+    }
+  ]
+}

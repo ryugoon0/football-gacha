@@ -1,0 +1,250 @@
+{
+  "club": "파리 캐피탈",
+  "realClub": "파리 생제르맹",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Paris_Saint-Germain_FC",
+  "pilot": false,
+  "players": [
+    {
+      "key": "psg-01",
+      "number": 2,
+      "name": "아슈라프 하키민",
+      "real": "아슈라프 하키미",
+      "pos": "RB",
+      "nation": "모로코",
+      "birthYear": 1998,
+      "ovr": 88
+    },
+    {
+      "key": "psg-02",
+      "number": 4,
+      "name": "루카스 베랄둔",
+      "real": "루카스 베랄두",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 2003,
+      "ovr": 78
+    },
+    {
+      "key": "psg-03",
+      "number": 5,
+      "name": "마르키뉴손",
+      "real": "마르키뉴스",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 1994,
+      "ovr": 83
+    },
+    {
+      "key": "psg-04",
+      "number": 6,
+      "name": "일리야 자바르닌",
+      "real": "일리야 자바르니",
+      "pos": "CB",
+      "nation": "우크라이나",
+      "birthYear": 2002,
+      "ovr": 83
+    },
+    {
+      "key": "psg-05",
+      "number": 7,
+      "name": "흐비차 크바라츠헬리안",
+      "real": "흐비차 크바라츠헬리아",
+      "pos": "LW",
+      "nation": "조지아",
+      "birthYear": 2001,
+      "ovr": 87
+    },
+    {
+      "key": "psg-06",
+      "number": 8,
+      "name": "파비안 루이손",
+      "real": "파비안 루이스",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1996,
+      "ovr": 85
+    },
+    {
+      "key": "psg-07",
+      "number": 9,
+      "name": "페란 토레손",
+      "real": "페란 토레스",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 83
+    },
+    {
+      "key": "psg-08",
+      "number": 10,
+      "name": "우스만 뎀벨렌",
+      "real": "우스만 뎀벨레",
+      "pos": "RW",
+      "nation": "프랑스",
+      "birthYear": 1997,
+      "ovr": 90
+    },
+    {
+      "key": "psg-09",
+      "number": 11,
+      "name": "마근 아클리우슌",
+      "real": "마근 아클리우슈",
+      "pos": "CAM",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 80
+    },
+    {
+      "key": "psg-10",
+      "number": 12,
+      "name": "뤼카 디뉜",
+      "real": "뤼카 디뉴",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 1993,
+      "ovr": 76
+    },
+    {
+      "key": "psg-11",
+      "number": 14,
+      "name": "데지레 두엔",
+      "real": "데지레 두에",
+      "pos": "RW",
+      "nation": "프랑스",
+      "birthYear": 2005,
+      "ovr": 85
+    },
+    {
+      "key": "psg-12",
+      "number": 16,
+      "name": "알레산드로 롱고닌",
+      "real": "알레산드로 롱고니",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 2008,
+      "ovr": 62
+    },
+    {
+      "key": "psg-13",
+      "number": 17,
+      "name": "비티뇬",
+      "real": "비티냐",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 2000,
+      "ovr": 88
+    },
+    {
+      "key": "psg-14",
+      "number": 21,
+      "name": "뤼카 에르난데손",
+      "real": "뤼카 에르난데스",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 1996,
+      "ovr": 78
+    },
+    {
+      "key": "psg-15",
+      "number": 22,
+      "name": "미카 호츠르",
+      "real": "미카 호츠",
+      "pos": "LW",
+      "nation": "벨기에",
+      "birthYear": 2005,
+      "ovr": 77
+    },
+    {
+      "key": "psg-16",
+      "number": 24,
+      "name": "세니 마율룬",
+      "real": "세니 마율루",
+      "pos": "CAM",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 77
+    },
+    {
+      "key": "psg-17",
+      "number": 25,
+      "name": "누누 멘드손",
+      "real": "누누 멘드스",
+      "pos": "LB",
+      "nation": "포르투갈",
+      "birthYear": 2002,
+      "ovr": 85
+    },
+    {
+      "key": "psg-18",
+      "number": 27,
+      "name": "드로 페르난데손",
+      "real": "드로 페르난데스",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2008,
+      "ovr": 70
+    },
+    {
+      "key": "psg-19",
+      "number": 30,
+      "name": "뤼카 슈발리엔",
+      "real": "뤼카 슈발리에",
+      "pos": "GK",
+      "nation": "프랑스",
+      "birthYear": 2001,
+      "ovr": 83
+    },
+    {
+      "key": "psg-20",
+      "number": 33,
+      "name": "워런 자이르에메린",
+      "real": "워런 자이르에메리",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 83
+    },
+    {
+      "key": "psg-21",
+      "number": 39,
+      "name": "마트베이 사포노브스",
+      "real": "마트베이 사포노프",
+      "pos": "GK",
+      "nation": "러시아",
+      "birthYear": 1999,
+      "ovr": 77
+    },
+    {
+      "key": "psg-22",
+      "number": 47,
+      "name": "캉탱 은장툰",
+      "real": "캉탱 은장투",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 2007,
+      "ovr": 66
+    },
+    {
+      "key": "psg-23",
+      "number": 51,
+      "name": "윌리안 파촌",
+      "real": "윌리안 파초",
+      "pos": "CB",
+      "nation": "에콰도르",
+      "birthYear": 2001,
+      "ovr": 85
+    },
+    {
+      "key": "psg-24",
+      "number": 87,
+      "name": "주앙 네베손",
+      "real": "주앙 네베스",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 2004,
+      "ovr": 86
+    }
+  ]
+}

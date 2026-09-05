@@ -1,0 +1,240 @@
+{
+  "club": "툴루즈 비올레",
+  "realClub": "툴루즈 FC",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Toulouse_FC",
+  "pilot": false,
+  "players": [
+    {
+      "key": "tou-01",
+      "number": 2,
+      "name": "라스무스 니콜라이센드",
+      "real": "라스무스 니콜라이센",
+      "pos": "CB",
+      "nation": "덴마크",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "tou-02",
+      "number": 3,
+      "name": "마크 매켄진",
+      "real": "마크 매켄지",
+      "pos": "CB",
+      "nation": "미국",
+      "birthYear": 1999,
+      "ovr": 73
+    },
+    {
+      "key": "tou-03",
+      "number": 5,
+      "name": "세니 쿰바산",
+      "real": "세니 쿰바사",
+      "pos": "RB",
+      "nation": "프랑스",
+      "birthYear": 2007,
+      "ovr": 65
+    },
+    {
+      "key": "tou-04",
+      "number": 6,
+      "name": "알렉시 보산",
+      "real": "알렉시 보사",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2008,
+      "ovr": 63
+    },
+    {
+      "key": "tou-05",
+      "number": 7,
+      "name": "훌리안 비뇰론",
+      "real": "훌리안 비뇰로",
+      "pos": "RW",
+      "nation": "아르헨티나",
+      "birthYear": 2006,
+      "ovr": 68
+    },
+    {
+      "key": "tou-06",
+      "number": 8,
+      "name": "토마스 예르겐센드",
+      "real": "토마스 예르겐센",
+      "pos": "CM",
+      "nation": "덴마크",
+      "birthYear": 2005,
+      "ovr": 69
+    },
+    {
+      "key": "tou-07",
+      "number": 9,
+      "name": "산티아고 이달곤",
+      "real": "산티아고 이달고",
+      "pos": "ST",
+      "nation": "아르헨티나",
+      "birthYear": 2005,
+      "ovr": 70
+    },
+    {
+      "key": "tou-08",
+      "number": 10,
+      "name": "얀 그보혼",
+      "real": "얀 그보호",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 2001,
+      "ovr": 75
+    },
+    {
+      "key": "tou-09",
+      "number": 11,
+      "name": "시온 오퐁드",
+      "real": "시온 오퐁",
+      "pos": "LW",
+      "nation": "스웨덴",
+      "birthYear": 2007,
+      "ovr": 65
+    },
+    {
+      "key": "tou-10",
+      "number": 13,
+      "name": "제이슨 러셀론",
+      "real": "제이슨 러셀로",
+      "pos": "ST",
+      "nation": "캐나다",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "tou-11",
+      "number": 14,
+      "name": "니코 시구른",
+      "real": "니코 시구르",
+      "pos": "CM",
+      "nation": "캐나다",
+      "birthYear": 2003,
+      "ovr": 71
+    },
+    {
+      "key": "tou-12",
+      "number": 15,
+      "name": "아론 되눔드",
+      "real": "아론 되눔",
+      "pos": "RW",
+      "nation": "노르웨이",
+      "birthYear": 1998,
+      "ovr": 73
+    },
+    {
+      "key": "tou-13",
+      "number": 16,
+      "name": "기욤 레스튼",
+      "real": "기욤 레스트",
+      "pos": "GK",
+      "nation": "프랑스",
+      "birthYear": 2005,
+      "ovr": 75
+    },
+    {
+      "key": "tou-14",
+      "number": 17,
+      "name": "아부 프랜시손",
+      "real": "아부 프랜시스",
+      "pos": "CDM",
+      "nation": "가나",
+      "birthYear": 2001,
+      "ovr": 72
+    },
+    {
+      "key": "tou-15",
+      "number": 18,
+      "name": "마티스 아무군",
+      "real": "마티스 아무구",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 70
+    },
+    {
+      "key": "tou-16",
+      "number": 19,
+      "name": "다비트 오도군",
+      "real": "다비트 오도구",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2006,
+      "ovr": 71
+    },
+    {
+      "key": "tou-17",
+      "number": 20,
+      "name": "카스페르 텡스테든",
+      "real": "카스페르 텡스테드",
+      "pos": "ST",
+      "nation": "덴마크",
+      "birthYear": 2000,
+      "ovr": 73
+    },
+    {
+      "key": "tou-18",
+      "number": 22,
+      "name": "라피크 메살린",
+      "real": "라피크 메살리",
+      "pos": "LB",
+      "nation": "알제리",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "tou-19",
+      "number": 23,
+      "name": "크리스티안 카세레손",
+      "real": "크리스티안 카세레스",
+      "pos": "CM",
+      "nation": "베네수엘라",
+      "birthYear": 2000,
+      "ovr": 72
+    },
+    {
+      "key": "tou-20",
+      "number": 30,
+      "name": "나임 사이드 음신드란",
+      "real": "나임 사이드 음신드라",
+      "pos": "GK",
+      "nation": "코모로",
+      "birthYear": 2005,
+      "ovr": 63
+    },
+    {
+      "key": "tou-21",
+      "number": 31,
+      "name": "니클라스 슈미튼",
+      "real": "니클라스 슈미트",
+      "pos": "CAM",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 72
+    },
+    {
+      "key": "tou-22",
+      "number": 37,
+      "name": "일리아스 아지진",
+      "real": "일리아스 아지지",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 2008,
+      "ovr": 62
+    },
+    {
+      "key": "tou-23",
+      "number": 60,
+      "name": "마티스 니플로른",
+      "real": "마티스 니플로르",
+      "pos": "GK",
+      "nation": "프랑스",
+      "birthYear": 2007,
+      "ovr": 62
+    }
+  ]
+}

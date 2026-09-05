@@ -1,0 +1,250 @@
+{
+  "club": "파리 시테",
+  "realClub": "파리 FC",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Paris_FC",
+  "pilot": false,
+  "players": [
+    {
+      "key": "pfc-01",
+      "number": 1,
+      "name": "케빈 트라픈",
+      "real": "케빈 트라프",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1990,
+      "ovr": 76
+    },
+    {
+      "key": "pfc-02",
+      "number": 4,
+      "name": "뱅상 마르케틴",
+      "real": "뱅상 마르케티",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 1997,
+      "ovr": 70
+    },
+    {
+      "key": "pfc-03",
+      "number": 5,
+      "name": "무스타파 음보운",
+      "real": "무스타파 음보우",
+      "pos": "CB",
+      "nation": "세네갈",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "pfc-04",
+      "number": 6,
+      "name": "오타비운",
+      "real": "오타비우",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 2002,
+      "ovr": 73
+    },
+    {
+      "key": "pfc-05",
+      "number": 7,
+      "name": "파블로 파지손",
+      "real": "파블로 파지스",
+      "pos": "CAM",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "pfc-06",
+      "number": 8,
+      "name": "파트리크 자빈",
+      "real": "파트리크 자비",
+      "pos": "CM",
+      "nation": "코트디부아르",
+      "birthYear": 2006,
+      "ovr": 66
+    },
+    {
+      "key": "pfc-07",
+      "number": 9,
+      "name": "라신 시나요콘",
+      "real": "라신 시나요코",
+      "pos": "ST",
+      "nation": "말리",
+      "birthYear": 1999,
+      "ovr": 73
+    },
+    {
+      "key": "pfc-08",
+      "number": 10,
+      "name": "일란 케발라",
+      "real": "일란 케발",
+      "pos": "CAM",
+      "nation": "알제리",
+      "birthYear": 1998,
+      "ovr": 74
+    },
+    {
+      "key": "pfc-09",
+      "number": 11,
+      "name": "장필리프 크라손",
+      "real": "장필리프 크라소",
+      "pos": "ST",
+      "nation": "코트디부아르",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "pfc-10",
+      "number": 14,
+      "name": "아마리 트라오렌",
+      "real": "아마리 트라오레",
+      "pos": "RB",
+      "nation": "말리",
+      "birthYear": 1992,
+      "ovr": 74
+    },
+    {
+      "key": "pfc-11",
+      "number": 15,
+      "name": "루카 콜레오손",
+      "real": "루카 콜레오소",
+      "pos": "LW",
+      "nation": "이탈리아",
+      "birthYear": 2004,
+      "ovr": 72
+    },
+    {
+      "key": "pfc-12",
+      "number": 16,
+      "name": "오베드 은캄바디온",
+      "real": "오베드 은캄바디오",
+      "pos": "GK",
+      "nation": "프랑스",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "pfc-13",
+      "number": 17,
+      "name": "아다마 카마랑",
+      "real": "아다마 카마라",
+      "pos": "CDM",
+      "nation": "프랑스",
+      "birthYear": 1996,
+      "ovr": 70
+    },
+    {
+      "key": "pfc-14",
+      "number": 18,
+      "name": "오마르 시소콘",
+      "real": "오마르 시소코",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 65
+    },
+    {
+      "key": "pfc-15",
+      "number": 19,
+      "name": "노아 상긴",
+      "real": "노아 상기",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 66
+    },
+    {
+      "key": "pfc-16",
+      "number": 21,
+      "name": "막심 로페손",
+      "real": "막심 로페스",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "pfc-17",
+      "number": 23,
+      "name": "뤼디 마통돈",
+      "real": "뤼디 마통도",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2008,
+      "ovr": 62
+    },
+    {
+      "key": "pfc-18",
+      "number": 25,
+      "name": "요안 코렌",
+      "real": "요안 코레",
+      "pos": "RB",
+      "nation": "프랑스",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "pfc-19",
+      "number": 27,
+      "name": "모지스 시몬드",
+      "real": "모지스 시몬",
+      "pos": "LW",
+      "nation": "나이지리아",
+      "birthYear": 1995,
+      "ovr": 74
+    },
+    {
+      "key": "pfc-20",
+      "number": 28,
+      "name": "티보 드 스메튼",
+      "real": "티보 드 스메트",
+      "pos": "LB",
+      "nation": "벨기에",
+      "birthYear": 1998,
+      "ovr": 71
+    },
+    {
+      "key": "pfc-21",
+      "number": 31,
+      "name": "사미르 셰르귄",
+      "real": "사미르 셰르귀",
+      "pos": "CB",
+      "nation": "알제리",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "pfc-22",
+      "number": 33,
+      "name": "피에르 리스멜룬",
+      "real": "피에르 리스멜루",
+      "pos": "CDM",
+      "nation": "프랑스",
+      "birthYear": 1993,
+      "ovr": 73
+    },
+    {
+      "key": "pfc-23",
+      "number": 42,
+      "name": "디에고 코폴란",
+      "real": "디에고 코폴라",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 2003,
+      "ovr": 73
+    },
+    {
+      "key": "pfc-24",
+      "number": 93,
+      "name": "조나탕 이코넨",
+      "real": "조나탕 이코네",
+      "pos": "RW",
+      "nation": "프랑스",
+      "birthYear": 1998,
+      "ovr": 74
+    }
+  ]
+}

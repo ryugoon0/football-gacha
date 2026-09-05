@@ -1,0 +1,260 @@
+{
+  "club": "리옹 골드",
+  "realClub": "올랭피크 리옹",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Olympique_Lyonnais",
+  "pilot": false,
+  "players": [
+    {
+      "key": "lyo-01",
+      "number": 1,
+      "name": "도미니크 그라이픈",
+      "real": "도미니크 그라이프",
+      "pos": "GK",
+      "nation": "슬로바키아",
+      "birthYear": 1997,
+      "ovr": 78
+    },
+    {
+      "key": "lyo-02",
+      "number": 2,
+      "name": "마스 비스트루픈",
+      "real": "마스 비스트루프",
+      "pos": "CM",
+      "nation": "덴마크",
+      "birthYear": 2001,
+      "ovr": 74
+    },
+    {
+      "key": "lyo-03",
+      "number": 3,
+      "name": "니콜라스 탈리아피콘",
+      "real": "니콜라스 탈리아피코",
+      "pos": "LB",
+      "nation": "아르헨티나",
+      "birthYear": 1992,
+      "ovr": 77
+    },
+    {
+      "key": "lyo-04",
+      "number": 6,
+      "name": "태너 테스먼드",
+      "real": "태너 테스먼",
+      "pos": "CM",
+      "nation": "미국",
+      "birthYear": 2001,
+      "ovr": 74
+    },
+    {
+      "key": "lyo-05",
+      "number": 7,
+      "name": "에르네스트 누아만",
+      "real": "에르네스트 누아마",
+      "pos": "RW",
+      "nation": "가나",
+      "birthYear": 2003,
+      "ovr": 76
+    },
+    {
+      "key": "lyo-06",
+      "number": 8,
+      "name": "코랑탱 톨리손",
+      "real": "코랑탱 톨리소",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 1994,
+      "ovr": 79
+    },
+    {
+      "key": "lyo-07",
+      "number": 10,
+      "name": "파벨 슐추",
+      "real": "파벨 슐츠",
+      "pos": "CAM",
+      "nation": "체코",
+      "birthYear": 2000,
+      "ovr": 77
+    },
+    {
+      "key": "lyo-08",
+      "number": 11,
+      "name": "나카무라 게이톤",
+      "real": "나카무라 게이토",
+      "pos": "LW",
+      "nation": "일본",
+      "birthYear": 2000,
+      "ovr": 75
+    },
+    {
+      "key": "lyo-09",
+      "number": 13,
+      "name": "재커리 아테카멘",
+      "real": "재커리 아테카메",
+      "pos": "RB",
+      "nation": "스위스",
+      "birthYear": 2004,
+      "ovr": 73
+    },
+    {
+      "key": "lyo-10",
+      "number": 16,
+      "name": "아브네른",
+      "real": "아브네르",
+      "pos": "LB",
+      "nation": "브라질",
+      "birthYear": 2000,
+      "ovr": 74
+    },
+    {
+      "key": "lyo-11",
+      "number": 17,
+      "name": "루아 오펜단",
+      "real": "루아 오펜다",
+      "pos": "ST",
+      "nation": "벨기에",
+      "birthYear": 2000,
+      "ovr": 80
+    },
+    {
+      "key": "lyo-12",
+      "number": 18,
+      "name": "칼리스 메란",
+      "real": "칼리스 메라",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2007,
+      "ovr": 68
+    },
+    {
+      "key": "lyo-13",
+      "number": 19,
+      "name": "무사 니아카텐",
+      "real": "무사 니아카테",
+      "pos": "CB",
+      "nation": "세네갈",
+      "birthYear": 1996,
+      "ovr": 78
+    },
+    {
+      "key": "lyo-14",
+      "number": 20,
+      "name": "펠릭스 바허스",
+      "real": "펠릭스 바허",
+      "pos": "CB",
+      "nation": "오스트리아",
+      "birthYear": 2000,
+      "ovr": 72
+    },
+    {
+      "key": "lyo-15",
+      "number": 21,
+      "name": "뤼번 클라위베르튼",
+      "real": "뤼번 클라위베르트",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2001,
+      "ovr": 74
+    },
+    {
+      "key": "lyo-16",
+      "number": 22,
+      "name": "클린턴 마탄",
+      "real": "클린턴 마타",
+      "pos": "RB",
+      "nation": "앙골라",
+      "birthYear": 1992,
+      "ovr": 75
+    },
+    {
+      "key": "lyo-17",
+      "number": 23,
+      "name": "타일러 모턴드",
+      "real": "타일러 모턴",
+      "pos": "CDM",
+      "nation": "잉글랜드",
+      "birthYear": 2002,
+      "ovr": 75
+    },
+    {
+      "key": "lyo-18",
+      "number": 24,
+      "name": "쥘리앵 뒤랑빌라",
+      "real": "쥘리앵 뒤랑빌",
+      "pos": "RW",
+      "nation": "벨기에",
+      "birthYear": 2006,
+      "ovr": 74
+    },
+    {
+      "key": "lyo-19",
+      "number": 25,
+      "name": "쥐스탱 벵긴",
+      "real": "쥐스탱 벵기",
+      "pos": "GK",
+      "nation": "프랑스",
+      "birthYear": 2005,
+      "ovr": 63
+    },
+    {
+      "key": "lyo-20",
+      "number": 26,
+      "name": "카일 부다슌",
+      "real": "카일 부다슈",
+      "pos": "LW",
+      "nation": "알제리",
+      "birthYear": 2006,
+      "ovr": 65
+    },
+    {
+      "key": "lyo-21",
+      "number": 39,
+      "name": "마티스 드 카르발룬",
+      "real": "마티스 드 카르발류",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "lyo-22",
+      "number": 40,
+      "name": "레미 데캉드",
+      "real": "레미 데캉",
+      "pos": "GK",
+      "nation": "프랑스",
+      "birthYear": 1996,
+      "ovr": 70
+    },
+    {
+      "key": "lyo-23",
+      "number": 50,
+      "name": "라신 디아란",
+      "real": "라신 디아라",
+      "pos": "GK",
+      "nation": "말리",
+      "birthYear": 2002,
+      "ovr": 64
+    },
+    {
+      "key": "lyo-24",
+      "number": 76,
+      "name": "모하메드 우에드라오곤",
+      "real": "모하메드 우에드라오고",
+      "pos": "CB",
+      "nation": "부르키나파소",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "lyo-25",
+      "number": 99,
+      "name": "노아 나르테인",
+      "real": "노아 나르테이",
+      "pos": "CM",
+      "nation": "덴마크",
+      "birthYear": 2005,
+      "ovr": 65
+    }
+  ]
+}
