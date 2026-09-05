@@ -38,6 +38,17 @@ const meta = {}
 const clubs = []
 const replaced = []
 
+// 가명은 저장소 전체에서 하나여야 한다 — 생성 명단(lib/rosterData.ts)과 수기 명단
+// (lib/players.ts)의 행 `['이름', 'POS', ...]` 에서 이름을 긁어 함께 검사한다. 전에는
+// squads 파일끼리만 봐서 rosterGrowth 테스트에서야 걸렸다.
+const POSITIONS = 'GK|CB|LB|RB|CDM|CM|CAM|LM|RM|LW|RW|ST'
+const takenNames = new Map()
+for (const source of ['lib/rosterData.ts', 'lib/players.ts']) {
+  const text = readFileSync(source, 'utf8')
+  const pattern = new RegExp(`\\['((?:[^'\\\\]|\\\\.)+)',\\s*'(?:${POSITIONS})'`, 'g')
+  for (const match of text.matchAll(pattern)) takenNames.set(match[1].replace(/\\'/g, "'"), source)
+}
+
 const files = readdirSync(DIR).filter((f) => f.endsWith('.json')).sort()
 for (const file of files) {
   const squad = JSON.parse(readFileSync(join(DIR, file), 'utf8'))
@@ -47,6 +58,7 @@ for (const file of files) {
   const numbers = new Set()
   for (const p of squad.players) {
     if (realHints[p.name]) throw new Error(`가명 중복: ${p.name} (${file})`)
+    if (takenNames.has(p.name)) throw new Error(`가명 중복: ${p.name} (${file}) — ${takenNames.get(p.name)} 에 같은 이름이 있습니다`)
     if (!p.key) throw new Error(`${file}: ${p.name} 에 key 가 없습니다`)
     if (p.number !== null && p.number !== undefined) {
       if (numbers.has(p.number)) throw new Error(`${file}: 등번호 중복 ${p.number}`)
