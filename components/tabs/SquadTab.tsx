@@ -154,7 +154,7 @@ export default function SquadTab() {
       {draft.dirty && (
         <div className="sticky top-2 z-30 flex items-center justify-between gap-3 rounded-xl border border-amber-400/40 bg-amber-400/15 px-3 py-2 backdrop-blur lg:col-span-2">
           <div className="min-w-0 text-[11px] text-amber-100">
-            <b>저장하지 않은 변경</b> — 저장하지 않고 다른 탭으로 가면 원래 라인업으로 돌아갑니다.
+            <b>저장하지 않은 변경</b> — 저장하지 않고 다른 탭으로 가거나 게임을 다시 열면 원래 라인업으로 돌아갑니다.
           </div>
           <div className="flex shrink-0 gap-1.5">
             <button onClick={draft.revert} className="rounded-lg btn-ghost px-3 py-1.5 text-xs font-bold">

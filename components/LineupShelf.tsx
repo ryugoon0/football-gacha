@@ -1,18 +1,12 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { lineupDirty } from '../lib/gameReducer'
 import { evaluateSquad } from '../lib/squad'
 import { tacticSummary, type TacticSetup } from '../lib/tactics'
 import type { PhasedTactics } from '../lib/tactics/phases'
 import type { Squad } from '../lib/types'
 import { useGame } from './GameProvider'
-
-/** The working lineup as one value: what 저장 keeps and 되돌리기 goes back to. */
-interface LineupSnapshot {
-  squad: Squad
-  tactic: TacticSetup
-  plan: PhasedTactics
-}
 
 export interface LineupDraft {
   /** The working lineup differs from the last saved one. */
@@ -25,60 +19,42 @@ export interface LineupDraft {
   load: (squad: Squad, tactic: TacticSetup, plan?: PhasedTactics) => void
 }
 
-const sameLineup = (a: LineupSnapshot, b: LineupSnapshot) =>
-  a.squad.formation === b.squad.formation &&
-  JSON.stringify(a.squad.slots) === JSON.stringify(b.squad.slots) &&
-  JSON.stringify(a.squad.bench) === JSON.stringify(b.squad.bench) &&
-  JSON.stringify(a.tactic) === JSON.stringify(b.tactic) &&
-  JSON.stringify(a.plan) === JSON.stringify(b.plan)
-
 /**
- * Treats squad edits as a draft. The lineup as it stood when the tab opened
- * is the baseline; 저장 moves the baseline to the current lineup, and
- * leaving the tab (unmount) with unsaved edits restores the baseline — so a
- * manager who was only trying things out never plays a match with them.
+ * Treats squad edits as a draft on top of the confirmed lineup kept in the
+ * save (`lineupBase`). 저장 confirms the working lineup; leaving the tab with
+ * unsaved edits restores the confirmed one, and so does reopening the game
+ * (lib/storage.ts) — so a manager who was only trying things out never plays
+ * a match with them. Older saves have no confirmed lineup yet: the one found
+ * on opening the tab is confirmed as it is.
  */
 export function useLineupDraft(): LineupDraft {
-  const { state, restoreLineup } = useGame()
-  const current = useMemo<LineupSnapshot>(
-    () => ({ squad: state.squad, tactic: state.tactic, plan: state.plan }),
-    [state.squad, state.tactic, state.plan],
-  )
-  const [baseline, setBaseline] = useState<LineupSnapshot>(current)
-  const dirty = !sameLineup(current, baseline)
+  const { state, restoreLineup, commitLineup } = useGame()
+  const dirty = lineupDirty(state)
+  const hasBase = Boolean(state.lineupBase)
+
+  useEffect(() => {
+    if (!hasBase) commitLineup()
+  }, [hasBase, commitLineup])
 
   // Refs so the unmount cleanup sees the latest values without re-subscribing.
-  const latest = useRef({ current, baseline, restoreLineup })
-  latest.current = { current, baseline, restoreLineup }
+  const latest = useRef({ state, restoreLineup })
+  latest.current = { state, restoreLineup }
   useEffect(
     () => () => {
-      const { current: now, baseline: base, restoreLineup: restore } = latest.current
-      if (!sameLineup(now, base)) restore(base.squad, base.tactic, base.plan)
+      const { state: now, restoreLineup: restore } = latest.current
+      const base = now.lineupBase
+      if (base && lineupDirty(now)) restore(base.squad, base.tactic, base.plan)
     },
     [],
   )
 
-  // A load asks for the *next* lineup to become the baseline: the reducer may
-  // trim it (a sold card), so the baseline is taken from the state it produces.
-  const commitNext = useRef(false)
-  useEffect(() => {
-    if (!commitNext.current) return
-    commitNext.current = false
-    setBaseline(current)
-  }, [current])
-
-  const commit = useCallback(() => {
-    commitNext.current = false
-    setBaseline(latest.current.current)
-  }, [])
+  const commit = useCallback(() => commitLineup(), [commitLineup])
   const revert = useCallback(() => {
-    commitNext.current = false
-    const base = latest.current.baseline
-    latest.current.restoreLineup(base.squad, base.tactic, base.plan)
+    const base = latest.current.state.lineupBase
+    if (base) latest.current.restoreLineup(base.squad, base.tactic, base.plan)
   }, [])
   const load = useCallback((squad: Squad, tactic: TacticSetup, plan?: PhasedTactics) => {
-    commitNext.current = true
-    latest.current.restoreLineup(squad, tactic, plan)
+    latest.current.restoreLineup(squad, tactic, plan, true)
   }, [])
 
   return { dirty, commit, revert, load }

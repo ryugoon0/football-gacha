@@ -134,6 +134,13 @@ export interface SavedLineup {
   savedAt: number
 }
 
+/** The confirmed lineup: what 되돌리기 goes back to. */
+export interface LineupBase {
+  squad: Squad
+  tactic: TacticSetup
+  plan: PhasedTactics
+}
+
 export interface GameState {
   version: number
   club: string
@@ -143,6 +150,12 @@ export interface GameState {
   tactic: TacticSetup
   /** Up to three lineups kept for switching (듀얼 스쿼드); null is an empty shelf. */
   savedLineups?: (SavedLineup | null)[]
+  /**
+   * The lineup the manager last confirmed with 저장. Edits in the squad tab are
+   * a draft on top of it: leaving the tab, or reopening the game, goes back to
+   * this. Absent on older saves — then the current lineup is taken as confirmed.
+   */
+  lineupBase?: LineupBase
   /**
    * The detailed plan: 21 dials plus what changes in each match situation.
    * The four simple dials stay as the quick way in; this is the full version.

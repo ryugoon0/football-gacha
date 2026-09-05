@@ -12,7 +12,7 @@ import { paramsFromSetup } from './tactics/bridge'
 import { normalizePhased, phasedFrom } from './tactics/phases'
 import { BASE_CAPACITY, normalizeCapacity } from './vault'
 import { BENCH_SIZE } from './squad'
-import type { Card, FormationKey, GameState, SavedLineup, Squad } from './types'
+import type { Card, FormationKey, GameState, LineupBase, SavedLineup, Squad } from './types'
 
 /**
  * The card and season model changed shape, so this save lives under a new key:
@@ -182,17 +182,23 @@ export function normalizeSave(value: unknown): GameState | null {
 
   const state = { ...initialState(), ...parsed } as GameState
   const base = initialState()
+  const lineupBase = normalizeLineupBase(state.lineupBase, state.cards)
   return {
     ...state,
+    // Unsaved squad edits do not survive a reload: the confirmed lineup stands.
+    ...(lineupBase ? { squad: lineupBase.squad, tactic: lineupBase.tactic, plan: lineupBase.plan } : {}),
+    lineupBase,
     version: SAVE_VERSION,
     cards: normalizeCards(state.cards),
-    tactic: normalizeTactic(state.tactic),
+    tactic: normalizeTactic(lineupBase?.tactic ?? state.tactic),
     // Saves from before the detailed plan existed get one built from their dials.
-    plan: state.plan
-      ? normalizePhased(state.plan)
-      : phasedFrom(paramsFromSetup(normalizeTactic(state.tactic))),
+    plan: lineupBase
+      ? lineupBase.plan
+      : state.plan
+        ? normalizePhased(state.plan)
+        : phasedFrom(paramsFromSetup(normalizeTactic(state.tactic))),
     capacity: normalizeCapacity(state.capacity),
-    squad: normalizeSquad(state.squad),
+    squad: normalizeSquad(lineupBase?.squad ?? state.squad),
     // The rest of the save is only ever written by the game, but a hand edited
     // file should still not be able to take the screen down.
     gold: Number.isFinite(state.gold) ? Math.max(0, Math.floor(state.gold)) : base.gold,
@@ -217,6 +223,26 @@ export function normalizeSave(value: unknown): GameState | null {
     lastSubs: Array.isArray(state.lastSubs) ? state.lastSubs : [],
     seasonStats: state.seasonStats && typeof state.seasonStats === 'object' ? state.seasonStats : {},
     savedLineups: normalizeSavedLineups(state.savedLineups),
+  }
+}
+
+/**
+ * The confirmed lineup, checked like the working one; a card sold since is
+ * dropped from it. Absent (older saves) stays absent — the squad tab then
+ * confirms whatever lineup it finds.
+ */
+function normalizeLineupBase(value: unknown, cards: unknown): LineupBase | undefined {
+  if (!value || typeof value !== 'object') return undefined
+  const item = value as Partial<LineupBase>
+  if (!item.squad || typeof item.squad !== 'object') return undefined
+  const owned = new Set(Array.isArray(cards) ? (cards as { uid?: unknown }[]).map((card) => card?.uid).filter((uid): uid is string => typeof uid === 'string') : [])
+  const squad = normalizeSquad(item.squad)
+  const slots = Object.fromEntries(Object.entries(squad.slots).map(([slotId, uid]) => [slotId, uid && owned.has(uid) ? uid : null]))
+  const tactic = normalizeTactic(item.tactic)
+  return {
+    squad: { ...squad, slots, bench: squad.bench.map((uid) => (uid && owned.has(uid) ? uid : null)) },
+    tactic,
+    plan: item.plan ? normalizePhased(item.plan) : phasedFrom(paramsFromSetup(tactic)),
   }
 }
 

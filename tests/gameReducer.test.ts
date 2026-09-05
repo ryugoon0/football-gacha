@@ -4,7 +4,7 @@ import { FUSION_FEE, FUSION_SIZE, checkFusion, nextRarity } from '../lib/fusion'
 import { MAX_CONDITION, treatmentCost, recoveryCost } from '../lib/condition'
 import { createCup, myTie } from '../lib/cup'
 import { addExperience, expForLevel, materialExp, trainingFee } from '../lib/growth'
-import { reducer } from '../lib/gameReducer'
+import { lineupDirty, reducer } from '../lib/gameReducer'
 import { MY_TEAM_ID, ROUNDS_PER_SEASON, createSeason, myFixture } from '../lib/league'
 import { PLAYERS_BY_RARITY, getPlayer, levelCap } from '../lib/players'
 import { rollListings, transferPrice } from '../lib/market'
@@ -711,6 +711,26 @@ describe('kept lineups', () => {
     const back = reducer(changed, { type: 'restoreLineup', squad: shelf.squad, tactic: shelf.tactic, plan: shelf.plan })
     expect(back.squad).toEqual(state.squad)
     expect(back.tactic).toEqual(state.tactic)
+  })
+
+  it('confirms a lineup, flags edits as unsaved, and drops a sold card from the confirmed one too', () => {
+    const state = reducer(start(), { type: 'commitLineup' })
+    expect(lineupDirty(state)).toBe(false)
+    const edited = reducer(state, { type: 'clearSlot', slotId: 'gk' })
+    expect(lineupDirty(edited)).toBe(true)
+    const base = edited.lineupBase!
+    const back = reducer(edited, { type: 'restoreLineup', squad: base.squad, tactic: base.tactic, plan: base.plan })
+    expect(lineupDirty(back)).toBe(false)
+    expect(back.squad.slots.gk).toBe(state.squad.slots.gk)
+    // Loading with commit confirms the loaded lineup.
+    const loaded = reducer(edited, { type: 'restoreLineup', squad: edited.squad, tactic: edited.tactic, commit: true })
+    expect(lineupDirty(loaded)).toBe(false)
+    expect(loaded.lineupBase?.squad.slots.gk).toBeNull()
+    // Selling a starter is not an edit to undo.
+    const gk = state.squad.slots.gk!
+    const sold = reducer(state, { type: 'sell', uids: [gk] })
+    expect(sold.lineupBase?.squad.slots.gk).toBeNull()
+    expect(lineupDirty(sold)).toBe(false)
   })
 
   it('empties a slot whose card is gone and refuses a shelf that does not exist', () => {

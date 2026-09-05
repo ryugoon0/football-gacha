@@ -53,10 +53,32 @@ import { paramsFromSetup } from './tactics/bridge'
 import { normalizePhased, phasedFrom, type PhasedTactics } from './tactics/phases'
 import { initialState, newCard, newUid } from './storage'
 import { CAPACITY_STEP, canExpand, expandCost, hasRoomFor } from './vault'
-import type { Card, FormationKey, GameState, MatchResult, PlayerDef, SavedLineup, Squad } from './types'
+import type { Card, FormationKey, GameState, LineupBase, MatchResult, PlayerDef, SavedLineup, Squad } from './types'
 
 /** How many lineups the manager can keep on the shelf (듀얼 스쿼드). */
 export const SAVED_LINEUP_SLOTS = 3
+
+/** A copy of the working lineup, detached from the state it came from. */
+export function lineupBaseOf(state: Pick<GameState, 'squad' | 'tactic' | 'plan'>): LineupBase {
+  return {
+    squad: { formation: state.squad.formation, slots: { ...state.squad.slots }, bench: [...state.squad.bench] },
+    tactic: { ...state.tactic },
+    plan: state.plan,
+  }
+}
+
+/** Whether the working lineup differs from the confirmed one (no confirmed one = nothing to differ from). */
+export function lineupDirty(state: GameState): boolean {
+  const base = state.lineupBase
+  if (!base) return false
+  return (
+    base.squad.formation !== state.squad.formation ||
+    JSON.stringify(base.squad.slots) !== JSON.stringify(state.squad.slots) ||
+    JSON.stringify(base.squad.bench) !== JSON.stringify(state.squad.bench) ||
+    JSON.stringify(base.tactic) !== JSON.stringify(state.tactic) ||
+    JSON.stringify(base.plan) !== JSON.stringify(state.plan)
+  )
+}
 
 export interface RoundResult {
   home: string
@@ -89,8 +111,13 @@ export type Action =
   | { type: 'setPlan'; plan: PhasedTactics }
   | { type: 'setAutoSub'; enabled: boolean }
   | { type: 'autoFill' }
-  /** The whole working lineup at once — undoing unsaved edits, or loading a kept lineup. */
-  | { type: 'restoreLineup'; squad: Squad; tactic: TacticSetup; plan?: PhasedTactics }
+  /**
+   * The whole working lineup at once — undoing unsaved edits, or loading a kept
+   * lineup. `commit` also makes it the confirmed lineup (lineupBase).
+   */
+  | { type: 'restoreLineup'; squad: Squad; tactic: TacticSetup; plan?: PhasedTactics; commit?: boolean }
+  /** 저장: the working lineup becomes the confirmed one. */
+  | { type: 'commitLineup' }
   /** Puts the working lineup on shelf `index` (0..SAVED_LINEUP_SLOTS-1). */
   | { type: 'saveLineup'; index: number; name: string }
   | { type: 'deleteLineup'; index: number }
@@ -169,10 +196,23 @@ function withoutCards(state: GameState, uids: Set<string>): GameState {
     if (slots[slotId] && uids.has(slots[slotId]!)) slots[slotId] = null
   }
   const bench = state.squad.bench.map((uid) => (uid && uids.has(uid) ? null : uid))
+  // The confirmed lineup loses the same cards, so selling one never reads as
+  // an unsaved edit and never comes back on 되돌리기.
+  const base = state.lineupBase
+  const baseSlots = base ? { ...base.squad.slots } : null
+  if (base && baseSlots) {
+    for (const slotId of Object.keys(baseSlots)) {
+      if (baseSlots[slotId] && uids.has(baseSlots[slotId]!)) baseSlots[slotId] = null
+    }
+  }
   return {
     ...state,
     cards: state.cards.filter((card) => !uids.has(card.uid)),
     squad: { ...state.squad, slots, bench },
+    lineupBase:
+      base && baseSlots
+        ? { ...base, squad: { ...base.squad, slots: baseSlots, bench: base.squad.bench.map((uid) => (uid && uids.has(uid) ? null : uid)) } }
+        : base,
   }
 }
 
@@ -457,13 +497,17 @@ export function reducer(state: GameState, action: Action): GameState {
         slots[slotId] = uid && owned.has(uid) ? uid : null
       }
       const bench = action.squad.bench.map((uid) => (uid && owned.has(uid) ? uid : null))
-      return {
+      const restored = {
         ...state,
         squad: { formation: action.squad.formation, slots, bench },
         tactic: action.tactic,
         plan: action.plan ? normalizePhased(action.plan) : phasedFrom(paramsFromSetup(action.tactic), state.plan?.byPhase),
       }
+      return action.commit ? { ...restored, lineupBase: lineupBaseOf(restored) } : restored
     }
+
+    case 'commitLineup':
+      return { ...state, lineupBase: lineupBaseOf(state) }
 
     case 'saveLineup': {
       if (!Number.isInteger(action.index) || action.index < 0 || action.index >= SAVED_LINEUP_SLOTS) return state

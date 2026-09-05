@@ -45,8 +45,10 @@ export interface GameApi {
   assignBench: (index: number, uid: string) => void
   clearBench: (index: number) => void
   autoFillSquad: () => void
-  /** Replace the working lineup wholesale — undo, or load a kept lineup. */
-  restoreLineup: (squad: Squad, tactic: TacticSetup, plan?: PhasedTactics) => void
+  /** Replace the working lineup wholesale — undo, or load a kept lineup (`commit` confirms it too). */
+  restoreLineup: (squad: Squad, tactic: TacticSetup, plan?: PhasedTactics, commit?: boolean) => void
+  /** 저장: the working lineup becomes the confirmed one. */
+  commitLineup: () => void
   saveLineup: (index: number, name: string) => void
   deleteLineup: (index: number) => void
   finishMatch: (
@@ -166,8 +168,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
       assignBench: (index: number, uid: string) => dispatch({ type: 'assignBench', index, uid }),
       clearBench: (index: number) => dispatch({ type: 'clearBench', index }),
       autoFillSquad: () => dispatch({ type: 'autoFill' }),
-      restoreLineup: (squad: Squad, tactic: TacticSetup, plan?: PhasedTactics) =>
-        dispatch({ type: 'restoreLineup', squad, tactic, plan }),
+      restoreLineup: (squad: Squad, tactic: TacticSetup, plan?: PhasedTactics, commit?: boolean) =>
+        dispatch({ type: 'restoreLineup', squad, tactic, plan, commit }),
+      commitLineup: () => dispatch({ type: 'commitLineup' }),
       saveLineup: (index: number, name: string) => dispatch({ type: 'saveLineup', index, name }),
       deleteLineup: (index: number) => dispatch({ type: 'deleteLineup', index }),
       finishMatch: (
