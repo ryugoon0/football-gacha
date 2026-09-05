@@ -3,6 +3,7 @@ import { getSupabase } from './supabase'
 import type { TacticSetup } from './tactics'
 import { emptyMetrics } from './tactics/metrics'
 import type { MatchEvent } from './types'
+import type { ClubSheet } from './weeklyLeague/clubSheet'
 import type { TacticCardId } from './weeklyLeague/tacticCards'
 
 /**
@@ -92,6 +93,27 @@ export interface LiveLineupView {
   subsLeft: number
 }
 
+/** One player's line on the team sheet, both sides — mirrors lib/weeklyLeague/liveReplay.ts sheetsOf. */
+export interface LiveSheetSlot {
+  slotId: string
+  position: string
+  uid: string | null
+  name: string
+  stamina: number | null
+  yellows: number
+  red: boolean
+  goals: number
+  assists: number
+  rating: number | null
+}
+
+export interface LiveSheetView {
+  slots: LiveSheetSlot[]
+  bench: { uid: string; name: string; condition: number }[]
+}
+
+export type LiveSheets = Record<LiveSide, LiveSheetView>
+
 export interface LiveApplied {
   id: number
   side: LiveSide
@@ -116,6 +138,7 @@ export type WeeklyLiveView =
       kickoffAt: string
       secondsToKickoff: number
       lineup: LiveLineupView | null
+      sheets?: LiveSheets
       pending: number
       cardPlayed?: TacticCardId | null
     }
@@ -129,10 +152,20 @@ export type WeeklyLiveView =
       applied: LiveApplied[]
       rejected: LiveRejected[]
       lineup: LiveLineupView | null
+      sheets?: LiveSheets
       pending: number
       cardPlayed?: TacticCardId | null
     }
-  | { status: 'played'; side: LiveSide | null; home: string; away: string; state: LivePublicState; applied?: LiveApplied[]; rejected?: LiveRejected[] }
+  | {
+      status: 'played'
+      side: LiveSide | null
+      home: string
+      away: string
+      state: LivePublicState
+      applied?: LiveApplied[]
+      rejected?: LiveRejected[]
+      sheets?: LiveSheets
+    }
 
 export async function getWeeklyLiveState(
   fixtureId: number,
@@ -147,6 +180,28 @@ export async function getWeeklyLiveState(
     const body = data as ({ ok: true } & WeeklyLiveView) | { ok: false; reason?: string } | null
     if (!body?.ok) return { ok: false, reason: (body && 'reason' in body && body.reason) || 'unavailable' }
     return { ok: true, view: body }
+  } catch {
+    return { ok: false, reason: 'unavailable' }
+  }
+}
+
+/** One club in my group as it stands now — see lib/weeklyLeague/clubSheet.ts. */
+export type { ClubSheet, ClubSheetPlayer } from './weeklyLeague/clubSheet'
+
+export async function fetchWeeklyClubSheet(
+  groupId: number,
+  slot: number,
+): Promise<{ ok: true; club: string; kind: 'user' | 'ai'; sheet: ClubSheet | null } | { ok: false; reason: string }> {
+  const supabase = getSupabase()
+  if (!supabase) return { ok: false, reason: 'offline' }
+  try {
+    const { data, error } = await supabase.functions.invoke('weekly-fixture-live', {
+      body: { action: 'club_sheet', groupId, slot },
+    })
+    if (error) return { ok: false, reason: 'unavailable' }
+    const body = data as { ok?: boolean; reason?: string; club?: string; kind?: 'user' | 'ai'; sheet?: ClubSheet | null } | null
+    if (!body?.ok) return { ok: false, reason: body?.reason ?? 'unavailable' }
+    return { ok: true, club: body.club ?? '', kind: body.kind ?? 'ai', sheet: body.sheet ?? null }
   } catch {
     return { ok: false, reason: 'unavailable' }
   }

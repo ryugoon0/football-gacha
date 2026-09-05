@@ -10,6 +10,7 @@ import {
   matchMinuteAt,
   replayFixture,
   scorersOf,
+  sheetsOf,
   type LiveCommand,
   type LiveSnapshot,
 } from '../lib/weeklyLeague/liveReplay'
@@ -46,6 +47,39 @@ describe('live clock', () => {
     expect(matchMinuteAt(kickoff, kickoff + 2 * LIVE_WINDOW_SECONDS * 1000)).toBe(90)
     expect(liveWindowEnded(kickoff, kickoff + LIVE_WINDOW_SECONDS * 1000 - 1)).toBe(false)
     expect(liveWindowEnded(kickoff, kickoff + LIVE_WINDOW_SECONDS * 1000)).toBe(true)
+  })
+})
+
+describe('team sheets', () => {
+  it('lists both elevens with bookings, legs, goals, assists and a running mark', () => {
+    const snapshot = snapshotOf()
+    const seed = 'sheet-seed'
+    const nameOf = (id: string) => getPlayer(id)?.name ?? id
+    const before = sheetsOf(replayFixture(snapshot, seed, [], 0), seed, nameOf)
+    expect(before.home.slots).toHaveLength(11)
+    expect(before.away.slots).toHaveLength(11)
+    // Nothing has happened yet: full legs, no marks.
+    expect(before.home.slots.every((slot) => slot.rating === null && slot.goals === 0 && slot.yellows === 0)).toBe(true)
+    expect(before.home.bench.length).toBeGreaterThan(0)
+
+    const replay = replayFixture(snapshot, seed, [], 90)
+    const after = sheetsOf(replay, seed, nameOf)
+    const state = replay.state
+    for (const [side, scorers, yellows] of [
+      ['home', state.scorerUids, state.yellowUids],
+      ['away', state.opponentScorerUids, state.opponentYellowUids],
+    ] as const) {
+      const sheet = after[side]
+      // Every mark is a real number and legs have been spent.
+      expect(sheet.slots.every((slot) => slot.rating !== null && slot.rating > 0)).toBe(true)
+      expect(sheet.slots.some((slot) => slot.stamina !== null && slot.stamina < 100)).toBe(true)
+      // Goals and bookings on the sheet add up to the engine's own lists (for players still on).
+      const onPitch = new Set(sheet.slots.map((slot) => slot.uid))
+      const goals = sheet.slots.reduce((sum, slot) => sum + slot.goals, 0)
+      expect(goals).toBe(scorers.filter((uid) => onPitch.has(uid)).length)
+      const cards = sheet.slots.reduce((sum, slot) => sum + slot.yellows, 0)
+      expect(cards).toBe(yellows.filter((uid) => onPitch.has(uid)).length)
+    }
   })
 })
 

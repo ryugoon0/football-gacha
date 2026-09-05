@@ -38,6 +38,9 @@ import {
   scorersOf,
   disciplineOf,
   mvpOf,
+  sheetsOf,
+  clubSheetOf,
+  weeklyAiSquad,
   setTuning,
   toResult,
   type SharedCard,
@@ -414,6 +417,7 @@ const playerNameOf = (id: string) => getPlayer(id)?.name ?? '선수'
 type Body = {
   action?: string
   groupId?: number
+  slot?: number
   fixtureId?: number
   kind?: string
   payload?: unknown
@@ -488,6 +492,33 @@ export async function handle(request: Request, env: Env): Promise<Response> {
     }
 
     // ------------------------------------------------------------------
+    // club_sheet {groupId, slot}: one club's eleven, bench, dials and colours
+    // as they stand now — for the 순위표. Only members of that group may look,
+    // and a real club shows its current save, not a kick-off snapshot.
+    if (body.action === 'club_sheet') {
+      const groupId = Number(body.groupId)
+      const slot = Number(body.slot)
+      if (!Number.isInteger(groupId) || groupId <= 0 || !Number.isInteger(slot) || slot < 0) return refuse('bad request')
+      const membersRes = await fetch(
+        `${url}/rest/v1/weekly_league_members?group_id=eq.${groupId}&select=slot,kind,user_id,club_name,rating`,
+        { headers: server },
+      )
+      if (!membersRes.ok) return refuse('unavailable')
+      const rows = (await membersRes.json()) as { slot: number; kind: 'user' | 'ai'; user_id: string | null; club_name: string; rating: number }[]
+      if (!rows.some((row) => row.kind === 'user' && row.user_id === user.id)) return refuse('not a member')
+      const target = rows.find((row) => row.slot === slot)
+      if (!target) return refuse('not found')
+      if (target.kind === 'user' && target.user_id) {
+        const input = await realSideOf(url, server, target.user_id)
+        if (!input) return json({ ok: true, club: target.club_name, kind: 'user', sheet: null })
+        return json({ ok: true, club: target.club_name, kind: 'user', sheet: clubSheetOf(input.cards, input.squad, input.division, input.tactic) })
+      }
+      const anchor = await aiAnchorFor(url, server, groupId)
+      const ai = weeklyAiSquad(groupId, slot, anchor ?? target.rating)
+      return json({ ok: true, club: target.club_name, kind: 'ai', sheet: clubSheetOf(ai.cards, ai.squad, 5, null) })
+    }
+
+    // ------------------------------------------------------------------
     const fixtureId = Number(body.fixtureId)
     if (!Number.isInteger(fixtureId) || fixtureId <= 0) return refuse('bad fixture')
 
@@ -554,6 +585,10 @@ export async function handle(request: Request, env: Env): Promise<Response> {
           possessionHome: 50,
           events: Array.isArray(fixture.events) ? fixture.events.slice(-PUBLIC_EVENT_LIMIT) : [],
         },
+        // The team sheets need the engine; a fixture the SQL settlement judged has none.
+        sheets: context.engine
+          ? sheetsOf(replayFixture(context.engine.snapshot, context.engine.seed, context.commands, 90), context.engine.seed, playerNameOf)
+          : undefined,
       })
     }
 
@@ -591,6 +626,7 @@ export async function handle(request: Request, env: Env): Promise<Response> {
         kickoffAt: fixture.scheduledAtUtc,
         secondsToKickoff: Math.ceil((scheduledAt - now) / 1000),
         lineup: side ? lineupViewOf(replay, side, playerNameOf) : null,
+        sheets: sheetsOf(replay, engine.seed, playerNameOf),
         pending: side ? context.commands.filter((c) => c.side === side).length : 0,
         cardPlayed: side ? replay.cardPlayed[side] : null,
       })
@@ -609,6 +645,7 @@ export async function handle(request: Request, env: Env): Promise<Response> {
         state: { ...state, events: state.events.slice(-PUBLIC_EVENT_LIMIT) },
         applied: replay.applied,
         rejected: replay.rejected,
+        sheets: sheetsOf(replay, engine.seed, playerNameOf),
       })
     }
 
@@ -626,6 +663,7 @@ export async function handle(request: Request, env: Env): Promise<Response> {
       applied: replay.applied,
       rejected: replay.rejected,
       lineup: side ? lineupViewOf(replay, side, playerNameOf) : null,
+      sheets: sheetsOf(replay, engine.seed, playerNameOf),
       pending: side ? context.commands.filter((c) => c.side === side && !replay.applied.some((a) => a.id === c.id) && !replay.rejected.some((r) => r.id === c.id)).length : 0,
       cardPlayed: side ? replay.cardPlayed[side] : null,
     })

@@ -23,6 +23,8 @@ export {
   scorersOf,
   disciplineOf,
   mvpOf,
+  sheetsOf,
 } from './weeklyLeague/liveReplay'
+export { clubSheetOf } from './weeklyLeague/clubSheet'
 export { getPlayer } from './players'
 export { setTuning, KNOB_KEYS } from './tuning'

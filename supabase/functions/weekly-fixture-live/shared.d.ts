@@ -113,6 +113,22 @@ export interface SharedLineupView {
   subsLeft: number
 }
 
+export interface SharedSheetView {
+  slots: {
+    slotId: string
+    position: string
+    uid: string | null
+    name: string
+    stamina: number | null
+    yellows: number
+    red: boolean
+    goals: number
+    assists: number
+    rating: number | null
+  }[]
+  bench: { uid: string; name: string; condition: number }[]
+}
+
 export interface SharedMatchResult {
   scoreFor: number
   scoreAgainst: number
@@ -183,4 +199,22 @@ export function lineupViewOf(
   side: SharedSide,
   playerNameOf: (playerId: string) => string,
 ): SharedLineupView
+export function sheetsOf(
+  result: SharedReplayResult,
+  seed: string,
+  playerNameOf: (playerId: string) => string,
+): Record<SharedSide, SharedSheetView>
 export function getPlayer(id: string): { name: string } | undefined
+export function weeklyAiSquad(groupId: number, slot: number, targetRating: number): { cards: SharedCard[]; squad: SharedSquad }
+export interface SharedClubSheet {
+  formation: string
+  overall: number
+  att: number
+  mid: number
+  def: number
+  starters: { slotId: string; position: string; playerId: string; name: string; level: number; rating: number; fit: string }[]
+  bench: { playerId: string; name: string; level: number }[]
+  tactic: unknown | null
+  colors: string[]
+}
+export function clubSheetOf(cards: SharedCard[], squad: SharedSquad, division: number, tactic?: unknown | null): SharedClubSheet

@@ -696,6 +696,36 @@ describe('club', () => {
   })
 })
 
+describe('kept lineups', () => {
+  it('saves the working lineup to a shelf and restores it after edits', () => {
+    const state = start()
+    const kept = reducer(state, { type: 'saveLineup', index: 1, name: ' 공격형 ' })
+    expect(kept.savedLineups?.[1]?.name).toBe('공격형')
+    expect(kept.savedLineups?.[1]?.squad.slots).toEqual(state.squad.slots)
+    expect(kept.savedLineups?.[0]).toBeNull()
+
+    // Try things out, then go back to the shelf.
+    const changed = reducer(reducer(kept, { type: 'setFormation', formation: '4-4-2' }), { type: 'clearSlot', slotId: 'gk' })
+    expect(changed.squad.slots.gk).toBeNull()
+    const shelf = changed.savedLineups![1]!
+    const back = reducer(changed, { type: 'restoreLineup', squad: shelf.squad, tactic: shelf.tactic, plan: shelf.plan })
+    expect(back.squad).toEqual(state.squad)
+    expect(back.tactic).toEqual(state.tactic)
+  })
+
+  it('empties a slot whose card is gone and refuses a shelf that does not exist', () => {
+    const state = start()
+    const gk = state.squad.slots.gk!
+    const sold = { ...state, cards: state.cards.filter((item) => item.uid !== gk) }
+    const back = reducer(sold, { type: 'restoreLineup', squad: state.squad, tactic: state.tactic })
+    expect(back.squad.slots.gk).toBeNull()
+    expect(Object.values(back.squad.slots).filter(Boolean)).toHaveLength(10)
+    expect(reducer(state, { type: 'saveLineup', index: 3, name: 'x' })).toBe(state)
+    const cleared = reducer(reducer(state, { type: 'saveLineup', index: 0, name: 'a' }), { type: 'deleteLineup', index: 0 })
+    expect(cleared.savedLineups?.[0]).toBeNull()
+  })
+})
+
 describe('save shape', () => {
   it('starts with a full eleven and unique card ids', () => {
     const state = initialState()

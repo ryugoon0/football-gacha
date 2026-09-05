@@ -53,7 +53,10 @@ import { paramsFromSetup } from './tactics/bridge'
 import { normalizePhased, phasedFrom, type PhasedTactics } from './tactics/phases'
 import { initialState, newCard, newUid } from './storage'
 import { CAPACITY_STEP, canExpand, expandCost, hasRoomFor } from './vault'
-import type { Card, FormationKey, GameState, MatchResult, PlayerDef, Squad } from './types'
+import type { Card, FormationKey, GameState, MatchResult, PlayerDef, SavedLineup, Squad } from './types'
+
+/** How many lineups the manager can keep on the shelf (듀얼 스쿼드). */
+export const SAVED_LINEUP_SLOTS = 3
 
 export interface RoundResult {
   home: string
@@ -86,6 +89,11 @@ export type Action =
   | { type: 'setPlan'; plan: PhasedTactics }
   | { type: 'setAutoSub'; enabled: boolean }
   | { type: 'autoFill' }
+  /** The whole working lineup at once — undoing unsaved edits, or loading a kept lineup. */
+  | { type: 'restoreLineup'; squad: Squad; tactic: TacticSetup; plan?: PhasedTactics }
+  /** Puts the working lineup on shelf `index` (0..SAVED_LINEUP_SLOTS-1). */
+  | { type: 'saveLineup'; index: number; name: string }
+  | { type: 'deleteLineup'; index: number }
   | {
       type: 'match'
       result: MatchResult
@@ -439,6 +447,43 @@ export function reducer(state: GameState, action: Action): GameState {
 
     case 'autoFill':
       return { ...state, squad: autoFill(state.cards, state.squad, state.season.division) }
+
+    case 'restoreLineup': {
+      // Only cards still owned may stand; a kept lineup can name a card sold since.
+      const owned = new Set(state.cards.map((card) => card.uid))
+      const slots = emptySlots(action.squad.formation)
+      for (const slotId of Object.keys(slots)) {
+        const uid = action.squad.slots[slotId]
+        slots[slotId] = uid && owned.has(uid) ? uid : null
+      }
+      const bench = action.squad.bench.map((uid) => (uid && owned.has(uid) ? uid : null))
+      return {
+        ...state,
+        squad: { formation: action.squad.formation, slots, bench },
+        tactic: action.tactic,
+        plan: action.plan ? normalizePhased(action.plan) : phasedFrom(paramsFromSetup(action.tactic), state.plan?.byPhase),
+      }
+    }
+
+    case 'saveLineup': {
+      if (!Number.isInteger(action.index) || action.index < 0 || action.index >= SAVED_LINEUP_SLOTS) return state
+      const shelf: (SavedLineup | null)[] = Array.from({ length: SAVED_LINEUP_SLOTS }, (_, i) => state.savedLineups?.[i] ?? null)
+      shelf[action.index] = {
+        name: action.name.trim().slice(0, 20) || `라인업 ${action.index + 1}`,
+        squad: { formation: state.squad.formation, slots: { ...state.squad.slots }, bench: [...state.squad.bench] },
+        tactic: { ...state.tactic },
+        plan: state.plan,
+        savedAt: Date.now(),
+      }
+      return { ...state, savedLineups: shelf }
+    }
+
+    case 'deleteLineup': {
+      if (!state.savedLineups?.[action.index]) return state
+      const shelf = [...state.savedLineups]
+      shelf[action.index] = null
+      return { ...state, savedLineups: shelf }
+    }
 
     case 'match': {
       if (casualModeLocked(today(state))) return state

@@ -10,8 +10,10 @@ import {
   type WeeklyLiveView,
 } from '../lib/weeklyLive'
 import PitchView from './PitchView'
+import LiveTeamSheet from './LiveTeamSheet'
 import TacticCardHelp from './TacticCardHelp'
 import { isHotTime } from '../lib/weeklyLeague/rewards'
+import { LIVE_REAL_SECONDS_PER_MINUTE } from '../lib/weeklyLeague/liveReplay'
 import { TACTIC_CARDS, TACTIC_CARD_IDS, boostLabel, type TacticCardId } from '../lib/weeklyLeague/tacticCards'
 import { itemCount } from '../lib/items'
 import { useGame } from './GameProvider'
@@ -26,9 +28,32 @@ import { useGame } from './GameProvider'
  * docs/WEEKLY_LIVE_MATCH_DESIGN.md — 2단계. Text feed first; a pitch view
  * can come later, the state it would need is already in `state`.
  */
-/** 10 real seconds = 1 match minute, so 3s live polling never skips a minute; idle screens poll slower. */
-const POLL_MS_LIVE = 3000
+/** Before kick-off the clock only counts down, so a few seconds is plenty; idle screens poll slower. */
+const POLL_MS_PRE = 3000
 const POLL_MS_IDLE = 8000
+const MINUTE_MS = LIVE_REAL_SECONDS_PER_MINUTE * 1000
+/** Discs glide for most of a match minute, so they arrive just as the next position comes in. */
+const GLIDE_MS = MINUTE_MS - 1200
+
+/**
+ * When to ask the server again. Live, the server's positions change once per
+ * match minute (every ten real seconds, on the kick-off clock), so the useful
+ * moment is just after each minute boundary — polling every three seconds
+ * only saw the same minute three times. If the server's minute is behind
+ * what our clock expects (clock skew), retry soon rather than wait a minute.
+ */
+export function nextPollDelay(view: WeeklyLiveView | null, nowMs: number): number {
+  if (!view) return POLL_MS_PRE
+  if (view.status === 'pre') return POLL_MS_PRE
+  if (view.status !== 'live') return POLL_MS_IDLE
+  const kickoff = Date.parse(view.kickoffAt)
+  if (!Number.isFinite(kickoff)) return POLL_MS_PRE
+  const elapsed = Math.max(0, nowMs - kickoff)
+  const expectedMinute = Math.floor(elapsed / MINUTE_MS)
+  if (view.state.minute < expectedMinute) return 1500
+  const untilBoundary = MINUTE_MS - (elapsed % MINUTE_MS)
+  return Math.min(MINUTE_MS + 700, Math.max(1000, untilBoundary + 700))
+}
 
 export default function WeeklyLiveMatch({
   fixtureId,
@@ -54,11 +79,11 @@ export default function WeeklyLiveMatch({
   const [showHelp, setShowHelp] = useState(false)
   const feedRef = useRef<HTMLDivElement | null>(null)
 
-  const refresh = useCallback(async () => {
+  const refresh = useCallback(async (): Promise<WeeklyLiveView | null> => {
     const result = await getWeeklyLiveState(fixtureId)
     if (!result.ok) {
       setError(LIVE_COMMAND_FAILURE_MESSAGE[result.reason] ?? '경기 정보를 불러오지 못했습니다.')
-      return
+      return null
     }
     setError(null)
     setView(result.view)
@@ -66,14 +91,25 @@ export default function WeeklyLiveMatch({
       playedNotified.current = true
       onPlayed?.()
     }
+    return result.view
   }, [fixtureId, onPlayed])
 
-  const pollMs = view?.status === 'live' || view?.status === 'pre' ? POLL_MS_LIVE : POLL_MS_IDLE
+  // One request per match minute, timed to land just after the server's
+  // clock ticks over — see nextPollDelay.
   useEffect(() => {
-    void refresh()
-    const timer = setInterval(() => void refresh(), pollMs)
-    return () => clearInterval(timer)
-  }, [refresh, pollMs])
+    let cancelled = false
+    let timer: ReturnType<typeof setTimeout> | null = null
+    const tick = async () => {
+      const next = await refresh()
+      if (cancelled) return
+      timer = setTimeout(() => void tick(), nextPollDelay(next, Date.now()))
+    }
+    void tick()
+    return () => {
+      cancelled = true
+      if (timer) clearTimeout(timer)
+    }
+  }, [refresh])
 
   useEffect(() => {
     feedRef.current?.scrollTo({ top: feedRef.current.scrollHeight })
@@ -140,6 +176,7 @@ export default function WeeklyLiveMatch({
   }
 
   const events = useMemo(() => (view && 'state' in view ? view.state.events : []), [view])
+  const sheets = view && 'sheets' in view ? view.sheets ?? null : null
 
   return (
     <section className="rounded-2xl border border-emerald-400/30 bg-slate-950/80 p-4">
@@ -182,6 +219,7 @@ export default function WeeklyLiveMatch({
           킥오프 {Math.max(0, view.secondsToKickoff)}초 전 — 라인업이 확정됐습니다. 지금 내리는 지시는 킥오프와 함께 적용됩니다.
         </p>
       )}
+      {view?.status === 'pre' && sheets && <LiveTeamSheet sheets={sheets} home={view.home} away={view.away} mySide={view.side} />}
 
       {view && 'state' in view && (
         <>
@@ -200,7 +238,7 @@ export default function WeeklyLiveMatch({
 
           <div className="mt-3 flex items-center justify-between">
             <span className="text-[11px] text-slate-500">
-              {showPitch ? '바둑판 + 텍스트' : '텍스트만'} · 5초마다 갱신
+              {showPitch ? '바둑판 + 텍스트' : '텍스트만'} · 경기 1분 = 실제 {LIVE_REAL_SECONDS_PER_MINUTE}초
             </span>
             <button
               onClick={() => setShowPitch((value) => !value)}
@@ -211,9 +249,15 @@ export default function WeeklyLiveMatch({
           </div>
           {showPitch && (view.state.home?.length ?? 0) > 0 && (
             <div className="mt-2">
-              <PitchView state={pitchStateOf(view.state)} homeName={view.home} awayName={view.away} />
+              <PitchView
+                state={pitchStateOf(view.state)}
+                homeName={view.home}
+                awayName={view.away}
+                glideMs={view.state.finished ? 200 : GLIDE_MS}
+              />
             </div>
           )}
+          {sheets && <LiveTeamSheet sheets={sheets} home={view.home} away={view.away} mySide={view.side} />}
 
           <div ref={feedRef} className="mt-3 max-h-56 space-y-1 overflow-y-auto rounded-xl bg-black/30 p-2 text-[12px]">
             {events.map((event, index) => (

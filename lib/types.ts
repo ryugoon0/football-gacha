@@ -121,6 +121,19 @@ export interface MatchSummary {
   engineVersion?: string
 }
 
+/**
+ * A lineup the manager put aside to switch to later — eleven, bench,
+ * formation, the four dials and the detailed plan. Three of these can be
+ * kept; loading one replaces the working lineup.
+ */
+export interface SavedLineup {
+  name: string
+  squad: Squad
+  tactic: TacticSetup
+  plan?: PhasedTactics
+  savedAt: number
+}
+
 export interface GameState {
   version: number
   club: string
@@ -128,6 +141,8 @@ export interface GameState {
   cards: Card[]
   squad: Squad
   tactic: TacticSetup
+  /** Up to three lineups kept for switching (듀얼 스쿼드); null is an empty shelf. */
+  savedLineups?: (SavedLineup | null)[]
   /**
    * The detailed plan: 21 dials plus what changes in each match situation.
    * The four simple dials stay as the quick way in; this is the full version.

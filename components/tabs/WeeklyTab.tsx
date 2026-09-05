@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useGame } from '../GameProvider'
 import ModeBadge from '../ModeBadge'
 import WeeklyLiveMatch from '../WeeklyLiveMatch'
+import ClubSheetModal from '../ClubSheetModal'
 import { getSupabase } from '../../lib/supabase'
 import { catchUpWeeklyGroup, claimWeeklyRewards, fetchUnclaimedWeeklyRewards, type WeeklyRewardRow } from '../../lib/weeklyLive'
 import { setAssistantHints } from '../../lib/assistantHints'
@@ -102,6 +103,8 @@ export default function WeeklyTab() {
   const [discipline, setDiscipline] = useState<DisciplineRow[]>([])
   /** The fixture open in the live view (my own matches only). */
   const [openFixture, setOpenFixture] = useState<number | null>(null)
+  /** A club tapped in the 순위표 — its lineup and tactics open in a modal. */
+  const [sheetSlot, setSheetSlot] = useState<number | null>(null)
 
   const userId = account.status === 'signedIn' ? account.user?.id : undefined
 
@@ -504,7 +507,10 @@ export default function WeeklyTab() {
       {sub === 'teamStandings' && (
         <>
           <section className="panel p-4">
-            <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">리그 순위</h3>
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">리그 순위</h3>
+              <span className="text-[10px] text-slate-500">클럽을 누르면 라인업·전술이 보입니다</span>
+            </div>
             {table.length === 0 ? (
               <p className="mt-2 text-xs text-slate-500">아직 정산된 리그 경기가 없습니다.</p>
             ) : (
@@ -532,12 +538,19 @@ export default function WeeklyTab() {
                       >
                         <td className="py-1 pr-2 tabular-nums text-slate-500">{row.rank}</td>
                         <td className="py-1 pr-2 font-bold text-slate-100">
-                          {clubName(Number(row.club))}
-                          {isUserClub(Number(row.club)) && (
-                            <span className="ml-1 rounded bg-sky-400/20 px-1 text-[9px] font-bold text-sky-300">
-                              실유저
-                            </span>
-                          )}
+                          <button
+                            type="button"
+                            onClick={() => setSheetSlot(Number(row.club))}
+                            className="rounded px-1 py-0.5 text-left hover:bg-white/10 hover:text-white"
+                            title="라인업·전술 보기"
+                          >
+                            {clubName(Number(row.club))}
+                            {isUserClub(Number(row.club)) && (
+                              <span className="ml-1 rounded bg-sky-400/20 px-1 text-[9px] font-bold text-sky-300">
+                                실유저
+                              </span>
+                            )}
+                          </button>
                         </td>
                         <td className="py-1 pr-1 text-right tabular-nums">{row.played}</td>
                         <td className="py-1 pr-1 text-right tabular-nums">{row.w}</td>
@@ -554,6 +567,15 @@ export default function WeeklyTab() {
               </div>
             )}
           </section>
+
+          {sheetSlot !== null && (
+            <ClubSheetModal
+              groupId={membership.groupId}
+              slot={sheetSlot}
+              mine={sheetSlot === membership.slot}
+              onClose={() => setSheetSlot(null)}
+            />
+          )}
 
           <section className="panel p-4">
             <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">컵 경기 결과</h3>

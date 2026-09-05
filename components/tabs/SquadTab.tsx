@@ -18,7 +18,9 @@ import {
 } from '../../lib/tactics'
 import { TRAITS, traitsOf } from '../../lib/traits'
 import type { Card, FormationKey, Position } from '../../lib/types'
+import { SAVED_LINEUP_SLOTS } from '../../lib/gameReducer'
 import { useGame } from '../GameProvider'
+import LineupShelf, { useLineupDraft } from '../LineupShelf'
 import TacticsSliders from '../TacticsSliders'
 import TacticsCompare from '../TacticsCompare'
 import PlayerCard from '../PlayerCard'
@@ -52,6 +54,9 @@ export default function SquadTab() {
   // opens the swap list; this opens over it and changes nothing.
   const [inspecting, setInspecting] = useState<string | null>(null)
   const [showColorHelp, setShowColorHelp] = useState(false)
+  // Edits here are a draft until 저장: leaving the tab without saving puts the
+  // lineup back the way it was, so trying things out costs nothing.
+  const draft = useLineupDraft()
 
   const formation = FORMATIONS[state.squad.formation] ?? FORMATIONS['4-3-3']
   const rating = useMemo(
@@ -146,6 +151,21 @@ export default function SquadTab() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
+      {draft.dirty && (
+        <div className="sticky top-2 z-30 flex items-center justify-between gap-3 rounded-xl border border-amber-400/40 bg-amber-400/15 px-3 py-2 backdrop-blur lg:col-span-2">
+          <div className="min-w-0 text-[11px] text-amber-100">
+            <b>저장하지 않은 변경</b> — 저장하지 않고 다른 탭으로 가면 원래 라인업으로 돌아갑니다.
+          </div>
+          <div className="flex shrink-0 gap-1.5">
+            <button onClick={draft.revert} className="rounded-lg btn-ghost px-3 py-1.5 text-xs font-bold">
+              되돌리기
+            </button>
+            <button onClick={draft.commit} className="rounded-lg btn-primary px-3 py-1.5 text-xs font-black">
+              현재 라인업 저장
+            </button>
+          </div>
+        </div>
+      )}
       <section className="panel p-4">
         <div className="mb-4 flex flex-wrap items-center gap-2">
           {FORMATION_KEYS.map((key: FormationKey) => (
@@ -253,6 +273,8 @@ export default function SquadTab() {
       </section>
 
       <div className="space-y-4">
+        <LineupShelf slots={SAVED_LINEUP_SLOTS} draft={draft} />
+
         <section
           className={`rounded-2xl border p-4 ${
             rating.overCap

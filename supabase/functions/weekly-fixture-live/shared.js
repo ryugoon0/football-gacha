@@ -5120,6 +5120,11 @@ var COLOR_TIERS = {
     { count: 18, rating: 4, chemistry: 5 }
   ]
 };
+var COLOR_LABELS = {
+  club: "\uD074\uB7FD",
+  league: "\uB9AC\uADF8",
+  nation: "\uAD6D\uAC00"
+};
 var COLOR_CAPS = { rating: 22, chemistry: 26 };
 function tally(players, pick) {
   const counts = /* @__PURE__ */ new Map();
@@ -5180,6 +5185,15 @@ function teamColors(players) {
       chemistry: Math.min(COLOR_CAPS.chemistry, bonus.chemistry)
     }
   };
+}
+var SELF_LABELLED = ["\uB9AC\uADF8", "\uB9AC\uAC00", "\uCEF5"];
+function colorName(color) {
+  const label = COLOR_LABELS[color.kind];
+  if (color.key.endsWith(label)) return color.key;
+  if (color.kind === "league" && SELF_LABELLED.some((word) => color.key.endsWith(word))) {
+    return color.key;
+  }
+  return `${color.key} ${label}`;
 }
 
 // lib/squad.ts
@@ -6052,6 +6066,78 @@ function lineupViewOf(result, side, playerNameOf) {
   });
   return { slots, bench, subsLeft: Math.max(0, SQUAD_RULES.maxSubsPerMatch - result.subsUsed[side]) };
 }
+function sheetsOf(result, seed, playerNameOf) {
+  const state = result.state;
+  const marks = state.minute > 0 ? ratingsOf(result, seed) : [];
+  const count = (list, uid) => (list ?? []).filter((entry) => entry === uid).length;
+  const sheet = (side) => {
+    const rating = side === "home" ? result.setup.team : result.setup.opponentSquad;
+    const material = side === "home" ? result.home : result.away;
+    const stamina = (side === "home" ? state.stamina : state.opponentStamina) ?? {};
+    const scorers = side === "home" ? state.scorerUids : state.opponentScorerUids;
+    const assists = side === "home" ? state.assistUids : state.opponentAssistUids;
+    const yellows = side === "home" ? state.yellowUids : state.opponentYellowUids;
+    const reds = side === "home" ? state.redUids : state.opponentRedUids;
+    const slots = (rating?.evaluations ?? []).map((item) => {
+      const uid = item.card?.uid ?? null;
+      const playerId = item.card?.playerId;
+      return {
+        slotId: item.slotId,
+        position: item.slotPosition,
+        uid,
+        name: item.player?.name ?? "\uBE48 \uC790\uB9AC",
+        stamina: uid ? stamina[uid] ?? null : null,
+        yellows: uid ? count(yellows, uid) : 0,
+        red: uid ? (reds ?? []).includes(uid) : false,
+        goals: uid ? count(scorers, uid) : 0,
+        assists: uid ? count(assists, uid) : 0,
+        rating: playerId ? marks.find((mark) => mark.side === side && mark.playerId === playerId)?.rating ?? null : null
+      };
+    });
+    const bench = material.squad.bench.filter((uid) => Boolean(uid)).map((uid) => {
+      const card = material.cards.find((entry) => entry.uid === uid);
+      return { uid, name: card ? playerNameOf(card.playerId) : "\uC120\uC218", condition: card?.condition ?? 0 };
+    });
+    return { slots, bench };
+  };
+  return { home: sheet("home"), away: sheet("away") };
+}
+
+// lib/weeklyLeague/clubSheet.ts
+function clubSheetOf(cards, squad, division, tactic) {
+  const rating = evaluateSquad(cards, squad, division);
+  const byUid = new Map(cards.map((card) => [card.uid, card]));
+  const starters = rating.evaluations.flatMap((item) => {
+    if (!item.card || !item.player) return [];
+    return [
+      {
+        slotId: item.slotId,
+        position: item.slotPosition,
+        playerId: item.card.playerId,
+        name: item.player.name,
+        level: item.card.level,
+        rating: Math.round(item.rating),
+        fit: item.fit
+      }
+    ];
+  });
+  const bench = squad.bench.flatMap((uid) => {
+    const card = uid ? byUid.get(uid) : void 0;
+    if (!card) return [];
+    return [{ playerId: card.playerId, name: getPlayer(card.playerId)?.name ?? "\uC120\uC218", level: card.level }];
+  });
+  return {
+    formation: squad.formation,
+    overall: rating.overall,
+    att: rating.att,
+    mid: rating.mid,
+    def: rating.def,
+    starters,
+    bench,
+    tactic: tactic ?? null,
+    colors: rating.colors.active.filter((color) => color.counted).map((color) => colorName(color))
+  };
+}
 export {
   ENGINE_VERSION,
   KNOB_KEYS,
@@ -6059,6 +6145,7 @@ export {
   TACTIC_CARDS,
   TIERS,
   buildWeeklyMatchSetup,
+  clubSheetOf,
   disciplineOf,
   evaluateSquad,
   getPlayer,
@@ -6074,6 +6161,7 @@ export {
   runToEnd,
   scorersOf,
   setTuning,
+  sheetsOf,
   starterAverageOf,
   toResult,
   weeklyAiAnchor,

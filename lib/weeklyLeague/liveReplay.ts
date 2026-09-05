@@ -612,3 +612,68 @@ export function lineupViewOf(
     })
   return { slots, bench, subsLeft: Math.max(0, SQUAD_RULES.maxSubsPerMatch - result.subsUsed[side]) }
 }
+
+/** One player's line on the team sheet as the match stands — both sides see both sheets. */
+export interface LiveSheetSlot {
+  slotId: string
+  position: string
+  uid: string | null
+  name: string
+  stamina: number | null
+  yellows: number
+  red: boolean
+  goals: number
+  assists: number
+  /** Live mark out of ten, the casual-mode formula on the match so far; null before kick-off. */
+  rating: number | null
+}
+
+export interface LiveSheetView {
+  slots: LiveSheetSlot[]
+  bench: { uid: string; name: string; condition: number }[]
+}
+
+/**
+ * Both elevens with what has happened to each player so far: bookings,
+ * legs, goals, assists and a running mark. Nothing here is private — the
+ * bookings and goals are in the public feed already, and the opponent's
+ * legs are what any manager in the stand can see.
+ */
+export function sheetsOf(result: ReplayResult, seed: string, playerNameOf: (playerId: string) => string): Record<LiveSide, LiveSheetView> {
+  const state = result.state
+  const marks = state.minute > 0 ? ratingsOf(result, seed) : []
+  const count = (list: string[] | undefined, uid: string) => (list ?? []).filter((entry) => entry === uid).length
+  const sheet = (side: LiveSide): LiveSheetView => {
+    const rating = side === 'home' ? result.setup.team : result.setup.opponentSquad
+    const material = side === 'home' ? result.home : result.away
+    const stamina = (side === 'home' ? state.stamina : state.opponentStamina) ?? {}
+    const scorers = side === 'home' ? state.scorerUids : state.opponentScorerUids
+    const assists = side === 'home' ? state.assistUids : state.opponentAssistUids
+    const yellows = side === 'home' ? state.yellowUids : state.opponentYellowUids
+    const reds = side === 'home' ? state.redUids : state.opponentRedUids
+    const slots = (rating?.evaluations ?? []).map((item) => {
+      const uid = item.card?.uid ?? null
+      const playerId = item.card?.playerId
+      return {
+        slotId: item.slotId,
+        position: item.slotPosition as string,
+        uid,
+        name: item.player?.name ?? '빈 자리',
+        stamina: uid ? stamina[uid] ?? null : null,
+        yellows: uid ? count(yellows, uid) : 0,
+        red: uid ? (reds ?? []).includes(uid) : false,
+        goals: uid ? count(scorers, uid) : 0,
+        assists: uid ? count(assists, uid) : 0,
+        rating: playerId ? marks.find((mark) => mark.side === side && mark.playerId === playerId)?.rating ?? null : null,
+      }
+    })
+    const bench = material.squad.bench
+      .filter((uid): uid is string => Boolean(uid))
+      .map((uid) => {
+        const card = material.cards.find((entry) => entry.uid === uid)
+        return { uid, name: card ? playerNameOf(card.playerId) : '선수', condition: card?.condition ?? 0 }
+      })
+    return { slots, bench }
+  }
+  return { home: sheet('home'), away: sheet('away') }
+}

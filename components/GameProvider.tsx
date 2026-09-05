@@ -21,7 +21,7 @@ import { exchangeResult, type ShardOffer } from '../lib/shards'
 import type { TacticSetup } from '../lib/tactics'
 import type { PhasedTactics } from '../lib/tactics/phases'
 import { clearSave, initialState, loadState, newCard, saveState } from '../lib/storage'
-import type { Card, FormationKey, GameState, MatchResult, PlayerDef } from '../lib/types'
+import type { Card, FormationKey, GameState, MatchResult, PlayerDef, Squad } from '../lib/types'
 import { useAccountSync, type AccountApi } from './useAccountSync'
 
 export interface GameApi {
@@ -45,6 +45,10 @@ export interface GameApi {
   assignBench: (index: number, uid: string) => void
   clearBench: (index: number) => void
   autoFillSquad: () => void
+  /** Replace the working lineup wholesale — undo, or load a kept lineup. */
+  restoreLineup: (squad: Squad, tactic: TacticSetup, plan?: PhasedTactics) => void
+  saveLineup: (index: number, name: string) => void
+  deleteLineup: (index: number) => void
   finishMatch: (
     result: MatchResult,
     fixture: Fixture,
@@ -162,6 +166,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
       assignBench: (index: number, uid: string) => dispatch({ type: 'assignBench', index, uid }),
       clearBench: (index: number) => dispatch({ type: 'clearBench', index }),
       autoFillSquad: () => dispatch({ type: 'autoFill' }),
+      restoreLineup: (squad: Squad, tactic: TacticSetup, plan?: PhasedTactics) =>
+        dispatch({ type: 'restoreLineup', squad, tactic, plan }),
+      saveLineup: (index: number, name: string) => dispatch({ type: 'saveLineup', index, name }),
+      deleteLineup: (index: number) => dispatch({ type: 'deleteLineup', index }),
       finishMatch: (
         result: MatchResult,
         fixture: Fixture,

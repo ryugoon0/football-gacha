@@ -12,7 +12,7 @@ import { paramsFromSetup } from './tactics/bridge'
 import { normalizePhased, phasedFrom } from './tactics/phases'
 import { BASE_CAPACITY, normalizeCapacity } from './vault'
 import { BENCH_SIZE } from './squad'
-import type { Card, FormationKey, GameState, Squad } from './types'
+import type { Card, FormationKey, GameState, SavedLineup, Squad } from './types'
 
 /**
  * The card and season model changed shape, so this save lives under a new key:
@@ -216,7 +216,24 @@ export function normalizeSave(value: unknown): GameState | null {
     lastRatings: Array.isArray(state.lastRatings) ? state.lastRatings : [],
     lastSubs: Array.isArray(state.lastSubs) ? state.lastSubs : [],
     seasonStats: state.seasonStats && typeof state.seasonStats === 'object' ? state.seasonStats : {},
+    savedLineups: normalizeSavedLineups(state.savedLineups),
   }
+}
+
+/** Three shelves; anything malformed becomes an empty shelf rather than a crash. */
+function normalizeSavedLineups(value: unknown): (SavedLineup | null)[] {
+  const list = Array.isArray(value) ? value : []
+  return Array.from({ length: 3 }, (_, index) => {
+    const item = list[index] as Partial<SavedLineup> | null | undefined
+    if (!item || typeof item !== 'object' || !item.squad) return null
+    return {
+      name: typeof item.name === 'string' && item.name.trim() ? item.name.trim().slice(0, 20) : `라인업 ${index + 1}`,
+      squad: normalizeSquad(item.squad),
+      tactic: normalizeTactic(item.tactic),
+      plan: item.plan ? normalizePhased(item.plan) : undefined,
+      savedAt: Number.isFinite(item.savedAt) ? Number(item.savedAt) : 0,
+    }
+  })
 }
 
 export function loadState(): GameState {
