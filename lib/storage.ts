@@ -12,6 +12,7 @@ import { paramsFromSetup } from './tactics/bridge'
 import { normalizePhased, phasedFrom } from './tactics/phases'
 import { BASE_CAPACITY, normalizeCapacity } from './vault'
 import { BENCH_SIZE } from './squad'
+import { migrateCollection } from './rosterMigration'
 import type { Card, FormationKey, GameState, LineupBase, SavedLineup, Squad } from './types'
 
 /**
@@ -182,7 +183,22 @@ export function normalizeSave(value: unknown): GameState | null {
 
   const state = { ...initialState(), ...parsed } as GameState
   const base = initialState()
-  const lineupBase = normalizeLineupBase(state.lineupBase, state.cards)
+  // Retired generated cards become their club's real-squad cards here, so a
+  // save read anywhere comes out on the current roster (lib/rosterMigration.ts).
+  const migrated = migrateCollection(
+    normalizeCards(Array.isArray(state.cards) ? state.cards : []),
+    Array.isArray(state.collected) ? state.collected : [],
+    normalizeSquad(state.squad),
+  )
+  state.cards = migrated.cards
+  state.collected = migrated.collected
+  state.squad = migrated.squad
+  const lineupBase = normalizeLineupBase(
+    state.lineupBase && migrated.moved > 0
+      ? { ...state.lineupBase, squad: migrateCollection(state.cards, [], normalizeSquad(state.lineupBase.squad)).squad }
+      : state.lineupBase,
+    state.cards,
+  )
   return {
     ...state,
     // Unsaved squad edits do not survive a reload: the confirmed lineup stands.

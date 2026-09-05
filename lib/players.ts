@@ -419,6 +419,7 @@ export function buildPlayer(id: string, fix: PlayerOverride = PLAYER_OVERRIDES[i
   // to a stable draw from the id so the data is never half filled.
   const rng = seededRandom(hashString(id + name))
   const club = CLUBS.find((item) => item.name === clubName) ?? CLUBS[Math.floor(rng() * CLUBS.length)]
+  const retired = !extras?.squad && REPLACED_CLUBS.has(club.name) && !NEVER_RETIRED.has(id)
   return {
     id,
     name,
@@ -432,8 +433,9 @@ export function buildPlayer(id: string, fix: PlayerOverride = PLAYER_OVERRIDES[i
     subStats: fix.subStats,
     hidden: { ...buildHidden(id, rarity), ...(extras?.hidden ?? {}), ...(fix.hidden ?? {}) },
     ovr: computeOvr(stats, slot),
-    unreleased:
-      extras?.unreleased === true || (!extras?.squad && REPLACED_CLUBS.has(club.name) && !NEVER_RETIRED.has(id)) ? true : undefined,
+    unreleased: extras?.unreleased === true || retired ? true : undefined,
+    fromSquad: extras?.squad ? true : undefined,
+    retired: retired ? true : undefined,
   }
 }
 

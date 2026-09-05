@@ -74,6 +74,13 @@ export interface PlayerDef {
   ovr: number
   /** Not yet in packs or the market (a pilot squad awaiting approval). */
   unreleased?: boolean
+  /** Built from a real squad file (data/squads). */
+  fromSquad?: boolean
+  /**
+   * An older generated card whose club now has a real squad: out of the packs,
+   * and owned copies migrate to a squad card on load (lib/rosterMigration.ts).
+   */
+  retired?: boolean
 }
 
 /** An owned copy of a player. Duplicates get their own uid. */
