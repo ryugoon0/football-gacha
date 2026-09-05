@@ -1,0 +1,290 @@
+{
+  "club": "부천 레드",
+  "realClub": "부천 FC 1995",
+  "league": "코리아 리그",
+  "season": "2026 (2026-09-05 기준)",
+  "source": "ko.wikipedia.org/wiki/부천_FC_1995",
+  "pilot": false,
+  "players": [
+    {
+      "key": "buc-01",
+      "number": 1,
+      "name": "김형건",
+      "real": "김형근",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 1994,
+      "ovr": 68
+    },
+    {
+      "key": "buc-02",
+      "number": 3,
+      "name": "패트리크",
+      "real": "패트릭",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 1997,
+      "ovr": 69
+    },
+    {
+      "key": "buc-03",
+      "number": 6,
+      "name": "정호준",
+      "real": "정호진",
+      "pos": "CDM",
+      "nation": "대한민국",
+      "birthYear": 1999,
+      "ovr": 67
+    },
+    {
+      "key": "buc-04",
+      "number": 7,
+      "name": "티아긴요",
+      "real": "티아깅요",
+      "pos": "LW",
+      "nation": "브라질",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "buc-05",
+      "number": 8,
+      "name": "윤빛가름",
+      "real": "윤빛가람",
+      "pos": "CAM",
+      "nation": "대한민국",
+      "birthYear": 1990,
+      "ovr": 71
+    },
+    {
+      "key": "buc-06",
+      "number": 9,
+      "name": "박정윤",
+      "real": "박정인",
+      "pos": "ST",
+      "nation": "대한민국",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "buc-07",
+      "number": 10,
+      "name": "바사닌",
+      "real": "바사니",
+      "pos": "CAM",
+      "nation": "브라질",
+      "birthYear": 1997,
+      "ovr": 70
+    },
+    {
+      "key": "buc-08",
+      "number": 11,
+      "name": "갈레곤",
+      "real": "갈레고",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 1997,
+      "ovr": 70
+    },
+    {
+      "key": "buc-09",
+      "number": 13,
+      "name": "김민춘",
+      "real": "김민준",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2000,
+      "ovr": 67
+    },
+    {
+      "key": "buc-10",
+      "number": 14,
+      "name": "김종위",
+      "real": "김종우",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 1993,
+      "ovr": 68
+    },
+    {
+      "key": "buc-11",
+      "number": 16,
+      "name": "김상전",
+      "real": "김상준",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2001,
+      "ovr": 66
+    },
+    {
+      "key": "buc-12",
+      "number": 17,
+      "name": "김규만",
+      "real": "김규민",
+      "pos": "RW",
+      "nation": "대한민국",
+      "birthYear": 2003,
+      "ovr": 66
+    },
+    {
+      "key": "buc-13",
+      "number": 18,
+      "name": "이의혁",
+      "real": "이의형",
+      "pos": "CAM",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 67
+    },
+    {
+      "key": "buc-14",
+      "number": 19,
+      "name": "성신우",
+      "real": "성신",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2005,
+      "ovr": 64
+    },
+    {
+      "key": "buc-15",
+      "number": 20,
+      "name": "홍성억",
+      "real": "홍성욱",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 2002,
+      "ovr": 66
+    },
+    {
+      "key": "buc-16",
+      "number": 21,
+      "name": "김현협",
+      "real": "김현엽",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 2001,
+      "ovr": 65
+    },
+    {
+      "key": "buc-17",
+      "number": 22,
+      "name": "한지훈",
+      "real": "한지호",
+      "pos": "RW",
+      "nation": "대한민국",
+      "birthYear": 1988,
+      "ovr": 66
+    },
+    {
+      "key": "buc-18",
+      "number": 23,
+      "name": "카주",
+      "real": "카즈",
+      "pos": "CM",
+      "nation": "일본",
+      "birthYear": 1996,
+      "ovr": 68
+    },
+    {
+      "key": "buc-19",
+      "number": 25,
+      "name": "여봉헌",
+      "real": "여봉훈",
+      "pos": "CDM",
+      "nation": "대한민국",
+      "birthYear": 1994,
+      "ovr": 67
+    },
+    {
+      "key": "buc-20",
+      "number": 26,
+      "name": "안태연",
+      "real": "안태현",
+      "pos": "RB",
+      "nation": "대한민국",
+      "birthYear": 1993,
+      "ovr": 68
+    },
+    {
+      "key": "buc-21",
+      "number": 29,
+      "name": "백동균",
+      "real": "백동규",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1991,
+      "ovr": 68
+    },
+    {
+      "key": "buc-22",
+      "number": 63,
+      "name": "가브리엘루",
+      "real": "가브리엘",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "buc-23",
+      "number": 66,
+      "name": "유승훈",
+      "real": "유승현",
+      "pos": "RB",
+      "nation": "대한민국",
+      "birthYear": 2003,
+      "ovr": 65
+    },
+    {
+      "key": "buc-24",
+      "number": 71,
+      "name": "김승반",
+      "real": "김승빈",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2000,
+      "ovr": 65
+    },
+    {
+      "key": "buc-25",
+      "number": 77,
+      "name": "신재훤",
+      "real": "신재원",
+      "pos": "LW",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 67
+    },
+    {
+      "key": "buc-26",
+      "number": 88,
+      "name": "강재운",
+      "real": "강재우",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2000,
+      "ovr": 66
+    },
+    {
+      "key": "buc-27",
+      "number": 93,
+      "name": "이재훤",
+      "real": "이재원",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 2002,
+      "ovr": 65
+    },
+    {
+      "key": "buc-28",
+      "number": 99,
+      "name": "구스타본",
+      "real": "구스타부",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 2000,
+      "ovr": 68
+    }
+  ]
+}

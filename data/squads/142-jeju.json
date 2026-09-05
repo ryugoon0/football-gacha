@@ -1,0 +1,230 @@
+{
+  "club": "제주 오렌지",
+  "realClub": "제주 SK FC",
+  "league": "코리아 리그",
+  "season": "2026 (2026-09-05 기준)",
+  "source": "ko.wikipedia.org/wiki/제주_SK_FC",
+  "pilot": false,
+  "players": [
+    {
+      "key": "jej-01",
+      "number": 1,
+      "name": "김동전",
+      "real": "김동준",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 1994,
+      "ovr": 71
+    },
+    {
+      "key": "jej-02",
+      "number": 2,
+      "name": "토비아손",
+      "real": "토비아스",
+      "pos": "CB",
+      "nation": "포르투갈",
+      "birthYear": 1994,
+      "ovr": 70
+    },
+    {
+      "key": "jej-03",
+      "number": 3,
+      "name": "셀레스티느",
+      "real": "셀레스틴",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 1997,
+      "ovr": 69
+    },
+    {
+      "key": "jej-04",
+      "number": 5,
+      "name": "이탈론",
+      "real": "이탈로",
+      "pos": "CDM",
+      "nation": "브라질",
+      "birthYear": 1997,
+      "ovr": 70
+    },
+    {
+      "key": "jej-05",
+      "number": 7,
+      "name": "박창전",
+      "real": "박창준",
+      "pos": "RW",
+      "nation": "대한민국",
+      "birthYear": 1996,
+      "ovr": 68
+    },
+    {
+      "key": "jej-06",
+      "number": 8,
+      "name": "이창믄",
+      "real": "이창민",
+      "pos": "CAM",
+      "nation": "대한민국",
+      "birthYear": 1994,
+      "ovr": 72
+    },
+    {
+      "key": "jej-07",
+      "number": 9,
+      "name": "아이아손",
+      "real": "아이아스",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 1996,
+      "ovr": 72
+    },
+    {
+      "key": "jej-08",
+      "number": 11,
+      "name": "신상운",
+      "real": "신상은",
+      "pos": "LW",
+      "nation": "대한민국",
+      "birthYear": 1999,
+      "ovr": 68
+    },
+    {
+      "key": "jej-09",
+      "number": 13,
+      "name": "정욘",
+      "real": "정운",
+      "pos": "LB",
+      "nation": "대한민국",
+      "birthYear": 1989,
+      "ovr": 69
+    },
+    {
+      "key": "jej-10",
+      "number": 17,
+      "name": "유인순",
+      "real": "유인수",
+      "pos": "RB",
+      "nation": "대한민국",
+      "birthYear": 1994,
+      "ovr": 69
+    },
+    {
+      "key": "jej-11",
+      "number": 18,
+      "name": "김신지느",
+      "real": "김신진",
+      "pos": "ST",
+      "nation": "대한민국",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "jej-12",
+      "number": 19,
+      "name": "김현욱",
+      "real": "김현우",
+      "pos": "RW",
+      "nation": "대한민국",
+      "birthYear": 1999,
+      "ovr": 68
+    },
+    {
+      "key": "jej-13",
+      "number": 20,
+      "name": "장민귀",
+      "real": "장민규",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1999,
+      "ovr": 68
+    },
+    {
+      "key": "jej-14",
+      "number": 22,
+      "name": "에랄도 치나린",
+      "real": "에랄도 치나리",
+      "pos": "ST",
+      "nation": "알바니아",
+      "birthYear": 1996,
+      "ovr": 70
+    },
+    {
+      "key": "jej-15",
+      "number": 23,
+      "name": "임창욱",
+      "real": "임창우",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1992,
+      "ovr": 69
+    },
+    {
+      "key": "jej-16",
+      "number": 31,
+      "name": "주승믄",
+      "real": "주승민",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 2006,
+      "ovr": 62
+    },
+    {
+      "key": "jej-17",
+      "number": 33,
+      "name": "박수비느",
+      "real": "박수빈",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 1999,
+      "ovr": 67
+    },
+    {
+      "key": "jej-18",
+      "number": 40,
+      "name": "김륜선",
+      "real": "김륜성",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 2002,
+      "ovr": 67
+    },
+    {
+      "key": "jej-19",
+      "number": 41,
+      "name": "김재욱",
+      "real": "김재우",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 68
+    },
+    {
+      "key": "jej-20",
+      "number": 81,
+      "name": "허자운",
+      "real": "허자웅",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 65
+    },
+    {
+      "key": "jej-21",
+      "number": 88,
+      "name": "조인전",
+      "real": "조인정",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2005,
+      "ovr": 63
+    },
+    {
+      "key": "jej-22",
+      "number": 94,
+      "name": "네게반",
+      "real": "네게바",
+      "pos": "LW",
+      "nation": "브라질",
+      "birthYear": 2000,
+      "ovr": 70
+    }
+  ]
+}

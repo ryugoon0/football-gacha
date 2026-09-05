@@ -1,0 +1,300 @@
+{
+  "club": "대전 시티즌",
+  "realClub": "대전 하나 시티즌",
+  "league": "코리아 리그",
+  "season": "2026 (2026-09-05 기준)",
+  "source": "ko.wikipedia.org/wiki/대전_하나_시티즌",
+  "pilot": false,
+  "players": [
+    {
+      "key": "dae-01",
+      "number": 1,
+      "name": "이창건",
+      "real": "이창근",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 1993,
+      "ovr": 72
+    },
+    {
+      "key": "dae-02",
+      "number": 2,
+      "name": "박규혁",
+      "real": "박규현",
+      "pos": "RB",
+      "nation": "대한민국",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "dae-03",
+      "number": 3,
+      "name": "김민석",
+      "real": "김민덕",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1996,
+      "ovr": 70
+    },
+    {
+      "key": "dae-04",
+      "number": 4,
+      "name": "조성건",
+      "real": "조성권",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "dae-05",
+      "number": 5,
+      "name": "임종운",
+      "real": "임종은",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1990,
+      "ovr": 70
+    },
+    {
+      "key": "dae-06",
+      "number": 6,
+      "name": "강윤선",
+      "real": "강윤성",
+      "pos": "LB",
+      "nation": "대한민국",
+      "birthYear": 1997,
+      "ovr": 69
+    },
+    {
+      "key": "dae-07",
+      "number": 7,
+      "name": "마산",
+      "real": "마사",
+      "pos": "RW",
+      "nation": "일본",
+      "birthYear": 1995,
+      "ovr": 72
+    },
+    {
+      "key": "dae-08",
+      "number": 8,
+      "name": "밥시느",
+      "real": "밥신",
+      "pos": "CM",
+      "nation": "브라질",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "dae-09",
+      "number": 9,
+      "name": "디오곤",
+      "real": "디오고",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 1996,
+      "ovr": 73
+    },
+    {
+      "key": "dae-10",
+      "number": 10,
+      "name": "주민귀",
+      "real": "주민규",
+      "pos": "ST",
+      "nation": "대한민국",
+      "birthYear": 1990,
+      "ovr": 75
+    },
+    {
+      "key": "dae-11",
+      "number": 11,
+      "name": "엄원산",
+      "real": "엄원상",
+      "pos": "LW",
+      "nation": "대한민국",
+      "birthYear": 1999,
+      "ovr": 73
+    },
+    {
+      "key": "dae-12",
+      "number": 13,
+      "name": "김진얀",
+      "real": "김진야",
+      "pos": "RB",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 70
+    },
+    {
+      "key": "dae-13",
+      "number": 14,
+      "name": "김준벌",
+      "real": "김준범",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 69
+    },
+    {
+      "key": "dae-14",
+      "number": 16,
+      "name": "이명제",
+      "real": "이명재",
+      "pos": "LB",
+      "nation": "대한민국",
+      "birthYear": 1993,
+      "ovr": 69
+    },
+    {
+      "key": "dae-15",
+      "number": 17,
+      "name": "루빅슨",
+      "real": "루빅손",
+      "pos": "CAM",
+      "nation": "스웨덴",
+      "birthYear": 1993,
+      "ovr": 71
+    },
+    {
+      "key": "dae-16",
+      "number": 19,
+      "name": "서진순",
+      "real": "서진수",
+      "pos": "ST",
+      "nation": "대한민국",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "dae-17",
+      "number": 20,
+      "name": "이현신",
+      "real": "이현식",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 1996,
+      "ovr": 69
+    },
+    {
+      "key": "dae-18",
+      "number": 22,
+      "name": "오재섭",
+      "real": "오재석",
+      "pos": "RB",
+      "nation": "대한민국",
+      "birthYear": 1990,
+      "ovr": 67
+    },
+    {
+      "key": "dae-19",
+      "number": 25,
+      "name": "이준석",
+      "real": "이준서",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 67
+    },
+    {
+      "key": "dae-20",
+      "number": 27,
+      "name": "정재헤",
+      "real": "정재희",
+      "pos": "RW",
+      "nation": "대한민국",
+      "birthYear": 1994,
+      "ovr": 70
+    },
+    {
+      "key": "dae-21",
+      "number": 29,
+      "name": "문건혁",
+      "real": "문건호",
+      "pos": "ST",
+      "nation": "대한민국",
+      "birthYear": 2004,
+      "ovr": 64
+    },
+    {
+      "key": "dae-22",
+      "number": 30,
+      "name": "김봉순",
+      "real": "김봉수",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 1999,
+      "ovr": 68
+    },
+    {
+      "key": "dae-23",
+      "number": 31,
+      "name": "김민순",
+      "real": "김민수",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 2005,
+      "ovr": 63
+    },
+    {
+      "key": "dae-24",
+      "number": 44,
+      "name": "이순밀",
+      "real": "이순민",
+      "pos": "CDM",
+      "nation": "대한민국",
+      "birthYear": 1994,
+      "ovr": 69
+    },
+    {
+      "key": "dae-25",
+      "number": 45,
+      "name": "하창레",
+      "real": "하창래",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1994,
+      "ovr": 70
+    },
+    {
+      "key": "dae-26",
+      "number": 70,
+      "name": "김현옥",
+      "real": "김현욱",
+      "pos": "CAM",
+      "nation": "대한민국",
+      "birthYear": 1995,
+      "ovr": 69
+    },
+    {
+      "key": "dae-27",
+      "number": 77,
+      "name": "주앙 빅토른",
+      "real": "주앙 빅토르",
+      "pos": "LW",
+      "nation": "브라질",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "dae-28",
+      "number": 98,
+      "name": "안토느",
+      "real": "안톤",
+      "pos": "CB",
+      "nation": "우크라이나",
+      "birthYear": 1998,
+      "ovr": 69
+    },
+    {
+      "key": "dae-29",
+      "number": 99,
+      "name": "유강훈",
+      "real": "유강현",
+      "pos": "ST",
+      "nation": "대한민국",
+      "birthYear": 1996,
+      "ovr": 70
+    }
+  ]
+}

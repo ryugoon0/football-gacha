@@ -1,0 +1,260 @@
+{
+  "club": "서울 캐피탈",
+  "realClub": "FC 서울",
+  "league": "코리아 리그",
+  "season": "2026 (2026-09-05 기준)",
+  "source": "ko.wikipedia.org/wiki/FC_서울",
+  "pilot": false,
+  "players": [
+    {
+      "key": "seo-01",
+      "number": 4,
+      "name": "이상믄",
+      "real": "이상민",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 70
+    },
+    {
+      "key": "seo-02",
+      "number": 5,
+      "name": "야잔 알아라븐",
+      "real": "야잔 알아라브",
+      "pos": "CB",
+      "nation": "요르단",
+      "birthYear": 1995,
+      "ovr": 71
+    },
+    {
+      "key": "seo-03",
+      "number": 6,
+      "name": "바베추",
+      "real": "바베츠",
+      "pos": "CDM",
+      "nation": "크로아티아",
+      "birthYear": 1999,
+      "ovr": 72
+    },
+    {
+      "key": "seo-04",
+      "number": 7,
+      "name": "정승훤",
+      "real": "정승원",
+      "pos": "CAM",
+      "nation": "대한민국",
+      "birthYear": 1997,
+      "ovr": 72
+    },
+    {
+      "key": "seo-05",
+      "number": 8,
+      "name": "이승몬",
+      "real": "이승모",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 70
+    },
+    {
+      "key": "seo-06",
+      "number": 9,
+      "name": "클리말란",
+      "real": "클리말라",
+      "pos": "ST",
+      "nation": "폴란드",
+      "birthYear": 1998,
+      "ovr": 73
+    },
+    {
+      "key": "seo-07",
+      "number": 10,
+      "name": "안데르솔",
+      "real": "안데르손",
+      "pos": "LW",
+      "nation": "브라질",
+      "birthYear": 1998,
+      "ovr": 73
+    },
+    {
+      "key": "seo-08",
+      "number": 11,
+      "name": "후이주",
+      "real": "후이즈",
+      "pos": "RW",
+      "nation": "포르투갈",
+      "birthYear": 1996,
+      "ovr": 72
+    },
+    {
+      "key": "seo-09",
+      "number": 16,
+      "name": "최전",
+      "real": "최준",
+      "pos": "RB",
+      "nation": "대한민국",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "seo-10",
+      "number": 17,
+      "name": "안재믄",
+      "real": "안재민",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 2003,
+      "ovr": 66
+    },
+    {
+      "key": "seo-11",
+      "number": 18,
+      "name": "조영운",
+      "real": "조영욱",
+      "pos": "ST",
+      "nation": "대한민국",
+      "birthYear": 1999,
+      "ovr": 71
+    },
+    {
+      "key": "seo-12",
+      "number": 19,
+      "name": "천성헌",
+      "real": "천성훈",
+      "pos": "ST",
+      "nation": "대한민국",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "seo-13",
+      "number": 20,
+      "name": "이한돈",
+      "real": "이한도",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1994,
+      "ovr": 69
+    },
+    {
+      "key": "seo-14",
+      "number": 22,
+      "name": "김진순",
+      "real": "김진수",
+      "pos": "LB",
+      "nation": "대한민국",
+      "birthYear": 1992,
+      "ovr": 72
+    },
+    {
+      "key": "seo-15",
+      "number": 25,
+      "name": "구성운",
+      "real": "구성윤",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 1994,
+      "ovr": 69
+    },
+    {
+      "key": "seo-16",
+      "number": 27,
+      "name": "문선믄",
+      "real": "문선민",
+      "pos": "LW",
+      "nation": "대한민국",
+      "birthYear": 1992,
+      "ovr": 71
+    },
+    {
+      "key": "seo-17",
+      "number": 31,
+      "name": "강현문",
+      "real": "강현무",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 1995,
+      "ovr": 69
+    },
+    {
+      "key": "seo-18",
+      "number": 37,
+      "name": "로손",
+      "real": "로스",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 1996,
+      "ovr": 70
+    },
+    {
+      "key": "seo-19",
+      "number": 40,
+      "name": "박성헌",
+      "real": "박성훈",
+      "pos": "RB",
+      "nation": "대한민국",
+      "birthYear": 2003,
+      "ovr": 65
+    },
+    {
+      "key": "seo-20",
+      "number": 41,
+      "name": "황도윱",
+      "real": "황도윤",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2003,
+      "ovr": 66
+    },
+    {
+      "key": "seo-21",
+      "number": 42,
+      "name": "손정범수",
+      "real": "손정범",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2007,
+      "ovr": 62
+    },
+    {
+      "key": "seo-22",
+      "number": 66,
+      "name": "박수일라",
+      "real": "박수일",
+      "pos": "LB",
+      "nation": "대한민국",
+      "birthYear": 1996,
+      "ovr": 69
+    },
+    {
+      "key": "seo-23",
+      "number": 71,
+      "name": "윤기운",
+      "real": "윤기욱",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 2006,
+      "ovr": 62
+    },
+    {
+      "key": "seo-24",
+      "number": 88,
+      "name": "박장한겨르",
+      "real": "박장한결",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2004,
+      "ovr": 65
+    },
+    {
+      "key": "seo-25",
+      "number": 99,
+      "name": "바똔",
+      "real": "바또",
+      "pos": "ST",
+      "nation": "코트디부아르",
+      "birthYear": 2006,
+      "ovr": 65
+    }
+  ]
+}

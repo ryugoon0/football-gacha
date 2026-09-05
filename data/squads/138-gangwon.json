@@ -1,0 +1,250 @@
+{
+  "club": "강원 알파인",
+  "realClub": "강원 FC",
+  "league": "코리아 리그",
+  "season": "2026 (2026-09-05 기준)",
+  "source": "ko.wikipedia.org/wiki/강원_FC",
+  "pilot": false,
+  "players": [
+    {
+      "key": "gan-01",
+      "number": 1,
+      "name": "박청혁",
+      "real": "박청효",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 1990,
+      "ovr": 68
+    },
+    {
+      "key": "gan-02",
+      "number": 4,
+      "name": "서민운",
+      "real": "서민우",
+      "pos": "CDM",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 69
+    },
+    {
+      "key": "gan-03",
+      "number": 6,
+      "name": "김동헌",
+      "real": "김동현",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 1997,
+      "ovr": 70
+    },
+    {
+      "key": "gan-04",
+      "number": 7,
+      "name": "김대운",
+      "real": "김대원",
+      "pos": "LW",
+      "nation": "대한민국",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "gan-05",
+      "number": 8,
+      "name": "이승훤",
+      "real": "이승원",
+      "pos": "CAM",
+      "nation": "대한민국",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "gan-06",
+      "number": 9,
+      "name": "김건호",
+      "real": "김건희",
+      "pos": "ST",
+      "nation": "대한민국",
+      "birthYear": 1995,
+      "ovr": 70
+    },
+    {
+      "key": "gan-07",
+      "number": 10,
+      "name": "모재훈",
+      "real": "모재현",
+      "pos": "ST",
+      "nation": "대한민국",
+      "birthYear": 1996,
+      "ovr": 70
+    },
+    {
+      "key": "gan-08",
+      "number": 13,
+      "name": "이기협",
+      "real": "이기혁",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2000,
+      "ovr": 68
+    },
+    {
+      "key": "gan-09",
+      "number": 14,
+      "name": "강윤군",
+      "real": "강윤구",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2002,
+      "ovr": 67
+    },
+    {
+      "key": "gan-10",
+      "number": 19,
+      "name": "박상협",
+      "real": "박상혁",
+      "pos": "LW",
+      "nation": "대한민국",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "gan-11",
+      "number": 22,
+      "name": "유병훈",
+      "real": "유병헌",
+      "pos": "ST",
+      "nation": "대한민국",
+      "birthYear": 2006,
+      "ovr": 64
+    },
+    {
+      "key": "gan-12",
+      "number": 23,
+      "name": "강투진",
+      "real": "강투지",
+      "pos": "CB",
+      "nation": "몬테네그로",
+      "birthYear": 1998,
+      "ovr": 71
+    },
+    {
+      "key": "gan-13",
+      "number": 24,
+      "name": "박호연",
+      "real": "박호영",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1999,
+      "ovr": 68
+    },
+    {
+      "key": "gan-14",
+      "number": 27,
+      "name": "김도훈",
+      "real": "김도현",
+      "pos": "RW",
+      "nation": "대한민국",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "gan-15",
+      "number": 33,
+      "name": "홍철우",
+      "real": "홍철",
+      "pos": "LB",
+      "nation": "대한민국",
+      "birthYear": 1990,
+      "ovr": 70
+    },
+    {
+      "key": "gan-16",
+      "number": 41,
+      "name": "김유선",
+      "real": "김유성",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 2005,
+      "ovr": 63
+    },
+    {
+      "key": "gan-17",
+      "number": 47,
+      "name": "신민한",
+      "real": "신민하",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 2005,
+      "ovr": 64
+    },
+    {
+      "key": "gan-18",
+      "number": 51,
+      "name": "조민귀",
+      "real": "조민규",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 2003,
+      "ovr": 63
+    },
+    {
+      "key": "gan-19",
+      "number": 66,
+      "name": "황은창",
+      "real": "황은총",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2006,
+      "ovr": 63
+    },
+    {
+      "key": "gan-20",
+      "number": 71,
+      "name": "강성운",
+      "real": "강성윤",
+      "pos": "LB",
+      "nation": "대한민국",
+      "birthYear": 2003,
+      "ovr": 65
+    },
+    {
+      "key": "gan-21",
+      "number": 77,
+      "name": "아부달란",
+      "real": "아부달라",
+      "pos": "ST",
+      "nation": "이스라엘",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "gan-22",
+      "number": 96,
+      "name": "최병찰",
+      "real": "최병찬",
+      "pos": "RW",
+      "nation": "대한민국",
+      "birthYear": 1996,
+      "ovr": 68
+    },
+    {
+      "key": "gan-23",
+      "number": 97,
+      "name": "이유헌",
+      "real": "이유현",
+      "pos": "RB",
+      "nation": "대한민국",
+      "birthYear": 1997,
+      "ovr": 69
+    },
+    {
+      "key": "gan-24",
+      "number": 99,
+      "name": "강준협",
+      "real": "강준혁",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1999,
+      "ovr": 68
+    }
+  ]
+}

@@ -1,0 +1,300 @@
+{
+  "club": "김천 상록",
+  "realClub": "김천 상무 FC",
+  "league": "코리아 리그",
+  "season": "2026 (2026-09-05 기준)",
+  "source": "ko.wikipedia.org/wiki/김천_상무_FC",
+  "pilot": false,
+  "players": [
+    {
+      "key": "gim-01",
+      "number": 1,
+      "name": "백종범수",
+      "real": "백종범",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "gim-02",
+      "number": 2,
+      "name": "민경헌",
+      "real": "민경현",
+      "pos": "RB",
+      "nation": "대한민국",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "gim-03",
+      "number": 3,
+      "name": "박철운",
+      "real": "박철우",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1997,
+      "ovr": 68
+    },
+    {
+      "key": "gim-04",
+      "number": 4,
+      "name": "김현욱수",
+      "real": "김현우",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1999,
+      "ovr": 69
+    },
+    {
+      "key": "gim-05",
+      "number": 5,
+      "name": "김민귀",
+      "real": "김민규",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 69
+    },
+    {
+      "key": "gim-06",
+      "number": 6,
+      "name": "이수반",
+      "real": "이수빈",
+      "pos": "CDM",
+      "nation": "대한민국",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "gim-07",
+      "number": 7,
+      "name": "고재헌",
+      "real": "고재현",
+      "pos": "RW",
+      "nation": "대한민국",
+      "birthYear": 1999,
+      "ovr": 71
+    },
+    {
+      "key": "gim-08",
+      "number": 8,
+      "name": "김이섭",
+      "real": "김이석",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 68
+    },
+    {
+      "key": "gim-09",
+      "number": 9,
+      "name": "이건호",
+      "real": "이건희",
+      "pos": "ST",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 69
+    },
+    {
+      "key": "gim-10",
+      "number": 10,
+      "name": "전병간",
+      "real": "전병관",
+      "pos": "CAM",
+      "nation": "대한민국",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "gim-11",
+      "number": 11,
+      "name": "김태훤",
+      "real": "김태환",
+      "pos": "RB",
+      "nation": "대한민국",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "gim-12",
+      "number": 14,
+      "name": "박세전",
+      "real": "박세진",
+      "pos": "LB",
+      "nation": "대한민국",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "gim-13",
+      "number": 15,
+      "name": "임덕건",
+      "real": "임덕근",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "gim-14",
+      "number": 17,
+      "name": "김주찰",
+      "real": "김주찬",
+      "pos": "LW",
+      "nation": "대한민국",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "gim-15",
+      "number": 20,
+      "name": "이찬운",
+      "real": "이찬욱",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 2003,
+      "ovr": 66
+    },
+    {
+      "key": "gim-16",
+      "number": 21,
+      "name": "김인건",
+      "real": "김인균",
+      "pos": "LW",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 70
+    },
+    {
+      "key": "gim-17",
+      "number": 26,
+      "name": "이정탁",
+      "real": "이정택",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 67
+    },
+    {
+      "key": "gim-18",
+      "number": 33,
+      "name": "박진섭수",
+      "real": "박진성",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 2001,
+      "ovr": 67
+    },
+    {
+      "key": "gim-19",
+      "number": 37,
+      "name": "문현혼",
+      "real": "문현호",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 2000,
+      "ovr": 65
+    },
+    {
+      "key": "gim-20",
+      "number": 42,
+      "name": "홍시훈",
+      "real": "홍시후",
+      "pos": "LB",
+      "nation": "대한민국",
+      "birthYear": 2001,
+      "ovr": 67
+    },
+    {
+      "key": "gim-21",
+      "number": 43,
+      "name": "김서지느",
+      "real": "김서진",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 2005,
+      "ovr": 64
+    },
+    {
+      "key": "gim-22",
+      "number": 44,
+      "name": "박민석수",
+      "real": "박민서",
+      "pos": "RB",
+      "nation": "대한민국",
+      "birthYear": 2000,
+      "ovr": 67
+    },
+    {
+      "key": "gim-23",
+      "number": 45,
+      "name": "변준석",
+      "real": "변준수",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "gim-24",
+      "number": 46,
+      "name": "정마훈",
+      "real": "정마호",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2005,
+      "ovr": 64
+    },
+    {
+      "key": "gim-25",
+      "number": 47,
+      "name": "이상혁수",
+      "real": "이상헌",
+      "pos": "LW",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 69
+    },
+    {
+      "key": "gim-26",
+      "number": 48,
+      "name": "홍윤산",
+      "real": "홍윤상",
+      "pos": "RW",
+      "nation": "대한민국",
+      "birthYear": 2002,
+      "ovr": 68
+    },
+    {
+      "key": "gim-27",
+      "number": 49,
+      "name": "강민귀",
+      "real": "강민규",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 67
+    },
+    {
+      "key": "gim-28",
+      "number": 51,
+      "name": "안준석",
+      "real": "안준수",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 66
+    },
+    {
+      "key": "gim-29",
+      "number": 53,
+      "name": "노경혼",
+      "real": "노경호",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2000,
+      "ovr": 67
+    }
+  ]
+}

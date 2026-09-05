@@ -1,0 +1,290 @@
+{
+  "club": "포항 스틸맨",
+  "realClub": "포항 스틸러스",
+  "league": "코리아 리그",
+  "season": "2026 (2026-09-05 기준)",
+  "source": "ko.wikipedia.org/wiki/포항_스틸러스",
+  "pilot": false,
+  "players": [
+    {
+      "key": "poh-01",
+      "number": 1,
+      "name": "윤평곡",
+      "real": "윤평국",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 1992,
+      "ovr": 70
+    },
+    {
+      "key": "poh-02",
+      "number": 2,
+      "name": "어정훤",
+      "real": "어정원",
+      "pos": "RB",
+      "nation": "대한민국",
+      "birthYear": 1999,
+      "ovr": 68
+    },
+    {
+      "key": "poh-03",
+      "number": 3,
+      "name": "김예선",
+      "real": "김예성",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1996,
+      "ovr": 68
+    },
+    {
+      "key": "poh-04",
+      "number": 4,
+      "name": "전민괌",
+      "real": "전민광",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1993,
+      "ovr": 69
+    },
+    {
+      "key": "poh-05",
+      "number": 7,
+      "name": "원기전",
+      "real": "원기종",
+      "pos": "RW",
+      "nation": "대한민국",
+      "birthYear": 1996,
+      "ovr": 69
+    },
+    {
+      "key": "poh-06",
+      "number": 9,
+      "name": "안재전",
+      "real": "안재준",
+      "pos": "ST",
+      "nation": "대한민국",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "poh-07",
+      "number": 10,
+      "name": "트란지스칸",
+      "real": "트란지스카",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 2001,
+      "ovr": 71
+    },
+    {
+      "key": "poh-08",
+      "number": 11,
+      "name": "주닝욘",
+      "real": "주닝요",
+      "pos": "LW",
+      "nation": "브라질",
+      "birthYear": 1997,
+      "ovr": 71
+    },
+    {
+      "key": "poh-09",
+      "number": 12,
+      "name": "황재훤",
+      "real": "황재환",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2001,
+      "ovr": 67
+    },
+    {
+      "key": "poh-10",
+      "number": 13,
+      "name": "강민전",
+      "real": "강민준",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 2003,
+      "ovr": 66
+    },
+    {
+      "key": "poh-11",
+      "number": 14,
+      "name": "이창욱",
+      "real": "이창우",
+      "pos": "LB",
+      "nation": "대한민국",
+      "birthYear": 2006,
+      "ovr": 63
+    },
+    {
+      "key": "poh-12",
+      "number": 16,
+      "name": "김동지느",
+      "real": "김동진",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2003,
+      "ovr": 66
+    },
+    {
+      "key": "poh-13",
+      "number": 17,
+      "name": "신광헌",
+      "real": "신광훈",
+      "pos": "RB",
+      "nation": "대한민국",
+      "birthYear": 1987,
+      "ovr": 69
+    },
+    {
+      "key": "poh-14",
+      "number": 18,
+      "name": "조상협",
+      "real": "조상혁",
+      "pos": "LW",
+      "nation": "대한민국",
+      "birthYear": 2004,
+      "ovr": 65
+    },
+    {
+      "key": "poh-15",
+      "number": 20,
+      "name": "박찬욘",
+      "real": "박찬용",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1996,
+      "ovr": 69
+    },
+    {
+      "key": "poh-16",
+      "number": 21,
+      "name": "황인제",
+      "real": "황인재",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 1994,
+      "ovr": 68
+    },
+    {
+      "key": "poh-17",
+      "number": 25,
+      "name": "조르진",
+      "real": "조르지",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "poh-18",
+      "number": 29,
+      "name": "홍성믄",
+      "real": "홍성민",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 2006,
+      "ovr": 62
+    },
+    {
+      "key": "poh-19",
+      "number": 30,
+      "name": "김용혁",
+      "real": "김용학",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2003,
+      "ovr": 66
+    },
+    {
+      "key": "poh-20",
+      "number": 31,
+      "name": "니시야 켄톤",
+      "real": "니시야 켄토",
+      "pos": "CAM",
+      "nation": "일본",
+      "birthYear": 1999,
+      "ovr": 69
+    },
+    {
+      "key": "poh-21",
+      "number": 33,
+      "name": "조성운",
+      "real": "조성욱",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1995,
+      "ovr": 68
+    },
+    {
+      "key": "poh-22",
+      "number": 34,
+      "name": "백승훤",
+      "real": "백승원",
+      "pos": "ST",
+      "nation": "대한민국",
+      "birthYear": 2006,
+      "ovr": 63
+    },
+    {
+      "key": "poh-23",
+      "number": 36,
+      "name": "김호지느",
+      "real": "김호진",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 2005,
+      "ovr": 63
+    },
+    {
+      "key": "poh-24",
+      "number": 37,
+      "name": "정한믄",
+      "real": "정한민",
+      "pos": "ST",
+      "nation": "대한민국",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "poh-25",
+      "number": 40,
+      "name": "기성욘",
+      "real": "기성용",
+      "pos": "CDM",
+      "nation": "대한민국",
+      "birthYear": 1989,
+      "ovr": 73
+    },
+    {
+      "key": "poh-26",
+      "number": 70,
+      "name": "황서운",
+      "real": "황서웅",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2005,
+      "ovr": 63
+    },
+    {
+      "key": "poh-27",
+      "number": 77,
+      "name": "완델솔",
+      "real": "완델손",
+      "pos": "LW",
+      "nation": "브라질",
+      "birthYear": 1989,
+      "ovr": 70
+    },
+    {
+      "key": "poh-28",
+      "number": 91,
+      "name": "권능수",
+      "real": "권능",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 2005,
+      "ovr": 62
+    }
+  ]
+}

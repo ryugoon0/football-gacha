@@ -1,0 +1,250 @@
+{
+  "club": "인천 유나이트",
+  "realClub": "인천 유나이티드",
+  "league": "코리아 리그",
+  "season": "2026 (2026-09-05 기준)",
+  "source": "ko.wikipedia.org/wiki/인천_유나이티드",
+  "pilot": false,
+  "players": [
+    {
+      "key": "inc-01",
+      "number": 1,
+      "name": "김동혁",
+      "real": "김동헌",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 1997,
+      "ovr": 70
+    },
+    {
+      "key": "inc-02",
+      "number": 2,
+      "name": "후안 이비잔",
+      "real": "후안 이비자",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 1995,
+      "ovr": 71
+    },
+    {
+      "key": "inc-03",
+      "number": 3,
+      "name": "이상긴",
+      "real": "이상기",
+      "pos": "RB",
+      "nation": "대한민국",
+      "birthYear": 1996,
+      "ovr": 68
+    },
+    {
+      "key": "inc-04",
+      "number": 4,
+      "name": "김건히",
+      "real": "김건희",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 2002,
+      "ovr": 67
+    },
+    {
+      "key": "inc-05",
+      "number": 5,
+      "name": "이명준",
+      "real": "이명주",
+      "pos": "CDM",
+      "nation": "대한민국",
+      "birthYear": 1990,
+      "ovr": 71
+    },
+    {
+      "key": "inc-06",
+      "number": 6,
+      "name": "문지훤",
+      "real": "문지환",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1994,
+      "ovr": 69
+    },
+    {
+      "key": "inc-07",
+      "number": 7,
+      "name": "오후섬",
+      "real": "오후성",
+      "pos": "RW",
+      "nation": "대한민국",
+      "birthYear": 1999,
+      "ovr": 68
+    },
+    {
+      "key": "inc-08",
+      "number": 9,
+      "name": "무고산",
+      "real": "무고사",
+      "pos": "ST",
+      "nation": "몬테네그로",
+      "birthYear": 1992,
+      "ovr": 73
+    },
+    {
+      "key": "inc-09",
+      "number": 10,
+      "name": "이동륜",
+      "real": "이동률",
+      "pos": "LW",
+      "nation": "대한민국",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "inc-10",
+      "number": 11,
+      "name": "제르손드",
+      "real": "제르소",
+      "pos": "LW",
+      "nation": "기니비사우",
+      "birthYear": 1991,
+      "ovr": 70
+    },
+    {
+      "key": "inc-11",
+      "number": 14,
+      "name": "백민귀",
+      "real": "백민규",
+      "pos": "ST",
+      "nation": "대한민국",
+      "birthYear": 2005,
+      "ovr": 64
+    },
+    {
+      "key": "inc-12",
+      "number": 15,
+      "name": "서재믄",
+      "real": "서재민",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2003,
+      "ovr": 66
+    },
+    {
+      "key": "inc-13",
+      "number": 17,
+      "name": "김성믄",
+      "real": "김성민",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 2000,
+      "ovr": 67
+    },
+    {
+      "key": "inc-14",
+      "number": 21,
+      "name": "이태히",
+      "real": "이태희",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 1995,
+      "ovr": 67
+    },
+    {
+      "key": "inc-15",
+      "number": 23,
+      "name": "정치인수",
+      "real": "정치인",
+      "pos": "ST",
+      "nation": "대한민국",
+      "birthYear": 1997,
+      "ovr": 68
+    },
+    {
+      "key": "inc-16",
+      "number": 26,
+      "name": "이민협",
+      "real": "이민혁",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2002,
+      "ovr": 66
+    },
+    {
+      "key": "inc-17",
+      "number": 27,
+      "name": "여승훤",
+      "real": "여승원",
+      "pos": "LB",
+      "nation": "대한민국",
+      "birthYear": 2000,
+      "ovr": 67
+    },
+    {
+      "key": "inc-18",
+      "number": 28,
+      "name": "김연순",
+      "real": "김연수",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1993,
+      "ovr": 69
+    },
+    {
+      "key": "inc-19",
+      "number": 32,
+      "name": "이주욘",
+      "real": "이주용",
+      "pos": "LB",
+      "nation": "대한민국",
+      "birthYear": 1992,
+      "ovr": 68
+    },
+    {
+      "key": "inc-20",
+      "number": 39,
+      "name": "김명선",
+      "real": "김명순",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2000,
+      "ovr": 66
+    },
+    {
+      "key": "inc-21",
+      "number": 72,
+      "name": "이청욘",
+      "real": "이청용",
+      "pos": "RW",
+      "nation": "대한민국",
+      "birthYear": 1988,
+      "ovr": 70
+    },
+    {
+      "key": "inc-22",
+      "number": 77,
+      "name": "박승혼",
+      "real": "박승호",
+      "pos": "LW",
+      "nation": "대한민국",
+      "birthYear": 2003,
+      "ovr": 66
+    },
+    {
+      "key": "inc-23",
+      "number": 88,
+      "name": "정원지느",
+      "real": "정원진",
+      "pos": "CAM",
+      "nation": "대한민국",
+      "birthYear": 1994,
+      "ovr": 69
+    },
+    {
+      "key": "inc-24",
+      "number": 99,
+      "name": "모건 페리언",
+      "real": "모건 페리어",
+      "pos": "ST",
+      "nation": "가이아나",
+      "birthYear": 1994,
+      "ovr": 69
+    }
+  ]
+}

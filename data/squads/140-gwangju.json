@@ -1,0 +1,220 @@
+{
+  "club": "광주 라이트",
+  "realClub": "광주 FC",
+  "league": "코리아 리그",
+  "season": "2026 (2026-09-05 기준)",
+  "source": "ko.wikipedia.org/wiki/광주_FC",
+  "pilot": false,
+  "players": [
+    {
+      "key": "gwa-01",
+      "number": 1,
+      "name": "김경믄",
+      "real": "김경민",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 1991,
+      "ovr": 70
+    },
+    {
+      "key": "gwa-02",
+      "number": 2,
+      "name": "장석훤",
+      "real": "장석환",
+      "pos": "RB",
+      "nation": "대한민국",
+      "birthYear": 2004,
+      "ovr": 65
+    },
+    {
+      "key": "gwa-03",
+      "number": 3,
+      "name": "이민긴",
+      "real": "이민기",
+      "pos": "LB",
+      "nation": "대한민국",
+      "birthYear": 1993,
+      "ovr": 69
+    },
+    {
+      "key": "gwa-04",
+      "number": 6,
+      "name": "안영귀",
+      "real": "안영규",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1989,
+      "ovr": 69
+    },
+    {
+      "key": "gwa-05",
+      "number": 8,
+      "name": "주세정",
+      "real": "주세종",
+      "pos": "CDM",
+      "nation": "대한민국",
+      "birthYear": 1990,
+      "ovr": 71
+    },
+    {
+      "key": "gwa-06",
+      "number": 9,
+      "name": "하승윤",
+      "real": "하승운",
+      "pos": "LW",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 70
+    },
+    {
+      "key": "gwa-07",
+      "number": 10,
+      "name": "최경룩",
+      "real": "최경록",
+      "pos": "CAM",
+      "nation": "대한민국",
+      "birthYear": 1995,
+      "ovr": 71
+    },
+    {
+      "key": "gwa-08",
+      "number": 11,
+      "name": "프리드욘손드",
+      "real": "프리드욘슨",
+      "pos": "ST",
+      "nation": "아이슬란드",
+      "birthYear": 1993,
+      "ovr": 71
+    },
+    {
+      "key": "gwa-09",
+      "number": 14,
+      "name": "유제혼",
+      "real": "유제호",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2000,
+      "ovr": 67
+    },
+    {
+      "key": "gwa-10",
+      "number": 16,
+      "name": "정지훤",
+      "real": "정지훈",
+      "pos": "RW",
+      "nation": "대한민국",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "gwa-11",
+      "number": 18,
+      "name": "아이데일라",
+      "real": "아이데일",
+      "pos": "ST",
+      "nation": "호주",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "gwa-12",
+      "number": 19,
+      "name": "안혁준",
+      "real": "안혁주",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2004,
+      "ovr": 65
+    },
+    {
+      "key": "gwa-13",
+      "number": 20,
+      "name": "임승검",
+      "real": "임승겸",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1995,
+      "ovr": 69
+    },
+    {
+      "key": "gwa-14",
+      "number": 22,
+      "name": "권성운",
+      "real": "권성윤",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2001,
+      "ovr": 66
+    },
+    {
+      "key": "gwa-15",
+      "number": 33,
+      "name": "박원제",
+      "real": "박원재",
+      "pos": "RB",
+      "nation": "대한민국",
+      "birthYear": 1994,
+      "ovr": 68
+    },
+    {
+      "key": "gwa-16",
+      "number": 37,
+      "name": "리영진",
+      "real": "리영직",
+      "pos": "CM",
+      "nation": "조선민주주의인민공화국",
+      "birthYear": 1991,
+      "ovr": 69
+    },
+    {
+      "key": "gwa-17",
+      "number": 39,
+      "name": "민상긴",
+      "real": "민상기",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1991,
+      "ovr": 69
+    },
+    {
+      "key": "gwa-18",
+      "number": 40,
+      "name": "신창문",
+      "real": "신창무",
+      "pos": "LW",
+      "nation": "대한민국",
+      "birthYear": 1992,
+      "ovr": 68
+    },
+    {
+      "key": "gwa-19",
+      "number": 50,
+      "name": "바루안",
+      "real": "바루아",
+      "pos": "ST",
+      "nation": "코트디부아르",
+      "birthYear": 1996,
+      "ovr": 70
+    },
+    {
+      "key": "gwa-20",
+      "number": 79,
+      "name": "정규믄",
+      "real": "정규민",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 1995,
+      "ovr": 68
+    },
+    {
+      "key": "gwa-21",
+      "number": 88,
+      "name": "문민석",
+      "real": "문민서",
+      "pos": "CAM",
+      "nation": "대한민국",
+      "birthYear": 2004,
+      "ovr": 65
+    }
+  ]
+}

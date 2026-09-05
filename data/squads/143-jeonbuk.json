@@ -1,0 +1,300 @@
+{
+  "club": "전북 모터스",
+  "realClub": "전북 현대 모터스",
+  "league": "코리아 리그",
+  "season": "2026 (2026-09-05 기준)",
+  "source": "ko.wikipedia.org/wiki/전북_현대_모터스",
+  "pilot": false,
+  "players": [
+    {
+      "key": "jbk-01",
+      "number": 1,
+      "name": "이주혠",
+      "real": "이주현",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 69
+    },
+    {
+      "key": "jbk-02",
+      "number": 2,
+      "name": "김영비느",
+      "real": "김영빈",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1991,
+      "ovr": 71
+    },
+    {
+      "key": "jbk-03",
+      "number": 3,
+      "name": "연제욘",
+      "real": "연제운",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1994,
+      "ovr": 70
+    },
+    {
+      "key": "jbk-04",
+      "number": 4,
+      "name": "조위젠",
+      "real": "조위제",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "jbk-05",
+      "number": 5,
+      "name": "박지순",
+      "real": "박지수",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1994,
+      "ovr": 71
+    },
+    {
+      "key": "jbk-06",
+      "number": 6,
+      "name": "맹성융",
+      "real": "맹성웅",
+      "pos": "CDM",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 70
+    },
+    {
+      "key": "jbk-07",
+      "number": 7,
+      "name": "이동전",
+      "real": "이동준",
+      "pos": "LW",
+      "nation": "대한민국",
+      "birthYear": 1997,
+      "ovr": 72
+    },
+    {
+      "key": "jbk-08",
+      "number": 9,
+      "name": "티아곤",
+      "real": "티아고",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 1993,
+      "ovr": 74
+    },
+    {
+      "key": "jbk-09",
+      "number": 10,
+      "name": "이승욱",
+      "real": "이승우",
+      "pos": "CAM",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 75
+    },
+    {
+      "key": "jbk-10",
+      "number": 11,
+      "name": "김승석",
+      "real": "김승섭",
+      "pos": "LW",
+      "nation": "대한민국",
+      "birthYear": 1996,
+      "ovr": 71
+    },
+    {
+      "key": "jbk-11",
+      "number": 13,
+      "name": "강상윱",
+      "real": "강상윤",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "jbk-12",
+      "number": 15,
+      "name": "김하전",
+      "real": "김하준",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 2002,
+      "ovr": 67
+    },
+    {
+      "key": "jbk-13",
+      "number": 16,
+      "name": "감보안",
+      "real": "감보아",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 1996,
+      "ovr": 72
+    },
+    {
+      "key": "jbk-14",
+      "number": 19,
+      "name": "박주욘",
+      "real": "박주영",
+      "pos": "ST",
+      "nation": "대한민국",
+      "birthYear": 2003,
+      "ovr": 67
+    },
+    {
+      "key": "jbk-15",
+      "number": 21,
+      "name": "츄마신",
+      "real": "츄마시",
+      "pos": "ST",
+      "nation": "가나",
+      "birthYear": 1994,
+      "ovr": 72
+    },
+    {
+      "key": "jbk-16",
+      "number": 23,
+      "name": "김태훈",
+      "real": "김태환",
+      "pos": "RB",
+      "nation": "대한민국",
+      "birthYear": 1989,
+      "ovr": 70
+    },
+    {
+      "key": "jbk-17",
+      "number": 28,
+      "name": "이영제",
+      "real": "이영재",
+      "pos": "CAM",
+      "nation": "대한민국",
+      "birthYear": 1994,
+      "ovr": 72
+    },
+    {
+      "key": "jbk-18",
+      "number": 29,
+      "name": "전지왕",
+      "real": "전지완",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 2004,
+      "ovr": 63
+    },
+    {
+      "key": "jbk-19",
+      "number": 31,
+      "name": "송범곤",
+      "real": "송범근",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 1997,
+      "ovr": 71
+    },
+    {
+      "key": "jbk-20",
+      "number": 34,
+      "name": "엄승믄",
+      "real": "엄승민",
+      "pos": "ST",
+      "nation": "대한민국",
+      "birthYear": 2003,
+      "ovr": 66
+    },
+    {
+      "key": "jbk-21",
+      "number": 62,
+      "name": "한승믄",
+      "real": "한승민",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2001,
+      "ovr": 66
+    },
+    {
+      "key": "jbk-22",
+      "number": 66,
+      "name": "최우지느",
+      "real": "최우진",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "jbk-23",
+      "number": 77,
+      "name": "김태혠",
+      "real": "김태현",
+      "pos": "LB",
+      "nation": "대한민국",
+      "birthYear": 1996,
+      "ovr": 69
+    },
+    {
+      "key": "jbk-24",
+      "number": 79,
+      "name": "김창훤",
+      "real": "김창훈",
+      "pos": "LW",
+      "nation": "대한민국",
+      "birthYear": 2004,
+      "ovr": 65
+    },
+    {
+      "key": "jbk-25",
+      "number": 81,
+      "name": "기티손",
+      "real": "기티스",
+      "pos": "ST",
+      "nation": "리투아니아",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "jbk-26",
+      "number": 91,
+      "name": "공시혠",
+      "real": "공시현",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 2005,
+      "ovr": 62
+    },
+    {
+      "key": "jbk-27",
+      "number": 95,
+      "name": "이탈루",
+      "real": "이탈로",
+      "pos": "LW",
+      "nation": "브라질",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "jbk-28",
+      "number": 96,
+      "name": "콤파뇬",
+      "real": "콤파뇨",
+      "pos": "ST",
+      "nation": "이탈리아",
+      "birthYear": 1996,
+      "ovr": 72
+    },
+    {
+      "key": "jbk-29",
+      "number": 97,
+      "name": "김진귀",
+      "real": "김진규",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 1997,
+      "ovr": 70
+    }
+  ]
+}

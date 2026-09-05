@@ -1,0 +1,240 @@
+{
+  "club": "안양 퍼플",
+  "realClub": "FC 안양",
+  "league": "코리아 리그",
+  "season": "2026 (2026-09-05 기준)",
+  "source": "ko.wikipedia.org/wiki/FC_안양",
+  "pilot": false,
+  "players": [
+    {
+      "key": "any-01",
+      "number": 1,
+      "name": "정민제",
+      "real": "정민재",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 1997,
+      "ovr": 70
+    },
+    {
+      "key": "any-02",
+      "number": 3,
+      "name": "김지운",
+      "real": "김지훈",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1997,
+      "ovr": 68
+    },
+    {
+      "key": "any-03",
+      "number": 4,
+      "name": "이창영",
+      "real": "이창용",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1990,
+      "ovr": 69
+    },
+    {
+      "key": "any-04",
+      "number": 5,
+      "name": "김영찰",
+      "real": "김영찬",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1993,
+      "ovr": 69
+    },
+    {
+      "key": "any-05",
+      "number": 7,
+      "name": "마테우손",
+      "real": "마테우스",
+      "pos": "CAM",
+      "nation": "브라질",
+      "birthYear": 1997,
+      "ovr": 71
+    },
+    {
+      "key": "any-06",
+      "number": 8,
+      "name": "김정헌",
+      "real": "김정현",
+      "pos": "CDM",
+      "nation": "대한민국",
+      "birthYear": 1993,
+      "ovr": 70
+    },
+    {
+      "key": "any-07",
+      "number": 9,
+      "name": "엘쿠라논",
+      "real": "엘쿠라노",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 1999,
+      "ovr": 72
+    },
+    {
+      "key": "any-08",
+      "number": 10,
+      "name": "유키찬",
+      "real": "유키치",
+      "pos": "ST",
+      "nation": "보스니아헤르체고비나",
+      "birthYear": 1996,
+      "ovr": 72
+    },
+    {
+      "key": "any-09",
+      "number": 11,
+      "name": "아일른",
+      "real": "아일론",
+      "pos": "LW",
+      "nation": "브라질",
+      "birthYear": 1999,
+      "ovr": 71
+    },
+    {
+      "key": "any-10",
+      "number": 14,
+      "name": "문성운",
+      "real": "문성우",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "any-11",
+      "number": 17,
+      "name": "강지훤",
+      "real": "강지훈",
+      "pos": "LB",
+      "nation": "대한민국",
+      "birthYear": 1997,
+      "ovr": 69
+    },
+    {
+      "key": "any-12",
+      "number": 19,
+      "name": "김훈",
+      "real": "김운",
+      "pos": "RW",
+      "nation": "대한민국",
+      "birthYear": 1994,
+      "ovr": 69
+    },
+    {
+      "key": "any-13",
+      "number": 21,
+      "name": "권경완",
+      "real": "권경원",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1992,
+      "ovr": 71
+    },
+    {
+      "key": "any-14",
+      "number": 22,
+      "name": "김동준",
+      "real": "김동진",
+      "pos": "LB",
+      "nation": "대한민국",
+      "birthYear": 1992,
+      "ovr": 69
+    },
+    {
+      "key": "any-15",
+      "number": 23,
+      "name": "김정헐",
+      "real": "김정훈",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 2001,
+      "ovr": 66
+    },
+    {
+      "key": "any-16",
+      "number": 24,
+      "name": "김보겸",
+      "real": "김보경",
+      "pos": "CAM",
+      "nation": "대한민국",
+      "birthYear": 1989,
+      "ovr": 72
+    },
+    {
+      "key": "any-17",
+      "number": 26,
+      "name": "이진영",
+      "real": "이진용",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "any-18",
+      "number": 27,
+      "name": "최건조",
+      "real": "최건주",
+      "pos": "ST",
+      "nation": "대한민국",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "any-19",
+      "number": 31,
+      "name": "김다술",
+      "real": "김다솔",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 1989,
+      "ovr": 67
+    },
+    {
+      "key": "any-20",
+      "number": 32,
+      "name": "이태호",
+      "real": "이태희",
+      "pos": "RB",
+      "nation": "대한민국",
+      "birthYear": 1992,
+      "ovr": 68
+    },
+    {
+      "key": "any-21",
+      "number": 42,
+      "name": "김성돈",
+      "real": "김성동",
+      "pos": "GK",
+      "nation": "대한민국",
+      "birthYear": 2002,
+      "ovr": 64
+    },
+    {
+      "key": "any-22",
+      "number": 47,
+      "name": "김간",
+      "real": "김강",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 1988,
+      "ovr": 66
+    },
+    {
+      "key": "any-23",
+      "number": 66,
+      "name": "박종혁",
+      "real": "박종현",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 2000,
+      "ovr": 68
+    }
+  ]
+}
