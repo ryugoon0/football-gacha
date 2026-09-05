@@ -1,0 +1,260 @@
+{
+  "club": "로리앙 메를뤼",
+  "realClub": "FC 로리앙",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/FC_Lorient",
+  "pilot": false,
+  "players": [
+    {
+      "key": "lor-01",
+      "number": 1,
+      "name": "뱅자맹 르루안",
+      "real": "뱅자맹 르루아",
+      "pos": "GK",
+      "nation": "프랑스",
+      "birthYear": 1989,
+      "ovr": 69
+    },
+    {
+      "key": "lor-02",
+      "number": 2,
+      "name": "알렉 조르장드",
+      "real": "알렉 조르장",
+      "pos": "RB",
+      "nation": "프랑스",
+      "birthYear": 1998,
+      "ovr": 68
+    },
+    {
+      "key": "lor-03",
+      "number": 3,
+      "name": "몬타사르 탈빈",
+      "real": "몬타사르 탈비",
+      "pos": "CB",
+      "nation": "튀니지",
+      "birthYear": 1998,
+      "ovr": 72
+    },
+    {
+      "key": "lor-04",
+      "number": 5,
+      "name": "포르모즈 멘딘",
+      "real": "포르모즈 멘디",
+      "pos": "CB",
+      "nation": "세네갈",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "lor-05",
+      "number": 7,
+      "name": "방디우구 파디간",
+      "real": "방디우구 파디가",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "lor-06",
+      "number": 8,
+      "name": "노아 카디운",
+      "real": "노아 카디우",
+      "pos": "CM",
+      "nation": "과들루프",
+      "birthYear": 1998,
+      "ovr": 68
+    },
+    {
+      "key": "lor-07",
+      "number": 9,
+      "name": "모하메드 밤반",
+      "real": "모하메드 밤바",
+      "pos": "ST",
+      "nation": "코트디부아르",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "lor-08",
+      "number": 10,
+      "name": "이사크 옌센드",
+      "real": "이사크 옌센",
+      "pos": "LW",
+      "nation": "덴마크",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "lor-09",
+      "number": 11,
+      "name": "테오 르 브린",
+      "real": "테오 르 브리",
+      "pos": "CAM",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "lor-10",
+      "number": 15,
+      "name": "아이예군 토시느",
+      "real": "아이예군 토신",
+      "pos": "RW",
+      "nation": "베냉",
+      "birthYear": 1998,
+      "ovr": 69
+    },
+    {
+      "key": "lor-11",
+      "number": 17,
+      "name": "장빅토르 마켕곤",
+      "real": "장빅토르 마켕고",
+      "pos": "CDM",
+      "nation": "프랑스",
+      "birthYear": 1998,
+      "ovr": 71
+    },
+    {
+      "key": "lor-12",
+      "number": 18,
+      "name": "이브라히마 발덴",
+      "real": "이브라히마 발데",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 2003,
+      "ovr": 66
+    },
+    {
+      "key": "lor-13",
+      "number": 19,
+      "name": "술레이만 파옌",
+      "real": "술레이만 파예",
+      "pos": "LW",
+      "nation": "세네갈",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "lor-14",
+      "number": 20,
+      "name": "뎀보 실란",
+      "real": "뎀보 실라",
+      "pos": "RB",
+      "nation": "기니",
+      "birthYear": 2002,
+      "ovr": 68
+    },
+    {
+      "key": "lor-15",
+      "number": 21,
+      "name": "빈구루 카마란",
+      "real": "빈구루 카마라",
+      "pos": "GK",
+      "nation": "세네갈",
+      "birthYear": 1996,
+      "ovr": 70
+    },
+    {
+      "key": "lor-16",
+      "number": 30,
+      "name": "스르잔 쿠즈미츠",
+      "real": "스르잔 쿠즈미치",
+      "pos": "CB",
+      "nation": "슬로베니아",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "lor-17",
+      "number": 32,
+      "name": "너새니얼 아제인",
+      "real": "너새니얼 아제이",
+      "pos": "CB",
+      "nation": "가나",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "lor-18",
+      "number": 33,
+      "name": "가뱅 베르나르돈",
+      "real": "가뱅 베르나르도",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 63
+    },
+    {
+      "key": "lor-19",
+      "number": 38,
+      "name": "이봉 음보곤",
+      "real": "이봉 음보고",
+      "pos": "GK",
+      "nation": "스위스",
+      "birthYear": 1994,
+      "ovr": 71
+    },
+    {
+      "key": "lor-20",
+      "number": 43,
+      "name": "아르센 쿠아신",
+      "real": "아르센 쿠아시",
+      "pos": "LB",
+      "nation": "부르키나파소",
+      "birthYear": 2004,
+      "ovr": 65
+    },
+    {
+      "key": "lor-21",
+      "number": 55,
+      "name": "노사 에드워드 오바레티느",
+      "real": "노사 에드워드 오바레틴",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "lor-22",
+      "number": 62,
+      "name": "아르튀르 아보므",
+      "real": "아르튀르 아봄",
+      "pos": "CM",
+      "nation": "카메룬",
+      "birthYear": 2004,
+      "ovr": 64
+    },
+    {
+      "key": "lor-23",
+      "number": 72,
+      "name": "노아 음밤반",
+      "real": "노아 음밤바",
+      "pos": "CDM",
+      "nation": "벨기에",
+      "birthYear": 2005,
+      "ovr": 70
+    },
+    {
+      "key": "lor-24",
+      "number": 77,
+      "name": "파노스 카체리손",
+      "real": "파노스 카체리스",
+      "pos": "CM",
+      "nation": "그리스",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "lor-25",
+      "number": 95,
+      "name": "이자크 투렌",
+      "real": "이자크 투레",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2003,
+      "ovr": 71
+    }
+  ]
+}

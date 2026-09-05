@@ -1,0 +1,260 @@
+{
+  "club": "릴 도그",
+  "realClub": "릴 OSC",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Lille_OSC",
+  "pilot": false,
+  "players": [
+    {
+      "key": "lil-01",
+      "number": 1,
+      "name": "베르케 외제른",
+      "real": "베르케 외제르",
+      "pos": "GK",
+      "nation": "튀르키예",
+      "birthYear": 2000,
+      "ovr": 76
+    },
+    {
+      "key": "lil-02",
+      "number": 2,
+      "name": "룬 스르다노비츠",
+      "real": "룬 스르다노비치",
+      "pos": "RB",
+      "nation": "스위스",
+      "birthYear": 2006,
+      "ovr": 65
+    },
+    {
+      "key": "lil-03",
+      "number": 3,
+      "name": "나탕 응고인",
+      "real": "나탕 응고이",
+      "pos": "CB",
+      "nation": "벨기에",
+      "birthYear": 2003,
+      "ovr": 73
+    },
+    {
+      "key": "lil-04",
+      "number": 4,
+      "name": "알렉산드룬",
+      "real": "알렉산드루",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 1999,
+      "ovr": 78
+    },
+    {
+      "key": "lil-05",
+      "number": 6,
+      "name": "나빌 벤탈레브스",
+      "real": "나빌 벤탈렙",
+      "pos": "CM",
+      "nation": "알제리",
+      "birthYear": 1994,
+      "ovr": 74
+    },
+    {
+      "key": "lil-06",
+      "number": 7,
+      "name": "딜란 바크완",
+      "real": "딜란 바크와",
+      "pos": "RW",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 75
+    },
+    {
+      "key": "lil-07",
+      "number": 8,
+      "name": "에탕 음바펜",
+      "real": "에탕 음바페",
+      "pos": "CAM",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 73
+    },
+    {
+      "key": "lil-08",
+      "number": 9,
+      "name": "올리비에 지룬",
+      "real": "올리비에 지루",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 1986,
+      "ovr": 76
+    },
+    {
+      "key": "lil-09",
+      "number": 10,
+      "name": "하콘 하랄드손드",
+      "real": "하콘 하랄드손",
+      "pos": "CAM",
+      "nation": "아이슬란드",
+      "birthYear": 2003,
+      "ovr": 75
+    },
+    {
+      "key": "lil-10",
+      "number": 11,
+      "name": "오사메 사라윈",
+      "real": "오사메 사라위",
+      "pos": "LW",
+      "nation": "모로코",
+      "birthYear": 2001,
+      "ovr": 76
+    },
+    {
+      "key": "lil-11",
+      "number": 12,
+      "name": "오를란도 힐라",
+      "real": "오를란도 힐",
+      "pos": "GK",
+      "nation": "파라과이",
+      "birthYear": 2000,
+      "ovr": 67
+    },
+    {
+      "key": "lil-12",
+      "number": 14,
+      "name": "마우리츠 케르고른",
+      "real": "마우리츠 케르고르",
+      "pos": "CM",
+      "nation": "덴마크",
+      "birthYear": 2003,
+      "ovr": 74
+    },
+    {
+      "key": "lil-13",
+      "number": 15,
+      "name": "로맹 페론",
+      "real": "로맹 페로",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 1997,
+      "ovr": 74
+    },
+    {
+      "key": "lil-14",
+      "number": 16,
+      "name": "아르노 보다른",
+      "real": "아르노 보다르",
+      "pos": "GK",
+      "nation": "벨기에",
+      "birthYear": 1998,
+      "ovr": 73
+    },
+    {
+      "key": "lil-15",
+      "number": 17,
+      "name": "응갈라옐 무카운",
+      "real": "응갈라옐 무카우",
+      "pos": "CDM",
+      "nation": "콩고민주공화국",
+      "birthYear": 2004,
+      "ovr": 74
+    },
+    {
+      "key": "lil-16",
+      "number": 18,
+      "name": "우에다 아야센",
+      "real": "우에다 아야세",
+      "pos": "ST",
+      "nation": "일본",
+      "birthYear": 1998,
+      "ovr": 75
+    },
+    {
+      "key": "lil-17",
+      "number": 19,
+      "name": "바샤르 외날라",
+      "real": "바샤르 외날",
+      "pos": "ST",
+      "nation": "튀르키예",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "lil-18",
+      "number": 21,
+      "name": "뱅자맹 앙드렌",
+      "real": "뱅자맹 앙드레",
+      "pos": "CDM",
+      "nation": "프랑스",
+      "birthYear": 1990,
+      "ovr": 74
+    },
+    {
+      "key": "lil-19",
+      "number": 22,
+      "name": "티아구 산투손",
+      "real": "티아구 산투스",
+      "pos": "RB",
+      "nation": "포르투갈",
+      "birthYear": 2002,
+      "ovr": 74
+    },
+    {
+      "key": "lil-20",
+      "number": 23,
+      "name": "탕기 니앙준",
+      "real": "탕기 니앙주",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 76
+    },
+    {
+      "key": "lil-21",
+      "number": 24,
+      "name": "칼빈 페르동큰",
+      "real": "칼빈 페르동크",
+      "pos": "LB",
+      "nation": "인도네시아",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "lil-22",
+      "number": 26,
+      "name": "이자크 코시엔",
+      "real": "이자크 코시에",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 65
+    },
+    {
+      "key": "lil-23",
+      "number": 28,
+      "name": "가에탕 페랭드",
+      "real": "가에탕 페랭",
+      "pos": "CAM",
+      "nation": "프랑스",
+      "birthYear": 1996,
+      "ovr": 71
+    },
+    {
+      "key": "lil-24",
+      "number": 29,
+      "name": "함자 이가마느",
+      "real": "함자 이가만",
+      "pos": "ST",
+      "nation": "모로코",
+      "birthYear": 2002,
+      "ovr": 75
+    },
+    {
+      "key": "lil-25",
+      "number": 35,
+      "name": "소리바 디아운드",
+      "real": "소리바 디아운",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 2007,
+      "ovr": 64
+    }
+  ]
+}

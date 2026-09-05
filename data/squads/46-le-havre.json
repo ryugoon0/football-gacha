@@ -1,0 +1,270 @@
+{
+  "club": "르아브르 시엘",
+  "realClub": "르아브르 AC",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Le_Havre_AC",
+  "pilot": false,
+  "players": [
+    {
+      "key": "hav-01",
+      "number": 5,
+      "name": "아메드 투반",
+      "real": "아메드 투바",
+      "pos": "CB",
+      "nation": "알제리",
+      "birthYear": 1998,
+      "ovr": 70
+    },
+    {
+      "key": "hav-02",
+      "number": 6,
+      "name": "쥐니오르 음완간",
+      "real": "쥐니오르 음완가",
+      "pos": "CDM",
+      "nation": "프랑스",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "hav-03",
+      "number": 7,
+      "name": "아미르 리샤르송드",
+      "real": "아미르 리샤르송",
+      "pos": "CM",
+      "nation": "모로코",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "hav-04",
+      "number": 9,
+      "name": "조시 마잔",
+      "real": "조시 마자",
+      "pos": "ST",
+      "nation": "나이지리아",
+      "birthYear": 1998,
+      "ovr": 71
+    },
+    {
+      "key": "hav-05",
+      "number": 10,
+      "name": "펠릭스 맘빔빈",
+      "real": "펠릭스 맘빔비",
+      "pos": "CAM",
+      "nation": "스위스",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "hav-06",
+      "number": 11,
+      "name": "고드송 키에레멘",
+      "real": "고드송 키에레메",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "hav-07",
+      "number": 12,
+      "name": "엘리아스 옐레르튼",
+      "real": "엘리아스 옐레르트",
+      "pos": "RB",
+      "nation": "덴마크",
+      "birthYear": 2003,
+      "ovr": 71
+    },
+    {
+      "key": "hav-08",
+      "number": 13,
+      "name": "포데 두쿠렌",
+      "real": "포데 두쿠레",
+      "pos": "CB",
+      "nation": "말리",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "hav-09",
+      "number": 14,
+      "name": "라술 은디아옌",
+      "real": "라술 은디아예",
+      "pos": "CM",
+      "nation": "세네갈",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "hav-10",
+      "number": 15,
+      "name": "세코 아유문",
+      "real": "세코 아유무",
+      "pos": "CB",
+      "nation": "일본",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "hav-11",
+      "number": 17,
+      "name": "미즈타 가이톤",
+      "real": "미즈타 가이토",
+      "pos": "CM",
+      "nation": "일본",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "hav-12",
+      "number": 18,
+      "name": "야니스 주아윈",
+      "real": "야니스 주아위",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 1998,
+      "ovr": 68
+    },
+    {
+      "key": "hav-13",
+      "number": 19,
+      "name": "조앙 탱크른",
+      "real": "조앙 탱크르",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 64
+    },
+    {
+      "key": "hav-14",
+      "number": 23,
+      "name": "뱅상 사손",
+      "real": "뱅상 사소",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 1991,
+      "ovr": 68
+    },
+    {
+      "key": "hav-15",
+      "number": 25,
+      "name": "음브와나 사마탄",
+      "real": "음브와나 사마타",
+      "pos": "ST",
+      "nation": "탄자니아",
+      "birthYear": 1992,
+      "ovr": 69
+    },
+    {
+      "key": "hav-16",
+      "number": 26,
+      "name": "시몽 에보노근",
+      "real": "시몽 에보노그",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2004,
+      "ovr": 65
+    },
+    {
+      "key": "hav-17",
+      "number": 27,
+      "name": "엔조 코핀",
+      "real": "엔조 코피",
+      "pos": "RW",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 64
+    },
+    {
+      "key": "hav-18",
+      "number": 29,
+      "name": "스테팡 자가둔",
+      "real": "스테팡 자가두",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 2008,
+      "ovr": 62
+    },
+    {
+      "key": "hav-19",
+      "number": 30,
+      "name": "나카무라 소탄",
+      "real": "나카무라 소타",
+      "pos": "ST",
+      "nation": "일본",
+      "birthYear": 2002,
+      "ovr": 68
+    },
+    {
+      "key": "hav-20",
+      "number": 32,
+      "name": "티모테 펨벨렌",
+      "real": "티모테 펨벨레",
+      "pos": "RB",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "hav-21",
+      "number": 37,
+      "name": "모크란 벤투민",
+      "real": "모크란 벤투미",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2005,
+      "ovr": 64
+    },
+    {
+      "key": "hav-22",
+      "number": 44,
+      "name": "이스마일 부네브스",
+      "real": "이스마일 부네브",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 63
+    },
+    {
+      "key": "hav-23",
+      "number": 50,
+      "name": "폴 아르그넨",
+      "real": "폴 아르그네",
+      "pos": "GK",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 62
+    },
+    {
+      "key": "hav-24",
+      "number": 77,
+      "name": "리오넬 음파신",
+      "real": "리오넬 음파시",
+      "pos": "GK",
+      "nation": "콩고민주공화국",
+      "birthYear": 1994,
+      "ovr": 70
+    },
+    {
+      "key": "hav-25",
+      "number": 78,
+      "name": "다렌 모셍곤",
+      "real": "다렌 모셍고",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 62
+    },
+    {
+      "key": "hav-26",
+      "number": 93,
+      "name": "고티에 갈롱드",
+      "real": "고티에 갈롱",
+      "pos": "GK",
+      "nation": "프랑스",
+      "birthYear": 1993,
+      "ovr": 69
+    }
+  ]
+}

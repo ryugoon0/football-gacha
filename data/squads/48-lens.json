@@ -1,0 +1,270 @@
+{
+  "club": "랑스 상글리에",
+  "realClub": "RC 랑스",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/RC_Lens",
+  "pilot": false,
+  "players": [
+    {
+      "key": "len-01",
+      "number": 1,
+      "name": "레지스 귀르트네른",
+      "real": "레지스 귀르트네르",
+      "pos": "GK",
+      "nation": "프랑스",
+      "birthYear": 1986,
+      "ovr": 72
+    },
+    {
+      "key": "len-02",
+      "number": 2,
+      "name": "뤼방 아길라른",
+      "real": "뤼방 아길라르",
+      "pos": "RB",
+      "nation": "프랑스",
+      "birthYear": 1993,
+      "ovr": 72
+    },
+    {
+      "key": "len-03",
+      "number": 3,
+      "name": "마이크 나브로츠킨",
+      "real": "마이크 나브로츠키",
+      "pos": "CB",
+      "nation": "폴란드",
+      "birthYear": 2001,
+      "ovr": 73
+    },
+    {
+      "key": "len-04",
+      "number": 4,
+      "name": "니달 첼리큰",
+      "real": "니달 첼리크",
+      "pos": "CB",
+      "nation": "보스니아헤르체고비나",
+      "birthYear": 2006,
+      "ovr": 66
+    },
+    {
+      "key": "len-05",
+      "number": 5,
+      "name": "안드리야 불라토비츠",
+      "real": "안드리야 불라토비치",
+      "pos": "CM",
+      "nation": "몬테네그로",
+      "birthYear": 2006,
+      "ovr": 66
+    },
+    {
+      "key": "len-06",
+      "number": 6,
+      "name": "삼손 바이돈",
+      "real": "삼손 바이도",
+      "pos": "CB",
+      "nation": "오스트리아",
+      "birthYear": 2004,
+      "ovr": 72
+    },
+    {
+      "key": "len-07",
+      "number": 7,
+      "name": "플로리앙 소토칸",
+      "real": "플로리앙 소토카",
+      "pos": "RW",
+      "nation": "프랑스",
+      "birthYear": 1990,
+      "ovr": 75
+    },
+    {
+      "key": "len-08",
+      "number": 8,
+      "name": "야신 티트라윈",
+      "real": "야신 티트라위",
+      "pos": "CDM",
+      "nation": "알제리",
+      "birthYear": 2003,
+      "ovr": 71
+    },
+    {
+      "key": "len-09",
+      "number": 9,
+      "name": "토르강 아자른",
+      "real": "토르강 아자르",
+      "pos": "LW",
+      "nation": "벨기에",
+      "birthYear": 1993,
+      "ovr": 74
+    },
+    {
+      "key": "len-10",
+      "number": 10,
+      "name": "플로리앙 토뱅드",
+      "real": "플로리앙 토뱅",
+      "pos": "CAM",
+      "nation": "프랑스",
+      "birthYear": 1993,
+      "ovr": 79
+    },
+    {
+      "key": "len-11",
+      "number": 11,
+      "name": "오종 에두아른",
+      "real": "오종 에두아르",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 1998,
+      "ovr": 75
+    },
+    {
+      "key": "len-12",
+      "number": 13,
+      "name": "조아네르 차베손",
+      "real": "조아네르 차베스",
+      "pos": "LB",
+      "nation": "에콰도르",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "len-13",
+      "number": 14,
+      "name": "마티외 위돌라",
+      "real": "마티외 위돌",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 1996,
+      "ovr": 71
+    },
+    {
+      "key": "len-14",
+      "number": 16,
+      "name": "마티외 고르젤랭드",
+      "real": "마티외 고르젤랭",
+      "pos": "GK",
+      "nation": "프랑스",
+      "birthYear": 1990,
+      "ovr": 67
+    },
+    {
+      "key": "len-15",
+      "number": 19,
+      "name": "압달라 시만",
+      "real": "압달라 시마",
+      "pos": "LW",
+      "nation": "세네갈",
+      "birthYear": 2001,
+      "ovr": 74
+    },
+    {
+      "key": "len-16",
+      "number": 20,
+      "name": "장클레르 토디본",
+      "real": "장클레르 토디보",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 1999,
+      "ovr": 79
+    },
+    {
+      "key": "len-17",
+      "number": 21,
+      "name": "아마두 아이다란",
+      "real": "아마두 아이다라",
+      "pos": "CM",
+      "nation": "말리",
+      "birthYear": 1998,
+      "ovr": 76
+    },
+    {
+      "key": "len-18",
+      "number": 22,
+      "name": "미하우 스코라신",
+      "real": "미하우 스코라시",
+      "pos": "RW",
+      "nation": "폴란드",
+      "birthYear": 2000,
+      "ovr": 73
+    },
+    {
+      "key": "len-19",
+      "number": 23,
+      "name": "사우드 압둘하미든",
+      "real": "사우드 압둘하미드",
+      "pos": "RB",
+      "nation": "사우디아라비아",
+      "birthYear": 1999,
+      "ovr": 71
+    },
+    {
+      "key": "len-20",
+      "number": 24,
+      "name": "조나탕 그라딘",
+      "real": "조나탕 그라디",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 1992,
+      "ovr": 73
+    },
+    {
+      "key": "len-21",
+      "number": 25,
+      "name": "이스마엘로 가니운",
+      "real": "이스마엘로 가니우",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "len-22",
+      "number": 27,
+      "name": "미카엘 퀴상손",
+      "real": "미카엘 퀴상스",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 1999,
+      "ovr": 72
+    },
+    {
+      "key": "len-23",
+      "number": 28,
+      "name": "쥐니오르 카딜라",
+      "real": "쥐니오르 카딜",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 67
+    },
+    {
+      "key": "len-24",
+      "number": 29,
+      "name": "프란요 이바노비츠",
+      "real": "프란요 이바노비치",
+      "pos": "ST",
+      "nation": "크로아티아",
+      "birthYear": 2003,
+      "ovr": 75
+    },
+    {
+      "key": "len-25",
+      "number": 31,
+      "name": "술레이만 사냥드",
+      "real": "술레이만 사냥",
+      "pos": "CB",
+      "nation": "말리",
+      "birthYear": 2005,
+      "ovr": 65
+    },
+    {
+      "key": "len-26",
+      "number": 40,
+      "name": "로뱅 리세른",
+      "real": "로뱅 리세르",
+      "pos": "GK",
+      "nation": "프랑스",
+      "birthYear": 2004,
+      "ovr": 68
+    }
+  ]
+}

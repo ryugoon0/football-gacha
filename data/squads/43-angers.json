@@ -1,0 +1,220 @@
+{
+  "club": "앙제 SCO",
+  "realClub": "앙제 SCO",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Angers_SCO",
+  "pilot": false,
+  "players": [
+    {
+      "key": "ang-01",
+      "number": 1,
+      "name": "안토니 로페손",
+      "real": "안토니 로페스",
+      "pos": "GK",
+      "nation": "포르투갈",
+      "birthYear": 1990,
+      "ovr": 74
+    },
+    {
+      "key": "ang-02",
+      "number": 2,
+      "name": "카를랑스 아르퀴손",
+      "real": "카를랑스 아르퀴스",
+      "pos": "RB",
+      "nation": "아이티",
+      "birthYear": 1996,
+      "ovr": 68
+    },
+    {
+      "key": "ang-03",
+      "number": 4,
+      "name": "우스만 카마란",
+      "real": "우스만 카마라",
+      "pos": "CB",
+      "nation": "말리",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "ang-04",
+      "number": 6,
+      "name": "루이 무통드",
+      "real": "루이 무통",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "ang-05",
+      "number": 7,
+      "name": "우스만 심바콜린",
+      "real": "우스만 심바콜리",
+      "pos": "ST",
+      "nation": "중앙아프리카공화국",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "ang-06",
+      "number": 8,
+      "name": "브랑코 판덴보므",
+      "real": "브랑코 판덴봄",
+      "pos": "CAM",
+      "nation": "네덜란드",
+      "birthYear": 1995,
+      "ovr": 72
+    },
+    {
+      "key": "ang-07",
+      "number": 9,
+      "name": "프로스페르 페테른",
+      "real": "프로스페르 페테르",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 2007,
+      "ovr": 64
+    },
+    {
+      "key": "ang-08",
+      "number": 10,
+      "name": "아민 스바인",
+      "real": "아민 스바이",
+      "pos": "LW",
+      "nation": "모로코",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "ang-09",
+      "number": 11,
+      "name": "하루나 지비린드",
+      "real": "하루나 지비린",
+      "pos": "LW",
+      "nation": "카메룬",
+      "birthYear": 2006,
+      "ovr": 65
+    },
+    {
+      "key": "ang-10",
+      "number": 14,
+      "name": "야신 벨크디므",
+      "real": "야신 벨크딤",
+      "pos": "CM",
+      "nation": "모로코",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "ang-11",
+      "number": 16,
+      "name": "멜뱅 징간",
+      "real": "멜뱅 징가",
+      "pos": "GK",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 66
+    },
+    {
+      "key": "ang-12",
+      "number": 17,
+      "name": "조제프 칼룰룬",
+      "real": "조제프 칼룰루",
+      "pos": "RB",
+      "nation": "프랑스",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "ang-13",
+      "number": 18,
+      "name": "짐 알레비난",
+      "real": "짐 알레비나",
+      "pos": "RW",
+      "nation": "가봉",
+      "birthYear": 1995,
+      "ovr": 69
+    },
+    {
+      "key": "ang-14",
+      "number": 19,
+      "name": "아민 엘와자닌",
+      "real": "아민 엘와자니",
+      "pos": "ST",
+      "nation": "모로코",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "ang-15",
+      "number": 20,
+      "name": "마리우스 루에른",
+      "real": "마리우스 루에르",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2007,
+      "ovr": 63
+    },
+    {
+      "key": "ang-16",
+      "number": 21,
+      "name": "조르당 르포른",
+      "real": "조르당 르포르",
+      "pos": "LB",
+      "nation": "모리타니",
+      "birthYear": 1993,
+      "ovr": 68
+    },
+    {
+      "key": "ang-17",
+      "number": 24,
+      "name": "에마뉘엘 비움란",
+      "real": "에마뉘엘 비움라",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "ang-18",
+      "number": 26,
+      "name": "앙토니 베르몽드",
+      "real": "앙토니 베르몽",
+      "pos": "RW",
+      "nation": "프랑스",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "ang-19",
+      "number": 27,
+      "name": "릴리앙 라올리소안",
+      "real": "릴리앙 라올리소아",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2000,
+      "ovr": 68
+    },
+    {
+      "key": "ang-20",
+      "number": 40,
+      "name": "우마르 포난",
+      "real": "우마르 포나",
+      "pos": "GK",
+      "nation": "말리",
+      "birthYear": 2006,
+      "ovr": 62
+    },
+    {
+      "key": "ang-21",
+      "number": 93,
+      "name": "아리스 벨케블란",
+      "real": "아리스 벨케블라",
+      "pos": "CDM",
+      "nation": "알제리",
+      "birthYear": 1994,
+      "ovr": 70
+    }
+  ]
+}

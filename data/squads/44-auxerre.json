@@ -1,0 +1,270 @@
+{
+  "club": "오세르 부르고",
+  "realClub": "AJ 오세르",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/AJ_Auxerre",
+  "pilot": false,
+  "players": [
+    {
+      "key": "aux-01",
+      "number": 1,
+      "name": "폴 나르딘",
+      "real": "폴 나르디",
+      "pos": "GK",
+      "nation": "프랑스",
+      "birthYear": 1994,
+      "ovr": 71
+    },
+    {
+      "key": "aux-02",
+      "number": 3,
+      "name": "레미 라보 라스카린",
+      "real": "레미 라보 라스카리",
+      "pos": "LW",
+      "nation": "과들루프",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "aux-03",
+      "number": 4,
+      "name": "악셀 투안제벤",
+      "real": "악셀 투안제베",
+      "pos": "CB",
+      "nation": "콩고민주공화국",
+      "birthYear": 1997,
+      "ovr": 70
+    },
+    {
+      "key": "aux-04",
+      "number": 5,
+      "name": "케뱅 다누안",
+      "real": "케뱅 다누아",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "aux-05",
+      "number": 7,
+      "name": "조쉬에 카시미른",
+      "real": "조쉬에 카시미르",
+      "pos": "RW",
+      "nation": "아이티",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "aux-06",
+      "number": 8,
+      "name": "나우이루 아하마단",
+      "real": "나우이루 아하마다",
+      "pos": "CDM",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "aux-07",
+      "number": 9,
+      "name": "캐머런 아처스",
+      "real": "캐머런 아처",
+      "pos": "ST",
+      "nation": "잉글랜드",
+      "birthYear": 2001,
+      "ovr": 72
+    },
+    {
+      "key": "aux-08",
+      "number": 10,
+      "name": "대니 나마손",
+      "real": "대니 나마소",
+      "pos": "ST",
+      "nation": "카메룬",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "aux-09",
+      "number": 11,
+      "name": "에로스 마딘",
+      "real": "에로스 마디",
+      "pos": "LW",
+      "nation": "네덜란드",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "aux-10",
+      "number": 13,
+      "name": "텔리 시웬",
+      "real": "텔리 시웨",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "aux-11",
+      "number": 15,
+      "name": "크리스트 마코손",
+      "real": "크리스트 마코소",
+      "pos": "CB",
+      "nation": "콩고공화국",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "aux-12",
+      "number": 17,
+      "name": "피에르 에크완",
+      "real": "피에르 에크와",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "aux-13",
+      "number": 18,
+      "name": "아산 디우센",
+      "real": "아산 디우세",
+      "pos": "CDM",
+      "nation": "세네갈",
+      "birthYear": 1997,
+      "ovr": 69
+    },
+    {
+      "key": "aux-14",
+      "number": 20,
+      "name": "시날리 디오망덴",
+      "real": "시날리 디오망데",
+      "pos": "CB",
+      "nation": "코트디부아르",
+      "birthYear": 2001,
+      "ovr": 71
+    },
+    {
+      "key": "aux-15",
+      "number": 21,
+      "name": "라소 쿨리발린",
+      "real": "라소 쿨리발리",
+      "pos": "CM",
+      "nation": "코트디부아르",
+      "birthYear": 2002,
+      "ovr": 68
+    },
+    {
+      "key": "aux-16",
+      "number": 22,
+      "name": "프레드리크 오페고른",
+      "real": "프레드리크 오페고르",
+      "pos": "LB",
+      "nation": "노르웨이",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "aux-17",
+      "number": 23,
+      "name": "마마두 디오픈",
+      "real": "마마두 디오프",
+      "pos": "GK",
+      "nation": "모리타니",
+      "birthYear": 2000,
+      "ovr": 66
+    },
+    {
+      "key": "aux-18",
+      "number": 24,
+      "name": "브라이언 오콘",
+      "real": "브라이언 오코",
+      "pos": "CB",
+      "nation": "스위스",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "aux-19",
+      "number": 27,
+      "name": "라민 시르",
+      "real": "라민 시",
+      "pos": "RB",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 67
+    },
+    {
+      "key": "aux-20",
+      "number": 28,
+      "name": "로맹 파이브른",
+      "real": "로맹 파이브르",
+      "pos": "CAM",
+      "nation": "프랑스",
+      "birthYear": 1998,
+      "ovr": 72
+    },
+    {
+      "key": "aux-21",
+      "number": 29,
+      "name": "마르뱅 세나얀",
+      "real": "마르뱅 세나야",
+      "pos": "RB",
+      "nation": "가나",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "aux-22",
+      "number": 31,
+      "name": "리앙 로댕드",
+      "real": "리앙 로댕",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 64
+    },
+    {
+      "key": "aux-23",
+      "number": 46,
+      "name": "아르튀르 피드포른",
+      "real": "아르튀르 피드포르",
+      "pos": "CM",
+      "nation": "벨기에",
+      "birthYear": 2005,
+      "ovr": 64
+    },
+    {
+      "key": "aux-24",
+      "number": 77,
+      "name": "아리스티드 조순",
+      "real": "아리스티드 조수",
+      "pos": "CM",
+      "nation": "코트디부아르",
+      "birthYear": 2005,
+      "ovr": 64
+    },
+    {
+      "key": "aux-25",
+      "number": 92,
+      "name": "클레망 아크판",
+      "real": "클레망 아크파",
+      "pos": "CB",
+      "nation": "코트디부아르",
+      "birthYear": 2001,
+      "ovr": 67
+    },
+    {
+      "key": "aux-26",
+      "number": 93,
+      "name": "세쿠 포파난",
+      "real": "세쿠 포파나",
+      "pos": "CB",
+      "nation": "코트디부아르",
+      "birthYear": 2003,
+      "ovr": 66
+    }
+  ]
+}

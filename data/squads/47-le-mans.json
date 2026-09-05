@@ -1,0 +1,280 @@
+{
+  "club": "르망 시르퀴",
+  "realClub": "르망 FC",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Le_Mans_FC",
+  "pilot": false,
+  "players": [
+    {
+      "key": "lmn-01",
+      "number": 1,
+      "name": "에완 아트푸르",
+      "real": "에완 아트푸",
+      "pos": "GK",
+      "nation": "프랑스",
+      "birthYear": 2000,
+      "ovr": 66
+    },
+    {
+      "key": "lmn-02",
+      "number": 5,
+      "name": "아롤드 부아옌",
+      "real": "아롤드 부아예",
+      "pos": "CB",
+      "nation": "마르티니크",
+      "birthYear": 1997,
+      "ovr": 66
+    },
+    {
+      "key": "lmn-03",
+      "number": 6,
+      "name": "에드윈 쿠아르신",
+      "real": "에드윈 쿠아르시",
+      "pos": "CDM",
+      "nation": "프랑스",
+      "birthYear": 1995,
+      "ovr": 67
+    },
+    {
+      "key": "lmn-04",
+      "number": 7,
+      "name": "빌랄 브라히민",
+      "real": "빌랄 브라히미",
+      "pos": "RW",
+      "nation": "알제리",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "lmn-05",
+      "number": 8,
+      "name": "알렉상드르 로렌",
+      "real": "알렉상드르 로레",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 1997,
+      "ovr": 66
+    },
+    {
+      "key": "lmn-06",
+      "number": 9,
+      "name": "앙투안 라비야른",
+      "real": "앙투안 라비야르",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 1995,
+      "ovr": 67
+    },
+    {
+      "key": "lmn-07",
+      "number": 10,
+      "name": "장 베르크루이손",
+      "real": "장 베르크루이스",
+      "pos": "CAM",
+      "nation": "프랑스",
+      "birthYear": 2000,
+      "ovr": 67
+    },
+    {
+      "key": "lmn-08",
+      "number": 11,
+      "name": "아딜 부라반",
+      "real": "아딜 부라바",
+      "pos": "CM",
+      "nation": "알제리",
+      "birthYear": 2005,
+      "ovr": 64
+    },
+    {
+      "key": "lmn-09",
+      "number": 14,
+      "name": "루이 마푸탄",
+      "real": "루이 마푸타",
+      "pos": "ST",
+      "nation": "중앙아프리카공화국",
+      "birthYear": 1994,
+      "ovr": 68
+    },
+    {
+      "key": "lmn-10",
+      "number": 15,
+      "name": "노아 부아센",
+      "real": "노아 부아세",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 62
+    },
+    {
+      "key": "lmn-11",
+      "number": 16,
+      "name": "라울 토렌텐",
+      "real": "라울 토렌테",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 67
+    },
+    {
+      "key": "lmn-12",
+      "number": 17,
+      "name": "사뮈엘 요운",
+      "real": "사뮈엘 요우",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 1991,
+      "ovr": 65
+    },
+    {
+      "key": "lmn-13",
+      "number": 18,
+      "name": "뤼카 부아든",
+      "real": "뤼카 부아드",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 1997,
+      "ovr": 65
+    },
+    {
+      "key": "lmn-14",
+      "number": 19,
+      "name": "지브릴 시디벤",
+      "real": "지브릴 시디베",
+      "pos": "RB",
+      "nation": "프랑스",
+      "birthYear": 1992,
+      "ovr": 68
+    },
+    {
+      "key": "lmn-15",
+      "number": 20,
+      "name": "윌리암 아르우준",
+      "real": "윌리암 아르우즈",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 1999,
+      "ovr": 66
+    },
+    {
+      "key": "lmn-16",
+      "number": 21,
+      "name": "테오 에유므",
+      "real": "테오 에윰",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 64
+    },
+    {
+      "key": "lmn-17",
+      "number": 22,
+      "name": "뤼카 칼로단",
+      "real": "뤼카 칼로다",
+      "pos": "RB",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 64
+    },
+    {
+      "key": "lmn-18",
+      "number": 23,
+      "name": "다우다 트라오렌",
+      "real": "다우다 트라오레",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 62
+    },
+    {
+      "key": "lmn-19",
+      "number": 24,
+      "name": "밀랑 로뱅드",
+      "real": "밀랑 로뱅",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 1999,
+      "ovr": 65
+    },
+    {
+      "key": "lmn-20",
+      "number": 25,
+      "name": "담 게옌",
+      "real": "담 게예",
+      "pos": "ST",
+      "nation": "세네갈",
+      "birthYear": 1995,
+      "ovr": 66
+    },
+    {
+      "key": "lmn-21",
+      "number": 26,
+      "name": "라얀 밤반",
+      "real": "라얀 밤바",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 2004,
+      "ovr": 63
+    },
+    {
+      "key": "lmn-22",
+      "number": 27,
+      "name": "마르탱 로시뇰라",
+      "real": "마르탱 로시뇰",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2003,
+      "ovr": 64
+    },
+    {
+      "key": "lmn-23",
+      "number": 28,
+      "name": "에르완 콜란",
+      "real": "에르완 콜라",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 1997,
+      "ovr": 65
+    },
+    {
+      "key": "lmn-24",
+      "number": 29,
+      "name": "뤼카 브르텔라",
+      "real": "뤼카 브르텔",
+      "pos": "CDM",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 64
+    },
+    {
+      "key": "lmn-25",
+      "number": 76,
+      "name": "야세르 라루신",
+      "real": "야세르 라루시",
+      "pos": "LB",
+      "nation": "알제리",
+      "birthYear": 2001,
+      "ovr": 67
+    },
+    {
+      "key": "lmn-26",
+      "number": 98,
+      "name": "니콜라 코시큰",
+      "real": "니콜라 코시크",
+      "pos": "GK",
+      "nation": "프랑스",
+      "birthYear": 1998,
+      "ovr": 66
+    },
+    {
+      "key": "lmn-27",
+      "number": 99,
+      "name": "엔조 바그네른",
+      "real": "엔조 바그네르",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 2006,
+      "ovr": 62
+    }
+  ]
+}

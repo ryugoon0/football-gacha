@@ -1,0 +1,210 @@
+{
+  "club": "브레스트 피라트",
+  "realClub": "스타드 브레스트 29",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Stade_Brestois_29",
+  "pilot": false,
+  "players": [
+    {
+      "key": "bre-01",
+      "number": 1,
+      "name": "에길 셀비큰",
+      "real": "에길 셀비크",
+      "pos": "GK",
+      "nation": "노르웨이",
+      "birthYear": 1997,
+      "ovr": 70
+    },
+    {
+      "key": "bre-02",
+      "number": 2,
+      "name": "브래들리 로콘",
+      "real": "브래들리 로코",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 72
+    },
+    {
+      "key": "bre-03",
+      "number": 4,
+      "name": "고티에 요리손",
+      "real": "고티에 요리스",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 1995,
+      "ovr": 70
+    },
+    {
+      "key": "bre-04",
+      "number": 5,
+      "name": "브렌당 샤르도넨",
+      "real": "브렌당 샤르도네",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 1994,
+      "ovr": 72
+    },
+    {
+      "key": "bre-05",
+      "number": 6,
+      "name": "마마디 디암분",
+      "real": "마마디 디암부",
+      "pos": "CDM",
+      "nation": "말리",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "bre-06",
+      "number": 7,
+      "name": "조제프 농젠",
+      "real": "조제프 농제",
+      "pos": "CM",
+      "nation": "벨기에",
+      "birthYear": 2005,
+      "ovr": 69
+    },
+    {
+      "key": "bre-07",
+      "number": 8,
+      "name": "위고 마녜틴",
+      "real": "위고 마녜티",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 1998,
+      "ovr": 71
+    },
+    {
+      "key": "bre-08",
+      "number": 9,
+      "name": "파테 음부픈",
+      "real": "파테 음부프",
+      "pos": "ST",
+      "nation": "세네갈",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "bre-09",
+      "number": 10,
+      "name": "조바니 베르시닌",
+      "real": "조바니 베르시니",
+      "pos": "CAM",
+      "nation": "프랑스",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "bre-10",
+      "number": 11,
+      "name": "악셀 캉블랑드",
+      "real": "악셀 캉블랑",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "bre-11",
+      "number": 13,
+      "name": "조리스 쇼타른",
+      "real": "조리스 쇼타르",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2001,
+      "ovr": 71
+    },
+    {
+      "key": "bre-12",
+      "number": 17,
+      "name": "마마 발덴",
+      "real": "마마 발데",
+      "pos": "LW",
+      "nation": "기니비사우",
+      "birthYear": 1997,
+      "ovr": 69
+    },
+    {
+      "key": "bre-13",
+      "number": 18,
+      "name": "쥐스탱 부르곤",
+      "real": "쥐스탱 부르고",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 2005,
+      "ovr": 65
+    },
+    {
+      "key": "bre-14",
+      "number": 19,
+      "name": "뤼도비크 아조르큰",
+      "real": "뤼도비크 아조르크",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 1994,
+      "ovr": 73
+    },
+    {
+      "key": "bre-15",
+      "number": 20,
+      "name": "뤼크 조그벤",
+      "real": "뤼크 조그베",
+      "pos": "RB",
+      "nation": "코트디부아르",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "bre-16",
+      "number": 23,
+      "name": "카모리 둠비안",
+      "real": "카모리 둠비아",
+      "pos": "CAM",
+      "nation": "말리",
+      "birthYear": 2003,
+      "ovr": 71
+    },
+    {
+      "key": "bre-17",
+      "number": 29,
+      "name": "뤼카 투사른",
+      "real": "뤼카 투사르",
+      "pos": "CDM",
+      "nation": "프랑스",
+      "birthYear": 1997,
+      "ovr": 72
+    },
+    {
+      "key": "bre-18",
+      "number": 30,
+      "name": "마티외 파투이옌",
+      "real": "마티외 파투이예",
+      "pos": "GK",
+      "nation": "프랑스",
+      "birthYear": 2004,
+      "ovr": 64
+    },
+    {
+      "key": "bre-19",
+      "number": 70,
+      "name": "케니 랄란",
+      "real": "케니 랄라",
+      "pos": "RB",
+      "nation": "프랑스",
+      "birthYear": 1991,
+      "ovr": 69
+    },
+    {
+      "key": "bre-20",
+      "number": 71,
+      "name": "라파엘 르갱드",
+      "real": "라파엘 르갱",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 63
+    }
+  ]
+}
