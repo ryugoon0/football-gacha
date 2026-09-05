@@ -7387,6 +7387,18 @@ var CLUBS = [
 var REPLACED_CLUBS = new Set(SQUAD_REPLACED_CLUBS);
 var NEVER_RETIRED = /* @__PURE__ */ new Set(["n1125"]);
 var RETIRE_REPLACED_CLUBS = true;
+var LEGACY_WORLD = {
+  // 케빈 더브라 — 맨체스터 시티 2015–2025 (현 나폴리). 2017-18: 100점 우승, 도움 16, 플레이메이커·클럽 올해의 선수.
+  w03: { season: "2017-18" },
+  // 리오 메시아 — 바르셀로나 2004–2021 (현 인터 마이애미). 2011-12: 리그 50골(기록), 공식전 73골, 발롱도르.
+  w04: { season: "2011-12", ovr: 97 },
+  // 크리스 호날드 — 레알 마드리드 2009–2018 (현 알나스르). 2013-14: 리그 31골 피치치, 챔스 17골, 발롱도르.
+  w05: { season: "2013-14", ovr: 96 },
+  // 킬리안 음바피 — PSG 2017–2024 (현 레알 마드리드). 2018-19: 리그 33골 득점왕, 올해의 선수.
+  w06: { season: "2018-19" },
+  // 모 살라 — 리버풀 2017–2026 (2026-27 명단에 없음). 2017-18: 리그 32골 득점왕, PFA·FWA 올해의 선수.
+  lv06: { season: "2017-18", ovr: 93 }
+};
 var LEAGUE_OF_CLUB = CLUBS.reduce(
   (map, club) => {
     map[club.name] = club.league;
@@ -7496,8 +7508,10 @@ function buildPlayer(id, fix = PLAYER_OVERRIDES[id] ?? {}) {
   const entry = ROW_BY_ID[id];
   if (!entry) return null;
   const { rarity: listRarity, row } = entry;
-  const [name, position, ovr, clubName, nation, extras] = row;
-  const rarity = extras?.rarity ?? (listRarity === "World" ? "Live" : listRarity);
+  const [name, position, rowOvr, clubName, nation, extras] = row;
+  const legacy = LEGACY_WORLD[id];
+  const ovr = legacy?.ovr ?? rowOvr;
+  const rarity = legacy ? "World" : extras?.rarity ?? (listRarity === "World" ? "Live" : listRarity);
   const slot = fix.position ?? position;
   const stats = {
     ...buildStats(id, slot, ovr),
@@ -7506,7 +7520,7 @@ function buildPlayer(id, fix = PLAYER_OVERRIDES[id] ?? {}) {
   };
   const rng = seededRandom(hashString(id + name));
   const club = CLUBS.find((item) => item.name === clubName) ?? CLUBS[Math.floor(rng() * CLUBS.length)];
-  const retired = RETIRE_REPLACED_CLUBS && !extras?.squad && REPLACED_CLUBS.has(club.name) && !NEVER_RETIRED.has(id);
+  const retired = RETIRE_REPLACED_CLUBS && !extras?.squad && !legacy && REPLACED_CLUBS.has(club.name) && !NEVER_RETIRED.has(id);
   return {
     id,
     name,
@@ -7523,7 +7537,7 @@ function buildPlayer(id, fix = PLAYER_OVERRIDES[id] ?? {}) {
     unreleased: extras?.unreleased === true || retired ? true : void 0,
     fromSquad: extras?.squad ? true : void 0,
     retired: retired ? true : void 0,
-    season: extras?.season
+    season: legacy?.season ?? extras?.season
   };
 }
 function buildRoster() {

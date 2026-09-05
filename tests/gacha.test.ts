@@ -8,8 +8,8 @@ describe('roster', () => {
   it('has players of every regular rarity and a keeper in each', () => {
     for (const rarity of RARITIES) {
       const pool = PLAYERS_BY_RARITY[rarity]
-      // 월드 is reserved for past-season legends and is empty until the first batch is released.
-      if (rarity === 'World' && pool.length === 0) continue
+      // 월드 is reserved for past-season legends: a handful of cards, no keeper required.
+      if (rarity === 'World') continue
       expect(pool.length).toBeGreaterThan(0)
       expect(pool.some((player) => player.position === 'GK')).toBe(true)
     }

@@ -246,6 +246,27 @@ const NEVER_RETIRED = new Set<string>(['n1125'])
  */
 export const RETIRE_REPLACED_CLUBS = true
 
+/**
+ * Hand-written stars whose card club is now a *past* club: kept as 월드 cards
+ * of the season that made them, instead of being retired with the rest of
+ * their club's old cards. Club years and the season's honours were checked
+ * against Wikipedia on 2026-09-05 (docs/CARD_GRADES_PLAN.md 3-4). A star who
+ * is still at that club (판 다이컨 → 리버풀 2026-27) is not here: that card is a
+ * duplicate of the squad card and migrates to it.
+ */
+export const LEGACY_WORLD: Record<string, { season: string; ovr?: number }> = {
+  // 케빈 더브라 — 맨체스터 시티 2015–2025 (현 나폴리). 2017-18: 100점 우승, 도움 16, 플레이메이커·클럽 올해의 선수.
+  w03: { season: '2017-18' },
+  // 리오 메시아 — 바르셀로나 2004–2021 (현 인터 마이애미). 2011-12: 리그 50골(기록), 공식전 73골, 발롱도르.
+  w04: { season: '2011-12', ovr: 97 },
+  // 크리스 호날드 — 레알 마드리드 2009–2018 (현 알나스르). 2013-14: 리그 31골 피치치, 챔스 17골, 발롱도르.
+  w05: { season: '2013-14', ovr: 96 },
+  // 킬리안 음바피 — PSG 2017–2024 (현 레알 마드리드). 2018-19: 리그 33골 득점왕, 올해의 선수.
+  w06: { season: '2018-19' },
+  // 모 살라 — 리버풀 2017–2026 (2026-27 명단에 없음). 2017-18: 리그 32골 득점왕, PFA·FWA 올해의 선수.
+  lv06: { season: '2017-18', ovr: 93 },
+}
+
 export const LEAGUE_OF_CLUB: Record<string, string> = CLUBS.reduce(
   (map, club) => {
     map[club.name] = club.league
@@ -422,11 +443,13 @@ export function buildPlayer(id: string, fix: PlayerOverride = PLAYER_OVERRIDES[i
   const entry = ROW_BY_ID[id]
   if (!entry) return null
   const { rarity: listRarity, row } = entry
-  const [name, position, ovr, clubName, nation, extras] = row
+  const [name, position, rowOvr, clubName, nation, extras] = row
+  const legacy = LEGACY_WORLD[id]
+  const ovr = legacy?.ovr ?? rowOvr
   // The World grade is for past-season legends only (data/world, which set
-  // extras.rarity explicitly). Anything else that sits in the World list —
-  // hand-written and generated stars of today — plays as 플래티넘.
-  const rarity = extras?.rarity ?? (listRarity === 'World' ? 'Live' : listRarity)
+  // extras.rarity explicitly, and the hand-written LEGACY_WORLD stars).
+  // Anything else that sits in the World list — stars of today — plays as 플래티넘.
+  const rarity: Rarity = legacy ? 'World' : extras?.rarity ?? (listRarity === 'World' ? 'Live' : listRarity)
   // A roster row may pin values, and a hand correction may override those
   // again — the correction is the last word because it is the one a person
   // made on purpose after seeing the card.
@@ -440,7 +463,7 @@ export function buildPlayer(id: string, fix: PlayerOverride = PLAYER_OVERRIDES[i
   // to a stable draw from the id so the data is never half filled.
   const rng = seededRandom(hashString(id + name))
   const club = CLUBS.find((item) => item.name === clubName) ?? CLUBS[Math.floor(rng() * CLUBS.length)]
-  const retired = RETIRE_REPLACED_CLUBS && !extras?.squad && REPLACED_CLUBS.has(club.name) && !NEVER_RETIRED.has(id)
+  const retired = RETIRE_REPLACED_CLUBS && !extras?.squad && !legacy && REPLACED_CLUBS.has(club.name) && !NEVER_RETIRED.has(id)
   return {
     id,
     name,
@@ -457,7 +480,7 @@ export function buildPlayer(id: string, fix: PlayerOverride = PLAYER_OVERRIDES[i
     unreleased: extras?.unreleased === true || retired ? true : undefined,
     fromSquad: extras?.squad ? true : undefined,
     retired: retired ? true : undefined,
-    season: extras?.season,
+    season: legacy?.season ?? extras?.season,
   }
 }
 
