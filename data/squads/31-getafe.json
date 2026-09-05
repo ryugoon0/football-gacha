@@ -1,0 +1,230 @@
+{
+  "club": "헤타페 아술",
+  "realClub": "헤타페 CF",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Getafe_CF",
+  "pilot": false,
+  "players": [
+    {
+      "key": "get-01",
+      "number": 1,
+      "name": "이르지 레타첸",
+      "real": "이르지 레타체크",
+      "pos": "GK",
+      "nation": "체코",
+      "birthYear": 1999,
+      "ovr": 72
+    },
+    {
+      "key": "get-02",
+      "number": 2,
+      "name": "다코남 제넨",
+      "real": "다코남 제네",
+      "pos": "CB",
+      "nation": "토고",
+      "birthYear": 1991,
+      "ovr": 74
+    },
+    {
+      "key": "get-03",
+      "number": 3,
+      "name": "다빈친",
+      "real": "다빈치",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 2007,
+      "ovr": 70
+    },
+    {
+      "key": "get-04",
+      "number": 4,
+      "name": "사바 사조노비",
+      "real": "사바 사조노프",
+      "pos": "CB",
+      "nation": "조지아",
+      "birthYear": 2002,
+      "ovr": 73
+    },
+    {
+      "key": "get-05",
+      "number": 5,
+      "name": "압델 압카른",
+      "real": "압델 압카르",
+      "pos": "CB",
+      "nation": "모로코",
+      "birthYear": 1999,
+      "ovr": 73
+    },
+    {
+      "key": "get-06",
+      "number": 6,
+      "name": "마리오 마르티노",
+      "real": "마리오 마르틴",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 71
+    },
+    {
+      "key": "get-07",
+      "number": 7,
+      "name": "후안미르",
+      "real": "후안미",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 1993,
+      "ovr": 74
+    },
+    {
+      "key": "get-08",
+      "number": 8,
+      "name": "네마냐 구델라",
+      "real": "네마냐 구델",
+      "pos": "CDM",
+      "nation": "세르비아",
+      "birthYear": 1991,
+      "ovr": 75
+    },
+    {
+      "key": "get-09",
+      "number": 9,
+      "name": "보르하 마요란",
+      "real": "보르하 마요랄",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 1997,
+      "ovr": 76
+    },
+    {
+      "key": "get-10",
+      "number": 10,
+      "name": "마르틴 사트리아논",
+      "real": "마르틴 사트리아노",
+      "pos": "ST",
+      "nation": "우루과이",
+      "birthYear": 2001,
+      "ovr": 74
+    },
+    {
+      "key": "get-11",
+      "number": 11,
+      "name": "라몬 테라친",
+      "real": "라몬 테라츠",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 72
+    },
+    {
+      "key": "get-12",
+      "number": 13,
+      "name": "다비드 소리안",
+      "real": "다비드 소리아",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 1993,
+      "ovr": 75
+    },
+    {
+      "key": "get-13",
+      "number": 15,
+      "name": "세바스티안 보셀린",
+      "real": "세바스티안 보셀리",
+      "pos": "CB",
+      "nation": "우루과이",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "get-14",
+      "number": 16,
+      "name": "프란초 세라논",
+      "real": "프란초 세라노",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 72
+    },
+    {
+      "key": "get-15",
+      "number": 17,
+      "name": "키코 페메니안",
+      "real": "키코 페메니아",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 1991,
+      "ovr": 71
+    },
+    {
+      "key": "get-16",
+      "number": 19,
+      "name": "에네스 위날라",
+      "real": "에네스 위날",
+      "pos": "ST",
+      "nation": "튀르키예",
+      "birthYear": 1997,
+      "ovr": 74
+    },
+    {
+      "key": "get-17",
+      "number": 20,
+      "name": "크리스탄투스 우첸",
+      "real": "크리스탄투스 우체",
+      "pos": "CM",
+      "nation": "나이지리아",
+      "birthYear": 2003,
+      "ovr": 76
+    },
+    {
+      "key": "get-18",
+      "number": 21,
+      "name": "안드레스 가르시안",
+      "real": "안드레스 가르시아",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 72
+    },
+    {
+      "key": "get-19",
+      "number": 22,
+      "name": "요한 모히칸",
+      "real": "요한 모히카",
+      "pos": "LB",
+      "nation": "콜롬비아",
+      "birthYear": 1992,
+      "ovr": 72
+    },
+    {
+      "key": "get-20",
+      "number": 23,
+      "name": "오렐 망갈란",
+      "real": "오렐 망갈라",
+      "pos": "CM",
+      "nation": "벨기에",
+      "birthYear": 1998,
+      "ovr": 75
+    },
+    {
+      "key": "get-21",
+      "number": 24,
+      "name": "사이드 로메론",
+      "real": "사이드 로메로",
+      "pos": "CB",
+      "nation": "아르헨티나",
+      "birthYear": 1999,
+      "ovr": 71
+    },
+    {
+      "key": "get-22",
+      "number": 26,
+      "name": "장 이브 발룬",
+      "real": "장 이브 발루",
+      "pos": "RB",
+      "nation": "코트디부아르",
+      "birthYear": 2006,
+      "ovr": 66
+    }
+  ]
+}

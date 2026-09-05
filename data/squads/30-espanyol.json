@@ -1,0 +1,260 @@
+{
+  "club": "에스파뇰 페리케",
+  "realClub": "RCD 에스파뇰",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/RCD_Espanyol",
+  "pilot": false,
+  "players": [
+    {
+      "key": "esy-01",
+      "number": 1,
+      "name": "앙헬 포르투뇬",
+      "real": "앙헬 포르투뇨",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 72
+    },
+    {
+      "key": "esy-02",
+      "number": 2,
+      "name": "안도니 고로사벨라",
+      "real": "안도니 고로사벨",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 1996,
+      "ovr": 73
+    },
+    {
+      "key": "esy-03",
+      "number": 3,
+      "name": "킬린츠키 하르트마르",
+      "real": "킬린츠키 하르트만",
+      "pos": "LB",
+      "nation": "네덜란드",
+      "birthYear": 2001,
+      "ovr": 74
+    },
+    {
+      "key": "esy-04",
+      "number": 4,
+      "name": "우르코 곤살레스 데 사라텐",
+      "real": "우르코 곤살레스 데 사라테",
+      "pos": "CDM",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 73
+    },
+    {
+      "key": "esy-05",
+      "number": 5,
+      "name": "클레멘스 리델라",
+      "real": "클레멘스 리델",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2003,
+      "ovr": 72
+    },
+    {
+      "key": "esy-06",
+      "number": 6,
+      "name": "레안드로 카브레란",
+      "real": "레안드로 카브레라",
+      "pos": "CB",
+      "nation": "우루과이",
+      "birthYear": 1991,
+      "ovr": 74
+    },
+    {
+      "key": "esy-07",
+      "number": 7,
+      "name": "하비 푸아돈",
+      "real": "하비 푸아도",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 1998,
+      "ovr": 78
+    },
+    {
+      "key": "esy-08",
+      "number": 8,
+      "name": "에두 엑스포시톤",
+      "real": "에두 엑스포시토",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1996,
+      "ovr": 74
+    },
+    {
+      "key": "esy-09",
+      "number": 9,
+      "name": "로베르토 페르난데노",
+      "real": "로베르토 페르난데스",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 73
+    },
+    {
+      "key": "esy-10",
+      "number": 10,
+      "name": "폴 로사논",
+      "real": "폴 로사노",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1999,
+      "ovr": 73
+    },
+    {
+      "key": "esy-11",
+      "number": 11,
+      "name": "페레 미얀",
+      "real": "페레 미야",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 1992,
+      "ovr": 71
+    },
+    {
+      "key": "esy-12",
+      "number": 13,
+      "name": "마르코 드미트로비츠",
+      "real": "마르코 드미트로비치",
+      "pos": "GK",
+      "nation": "세르비아",
+      "birthYear": 1992,
+      "ovr": 75
+    },
+    {
+      "key": "esy-13",
+      "number": 14,
+      "name": "우나이 누녜노",
+      "real": "우나이 누녜스",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "esy-14",
+      "number": 15,
+      "name": "브라이안 사라고산",
+      "real": "브라이안 사라고사",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 75
+    },
+    {
+      "key": "esy-15",
+      "number": 16,
+      "name": "반야 드르쿠시츠",
+      "real": "반야 드르쿠시치",
+      "pos": "CB",
+      "nation": "슬로베니아",
+      "birthYear": 1999,
+      "ovr": 72
+    },
+    {
+      "key": "esy-16",
+      "number": 17,
+      "name": "호프레 카레라노",
+      "real": "호프레 카레라스",
+      "pos": "RW",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 71
+    },
+    {
+      "key": "esy-17",
+      "number": 18,
+      "name": "마르코스 페르난데스코",
+      "real": "마르코스 페르난데스",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "esy-18",
+      "number": 19,
+      "name": "키케 가르시안",
+      "real": "키케 가르시아",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 1989,
+      "ovr": 71
+    },
+    {
+      "key": "esy-19",
+      "number": 20,
+      "name": "가브리엘 모스카르돈",
+      "real": "가브리엘 모스카르도",
+      "pos": "CDM",
+      "nation": "브라질",
+      "birthYear": 2005,
+      "ovr": 73
+    },
+    {
+      "key": "esy-20",
+      "number": 21,
+      "name": "로제르 이노혼",
+      "real": "로제르 이노호",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "esy-21",
+      "number": 22,
+      "name": "알렉스 칼라트라반",
+      "real": "알렉스 칼라트라바",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "esy-22",
+      "number": 23,
+      "name": "오마르 엘 힐랄린",
+      "real": "오마르 엘 힐랄리",
+      "pos": "RB",
+      "nation": "모로코",
+      "birthYear": 2003,
+      "ovr": 75
+    },
+    {
+      "key": "esy-23",
+      "number": 24,
+      "name": "티리스 돌란드",
+      "real": "티리스 돌란",
+      "pos": "RW",
+      "nation": "잉글랜드",
+      "birthYear": 2001,
+      "ovr": 72
+    },
+    {
+      "key": "esy-24",
+      "number": 26,
+      "name": "라펠 바우산",
+      "real": "라펠 바우사",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "esy-25",
+      "number": 28,
+      "name": "하비 에르난데산",
+      "real": "하비 에르난데스",
+      "pos": "RW",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 66
+    }
+  ]
+}
