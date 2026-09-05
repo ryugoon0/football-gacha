@@ -12,30 +12,32 @@ import { CardStyleProvider, CardStyleToggle } from './CardStyle'
 import { TacticsModeProvider } from './TacticsMode'
 import { AdminProvider, useAdmin } from './useAdmin'
 import GuideOverlay from './GuideOverlay'
+import GiftInbox, { useGiftCount } from './GiftInbox'
 import LoginScreen from './LoginScreen'
 import BoardTab from './tabs/BoardTab'
 import ClubTab from './tabs/ClubTab'
 import HomeTab from './tabs/HomeTab'
 import GachaTab from './tabs/GachaTab'
 import ItemsTab from './tabs/ItemsTab'
-import MarketTab from './tabs/MarketTab'
 import MatchTab from './tabs/MatchTab'
-import PvpTab from './tabs/PvpTab'
+import MiniGamesTab from './tabs/MiniGamesTab'
 import SquadTab from './tabs/SquadTab'
+import TacticsTab from './tabs/TacticsTab'
 import WeeklyTab from './tabs/WeeklyTab'
 import { BRAND_MARK, BRAND_NAME } from '../lib/brand'
 import { checkClubName, normalizeClubName } from '../lib/clubName'
 
+// 이적시장 was dropped from the bar (2026-09-05); 데일리 PvP moved under 미니게임.
 const TABS = [
   { key: 'home', label: '홈' },
-  { key: 'gacha', label: '뽑기' },
-  { key: 'market', label: '이적시장' },
-  { key: 'items', label: '상점' },
+  { key: 'match', label: '캐주얼 모드' },
+  { key: 'weekly', label: '경쟁 리그' },
+  { key: 'minigames', label: '미니게임' },
+  { key: 'tactics', label: '전술' },
   { key: 'squad', label: '스쿼드' },
   { key: 'club', label: '선수단' },
-  { key: 'match', label: '캐주얼 모드' },
-  { key: 'pvp', label: '데일리 PvP' },
-  { key: 'weekly', label: '경쟁 리그' },
+  { key: 'gacha', label: '뽑기' },
+  { key: 'items', label: '상점' },
   { key: 'board', label: '게시판' },
 ] as const
 
@@ -77,6 +79,8 @@ function Shell() {
   const [editingClub, setEditingClub] = useState(false)
   const [helpOpen, setHelpOpen] = useState(false)
   const [accountOpen, setAccountOpen] = useState(false)
+  const [giftsOpen, setGiftsOpen] = useState(false)
+  const gifts = useGiftCount(account.status === 'signedIn')
   const rating = useMemo(() => evaluateSquad(state.cards, state.squad), [state.cards, state.squad])
 
   const showGuide = helpOpen || (ready && !state.guideDone)
@@ -153,6 +157,20 @@ function Shell() {
               <div className="text-[10px] font-bold uppercase tracking-wider text-amber-200/70">Gold</div>
               <div className="font-black tabular-nums text-amber-200">{state.gold.toLocaleString()}</div>
             </div>
+            {account.status === 'signedIn' && (
+              <button
+                onClick={() => setGiftsOpen(true)}
+                className={`relative whitespace-nowrap rounded-xl px-3 py-2 text-xs font-bold ${gifts.count > 0 ? 'btn-gold' : 'btn-ghost'}`}
+                title="운영자가 보낸 선물"
+              >
+                선물함
+                {gifts.count > 0 && (
+                  <span className="absolute -right-1.5 -top-1.5 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-black text-white">
+                    {gifts.count}
+                  </span>
+                )}
+              </button>
+            )}
             <button
               onClick={() => setAccountOpen(true)}
               className="whitespace-nowrap rounded-xl btn-ghost px-3 py-2 text-xs font-bold"
@@ -195,14 +213,14 @@ function Shell() {
         ) : (
           <>
             <AssistantCard tab={tab} />
-            {tab === 'home' && <HomeTab onJump={(key) => setTab(key as TabKey)} />}
+            {tab === 'home' && <HomeTab onJump={(key) => setTab(TABS.some((item) => item.key === key) ? (key as TabKey) : 'home')} />}
             {tab === 'gacha' && <GachaTab />}
-            {tab === 'market' && <MarketTab />}
             {tab === 'items' && <ItemsTab />}
-            {tab === 'squad' && <SquadTab />}
+            {tab === 'tactics' && <TacticsTab />}
+            {tab === 'squad' && <SquadTab onTactics={() => setTab('tactics')} />}
             {tab === 'club' && <ClubTab />}
             {tab === 'match' && <MatchTab />}
-            {tab === 'pvp' && <PvpTab />}
+            {tab === 'minigames' && <MiniGamesTab />}
             {tab === 'weekly' && <WeeklyTab />}
             {tab === 'board' && <BoardTab />}
           </>
@@ -226,6 +244,7 @@ function Shell() {
         </div>
       </footer>
 
+      {giftsOpen && <GiftInbox onClose={() => setGiftsOpen(false)} onChanged={() => void gifts.refresh()} />}
       {(accountOpen || account.conflict) && (
         <AccountPanel onClose={() => setAccountOpen(false)} />
       )}

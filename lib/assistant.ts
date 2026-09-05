@@ -40,8 +40,10 @@ export function assistantForTab(tab: string): AssistantId | null {
     case 'home':
     case 'match':
     case 'pvp':
+    case 'minigames':
       return 'hanareum'
     case 'squad':
+    case 'tactics':
     case 'club':
       return 'seojian'
     case 'weekly':
@@ -269,7 +271,7 @@ function hanareum(ctx: AssistantContext): AssistantSpeech {
       expression: 'base',
     }
   }
-  if (ctx.tab === 'pvp') {
+  if (ctx.tab === 'pvp' || ctx.tab === 'minigames') {
     const left = pvpMatchesLeft(daily)
     if (left <= 0) return { text: '오늘 PvP는 다 썼어요! 내일 또 도전해요. 상대는 제가 미리 찾아 둘게요.', expression: 'soft' }
     return { text: `데일리 PvP ${left}회 남았어요! 진짜 감독님이랑 붙는 거라 두근두근해요.`, expression: 'determined' }
