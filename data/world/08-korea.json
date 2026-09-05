@@ -1,0 +1,43 @@
+{
+  "league": "코리아 리그",
+  "pilot": false,
+  "note": "월드 시즌 카드 1차 배치 (docs/CARD_GRADES_PLAN.md 3-3). 능력치 6종은 규칙 생성, 히든은 명시.",
+  "players": [
+    {
+      "key": "wld-14",
+      "name": "이동극",
+      "real": "이동국",
+      "realClub": "전북 현대 모터스",
+      "club": "전북 모터스",
+      "season": "2009",
+      "pos": "ST",
+      "nation": "대한민국",
+      "birthYear": 1979,
+      "ovr": 91,
+      "hidden": {
+        "clutch": 11,
+        "stamina": 9,
+        "bigMatch": 10,
+        "consistency": 11
+      }
+    },
+    {
+      "key": "wld-15",
+      "name": "데야노",
+      "real": "데얀 다먀노비치",
+      "realClub": "FC 서울",
+      "club": "서울 캐피탈",
+      "season": "2012",
+      "pos": "ST",
+      "nation": "몬테네그로",
+      "birthYear": 1981,
+      "ovr": 92,
+      "hidden": {
+        "clutch": 11,
+        "stamina": 10,
+        "bigMatch": 10,
+        "consistency": 12
+      }
+    }
+  ]
+}

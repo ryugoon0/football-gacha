@@ -1,0 +1,43 @@
+{
+  "league": "이베리아 리가",
+  "pilot": false,
+  "note": "월드 시즌 카드 1차 배치 (docs/CARD_GRADES_PLAN.md 3-3). 능력치 6종은 규칙 생성, 히든은 명시.",
+  "players": [
+    {
+      "key": "wld-03",
+      "name": "지네딘 지당",
+      "real": "지네딘 지단",
+      "realClub": "레알 마드리드",
+      "club": "마드리드 블랑코",
+      "season": "2001-02",
+      "pos": "CAM",
+      "nation": "프랑스",
+      "birthYear": 1972,
+      "ovr": 94,
+      "hidden": {
+        "clutch": 12,
+        "stamina": 9,
+        "bigMatch": 12,
+        "consistency": 10
+      }
+    },
+    {
+      "key": "wld-04",
+      "name": "호나우지노",
+      "real": "호나우지뉴",
+      "realClub": "FC 바르셀로나",
+      "club": "카탈루냐 블라우",
+      "season": "2005-06",
+      "pos": "LW",
+      "nation": "브라질",
+      "birthYear": 1980,
+      "ovr": 95,
+      "hidden": {
+        "clutch": 11,
+        "stamina": 9,
+        "bigMatch": 12,
+        "consistency": 10
+      }
+    }
+  ]
+}

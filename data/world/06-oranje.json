@@ -1,0 +1,43 @@
+{
+  "league": "오라녜 에레디",
+  "pilot": false,
+  "note": "월드 시즌 카드 1차 배치 (docs/CARD_GRADES_PLAN.md 3-3). 능력치 6종은 규칙 생성, 히든은 명시.",
+  "players": [
+    {
+      "key": "wld-10",
+      "name": "요한 크라위포",
+      "real": "요한 크라위프",
+      "realClub": "아약스",
+      "club": "암스텔 아약",
+      "season": "1971-72",
+      "pos": "CAM",
+      "nation": "네덜란드",
+      "birthYear": 1947,
+      "ovr": 97,
+      "hidden": {
+        "clutch": 12,
+        "stamina": 10,
+        "bigMatch": 12,
+        "consistency": 12
+      }
+    },
+    {
+      "key": "wld-11",
+      "name": "마르코 반 바스톤",
+      "real": "마르코 반 바스텐",
+      "realClub": "아약스",
+      "club": "암스텔 아약",
+      "season": "1986-87",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 1964,
+      "ovr": 95,
+      "hidden": {
+        "clutch": 12,
+        "stamina": 9,
+        "bigMatch": 11,
+        "consistency": 11
+      }
+    }
+  ]
+}

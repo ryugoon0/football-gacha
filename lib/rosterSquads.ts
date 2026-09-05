@@ -3589,6 +3589,21 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['마르쿠스 튀랑드', 'ST', 86, '밀라노 네라주로', '프랑스', {"squad":true,"unreleased":false,"season":"2026-27","rarity":"Live"}],
     ['라우타로 마르티네손', 'ST', 88, '밀라노 네라주로', '아르헨티나', {"squad":true,"unreleased":false,"season":"2026-27","rarity":"Live"}],
     ['니콜로 바렐란', 'CM', 86, '밀라노 네라주로', '이탈리아', {"squad":true,"unreleased":false,"season":"2026-27","rarity":"Live"}],
+    ['티에리 앙로', 'ST', 95, '북런던 건너스', '프랑스', {"squad":true,"rarity":"World","season":"2003-04","unreleased":false,"hidden":{"clutch":11,"stamina":10,"bigMatch":11,"consistency":12}}],
+    ['크리스티아누 호날도', 'RW', 96, '맨체스 레즈', '포르투갈', {"squad":true,"rarity":"World","season":"2007-08","unreleased":false,"hidden":{"clutch":12,"stamina":11,"bigMatch":12,"consistency":11}}],
+    ['지네딘 지당', 'CAM', 94, '마드리드 블랑코', '프랑스', {"squad":true,"rarity":"World","season":"2001-02","unreleased":false,"hidden":{"clutch":12,"stamina":9,"bigMatch":12,"consistency":10}}],
+    ['호나우지노', 'LW', 95, '카탈루냐 블라우', '브라질', {"squad":true,"rarity":"World","season":"2005-06","unreleased":false,"hidden":{"clutch":11,"stamina":9,"bigMatch":12,"consistency":10}}],
+    ['카카르', 'CAM', 95, '밀라노 로소네로', '브라질', {"squad":true,"rarity":"World","season":"2006-07","unreleased":false,"hidden":{"clutch":11,"stamina":10,"bigMatch":12,"consistency":11}}],
+    ['잔루이지 부포', 'GK', 95, '토리노 비앙코네로', '이탈리아', {"squad":true,"rarity":"World","season":"2005-06","unreleased":false,"hidden":{"clutch":11,"stamina":11,"bigMatch":11,"consistency":12}}],
+    ['즐라탄 이브라히모빈', 'ST', 94, '파리 캐피탈', '스웨덴', {"squad":true,"rarity":"World","season":"2015-16","unreleased":false,"hidden":{"clutch":12,"stamina":10,"bigMatch":11,"consistency":11}}],
+    ['프랑크 리베로', 'LW', 93, '바이언 뮌히', '프랑스', {"squad":true,"rarity":"World","season":"2012-13","unreleased":false,"hidden":{"clutch":10,"stamina":10,"bigMatch":12,"consistency":10}}],
+    ['로베르트 레반도프스코', 'ST', 93, '도르트 옐로', '폴란드', {"squad":true,"rarity":"World","season":"2012-13","unreleased":false,"hidden":{"clutch":11,"stamina":11,"bigMatch":11,"consistency":11}}],
+    ['요한 크라위포', 'CAM', 97, '암스텔 아약', '네덜란드', {"squad":true,"rarity":"World","season":"1971-72","unreleased":false,"hidden":{"clutch":12,"stamina":10,"bigMatch":12,"consistency":12}}],
+    ['마르코 반 바스톤', 'ST', 95, '암스텔 아약', '네덜란드', {"squad":true,"rarity":"World","season":"1986-87","unreleased":false,"hidden":{"clutch":12,"stamina":9,"bigMatch":11,"consistency":11}}],
+    ['에우제비오', 'ST', 95, '리스본 아길라', '포르투갈', {"squad":true,"rarity":"World","season":"1967-68","unreleased":false,"hidden":{"clutch":12,"stamina":10,"bigMatch":12,"consistency":11}}],
+    ['데코', 'CAM', 93, '포르투 드라강', '포르투갈', {"squad":true,"rarity":"World","season":"2003-04","unreleased":false,"hidden":{"clutch":10,"stamina":10,"bigMatch":12,"consistency":10}}],
+    ['이동극', 'ST', 91, '전북 모터스', '대한민국', {"squad":true,"rarity":"World","season":"2009","unreleased":false,"hidden":{"clutch":11,"stamina":9,"bigMatch":10,"consistency":11}}],
+    ['데야노', 'ST', 92, '서울 캐피탈', '몬테네그로', {"squad":true,"rarity":"World","season":"2012","unreleased":false,"hidden":{"clutch":11,"stamina":10,"bigMatch":10,"consistency":12}}],
   ],
 }
 
@@ -7896,7 +7911,22 @@ export const SQUAD_REAL_HINTS: Record<string, string> = {
   "나이절 토머슨": "나이절 토머스 (ADO 덴하흐 #27)",
   "마테이 시느": "마테이 신 (ADO 덴하흐 #33)",
   "야니크 에두아르돈": "야니크 에두아르도 (ADO 덴하흐 #46)",
-  "도나트 바라닌": "도나트 바라니 (ADO 덴하흐 #77)"
+  "도나트 바라닌": "도나트 바라니 (ADO 덴하흐 #77)",
+  "티에리 앙로": "티에리 앙리 (아스널 2003-04)",
+  "크리스티아누 호날도": "크리스티아누 호날두 (맨체스터 유나이티드 2007-08)",
+  "지네딘 지당": "지네딘 지단 (레알 마드리드 2001-02)",
+  "호나우지노": "호나우지뉴 (FC 바르셀로나 2005-06)",
+  "카카르": "카카 (AC 밀란 2006-07)",
+  "잔루이지 부포": "잔루이지 부폰 (유벤투스 2005-06)",
+  "즐라탄 이브라히모빈": "즐라탄 이브라히모비치 (파리 생제르맹 2015-16)",
+  "프랑크 리베로": "프랑크 리베리 (바이에른 뮌헨 2012-13)",
+  "로베르트 레반도프스코": "로베르트 레반도프스키 (보루시아 도르트문트 2012-13)",
+  "요한 크라위포": "요한 크라위프 (아약스 1971-72)",
+  "마르코 반 바스톤": "마르코 반 바스텐 (아약스 1986-87)",
+  "에우제비오": "에우제비우 (벤피카 1967-68)",
+  "데코": "데쿠 (FC 포르투 2003-04)",
+  "이동극": "이동국 (전북 현대 모터스 2009)",
+  "데야노": "데얀 다먀노비치 (FC 서울 2012)"
 }
 
 /** 가명 → 초상 파일 키 (public/players/<key>.webp). */
@@ -11476,7 +11506,22 @@ export const SQUAD_PORTRAITS: Record<string, string> = {
   "나이절 토머슨": "ado-19",
   "마테이 시느": "ado-20",
   "야니크 에두아르돈": "ado-21",
-  "도나트 바라닌": "ado-22"
+  "도나트 바라닌": "ado-22",
+  "티에리 앙로": "wld-01",
+  "크리스티아누 호날도": "wld-02",
+  "지네딘 지당": "wld-03",
+  "호나우지노": "wld-04",
+  "카카르": "wld-05",
+  "잔루이지 부포": "wld-06",
+  "즐라탄 이브라히모빈": "wld-07",
+  "프랑크 리베로": "wld-08",
+  "로베르트 레반도프스코": "wld-09",
+  "요한 크라위포": "wld-10",
+  "마르코 반 바스톤": "wld-11",
+  "에우제비오": "wld-12",
+  "데코": "wld-13",
+  "이동극": "wld-14",
+  "데야노": "wld-15"
 }
 
 /** 초상 생성 프롬프트용 속성. */
@@ -36372,5 +36417,110 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "birthYear": 2000,
     "pos": "ST",
     "club": "덴하흐 오이에바르"
+  },
+  "wld-01": {
+    "name": "티에리 앙로",
+    "nation": "프랑스",
+    "birthYear": 1977,
+    "pos": "ST",
+    "club": "북런던 건너스"
+  },
+  "wld-02": {
+    "name": "크리스티아누 호날도",
+    "nation": "포르투갈",
+    "birthYear": 1985,
+    "pos": "RW",
+    "club": "맨체스 레즈"
+  },
+  "wld-03": {
+    "name": "지네딘 지당",
+    "nation": "프랑스",
+    "birthYear": 1972,
+    "pos": "CAM",
+    "club": "마드리드 블랑코"
+  },
+  "wld-04": {
+    "name": "호나우지노",
+    "nation": "브라질",
+    "birthYear": 1980,
+    "pos": "LW",
+    "club": "카탈루냐 블라우"
+  },
+  "wld-05": {
+    "name": "카카르",
+    "nation": "브라질",
+    "birthYear": 1982,
+    "pos": "CAM",
+    "club": "밀라노 로소네로"
+  },
+  "wld-06": {
+    "name": "잔루이지 부포",
+    "nation": "이탈리아",
+    "birthYear": 1978,
+    "pos": "GK",
+    "club": "토리노 비앙코네로"
+  },
+  "wld-07": {
+    "name": "즐라탄 이브라히모빈",
+    "nation": "스웨덴",
+    "birthYear": 1981,
+    "pos": "ST",
+    "club": "파리 캐피탈"
+  },
+  "wld-08": {
+    "name": "프랑크 리베로",
+    "nation": "프랑스",
+    "birthYear": 1983,
+    "pos": "LW",
+    "club": "바이언 뮌히"
+  },
+  "wld-09": {
+    "name": "로베르트 레반도프스코",
+    "nation": "폴란드",
+    "birthYear": 1988,
+    "pos": "ST",
+    "club": "도르트 옐로"
+  },
+  "wld-10": {
+    "name": "요한 크라위포",
+    "nation": "네덜란드",
+    "birthYear": 1947,
+    "pos": "CAM",
+    "club": "암스텔 아약"
+  },
+  "wld-11": {
+    "name": "마르코 반 바스톤",
+    "nation": "네덜란드",
+    "birthYear": 1964,
+    "pos": "ST",
+    "club": "암스텔 아약"
+  },
+  "wld-12": {
+    "name": "에우제비오",
+    "nation": "포르투갈",
+    "birthYear": 1942,
+    "pos": "ST",
+    "club": "리스본 아길라"
+  },
+  "wld-13": {
+    "name": "데코",
+    "nation": "포르투갈",
+    "birthYear": 1977,
+    "pos": "CAM",
+    "club": "포르투 드라강"
+  },
+  "wld-14": {
+    "name": "이동극",
+    "nation": "대한민국",
+    "birthYear": 1979,
+    "pos": "ST",
+    "club": "전북 모터스"
+  },
+  "wld-15": {
+    "name": "데야노",
+    "nation": "몬테네그로",
+    "birthYear": 1981,
+    "pos": "ST",
+    "club": "서울 캐피탈"
   }
 }
