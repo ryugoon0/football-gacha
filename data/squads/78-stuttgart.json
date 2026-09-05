@@ -1,0 +1,290 @@
+{
+  "club": "슈투트 벤츠",
+  "realClub": "VfB 슈투트가르트",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/VfB_Stuttgart",
+  "pilot": false,
+  "players": [
+    {
+      "key": "stu-01",
+      "number": 1,
+      "name": "파비안 브레들론",
+      "real": "파비안 브레들로",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1995,
+      "ovr": 72
+    },
+    {
+      "key": "stu-02",
+      "number": 2,
+      "name": "아민 알다힐라",
+      "real": "아민 알다힐",
+      "pos": "CB",
+      "nation": "벨기에",
+      "birthYear": 2002,
+      "ovr": 74
+    },
+    {
+      "key": "stu-03",
+      "number": 3,
+      "name": "라몬 헨드릭손",
+      "real": "라몬 헨드릭스",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2001,
+      "ovr": 73
+    },
+    {
+      "key": "stu-04",
+      "number": 4,
+      "name": "요샤 바그노마느",
+      "real": "요샤 바그노만",
+      "pos": "RB",
+      "nation": "독일",
+      "birthYear": 2000,
+      "ovr": 73
+    },
+    {
+      "key": "stu-05",
+      "number": 6,
+      "name": "안젤로 슈틸러스",
+      "real": "안젤로 슈틸러",
+      "pos": "CDM",
+      "nation": "독일",
+      "birthYear": 2001,
+      "ovr": 80
+    },
+    {
+      "key": "stu-06",
+      "number": 7,
+      "name": "막시밀리안 미텔슈테튼",
+      "real": "막시밀리안 미텔슈테트",
+      "pos": "LB",
+      "nation": "독일",
+      "birthYear": 1997,
+      "ovr": 78
+    },
+    {
+      "key": "stu-07",
+      "number": 8,
+      "name": "티아구 토마손",
+      "real": "티아구 토마스",
+      "pos": "RW",
+      "nation": "포르투갈",
+      "birthYear": 2002,
+      "ovr": 74
+    },
+    {
+      "key": "stu-08",
+      "number": 9,
+      "name": "에르메딘 데미로비츠",
+      "real": "에르메딘 데미로비치",
+      "pos": "ST",
+      "nation": "보스니아헤르체고비나",
+      "birthYear": 1998,
+      "ovr": 78
+    },
+    {
+      "key": "stu-09",
+      "number": 10,
+      "name": "크리스 퓌리흔",
+      "real": "크리스 퓌리히",
+      "pos": "LW",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 78
+    },
+    {
+      "key": "stu-10",
+      "number": 11,
+      "name": "빌랄 엘 칸누손",
+      "real": "빌랄 엘 칸누스",
+      "pos": "CAM",
+      "nation": "모로코",
+      "birthYear": 2004,
+      "ovr": 78
+    },
+    {
+      "key": "stu-11",
+      "number": 14,
+      "name": "루카 자케주",
+      "real": "루카 자케즈",
+      "pos": "CB",
+      "nation": "스위스",
+      "birthYear": 2003,
+      "ovr": 72
+    },
+    {
+      "key": "stu-12",
+      "number": 16,
+      "name": "아타칸 카라조른",
+      "real": "아타칸 카라조르",
+      "pos": "CDM",
+      "nation": "튀르키예",
+      "birthYear": 1996,
+      "ovr": 75
+    },
+    {
+      "key": "stu-13",
+      "number": 17,
+      "name": "제난 페이치노비츠",
+      "real": "제난 페이치노비치",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 2005,
+      "ovr": 70
+    },
+    {
+      "key": "stu-14",
+      "number": 18,
+      "name": "제이미 레벨링크",
+      "real": "제이미 레벨링",
+      "pos": "RW",
+      "nation": "독일",
+      "birthYear": 2001,
+      "ovr": 76
+    },
+    {
+      "key": "stu-15",
+      "number": 20,
+      "name": "레오니다스 스테르지운",
+      "real": "레오니다스 스테르지우",
+      "pos": "CB",
+      "nation": "스위스",
+      "birthYear": 2002,
+      "ovr": 74
+    },
+    {
+      "key": "stu-16",
+      "number": 21,
+      "name": "그리샤 프뢰멜라",
+      "real": "그리샤 프뢰멜",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 1995,
+      "ovr": 74
+    },
+    {
+      "key": "stu-17",
+      "number": 22,
+      "name": "로렌츠 아시뇽드",
+      "real": "로렌츠 아시뇽",
+      "pos": "RB",
+      "nation": "프랑스",
+      "birthYear": 2000,
+      "ovr": 74
+    },
+    {
+      "key": "stu-18",
+      "number": 23,
+      "name": "단악셀 자가둔",
+      "real": "단악셀 자가두",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 1999,
+      "ovr": 74
+    },
+    {
+      "key": "stu-19",
+      "number": 24,
+      "name": "제프 샤본",
+      "real": "제프 샤보",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 75
+    },
+    {
+      "key": "stu-20",
+      "number": 25,
+      "name": "제레미 아레발론",
+      "real": "제레미 아레발로",
+      "pos": "ST",
+      "nation": "에콰도르",
+      "birthYear": 2005,
+      "ovr": 69
+    },
+    {
+      "key": "stu-21",
+      "number": 26,
+      "name": "데니즈 운다픈",
+      "real": "데니즈 운다프",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 1996,
+      "ovr": 80
+    },
+    {
+      "key": "stu-22",
+      "number": 28,
+      "name": "니콜라스 나르테인",
+      "real": "니콜라스 나르테이",
+      "pos": "CM",
+      "nation": "덴마크",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "stu-23",
+      "number": 29,
+      "name": "핀 옐친",
+      "real": "핀 옐치",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2006,
+      "ovr": 73
+    },
+    {
+      "key": "stu-24",
+      "number": 31,
+      "name": "유스틴 딜라",
+      "real": "유스틴 딜",
+      "pos": "LW",
+      "nation": "독일",
+      "birthYear": 2004,
+      "ovr": 70
+    },
+    {
+      "key": "stu-25",
+      "number": 33,
+      "name": "마리우스 풍큰",
+      "real": "마리우스 풍크",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1996,
+      "ovr": 66
+    },
+    {
+      "key": "stu-26",
+      "number": 41,
+      "name": "데니스 자이멘드",
+      "real": "데니스 자이멘",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "stu-27",
+      "number": 43,
+      "name": "야르진호 말랑간",
+      "real": "야르진호 말랑가",
+      "pos": "LW",
+      "nation": "독일",
+      "birthYear": 2006,
+      "ovr": 65
+    },
+    {
+      "key": "stu-28",
+      "number": 44,
+      "name": "레오 사우언",
+      "real": "레오 사우어",
+      "pos": "LW",
+      "nation": "슬로바키아",
+      "birthYear": 2005,
+      "ovr": 73
+    }
+  ]
+}

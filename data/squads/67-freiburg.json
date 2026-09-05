@@ -1,0 +1,270 @@
+{
+  "club": "프라이 검은숲",
+  "realClub": "SC 프라이부르크",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/SC_Freiburg",
+  "pilot": false,
+  "players": [
+    {
+      "key": "fri-01",
+      "number": 1,
+      "name": "미오 바크하우손",
+      "real": "미오 바크하우스",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 2004,
+      "ovr": 73
+    },
+    {
+      "key": "fri-02",
+      "number": 3,
+      "name": "필리프 리엔하르튼",
+      "real": "필리프 리엔하르트",
+      "pos": "CB",
+      "nation": "오스트리아",
+      "birthYear": 1996,
+      "ovr": 74
+    },
+    {
+      "key": "fri-03",
+      "number": 5,
+      "name": "안토니 융크",
+      "real": "안토니 융",
+      "pos": "LB",
+      "nation": "독일",
+      "birthYear": 1991,
+      "ovr": 71
+    },
+    {
+      "key": "fri-04",
+      "number": 6,
+      "name": "파트리크 오스터하겐",
+      "real": "파트리크 오스터하게",
+      "pos": "CDM",
+      "nation": "독일",
+      "birthYear": 2000,
+      "ovr": 73
+    },
+    {
+      "key": "fri-05",
+      "number": 7,
+      "name": "데리 셰르한튼",
+      "real": "데리 셰르한트",
+      "pos": "LW",
+      "nation": "독일",
+      "birthYear": 2002,
+      "ovr": 72
+    },
+    {
+      "key": "fri-06",
+      "number": 8,
+      "name": "막시밀리안 에게슈타이느",
+      "real": "막시밀리안 에게슈타인",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 1996,
+      "ovr": 75
+    },
+    {
+      "key": "fri-07",
+      "number": 9,
+      "name": "루카스 횔러스",
+      "real": "루카스 횔러",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 1994,
+      "ovr": 72
+    },
+    {
+      "key": "fri-08",
+      "number": 14,
+      "name": "스즈키 유이톤",
+      "real": "스즈키 유이토",
+      "pos": "CAM",
+      "nation": "일본",
+      "birthYear": 2001,
+      "ovr": 74
+    },
+    {
+      "key": "fri-09",
+      "number": 16,
+      "name": "야니크 엥겔하르튼",
+      "real": "야니크 엥겔하르트",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 2001,
+      "ovr": 71
+    },
+    {
+      "key": "fri-10",
+      "number": 17,
+      "name": "루카스 퀴블러스",
+      "real": "루카스 퀴블러",
+      "pos": "RB",
+      "nation": "독일",
+      "birthYear": 1992,
+      "ovr": 70
+    },
+    {
+      "key": "fri-11",
+      "number": 19,
+      "name": "니클라스 베스텐",
+      "real": "니클라스 베스테",
+      "pos": "LW",
+      "nation": "독일",
+      "birthYear": 1999,
+      "ovr": 71
+    },
+    {
+      "key": "fri-12",
+      "number": 20,
+      "name": "야마모토 리히톤",
+      "real": "야마모토 리히토",
+      "pos": "CM",
+      "nation": "일본",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "fri-13",
+      "number": 21,
+      "name": "플로리안 뮐레르",
+      "real": "플로리안 뮐러",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1997,
+      "ovr": 72
+    },
+    {
+      "key": "fri-14",
+      "number": 22,
+      "name": "시리아크 이리엔",
+      "real": "시리아크 이리에",
+      "pos": "RW",
+      "nation": "부르키나파소",
+      "birthYear": 2005,
+      "ovr": 72
+    },
+    {
+      "key": "fri-15",
+      "number": 23,
+      "name": "플로렌트 무슬리얀",
+      "real": "플로렌트 무슬리야",
+      "pos": "CAM",
+      "nation": "코소보",
+      "birthYear": 1998,
+      "ovr": 73
+    },
+    {
+      "key": "fri-16",
+      "number": 24,
+      "name": "야니크 후튼",
+      "real": "야니크 후트",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1994,
+      "ovr": 66
+    },
+    {
+      "key": "fri-17",
+      "number": 27,
+      "name": "베르카이 이을마준",
+      "real": "베르카이 이을마즈",
+      "pos": "CB",
+      "nation": "튀르키예",
+      "birthYear": 2005,
+      "ovr": 67
+    },
+    {
+      "key": "fri-18",
+      "number": 28,
+      "name": "마티아스 긴터스",
+      "real": "마티아스 긴터",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1994,
+      "ovr": 76
+    },
+    {
+      "key": "fri-19",
+      "number": 29,
+      "name": "필리프 트로인",
+      "real": "필리프 트로이",
+      "pos": "RB",
+      "nation": "독일",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "fri-20",
+      "number": 30,
+      "name": "크리스티안 귄터스",
+      "real": "크리스티안 귄터",
+      "pos": "LB",
+      "nation": "독일",
+      "birthYear": 1993,
+      "ovr": 74
+    },
+    {
+      "key": "fri-21",
+      "number": 31,
+      "name": "이고르 마타노비츠",
+      "real": "이고르 마타노비치",
+      "pos": "ST",
+      "nation": "크로아티아",
+      "birthYear": 2003,
+      "ovr": 73
+    },
+    {
+      "key": "fri-22",
+      "number": 32,
+      "name": "빈첸초 그리폰",
+      "real": "빈첸초 그리포",
+      "pos": "CAM",
+      "nation": "이탈리아",
+      "birthYear": 1993,
+      "ovr": 77
+    },
+    {
+      "key": "fri-23",
+      "number": 33,
+      "name": "조르디 마켕곤",
+      "real": "조르디 마켕고",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "fri-24",
+      "number": 37,
+      "name": "막스 로젠펠더스",
+      "real": "막스 로젠펠더",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "fri-25",
+      "number": 42,
+      "name": "고토 게이스켄",
+      "real": "고토 게이스케",
+      "pos": "ST",
+      "nation": "일본",
+      "birthYear": 2005,
+      "ovr": 69
+    },
+    {
+      "key": "fri-26",
+      "number": 43,
+      "name": "브루노 오그부손",
+      "real": "브루노 오그부스",
+      "pos": "CB",
+      "nation": "스위스",
+      "birthYear": 2005,
+      "ovr": 65
+    }
+  ]
+}

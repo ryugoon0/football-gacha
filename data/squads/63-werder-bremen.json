@@ -1,0 +1,300 @@
+{
+  "club": "브레멘 그린",
+  "realClub": "SV 베르더 브레멘",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/SV_Werder_Bremen",
+  "pilot": false,
+  "players": [
+    {
+      "key": "bre2-01",
+      "number": 1,
+      "name": "카를 헤인드",
+      "real": "카를 헤인",
+      "pos": "GK",
+      "nation": "에스토니아",
+      "birthYear": 2002,
+      "ovr": 72
+    },
+    {
+      "key": "bre2-02",
+      "number": 2,
+      "name": "올리비에 데마느",
+      "real": "올리비에 데만",
+      "pos": "LB",
+      "nation": "벨기에",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "bre2-03",
+      "number": 3,
+      "name": "오스카르 부이치큰",
+      "real": "오스카르 부이치크",
+      "pos": "CB",
+      "nation": "폴란드",
+      "birthYear": 2003,
+      "ovr": 67
+    },
+    {
+      "key": "bre2-04",
+      "number": 4,
+      "name": "니클라스 슈타르큰",
+      "real": "니클라스 슈타르크",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1995,
+      "ovr": 73
+    },
+    {
+      "key": "bre2-05",
+      "number": 5,
+      "name": "아모스 피퍼스",
+      "real": "아모스 피퍼",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 72
+    },
+    {
+      "key": "bre2-06",
+      "number": 6,
+      "name": "옌스 스타겐",
+      "real": "옌스 스타게",
+      "pos": "CM",
+      "nation": "덴마크",
+      "birthYear": 1996,
+      "ovr": 73
+    },
+    {
+      "key": "bre2-07",
+      "number": 8,
+      "name": "미첼 바이저스",
+      "real": "미첼 바이저",
+      "pos": "RB",
+      "nation": "독일",
+      "birthYear": 1994,
+      "ovr": 74
+    },
+    {
+      "key": "bre2-08",
+      "number": 9,
+      "name": "케케 톱스",
+      "real": "케케 톱",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 2004,
+      "ovr": 71
+    },
+    {
+      "key": "bre2-09",
+      "number": 10,
+      "name": "니클라스 퓔크루큰",
+      "real": "니클라스 퓔크루크",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 1993,
+      "ovr": 76
+    },
+    {
+      "key": "bre2-10",
+      "number": 11,
+      "name": "유스틴 은진마르",
+      "real": "유스틴 은진마",
+      "pos": "LW",
+      "nation": "독일",
+      "birthYear": 2000,
+      "ovr": 72
+    },
+    {
+      "key": "bre2-11",
+      "number": 13,
+      "name": "아르투른",
+      "real": "아르투르",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 2003,
+      "ovr": 71
+    },
+    {
+      "key": "bre2-12",
+      "number": 14,
+      "name": "세너 리넌드",
+      "real": "세너 리넌",
+      "pos": "CDM",
+      "nation": "벨기에",
+      "birthYear": 1999,
+      "ovr": 73
+    },
+    {
+      "key": "bre2-13",
+      "number": 15,
+      "name": "루도비트 레이손",
+      "real": "루도비트 레이스",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2000,
+      "ovr": 73
+    },
+    {
+      "key": "bre2-14",
+      "number": 16,
+      "name": "무사 은디아옌",
+      "real": "무사 은디아예",
+      "pos": "LB",
+      "nation": "세네갈",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "bre2-15",
+      "number": 17,
+      "name": "마르코 그륄라",
+      "real": "마르코 그륄",
+      "pos": "LW",
+      "nation": "오스트리아",
+      "birthYear": 1998,
+      "ovr": 72
+    },
+    {
+      "key": "bre2-16",
+      "number": 18,
+      "name": "에렌 딩크친",
+      "real": "에렌 딩크치",
+      "pos": "CAM",
+      "nation": "튀르키예",
+      "birthYear": 2001,
+      "ovr": 71
+    },
+    {
+      "key": "bre2-17",
+      "number": 19,
+      "name": "케니 크탕드",
+      "real": "케니 크탕",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 64
+    },
+    {
+      "key": "bre2-18",
+      "number": 20,
+      "name": "추킨",
+      "real": "추키",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "bre2-19",
+      "number": 21,
+      "name": "다비트 코브나츠킨",
+      "real": "다비트 코브나츠키",
+      "pos": "ST",
+      "nation": "폴란드",
+      "birthYear": 1997,
+      "ovr": 71
+    },
+    {
+      "key": "bre2-20",
+      "number": 22,
+      "name": "훌리안 말라티닌",
+      "real": "훌리안 말라티니",
+      "pos": "CB",
+      "nation": "아르헨티나",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "bre2-21",
+      "number": 23,
+      "name": "다리우시 스탈마흔",
+      "real": "다리우시 스탈마흐",
+      "pos": "CM",
+      "nation": "폴란드",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "bre2-22",
+      "number": 25,
+      "name": "마르쿠스 콜켄",
+      "real": "마르쿠스 콜케",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1990,
+      "ovr": 64
+    },
+    {
+      "key": "bre2-23",
+      "number": 26,
+      "name": "세드리크 이텐드",
+      "real": "세드리크 이텐",
+      "pos": "ST",
+      "nation": "스위스",
+      "birthYear": 1996,
+      "ovr": 70
+    },
+    {
+      "key": "bre2-24",
+      "number": 27,
+      "name": "펠릭스 아군",
+      "real": "펠릭스 아구",
+      "pos": "RB",
+      "nation": "나이지리아",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "bre2-25",
+      "number": 28,
+      "name": "스켈리 알베론",
+      "real": "스켈리 알베로",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "bre2-26",
+      "number": 29,
+      "name": "살림 무산",
+      "real": "살림 무사",
+      "pos": "LW",
+      "nation": "독일",
+      "birthYear": 2006,
+      "ovr": 64
+    },
+    {
+      "key": "bre2-27",
+      "number": 30,
+      "name": "알렉산더 슐라거스",
+      "real": "알렉산더 슐라거",
+      "pos": "GK",
+      "nation": "오스트리아",
+      "birthYear": 1996,
+      "ovr": 72
+    },
+    {
+      "key": "bre2-28",
+      "number": 32,
+      "name": "마르코 프리들라",
+      "real": "마르코 프리들",
+      "pos": "CB",
+      "nation": "오스트리아",
+      "birthYear": 1998,
+      "ovr": 73
+    },
+    {
+      "key": "bre2-29",
+      "number": 44,
+      "name": "유리 레헤른",
+      "real": "유리 레헤르",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 71
+    }
+  ]
+}

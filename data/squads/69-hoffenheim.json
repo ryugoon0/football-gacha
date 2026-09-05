@@ -1,0 +1,270 @@
+{
+  "club": "호펜 마을",
+  "realClub": "TSG 1899 호펜하임",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/TSG_1899_Hoffenheim",
+  "pilot": false,
+  "players": [
+    {
+      "key": "hof-01",
+      "number": 1,
+      "name": "올리버 바우마느",
+      "real": "올리버 바우만",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1990,
+      "ovr": 76
+    },
+    {
+      "key": "hof-02",
+      "number": 2,
+      "name": "로빈 흐라나친",
+      "real": "로빈 흐라나치",
+      "pos": "RB",
+      "nation": "체코",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "hof-03",
+      "number": 4,
+      "name": "션 둘리츠",
+      "real": "션 둘리치",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2005,
+      "ovr": 70
+    },
+    {
+      "key": "hof-04",
+      "number": 5,
+      "name": "오잔 카바큰",
+      "real": "오잔 카바크",
+      "pos": "CB",
+      "nation": "튀르키예",
+      "birthYear": 2000,
+      "ovr": 74
+    },
+    {
+      "key": "hof-05",
+      "number": 7,
+      "name": "레온 아브둘라후르",
+      "real": "레온 아브둘라후",
+      "pos": "CDM",
+      "nation": "코소보",
+      "birthYear": 2004,
+      "ovr": 74
+    },
+    {
+      "key": "hof-06",
+      "number": 8,
+      "name": "파트리크 비머스",
+      "real": "파트리크 비머",
+      "pos": "CAM",
+      "nation": "오스트리아",
+      "birthYear": 2001,
+      "ovr": 75
+    },
+    {
+      "key": "hof-07",
+      "number": 9,
+      "name": "막스 뫼르슈테튼",
+      "real": "막스 뫼르슈테트",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 2006,
+      "ovr": 72
+    },
+    {
+      "key": "hof-08",
+      "number": 10,
+      "name": "아담 흘로제큰",
+      "real": "아담 흘로제크",
+      "pos": "CAM",
+      "nation": "체코",
+      "birthYear": 2002,
+      "ovr": 76
+    },
+    {
+      "key": "hof-09",
+      "number": 11,
+      "name": "피스니크 아슬라닌",
+      "real": "피스니크 아슬라니",
+      "pos": "ST",
+      "nation": "코소보",
+      "birthYear": 2002,
+      "ovr": 75
+    },
+    {
+      "key": "hof-10",
+      "number": 13,
+      "name": "베르나르둔",
+      "real": "베르나르두",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 1995,
+      "ovr": 72
+    },
+    {
+      "key": "hof-11",
+      "number": 14,
+      "name": "아담 다기므",
+      "real": "아담 다김",
+      "pos": "LW",
+      "nation": "덴마크",
+      "birthYear": 2005,
+      "ovr": 72
+    },
+    {
+      "key": "hof-12",
+      "number": 15,
+      "name": "발랑탱 장드렌",
+      "real": "발랑탱 장드레",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 2000,
+      "ovr": 72
+    },
+    {
+      "key": "hof-13",
+      "number": 16,
+      "name": "루이스 엥겔른손",
+      "real": "루이스 엥겔른스",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 2007,
+      "ovr": 65
+    },
+    {
+      "key": "hof-14",
+      "number": 17,
+      "name": "나탕 더 카튼",
+      "real": "나탕 더 카트",
+      "pos": "CM",
+      "nation": "벨기에",
+      "birthYear": 2008,
+      "ovr": 66
+    },
+    {
+      "key": "hof-15",
+      "number": 18,
+      "name": "바우터르 뷔르허른",
+      "real": "바우터르 뷔르허르",
+      "pos": "CDM",
+      "nation": "네덜란드",
+      "birthYear": 2001,
+      "ovr": 73
+    },
+    {
+      "key": "hof-16",
+      "number": 19,
+      "name": "팀 렘페를렌",
+      "real": "팀 렘페를레",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 2002,
+      "ovr": 74
+    },
+    {
+      "key": "hof-17",
+      "number": 20,
+      "name": "밤바세 콩텐",
+      "real": "밤바세 콩테",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "hof-18",
+      "number": 21,
+      "name": "알비안 하이다린",
+      "real": "알비안 하이다리",
+      "pos": "CB",
+      "nation": "코소보",
+      "birthYear": 2003,
+      "ovr": 72
+    },
+    {
+      "key": "hof-19",
+      "number": 22,
+      "name": "알렉산더 프라손",
+      "real": "알렉산더 프라스",
+      "pos": "CM",
+      "nation": "오스트리아",
+      "birthYear": 2001,
+      "ovr": 75
+    },
+    {
+      "key": "hof-20",
+      "number": 27,
+      "name": "안드레이 크라마리츠",
+      "real": "안드레이 크라마리치",
+      "pos": "ST",
+      "nation": "크로아티아",
+      "birthYear": 1991,
+      "ovr": 77
+    },
+    {
+      "key": "hof-21",
+      "number": 28,
+      "name": "마치다 고킨",
+      "real": "마치다 고키",
+      "pos": "CB",
+      "nation": "일본",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "hof-22",
+      "number": 32,
+      "name": "카예탄 렌추",
+      "real": "카예탄 렌츠",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 2006,
+      "ovr": 65
+    },
+    {
+      "key": "hof-23",
+      "number": 34,
+      "name": "블라디미르 초우팔라",
+      "real": "블라디미르 초우팔",
+      "pos": "RB",
+      "nation": "체코",
+      "birthYear": 1992,
+      "ovr": 73
+    },
+    {
+      "key": "hof-24",
+      "number": 35,
+      "name": "아르투르 샤베손",
+      "real": "아르투르 샤베스",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 2001,
+      "ovr": 71
+    },
+    {
+      "key": "hof-25",
+      "number": 36,
+      "name": "루카스 페테르손드",
+      "real": "루카스 페테르손",
+      "pos": "GK",
+      "nation": "아이슬란드",
+      "birthYear": 2004,
+      "ovr": 65
+    },
+    {
+      "key": "hof-26",
+      "number": 39,
+      "name": "마츠 로추",
+      "real": "마츠 로츠",
+      "pos": "LB",
+      "nation": "네덜란드",
+      "birthYear": 2006,
+      "ovr": 66
+    }
+  ]
+}

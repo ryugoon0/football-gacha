@@ -1,0 +1,280 @@
+{
+  "club": "라이프 불스",
+  "realClub": "RB 라이프치히",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/RB_Leipzig",
+  "pilot": false,
+  "players": [
+    {
+      "key": "rbl-01",
+      "number": 1,
+      "name": "외르얀 뉠라느",
+      "real": "외르얀 뉠란",
+      "pos": "GK",
+      "nation": "노르웨이",
+      "birthYear": 1990,
+      "ovr": 74
+    },
+    {
+      "key": "rbl-02",
+      "number": 2,
+      "name": "압둘 코넨",
+      "real": "압둘 코네",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2005,
+      "ovr": 70
+    },
+    {
+      "key": "rbl-03",
+      "number": 3,
+      "name": "막심 에스테븐",
+      "real": "막심 에스테브",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 77
+    },
+    {
+      "key": "rbl-04",
+      "number": 4,
+      "name": "빌리 오르바느",
+      "real": "빌리 오르반",
+      "pos": "CB",
+      "nation": "헝가리",
+      "birthYear": 1992,
+      "ovr": 78
+    },
+    {
+      "key": "rbl-05",
+      "number": 6,
+      "name": "에제키엘 반주진",
+      "real": "에제키엘 반주지",
+      "pos": "CDM",
+      "nation": "네덜란드",
+      "birthYear": 2005,
+      "ovr": 74
+    },
+    {
+      "key": "rbl-06",
+      "number": 7,
+      "name": "안토니오 누산",
+      "real": "안토니오 누사",
+      "pos": "LW",
+      "nation": "노르웨이",
+      "birthYear": 2005,
+      "ovr": 81
+    },
+    {
+      "key": "rbl-07",
+      "number": 8,
+      "name": "아산 우에드라오곤",
+      "real": "아산 우에드라오고",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 2006,
+      "ovr": 76
+    },
+    {
+      "key": "rbl-08",
+      "number": 9,
+      "name": "마르크 기운",
+      "real": "마르크 기우",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 2006,
+      "ovr": 77
+    },
+    {
+      "key": "rbl-09",
+      "number": 10,
+      "name": "브라얀 그루단",
+      "real": "브라얀 그루다",
+      "pos": "RW",
+      "nation": "독일",
+      "birthYear": 2004,
+      "ovr": 76
+    },
+    {
+      "key": "rbl-10",
+      "number": 11,
+      "name": "요한 바카요콘",
+      "real": "요한 바카요코",
+      "pos": "RW",
+      "nation": "벨기에",
+      "birthYear": 2003,
+      "ovr": 81
+    },
+    {
+      "key": "rbl-11",
+      "number": 13,
+      "name": "니콜라스 자이발튼",
+      "real": "니콜라스 자이발트",
+      "pos": "CDM",
+      "nation": "오스트리아",
+      "birthYear": 2001,
+      "ovr": 78
+    },
+    {
+      "key": "rbl-12",
+      "number": 14,
+      "name": "크리스토프 바움가르트너스",
+      "real": "크리스토프 바움가르트너",
+      "pos": "CAM",
+      "nation": "오스트리아",
+      "birthYear": 1999,
+      "ovr": 79
+    },
+    {
+      "key": "rbl-13",
+      "number": 16,
+      "name": "루카스 클로스터마느",
+      "real": "루카스 클로스터만",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1996,
+      "ovr": 75
+    },
+    {
+      "key": "rbl-14",
+      "number": 17,
+      "name": "리들레 바쿤",
+      "real": "리들레 바쿠",
+      "pos": "RB",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 76
+    },
+    {
+      "key": "rbl-15",
+      "number": 18,
+      "name": "술레만 사닌",
+      "real": "술레만 사니",
+      "pos": "ST",
+      "nation": "나이지리아",
+      "birthYear": 2006,
+      "ovr": 67
+    },
+    {
+      "key": "rbl-16",
+      "number": 20,
+      "name": "로코 라이추",
+      "real": "로코 라이츠",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 2002,
+      "ovr": 75
+    },
+    {
+      "key": "rbl-17",
+      "number": 21,
+      "name": "네일 엘 아이나윈",
+      "real": "네일 엘 아이나위",
+      "pos": "CM",
+      "nation": "모로코",
+      "birthYear": 2001,
+      "ovr": 77
+    },
+    {
+      "key": "rbl-18",
+      "number": 22,
+      "name": "다비트 라우므",
+      "real": "다비트 라움",
+      "pos": "LB",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 79
+    },
+    {
+      "key": "rbl-19",
+      "number": 23,
+      "name": "카스텔로 루케반",
+      "real": "카스텔로 루케바",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 79
+    },
+    {
+      "key": "rbl-20",
+      "number": 25,
+      "name": "레오폴트 칭거렌",
+      "real": "레오폴트 칭거레",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1994,
+      "ovr": 66
+    },
+    {
+      "key": "rbl-21",
+      "number": 26,
+      "name": "마르턴 판더보르튼",
+      "real": "마르턴 판더보르트",
+      "pos": "GK",
+      "nation": "벨기에",
+      "birthYear": 2002,
+      "ovr": 76
+    },
+    {
+      "key": "rbl-22",
+      "number": 27,
+      "name": "티디암 고미손",
+      "real": "티디암 고미스",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 69
+    },
+    {
+      "key": "rbl-23",
+      "number": 28,
+      "name": "크리스토퍼 은쿤쿤",
+      "real": "크리스토퍼 은쿤쿠",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 1997,
+      "ovr": 80
+    },
+    {
+      "key": "rbl-24",
+      "number": 30,
+      "name": "안드리야 막시모비츠",
+      "real": "안드리야 막시모비치",
+      "pos": "CAM",
+      "nation": "세르비아",
+      "birthYear": 2007,
+      "ovr": 72
+    },
+    {
+      "key": "rbl-25",
+      "number": 35,
+      "name": "막스 핑크그레펜",
+      "real": "막스 핑크그레페",
+      "pos": "LB",
+      "nation": "독일",
+      "birthYear": 2004,
+      "ovr": 71
+    },
+    {
+      "key": "rbl-26",
+      "number": 39,
+      "name": "벤야민 헨리흐손",
+      "real": "벤야민 헨리히스",
+      "pos": "RB",
+      "nation": "독일",
+      "birthYear": 1997,
+      "ovr": 77
+    },
+    {
+      "key": "rbl-27",
+      "number": 40,
+      "name": "호물룬",
+      "real": "호물루",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 2002,
+      "ovr": 74
+    }
+  ]
+}

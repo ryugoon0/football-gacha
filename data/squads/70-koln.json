@@ -1,0 +1,280 @@
+{
+  "club": "쾰른 염소",
+  "realClub": "1. FC 쾰른",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/1._FC_Köln",
+  "pilot": false,
+  "players": [
+    {
+      "key": "kol-01",
+      "number": 1,
+      "name": "마르빈 슈베벤",
+      "real": "마르빈 슈베베",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1995,
+      "ovr": 73
+    },
+    {
+      "key": "kol-02",
+      "number": 2,
+      "name": "요엘 슈미튼",
+      "real": "요엘 슈미트",
+      "pos": "RB",
+      "nation": "스위스",
+      "birthYear": 1998,
+      "ovr": 70
+    },
+    {
+      "key": "kol-03",
+      "number": 3,
+      "name": "보르나 소산",
+      "real": "보르나 소사",
+      "pos": "LB",
+      "nation": "크로아티아",
+      "birthYear": 1998,
+      "ovr": 73
+    },
+    {
+      "key": "kol-04",
+      "number": 4,
+      "name": "티모 휘버손",
+      "real": "티모 휘버스",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1996,
+      "ovr": 72
+    },
+    {
+      "key": "kol-05",
+      "number": 5,
+      "name": "톰 크라우손",
+      "real": "톰 크라우스",
+      "pos": "CDM",
+      "nation": "독일",
+      "birthYear": 2001,
+      "ovr": 72
+    },
+    {
+      "key": "kol-06",
+      "number": 6,
+      "name": "엘리에스 스키린",
+      "real": "엘리에스 스키리",
+      "pos": "CDM",
+      "nation": "튀니지",
+      "birthYear": 1995,
+      "ovr": 75
+    },
+    {
+      "key": "kol-07",
+      "number": 7,
+      "name": "루카 발트슈미튼",
+      "real": "루카 발트슈미트",
+      "pos": "LW",
+      "nation": "독일",
+      "birthYear": 1996,
+      "ovr": 72
+    },
+    {
+      "key": "kol-08",
+      "number": 8,
+      "name": "이사크 요한네손드",
+      "real": "이사크 요한네손",
+      "pos": "CM",
+      "nation": "아이슬란드",
+      "birthYear": 2003,
+      "ovr": 71
+    },
+    {
+      "key": "kol-09",
+      "number": 9,
+      "name": "라그나르 아헨",
+      "real": "라그나르 아헤",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 73
+    },
+    {
+      "key": "kol-10",
+      "number": 10,
+      "name": "사이드 엘 말란",
+      "real": "사이드 엘 말라",
+      "pos": "CAM",
+      "nation": "독일",
+      "birthYear": 2006,
+      "ovr": 75
+    },
+    {
+      "key": "kol-11",
+      "number": 11,
+      "name": "레이건 헤스킨",
+      "real": "레이건 헤스키",
+      "pos": "ST",
+      "nation": "잉글랜드",
+      "birthYear": 2008,
+      "ovr": 63
+    },
+    {
+      "key": "kol-12",
+      "number": 14,
+      "name": "기데온 멘산",
+      "real": "기데온 멘사",
+      "pos": "LB",
+      "nation": "가나",
+      "birthYear": 1998,
+      "ovr": 70
+    },
+    {
+      "key": "kol-13",
+      "number": 15,
+      "name": "이마드 론디츠",
+      "real": "이마드 론디치",
+      "pos": "ST",
+      "nation": "보스니아헤르체고비나",
+      "birthYear": 1999,
+      "ovr": 69
+    },
+    {
+      "key": "kol-14",
+      "number": 17,
+      "name": "알레시오 카스트로몬테손",
+      "real": "알레시오 카스트로몬테스",
+      "pos": "RB",
+      "nation": "벨기에",
+      "birthYear": 1999,
+      "ovr": 71
+    },
+    {
+      "key": "kol-15",
+      "number": 19,
+      "name": "말레크 엘 말란",
+      "real": "말레크 엘 말라",
+      "pos": "LW",
+      "nation": "독일",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "kol-16",
+      "number": 20,
+      "name": "론로베르트 칠러스",
+      "real": "론로베르트 칠러",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1989,
+      "ovr": 66
+    },
+    {
+      "key": "kol-17",
+      "number": 22,
+      "name": "자마이 심프슨퓨진",
+      "real": "자마이 심프슨퓨지",
+      "pos": "CB",
+      "nation": "잉글랜드",
+      "birthYear": 2005,
+      "ovr": 70
+    },
+    {
+      "key": "kol-18",
+      "number": 23,
+      "name": "폴 오콘엥슬러스",
+      "real": "폴 오콘엥슬러",
+      "pos": "CM",
+      "nation": "호주",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "kol-19",
+      "number": 24,
+      "name": "루카 로초시빌린",
+      "real": "루카 로초시빌리",
+      "pos": "CB",
+      "nation": "조지아",
+      "birthYear": 1998,
+      "ovr": 72
+    },
+    {
+      "key": "kol-20",
+      "number": 27,
+      "name": "테이스 달링안",
+      "real": "테이스 달링아",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 2000,
+      "ovr": 74
+    },
+    {
+      "key": "kol-21",
+      "number": 28,
+      "name": "세바스티안 세불론센드",
+      "real": "세바스티안 세불론센",
+      "pos": "RB",
+      "nation": "노르웨이",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "kol-22",
+      "number": 29,
+      "name": "얀 틸마느",
+      "real": "얀 틸만",
+      "pos": "RW",
+      "nation": "독일",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "kol-23",
+      "number": 30,
+      "name": "마리우스 뷜터스",
+      "real": "마리우스 뷜터",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 1993,
+      "ovr": 72
+    },
+    {
+      "key": "kol-24",
+      "number": 31,
+      "name": "질 네베손",
+      "real": "질 네베스",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 2008,
+      "ovr": 62
+    },
+    {
+      "key": "kol-25",
+      "number": 33,
+      "name": "라프 판덴베르흔",
+      "real": "라프 판덴베르흐",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 71
+    },
+    {
+      "key": "kol-26",
+      "number": 37,
+      "name": "린톤 마이난",
+      "real": "린톤 마이나",
+      "pos": "LW",
+      "nation": "독일",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "kol-27",
+      "number": 47,
+      "name": "마이키 무언",
+      "real": "마이키 무어",
+      "pos": "LW",
+      "nation": "잉글랜드",
+      "birthYear": 2007,
+      "ovr": 70
+    }
+  ]
+}

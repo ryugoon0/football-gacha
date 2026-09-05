@@ -1,0 +1,250 @@
+{
+  "club": "도르트 옐로",
+  "realClub": "보루시아 도르트문트",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Borussia_Dortmund",
+  "pilot": false,
+  "players": [
+    {
+      "key": "dor-01",
+      "number": 1,
+      "name": "그레고어 코벨라",
+      "real": "그레고어 코벨",
+      "pos": "GK",
+      "nation": "스위스",
+      "birthYear": 1997,
+      "ovr": 85
+    },
+    {
+      "key": "dor-02",
+      "number": 3,
+      "name": "발데마르 안톤드",
+      "real": "발데마르 안톤",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1996,
+      "ovr": 80
+    },
+    {
+      "key": "dor-03",
+      "number": 4,
+      "name": "니코 슐로터베큰",
+      "real": "니코 슐로터베크",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1999,
+      "ovr": 84
+    },
+    {
+      "key": "dor-04",
+      "number": 5,
+      "name": "라미 벤세바이닌",
+      "real": "라미 벤세바이니",
+      "pos": "LB",
+      "nation": "알제리",
+      "birthYear": 1995,
+      "ovr": 78
+    },
+    {
+      "key": "dor-05",
+      "number": 7,
+      "name": "조브 벨링험",
+      "real": "조브 벨링엄",
+      "pos": "CM",
+      "nation": "잉글랜드",
+      "birthYear": 2005,
+      "ovr": 79
+    },
+    {
+      "key": "dor-06",
+      "number": 8,
+      "name": "펠릭스 은메찬",
+      "real": "펠릭스 은메차",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 2000,
+      "ovr": 79
+    },
+    {
+      "key": "dor-07",
+      "number": 9,
+      "name": "세루 기라신",
+      "real": "세루 기라시",
+      "pos": "ST",
+      "nation": "기니",
+      "birthYear": 1996,
+      "ovr": 85
+    },
+    {
+      "key": "dor-08",
+      "number": 14,
+      "name": "막시밀리안 바이언",
+      "real": "막시밀리안 바이어",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 2002,
+      "ovr": 81
+    },
+    {
+      "key": "dor-09",
+      "number": 17,
+      "name": "카니 추크우에메칸",
+      "real": "카니 추크우에메카",
+      "pos": "CAM",
+      "nation": "오스트리아",
+      "birthYear": 2003,
+      "ovr": 78
+    },
+    {
+      "key": "dor-10",
+      "number": 18,
+      "name": "이선 은와네린",
+      "real": "이선 은와네리",
+      "pos": "CAM",
+      "nation": "잉글랜드",
+      "birthYear": 2007,
+      "ovr": 80
+    },
+    {
+      "key": "dor-11",
+      "number": 19,
+      "name": "콘스탄티노스 카레차손",
+      "real": "콘스탄티노스 카레차스",
+      "pos": "CAM",
+      "nation": "그리스",
+      "birthYear": 2007,
+      "ovr": 78
+    },
+    {
+      "key": "dor-12",
+      "number": 20,
+      "name": "마르셀 자비처스",
+      "real": "마르셀 자비처",
+      "pos": "CM",
+      "nation": "오스트리아",
+      "birthYear": 1994,
+      "ovr": 78
+    },
+    {
+      "key": "dor-13",
+      "number": 21,
+      "name": "파비우 실반",
+      "real": "파비우 실바",
+      "pos": "ST",
+      "nation": "포르투갈",
+      "birthYear": 2002,
+      "ovr": 77
+    },
+    {
+      "key": "dor-14",
+      "number": 22,
+      "name": "조안 가둔",
+      "real": "조안 가두",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2007,
+      "ovr": 70
+    },
+    {
+      "key": "dor-15",
+      "number": 23,
+      "name": "에므레 자느",
+      "real": "에므레 잔",
+      "pos": "CDM",
+      "nation": "독일",
+      "birthYear": 1994,
+      "ovr": 78
+    },
+    {
+      "key": "dor-16",
+      "number": 24,
+      "name": "다니엘 스벤손드",
+      "real": "다니엘 스벤손",
+      "pos": "LB",
+      "nation": "스웨덴",
+      "birthYear": 2002,
+      "ovr": 76
+    },
+    {
+      "key": "dor-17",
+      "number": 25,
+      "name": "요이 페이르마느",
+      "real": "요이 페이르만",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 1998,
+      "ovr": 79
+    },
+    {
+      "key": "dor-18",
+      "number": 26,
+      "name": "율리안 뤼에르손드",
+      "real": "율리안 뤼에르손",
+      "pos": "RB",
+      "nation": "노르웨이",
+      "birthYear": 1997,
+      "ovr": 79
+    },
+    {
+      "key": "dor-19",
+      "number": 28,
+      "name": "후스틴 레르만",
+      "real": "후스틴 레르마",
+      "pos": "CM",
+      "nation": "에콰도르",
+      "birthYear": 2008,
+      "ovr": 70
+    },
+    {
+      "key": "dor-20",
+      "number": 30,
+      "name": "파트리크 드레베손",
+      "real": "파트리크 드레베스",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1993,
+      "ovr": 69
+    },
+    {
+      "key": "dor-21",
+      "number": 31,
+      "name": "질라스 오스트진스킨",
+      "real": "질라스 오스트진스키",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 2003,
+      "ovr": 66
+    },
+    {
+      "key": "dor-22",
+      "number": 33,
+      "name": "알렉산더 마이언",
+      "real": "알렉산더 마이어",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1991,
+      "ovr": 69
+    },
+    {
+      "key": "dor-23",
+      "number": 39,
+      "name": "필리포 마넨",
+      "real": "필리포 마네",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 2005,
+      "ovr": 70
+    },
+    {
+      "key": "dor-24",
+      "number": 45,
+      "name": "야니스 콘스탄텔리아손",
+      "real": "야니스 콘스탄텔리아스",
+      "pos": "CAM",
+      "nation": "그리스",
+      "birthYear": 2003,
+      "ovr": 75
+    }
+  ]
+}

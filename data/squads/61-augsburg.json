@@ -1,0 +1,270 @@
+{
+  "club": "아우크스 푸거",
+  "realClub": "FC 아우크스부르크",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/FC_Augsburg",
+  "pilot": false,
+  "players": [
+    {
+      "key": "aug-01",
+      "number": 1,
+      "name": "핀 다메느",
+      "real": "핀 다멘",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 74
+    },
+    {
+      "key": "aug-02",
+      "number": 2,
+      "name": "칼빈 브라켈마느",
+      "real": "칼빈 브라켈만",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "aug-03",
+      "number": 4,
+      "name": "한노아 마셍곤",
+      "real": "한노아 마셍고",
+      "pos": "CDM",
+      "nation": "프랑스",
+      "birthYear": 2001,
+      "ovr": 72
+    },
+    {
+      "key": "aug-04",
+      "number": 5,
+      "name": "크리슬랭 마치만",
+      "real": "크리슬랭 마치마",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 72
+    },
+    {
+      "key": "aug-05",
+      "number": 6,
+      "name": "제프리 하우벨레이운",
+      "real": "제프리 하우벨레이우",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 1991,
+      "ovr": 72
+    },
+    {
+      "key": "aug-06",
+      "number": 7,
+      "name": "설영운",
+      "real": "설영우",
+      "pos": "RB",
+      "nation": "대한민국",
+      "birthYear": 1998,
+      "ovr": 72
+    },
+    {
+      "key": "aug-07",
+      "number": 8,
+      "name": "시마 수손",
+      "real": "시마 수소",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "aug-08",
+      "number": 9,
+      "name": "호드리구 히베이룬",
+      "real": "호드리구 히베이루",
+      "pos": "ST",
+      "nation": "포르투갈",
+      "birthYear": 2005,
+      "ovr": 70
+    },
+    {
+      "key": "aug-09",
+      "number": 10,
+      "name": "메르트 쾨뮈른",
+      "real": "메르트 쾨뮈르",
+      "pos": "CAM",
+      "nation": "독일",
+      "birthYear": 2005,
+      "ovr": 72
+    },
+    {
+      "key": "aug-10",
+      "number": 11,
+      "name": "미하엘 그레고리츠",
+      "real": "미하엘 그레고리치",
+      "pos": "ST",
+      "nation": "오스트리아",
+      "birthYear": 1994,
+      "ovr": 72
+    },
+    {
+      "key": "aug-11",
+      "number": 14,
+      "name": "야니크 카이텔라",
+      "real": "야니크 카이텔",
+      "pos": "CDM",
+      "nation": "독일",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "aug-12",
+      "number": 15,
+      "name": "스티브 무니엔",
+      "real": "스티브 무니에",
+      "pos": "ST",
+      "nation": "베냉",
+      "birthYear": 1994,
+      "ovr": 71
+    },
+    {
+      "key": "aug-13",
+      "number": 16,
+      "name": "헨네스 베렌손",
+      "real": "헨네스 베렌스",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2005,
+      "ovr": 65
+    },
+    {
+      "key": "aug-14",
+      "number": 17,
+      "name": "크리스티얀 야키츠",
+      "real": "크리스티얀 야키치",
+      "pos": "CDM",
+      "nation": "크로아티아",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "aug-15",
+      "number": 18,
+      "name": "팀 브라이트하우프튼",
+      "real": "팀 브라이트하우프트",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "aug-16",
+      "number": 19,
+      "name": "로빈 펠하우언",
+      "real": "로빈 펠하우어",
+      "pos": "LB",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 69
+    },
+    {
+      "key": "aug-17",
+      "number": 20,
+      "name": "알렉시 클로드모리손",
+      "real": "알렉시 클로드모리스",
+      "pos": "CAM",
+      "nation": "프랑스",
+      "birthYear": 1998,
+      "ovr": 73
+    },
+    {
+      "key": "aug-18",
+      "number": 21,
+      "name": "아리욘 이브라히모비츠",
+      "real": "아리욘 이브라히모비치",
+      "pos": "LW",
+      "nation": "독일",
+      "birthYear": 2005,
+      "ovr": 70
+    },
+    {
+      "key": "aug-19",
+      "number": 22,
+      "name": "네딜코 라브로비츠",
+      "real": "네딜코 라브로비치",
+      "pos": "GK",
+      "nation": "크로아티아",
+      "birthYear": 1999,
+      "ovr": 69
+    },
+    {
+      "key": "aug-20",
+      "number": 27,
+      "name": "마리우스 볼픈",
+      "real": "마리우스 볼프",
+      "pos": "RB",
+      "nation": "독일",
+      "birthYear": 1995,
+      "ovr": 72
+    },
+    {
+      "key": "aug-21",
+      "number": 30,
+      "name": "안톤 카덴",
+      "real": "안톤 카데",
+      "pos": "RW",
+      "nation": "독일",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "aug-22",
+      "number": 32,
+      "name": "파비안 리더스",
+      "real": "파비안 리더",
+      "pos": "CAM",
+      "nation": "스위스",
+      "birthYear": 2002,
+      "ovr": 73
+    },
+    {
+      "key": "aug-23",
+      "number": 34,
+      "name": "나타나엘 음부쿤",
+      "real": "나타나엘 음부쿠",
+      "pos": "LW",
+      "nation": "콩고민주공화국",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "aug-24",
+      "number": 35,
+      "name": "주마 바르",
+      "real": "주마 바",
+      "pos": "CB",
+      "nation": "시에라리온",
+      "birthYear": 2006,
+      "ovr": 69
+    },
+    {
+      "key": "aug-25",
+      "number": 40,
+      "name": "노아카이 뱅크손",
+      "real": "노아카이 뱅크스",
+      "pos": "CB",
+      "nation": "미국",
+      "birthYear": 2006,
+      "ovr": 67
+    },
+    {
+      "key": "aug-26",
+      "number": 42,
+      "name": "마흐무트 퀴췩샤히느",
+      "real": "마흐무트 퀴췩샤힌",
+      "pos": "CM",
+      "nation": "튀르키예",
+      "birthYear": 2004,
+      "ovr": 64
+    }
+  ]
+}

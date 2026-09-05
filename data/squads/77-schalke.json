@@ -1,0 +1,260 @@
+{
+  "club": "샬케 쾨니히",
+  "realClub": "FC 샬케 04",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/FC_Schalke_04",
+  "pilot": false,
+  "players": [
+    {
+      "key": "sch-01",
+      "number": 1,
+      "name": "로리스 카리우손",
+      "real": "로리스 카리우스",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1993,
+      "ovr": 71
+    },
+    {
+      "key": "sch-02",
+      "number": 4,
+      "name": "하산 쿠루차인",
+      "real": "하산 쿠루차이",
+      "pos": "CB",
+      "nation": "튀르키예",
+      "birthYear": 1997,
+      "ovr": 70
+    },
+    {
+      "key": "sch-03",
+      "number": 5,
+      "name": "티모 베커스",
+      "real": "티모 베커",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1997,
+      "ovr": 70
+    },
+    {
+      "key": "sch-04",
+      "number": 6,
+      "name": "론 샬렌베르큰",
+      "real": "론 샬렌베르크",
+      "pos": "CDM",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 70
+    },
+    {
+      "key": "sch-05",
+      "number": 7,
+      "name": "황희차느",
+      "real": "황희찬",
+      "pos": "RW",
+      "nation": "대한민국",
+      "birthYear": 1996,
+      "ovr": 78
+    },
+    {
+      "key": "sch-06",
+      "number": 8,
+      "name": "로빈 고젠손",
+      "real": "로빈 고젠스",
+      "pos": "LB",
+      "nation": "독일",
+      "birthYear": 1994,
+      "ovr": 75
+    },
+    {
+      "key": "sch-07",
+      "number": 9,
+      "name": "무사 실란",
+      "real": "무사 실라",
+      "pos": "ST",
+      "nation": "말리",
+      "birthYear": 1999,
+      "ovr": 73
+    },
+    {
+      "key": "sch-08",
+      "number": 10,
+      "name": "에딘 제콘",
+      "real": "에딘 제코",
+      "pos": "ST",
+      "nation": "보스니아헤르체고비나",
+      "birthYear": 1986,
+      "ovr": 73
+    },
+    {
+      "key": "sch-09",
+      "number": 11,
+      "name": "브라이언 라스멘",
+      "real": "브라이언 라스메",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 1998,
+      "ovr": 69
+    },
+    {
+      "key": "sch-10",
+      "number": 13,
+      "name": "다나카 사토신",
+      "real": "다나카 사토시",
+      "pos": "CM",
+      "nation": "일본",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "sch-11",
+      "number": 14,
+      "name": "야니크 바흐마느",
+      "real": "야니크 바흐만",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 1996,
+      "ovr": 69
+    },
+    {
+      "key": "sch-12",
+      "number": 15,
+      "name": "에밀 회일룬드",
+      "real": "에밀 회일룬",
+      "pos": "ST",
+      "nation": "덴마크",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "sch-13",
+      "number": 17,
+      "name": "아드리안 간텐바인드",
+      "real": "아드리안 간텐바인",
+      "pos": "RB",
+      "nation": "스위스",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "sch-14",
+      "number": 19,
+      "name": "케난 카라마느",
+      "real": "케난 카라만",
+      "pos": "ST",
+      "nation": "튀르키예",
+      "birthYear": 1994,
+      "ovr": 72
+    },
+    {
+      "key": "sch-15",
+      "number": 20,
+      "name": "주니오르 아다문",
+      "real": "주니오르 아다무",
+      "pos": "ST",
+      "nation": "오스트리아",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "sch-16",
+      "number": 21,
+      "name": "데얀 류비치츠",
+      "real": "데얀 류비치치",
+      "pos": "CM",
+      "nation": "오스트리아",
+      "birthYear": 1997,
+      "ovr": 72
+    },
+    {
+      "key": "sch-17",
+      "number": 22,
+      "name": "케빈 뮐러르",
+      "real": "케빈 뮐러",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1991,
+      "ovr": 66
+    },
+    {
+      "key": "sch-18",
+      "number": 23,
+      "name": "수피안 엘파우진",
+      "real": "수피안 엘파우지",
+      "pos": "CM",
+      "nation": "모로코",
+      "birthYear": 2002,
+      "ovr": 67
+    },
+    {
+      "key": "sch-19",
+      "number": 24,
+      "name": "아딜 아우시슌",
+      "real": "아딜 아우시슈",
+      "pos": "CAM",
+      "nation": "알제리",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "sch-20",
+      "number": 25,
+      "name": "니콜라 카티츠",
+      "real": "니콜라 카티치",
+      "pos": "CB",
+      "nation": "보스니아헤르체고비나",
+      "birthYear": 1996,
+      "ovr": 70
+    },
+    {
+      "key": "sch-21",
+      "number": 27,
+      "name": "핀 포라튼",
+      "real": "핀 포라트",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 1997,
+      "ovr": 68
+    },
+    {
+      "key": "sch-22",
+      "number": 29,
+      "name": "주니오르 디나 에빔벤",
+      "real": "주니오르 디나 에빔베",
+      "pos": "CM",
+      "nation": "카메룬",
+      "birthYear": 2000,
+      "ovr": 73
+    },
+    {
+      "key": "sch-23",
+      "number": 33,
+      "name": "비탈리에 베커느",
+      "real": "비탈리에 베커",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2005,
+      "ovr": 64
+    },
+    {
+      "key": "sch-24",
+      "number": 39,
+      "name": "막시밀리안 뵈버스",
+      "real": "막시밀리안 뵈버",
+      "pos": "CB",
+      "nation": "오스트리아",
+      "birthYear": 1998,
+      "ovr": 74
+    },
+    {
+      "key": "sch-25",
+      "number": 43,
+      "name": "메르트잔 아이하느",
+      "real": "메르트잔 아이한",
+      "pos": "RB",
+      "nation": "튀르키예",
+      "birthYear": 2006,
+      "ovr": 64
+    }
+  ]
+}

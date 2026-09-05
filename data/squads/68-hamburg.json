@@ -1,0 +1,250 @@
+{
+  "club": "함부르크 로테",
+  "realClub": "함부르크 SV",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Hamburger_SV",
+  "pilot": false,
+  "players": [
+    {
+      "key": "ham-01",
+      "number": 1,
+      "name": "다니엘 호이어 페르난드손",
+      "real": "다니엘 호이어 페르난드스",
+      "pos": "GK",
+      "nation": "포르투갈",
+      "birthYear": 1992,
+      "ovr": 73
+    },
+    {
+      "key": "ham-02",
+      "number": 3,
+      "name": "다비드 묄레르 볼펜",
+      "real": "다비드 묄레르 볼페",
+      "pos": "LB",
+      "nation": "노르웨이",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "ham-03",
+      "number": 4,
+      "name": "빌랄 나디른",
+      "real": "빌랄 나디르",
+      "pos": "CM",
+      "nation": "모로코",
+      "birthYear": 2003,
+      "ovr": 72
+    },
+    {
+      "key": "ham-04",
+      "number": 5,
+      "name": "마르탱 아들린드",
+      "real": "마르탱 아들린",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "ham-05",
+      "number": 6,
+      "name": "알베르 삼비 로콩간",
+      "real": "알베르 삼비 로콩가",
+      "pos": "CDM",
+      "nation": "벨기에",
+      "birthYear": 1999,
+      "ovr": 73
+    },
+    {
+      "key": "ham-06",
+      "number": 7,
+      "name": "자카리아 엘와딘",
+      "real": "자카리아 엘와디",
+      "pos": "RB",
+      "nation": "모로코",
+      "birthYear": 2001,
+      "ovr": 72
+    },
+    {
+      "key": "ham-07",
+      "number": 8,
+      "name": "파비우 비에이란",
+      "real": "파비우 비에이라",
+      "pos": "CAM",
+      "nation": "포르투갈",
+      "birthYear": 2000,
+      "ovr": 76
+    },
+    {
+      "key": "ham-08",
+      "number": 9,
+      "name": "테렘 모핀",
+      "real": "테렘 모피",
+      "pos": "ST",
+      "nation": "나이지리아",
+      "birthYear": 1999,
+      "ovr": 75
+    },
+    {
+      "key": "ham-09",
+      "number": 10,
+      "name": "이마누엘 페라인",
+      "real": "이마누엘 페라이",
+      "pos": "CAM",
+      "nation": "수리남",
+      "birthYear": 2001,
+      "ovr": 71
+    },
+    {
+      "key": "ham-10",
+      "number": 11,
+      "name": "알베르트 그뢴베큰",
+      "real": "알베르트 그뢴베크",
+      "pos": "LW",
+      "nation": "덴마크",
+      "birthYear": 2001,
+      "ovr": 74
+    },
+    {
+      "key": "ham-11",
+      "number": 12,
+      "name": "산데르 탕비큰",
+      "real": "산데르 탕비크",
+      "pos": "GK",
+      "nation": "노르웨이",
+      "birthYear": 2002,
+      "ovr": 66
+    },
+    {
+      "key": "ham-12",
+      "number": 15,
+      "name": "유수프 폴센드",
+      "real": "유수프 폴센",
+      "pos": "ST",
+      "nation": "덴마크",
+      "birthYear": 1994,
+      "ovr": 75
+    },
+    {
+      "key": "ham-13",
+      "number": 17,
+      "name": "와름드 오마린",
+      "real": "와름드 오마리",
+      "pos": "CB",
+      "nation": "코모로",
+      "birthYear": 2000,
+      "ovr": 72
+    },
+    {
+      "key": "ham-14",
+      "number": 18,
+      "name": "바케리 야탄",
+      "real": "바케리 야타",
+      "pos": "LW",
+      "nation": "감비아",
+      "birthYear": 1998,
+      "ovr": 71
+    },
+    {
+      "key": "ham-15",
+      "number": 19,
+      "name": "오토 슈탕겐",
+      "real": "오토 슈탕게",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 2007,
+      "ovr": 64
+    },
+    {
+      "key": "ham-16",
+      "number": 21,
+      "name": "니콜라이 렘베르큰",
+      "real": "니콜라이 렘베르크",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "ham-17",
+      "number": 22,
+      "name": "코피 아모아콘",
+      "real": "코피 아모아코",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "ham-18",
+      "number": 23,
+      "name": "요르단 토루나리한",
+      "real": "요르단 토루나리하",
+      "pos": "CB",
+      "nation": "나이지리아",
+      "birthYear": 1997,
+      "ovr": 72
+    },
+    {
+      "key": "ham-19",
+      "number": 24,
+      "name": "니콜라스 카팔돈",
+      "real": "니콜라스 카팔도",
+      "pos": "CM",
+      "nation": "아르헨티나",
+      "birthYear": 1997,
+      "ovr": 72
+    },
+    {
+      "key": "ham-20",
+      "number": 27,
+      "name": "팟손 다칸",
+      "real": "팟손 다카",
+      "pos": "ST",
+      "nation": "잠비아",
+      "birthYear": 1998,
+      "ovr": 74
+    },
+    {
+      "key": "ham-21",
+      "number": 28,
+      "name": "미로 무하이므",
+      "real": "미로 무하임",
+      "pos": "LB",
+      "nation": "스위스",
+      "birthYear": 1998,
+      "ovr": 72
+    },
+    {
+      "key": "ham-22",
+      "number": 33,
+      "name": "세바스티안 보르나운",
+      "real": "세바스티안 보르나우",
+      "pos": "CB",
+      "nation": "벨기에",
+      "birthYear": 1999,
+      "ovr": 74
+    },
+    {
+      "key": "ham-23",
+      "number": 37,
+      "name": "루이스 렘켄",
+      "real": "루이스 렘케",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2009,
+      "ovr": 61
+    },
+    {
+      "key": "ham-24",
+      "number": 38,
+      "name": "알렉산더 뢰싱렐레시튼",
+      "real": "알렉산더 뢰싱렐레시트",
+      "pos": "LW",
+      "nation": "노르웨이",
+      "birthYear": 2007,
+      "ovr": 64
+    }
+  ]
+}

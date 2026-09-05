@@ -1,0 +1,270 @@
+{
+  "club": "우니온 철강",
+  "realClub": "1. FC 우니온 베를린",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/1._FC_Union_Berlin",
+  "pilot": false,
+  "players": [
+    {
+      "key": "uni-01",
+      "number": 1,
+      "name": "프레데리크 뢰논",
+      "real": "프레데리크 뢰노",
+      "pos": "GK",
+      "nation": "덴마크",
+      "birthYear": 1992,
+      "ovr": 74
+    },
+    {
+      "key": "uni-02",
+      "number": 2,
+      "name": "펠릭스 우두오카인",
+      "real": "펠릭스 우두오카이",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1997,
+      "ovr": 71
+    },
+    {
+      "key": "uni-03",
+      "number": 4,
+      "name": "제노 판덴보손",
+      "real": "제노 판덴보스",
+      "pos": "CB",
+      "nation": "벨기에",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "uni-04",
+      "number": 5,
+      "name": "마르빈 프리드리흔",
+      "real": "마르빈 프리드리히",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1995,
+      "ovr": 71
+    },
+    {
+      "key": "uni-05",
+      "number": 6,
+      "name": "알요샤 켐라인드",
+      "real": "알요샤 켐라인",
+      "pos": "CDM",
+      "nation": "독일",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "uni-06",
+      "number": 7,
+      "name": "올리버 버큰",
+      "real": "올리버 버크",
+      "pos": "LW",
+      "nation": "스코틀랜드",
+      "birthYear": 1997,
+      "ovr": 71
+    },
+    {
+      "key": "uni-07",
+      "number": 8,
+      "name": "라니 케디란",
+      "real": "라니 케디라",
+      "pos": "CDM",
+      "nation": "튀니지",
+      "birthYear": 1994,
+      "ovr": 72
+    },
+    {
+      "key": "uni-08",
+      "number": 9,
+      "name": "리반 부르준",
+      "real": "리반 부르주",
+      "pos": "ST",
+      "nation": "튀르키예",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "uni-09",
+      "number": 11,
+      "name": "정우영드",
+      "real": "정우영",
+      "pos": "CAM",
+      "nation": "대한민국",
+      "birthYear": 1999,
+      "ovr": 73
+    },
+    {
+      "key": "uni-10",
+      "number": 13,
+      "name": "안드라시 셰페른",
+      "real": "안드라시 셰페르",
+      "pos": "CM",
+      "nation": "헝가리",
+      "birthYear": 1999,
+      "ovr": 72
+    },
+    {
+      "key": "uni-11",
+      "number": 14,
+      "name": "레오폴트 크베르펠튼",
+      "real": "레오폴트 크베르펠트",
+      "pos": "CB",
+      "nation": "오스트리아",
+      "birthYear": 2003,
+      "ovr": 71
+    },
+    {
+      "key": "uni-12",
+      "number": 15,
+      "name": "톰 로텐",
+      "real": "톰 로테",
+      "pos": "LB",
+      "nation": "독일",
+      "birthYear": 2004,
+      "ovr": 72
+    },
+    {
+      "key": "uni-13",
+      "number": 17,
+      "name": "데릭 쾬드",
+      "real": "데릭 쾬",
+      "pos": "LB",
+      "nation": "가나",
+      "birthYear": 1999,
+      "ovr": 71
+    },
+    {
+      "key": "uni-14",
+      "number": 18,
+      "name": "요시프 유라노비츠",
+      "real": "요시프 유라노비치",
+      "pos": "RB",
+      "nation": "크로아티아",
+      "birthYear": 1995,
+      "ovr": 72
+    },
+    {
+      "key": "uni-15",
+      "number": 19,
+      "name": "야니크 하베러스",
+      "real": "야니크 하베러",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 1994,
+      "ovr": 71
+    },
+    {
+      "key": "uni-16",
+      "number": 20,
+      "name": "미셸 아에비셔르",
+      "real": "미셸 아에비셔",
+      "pos": "CM",
+      "nation": "스위스",
+      "birthYear": 1997,
+      "ovr": 72
+    },
+    {
+      "key": "uni-17",
+      "number": 21,
+      "name": "팀 스카르켄",
+      "real": "팀 스카르케",
+      "pos": "RW",
+      "nation": "독일",
+      "birthYear": 1996,
+      "ovr": 69
+    },
+    {
+      "key": "uni-18",
+      "number": 23,
+      "name": "안드레이 일리츠",
+      "real": "안드레이 일리치",
+      "pos": "ST",
+      "nation": "세르비아",
+      "birthYear": 2000,
+      "ovr": 72
+    },
+    {
+      "key": "uni-19",
+      "number": 24,
+      "name": "로베르트 스코운",
+      "real": "로베르트 스코우",
+      "pos": "LW",
+      "nation": "덴마크",
+      "birthYear": 1996,
+      "ovr": 72
+    },
+    {
+      "key": "uni-20",
+      "number": 25,
+      "name": "카를 클라우손",
+      "real": "카를 클라우스",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1994,
+      "ovr": 66
+    },
+    {
+      "key": "uni-21",
+      "number": 27,
+      "name": "마린 류비치츠",
+      "real": "마린 류비치치",
+      "pos": "ST",
+      "nation": "크로아티아",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "uni-22",
+      "number": 28,
+      "name": "크리스토퍼 트리멜라",
+      "real": "크리스토퍼 트리멜",
+      "pos": "RB",
+      "nation": "오스트리아",
+      "birthYear": 1987,
+      "ovr": 68
+    },
+    {
+      "key": "uni-23",
+      "number": 29,
+      "name": "에마뉘엘 라테 라튼",
+      "real": "에마뉘엘 라테 라트",
+      "pos": "ST",
+      "nation": "코트디부아르",
+      "birthYear": 1999,
+      "ovr": 73
+    },
+    {
+      "key": "uni-24",
+      "number": 30,
+      "name": "카스트리오트 이메린",
+      "real": "카스트리오트 이메리",
+      "pos": "CAM",
+      "nation": "스위스",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "uni-25",
+      "number": 31,
+      "name": "마테오 라픈",
+      "real": "마테오 라프",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 68
+    },
+    {
+      "key": "uni-26",
+      "number": 34,
+      "name": "스탠리 은소킨",
+      "real": "스탠리 은소키",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 1999,
+      "ovr": 71
+    }
+  ]
+}

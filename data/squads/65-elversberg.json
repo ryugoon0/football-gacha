@@ -1,0 +1,250 @@
+{
+  "club": "엘버스 자르란트",
+  "realClub": "SV 엘버스베르크",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/SV_Elversberg",
+  "pilot": false,
+  "players": [
+    {
+      "key": "elv-01",
+      "number": 1,
+      "name": "프랑크 레마느",
+      "real": "프랑크 레만",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1989,
+      "ovr": 66
+    },
+    {
+      "key": "elv-02",
+      "number": 2,
+      "name": "니컬러스 미켈손드",
+      "real": "니컬러스 미켈손",
+      "pos": "RB",
+      "nation": "태국",
+      "birthYear": 1999,
+      "ovr": 68
+    },
+    {
+      "key": "elv-03",
+      "number": 3,
+      "name": "플로리앙 르 종쿠른",
+      "real": "플로리앙 르 종쿠르",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 1995,
+      "ovr": 68
+    },
+    {
+      "key": "elv-04",
+      "number": 6,
+      "name": "아마라 콩덴",
+      "real": "아마라 콩데",
+      "pos": "CDM",
+      "nation": "기니",
+      "birthYear": 1997,
+      "ovr": 69
+    },
+    {
+      "key": "elv-05",
+      "number": 7,
+      "name": "마우리스 크라텐마허스",
+      "real": "마우리스 크라텐마허",
+      "pos": "CAM",
+      "nation": "독일",
+      "birthYear": 2005,
+      "ovr": 71
+    },
+    {
+      "key": "elv-06",
+      "number": 8,
+      "name": "우카시 포렝반",
+      "real": "우카시 포렝바",
+      "pos": "CM",
+      "nation": "폴란드",
+      "birthYear": 2000,
+      "ovr": 68
+    },
+    {
+      "key": "elv-07",
+      "number": 9,
+      "name": "노엘 푸트케운",
+      "real": "노엘 푸트케우",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "elv-08",
+      "number": 10,
+      "name": "노아 다르비흔",
+      "real": "노아 다르비히",
+      "pos": "CAM",
+      "nation": "독일",
+      "birthYear": 2006,
+      "ovr": 71
+    },
+    {
+      "key": "elv-09",
+      "number": 11,
+      "name": "야손 체칸",
+      "real": "야손 체카",
+      "pos": "LW",
+      "nation": "독일",
+      "birthYear": 1999,
+      "ovr": 68
+    },
+    {
+      "key": "elv-10",
+      "number": 15,
+      "name": "라이프 아다므",
+      "real": "라이프 아담",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 2005,
+      "ovr": 65
+    },
+    {
+      "key": "elv-11",
+      "number": 16,
+      "name": "루카 파이퍼스",
+      "real": "루카 파이퍼",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 1996,
+      "ovr": 69
+    },
+    {
+      "key": "elv-12",
+      "number": 17,
+      "name": "프레데리크 슈말라",
+      "real": "프레데리크 슈말",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 2002,
+      "ovr": 67
+    },
+    {
+      "key": "elv-13",
+      "number": 19,
+      "name": "루카스 핑케르튼",
+      "real": "루카스 핑케르트",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "elv-14",
+      "number": 20,
+      "name": "니콜라스 크리스토픈",
+      "real": "니콜라스 크리스토프",
+      "pos": "GK",
+      "nation": "오스트리아",
+      "birthYear": 1999,
+      "ovr": 66
+    },
+    {
+      "key": "elv-15",
+      "number": 21,
+      "name": "라세 귄터스",
+      "real": "라세 귄터",
+      "pos": "LB",
+      "nation": "독일",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "elv-16",
+      "number": 24,
+      "name": "루카 슈넬바허스",
+      "real": "루카 슈넬바허",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 1994,
+      "ovr": 68
+    },
+    {
+      "key": "elv-17",
+      "number": 25,
+      "name": "루카스 페트코픈",
+      "real": "루카스 페트코프",
+      "pos": "CAM",
+      "nation": "불가리아",
+      "birthYear": 2000,
+      "ovr": 68
+    },
+    {
+      "key": "elv-18",
+      "number": 26,
+      "name": "루카 지르흔",
+      "real": "루카 지르히",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1999,
+      "ovr": 67
+    },
+    {
+      "key": "elv-19",
+      "number": 28,
+      "name": "팀 보손",
+      "real": "팀 보스",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1993,
+      "ovr": 64
+    },
+    {
+      "key": "elv-20",
+      "number": 29,
+      "name": "톰 치머슈리튼",
+      "real": "톰 치머슈리트",
+      "pos": "RW",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 68
+    },
+    {
+      "key": "elv-21",
+      "number": 30,
+      "name": "얀 갸메란",
+      "real": "얀 갸메라",
+      "pos": "RB",
+      "nation": "가나",
+      "birthYear": 1995,
+      "ovr": 68
+    },
+    {
+      "key": "elv-22",
+      "number": 31,
+      "name": "막시밀리안 로언",
+      "real": "막시밀리안 로어",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1995,
+      "ovr": 67
+    },
+    {
+      "key": "elv-23",
+      "number": 39,
+      "name": "콜 캠벨라",
+      "real": "콜 캠벨",
+      "pos": "CM",
+      "nation": "미국",
+      "birthYear": 2006,
+      "ovr": 66
+    },
+    {
+      "key": "elv-24",
+      "number": 42,
+      "name": "다비드 모크완",
+      "real": "다비드 모크와",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 2004,
+      "ovr": 66
+    }
+  ]
+}

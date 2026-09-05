@@ -1,0 +1,260 @@
+{
+  "club": "프랑크 이글",
+  "realClub": "아인트라흐트 프랑크푸르트",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Eintracht_Frankfurt",
+  "pilot": false,
+  "players": [
+    {
+      "key": "fra-01",
+      "number": 1,
+      "name": "노아 아투볼룬",
+      "real": "노아 아투볼루",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 2002,
+      "ovr": 78
+    },
+    {
+      "key": "fra-02",
+      "number": 2,
+      "name": "엘리아스 바우므",
+      "real": "엘리아스 바움",
+      "pos": "RB",
+      "nation": "독일",
+      "birthYear": 2005,
+      "ovr": 71
+    },
+    {
+      "key": "fra-03",
+      "number": 3,
+      "name": "릴리앙 브라시엔",
+      "real": "릴리앙 브라시에",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 1999,
+      "ovr": 75
+    },
+    {
+      "key": "fra-04",
+      "number": 4,
+      "name": "로빈 코흔",
+      "real": "로빈 코흐",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1996,
+      "ovr": 78
+    },
+    {
+      "key": "fra-05",
+      "number": 5,
+      "name": "오타비운드",
+      "real": "오타비우",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 2005,
+      "ovr": 72
+    },
+    {
+      "key": "fra-06",
+      "number": 6,
+      "name": "오스카르 회일룬드",
+      "real": "오스카르 회일룬",
+      "pos": "CM",
+      "nation": "덴마크",
+      "birthYear": 2005,
+      "ovr": 72
+    },
+    {
+      "key": "fra-07",
+      "number": 7,
+      "name": "안스가르 크나우픈",
+      "real": "안스가르 크나우프",
+      "pos": "RW",
+      "nation": "독일",
+      "birthYear": 2002,
+      "ovr": 76
+    },
+    {
+      "key": "fra-08",
+      "number": 8,
+      "name": "파레스 샤이빈",
+      "real": "파레스 샤이비",
+      "pos": "CAM",
+      "nation": "알제리",
+      "birthYear": 2002,
+      "ovr": 76
+    },
+    {
+      "key": "fra-09",
+      "number": 9,
+      "name": "요나탄 부르카르튼",
+      "real": "요나탄 부르카르트",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 2000,
+      "ovr": 80
+    },
+    {
+      "key": "fra-10",
+      "number": 11,
+      "name": "유네스 엡누탈리븐",
+      "real": "유네스 엡누탈립",
+      "pos": "LW",
+      "nation": "모로코",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "fra-11",
+      "number": 15,
+      "name": "노엘 아세콘",
+      "real": "노엘 아세코",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 2005,
+      "ovr": 70
+    },
+    {
+      "key": "fra-12",
+      "number": 20,
+      "name": "도안 리쓰르",
+      "real": "도안 리쓰",
+      "pos": "RW",
+      "nation": "일본",
+      "birthYear": 1998,
+      "ovr": 80
+    },
+    {
+      "key": "fra-13",
+      "number": 22,
+      "name": "티모시 챈들러스",
+      "real": "티모시 챈들러",
+      "pos": "RB",
+      "nation": "미국",
+      "birthYear": 1990,
+      "ovr": 66
+    },
+    {
+      "key": "fra-14",
+      "number": 25,
+      "name": "라파엘 오녜디칸",
+      "real": "라파엘 오녜디카",
+      "pos": "CDM",
+      "nation": "나이지리아",
+      "birthYear": 2001,
+      "ovr": 77
+    },
+    {
+      "key": "fra-15",
+      "number": 26,
+      "name": "고스기 게이탄",
+      "real": "고스기 게이타",
+      "pos": "LB",
+      "nation": "일본",
+      "birthYear": 2006,
+      "ovr": 70
+    },
+    {
+      "key": "fra-16",
+      "number": 27,
+      "name": "마리오 괴첸",
+      "real": "마리오 괴체",
+      "pos": "CAM",
+      "nation": "독일",
+      "birthYear": 1992,
+      "ovr": 75
+    },
+    {
+      "key": "fra-17",
+      "number": 29,
+      "name": "아유베 아마이무닌",
+      "real": "아유베 아마이무니",
+      "pos": "LW",
+      "nation": "모로코",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "fra-18",
+      "number": 31,
+      "name": "로베 아로브스",
+      "real": "로베 아로브",
+      "pos": "CM",
+      "nation": "스웨덴",
+      "birthYear": 2008,
+      "ovr": 63
+    },
+    {
+      "key": "fra-19",
+      "number": 33,
+      "name": "옌스 그랄라",
+      "real": "옌스 그랄",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1988,
+      "ovr": 64
+    },
+    {
+      "key": "fra-20",
+      "number": 34,
+      "name": "은남디 콜린손",
+      "real": "은남디 콜린스",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2004,
+      "ovr": 73
+    },
+    {
+      "key": "fra-21",
+      "number": 35,
+      "name": "말리크 핌퐁드",
+      "real": "말리크 핌퐁",
+      "pos": "ST",
+      "nation": "덴마크",
+      "birthYear": 2008,
+      "ovr": 64
+    },
+    {
+      "key": "fra-22",
+      "number": 37,
+      "name": "예레미아 말루젠",
+      "real": "예레미아 말루제",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "fra-23",
+      "number": 40,
+      "name": "카우아 산투손",
+      "real": "카우아 산투스",
+      "pos": "GK",
+      "nation": "브라질",
+      "birthYear": 2003,
+      "ovr": 71
+    },
+    {
+      "key": "fra-24",
+      "number": 42,
+      "name": "잔 우주느",
+      "real": "잔 우준",
+      "pos": "ST",
+      "nation": "튀르키예",
+      "birthYear": 2005,
+      "ovr": 77
+    },
+    {
+      "key": "fra-25",
+      "number": 44,
+      "name": "제시크 응칸카므",
+      "real": "제시크 응칸캄",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 2000,
+      "ovr": 71
+    }
+  ]
+}

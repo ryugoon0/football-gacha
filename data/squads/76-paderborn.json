@@ -1,0 +1,280 @@
+{
+  "club": "파더 리페",
+  "realClub": "SC 파더보른 07",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/SC_Paderborn_07",
+  "pilot": false,
+  "players": [
+    {
+      "key": "pad-01",
+      "number": 1,
+      "name": "마르쿠스 슈베르튼",
+      "real": "마르쿠스 슈베르트",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 69
+    },
+    {
+      "key": "pad-02",
+      "number": 2,
+      "name": "루벤 뮐러스",
+      "real": "루벤 뮐러",
+      "pos": "RB",
+      "nation": "독일",
+      "birthYear": 2005,
+      "ovr": 65
+    },
+    {
+      "key": "pad-03",
+      "number": 3,
+      "name": "요나 슈티커스",
+      "real": "요나 슈티커",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2004,
+      "ovr": 65
+    },
+    {
+      "key": "pad-04",
+      "number": 4,
+      "name": "냐메케 아워트위그랜튼",
+      "real": "냐메케 아워트위그랜트",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2000,
+      "ovr": 67
+    },
+    {
+      "key": "pad-05",
+      "number": 5,
+      "name": "산티아고 카스타녜단",
+      "real": "산티아고 카스타녜다",
+      "pos": "CM",
+      "nation": "미국",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "pad-06",
+      "number": 6,
+      "name": "톰 바큰",
+      "real": "톰 바크",
+      "pos": "CDM",
+      "nation": "독일",
+      "birthYear": 1999,
+      "ovr": 67
+    },
+    {
+      "key": "pad-07",
+      "number": 7,
+      "name": "올리버 바티스타 마이언",
+      "real": "올리버 바티스타 마이어",
+      "pos": "CAM",
+      "nation": "독일",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "pad-08",
+      "number": 8,
+      "name": "루카 주리츠",
+      "real": "루카 주리치",
+      "pos": "CM",
+      "nation": "보스니아헤르체고비나",
+      "birthYear": 2003,
+      "ovr": 66
+    },
+    {
+      "key": "pad-09",
+      "number": 9,
+      "name": "라얀 필리픈",
+      "real": "라얀 필리프",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "pad-10",
+      "number": 11,
+      "name": "스벤 미헬라",
+      "real": "스벤 미헬",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 1990,
+      "ovr": 67
+    },
+    {
+      "key": "pad-11",
+      "number": 15,
+      "name": "나우엘 놀라",
+      "real": "나우엘 놀",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 2003,
+      "ovr": 66
+    },
+    {
+      "key": "pad-12",
+      "number": 17,
+      "name": "라우린 쿠르단",
+      "real": "라우린 쿠르다",
+      "pos": "RB",
+      "nation": "독일",
+      "birthYear": 2001,
+      "ovr": 66
+    },
+    {
+      "key": "pad-13",
+      "number": 18,
+      "name": "마르빈 피어링거스",
+      "real": "마르빈 피어링거",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 1999,
+      "ovr": 68
+    },
+    {
+      "key": "pad-14",
+      "number": 19,
+      "name": "알베르트 밀그라므",
+      "real": "알베르트 밀그람",
+      "pos": "LW",
+      "nation": "독일",
+      "birthYear": 2004,
+      "ovr": 65
+    },
+    {
+      "key": "pad-15",
+      "number": 20,
+      "name": "펠릭스 괴첸",
+      "real": "펠릭스 괴체",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 68
+    },
+    {
+      "key": "pad-16",
+      "number": 21,
+      "name": "야노 테르 호르스튼",
+      "real": "야노 테르 호르스트",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2002,
+      "ovr": 65
+    },
+    {
+      "key": "pad-17",
+      "number": 22,
+      "name": "마테스 한센드",
+      "real": "마테스 한센",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 2004,
+      "ovr": 64
+    },
+    {
+      "key": "pad-18",
+      "number": 23,
+      "name": "라파엘 오버마이언",
+      "real": "라파엘 오버마이어",
+      "pos": "RM",
+      "nation": "필리핀",
+      "birthYear": 1996,
+      "ovr": 68
+    },
+    {
+      "key": "pad-19",
+      "number": 24,
+      "name": "니클라스 모언",
+      "real": "니클라스 모어",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2004,
+      "ovr": 64
+    },
+    {
+      "key": "pad-20",
+      "number": 25,
+      "name": "티아르크 셸러스",
+      "real": "티아르크 셸러",
+      "pos": "LB",
+      "nation": "독일",
+      "birthYear": 2002,
+      "ovr": 65
+    },
+    {
+      "key": "pad-21",
+      "number": 26,
+      "name": "제바스티안 클라손",
+      "real": "제바스티안 클라스",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 66
+    },
+    {
+      "key": "pad-22",
+      "number": 27,
+      "name": "슈테펜 티게손",
+      "real": "슈테펜 티게스",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 68
+    },
+    {
+      "key": "pad-23",
+      "number": 28,
+      "name": "라우린 울리흔",
+      "real": "라우린 울리히",
+      "pos": "CAM",
+      "nation": "독일",
+      "birthYear": 2005,
+      "ovr": 67
+    },
+    {
+      "key": "pad-24",
+      "number": 30,
+      "name": "슈테파노 마리논",
+      "real": "슈테파노 마리노",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 2004,
+      "ovr": 64
+    },
+    {
+      "key": "pad-25",
+      "number": 33,
+      "name": "마르셀 호프마이언",
+      "real": "마르셀 호프마이어",
+      "pos": "LB",
+      "nation": "독일",
+      "birthYear": 1999,
+      "ovr": 68
+    },
+    {
+      "key": "pad-26",
+      "number": 38,
+      "name": "데니즈 차이틀러스",
+      "real": "데니즈 차이틀러",
+      "pos": "LW",
+      "nation": "독일",
+      "birthYear": 2006,
+      "ovr": 63
+    },
+    {
+      "key": "pad-27",
+      "number": 40,
+      "name": "가브리엘 비도비츠",
+      "real": "가브리엘 비도비치",
+      "pos": "RW",
+      "nation": "크로아티아",
+      "birthYear": 2003,
+      "ovr": 70
+    }
+  ]
+}

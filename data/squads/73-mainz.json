@@ -1,0 +1,260 @@
+{
+  "club": "마인츠 카니발",
+  "realClub": "1. FSV 마인츠 05",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/1._FSV_Mainz_05",
+  "pilot": false,
+  "players": [
+    {
+      "key": "mai-01",
+      "number": 1,
+      "name": "알렉산더 슈볼론",
+      "real": "알렉산더 슈볼로",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1992,
+      "ovr": 71
+    },
+    {
+      "key": "mai-02",
+      "number": 2,
+      "name": "필리프 음베넨",
+      "real": "필리프 음베네",
+      "pos": "RB",
+      "nation": "오스트리아",
+      "birthYear": 1994,
+      "ovr": 72
+    },
+    {
+      "key": "mai-03",
+      "number": 3,
+      "name": "파비오 그루버스",
+      "real": "파비오 그루버",
+      "pos": "CB",
+      "nation": "페루",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "mai-04",
+      "number": 4,
+      "name": "슈테판 포슌",
+      "real": "슈테판 포슈",
+      "pos": "CB",
+      "nation": "오스트리아",
+      "birthYear": 1997,
+      "ovr": 74
+    },
+    {
+      "key": "mai-05",
+      "number": 5,
+      "name": "에리크 마르텔라",
+      "real": "에리크 마르텔",
+      "pos": "CDM",
+      "nation": "독일",
+      "birthYear": 2002,
+      "ovr": 73
+    },
+    {
+      "key": "mai-06",
+      "number": 6,
+      "name": "사노 가이슌",
+      "real": "사노 가이슈",
+      "pos": "CDM",
+      "nation": "일본",
+      "birthYear": 2000,
+      "ovr": 75
+    },
+    {
+      "key": "mai-07",
+      "number": 7,
+      "name": "이재선",
+      "real": "이재성",
+      "pos": "CAM",
+      "nation": "대한민국",
+      "birthYear": 1992,
+      "ovr": 75
+    },
+    {
+      "key": "mai-08",
+      "number": 8,
+      "name": "파울 네벨라",
+      "real": "파울 네벨",
+      "pos": "CAM",
+      "nation": "독일",
+      "birthYear": 2002,
+      "ovr": 73
+    },
+    {
+      "key": "mai-09",
+      "number": 9,
+      "name": "필리프 티추",
+      "real": "필리프 티츠",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "mai-10",
+      "number": 10,
+      "name": "나딤 아미린",
+      "real": "나딤 아미리",
+      "pos": "CAM",
+      "nation": "독일",
+      "birthYear": 1996,
+      "ovr": 74
+    },
+    {
+      "key": "mai-11",
+      "number": 11,
+      "name": "란스포드예보아 쾨니히스되르퍼스",
+      "real": "란스포드예보아 쾨니히스되르퍼",
+      "pos": "LW",
+      "nation": "가나",
+      "birthYear": 2001,
+      "ovr": 73
+    },
+    {
+      "key": "mai-12",
+      "number": 15,
+      "name": "레나르트 말로닌",
+      "real": "레나르트 말로니",
+      "pos": "CM",
+      "nation": "미국",
+      "birthYear": 1999,
+      "ovr": 71
+    },
+    {
+      "key": "mai-13",
+      "number": 16,
+      "name": "슈테판 벨라",
+      "real": "슈테판 벨",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1991,
+      "ovr": 70
+    },
+    {
+      "key": "mai-14",
+      "number": 17,
+      "name": "베네딕트 홀러바흔",
+      "real": "베네딕트 홀러바흐",
+      "pos": "LW",
+      "nation": "독일",
+      "birthYear": 2001,
+      "ovr": 73
+    },
+    {
+      "key": "mai-15",
+      "number": 19,
+      "name": "앙토니 카신",
+      "real": "앙토니 카시",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 1997,
+      "ovr": 72
+    },
+    {
+      "key": "mai-16",
+      "number": 20,
+      "name": "오토 루오핀",
+      "real": "오토 루오피",
+      "pos": "CM",
+      "nation": "핀란드",
+      "birthYear": 2006,
+      "ovr": 65
+    },
+    {
+      "key": "mai-17",
+      "number": 21,
+      "name": "대니 다 코스탄",
+      "real": "대니 다 코스타",
+      "pos": "RB",
+      "nation": "독일",
+      "birthYear": 1993,
+      "ovr": 69
+    },
+    {
+      "key": "mai-18",
+      "number": 23,
+      "name": "셰랄도 베커스",
+      "real": "셰랄도 베커",
+      "pos": "LW",
+      "nation": "수리남",
+      "birthYear": 1995,
+      "ovr": 73
+    },
+    {
+      "key": "mai-19",
+      "number": 24,
+      "name": "가와사키 소탄",
+      "real": "가와사키 소타",
+      "pos": "CM",
+      "nation": "일본",
+      "birthYear": 2001,
+      "ovr": 72
+    },
+    {
+      "key": "mai-20",
+      "number": 26,
+      "name": "실라손",
+      "real": "실라스",
+      "pos": "RW",
+      "nation": "콩고민주공화국",
+      "birthYear": 1998,
+      "ovr": 73
+    },
+    {
+      "key": "mai-21",
+      "number": 27,
+      "name": "로빈 첸트너스",
+      "real": "로빈 첸트너",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1994,
+      "ovr": 73
+    },
+    {
+      "key": "mai-22",
+      "number": 30,
+      "name": "실반 비드머스",
+      "real": "실반 비드머",
+      "pos": "RB",
+      "nation": "스위스",
+      "birthYear": 1993,
+      "ovr": 72
+    },
+    {
+      "key": "mai-23",
+      "number": 31,
+      "name": "도미니크 코언",
+      "real": "도미니크 코어",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1994,
+      "ovr": 71
+    },
+    {
+      "key": "mai-24",
+      "number": 39,
+      "name": "알린요 아이다란",
+      "real": "알린요 아이다라",
+      "pos": "ST",
+      "nation": "코트디부아르",
+      "birthYear": 2008,
+      "ovr": 63
+    },
+    {
+      "key": "mai-25",
+      "number": 48,
+      "name": "카츠페르 포툴스킨",
+      "real": "카츠페르 포툴스키",
+      "pos": "CB",
+      "nation": "폴란드",
+      "birthYear": 2007,
+      "ovr": 64
+    }
+  ]
+}

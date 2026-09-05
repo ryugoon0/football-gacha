@@ -1,0 +1,270 @@
+{
+  "club": "묀헨 망아지",
+  "realClub": "보루시아 묀헨글라트바흐",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Borussia_Mönchengladbach",
+  "pilot": false,
+  "players": [
+    {
+      "key": "bmg-01",
+      "number": 1,
+      "name": "모리츠 니콜라손",
+      "real": "모리츠 니콜라스",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1997,
+      "ovr": 70
+    },
+    {
+      "key": "bmg-02",
+      "number": 2,
+      "name": "파비오 키아로디안",
+      "real": "파비오 키아로디아",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 2005,
+      "ovr": 71
+    },
+    {
+      "key": "bmg-03",
+      "number": 3,
+      "name": "이사크 리드베린",
+      "real": "이사크 리드베리",
+      "pos": "ST",
+      "nation": "스웨덴",
+      "birthYear": 1998,
+      "ovr": 71
+    },
+    {
+      "key": "bmg-04",
+      "number": 4,
+      "name": "케빈 딕손",
+      "real": "케빈 딕스",
+      "pos": "RB",
+      "nation": "인도네시아",
+      "birthYear": 1996,
+      "ovr": 74
+    },
+    {
+      "key": "bmg-05",
+      "number": 5,
+      "name": "얀 레슈친스킨",
+      "real": "얀 레슈친스키",
+      "pos": "CB",
+      "nation": "폴란드",
+      "birthYear": 2007,
+      "ovr": 65
+    },
+    {
+      "key": "bmg-06",
+      "number": 6,
+      "name": "이타쿠라 곤",
+      "real": "이타쿠라 고",
+      "pos": "CB",
+      "nation": "일본",
+      "birthYear": 1997,
+      "ovr": 76
+    },
+    {
+      "key": "bmg-07",
+      "number": 7,
+      "name": "케빈 슈퇴거스",
+      "real": "케빈 슈퇴거",
+      "pos": "CAM",
+      "nation": "오스트리아",
+      "birthYear": 1993,
+      "ovr": 73
+    },
+    {
+      "key": "bmg-08",
+      "number": 8,
+      "name": "엔초 레오폴튼",
+      "real": "엔초 레오폴트",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "bmg-09",
+      "number": 9,
+      "name": "프랑크 오노란",
+      "real": "프랑크 오노라",
+      "pos": "RW",
+      "nation": "프랑스",
+      "birthYear": 1996,
+      "ovr": 76
+    },
+    {
+      "key": "bmg-10",
+      "number": 10,
+      "name": "플로리안 노이하우손",
+      "real": "플로리안 노이하우스",
+      "pos": "CAM",
+      "nation": "독일",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "bmg-11",
+      "number": 11,
+      "name": "팀 클라인딘스튼",
+      "real": "팀 클라인딘스트",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 1995,
+      "ovr": 77
+    },
+    {
+      "key": "bmg-12",
+      "number": 14,
+      "name": "하시오카 다이킨",
+      "real": "하시오카 다이키",
+      "pos": "RB",
+      "nation": "일본",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "bmg-13",
+      "number": 16,
+      "name": "필리프 잔더스",
+      "real": "필리프 잔더",
+      "pos": "CDM",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 71
+    },
+    {
+      "key": "bmg-14",
+      "number": 17,
+      "name": "옌스 카스트로픈",
+      "real": "옌스 카스트로프",
+      "pos": "CM",
+      "nation": "대한민국",
+      "birthYear": 2003,
+      "ovr": 73
+    },
+    {
+      "key": "bmg-15",
+      "number": 18,
+      "name": "마치노 슈톤",
+      "real": "마치노 슈토",
+      "pos": "ST",
+      "nation": "일본",
+      "birthYear": 1999,
+      "ovr": 74
+    },
+    {
+      "key": "bmg-16",
+      "number": 19,
+      "name": "니콜라스 퀸드",
+      "real": "니콜라스 퀸",
+      "pos": "LW",
+      "nation": "독일",
+      "birthYear": 2000,
+      "ovr": 76
+    },
+    {
+      "key": "bmg-17",
+      "number": 20,
+      "name": "다비트 헤롤튼",
+      "real": "다비트 헤롤트",
+      "pos": "LB",
+      "nation": "독일",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "bmg-18",
+      "number": 21,
+      "name": "토비아스 지펠라",
+      "real": "토비아스 지펠",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1988,
+      "ovr": 64
+    },
+    {
+      "key": "bmg-19",
+      "number": 22,
+      "name": "유힘 코노플랸",
+      "real": "유힘 코노플랴",
+      "pos": "LB",
+      "nation": "우크라이나",
+      "birthYear": 1999,
+      "ovr": 71
+    },
+    {
+      "key": "bmg-20",
+      "number": 23,
+      "name": "얀 올쇼브스킨",
+      "real": "얀 올쇼브스키",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 2001,
+      "ovr": 71
+    },
+    {
+      "key": "bmg-21",
+      "number": 25,
+      "name": "로빈 하큰",
+      "real": "로빈 하크",
+      "pos": "RW",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 73
+    },
+    {
+      "key": "bmg-22",
+      "number": 26,
+      "name": "루카스 울리흔",
+      "real": "루카스 울리히",
+      "pos": "LB",
+      "nation": "독일",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "bmg-23",
+      "number": 29,
+      "name": "조 스캘린",
+      "real": "조 스캘리",
+      "pos": "RB",
+      "nation": "미국",
+      "birthYear": 2002,
+      "ovr": 74
+    },
+    {
+      "key": "bmg-24",
+      "number": 33,
+      "name": "다니엘 바추",
+      "real": "다니엘 바츠",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1991,
+      "ovr": 64
+    },
+    {
+      "key": "bmg-25",
+      "number": 38,
+      "name": "후고 볼린드",
+      "real": "후고 볼린",
+      "pos": "CM",
+      "nation": "스웨덴",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "bmg-26",
+      "number": 47,
+      "name": "우노 젠톤",
+      "real": "우노 젠토",
+      "pos": "CM",
+      "nation": "일본",
+      "birthYear": 2003,
+      "ovr": 67
+    }
+  ]
+}

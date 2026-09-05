@@ -1,0 +1,240 @@
+{
+  "club": "바이언 뮌히",
+  "realClub": "FC 바이에른 뮌헨",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/FC_Bayern_Munich",
+  "pilot": false,
+  "players": [
+    {
+      "key": "fcb2-01",
+      "number": 1,
+      "name": "마누엘 노이언",
+      "real": "마누엘 노이어",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1986,
+      "ovr": 83
+    },
+    {
+      "key": "fcb2-02",
+      "number": 2,
+      "name": "다요 우파메카논",
+      "real": "다요 우파메카노",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 1998,
+      "ovr": 85
+    },
+    {
+      "key": "fcb2-03",
+      "number": 3,
+      "name": "김민잰",
+      "real": "김민재",
+      "pos": "CB",
+      "nation": "대한민국",
+      "birthYear": 1996,
+      "ovr": 83
+    },
+    {
+      "key": "fcb2-04",
+      "number": 4,
+      "name": "요나탄 타르",
+      "real": "요나탄 타",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1996,
+      "ovr": 85
+    },
+    {
+      "key": "fcb2-05",
+      "number": 6,
+      "name": "요슈아 키미흔",
+      "real": "요슈아 키미히",
+      "pos": "CDM",
+      "nation": "독일",
+      "birthYear": 1995,
+      "ovr": 88
+    },
+    {
+      "key": "fcb2-06",
+      "number": 7,
+      "name": "세르주 그나브린",
+      "real": "세르주 그나브리",
+      "pos": "RW",
+      "nation": "독일",
+      "birthYear": 1995,
+      "ovr": 83
+    },
+    {
+      "key": "fcb2-07",
+      "number": 8,
+      "name": "톰 비쇼픈",
+      "real": "톰 비쇼프",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 2005,
+      "ovr": 77
+    },
+    {
+      "key": "fcb2-08",
+      "number": 9,
+      "name": "해리 케인드",
+      "real": "해리 케인",
+      "pos": "ST",
+      "nation": "잉글랜드",
+      "birthYear": 1993,
+      "ovr": 91
+    },
+    {
+      "key": "fcb2-09",
+      "number": 10,
+      "name": "자말 무시알란",
+      "real": "자말 무시알라",
+      "pos": "CAM",
+      "nation": "독일",
+      "birthYear": 2003,
+      "ovr": 89
+    },
+    {
+      "key": "fcb2-10",
+      "number": 11,
+      "name": "너새니얼 브라운드",
+      "real": "너새니얼 브라운",
+      "pos": "LB",
+      "nation": "독일",
+      "birthYear": 2003,
+      "ovr": 76
+    },
+    {
+      "key": "fcb2-11",
+      "number": 14,
+      "name": "루이스 디아손",
+      "real": "루이스 디아스",
+      "pos": "LW",
+      "nation": "콜롬비아",
+      "birthYear": 1997,
+      "ovr": 86
+    },
+    {
+      "key": "fcb2-12",
+      "number": 17,
+      "name": "미카엘 올리센",
+      "real": "미카엘 올리세",
+      "pos": "RW",
+      "nation": "프랑스",
+      "birthYear": 2001,
+      "ovr": 88
+    },
+    {
+      "key": "fcb2-13",
+      "number": 19,
+      "name": "알폰소 데이비손",
+      "real": "알폰소 데이비스",
+      "pos": "LB",
+      "nation": "캐나다",
+      "birthYear": 2000,
+      "ovr": 85
+    },
+    {
+      "key": "fcb2-14",
+      "number": 21,
+      "name": "이토 히로킨",
+      "real": "이토 히로키",
+      "pos": "CB",
+      "nation": "일본",
+      "birthYear": 1999,
+      "ovr": 79
+    },
+    {
+      "key": "fcb2-15",
+      "number": 23,
+      "name": "사샤 부엔",
+      "real": "사샤 부에",
+      "pos": "RB",
+      "nation": "프랑스",
+      "birthYear": 2000,
+      "ovr": 78
+    },
+    {
+      "key": "fcb2-16",
+      "number": 26,
+      "name": "스벤 울라이흔",
+      "real": "스벤 울라이히",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1988,
+      "ovr": 72
+    },
+    {
+      "key": "fcb2-17",
+      "number": 27,
+      "name": "콘라트 라이머스",
+      "real": "콘라트 라이머",
+      "pos": "CM",
+      "nation": "오스트리아",
+      "birthYear": 1997,
+      "ovr": 81
+    },
+    {
+      "key": "fcb2-18",
+      "number": 34,
+      "name": "이스마엘 사이바린",
+      "real": "이스마엘 사이바리",
+      "pos": "CAM",
+      "nation": "모로코",
+      "birthYear": 2001,
+      "ovr": 82
+    },
+    {
+      "key": "fcb2-19",
+      "number": 39,
+      "name": "바라 사포코 은디아옌",
+      "real": "바라 사포코 은디아예",
+      "pos": "CM",
+      "nation": "세네갈",
+      "birthYear": 2007,
+      "ovr": 66
+    },
+    {
+      "key": "fcb2-20",
+      "number": 40,
+      "name": "요나스 우르비흔",
+      "real": "요나스 우르비히",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 2003,
+      "ovr": 74
+    },
+    {
+      "key": "fcb2-21",
+      "number": 42,
+      "name": "레나르트 카를라",
+      "real": "레나르트 카를",
+      "pos": "CAM",
+      "nation": "독일",
+      "birthYear": 2008,
+      "ovr": 76
+    },
+    {
+      "key": "fcb2-22",
+      "number": 44,
+      "name": "요시프 스타니시츠",
+      "real": "요시프 스타니시치",
+      "pos": "RB",
+      "nation": "크로아티아",
+      "birthYear": 2000,
+      "ovr": 79
+    },
+    {
+      "key": "fcb2-23",
+      "number": 45,
+      "name": "알렉산다르 파블로비츠",
+      "real": "알렉산다르 파블로비치",
+      "pos": "CDM",
+      "nation": "독일",
+      "birthYear": 2004,
+      "ovr": 81
+    }
+  ]
+}

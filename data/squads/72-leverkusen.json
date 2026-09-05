@@ -1,0 +1,270 @@
+{
+  "club": "레버 아스피린",
+  "realClub": "바이어 04 레버쿠젠",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Bayer_04_Leverkusen",
+  "pilot": false,
+  "players": [
+    {
+      "key": "lev2-01",
+      "number": 1,
+      "name": "마르크 플레케느",
+      "real": "마르크 플레켄",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 1993,
+      "ovr": 79
+    },
+    {
+      "key": "lev2-02",
+      "number": 2,
+      "name": "파쿤도 메디난",
+      "real": "파쿤도 메디나",
+      "pos": "CB",
+      "nation": "아르헨티나",
+      "birthYear": 1999,
+      "ovr": 78
+    },
+    {
+      "key": "lev2-03",
+      "number": 3,
+      "name": "미겔 구티에레손",
+      "real": "미겔 구티에레스",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 78
+    },
+    {
+      "key": "lev2-04",
+      "number": 4,
+      "name": "재럴 콴산",
+      "real": "재럴 콴사",
+      "pos": "CB",
+      "nation": "잉글랜드",
+      "birthYear": 2003,
+      "ovr": 79
+    },
+    {
+      "key": "lev2-05",
+      "number": 5,
+      "name": "로이크 바덴",
+      "real": "로이크 바데",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2000,
+      "ovr": 80
+    },
+    {
+      "key": "lev2-06",
+      "number": 6,
+      "name": "에키 페르난데손",
+      "real": "에키 페르난데스",
+      "pos": "CDM",
+      "nation": "아르헨티나",
+      "birthYear": 2002,
+      "ovr": 78
+    },
+    {
+      "key": "lev2-07",
+      "number": 7,
+      "name": "요나스 호프마느",
+      "real": "요나스 호프만",
+      "pos": "RW",
+      "nation": "독일",
+      "birthYear": 1992,
+      "ovr": 76
+    },
+    {
+      "key": "lev2-08",
+      "number": 8,
+      "name": "로베르트 안드리흔",
+      "real": "로베르트 안드리히",
+      "pos": "CDM",
+      "nation": "독일",
+      "birthYear": 1994,
+      "ovr": 79
+    },
+    {
+      "key": "lev2-09",
+      "number": 9,
+      "name": "아폰수 모레이란",
+      "real": "아폰수 모레이라",
+      "pos": "LW",
+      "nation": "포르투갈",
+      "birthYear": 2005,
+      "ovr": 75
+    },
+    {
+      "key": "lev2-10",
+      "number": 10,
+      "name": "말리크 틸마느",
+      "real": "말리크 틸만",
+      "pos": "CAM",
+      "nation": "미국",
+      "birthYear": 2002,
+      "ovr": 80
+    },
+    {
+      "key": "lev2-11",
+      "number": 11,
+      "name": "마르탱 테리엔",
+      "real": "마르탱 테리에",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 1997,
+      "ovr": 78
+    },
+    {
+      "key": "lev2-12",
+      "number": 12,
+      "name": "에드몽 탑소반",
+      "real": "에드몽 탑소바",
+      "pos": "CB",
+      "nation": "부르키나파소",
+      "birthYear": 1999,
+      "ovr": 81
+    },
+    {
+      "key": "lev2-13",
+      "number": 14,
+      "name": "파트리크 시큰",
+      "real": "파트리크 시크",
+      "pos": "ST",
+      "nation": "체코",
+      "birthYear": 1996,
+      "ovr": 81
+    },
+    {
+      "key": "lev2-14",
+      "number": 15,
+      "name": "팀 외어마느",
+      "real": "팀 외어만",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2003,
+      "ovr": 73
+    },
+    {
+      "key": "lev2-15",
+      "number": 17,
+      "name": "루카스 바스케손",
+      "real": "루카스 바스케스",
+      "pos": "RW",
+      "nation": "스페인",
+      "birthYear": 1991,
+      "ovr": 77
+    },
+    {
+      "key": "lev2-16",
+      "number": 18,
+      "name": "케네트 아이히호른드",
+      "real": "케네트 아이히호른",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 2009,
+      "ovr": 69
+    },
+    {
+      "key": "lev2-17",
+      "number": 19,
+      "name": "무사 디아빈",
+      "real": "무사 디아비",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 1999,
+      "ovr": 80
+    },
+    {
+      "key": "lev2-18",
+      "number": 20,
+      "name": "겔라 두엔",
+      "real": "겔라 두에",
+      "pos": "RB",
+      "nation": "코트디부아르",
+      "birthYear": 2002,
+      "ovr": 77
+    },
+    {
+      "key": "lev2-19",
+      "number": 22,
+      "name": "빅토르 보니페이손",
+      "real": "빅토르 보니페이스",
+      "pos": "ST",
+      "nation": "나이지리아",
+      "birthYear": 2000,
+      "ovr": 78
+    },
+    {
+      "key": "lev2-20",
+      "number": 23,
+      "name": "네이선 텔란",
+      "real": "네이선 텔라",
+      "pos": "RW",
+      "nation": "나이지리아",
+      "birthYear": 1999,
+      "ovr": 77
+    },
+    {
+      "key": "lev2-21",
+      "number": 24,
+      "name": "알레익스 가르시안",
+      "real": "알레익스 가르시아",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1997,
+      "ovr": 79
+    },
+    {
+      "key": "lev2-22",
+      "number": 28,
+      "name": "야니스 블라스비흔",
+      "real": "야니스 블라스비히",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1991,
+      "ovr": 72
+    },
+    {
+      "key": "lev2-23",
+      "number": 29,
+      "name": "엘리에스 벤 세기른",
+      "real": "엘리에스 벤 세기르",
+      "pos": "CAM",
+      "nation": "모로코",
+      "birthYear": 2005,
+      "ovr": 78
+    },
+    {
+      "key": "lev2-24",
+      "number": 30,
+      "name": "이브라힘 마자르",
+      "real": "이브라힘 마자",
+      "pos": "CM",
+      "nation": "알제리",
+      "birthYear": 2005,
+      "ovr": 76
+    },
+    {
+      "key": "lev2-25",
+      "number": 35,
+      "name": "크리스티안 코파넨",
+      "real": "크리스티안 코파네",
+      "pos": "ST",
+      "nation": "카메룬",
+      "birthYear": 2006,
+      "ovr": 72
+    },
+    {
+      "key": "lev2-26",
+      "number": 36,
+      "name": "니클라스 롬픈",
+      "real": "니클라스 롬프",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1993,
+      "ovr": 66
+    }
+  ]
+}
