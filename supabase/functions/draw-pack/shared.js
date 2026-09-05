@@ -7569,7 +7569,8 @@ function buildPlayer(id, fix = PLAYER_OVERRIDES[id] ?? {}) {
     unreleased: extras?.unreleased === true || retired ? true : void 0,
     fromSquad: extras?.squad ? true : void 0,
     retired: retired ? true : void 0,
-    season: legacy?.season ?? extras?.season
+    season: legacy?.season ?? extras?.season,
+    limited: extras?.limited
   };
 }
 function buildRoster() {
@@ -7590,6 +7591,13 @@ var PLAYERS_BY_RARITY = PLAYERS.reduce(
   },
   { Normal: [], Rare: [], Legend: [], Live: [], World: [] }
 );
+
+// lib/limited.ts
+var ms = (iso) => Date.parse(iso);
+function limitedOpen(player, nowMs) {
+  if (!player.limited) return true;
+  return nowMs >= ms(player.limited.from) && nowMs <= ms(player.limited.to);
+}
 
 // lib/tuning.ts
 var KNOBS = {
@@ -8045,26 +8053,26 @@ function rollRarity(rng = Math.random, minRarity, rates = PACK_RATES.basic) {
   if (minRarity && rarityIndex(rolled) < rarityIndex(minRarity)) return minRarity;
   return rolled;
 }
-function releasedPoolFor(rarity) {
+function releasedPoolFor(rarity, nowMs = Date.now()) {
   let index = rarityIndex(rarity);
   while (index >= 0) {
-    const pool = PLAYERS_BY_RARITY[RARITIES[index]];
-    if (pool && pool.length > 0) return pool;
+    const pool = PLAYERS_BY_RARITY[RARITIES[index]].filter((player) => limitedOpen(player, nowMs));
+    if (pool.length > 0) return pool;
     index -= 1;
   }
   return PLAYERS;
 }
-function poolFor(rarity, group) {
-  const pool = releasedPoolFor(rarity);
+function poolFor(rarity, group, nowMs) {
+  const pool = releasedPoolFor(rarity, nowMs);
   if (!group) return pool;
   const filtered = pool.filter((player) => POSITION_GROUP[player.position] === group);
   return filtered.length > 0 ? filtered : pool;
 }
-function pick(rarity, rng, group, featured) {
-  if (featured && featured.rarity === rarity && (!group || POSITION_GROUP[featured.position] === group)) {
+function pick(rarity, rng, group, featured, nowMs) {
+  if (featured && featured.rarity === rarity && limitedOpen(featured, nowMs) && (!group || POSITION_GROUP[featured.position] === group)) {
     if (rng() < 0.5) return featured;
   }
-  const pool = poolFor(rarity, group);
+  const pool = poolFor(rarity, group, nowMs);
   return pool[Math.floor(rng() * pool.length)];
 }
 var PICKUP_OFFSET_MINUTES = 9 * 60;
@@ -8074,8 +8082,9 @@ function pickupWeekKey(now = /* @__PURE__ */ new Date()) {
   shifted.setUTCDate(shifted.getUTCDate() - day);
   return shifted.toISOString().slice(0, 10);
 }
-function featuredPlayer(weekKey) {
-  const pool = PLAYERS.filter((player) => ["Legend", "Live", "World"].includes(player.rarity));
+function featuredPlayer(weekKey, nowMs = Date.now()) {
+  const limited = PLAYERS.filter((player) => player.limited && !player.unreleased && limitedOpen(player, nowMs));
+  const pool = limited.length > 0 ? limited : PLAYERS.filter((player) => ["Legend", "Live", "World"].includes(player.rarity) && !player.limited && !player.unreleased);
   const seed = weekKey.split("").reduce((hash, char) => hash * 31 + char.charCodeAt(0) >>> 0, 7);
   return pool[Math.floor(seededRandom(seed)() * pool.length)];
 }
@@ -8087,7 +8096,8 @@ function drawSession({
   minRarity = null,
   guarantee = null,
   rates = PACK_RATES.basic,
-  rng = Math.random
+  rng = Math.random,
+  nowMs = Date.now()
 }) {
   const players = [];
   let counter = pity;
@@ -8102,11 +8112,11 @@ function drawSession({
     }
     if (rarityIndex(rarity) >= rarityIndex(PITY_RARITY)) counter = 0;
     else counter += 1;
-    players.push(pick(rarity, rng, group, featured));
+    players.push(pick(rarity, rng, group, featured, nowMs));
   }
   if (guarantee && !players.some((player) => rarityIndex(player.rarity) >= rarityIndex(guarantee))) {
     const index = Math.floor(rng() * players.length);
-    players[index] = pick(guarantee, rng, group, featured);
+    players[index] = pick(guarantee, rng, group, featured, nowMs);
   }
   return { players, pity: counter, pityHit };
 }

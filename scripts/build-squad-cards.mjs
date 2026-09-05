@@ -104,6 +104,37 @@ for (const file of worldFiles) {
   }
 }
 
+// 리미티드 카드 — 한 주의 MOM (data/limited/*.json). 플래티넘(Live) 목록에 들어가고 등급도
+// 플래티넘이지만 `limited` 창 안에서만 뽑기 풀에 포함된다(lib/limited.ts). 파일마다
+// label·from·to 가 있고 lib/limited.ts 의 LIMITED_SCHEDULE 과 label 이 같아야 예고·띠와 이어진다.
+const LIMITED_DIR = 'data/limited'
+const limitedFiles = existsSync(LIMITED_DIR) ? readdirSync(LIMITED_DIR).filter((f) => f.endsWith('.json')).sort() : []
+for (const file of limitedFiles) {
+  const set = JSON.parse(readFileSync(join(LIMITED_DIR, file), 'utf8'))
+  if (!set.label || !set.from || !set.to) throw new Error(`${file}: label·from·to 가 필요합니다`)
+  for (const p of set.players) {
+    if (realHints[p.name] || takenNames.has(p.name)) throw new Error(`가명 중복: ${p.name} (${file})`)
+    if (!p.key || !p.club) throw new Error(`${file}: ${p.name} 에 key·club 이 필요합니다`)
+    if (!clubs.some((c) => c.name === p.club)) {
+      if (!set.league) throw new Error(`${file}: 새 클럽 ${p.club} 에는 league 가 필요합니다`)
+      clubs.push({ name: p.club, league: set.league })
+    }
+    const extras = {
+      squad: true,
+      rarity: 'Live',
+      season: set.label,
+      limited: { label: set.label, from: set.from, to: set.to, story: p.story },
+      unreleased: set.pilot === true,
+    }
+    if (p.stats) extras.stats = p.stats
+    if (p.hidden) extras.hidden = p.hidden
+    rows.Live.push([p.name, p.pos, p.ovr, p.club, p.nation, extras])
+    realHints[p.name] = `${p.real} (${p.realClub}, ${set.label} 리미티드)`
+    portraits[p.name] = p.key
+    meta[p.key] = { name: p.name, nation: p.nation, birthYear: p.birthYear, pos: p.pos, club: p.club }
+  }
+}
+
 const q = (s) => `'${String(s).replace(/'/g, "\\'")}'`
 const rowLine = ([name, pos, ovr, club, nation, extras]) =>
   `    [${q(name)}, ${q(pos)}, ${ovr}, ${q(club)}, ${q(nation)}, ${JSON.stringify(extras)}],`

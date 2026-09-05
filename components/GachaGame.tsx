@@ -13,6 +13,7 @@ import { TacticsModeProvider } from './TacticsMode'
 import { AdminProvider, useAdmin } from './useAdmin'
 import GuideOverlay from './GuideOverlay'
 import GiftInbox, { GiftArrivalPopup, useGiftCount } from './GiftInbox'
+import { LimitedTeaserPopup, useLimitedPhase } from './LimitedBanner'
 import LoginScreen from './LoginScreen'
 import BoardTab from './tabs/BoardTab'
 import ClubTab from './tabs/ClubTab'
@@ -79,6 +80,7 @@ function Shell() {
   const [accountOpen, setAccountOpen] = useState(false)
   const [giftsOpen, setGiftsOpen] = useState(false)
   const gifts = useGiftCount(account.status === 'signedIn')
+  const limited = useLimitedPhase()
   const rating = useMemo(() => evaluateSquad(state.cards, state.squad), [state.cards, state.squad])
 
   const showGuide = helpOpen || (ready && !state.guideDone)
@@ -242,6 +244,7 @@ function Shell() {
       </footer>
 
       {giftsOpen && <GiftInbox onClose={() => setGiftsOpen(false)} onChanged={() => void gifts.refresh()} />}
+      {ready && gifts.fresh.length === 0 && <LimitedTeaserPopup phase={limited} onOpenScout={() => setTab('gacha')} />}
       {!giftsOpen && ready && (
         <GiftArrivalPopup
           gifts={gifts.fresh}

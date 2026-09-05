@@ -79,6 +79,11 @@ export interface PlayerDef {
   /** The season this card stands for — "2026-27" for a current squad, "2003-04" for a 월드 legend. */
   season?: string
   /**
+   * 리미티드 카드: a limited-edition card of one week's man of the match, in
+   * the pull pool only between `from` and `to` (KST ISO strings). lib/limited.ts.
+   */
+  limited?: { label: string; from: string; to: string; story?: string }
+  /**
    * An older generated card whose club now has a real squad: out of the packs,
    * and owned copies migrate to a squad card on load (lib/rosterMigration.ts).
    */

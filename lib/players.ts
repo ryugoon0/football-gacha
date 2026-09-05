@@ -300,6 +300,8 @@ export interface RosterExtras {
   rarity?: Rarity
   /** Season label shown on the card ("2026-27", "2003-04"). */
   season?: string
+  /** 리미티드 카드 window and story (lib/limited.ts). */
+  limited?: { label: string; from: string; to: string; story?: string }
 }
 
 export type RosterRow = [
@@ -481,6 +483,7 @@ export function buildPlayer(id: string, fix: PlayerOverride = PLAYER_OVERRIDES[i
     fromSquad: extras?.squad ? true : undefined,
     retired: retired ? true : undefined,
     season: legacy?.season ?? extras?.season,
+    limited: extras?.limited,
   }
 }
 

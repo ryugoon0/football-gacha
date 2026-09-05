@@ -1,5 +1,6 @@
 import { PLAYERS, PLAYERS_BY_RARITY, POSITION_GROUP, seededRandom } from './players'
 import { RARITIES } from './rarity'
+import { limitedOpen } from './limited'
 import { tune } from './tuning'
 import type { PlayerDef, PositionGroup, Rarity } from './types'
 
@@ -143,22 +144,23 @@ export function rollRarity(
 }
 
 /**
- * The cards a grade can hand out. A grade with nothing released yet (월드
+ * The cards a grade can hand out right now. 리미티드 cards count only inside
+ * their window (lib/limited.ts). A grade with nothing released yet (월드
  * before the first legends land) falls back to the grade below, so a roll
  * never comes up empty.
  */
-export function releasedPoolFor(rarity: Rarity): PlayerDef[] {
+export function releasedPoolFor(rarity: Rarity, nowMs: number = Date.now()): PlayerDef[] {
   let index = rarityIndex(rarity)
   while (index >= 0) {
-    const pool = PLAYERS_BY_RARITY[RARITIES[index]]
-    if (pool && pool.length > 0) return pool
+    const pool = PLAYERS_BY_RARITY[RARITIES[index]].filter((player) => limitedOpen(player, nowMs))
+    if (pool.length > 0) return pool
     index -= 1
   }
   return PLAYERS
 }
 
-function poolFor(rarity: Rarity, group?: PositionGroup | null): PlayerDef[] {
-  const pool = releasedPoolFor(rarity)
+function poolFor(rarity: Rarity, group: PositionGroup | null | undefined, nowMs: number): PlayerDef[] {
+  const pool = releasedPoolFor(rarity, nowMs)
   if (!group) return pool
   const filtered = pool.filter((player) => POSITION_GROUP[player.position] === group)
   return filtered.length > 0 ? filtered : pool
@@ -167,18 +169,20 @@ function poolFor(rarity: Rarity, group?: PositionGroup | null): PlayerDef[] {
 function pick(
   rarity: Rarity,
   rng: Rng,
-  group?: PositionGroup | null,
-  featured?: PlayerDef | null,
+  group: PositionGroup | null | undefined,
+  featured: PlayerDef | null | undefined,
+  nowMs: number,
 ): PlayerDef {
   // The featured player takes half of the pulls at their own rarity.
   if (
     featured &&
     featured.rarity === rarity &&
+    limitedOpen(featured, nowMs) &&
     (!group || POSITION_GROUP[featured.position] === group)
   ) {
     if (rng() < 0.5) return featured
   }
-  const pool = poolFor(rarity, group)
+  const pool = poolFor(rarity, group, nowMs)
   return pool[Math.floor(rng() * pool.length)]
 }
 
@@ -202,8 +206,11 @@ export function pickupWeekKey(now: Date = new Date()): string {
   return shifted.toISOString().slice(0, 10)
 }
 
-export function featuredPlayer(weekKey: string): PlayerDef {
-  const pool = PLAYERS.filter((player) => ['Legend', 'Live', 'World'].includes(player.rarity))
+export function featuredPlayer(weekKey: string, nowMs: number = Date.now()): PlayerDef {
+  // While a 리미티드 batch is open, the week's pick-up is one of its cards —
+  // the half-odds boost is what makes the window worth waiting for.
+  const limited = PLAYERS.filter((player) => player.limited && !player.unreleased && limitedOpen(player, nowMs))
+  const pool = limited.length > 0 ? limited : PLAYERS.filter((player) => ['Legend', 'Live', 'World'].includes(player.rarity) && !player.limited && !player.unreleased)
   const seed = weekKey.split('').reduce((hash, char) => (hash * 31 + char.charCodeAt(0)) >>> 0, 7)
   return pool[Math.floor(seededRandom(seed)() * pool.length)]
 }
@@ -218,6 +225,8 @@ export interface DrawOptions {
   guarantee?: Rarity | null
   rates?: Rates
   rng?: Rng
+  /** The clock 리미티드 windows are judged by — the server passes its own. */
+  nowMs?: number
 }
 
 export interface DrawOutcome {
@@ -239,6 +248,7 @@ export function drawSession({
   guarantee = null,
   rates = PACK_RATES.basic,
   rng = Math.random,
+  nowMs = Date.now(),
 }: DrawOptions): DrawOutcome {
   const players: PlayerDef[] = []
   let counter = pity
@@ -256,12 +266,12 @@ export function drawSession({
     if (rarityIndex(rarity) >= rarityIndex(PITY_RARITY)) counter = 0
     else counter += 1
 
-    players.push(pick(rarity, rng, group, featured))
+    players.push(pick(rarity, rng, group, featured, nowMs))
   }
 
   if (guarantee && !players.some((player) => rarityIndex(player.rarity) >= rarityIndex(guarantee))) {
     const index = Math.floor(rng() * players.length)
-    players[index] = pick(guarantee, rng, group, featured)
+    players[index] = pick(guarantee, rng, group, featured, nowMs)
   }
 
   return { players, pity: counter, pityHit }

@@ -103,10 +103,16 @@ export default function PlayerDetailModal({
               </span>
             </div>
             <p className="mt-1 text-xs text-slate-400">
-              {player.season && (
-                <span className="mr-1 rounded bg-white/10 px-1.5 py-0.5 text-[11px] font-bold text-slate-200" title="이 카드가 나타내는 시즌">
-                  {player.season}
+              {player.limited ? (
+                <span className="mr-1 rounded bg-fuchsia-400/20 px-1.5 py-0.5 text-[11px] font-bold text-fuchsia-200" title={player.limited.story}>
+                  리미티드 · {player.limited.label}
                 </span>
+              ) : (
+                player.season && (
+                  <span className="mr-1 rounded bg-white/10 px-1.5 py-0.5 text-[11px] font-bold text-slate-200" title="이 카드가 나타내는 시즌">
+                    {player.season}
+                  </span>
+                )
               )}
               {player.club} · {player.league} · {player.nation} · 현재 오버롤{' '}
               <span className="font-bold text-white">{effectiveOvr(player, card.level)}</span>

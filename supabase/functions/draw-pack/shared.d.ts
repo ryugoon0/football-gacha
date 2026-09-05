@@ -21,7 +21,7 @@ export const PITY_LIMIT: number
 export const KNOB_KEYS: string[]
 export function setTuning(next: Partial<Record<string, number>>): void
 export function packOf(id: string): SharedPack
-export function featuredPlayer(weekKey: string): SharedPlayer
+export function featuredPlayer(weekKey: string, nowMs?: number): SharedPlayer
 export function pickupWeekKey(now?: Date): string
 export function drawSession(options: {
   count: number
@@ -32,4 +32,5 @@ export function drawSession(options: {
   guarantee?: string | null
   rates?: Record<string, number>
   rng?: () => number
+  nowMs?: number
 }): { players: SharedPlayer[]; pity: number; pityHit: boolean }

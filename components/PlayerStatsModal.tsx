@@ -51,9 +51,14 @@ export default function PlayerStatsModal({
           <div className="min-w-0">
             <h3 className="truncate text-base font-black text-white">{player.name}</h3>
             <p className="truncate text-[11px] text-slate-400">
-              {player.season && <span className="mr-1 rounded bg-white/10 px-1 font-bold text-slate-200">{player.season}</span>}
+              {player.limited ? (
+                <span className="mr-1 rounded bg-fuchsia-400/20 px-1 font-bold text-fuchsia-200">리미티드 · {player.limited.label}</span>
+              ) : (
+                player.season && <span className="mr-1 rounded bg-white/10 px-1 font-bold text-slate-200">{player.season}</span>
+              )}
               {player.club} · {player.league} · {player.nation}
             </p>
+            {player.limited?.story && <p className="mt-0.5 text-[11px] text-fuchsia-100/80">{player.limited.story}</p>}
           </div>
           <button
             onClick={onClose}

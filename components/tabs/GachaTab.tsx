@@ -30,6 +30,7 @@ import type { PlayerDef, Rarity } from '../../lib/types'
 import { useGame } from '../GameProvider'
 import PlayerCard from '../PlayerCard'
 import PlayerStatsModal from '../PlayerStatsModal'
+import LimitedBanner, { useLimitedPhase } from '../LimitedBanner'
 import ScoutReel from '../ScoutReel'
 import { newCard } from '../../lib/storage'
 import { useCardStyle } from '../CardStyle'
@@ -69,7 +70,10 @@ export default function GachaTab() {
   // A result card tapped for its full numbers.
   const [inspecting, setInspecting] = useState<PlayerDef | null>(null)
 
-  const featured = useMemo(() => featuredPlayer(pickupWeekKey()), [])
+  const limited = useLimitedPhase()
+  // The pick-up follows the 리미티드 window, so it is re-read when the phase changes.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const featured = useMemo(() => featuredPlayer(pickupWeekKey()), [limited.phase])
   const rolling = reelAt >= 0 && plan !== null
   const busy = spinning || rolling
 
@@ -215,6 +219,7 @@ export default function GachaTab() {
 
   return (
     <div className="space-y-6">
+      <LimitedBanner phase={limited} onInspect={setInspecting} />
       <section className="panel p-5">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>

@@ -152,14 +152,17 @@ export async function handle(request: Request, env: Env): Promise<Response> {
 
     const pityBefore = snapshot.pity ?? 0
     const { rng, seed } = serverRng()
+    // The server clock decides 리미티드 windows and the week's pick-up — never the device's.
+    const nowMs = Date.now()
     const outcome = drawSession({
       count: pack.count,
       pity: pityBefore,
-      featured: featuredPlayer(pickupWeekKey()),
+      featured: featuredPlayer(pickupWeekKey(new Date(nowMs)), nowMs),
       group,
       guarantee: pack.guarantee ?? null,
       rates: pack.rates,
       rng,
+      nowMs,
     })
 
     const cards = outcome.players.map((player) => ({

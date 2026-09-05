@@ -7552,7 +7552,8 @@ function buildPlayer(id, fix = PLAYER_OVERRIDES[id] ?? {}) {
     unreleased: extras?.unreleased === true || retired ? true : void 0,
     fromSquad: extras?.squad ? true : void 0,
     retired: retired ? true : void 0,
-    season: legacy?.season ?? extras?.season
+    season: legacy?.season ?? extras?.season,
+    limited: extras?.limited
   };
 }
 function buildRoster() {
