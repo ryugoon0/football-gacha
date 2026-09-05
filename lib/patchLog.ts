@@ -34,6 +34,18 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-05-scout-odds-and-sell',
+    date: '2026-09-05',
+    kind: 'balance',
+    title: '스카우트 확률과 방출 가격을 낮췄습니다',
+    detail: [
+      '일반 스카우트: 골드 1.5% · 라이브 0.4% · 레전드 0.15% (실버 29.95%, 일반 68%).',
+      '프리미엄 스카우트: 골드 16% · 라이브 7% · 레전드 3% (실버 48%, 일반 26%).',
+      '방출 가격: 일반 60G → 12G, 실버 220G → 66G. 골드 이상은 그대로입니다.',
+      '승급 합성은 당분간 화면에서 내렸습니다(카드는 그대로).',
+    ],
+  },
+  {
     id: '2026-09-05-scout-reel',
     date: '2026-09-05',
     kind: 'feature',

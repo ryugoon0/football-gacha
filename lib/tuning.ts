@@ -19,7 +19,7 @@ export interface Knob {
   min: number
   max: number
   step: number
-  group: '경기' | '체력' | '비용' | '하루' | '보상'
+  group: '경기' | '체력' | '비용' | '하루' | '보상' | '스카우트' | '합성'
   /** Whole numbers only — gold amounts, counts. */
   integer?: boolean
 }
@@ -252,6 +252,123 @@ export const KNOBS = {
     max: 50000,
     step: 50,
     group: '비용',
+    integer: true,
+  },
+  // 스카우트 확률 (%) — 등급별로 실버·골드·라이브·레전드만 두고 일반은 100에서 나머지를
+  // 뺀 값이 된다. 그래서 어떻게 움직여도 합이 100이다. 뽑기 서버(draw-pack)도 같은
+  // game_config를 읽어 같은 표로 뽑는다.
+  basicRateRare: {
+    label: '일반 스카우트 · 실버 확률(%)',
+    note: '나머지가 일반 확률이 됩니다.',
+    default: 29.95,
+    min: 0,
+    max: 60,
+    step: 0.05,
+    group: '스카우트',
+  },
+  basicRateGold: {
+    label: '일반 스카우트 · 골드 확률(%)',
+    note: '한 장을 뽑을 때 이 등급이 나올 확률(%)입니다.',
+    default: 1.5,
+    min: 0,
+    max: 20,
+    step: 0.05,
+    group: '스카우트',
+  },
+  basicRateLive: {
+    label: '일반 스카우트 · 라이브 확률(%)',
+    note: '한 장을 뽑을 때 이 등급이 나올 확률(%)입니다.',
+    default: 0.4,
+    min: 0,
+    max: 10,
+    step: 0.05,
+    group: '스카우트',
+  },
+  basicRateLegend: {
+    label: '일반 스카우트 · 레전드 확률(%)',
+    note: '한 장을 뽑을 때 이 등급이 나올 확률(%)입니다.',
+    default: 0.15,
+    min: 0,
+    max: 5,
+    step: 0.05,
+    group: '스카우트',
+  },
+  premiumRateRare: {
+    label: '프리미엄 스카우트 · 실버 확률(%)',
+    note: '나머지가 일반 확률이 됩니다.',
+    default: 48,
+    min: 0,
+    max: 80,
+    step: 0.5,
+    group: '스카우트',
+  },
+  premiumRateGold: {
+    label: '프리미엄 스카우트 · 골드 확률(%)',
+    note: '한 장을 뽑을 때 이 등급이 나올 확률(%)입니다.',
+    default: 16,
+    min: 0,
+    max: 60,
+    step: 0.5,
+    group: '스카우트',
+  },
+  premiumRateLive: {
+    label: '프리미엄 스카우트 · 라이브 확률(%)',
+    note: '한 장을 뽑을 때 이 등급이 나올 확률(%)입니다.',
+    default: 7,
+    min: 0,
+    max: 40,
+    step: 0.5,
+    group: '스카우트',
+  },
+  premiumRateLegend: {
+    label: '프리미엄 스카우트 · 레전드 확률(%)',
+    note: '한 장을 뽑을 때 이 등급이 나올 확률(%)입니다.',
+    default: 3,
+    min: 0,
+    max: 20,
+    step: 0.5,
+    group: '스카우트',
+  },
+  // 승급 합성에 드는 같은 등급 카드 장수. 유저에게는 지금 보이지 않는 기능이라
+  // 운영자가 값을 잡아 두고 나중에 다시 열 때 쓴다.
+  fusionSizeNormal: {
+    label: '합성 장수 · 일반 → 실버',
+    note: '일반 카드 몇 장으로 실버 1장을 만들지.',
+    default: 3,
+    min: 2,
+    max: 20,
+    step: 1,
+    group: '합성',
+    integer: true,
+  },
+  fusionSizeRare: {
+    label: '합성 장수 · 실버 → 골드',
+    note: '이 등급 카드 몇 장으로 한 단계 위 카드 1장을 만들지.',
+    default: 3,
+    min: 2,
+    max: 20,
+    step: 1,
+    group: '합성',
+    integer: true,
+  },
+  fusionSizeGold: {
+    label: '합성 장수 · 골드 → 라이브',
+    note: '이 등급 카드 몇 장으로 한 단계 위 카드 1장을 만들지.',
+    default: 3,
+    min: 2,
+    max: 20,
+    step: 1,
+    group: '합성',
+    integer: true,
+  },
+  fusionSizeLive: {
+    label: '합성 장수 · 라이브 → 레전드',
+    note: '이 등급 카드 몇 장으로 한 단계 위 카드 1장을 만들지.',
+    default: 3,
+    min: 2,
+    max: 20,
+    step: 1,
+    group: '합성',
     integer: true,
   },
 } as const satisfies Record<string, Knob>

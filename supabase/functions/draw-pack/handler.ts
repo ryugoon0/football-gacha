@@ -11,7 +11,7 @@
 // jsr:·npm:·esm.sh 중 무엇이 이 런타임에서 되는지는 배포해 봐야 알 수 있고,
 // 모듈을 못 불러오면 함수가 뜨지도 못한 채 "연결 실패"만 남깁니다. Deno에
 // 이미 있는 fetch로 REST를 직접 부르면 그 불확실성이 통째로 사라집니다.
-import { PACKS, PITY_LIMIT, drawSession, featuredPlayer, packOf, pickupWeekKey } from './shared.js'
+import { KNOB_KEYS, PACKS, PITY_LIMIT, drawSession, featuredPlayer, packOf, pickupWeekKey, setTuning } from './shared.js'
 
 const GROUPS = ['GK', 'DF', 'MF', 'FW']
 
@@ -90,6 +90,26 @@ export async function handle(request: Request, env: Env): Promise<Response> {
       body = await request.json()
     } catch {
       // An empty body is fine; the defaults below cover it.
+    }
+
+    // The odds are operator knobs (game_config); read them before the roll so
+    // the table the player sees is the table this pull uses.
+    try {
+      const configRes = await fetch(`${url}/rest/v1/game_config?select=key,value`, {
+        headers: { apikey: service, Authorization: `Bearer ${service}` },
+      })
+      if (configRes.ok) {
+        const rows = (await configRes.json()) as { key: string; value: number | string }[]
+        const known = new Set<string>(KNOB_KEYS)
+        const values: Record<string, number> = {}
+        for (const row of rows) {
+          const value = typeof row.value === 'string' ? Number(row.value) : row.value
+          if (known.has(row.key) && Number.isFinite(value)) values[row.key] = value
+        }
+        setTuning(values)
+      }
+    } catch {
+      // Unreachable config means the compiled defaults roll — same as the client shows when offline.
     }
 
     const packId = PACKS.some((item) => item.id === body.pack) ? (body.pack as string) : 'basic'

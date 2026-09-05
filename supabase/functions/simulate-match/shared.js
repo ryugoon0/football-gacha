@@ -309,6 +309,123 @@ var KNOBS = {
     step: 50,
     group: "\uBE44\uC6A9",
     integer: true
+  },
+  // 스카우트 확률 (%) — 등급별로 실버·골드·라이브·레전드만 두고 일반은 100에서 나머지를
+  // 뺀 값이 된다. 그래서 어떻게 움직여도 합이 100이다. 뽑기 서버(draw-pack)도 같은
+  // game_config를 읽어 같은 표로 뽑는다.
+  basicRateRare: {
+    label: "\uC77C\uBC18 \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uC2E4\uBC84 \uD655\uB960(%)",
+    note: "\uB098\uBA38\uC9C0\uAC00 \uC77C\uBC18 \uD655\uB960\uC774 \uB429\uB2C8\uB2E4.",
+    default: 29.95,
+    min: 0,
+    max: 60,
+    step: 0.05,
+    group: "\uC2A4\uCE74\uC6B0\uD2B8"
+  },
+  basicRateGold: {
+    label: "\uC77C\uBC18 \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uACE8\uB4DC \uD655\uB960(%)",
+    note: "\uD55C \uC7A5\uC744 \uBF51\uC744 \uB54C \uC774 \uB4F1\uAE09\uC774 \uB098\uC62C \uD655\uB960(%)\uC785\uB2C8\uB2E4.",
+    default: 1.5,
+    min: 0,
+    max: 20,
+    step: 0.05,
+    group: "\uC2A4\uCE74\uC6B0\uD2B8"
+  },
+  basicRateLive: {
+    label: "\uC77C\uBC18 \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uB77C\uC774\uBE0C \uD655\uB960(%)",
+    note: "\uD55C \uC7A5\uC744 \uBF51\uC744 \uB54C \uC774 \uB4F1\uAE09\uC774 \uB098\uC62C \uD655\uB960(%)\uC785\uB2C8\uB2E4.",
+    default: 0.4,
+    min: 0,
+    max: 10,
+    step: 0.05,
+    group: "\uC2A4\uCE74\uC6B0\uD2B8"
+  },
+  basicRateLegend: {
+    label: "\uC77C\uBC18 \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uB808\uC804\uB4DC \uD655\uB960(%)",
+    note: "\uD55C \uC7A5\uC744 \uBF51\uC744 \uB54C \uC774 \uB4F1\uAE09\uC774 \uB098\uC62C \uD655\uB960(%)\uC785\uB2C8\uB2E4.",
+    default: 0.15,
+    min: 0,
+    max: 5,
+    step: 0.05,
+    group: "\uC2A4\uCE74\uC6B0\uD2B8"
+  },
+  premiumRateRare: {
+    label: "\uD504\uB9AC\uBBF8\uC5C4 \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uC2E4\uBC84 \uD655\uB960(%)",
+    note: "\uB098\uBA38\uC9C0\uAC00 \uC77C\uBC18 \uD655\uB960\uC774 \uB429\uB2C8\uB2E4.",
+    default: 48,
+    min: 0,
+    max: 80,
+    step: 0.5,
+    group: "\uC2A4\uCE74\uC6B0\uD2B8"
+  },
+  premiumRateGold: {
+    label: "\uD504\uB9AC\uBBF8\uC5C4 \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uACE8\uB4DC \uD655\uB960(%)",
+    note: "\uD55C \uC7A5\uC744 \uBF51\uC744 \uB54C \uC774 \uB4F1\uAE09\uC774 \uB098\uC62C \uD655\uB960(%)\uC785\uB2C8\uB2E4.",
+    default: 16,
+    min: 0,
+    max: 60,
+    step: 0.5,
+    group: "\uC2A4\uCE74\uC6B0\uD2B8"
+  },
+  premiumRateLive: {
+    label: "\uD504\uB9AC\uBBF8\uC5C4 \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uB77C\uC774\uBE0C \uD655\uB960(%)",
+    note: "\uD55C \uC7A5\uC744 \uBF51\uC744 \uB54C \uC774 \uB4F1\uAE09\uC774 \uB098\uC62C \uD655\uB960(%)\uC785\uB2C8\uB2E4.",
+    default: 7,
+    min: 0,
+    max: 40,
+    step: 0.5,
+    group: "\uC2A4\uCE74\uC6B0\uD2B8"
+  },
+  premiumRateLegend: {
+    label: "\uD504\uB9AC\uBBF8\uC5C4 \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uB808\uC804\uB4DC \uD655\uB960(%)",
+    note: "\uD55C \uC7A5\uC744 \uBF51\uC744 \uB54C \uC774 \uB4F1\uAE09\uC774 \uB098\uC62C \uD655\uB960(%)\uC785\uB2C8\uB2E4.",
+    default: 3,
+    min: 0,
+    max: 20,
+    step: 0.5,
+    group: "\uC2A4\uCE74\uC6B0\uD2B8"
+  },
+  // 승급 합성에 드는 같은 등급 카드 장수. 유저에게는 지금 보이지 않는 기능이라
+  // 운영자가 값을 잡아 두고 나중에 다시 열 때 쓴다.
+  fusionSizeNormal: {
+    label: "\uD569\uC131 \uC7A5\uC218 \xB7 \uC77C\uBC18 \u2192 \uC2E4\uBC84",
+    note: "\uC77C\uBC18 \uCE74\uB4DC \uBA87 \uC7A5\uC73C\uB85C \uC2E4\uBC84 1\uC7A5\uC744 \uB9CC\uB4E4\uC9C0.",
+    default: 3,
+    min: 2,
+    max: 20,
+    step: 1,
+    group: "\uD569\uC131",
+    integer: true
+  },
+  fusionSizeRare: {
+    label: "\uD569\uC131 \uC7A5\uC218 \xB7 \uC2E4\uBC84 \u2192 \uACE8\uB4DC",
+    note: "\uC774 \uB4F1\uAE09 \uCE74\uB4DC \uBA87 \uC7A5\uC73C\uB85C \uD55C \uB2E8\uACC4 \uC704 \uCE74\uB4DC 1\uC7A5\uC744 \uB9CC\uB4E4\uC9C0.",
+    default: 3,
+    min: 2,
+    max: 20,
+    step: 1,
+    group: "\uD569\uC131",
+    integer: true
+  },
+  fusionSizeGold: {
+    label: "\uD569\uC131 \uC7A5\uC218 \xB7 \uACE8\uB4DC \u2192 \uB77C\uC774\uBE0C",
+    note: "\uC774 \uB4F1\uAE09 \uCE74\uB4DC \uBA87 \uC7A5\uC73C\uB85C \uD55C \uB2E8\uACC4 \uC704 \uCE74\uB4DC 1\uC7A5\uC744 \uB9CC\uB4E4\uC9C0.",
+    default: 3,
+    min: 2,
+    max: 20,
+    step: 1,
+    group: "\uD569\uC131",
+    integer: true
+  },
+  fusionSizeLive: {
+    label: "\uD569\uC131 \uC7A5\uC218 \xB7 \uB77C\uC774\uBE0C \u2192 \uB808\uC804\uB4DC",
+    note: "\uC774 \uB4F1\uAE09 \uCE74\uB4DC \uBA87 \uC7A5\uC73C\uB85C \uD55C \uB2E8\uACC4 \uC704 \uCE74\uB4DC 1\uC7A5\uC744 \uB9CC\uB4E4\uC9C0.",
+    default: 3,
+    min: 2,
+    max: 20,
+    step: 1,
+    group: "\uD569\uC131",
+    integer: true
   }
 };
 var KNOB_KEYS = Object.keys(KNOBS);

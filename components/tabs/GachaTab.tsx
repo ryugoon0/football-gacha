@@ -320,9 +320,8 @@ export default function GachaTab() {
             </div>
           ))}
         </div>
-        <p className="mt-1.5 text-[11px] text-amber-400/80">
-          확률은 테스트 중이라 고급 카드가 잘 나오도록 맞춰 두었습니다. 최종 수치는 추후
-          조정됩니다.
+        <p className="mt-1.5 text-[11px] text-slate-500">
+          한 장을 뽑을 때 각 등급이 나올 확률입니다. 10연속의 보장 카드와 천장은 여기에 더해집니다.
         </p>
 
         {error && <p className="mt-3 text-sm font-semibold text-rose-400">{error}</p>}

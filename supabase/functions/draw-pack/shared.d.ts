@@ -16,6 +16,9 @@ export interface SharedPack {
 
 export const PACKS: SharedPack[]
 export const PITY_LIMIT: number
+/** Operator knobs (game_config) — the pack odds live there now. */
+export const KNOB_KEYS: string[]
+export function setTuning(next: Partial<Record<string, number>>): void
 export function packOf(id: string): SharedPack
 export function featuredPlayer(weekKey: string): SharedPlayer
 export function pickupWeekKey(now?: Date): string

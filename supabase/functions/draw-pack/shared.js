@@ -4240,53 +4240,435 @@ var PLAYERS_BY_RARITY = PLAYERS.reduce(
   {}
 );
 
+// lib/tuning.ts
+var KNOBS = {
+  staminaDrain: {
+    label: "\uCCB4\uB825 \uC800\uD558\uC728",
+    note: "\uACBD\uAE30 \uC911 \uCCB4\uB825\uC774 \uB2F3\uB294 \uC18D\uB3C4. \uC62C\uB9AC\uBA74 \uD6C4\uBC18\uC5D0 \uC9C0\uCE5C \uC120\uC218\uAC00 \uB298\uACE0 \uAD50\uCCB4\uAC00 \uC911\uC694\uD574\uC9D1\uB2C8\uB2E4.",
+    default: 0.65,
+    min: 0.1,
+    max: 2,
+    step: 0.05,
+    group: "\uCCB4\uB825"
+  },
+  keeperDrain: {
+    label: "\uACE8\uD0A4\uD37C \uCCB4\uB825 \uC800\uD558\uC728",
+    note: "\uACE8\uD0A4\uD37C\uB294 \uB35C \uB6F0\uBBC0\uB85C \uBCF4\uD1B5 \uD544\uB4DC \uC120\uC218\uBCF4\uB2E4 \uB0AE\uAC8C \uB461\uB2C8\uB2E4.",
+    default: 0.2,
+    min: 0,
+    max: 1,
+    step: 0.05,
+    group: "\uCCB4\uB825"
+  },
+  liveTired: {
+    label: "\uACBD\uAE30 \uC911 \uC9C0\uCE68 \uAE30\uC900",
+    note: "\uACBD\uAE30 \uC911 \uCCB4\uB825\uC774 \uC774 \uC544\uB798\uB85C \uB0B4\uB824\uAC04 \uC120\uC218\uB97C \uC9C0\uCE5C \uAC83\uC73C\uB85C \uBD05\uB2C8\uB2E4.",
+    default: 55,
+    min: 10,
+    max: 90,
+    step: 5,
+    group: "\uCCB4\uB825",
+    integer: true
+  },
+  tiredCondition: {
+    label: "\uACBD\uAE30 \uC804 \uC9C0\uCE68 \uAE30\uC900",
+    note: "\uCEE8\uB514\uC158\uC774 \uC774 \uC544\uB798\uBA74 \uACBD\uAE30\uB825\uC774 \uB5A8\uC5B4\uC9C0\uACE0 \uACBD\uACE0\uAC00 \uB739\uB2C8\uB2E4.",
+    default: 60,
+    min: 10,
+    max: 95,
+    step: 5,
+    group: "\uCCB4\uB825",
+    integer: true
+  },
+  tiredSubThreshold: {
+    label: "\uC790\uB3D9 \uAD50\uCCB4 \uAE30\uC900",
+    note: "\uCEE8\uB514\uC158\uC774 \uC774 \uC544\uB798\uC778 \uC120\uBC1C\uC744 \uD0A5\uC624\uD504 \uC804\uC5D0 \uC790\uB3D9\uC73C\uB85C \uBE8D\uB2C8\uB2E4.",
+    default: 45,
+    min: 0,
+    max: 90,
+    step: 5,
+    group: "\uCCB4\uB825",
+    integer: true
+  },
+  homeAdvantage: {
+    label: "\uD648 \uC774\uC810",
+    note: "\uD648 \uD300 \uC804\uB825\uC5D0 \uB354\uD574\uC9C0\uB294 \uAC12. \uC62C\uB9AC\uBA74 \uC6D0\uC815\uC774 \uC5B4\uB824\uC6CC\uC9D1\uB2C8\uB2E4.",
+    default: 3,
+    min: 0,
+    max: 15,
+    step: 1,
+    group: "\uACBD\uAE30",
+    integer: true
+  },
+  subLimit: {
+    label: "\uACBD\uAE30\uB2F9 \uAD50\uCCB4 \uC778\uC6D0",
+    note: "\uD55C \uACBD\uAE30\uC5D0\uC11C \uBC14\uAFC0 \uC218 \uC788\uB294 \uC120\uC218 \uC218. \uC790\uB3D9 \uAD50\uCCB4\uC640 \uC9C1\uC811 \uAD50\uCCB4\uB97C \uD569\uCCD0\uC11C \uC149\uB2C8\uB2E4.",
+    default: 5,
+    min: 0,
+    max: 11,
+    step: 1,
+    group: "\uACBD\uAE30",
+    integer: true
+  },
+  outOfPositionFactor: {
+    label: "\uD3EC\uC9C0\uC158 \uBD88\uC77C\uCE58 \uACC4\uC218",
+    note: "\uC790\uB9AC\uC5D0 \uB9DE\uC9C0 \uC54A\uB294 \uC120\uC218\uAC00 \uC783\uB294 \uB2A5\uB825\uCE58 \uBE44\uC728. \uB0AE\uCD9C\uC218\uB85D \uD06C\uAC8C \uAE4E\uC785\uB2C8\uB2E4.",
+    default: 0.55,
+    min: 0.1,
+    max: 1,
+    step: 0.05,
+    group: "\uACBD\uAE30"
+  },
+  miniGameLimit: {
+    label: "\uD558\uB8E8 \uCE5C\uC120 \uACBD\uAE30 \uC218",
+    note: "\uD558\uB8E8\uC5D0 \uCE60 \uC218 \uC788\uB294 \uBBF8\uB2C8\uAC8C\uC784 \uD310\uC218\uC785\uB2C8\uB2E4.",
+    default: 10,
+    min: 0,
+    max: 50,
+    step: 1,
+    group: "\uD558\uB8E8",
+    integer: true
+  },
+  miniGameReward: {
+    label: "\uCE5C\uC120 \uACBD\uAE30 \uBCF4\uC0C1 \uBC30\uC728",
+    note: "\uB9AC\uADF8 \uACBD\uAE30 \uBCF4\uC0C1 \uB300\uBE44 \uBE44\uC728. 1\uC774\uBA74 \uB9AC\uADF8\uC640 \uAC19\uC2B5\uB2C8\uB2E4.",
+    default: 0.4,
+    min: 0,
+    max: 1,
+    step: 0.05,
+    group: "\uBCF4\uC0C1"
+  },
+  casualMatchDailyLimit: {
+    label: "\uCE90\uC8FC\uC5BC \uBAA8\uB4DC \uD558\uB8E8 \uACBD\uAE30 \uC218 (\uC548\uC804\uB9DD)",
+    note: '\uC2E4\uC81C "\uD558\uB8E8 1\uC2DC\uC98C" \uC81C\uD55C\uC740 \uC2DC\uC98C\uC774 \uB05D\uB098\uBA74 \uADF8\uB0A0 \uC7A0\uAE30\uB294 \uADDC\uCE59(lib/daily.ts\uC758 casualModeLocked)\uC774 \uB9E1\uC2B5\uB2C8\uB2E4 \u2014 \uCEF5 \uC131\uC801\uC5D0 \uB530\uB77C \uD55C \uC2DC\uC98C\uC758 \uC2E4\uC81C \uACBD\uAE30 \uC218\uAC00 19~23\uD310\uC73C\uB85C \uB4E4\uCB49\uB0A0\uCB49\uD574\uC11C \uACE0\uC815 \uD310\uC218\uB85C\uB294 \uC815\uD655\uD788 \uBABB \uB9DE\uCDA5\uB2C8\uB2E4. \uC774 \uAC12\uC740 \uC2DC\uC98C\uC774 \uC5B4\uB5A4 \uC774\uC720\uB85C\uB4E0 \uC548 \uB05D\uB0A0 \uB54C\uB97C \uB300\uBE44\uD55C \uC0C1\uD55C\uC120\uC774\uB77C \uB109\uB109\uD558\uAC8C \uC7A1\uC558\uC2B5\uB2C8\uB2E4.',
+    default: 40,
+    min: 1,
+    max: 90,
+    step: 1,
+    group: "\uD558\uB8E8",
+    integer: true
+  },
+  casualGoldMultiplier: {
+    label: "\uCE90\uC8FC\uC5BC \uBAA8\uB4DC \uBCF4\uC0C1 \uBC30\uC728",
+    note: "\uCE90\uC8FC\uC5BC \uBAA8\uB4DC(\uB9AC\uADF8\xB7\uCEF5\xB7\uCE5C\uC120) \uACBD\uAE30 \uACE8\uB4DC \uBCF4\uC0C1 \uC804\uCCB4\uC5D0 \uACF1\uD574\uC9C0\uB294 \uBC30\uC728\uC785\uB2C8\uB2E4.",
+    default: 1,
+    min: 0,
+    max: 2,
+    step: 0.05,
+    group: "\uBCF4\uC0C1"
+  },
+  competitiveGoldMultiplier: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 \uBCF4\uC0C1 \uBC30\uC728",
+    note: "\uACBD\uC7C1 \uB9AC\uADF8 \uACBD\uAE30 \uACE8\uB4DC \uBCF4\uC0C1 \uC804\uCCB4\uC5D0 \uACF1\uD558\uB294 \uBC30\uC728\uC785\uB2C8\uB2E4. \uB4F1\uAE09\uBCC4 \uCC28\uB4F1\uC740 \uC544\uB798 \uB4F1\uAE09 \uBC30\uC728\uB85C \uB530\uB85C \uACF1\uD574\uC9D1\uB2C8\uB2E4. \uCE90\uC8FC\uC5BC \uBAA8\uB4DC\uAC00 \uD558\uB8E8 1\uC2DC\uC98C\uC73C\uB85C \uBB36\uC778 \uB9CC\uD07C, \uACBD\uC7C1 \uB9AC\uADF8\uAC00 \uADF8 \uC790\uB9AC\uB97C \uB300\uC2E0\uD558\uB3C4\uB85D \uAE30\uBCF8\uAC12\uC744 1.5\uB85C \uB450\uC5C8\uC2B5\uB2C8\uB2E4.",
+    default: 1.5,
+    min: 0,
+    max: 3,
+    step: 0.05,
+    group: "\uBCF4\uC0C1"
+  },
+  weeklyTierMultiplier0: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 0\uB4F1\uAE09(\uCD5C\uC0C1\uC704) \uBCF4\uC0C1 \uBC30\uC728",
+    note: "0\uB4F1\uAE09 \uACBD\uAE30 \uBCF4\uC0C1\uC5D0 \uACF1\uD569\uB2C8\uB2E4. \uAC19\uC740 \uC2B9\uB9AC\uB77C\uB3C4 \uC717 \uB4F1\uAE09\uC774 \uB354 \uBC1B\uB3C4\uB85D \uB4F1\uAE09\uBCC4\uB85C \uCC28\uB4F1\uC744 \uB461\uB2C8\uB2E4.",
+    default: 1,
+    min: 0,
+    max: 2,
+    step: 0.05,
+    group: "\uBCF4\uC0C1"
+  },
+  weeklyTierMultiplier1: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 1\uB4F1\uAE09 \uBCF4\uC0C1 \uBC30\uC728",
+    note: "1\uB4F1\uAE09 \uACBD\uAE30 \uBCF4\uC0C1\uC5D0 \uACF1\uD569\uB2C8\uB2E4.",
+    default: 0.85,
+    min: 0,
+    max: 2,
+    step: 0.05,
+    group: "\uBCF4\uC0C1"
+  },
+  weeklyTierMultiplier2: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 2\uB4F1\uAE09 \uBCF4\uC0C1 \uBC30\uC728",
+    note: "2\uB4F1\uAE09 \uACBD\uAE30 \uBCF4\uC0C1\uC5D0 \uACF1\uD569\uB2C8\uB2E4.",
+    default: 0.7,
+    min: 0,
+    max: 2,
+    step: 0.05,
+    group: "\uBCF4\uC0C1"
+  },
+  weeklyTierMultiplier3: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 3\uB4F1\uAE09(\uCD5C\uD558\uC704) \uBCF4\uC0C1 \uBC30\uC728",
+    note: "3\uB4F1\uAE09 \uACBD\uAE30 \uBCF4\uC0C1\uC5D0 \uACF1\uD569\uB2C8\uB2E4.",
+    default: 0.55,
+    min: 0,
+    max: 2,
+    step: 0.05,
+    group: "\uBCF4\uC0C1"
+  },
+  hotTimeBonus: {
+    label: "\uD56B\uD0C0\uC784 \uAC1C\uC785 \uBCF4\uB108\uC2A4",
+    note: "15\uC2DC\xB721\uC2DC(KST) \uD0A5\uC624\uD504 \uACBD\uAE30\uC5D0\uC11C \uCC38\uAC00 \uAC10\uB3C5\uC774 \uB77C\uC774\uBE0C \uCC3D \uC548\uC5D0 \uC9C0\uC2DC\uB97C \uD558\uB098\uB77C\uB3C4 \uBCF4\uB0B4\uBA74 \uBC1B\uB294 \uBCF4\uB108\uC2A4 \uACE8\uB4DC\uC785\uB2C8\uB2E4. \uAD00\uC804\uB9CC\uC73C\uB85C\uB294 \uBC1B\uC9C0 \uBABB\uD569\uB2C8\uB2E4.",
+    default: 1e3,
+    min: 0,
+    max: 1e4,
+    step: 100,
+    group: "\uBCF4\uC0C1",
+    integer: true
+  },
+  pvpDailyLimit: {
+    label: "\uB370\uC77C\uB9AC PvP \uD558\uB8E8 \uB3C4\uC804 \uD69F\uC218",
+    note: "\uB3C4\uC804\uC744 \uAC74 \uCABD\uC5D0\uC11C\uB9CC \uC18C\uBAA8\uB429\uB2C8\uB2E4 \u2014 \uB3C4\uC804\uC744 \uBC1B\uB294 \uCABD\uC740 \uC790\uAE30 \uD55C\uB3C4\uB97C \uC4F0\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4.",
+    default: 3,
+    min: 1,
+    max: 20,
+    step: 1,
+    group: "\uD558\uB8E8",
+    integer: true
+  },
+  pvpGoldMultiplier: {
+    label: "\uB370\uC77C\uB9AC PvP \uBCF4\uC0C1 \uBC30\uC728",
+    note: "\uB370\uC77C\uB9AC PvP \uC2B9\uB9AC \uACE8\uB4DC \uBCF4\uC0C1\uC5D0 \uACF1\uD560 \uBC30\uC728\uC785\uB2C8\uB2E4. \uCE90\uC8FC\uC5BC \uBAA8\uB4DC \uBCF4\uC0C1 \uBC30\uC728\uACFC \uBCC4\uAC1C\uC785\uB2C8\uB2E4.",
+    default: 1,
+    min: 0,
+    max: 2,
+    step: 0.05,
+    group: "\uBCF4\uC0C1"
+  },
+  recoveryCostPerPoint: {
+    label: "\uCCB4\uB825 \uD68C\uBCF5 \uBE44\uC6A9",
+    note: "\uCEE8\uB514\uC158 1\uB2F9 \uB4DC\uB294 \uACE8\uB4DC\uC785\uB2C8\uB2E4.",
+    default: 8,
+    min: 0,
+    max: 200,
+    step: 1,
+    group: "\uBE44\uC6A9",
+    integer: true
+  },
+  treatmentCostPerMatch: {
+    label: "\uBD80\uC0C1 \uCE58\uB8CC \uBE44\uC6A9",
+    note: "\uB0A8\uC740 \uACB0\uC7A5 \uACBD\uAE30 1\uD310\uB2F9 \uB4DC\uB294 \uACE8\uB4DC\uC785\uB2C8\uB2E4.",
+    default: 450,
+    min: 0,
+    max: 2e4,
+    step: 50,
+    group: "\uBE44\uC6A9",
+    integer: true
+  },
+  refreshCost: {
+    label: "\uC774\uC801\uC2DC\uC7A5 \uAC31\uC2E0 \uBE44\uC6A9",
+    note: "\uB9E4\uBB3C \uBAA9\uB85D\uC744 \uC0C8\uB85C \uBF51\uB294 \uB370 \uB4DC\uB294 \uACE8\uB4DC\uC785\uB2C8\uB2E4.",
+    default: 300,
+    min: 0,
+    max: 2e4,
+    step: 50,
+    group: "\uBE44\uC6A9",
+    integer: true
+  },
+  fusionFee: {
+    label: "\uC2B9\uAE09 \uD569\uC131 \uC218\uC218\uB8CC",
+    note: "\uD569\uC131 \uD55C \uBC88\uC5D0 \uB4DC\uB294 \uACE8\uB4DC\uC785\uB2C8\uB2E4.",
+    default: 500,
+    min: 0,
+    max: 5e4,
+    step: 50,
+    group: "\uBE44\uC6A9",
+    integer: true
+  },
+  // 스카우트 확률 (%) — 등급별로 실버·골드·라이브·레전드만 두고 일반은 100에서 나머지를
+  // 뺀 값이 된다. 그래서 어떻게 움직여도 합이 100이다. 뽑기 서버(draw-pack)도 같은
+  // game_config를 읽어 같은 표로 뽑는다.
+  basicRateRare: {
+    label: "\uC77C\uBC18 \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uC2E4\uBC84 \uD655\uB960(%)",
+    note: "\uB098\uBA38\uC9C0\uAC00 \uC77C\uBC18 \uD655\uB960\uC774 \uB429\uB2C8\uB2E4.",
+    default: 29.95,
+    min: 0,
+    max: 60,
+    step: 0.05,
+    group: "\uC2A4\uCE74\uC6B0\uD2B8"
+  },
+  basicRateGold: {
+    label: "\uC77C\uBC18 \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uACE8\uB4DC \uD655\uB960(%)",
+    note: "\uD55C \uC7A5\uC744 \uBF51\uC744 \uB54C \uC774 \uB4F1\uAE09\uC774 \uB098\uC62C \uD655\uB960(%)\uC785\uB2C8\uB2E4.",
+    default: 1.5,
+    min: 0,
+    max: 20,
+    step: 0.05,
+    group: "\uC2A4\uCE74\uC6B0\uD2B8"
+  },
+  basicRateLive: {
+    label: "\uC77C\uBC18 \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uB77C\uC774\uBE0C \uD655\uB960(%)",
+    note: "\uD55C \uC7A5\uC744 \uBF51\uC744 \uB54C \uC774 \uB4F1\uAE09\uC774 \uB098\uC62C \uD655\uB960(%)\uC785\uB2C8\uB2E4.",
+    default: 0.4,
+    min: 0,
+    max: 10,
+    step: 0.05,
+    group: "\uC2A4\uCE74\uC6B0\uD2B8"
+  },
+  basicRateLegend: {
+    label: "\uC77C\uBC18 \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uB808\uC804\uB4DC \uD655\uB960(%)",
+    note: "\uD55C \uC7A5\uC744 \uBF51\uC744 \uB54C \uC774 \uB4F1\uAE09\uC774 \uB098\uC62C \uD655\uB960(%)\uC785\uB2C8\uB2E4.",
+    default: 0.15,
+    min: 0,
+    max: 5,
+    step: 0.05,
+    group: "\uC2A4\uCE74\uC6B0\uD2B8"
+  },
+  premiumRateRare: {
+    label: "\uD504\uB9AC\uBBF8\uC5C4 \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uC2E4\uBC84 \uD655\uB960(%)",
+    note: "\uB098\uBA38\uC9C0\uAC00 \uC77C\uBC18 \uD655\uB960\uC774 \uB429\uB2C8\uB2E4.",
+    default: 48,
+    min: 0,
+    max: 80,
+    step: 0.5,
+    group: "\uC2A4\uCE74\uC6B0\uD2B8"
+  },
+  premiumRateGold: {
+    label: "\uD504\uB9AC\uBBF8\uC5C4 \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uACE8\uB4DC \uD655\uB960(%)",
+    note: "\uD55C \uC7A5\uC744 \uBF51\uC744 \uB54C \uC774 \uB4F1\uAE09\uC774 \uB098\uC62C \uD655\uB960(%)\uC785\uB2C8\uB2E4.",
+    default: 16,
+    min: 0,
+    max: 60,
+    step: 0.5,
+    group: "\uC2A4\uCE74\uC6B0\uD2B8"
+  },
+  premiumRateLive: {
+    label: "\uD504\uB9AC\uBBF8\uC5C4 \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uB77C\uC774\uBE0C \uD655\uB960(%)",
+    note: "\uD55C \uC7A5\uC744 \uBF51\uC744 \uB54C \uC774 \uB4F1\uAE09\uC774 \uB098\uC62C \uD655\uB960(%)\uC785\uB2C8\uB2E4.",
+    default: 7,
+    min: 0,
+    max: 40,
+    step: 0.5,
+    group: "\uC2A4\uCE74\uC6B0\uD2B8"
+  },
+  premiumRateLegend: {
+    label: "\uD504\uB9AC\uBBF8\uC5C4 \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uB808\uC804\uB4DC \uD655\uB960(%)",
+    note: "\uD55C \uC7A5\uC744 \uBF51\uC744 \uB54C \uC774 \uB4F1\uAE09\uC774 \uB098\uC62C \uD655\uB960(%)\uC785\uB2C8\uB2E4.",
+    default: 3,
+    min: 0,
+    max: 20,
+    step: 0.5,
+    group: "\uC2A4\uCE74\uC6B0\uD2B8"
+  },
+  // 승급 합성에 드는 같은 등급 카드 장수. 유저에게는 지금 보이지 않는 기능이라
+  // 운영자가 값을 잡아 두고 나중에 다시 열 때 쓴다.
+  fusionSizeNormal: {
+    label: "\uD569\uC131 \uC7A5\uC218 \xB7 \uC77C\uBC18 \u2192 \uC2E4\uBC84",
+    note: "\uC77C\uBC18 \uCE74\uB4DC \uBA87 \uC7A5\uC73C\uB85C \uC2E4\uBC84 1\uC7A5\uC744 \uB9CC\uB4E4\uC9C0.",
+    default: 3,
+    min: 2,
+    max: 20,
+    step: 1,
+    group: "\uD569\uC131",
+    integer: true
+  },
+  fusionSizeRare: {
+    label: "\uD569\uC131 \uC7A5\uC218 \xB7 \uC2E4\uBC84 \u2192 \uACE8\uB4DC",
+    note: "\uC774 \uB4F1\uAE09 \uCE74\uB4DC \uBA87 \uC7A5\uC73C\uB85C \uD55C \uB2E8\uACC4 \uC704 \uCE74\uB4DC 1\uC7A5\uC744 \uB9CC\uB4E4\uC9C0.",
+    default: 3,
+    min: 2,
+    max: 20,
+    step: 1,
+    group: "\uD569\uC131",
+    integer: true
+  },
+  fusionSizeGold: {
+    label: "\uD569\uC131 \uC7A5\uC218 \xB7 \uACE8\uB4DC \u2192 \uB77C\uC774\uBE0C",
+    note: "\uC774 \uB4F1\uAE09 \uCE74\uB4DC \uBA87 \uC7A5\uC73C\uB85C \uD55C \uB2E8\uACC4 \uC704 \uCE74\uB4DC 1\uC7A5\uC744 \uB9CC\uB4E4\uC9C0.",
+    default: 3,
+    min: 2,
+    max: 20,
+    step: 1,
+    group: "\uD569\uC131",
+    integer: true
+  },
+  fusionSizeLive: {
+    label: "\uD569\uC131 \uC7A5\uC218 \xB7 \uB77C\uC774\uBE0C \u2192 \uB808\uC804\uB4DC",
+    note: "\uC774 \uB4F1\uAE09 \uCE74\uB4DC \uBA87 \uC7A5\uC73C\uB85C \uD55C \uB2E8\uACC4 \uC704 \uCE74\uB4DC 1\uC7A5\uC744 \uB9CC\uB4E4\uC9C0.",
+    default: 3,
+    min: 2,
+    max: 20,
+    step: 1,
+    group: "\uD569\uC131",
+    integer: true
+  }
+};
+var KNOB_KEYS = Object.keys(KNOBS);
+function clampKnob(key, value) {
+  const knob = KNOBS[key];
+  if (!Number.isFinite(value)) return knob.default;
+  const held = Math.min(Math.max(value, knob.min), knob.max);
+  return knob.integer ? Math.round(held) : held;
+}
+var overrides = {};
+function setTuning(next) {
+  const clean = {};
+  for (const key of KNOB_KEYS) {
+    const value = next[key];
+    if (typeof value === "number") clean[key] = clampKnob(key, value);
+  }
+  overrides = clean;
+}
+function tune(key) {
+  return overrides[key] ?? KNOBS[key].default;
+}
+
 // lib/gacha.ts
 var DRAW_TEN_SIZE = 10;
 var PITY_LIMIT = 30;
 var PITY_RARITY = "Legend";
+function packRates(family) {
+  const rare = tune(family === "basic" ? "basicRateRare" : "premiumRateRare");
+  const gold = tune(family === "basic" ? "basicRateGold" : "premiumRateGold");
+  const live = tune(family === "basic" ? "basicRateLive" : "premiumRateLive");
+  const legend = tune(family === "basic" ? "basicRateLegend" : "premiumRateLegend");
+  const upper = rare + gold + live + legend;
+  const scale = upper > 100 ? 100 / upper : 1;
+  const round = (value) => Math.round(value * scale * 1e3) / 1e3;
+  const rates = { Normal: 0, Rare: round(rare), Legend: round(gold), Live: round(live), World: round(legend) };
+  rates.Normal = Math.max(0, Math.round((100 - rates.Rare - rates.Legend - rates.Live - rates.World) * 1e3) / 1e3);
+  return rates;
+}
 var PACK_RATES = {
-  basic: { Normal: 55, Rare: 30, Legend: 10, Live: 3.5, World: 1.5 },
-  premium: { Normal: 12, Rare: 33, Legend: 33, Live: 15, World: 7 }
+  get basic() {
+    return packRates("basic");
+  },
+  get premium() {
+    return packRates("premium");
+  }
 };
+var withRates = (pack) => Object.defineProperty({ ...pack }, "rates", { enumerable: true, get: () => packRates(pack.family) });
 var PACKS = [
-  {
+  withRates({
     id: "basic",
     family: "basic",
     name: "\uC77C\uBC18 \uC2A4\uCE74\uC6B0\uD2B8",
     description: "\uC120\uC218 1\uBA85 \xB7 \uBC14\uB85C \uACF5\uAC1C",
     cost: 300,
-    count: 1,
-    rates: PACK_RATES.basic
-  },
-  {
+    count: 1
+  }),
+  withRates({
     id: "basicTen",
     family: "basic",
     name: "\uC77C\uBC18 \uC2A4\uCE74\uC6B0\uD2B8 10\uC5F0\uC18D",
     description: "10\uBA85 \xB7 \uC2E4\uBC84 \uC774\uC0C1 1\uBA85 \uBCF4\uC7A5",
     cost: 2700,
     count: DRAW_TEN_SIZE,
-    rates: PACK_RATES.basic,
     guarantee: "Rare"
-  },
-  {
+  }),
+  withRates({
     id: "premium",
     family: "premium",
     name: "\uD504\uB9AC\uBBF8\uC5C4 \uC2A4\uCE74\uC6B0\uD2B8",
     description: "\uB8F0\uB81B \uC5F0\uCD9C \xB7 \uACE0\uAE09 \uCE74\uB4DC \uD655\uB960\uC774 \uD06C\uAC8C \uB192\uC2B5\uB2C8\uB2E4",
     cost: 1200,
-    count: 1,
-    rates: PACK_RATES.premium
-  },
-  {
+    count: 1
+  }),
+  withRates({
     id: "premiumTen",
     family: "premium",
     name: "\uD504\uB9AC\uBBF8\uC5C4 \uC2A4\uCE74\uC6B0\uD2B8 10\uC5F0\uC18D",
     description: "\uD55C \uBA85\uC529 10\uBC88 \xB7 \uACE8\uB4DC \uC774\uC0C1 1\uBA85 \uBCF4\uC7A5",
     cost: 10800,
     count: DRAW_TEN_SIZE,
-    rates: PACK_RATES.premium,
     guarantee: "Legend"
-  }
+  })
 ];
 var DRAW_COST = PACKS[0].cost;
 var DRAW_TEN_COST = PACKS[1].cost;
@@ -4385,6 +4767,7 @@ export {
   DRAW_COST,
   DRAW_TEN_COST,
   DRAW_TEN_SIZE,
+  KNOB_KEYS,
   PACKS,
   PACK_RATES,
   PICKUP_OFFSET_MINUTES,
@@ -4396,7 +4779,9 @@ export {
   drawSession,
   featuredPlayer,
   packOf,
+  packRates,
   packsOfFamily,
   pickupWeekKey,
-  rollRarity
+  rollRarity,
+  setTuning
 };

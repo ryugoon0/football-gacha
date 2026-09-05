@@ -2,7 +2,7 @@
 
 import KnobEditor from '../KnobEditor'
 
-const GROUPS = ['체력', '경기', '비용', '하루'] as const
+const GROUPS = ['스카우트', '합성', '체력', '경기', '비용', '하루'] as const
 
 /** Balance knobs other than rewards — those have their own tab (보상) with a payout table. */
 export default function BalancePanel() {

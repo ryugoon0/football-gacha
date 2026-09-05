@@ -1,7 +1,8 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { FUSION_FEE, FUSION_SIZE, checkFusion } from '../../lib/fusion'
+import { FUSION_FEE, FUSION_SIZE, checkFusion, fusionSizeFor, fusionSizeMax } from '../../lib/fusion'
+import { useIsAdmin } from '../useAdmin'
 import { addExperience, expForLevel, materialExp, trainingFee } from '../../lib/growth'
 import {
   PLAYERS,
@@ -113,6 +114,9 @@ function VaultPanel() {
 
 export default function ClubTab() {
   const { state, sell, trainCard, limitBreakCard, fuse, treatInjury, restoreCondition } = useGame()
+  // 승급 합성 is kept but off the players' screen for now (2026-09-05); operators still see it.
+  const { isAdmin } = useIsAdmin()
+  const modes = isAdmin ? MODES : MODES.filter((item) => item.id !== 'fuse')
   const [mode, setMode] = useState<Mode>('manage')
   const [rarityFilter, setRarityFilter] = useState<RarityFilter>('all')
   const [groupFilter, setGroupFilter] = useState<GroupFilter>('all')
@@ -229,10 +233,13 @@ export default function ClubTab() {
     if (mode === 'fuse') {
       if (inUse.has(card.uid)) return
       setFused(null)
+      // The count needed depends on the grade of the first card picked.
+      const firstRarity = current0Rarity(fuseUids, state.cards)
+      const limit = firstRarity ? fusionSizeFor(firstRarity) : fusionSizeMax()
       setFuseUids((current) =>
         current.includes(card.uid)
           ? current.filter((uid) => uid !== card.uid)
-          : current.length >= FUSION_SIZE
+          : current.length >= limit
             ? current
             : [...current, card.uid],
       )
@@ -282,7 +289,7 @@ export default function ClubTab() {
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
       <section className="panel p-4">
         <div className="mb-4 flex flex-wrap gap-2">
-          {MODES.map((item) => (
+          {modes.map((item) => (
             <button
               key={item.id}
               onClick={() => {
@@ -484,6 +491,10 @@ export default function ClubTab() {
             uids={fuseUids}
             check={checkFusion(state.cards, fuseUids, state.squad, state.gold)}
             result={fused}
+            size={(() => {
+              const first = current0Rarity(fuseUids, state.cards)
+              return first ? fusionSizeFor(first) : fusionSizeMax()
+            })()}
             onClear={() => {
               setFuseUids([])
               setFused(null)
@@ -842,29 +853,38 @@ function BreakPanel({
   )
 }
 
+/** Grade of the first card picked for fusion, which fixes how many are needed. */
+function current0Rarity(uids: string[], cards: Card[]): Rarity | null {
+  const first = uids[0] ? cards.find((card) => card.uid === uids[0]) : undefined
+  return first ? getPlayer(first.playerId)?.rarity ?? null : null
+}
+
 function FusionPanel({
   uids,
   check,
   result,
+  size,
   onFuse,
   onClear,
 }: {
   uids: string[]
   check: ReturnType<typeof checkFusion>
   result: PlayerDef | null
+  /** Cards needed for the grade being fused (the max of all grades until one is picked). */
+  size: number
   onFuse: () => void
   onClear: () => void
 }) {
   return (
     <section className="panel p-4">
-      <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">승급 합성</h3>
+      <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">승급 합성 <span className="ml-1 text-[10px] font-bold text-amber-300">운영자 전용 표시</span></h3>
       <p className="mt-2 text-sm text-slate-400">
-        같은 등급 카드 {FUSION_SIZE}장과 {FUSION_FEE}G로 한 단계 위 등급 카드 1장을 만듭니다.
+        같은 등급 카드 {size}장과 {FUSION_FEE}G로 한 단계 위 등급 카드 1장을 만듭니다. 장수는 등급마다 운영자 밸런스 탭에서 정합니다(기본 {FUSION_SIZE}장).
         선발·벤치 카드는 사용할 수 없습니다.
       </p>
 
       <div className="mt-3 flex gap-2">
-        {Array.from({ length: FUSION_SIZE }).map((_, index) => (
+        {Array.from({ length: size }).map((_, index) => (
           <div
             key={index}
             className={`flex h-16 flex-1 items-center justify-center rounded-lg border border-dashed text-xs font-bold ${
@@ -881,7 +901,7 @@ function FusionPanel({
       {check.from && check.to && (
         <div className="mt-3 rounded-lg bg-white/5 p-3 text-center text-sm text-slate-300">
           <span className="font-bold text-white">{RARITY_STYLES[check.from].label}</span> ×{' '}
-          {FUSION_SIZE} →{' '}
+          {fusionSizeFor(check.from)} →{' '}
           <span className="font-bold text-amber-300">{RARITY_STYLES[check.to].label}</span> 1장
         </div>
       )}

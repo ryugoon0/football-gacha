@@ -107,8 +107,8 @@ describe('packs and pity', () => {
 
   it('resets the counter as soon as a Legend appears', async () => {
     const { drawSession } = await import('../lib/gacha')
-    // 0.95 lands in the Live band, which is above Legend.
-    const outcome = drawSession({ count: 1, pity: 12, rng: () => 0.95 })
+    // 0.999 lands in the top (레전드) band of the basic table, which is above Legend.
+    const outcome = drawSession({ count: 1, pity: 12, rng: () => 0.999 })
     expect(outcome.pity).toBe(0)
   })
 

@@ -47,7 +47,8 @@ export const RARITY_STYLES: Record<Rarity, RarityStyle> = {
     ink: 'text-slate-900',
     chip: 'bg-slate-200 text-slate-800',
     glow: 'shadow-slate-400/40',
-    sell: 60,
+    // 2026-09-05: 60 → 12 (20%) — releasing spare 일반 cards was funding pulls.
+    sell: 12,
     trainCost: 150,
   },
   Rare: {
@@ -57,7 +58,8 @@ export const RARITY_STYLES: Record<Rarity, RarityStyle> = {
     ink: 'text-blue-950',
     chip: 'bg-sky-200 text-blue-900',
     glow: 'shadow-sky-400/50',
-    sell: 220,
+    // 2026-09-05: 220 → 66 (30%).
+    sell: 66,
     trainCost: 320,
   },
   Legend: {

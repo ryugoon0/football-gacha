@@ -1,6 +1,11 @@
 import { PLAYERS, PLAYERS_BY_RARITY, POSITION_GROUP, seededRandom } from './players'
 import { RARITIES } from './rarity'
+import { tune } from './tuning'
 import type { PlayerDef, PositionGroup, Rarity } from './types'
+
+// The Edge Function bundle (draw-pack) is built from this file; it needs the
+// tuning entry points to read game_config before it rolls.
+export { setTuning, KNOB_KEYS } from './tuning'
 
 export const DRAW_TEN_SIZE = 10
 
@@ -14,12 +19,35 @@ export type PackId = 'basic' | 'basicTen' | 'premium' | 'premiumTen'
 export type Rates = Record<Rarity, number>
 
 /**
- * Odds are still being tuned — these are deliberately generous so the higher
- * grades show up often enough to test with. Final numbers live in ROADMAP.md.
+ * Odds, in percent per pull. The four upper grades are operator knobs
+ * (lib/tuning.ts, 스카우트 group; defaults are the 2026-09-05 cut — 일반
+ * keeps 골드 and above near a tenth of the test-period rates, 프리미엄 halves
+ * them) and 일반 is whatever is left, so the table always sums to 100. The
+ * server (draw-pack) reads the same game_config before it rolls, so the odds
+ * shown and the odds rolled are one number.
  */
+export function packRates(family: PackFamily): Rates {
+  const rare = tune(family === 'basic' ? 'basicRateRare' : 'premiumRateRare')
+  const gold = tune(family === 'basic' ? 'basicRateGold' : 'premiumRateGold')
+  const live = tune(family === 'basic' ? 'basicRateLive' : 'premiumRateLive')
+  const legend = tune(family === 'basic' ? 'basicRateLegend' : 'premiumRateLegend')
+  const upper = rare + gold + live + legend
+  // Should the knobs ever be pushed past 100 together, scale them back rather than roll on a broken table.
+  const scale = upper > 100 ? 100 / upper : 1
+  const round = (value: number) => Math.round(value * scale * 1000) / 1000
+  const rates = { Normal: 0, Rare: round(rare), Legend: round(gold), Live: round(live), World: round(legend) }
+  rates.Normal = Math.max(0, Math.round((100 - rates.Rare - rates.Legend - rates.Live - rates.World) * 1000) / 1000)
+  return rates
+}
+
+/** Live view of both tables — a getter per family, so callers keep reading `PACK_RATES[family]`. */
 export const PACK_RATES: Record<PackFamily, Rates> = {
-  basic: { Normal: 55, Rare: 30, Legend: 10, Live: 3.5, World: 1.5 },
-  premium: { Normal: 12, Rare: 33, Legend: 33, Live: 15, World: 7 },
+  get basic() {
+    return packRates('basic')
+  },
+  get premium() {
+    return packRates('premium')
+  },
 }
 
 export interface PackDef {
@@ -29,7 +57,8 @@ export interface PackDef {
   description: string
   cost: number
   count: number
-  rates: Rates
+  /** The odds in force now (a getter — follows the operator's knobs). */
+  readonly rates: Rates
   /** A multi pull always contains at least one card of this grade or better. */
   guarantee?: Rarity
 }
@@ -38,45 +67,44 @@ export interface PackDef {
  * The player-facing name for a pull is 스카우트 (2026-09-05; 뽑기 before). The
  * ids stay — the server (draw-pack) and pull_log know packs by id.
  */
+const withRates = (pack: Omit<PackDef, 'rates'>): PackDef =>
+  Object.defineProperty({ ...pack } as PackDef, 'rates', { enumerable: true, get: () => packRates(pack.family) })
+
 export const PACKS: PackDef[] = [
-  {
+  withRates({
     id: 'basic',
     family: 'basic',
     name: '일반 스카우트',
     description: '선수 1명 · 바로 공개',
     cost: 300,
     count: 1,
-    rates: PACK_RATES.basic,
-  },
-  {
+  }),
+  withRates({
     id: 'basicTen',
     family: 'basic',
     name: '일반 스카우트 10연속',
     description: '10명 · 실버 이상 1명 보장',
     cost: 2700,
     count: DRAW_TEN_SIZE,
-    rates: PACK_RATES.basic,
     guarantee: 'Rare',
-  },
-  {
+  }),
+  withRates({
     id: 'premium',
     family: 'premium',
     name: '프리미엄 스카우트',
     description: '룰렛 연출 · 고급 카드 확률이 크게 높습니다',
     cost: 1200,
     count: 1,
-    rates: PACK_RATES.premium,
-  },
-  {
+  }),
+  withRates({
     id: 'premiumTen',
     family: 'premium',
     name: '프리미엄 스카우트 10연속',
     description: '한 명씩 10번 · 골드 이상 1명 보장',
     cost: 10800,
     count: DRAW_TEN_SIZE,
-    rates: PACK_RATES.premium,
     guarantee: 'Legend',
-  },
+  }),
 ]
 
 export const DRAW_COST = PACKS[0].cost
