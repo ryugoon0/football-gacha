@@ -17,7 +17,14 @@ session = new_session("u2net_human_seg", providers=["CUDAExecutionProvider", "CP
 
 def cut(src, dst, size=512, head=2.8):
     img = Image.open(src).convert("RGBA")
-    out = remove(img, session=session, alpha_matting=False, post_process_mask=True)
+    # A file that already carries transparency (an official cut-out) keeps its
+    # own mask — re-segmenting it only adds a blocky halo where the ground was.
+    src_alpha = img.split()[-1]
+    already_cut = src_alpha.getextrema()[0] < 16 and sum(src_alpha.histogram()[:16]) > img.width * img.height * 0.05
+    if already_cut:
+        out = img.copy()
+    else:
+        out = remove(img, session=session, alpha_matting=False, post_process_mask=True)
     alpha = out.split()[-1]
     # Keep only the biggest connected blob of the mask — the player, not a
     # team-mate or a fan at the edge of the frame — using a coarse BFS.
@@ -57,6 +64,29 @@ def cut(src, dst, size=512, head=2.8):
     keep = keep.filter(_IF.MaxFilter(11)).point(lambda v: 255 if v > 0 else 0)
     from PIL import ImageChops
     alpha = ImageChops.multiply(alpha, keep)
+    # Official headshots sit on a flat near-black (or near-white) ground that the
+    # segmenter confuses with dark hair, leaving blocky chunks of ground around
+    # the head. Flood the ground in from the border by colour and knock out
+    # whatever it reaches; the rembg alpha handles the rest.
+    from PIL import ImageDraw as _ID, ImageChops as _IC
+    rgb = img.convert("RGB")
+    flat_bg = rgb.copy()
+    marker = (255, 0, 255)
+    W, H = flat_bg.size
+    for seed in ((0, 0), (W - 1, 0), (0, H - 1), (W - 1, H - 1), (W // 2, 0), (0, H // 2), (W - 1, H // 2)):
+        r0, g0, b0 = rgb.getpixel(seed)
+        if not already_cut and (max(r0, g0, b0) < 40 or min(r0, g0, b0) > 215):
+            _ID.floodfill(flat_bg, seed, marker, thresh=22)
+    px = flat_bg.load()
+    bg = Image.new("L", flat_bg.size, 0)
+    bpx = bg.load()
+    for yy in range(H):
+        for xx in range(W):
+            if px[xx, yy] == marker:
+                bpx[xx, yy] = 255
+    alpha = _IC.multiply(alpha, _IC.invert(bg))
+    out.putalpha(alpha)
+
     # Make the alpha binary-solid inside the subject: the segmenter leaves
     # half-transparent pixels in dark beards and hair, and those let the card
     # colour bleed through the face. Anything not reachable from outside the

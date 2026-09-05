@@ -70,7 +70,18 @@ def upscale(src, dst, tile=None, pad=16):
     model = get_model()
     # A real GPU takes the whole picture at once; the CPU works in tiles.
     tile = tile or (2048 if DEVICE == "cuda" else 192)
-    img = Image.open(src).convert("RGB")
+    opened = Image.open(src)
+    # A transparent source (an official cut-out) keeps its mask: the colour is
+    # upscaled by the network, the alpha is resized separately and pulled in a
+    # pixel or two so the network's dark fringe at the old edge stays hidden.
+    alpha_src = opened.split()[-1] if opened.mode in ("RGBA", "LA") else None
+    if alpha_src is not None and alpha_src.getextrema()[0] < 16:
+        base = Image.new("RGB", opened.size, (128, 128, 128))
+        base.paste(opened.convert("RGBA"), mask=alpha_src)
+        img = base
+    else:
+        alpha_src = None
+        img = opened.convert("RGB")
     x = torch.from_numpy(np.array(img)).permute(2, 0, 1).float().unsqueeze(0) / 255.0
     _, _, h, w = x.shape
     out = torch.zeros(1, 3, h * 4, w * 4)
@@ -84,7 +95,12 @@ def upscale(src, dst, tile=None, pad=16):
                 th, tw = min(tile, h - y) * 4, min(tile, w - xx) * 4
                 out[:, :, y * 4:y * 4 + th, xx * 4:xx * 4 + tw] = o[:, :, oy:oy + th, ox:ox + tw]
     arr = (out.clamp(0, 1)[0].permute(1, 2, 0).numpy() * 255).round().astype(np.uint8)
-    Image.fromarray(arr).save(dst)
+    result = Image.fromarray(arr)
+    if alpha_src is not None:
+        from PIL import ImageFilter
+        big_alpha = alpha_src.resize(result.size, Image.LANCZOS).filter(ImageFilter.MinFilter(5))
+        result.putalpha(big_alpha)
+    result.save(dst)
     print(dst, arr.shape[1], arr.shape[0])
 
 if __name__ == "__main__":
