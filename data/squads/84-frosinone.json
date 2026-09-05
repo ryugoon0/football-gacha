@@ -1,0 +1,300 @@
+{
+  "club": "프로시노 지알로",
+  "realClub": "프로시노네 칼초",
+  "league": "아주로 세리에",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Frosinone_Calcio",
+  "pilot": false,
+  "players": [
+    {
+      "key": "fro-01",
+      "number": 2,
+      "name": "조르조 치타디닌",
+      "real": "조르조 치타디니",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "fro-02",
+      "number": 3,
+      "name": "가브리엘레 칼바닌",
+      "real": "가브리엘레 칼바니",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "fro-03",
+      "number": 4,
+      "name": "벤 라신 코넨",
+      "real": "벤 라신 코네",
+      "pos": "CDM",
+      "nation": "코트디부아르",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "fro-04",
+      "number": 5,
+      "name": "위즈덤 아메인",
+      "real": "위즈덤 아메이",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 2005,
+      "ovr": 67
+    },
+    {
+      "key": "fro-05",
+      "number": 7,
+      "name": "파레스 게제미손",
+      "real": "파레스 게제미스",
+      "pos": "LW",
+      "nation": "알제리",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "fro-06",
+      "number": 8,
+      "name": "일리아스 쿠추피아손",
+      "real": "일리아스 쿠추피아스",
+      "pos": "CM",
+      "nation": "그리스",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "fro-07",
+      "number": 9,
+      "name": "안토니오 라이몬돈",
+      "real": "안토니오 라이몬도",
+      "pos": "ST",
+      "nation": "이탈리아",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "fro-08",
+      "number": 10,
+      "name": "로마노 슈미튼",
+      "real": "로마노 슈미트",
+      "pos": "CAM",
+      "nation": "오스트리아",
+      "birthYear": 2000,
+      "ovr": 73
+    },
+    {
+      "key": "fro-09",
+      "number": 11,
+      "name": "다니엘 브를리제안",
+      "real": "다니엘 브를리제아",
+      "pos": "ST",
+      "nation": "루마니아",
+      "birthYear": 2000,
+      "ovr": 72
+    },
+    {
+      "key": "fro-10",
+      "number": 12,
+      "name": "마테오 피세린",
+      "real": "마테오 피세리",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 1991,
+      "ovr": 67
+    },
+    {
+      "key": "fro-11",
+      "number": 14,
+      "name": "자코모 칼론",
+      "real": "자코모 칼로",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 1997,
+      "ovr": 68
+    },
+    {
+      "key": "fro-12",
+      "number": 16,
+      "name": "마테오 치켈란",
+      "real": "마테오 치켈라",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 2005,
+      "ovr": 65
+    },
+    {
+      "key": "fro-13",
+      "number": 17,
+      "name": "기오르기 크베르나젠",
+      "real": "기오르기 크베르나제",
+      "pos": "LW",
+      "nation": "조지아",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "fro-14",
+      "number": 20,
+      "name": "앤서니 오요논",
+      "real": "앤서니 오요노",
+      "pos": "RB",
+      "nation": "가봉",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "fro-15",
+      "number": 22,
+      "name": "로렌초 팔미사닌",
+      "real": "로렌초 팔미사니",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 2004,
+      "ovr": 65
+    },
+    {
+      "key": "fro-16",
+      "number": 24,
+      "name": "알레시오 제르비느",
+      "real": "알레시오 제르빈",
+      "pos": "RW",
+      "nation": "이탈리아",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "fro-17",
+      "number": 25,
+      "name": "케빈 아크포구만",
+      "real": "케빈 아크포구마",
+      "pos": "CB",
+      "nation": "나이지리아",
+      "birthYear": 1995,
+      "ovr": 71
+    },
+    {
+      "key": "fro-18",
+      "number": 27,
+      "name": "플로리안 그릴리츠",
+      "real": "플로리안 그릴리치",
+      "pos": "CDM",
+      "nation": "오스트리아",
+      "birthYear": 1995,
+      "ovr": 72
+    },
+    {
+      "key": "fro-19",
+      "number": 29,
+      "name": "알레한드로 치체론",
+      "real": "알레한드로 치체로",
+      "pos": "ST",
+      "nation": "베네수엘라",
+      "birthYear": 2006,
+      "ovr": 64
+    },
+    {
+      "key": "fro-20",
+      "number": 30,
+      "name": "일라리오 몬테리신",
+      "real": "일라리오 몬테리시",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "fro-21",
+      "number": 34,
+      "name": "아누아르 엘아주진",
+      "real": "아누아르 엘아주지",
+      "pos": "CM",
+      "nation": "모로코",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "fro-22",
+      "number": 70,
+      "name": "루이스 하산",
+      "real": "루이스 하사",
+      "pos": "CAM",
+      "nation": "알바니아",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "fro-23",
+      "number": 71,
+      "name": "알렉사 테르지츠",
+      "real": "알렉사 테르지치",
+      "pos": "LB",
+      "nation": "세르비아",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "fro-24",
+      "number": 73,
+      "name": "파트리치오 마시닌",
+      "real": "파트리치오 마시니",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 2001,
+      "ovr": 67
+    },
+    {
+      "key": "fro-25",
+      "number": 74,
+      "name": "오마르 파예든",
+      "real": "오마르 파예드",
+      "pos": "CB",
+      "nation": "이집트",
+      "birthYear": 2003,
+      "ovr": 67
+    },
+    {
+      "key": "fro-26",
+      "number": 79,
+      "name": "가브리엘레 브라칼리안",
+      "real": "가브리엘레 브라칼리아",
+      "pos": "RB",
+      "nation": "이탈리아",
+      "birthYear": 2003,
+      "ovr": 65
+    },
+    {
+      "key": "fro-27",
+      "number": 89,
+      "name": "토마시 봅체큰",
+      "real": "토마시 봅체크",
+      "pos": "ST",
+      "nation": "슬로바키아",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "fro-28",
+      "number": 90,
+      "name": "엔조 차톤",
+      "real": "엔조 차토",
+      "pos": "LB",
+      "nation": "카메룬",
+      "birthYear": 2002,
+      "ovr": 68
+    },
+    {
+      "key": "fro-29",
+      "number": 91,
+      "name": "세바스티아노 데스플랑슌",
+      "real": "세바스티아노 데스플랑슈",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 2003,
+      "ovr": 67
+    }
+  ]
+}

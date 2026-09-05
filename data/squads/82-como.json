@@ -1,0 +1,280 @@
+{
+  "club": "코모 라리아니",
+  "realClub": "코모 1907",
+  "league": "아주로 세리에",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Como_1907",
+  "pilot": false,
+  "players": [
+    {
+      "key": "com-01",
+      "number": 1,
+      "name": "장 뷔테주",
+      "real": "장 뷔테즈",
+      "pos": "GK",
+      "nation": "프랑스",
+      "birthYear": 1995,
+      "ovr": 76
+    },
+    {
+      "key": "com-02",
+      "number": 2,
+      "name": "마르크올리버 켐픈",
+      "real": "마르크올리버 켐프",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1995,
+      "ovr": 74
+    },
+    {
+      "key": "com-03",
+      "number": 3,
+      "name": "알렉스 바옌",
+      "real": "알렉스 바예",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 74
+    },
+    {
+      "key": "com-04",
+      "number": 4,
+      "name": "하코보 라모른",
+      "real": "하코보 라몬",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2005,
+      "ovr": 72
+    },
+    {
+      "key": "com-05",
+      "number": 5,
+      "name": "막시모 페로넨",
+      "real": "막시모 페로네",
+      "pos": "CDM",
+      "nation": "아르헨티나",
+      "birthYear": 2003,
+      "ovr": 77
+    },
+    {
+      "key": "com-06",
+      "number": 6,
+      "name": "루이스 미얀",
+      "real": "루이스 미야",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1994,
+      "ovr": 74
+    },
+    {
+      "key": "com-07",
+      "number": 7,
+      "name": "뤼카 다 쿠냔",
+      "real": "뤼카 다 쿠냐",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 2001,
+      "ovr": 76
+    },
+    {
+      "key": "com-08",
+      "number": 8,
+      "name": "막상스 카크렌",
+      "real": "막상스 카크레",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2000,
+      "ovr": 77
+    },
+    {
+      "key": "com-09",
+      "number": 9,
+      "name": "아나스타시오스 두비카손",
+      "real": "아나스타시오스 두비카스",
+      "pos": "ST",
+      "nation": "그리스",
+      "birthYear": 1999,
+      "ovr": 76
+    },
+    {
+      "key": "com-10",
+      "number": 10,
+      "name": "니코 파손",
+      "real": "니코 파스",
+      "pos": "CAM",
+      "nation": "아르헨티나",
+      "birthYear": 2004,
+      "ovr": 84
+    },
+    {
+      "key": "com-11",
+      "number": 11,
+      "name": "아산 디아온",
+      "real": "아산 디아오",
+      "pos": "LW",
+      "nation": "세네갈",
+      "birthYear": 2005,
+      "ovr": 76
+    },
+    {
+      "key": "com-12",
+      "number": 13,
+      "name": "알베르토 도세난",
+      "real": "알베르토 도세나",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 1998,
+      "ovr": 74
+    },
+    {
+      "key": "com-13",
+      "number": 14,
+      "name": "사무엘레 리친",
+      "real": "사무엘레 리치",
+      "pos": "CDM",
+      "nation": "이탈리아",
+      "birthYear": 2001,
+      "ovr": 78
+    },
+    {
+      "key": "com-14",
+      "number": 15,
+      "name": "아드리안 라돈",
+      "real": "아드리안 라도",
+      "pos": "CM",
+      "nation": "스웨덴",
+      "birthYear": 2007,
+      "ovr": 65
+    },
+    {
+      "key": "com-15",
+      "number": 16,
+      "name": "카이키 브루논",
+      "real": "카이키 브루노",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "com-16",
+      "number": 17,
+      "name": "헤수스 로드리게노",
+      "real": "헤수스 로드리게스",
+      "pos": "RW",
+      "nation": "스페인",
+      "birthYear": 2005,
+      "ovr": 75
+    },
+    {
+      "key": "com-17",
+      "number": 18,
+      "name": "에도아르도 골다니간",
+      "real": "에도아르도 골다니가",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 1993,
+      "ovr": 72
+    },
+    {
+      "key": "com-18",
+      "number": 20,
+      "name": "마르틴 바투리난",
+      "real": "마르틴 바투리나",
+      "pos": "CAM",
+      "nation": "크로아티아",
+      "birthYear": 2003,
+      "ovr": 76
+    },
+    {
+      "key": "com-19",
+      "number": 22,
+      "name": "마우로 비고리톤",
+      "real": "마우로 비고리토",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 1990,
+      "ovr": 66
+    },
+    {
+      "key": "com-20",
+      "number": 27,
+      "name": "얀 코툰",
+      "real": "얀 코투",
+      "pos": "RB",
+      "nation": "브라질",
+      "birthYear": 2002,
+      "ovr": 78
+    },
+    {
+      "key": "com-21",
+      "number": 28,
+      "name": "이반 스몰치츠",
+      "real": "이반 스몰치치",
+      "pos": "CB",
+      "nation": "크로아티아",
+      "birthYear": 2000,
+      "ovr": 72
+    },
+    {
+      "key": "com-22",
+      "number": 30,
+      "name": "마티아 리베랄린",
+      "real": "마티아 리베랄리",
+      "pos": "CAM",
+      "nation": "이탈리아",
+      "birthYear": 2007,
+      "ovr": 68
+    },
+    {
+      "key": "com-23",
+      "number": 42,
+      "name": "제이던 아다인",
+      "real": "제이던 아다이",
+      "pos": "RW",
+      "nation": "네덜란드",
+      "birthYear": 2005,
+      "ovr": 74
+    },
+    {
+      "key": "com-24",
+      "number": 53,
+      "name": "윌리 캄브왈란",
+      "real": "윌리 캄브왈라",
+      "pos": "CB",
+      "nation": "콩고민주공화국",
+      "birthYear": 2004,
+      "ovr": 73
+    },
+    {
+      "key": "com-25",
+      "number": 90,
+      "name": "모이스 킨드",
+      "real": "모이스 킨",
+      "pos": "ST",
+      "nation": "이탈리아",
+      "birthYear": 2000,
+      "ovr": 80
+    },
+    {
+      "key": "com-26",
+      "number": 97,
+      "name": "로베르트 산체노",
+      "real": "로베르트 산체스",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 1997,
+      "ovr": 77
+    },
+    {
+      "key": "com-27",
+      "number": 99,
+      "name": "트레보 찰로반",
+      "real": "트레보 찰로바",
+      "pos": "CB",
+      "nation": "잉글랜드",
+      "birthYear": 1999,
+      "ovr": 76
+    }
+  ]
+}

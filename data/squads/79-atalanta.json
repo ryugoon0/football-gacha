@@ -1,0 +1,240 @@
+{
+  "club": "아탈란 베르가모",
+  "realClub": "아탈란타 BC",
+  "league": "아주로 세리에",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Atalanta_BC",
+  "pilot": false,
+  "players": [
+    {
+      "key": "ata-01",
+      "number": 3,
+      "name": "오딜롱 코수눈",
+      "real": "오딜롱 코수누",
+      "pos": "CB",
+      "nation": "코트디부아르",
+      "birthYear": 2001,
+      "ovr": 78
+    },
+    {
+      "key": "ata-02",
+      "number": 4,
+      "name": "이사크 히엔드",
+      "real": "이사크 히엔",
+      "pos": "CB",
+      "nation": "스웨덴",
+      "birthYear": 1999,
+      "ovr": 79
+    },
+    {
+      "key": "ata-03",
+      "number": 7,
+      "name": "카말딘 술레마난",
+      "real": "카말딘 술레마나",
+      "pos": "LW",
+      "nation": "가나",
+      "birthYear": 2002,
+      "ovr": 76
+    },
+    {
+      "key": "ata-04",
+      "number": 8,
+      "name": "마리오 파살리츠",
+      "real": "마리오 파살리치",
+      "pos": "CAM",
+      "nation": "크로아티아",
+      "birthYear": 1995,
+      "ovr": 79
+    },
+    {
+      "key": "ata-05",
+      "number": 9,
+      "name": "잔루카 스카마칸",
+      "real": "잔루카 스카마카",
+      "pos": "ST",
+      "nation": "이탈리아",
+      "birthYear": 1999,
+      "ovr": 78
+    },
+    {
+      "key": "ata-06",
+      "number": 10,
+      "name": "라자르 사마르지츠",
+      "real": "라자르 사마르지치",
+      "pos": "CAM",
+      "nation": "세르비아",
+      "birthYear": 2002,
+      "ovr": 78
+    },
+    {
+      "key": "ata-07",
+      "number": 11,
+      "name": "조너선 로웬",
+      "real": "조너선 로",
+      "pos": "LW",
+      "nation": "잉글랜드",
+      "birthYear": 2003,
+      "ovr": 73
+    },
+    {
+      "key": "ata-08",
+      "number": 13,
+      "name": "에데르송드",
+      "real": "에데르송",
+      "pos": "CM",
+      "nation": "브라질",
+      "birthYear": 1999,
+      "ovr": 80
+    },
+    {
+      "key": "ata-09",
+      "number": 16,
+      "name": "라울 벨라노반",
+      "real": "라울 벨라노바",
+      "pos": "RB",
+      "nation": "이탈리아",
+      "birthYear": 2000,
+      "ovr": 79
+    },
+    {
+      "key": "ata-10",
+      "number": 17,
+      "name": "샤를 데 케텔라러스",
+      "real": "샤를 데 케텔라러",
+      "pos": "CAM",
+      "nation": "벨기에",
+      "birthYear": 2001,
+      "ovr": 79
+    },
+    {
+      "key": "ata-11",
+      "number": 18,
+      "name": "자코모 라스파도린",
+      "real": "자코모 라스파도리",
+      "pos": "ST",
+      "nation": "이탈리아",
+      "birthYear": 2000,
+      "ovr": 79
+    },
+    {
+      "key": "ata-12",
+      "number": 19,
+      "name": "프랑크 케시엔",
+      "real": "프랑크 케시에",
+      "pos": "CDM",
+      "nation": "코트디부아르",
+      "birthYear": 1996,
+      "ovr": 77
+    },
+    {
+      "key": "ata-13",
+      "number": 23,
+      "name": "세아드 콜라시나추",
+      "real": "세아드 콜라시나츠",
+      "pos": "CB",
+      "nation": "보스니아헤르체고비나",
+      "birthYear": 1993,
+      "ovr": 75
+    },
+    {
+      "key": "ata-14",
+      "number": 29,
+      "name": "마르코 카르네세킨",
+      "real": "마르코 카르네세키",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 2000,
+      "ovr": 79
+    },
+    {
+      "key": "ata-15",
+      "number": 31,
+      "name": "토마스 크리스텐센드",
+      "real": "토마스 크리스텐센",
+      "pos": "CB",
+      "nation": "덴마크",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "ata-16",
+      "number": 42,
+      "name": "조르조 스칼비닌",
+      "real": "조르조 스칼비니",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 2003,
+      "ovr": 79
+    },
+    {
+      "key": "ata-17",
+      "number": 47,
+      "name": "로렌초 베르나스코닌",
+      "real": "로렌초 베르나스코니",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "ata-18",
+      "number": 57,
+      "name": "마르코 스포르티엘론",
+      "real": "마르코 스포르티엘로",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 1992,
+      "ovr": 72
+    },
+    {
+      "key": "ata-19",
+      "number": 59,
+      "name": "니콜라 잘레프스킨",
+      "real": "니콜라 잘레프스키",
+      "pos": "LM",
+      "nation": "폴란드",
+      "birthYear": 2002,
+      "ovr": 76
+    },
+    {
+      "key": "ata-20",
+      "number": 70,
+      "name": "잔루카 가에타논",
+      "real": "잔루카 가에타노",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 2000,
+      "ovr": 74
+    },
+    {
+      "key": "ata-21",
+      "number": 77,
+      "name": "다비데 자파코스탄",
+      "real": "다비데 자파코스타",
+      "pos": "RB",
+      "nation": "이탈리아",
+      "birthYear": 1992,
+      "ovr": 75
+    },
+    {
+      "key": "ata-22",
+      "number": 90,
+      "name": "니콜라 크르스토비츠",
+      "real": "니콜라 크르스토비치",
+      "pos": "ST",
+      "nation": "몬테네그로",
+      "birthYear": 2000,
+      "ovr": 78
+    },
+    {
+      "key": "ata-23",
+      "number": 99,
+      "name": "엘리프 엘마손",
+      "real": "엘리프 엘마스",
+      "pos": "CAM",
+      "nation": "북마케도니아",
+      "birthYear": 1999,
+      "ovr": 76
+    }
+  ]
+}

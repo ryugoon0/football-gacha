@@ -1,0 +1,280 @@
+{
+  "club": "칼리아리 로소블루",
+  "realClub": "칼리아리 칼초",
+  "league": "아주로 세리에",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Cagliari_Calcio",
+  "pilot": false,
+  "players": [
+    {
+      "key": "cag-01",
+      "number": 1,
+      "name": "엘리아 카프릴렌",
+      "real": "엘리아 카프릴레",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 2001,
+      "ovr": 74
+    },
+    {
+      "key": "cag-02",
+      "number": 2,
+      "name": "제 페드룬",
+      "real": "제 페드루",
+      "pos": "CB",
+      "nation": "포르투갈",
+      "birthYear": 1997,
+      "ovr": 72
+    },
+    {
+      "key": "cag-03",
+      "number": 3,
+      "name": "리야드 이드리신",
+      "real": "리야드 이드리시",
+      "pos": "LB",
+      "nation": "이탈리아",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "cag-04",
+      "number": 4,
+      "name": "알레산드로 로마논",
+      "real": "알레산드로 로마노",
+      "pos": "CM",
+      "nation": "스위스",
+      "birthYear": 2006,
+      "ovr": 69
+    },
+    {
+      "key": "cag-05",
+      "number": 6,
+      "name": "해리 윙크손",
+      "real": "해리 윙크스",
+      "pos": "CDM",
+      "nation": "잉글랜드",
+      "birthYear": 1996,
+      "ovr": 75
+    },
+    {
+      "key": "cag-06",
+      "number": 8,
+      "name": "미셸 아도폰",
+      "real": "미셸 아도포",
+      "pos": "CDM",
+      "nation": "프랑스",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "cag-07",
+      "number": 9,
+      "name": "케빈 카를로손",
+      "real": "케빈 카를로스",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 71
+    },
+    {
+      "key": "cag-08",
+      "number": 10,
+      "name": "야코포 파치닌",
+      "real": "야코포 파치니",
+      "pos": "CAM",
+      "nation": "이탈리아",
+      "birthYear": 2003,
+      "ovr": 73
+    },
+    {
+      "key": "cag-09",
+      "number": 12,
+      "name": "알렌 셰린",
+      "real": "알렌 셰리",
+      "pos": "GK",
+      "nation": "알바니아",
+      "birthYear": 1997,
+      "ovr": 69
+    },
+    {
+      "key": "cag-10",
+      "number": 14,
+      "name": "알레산드로 데이올란",
+      "real": "알레산드로 데이올라",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 1995,
+      "ovr": 72
+    },
+    {
+      "key": "cag-11",
+      "number": 15,
+      "name": "후안 로드리게노",
+      "real": "후안 로드리게스",
+      "pos": "CB",
+      "nation": "우루과이",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "cag-12",
+      "number": 17,
+      "name": "마티아 펠리친",
+      "real": "마티아 펠리치",
+      "pos": "LW",
+      "nation": "이탈리아",
+      "birthYear": 2001,
+      "ovr": 71
+    },
+    {
+      "key": "cag-13",
+      "number": 18,
+      "name": "음발라 은졸란",
+      "real": "음발라 은졸라",
+      "pos": "ST",
+      "nation": "앙골라",
+      "birthYear": 1996,
+      "ovr": 73
+    },
+    {
+      "key": "cag-14",
+      "number": 19,
+      "name": "야엘 트레핀",
+      "real": "야엘 트레피",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 65
+    },
+    {
+      "key": "cag-15",
+      "number": 20,
+      "name": "리카르도 치에르본",
+      "real": "리카르도 치에르보",
+      "pos": "RW",
+      "nation": "이탈리아",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "cag-16",
+      "number": 21,
+      "name": "로베르토 갈리아르디닌",
+      "real": "로베르토 갈리아르디니",
+      "pos": "CDM",
+      "nation": "이탈리아",
+      "birthYear": 1994,
+      "ovr": 72
+    },
+    {
+      "key": "cag-17",
+      "number": 23,
+      "name": "보리스 라두노비츠",
+      "real": "보리스 라두노비치",
+      "pos": "GK",
+      "nation": "세르비아",
+      "birthYear": 1996,
+      "ovr": 70
+    },
+    {
+      "key": "cag-18",
+      "number": 24,
+      "name": "주세페 아우렐리온",
+      "real": "주세페 아우렐리오",
+      "pos": "LB",
+      "nation": "이탈리아",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "cag-19",
+      "number": 26,
+      "name": "예리 미난",
+      "real": "예리 미나",
+      "pos": "CB",
+      "nation": "콜롬비아",
+      "birthYear": 1994,
+      "ovr": 73
+    },
+    {
+      "key": "cag-20",
+      "number": 27,
+      "name": "조지프 리테탄",
+      "real": "조지프 리테타",
+      "pos": "CM",
+      "nation": "잠비아",
+      "birthYear": 2006,
+      "ovr": 65
+    },
+    {
+      "key": "cag-21",
+      "number": 29,
+      "name": "젠나로 보렐린",
+      "real": "젠나로 보렐리",
+      "pos": "ST",
+      "nation": "이탈리아",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "cag-22",
+      "number": 31,
+      "name": "폴 멘딘",
+      "real": "폴 멘디",
+      "pos": "ST",
+      "nation": "세네갈",
+      "birthYear": 2007,
+      "ovr": 63
+    },
+    {
+      "key": "cag-23",
+      "number": 32,
+      "name": "이반 술레픈",
+      "real": "이반 술레프",
+      "pos": "CM",
+      "nation": "불가리아",
+      "birthYear": 2006,
+      "ovr": 64
+    },
+    {
+      "key": "cag-24",
+      "number": 33,
+      "name": "아담 오베르튼",
+      "real": "아담 오베르트",
+      "pos": "CB",
+      "nation": "슬로바키아",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "cag-25",
+      "number": 39,
+      "name": "알리에우 파데란",
+      "real": "알리에우 파데라",
+      "pos": "LW",
+      "nation": "감비아",
+      "birthYear": 2001,
+      "ovr": 71
+    },
+    {
+      "key": "cag-26",
+      "number": 70,
+      "name": "다니엘 말디닌",
+      "real": "다니엘 말디니",
+      "pos": "CAM",
+      "nation": "이탈리아",
+      "birthYear": 2001,
+      "ovr": 74
+    },
+    {
+      "key": "cag-27",
+      "number": 79,
+      "name": "야니스 마솔랭드",
+      "real": "야니스 마솔랭",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 69
+    }
+  ]
+}

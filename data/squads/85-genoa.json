@@ -1,0 +1,290 @@
+{
+  "club": "제노아 그리포네",
+  "realClub": "제노아 CFC",
+  "league": "아주로 세리에",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Genoa_CFC",
+  "pilot": false,
+  "players": [
+    {
+      "key": "gen-01",
+      "number": 1,
+      "name": "유스틴 베일론",
+      "real": "유스틴 베일로",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 1998,
+      "ovr": 76
+    },
+    {
+      "key": "gen-02",
+      "number": 2,
+      "name": "마리오 미타인",
+      "real": "마리오 미타이",
+      "pos": "LB",
+      "nation": "알바니아",
+      "birthYear": 2003,
+      "ovr": 71
+    },
+    {
+      "key": "gen-03",
+      "number": 3,
+      "name": "킹슬리 에히지부엔",
+      "real": "킹슬리 에히지부에",
+      "pos": "RB",
+      "nation": "네덜란드",
+      "birthYear": 1995,
+      "ovr": 71
+    },
+    {
+      "key": "gen-04",
+      "number": 4,
+      "name": "알렉스 아모링드",
+      "real": "알렉스 아모링",
+      "pos": "CM",
+      "nation": "브라질",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "gen-05",
+      "number": 5,
+      "name": "레오 외스티고른",
+      "real": "레오 외스티고르",
+      "pos": "CB",
+      "nation": "노르웨이",
+      "birthYear": 1999,
+      "ovr": 74
+    },
+    {
+      "key": "gen-06",
+      "number": 8,
+      "name": "톰마소 발단친",
+      "real": "톰마소 발단치",
+      "pos": "CAM",
+      "nation": "이탈리아",
+      "birthYear": 2003,
+      "ovr": 74
+    },
+    {
+      "key": "gen-07",
+      "number": 9,
+      "name": "비티뇬드",
+      "real": "비티냐",
+      "pos": "ST",
+      "nation": "포르투갈",
+      "birthYear": 2000,
+      "ovr": 73
+    },
+    {
+      "key": "gen-08",
+      "number": 10,
+      "name": "주니오르 메시아손",
+      "real": "주니오르 메시아스",
+      "pos": "RW",
+      "nation": "브라질",
+      "birthYear": 1991,
+      "ovr": 72
+    },
+    {
+      "key": "gen-09",
+      "number": 11,
+      "name": "이선 마이흐트린",
+      "real": "이선 마이흐트리",
+      "pos": "CM",
+      "nation": "스위스",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "gen-10",
+      "number": 16,
+      "name": "코디 드라멘",
+      "real": "코디 드라메",
+      "pos": "RB",
+      "nation": "잉글랜드",
+      "birthYear": 2001,
+      "ovr": 71
+    },
+    {
+      "key": "gen-11",
+      "number": 17,
+      "name": "엘리아스 하벨라",
+      "real": "엘리아스 하벨",
+      "pos": "ST",
+      "nation": "오스트리아",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "gen-12",
+      "number": 18,
+      "name": "밀루틴 오스마이츠",
+      "real": "밀루틴 오스마이치",
+      "pos": "ST",
+      "nation": "몬테네그로",
+      "birthYear": 1999,
+      "ovr": 73
+    },
+    {
+      "key": "gen-13",
+      "number": 19,
+      "name": "조이 누레디닌",
+      "real": "조이 누레디니",
+      "pos": "LW",
+      "nation": "알바니아",
+      "birthYear": 2007,
+      "ovr": 64
+    },
+    {
+      "key": "gen-14",
+      "number": 20,
+      "name": "스테파노 사벨린",
+      "real": "스테파노 사벨리",
+      "pos": "RB",
+      "nation": "이탈리아",
+      "birthYear": 1993,
+      "ovr": 70
+    },
+    {
+      "key": "gen-15",
+      "number": 22,
+      "name": "요한 바스케노",
+      "real": "요한 바스케스",
+      "pos": "CB",
+      "nation": "멕시코",
+      "birthYear": 1998,
+      "ovr": 75
+    },
+    {
+      "key": "gen-16",
+      "number": 25,
+      "name": "아메드 트라오렌",
+      "real": "아메드 트라오레",
+      "pos": "CAM",
+      "nation": "코트디부아르",
+      "birthYear": 2000,
+      "ovr": 73
+    },
+    {
+      "key": "gen-17",
+      "number": 27,
+      "name": "알레산드로 마르칸달린",
+      "real": "알레산드로 마르칸달리",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "gen-18",
+      "number": 29,
+      "name": "로렌초 콜롬본",
+      "real": "로렌초 콜롬보",
+      "pos": "ST",
+      "nation": "이탈리아",
+      "birthYear": 2002,
+      "ovr": 72
+    },
+    {
+      "key": "gen-19",
+      "number": 31,
+      "name": "다비트 푸츠칸",
+      "real": "다비트 푸츠카",
+      "pos": "CB",
+      "nation": "오스트리아",
+      "birthYear": 2005,
+      "ovr": 65
+    },
+    {
+      "key": "gen-20",
+      "number": 32,
+      "name": "모르텐 프렌드루픈",
+      "real": "모르텐 프렌드루프",
+      "pos": "CDM",
+      "nation": "덴마크",
+      "birthYear": 2001,
+      "ovr": 75
+    },
+    {
+      "key": "gen-21",
+      "number": 34,
+      "name": "세바스티안 오토안",
+      "real": "세바스티안 오토아",
+      "pos": "CB",
+      "nation": "덴마크",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "gen-22",
+      "number": 39,
+      "name": "다니엘레 솜마리반",
+      "real": "다니엘레 솜마리바",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 1997,
+      "ovr": 66
+    },
+    {
+      "key": "gen-23",
+      "number": 71,
+      "name": "사무엘 위아펜",
+      "real": "사무엘 위아페",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 2008,
+      "ovr": 62
+    },
+    {
+      "key": "gen-24",
+      "number": 76,
+      "name": "로렌초 벤투리논",
+      "real": "로렌초 벤투리노",
+      "pos": "LW",
+      "nation": "이탈리아",
+      "birthYear": 2006,
+      "ovr": 65
+    },
+    {
+      "key": "gen-25",
+      "number": 77,
+      "name": "미카엘 에이일 엘레르트손드",
+      "real": "미카엘 에이일 엘레르트손",
+      "pos": "CM",
+      "nation": "아이슬란드",
+      "birthYear": 2002,
+      "ovr": 72
+    },
+    {
+      "key": "gen-26",
+      "number": 92,
+      "name": "스테판 엘 샤라윈",
+      "real": "스테판 엘 샤라위",
+      "pos": "LW",
+      "nation": "이탈리아",
+      "birthYear": 1992,
+      "ovr": 72
+    },
+    {
+      "key": "gen-27",
+      "number": 97,
+      "name": "지브릴 소운",
+      "real": "지브릴 소우",
+      "pos": "CDM",
+      "nation": "스위스",
+      "birthYear": 1997,
+      "ovr": 75
+    },
+    {
+      "key": "gen-28",
+      "number": 99,
+      "name": "프란츠 슈톨추",
+      "real": "프란츠 슈톨츠",
+      "pos": "GK",
+      "nation": "오스트리아",
+      "birthYear": 2001,
+      "ovr": 68
+    }
+  ]
+}

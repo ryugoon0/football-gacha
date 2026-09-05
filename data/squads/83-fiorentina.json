@@ -1,0 +1,240 @@
+{
+  "club": "피오렌 비올라",
+  "realClub": "ACF 피오렌티나",
+  "league": "아주로 세리에",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/ACF_Fiorentina",
+  "pilot": false,
+  "players": [
+    {
+      "key": "fio-01",
+      "number": 2,
+      "name": "도돈",
+      "real": "도도",
+      "pos": "RB",
+      "nation": "브라질",
+      "birthYear": 1998,
+      "ovr": 77
+    },
+    {
+      "key": "fio-02",
+      "number": 3,
+      "name": "라두 드러구시느",
+      "real": "라두 드러구신",
+      "pos": "CB",
+      "nation": "루마니아",
+      "birthYear": 2002,
+      "ovr": 76
+    },
+    {
+      "key": "fio-03",
+      "number": 4,
+      "name": "마르코 브레시아니닌",
+      "real": "마르코 브레시아니니",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 2000,
+      "ovr": 75
+    },
+    {
+      "key": "fio-04",
+      "number": 5,
+      "name": "마린 폰그라치츠",
+      "real": "마린 폰그라치치",
+      "pos": "CB",
+      "nation": "크로아티아",
+      "birthYear": 1997,
+      "ovr": 76
+    },
+    {
+      "key": "fio-05",
+      "number": 6,
+      "name": "루카 라니에린",
+      "real": "루카 라니에리",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 1999,
+      "ovr": 76
+    },
+    {
+      "key": "fio-06",
+      "number": 14,
+      "name": "아르튀르 아탄",
+      "real": "아르튀르 아타",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2003,
+      "ovr": 74
+    },
+    {
+      "key": "fio-07",
+      "number": 17,
+      "name": "주앙 마리운",
+      "real": "주앙 마리우",
+      "pos": "RB",
+      "nation": "포르투갈",
+      "birthYear": 2000,
+      "ovr": 75
+    },
+    {
+      "key": "fio-08",
+      "number": 19,
+      "name": "루카 레체리닌",
+      "real": "루카 레체리니",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 1995,
+      "ovr": 68
+    },
+    {
+      "key": "fio-09",
+      "number": 20,
+      "name": "알렉스 히메네노",
+      "real": "알렉스 히메네스",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 2005,
+      "ovr": 72
+    },
+    {
+      "key": "fio-10",
+      "number": 21,
+      "name": "빅토르 발데페냐손",
+      "real": "빅토르 발데페냐스",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2006,
+      "ovr": 68
+    },
+    {
+      "key": "fio-11",
+      "number": 23,
+      "name": "베툰",
+      "real": "베투",
+      "pos": "ST",
+      "nation": "기니비사우",
+      "birthYear": 1998,
+      "ovr": 75
+    },
+    {
+      "key": "fio-12",
+      "number": 25,
+      "name": "알리에우 은지엔",
+      "real": "알리에우 은지에",
+      "pos": "LW",
+      "nation": "스웨덴",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "fio-13",
+      "number": 27,
+      "name": "셰르 은두른",
+      "real": "셰르 은두르",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 2004,
+      "ovr": 74
+    },
+    {
+      "key": "fio-14",
+      "number": 28,
+      "name": "페드루 곤살베손",
+      "real": "페드루 곤살베스",
+      "pos": "RW",
+      "nation": "포르투갈",
+      "birthYear": 1998,
+      "ovr": 80
+    },
+    {
+      "key": "fio-15",
+      "number": 29,
+      "name": "윌프리드 뇬톤",
+      "real": "윌프리드 뇬토",
+      "pos": "LW",
+      "nation": "이탈리아",
+      "birthYear": 2003,
+      "ovr": 75
+    },
+    {
+      "key": "fio-16",
+      "number": 30,
+      "name": "프랑코 마스탄투오논",
+      "real": "프랑코 마스탄투오노",
+      "pos": "CAM",
+      "nation": "아르헨티나",
+      "birthYear": 2007,
+      "ovr": 80
+    },
+    {
+      "key": "fio-17",
+      "number": 32,
+      "name": "마테오 펠레그리논",
+      "real": "마테오 펠레그리노",
+      "pos": "ST",
+      "nation": "아르헨티나",
+      "birthYear": 2001,
+      "ovr": 73
+    },
+    {
+      "key": "fio-18",
+      "number": 33,
+      "name": "비에린",
+      "real": "비에리",
+      "pos": "LB",
+      "nation": "브라질",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "fio-19",
+      "number": 42,
+      "name": "크리스트 이나오 울라인",
+      "real": "크리스트 이나오 울라이",
+      "pos": "CDM",
+      "nation": "코트디부아르",
+      "birthYear": 2006,
+      "ovr": 70
+    },
+    {
+      "key": "fio-20",
+      "number": 43,
+      "name": "다비드 데 헤안",
+      "real": "다비드 데 헤아",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 1990,
+      "ovr": 80
+    },
+    {
+      "key": "fio-21",
+      "number": 44,
+      "name": "니콜로 파졸린",
+      "real": "니콜로 파졸리",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 2001,
+      "ovr": 77
+    },
+    {
+      "key": "fio-22",
+      "number": 53,
+      "name": "올리베르 크리스텐센드",
+      "real": "올리베르 크리스텐센",
+      "pos": "GK",
+      "nation": "덴마크",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "fio-23",
+      "number": 65,
+      "name": "파비아노 파리신",
+      "real": "파비아노 파리시",
+      "pos": "LB",
+      "nation": "이탈리아",
+      "birthYear": 2000,
+      "ovr": 74
+    }
+  ]
+}

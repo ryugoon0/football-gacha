@@ -1,0 +1,270 @@
+{
+  "club": "볼로냐 로소블루",
+  "realClub": "볼로냐 FC 1909",
+  "league": "아주로 세리에",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Bologna_FC_1909",
+  "pilot": false,
+  "players": [
+    {
+      "key": "bol-01",
+      "number": 1,
+      "name": "우카시 스코룹스킨",
+      "real": "우카시 스코룹스키",
+      "pos": "GK",
+      "nation": "폴란드",
+      "birthYear": 1991,
+      "ovr": 76
+    },
+    {
+      "key": "bol-02",
+      "number": 2,
+      "name": "에밀 홀르므",
+      "real": "에밀 홀름",
+      "pos": "RB",
+      "nation": "스웨덴",
+      "birthYear": 2000,
+      "ovr": 74
+    },
+    {
+      "key": "bol-03",
+      "number": 3,
+      "name": "아르튀르 테아튼",
+      "real": "아르튀르 테아트",
+      "pos": "CB",
+      "nation": "벨기에",
+      "birthYear": 2000,
+      "ovr": 76
+    },
+    {
+      "key": "bol-04",
+      "number": 4,
+      "name": "톰마소 포베간",
+      "real": "톰마소 포베가",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 1999,
+      "ovr": 74
+    },
+    {
+      "key": "bol-05",
+      "number": 5,
+      "name": "에이빈 헬란드",
+      "real": "에이빈 헬란",
+      "pos": "CB",
+      "nation": "노르웨이",
+      "birthYear": 2005,
+      "ovr": 69
+    },
+    {
+      "key": "bol-06",
+      "number": 6,
+      "name": "니콜라 모론",
+      "real": "니콜라 모로",
+      "pos": "CDM",
+      "nation": "크로아티아",
+      "birthYear": 1998,
+      "ovr": 73
+    },
+    {
+      "key": "bol-07",
+      "number": 7,
+      "name": "리카르도 오르솔리닌",
+      "real": "리카르도 오르솔리니",
+      "pos": "RW",
+      "nation": "이탈리아",
+      "birthYear": 1997,
+      "ovr": 79
+    },
+    {
+      "key": "bol-08",
+      "number": 8,
+      "name": "미켈 아몬다라이느",
+      "real": "미켈 아몬다라인",
+      "pos": "CM",
+      "nation": "아르헨티나",
+      "birthYear": 2005,
+      "ovr": 69
+    },
+    {
+      "key": "bol-09",
+      "number": 9,
+      "name": "아르템 도우비큰",
+      "real": "아르템 도우비크",
+      "pos": "ST",
+      "nation": "우크라이나",
+      "birthYear": 1997,
+      "ovr": 79
+    },
+    {
+      "key": "bol-10",
+      "number": 10,
+      "name": "페데리코 베르나르데스킨",
+      "real": "페데리코 베르나르데스키",
+      "pos": "CAM",
+      "nation": "이탈리아",
+      "birthYear": 1994,
+      "ovr": 75
+    },
+    {
+      "key": "bol-11",
+      "number": 11,
+      "name": "사무엘 음방굴란",
+      "real": "사무엘 음방굴라",
+      "pos": "LW",
+      "nation": "벨기에",
+      "birthYear": 2004,
+      "ovr": 73
+    },
+    {
+      "key": "bol-12",
+      "number": 14,
+      "name": "토르비외른 헤게므",
+      "real": "토르비외른 헤겜",
+      "pos": "CB",
+      "nation": "노르웨이",
+      "birthYear": 1999,
+      "ovr": 75
+    },
+    {
+      "key": "bol-13",
+      "number": 16,
+      "name": "니콜로 카살렌",
+      "real": "니콜로 카살레",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 1998,
+      "ovr": 75
+    },
+    {
+      "key": "bol-14",
+      "number": 17,
+      "name": "우사마 엘아주진",
+      "real": "우사마 엘아주지",
+      "pos": "CDM",
+      "nation": "모로코",
+      "birthYear": 2001,
+      "ovr": 72
+    },
+    {
+      "key": "bol-15",
+      "number": 19,
+      "name": "루이스 퍼거슨드",
+      "real": "루이스 퍼거슨",
+      "pos": "CM",
+      "nation": "스코틀랜드",
+      "birthYear": 1999,
+      "ovr": 79
+    },
+    {
+      "key": "bol-16",
+      "number": 20,
+      "name": "나디르 조르테안",
+      "real": "나디르 조르테아",
+      "pos": "RB",
+      "nation": "이탈리아",
+      "birthYear": 1999,
+      "ovr": 74
+    },
+    {
+      "key": "bol-17",
+      "number": 21,
+      "name": "옌스 오드고른",
+      "real": "옌스 오드고르",
+      "pos": "CAM",
+      "nation": "덴마크",
+      "birthYear": 1999,
+      "ovr": 75
+    },
+    {
+      "key": "bol-18",
+      "number": 22,
+      "name": "제이 에네므",
+      "real": "제이 에넴",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "bol-19",
+      "number": 23,
+      "name": "라힘 알하사넨",
+      "real": "라힘 알하사네",
+      "pos": "LB",
+      "nation": "니제르",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "bol-20",
+      "number": 25,
+      "name": "마시모 페시난",
+      "real": "마시모 페시나",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 2007,
+      "ovr": 63
+    },
+    {
+      "key": "bol-21",
+      "number": 28,
+      "name": "니콜로 캄비아긴",
+      "real": "니콜로 캄비아기",
+      "pos": "LW",
+      "nation": "이탈리아",
+      "birthYear": 2000,
+      "ovr": 75
+    },
+    {
+      "key": "bol-22",
+      "number": 29,
+      "name": "로렌초 데 실베스트린",
+      "real": "로렌초 데 실베스트리",
+      "pos": "RB",
+      "nation": "이탈리아",
+      "birthYear": 1988,
+      "ovr": 70
+    },
+    {
+      "key": "bol-23",
+      "number": 33,
+      "name": "후안 미란단",
+      "real": "후안 미란다",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 75
+    },
+    {
+      "key": "bol-24",
+      "number": 41,
+      "name": "마르틴 비티큰",
+      "real": "마르틴 비티크",
+      "pos": "CB",
+      "nation": "체코",
+      "birthYear": 2003,
+      "ovr": 73
+    },
+    {
+      "key": "bol-25",
+      "number": 77,
+      "name": "우코 하포넨드",
+      "real": "우코 하포넨",
+      "pos": "GK",
+      "nation": "핀란드",
+      "birthYear": 2007,
+      "ovr": 62
+    },
+    {
+      "key": "bol-26",
+      "number": 91,
+      "name": "로베르토 피콜린",
+      "real": "로베르토 피콜리",
+      "pos": "ST",
+      "nation": "이탈리아",
+      "birthYear": 2001,
+      "ovr": 76
+    }
+  ]
+}
