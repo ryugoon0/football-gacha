@@ -171,6 +171,7 @@ export default function PlayerDetail({
       {showStats && <StatBreakdown player={player} level={card.level} />}
 
       <div className="text-center text-xs text-slate-500">
+        {player.season && <span className="mr-1 rounded bg-white/10 px-1.5 py-0.5 font-bold text-slate-300">{player.season}</span>}
         현재 오버롤 {effectiveOvr(player, card.level)} · {player.nation} · {player.club} ·{' '}
         {player.league}
       </div>
