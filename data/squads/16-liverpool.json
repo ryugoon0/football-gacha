@@ -1,0 +1,280 @@
+{
+  "club": "리버 머지",
+  "realClub": "리버풀",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Liverpool_F.C.",
+  "pilot": false,
+  "players": [
+    {
+      "key": "liv-01",
+      "number": 1,
+      "name": "알리송 베케른",
+      "real": "알리송 베케르",
+      "pos": "GK",
+      "nation": "브라질",
+      "birthYear": 1992,
+      "ovr": 87
+    },
+    {
+      "key": "liv-02",
+      "number": 2,
+      "name": "조 고메손",
+      "real": "조 고메스",
+      "pos": "CB",
+      "nation": "잉글랜드",
+      "birthYear": 1997,
+      "ovr": 79
+    },
+    {
+      "key": "liv-03",
+      "number": 3,
+      "name": "엔도 와타룬",
+      "real": "엔도 와타루",
+      "pos": "CDM",
+      "nation": "일본",
+      "birthYear": 1993,
+      "ovr": 75
+    },
+    {
+      "key": "liv-04",
+      "number": 4,
+      "name": "버질 판다이큰",
+      "real": "버질 판다이크",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 1991,
+      "ovr": 88
+    },
+    {
+      "key": "liv-05",
+      "number": 5,
+      "name": "제레미 자켄",
+      "real": "제레미 자케",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2005,
+      "ovr": 73
+    },
+    {
+      "key": "liv-06",
+      "number": 6,
+      "name": "밀로시 케르케주",
+      "real": "밀로시 케르케즈",
+      "pos": "LB",
+      "nation": "헝가리",
+      "birthYear": 2003,
+      "ovr": 82
+    },
+    {
+      "key": "liv-07",
+      "number": 7,
+      "name": "플로리안 비르추",
+      "real": "플로리안 비르츠",
+      "pos": "CAM",
+      "nation": "독일",
+      "birthYear": 2003,
+      "ovr": 89
+    },
+    {
+      "key": "liv-08",
+      "number": 8,
+      "name": "도미니크 소보슬러인",
+      "real": "도미니크 소보슬러이",
+      "pos": "CM",
+      "nation": "헝가리",
+      "birthYear": 2000,
+      "ovr": 86
+    },
+    {
+      "key": "liv-09",
+      "number": 9,
+      "name": "알렉산데르 이사큰",
+      "real": "알렉산데르 이사크",
+      "pos": "ST",
+      "nation": "스웨덴",
+      "birthYear": 1999,
+      "ovr": 88
+    },
+    {
+      "key": "liv-10",
+      "number": 10,
+      "name": "알렉시스 맥알리스턴",
+      "real": "알렉시스 맥알리스터",
+      "pos": "CM",
+      "nation": "아르헨티나",
+      "birthYear": 1998,
+      "ovr": 86
+    },
+    {
+      "key": "liv-11",
+      "number": 12,
+      "name": "코너 브래들린",
+      "real": "코너 브래들리",
+      "pos": "RB",
+      "nation": "북아일랜드",
+      "birthYear": 2003,
+      "ovr": 80
+    },
+    {
+      "key": "liv-12",
+      "number": 14,
+      "name": "페데리코 키에산",
+      "real": "페데리코 키에사",
+      "pos": "RW",
+      "nation": "이탈리아",
+      "birthYear": 1997,
+      "ovr": 78
+    },
+    {
+      "key": "liv-13",
+      "number": 15,
+      "name": "조반니 레오닌",
+      "real": "조반니 레오니",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 2006,
+      "ovr": 76
+    },
+    {
+      "key": "liv-14",
+      "number": 18,
+      "name": "코디 학폰",
+      "real": "코디 학포",
+      "pos": "LW",
+      "nation": "네덜란드",
+      "birthYear": 1999,
+      "ovr": 84
+    },
+    {
+      "key": "liv-15",
+      "number": 21,
+      "name": "코스타스 치미카손",
+      "real": "코스타스 치미카스",
+      "pos": "LB",
+      "nation": "그리스",
+      "birthYear": 1996,
+      "ovr": 75
+    },
+    {
+      "key": "liv-16",
+      "number": 22,
+      "name": "위고 에키티켄",
+      "real": "위고 에키티케",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 85
+    },
+    {
+      "key": "liv-17",
+      "number": 23,
+      "name": "빅토르 무뇨손",
+      "real": "빅토르 무뇨스",
+      "pos": "RW",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "liv-18",
+      "number": 25,
+      "name": "기오르기 마마르다시빌린",
+      "real": "기오르기 마마르다시빌리",
+      "pos": "GK",
+      "nation": "조지아",
+      "birthYear": 2000,
+      "ovr": 82
+    },
+    {
+      "key": "liv-19",
+      "number": 28,
+      "name": "프레디 우드먼드",
+      "real": "프레디 우드먼",
+      "pos": "GK",
+      "nation": "잉글랜드",
+      "birthYear": 1997,
+      "ovr": 70
+    },
+    {
+      "key": "liv-20",
+      "number": 29,
+      "name": "브래들리 바르콜란",
+      "real": "브래들리 바르콜라",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 84
+    },
+    {
+      "key": "liv-21",
+      "number": 30,
+      "name": "제레미 프림퐁그",
+      "real": "제레미 프림퐁",
+      "pos": "RB",
+      "nation": "네덜란드",
+      "birthYear": 2000,
+      "ovr": 83
+    },
+    {
+      "key": "liv-22",
+      "number": 33,
+      "name": "로날드 아라우혼",
+      "real": "로날드 아라우호",
+      "pos": "CB",
+      "nation": "우루과이",
+      "birthYear": 1999,
+      "ovr": 83
+    },
+    {
+      "key": "liv-23",
+      "number": 38,
+      "name": "라이언 흐라번베르흐트",
+      "real": "라이언 흐라번베르흐",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2002,
+      "ovr": 84
+    },
+    {
+      "key": "liv-24",
+      "number": 42,
+      "name": "트레이 뇨닌",
+      "real": "트레이 뇨니",
+      "pos": "CM",
+      "nation": "잉글랜드",
+      "birthYear": 2007,
+      "ovr": 69
+    },
+    {
+      "key": "liv-25",
+      "number": 53,
+      "name": "제임스 매코널라",
+      "real": "제임스 매코널",
+      "pos": "CM",
+      "nation": "잉글랜드",
+      "birthYear": 2004,
+      "ovr": 70
+    },
+    {
+      "key": "liv-26",
+      "number": 56,
+      "name": "비테즐라프 야로신",
+      "real": "비테즐라프 야로시",
+      "pos": "GK",
+      "nation": "체코",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "liv-27",
+      "number": 73,
+      "name": "리오 응구모한",
+      "real": "리오 응구모하",
+      "pos": "LW",
+      "nation": "잉글랜드",
+      "birthYear": 2008,
+      "ovr": 72
+    }
+  ]
+}

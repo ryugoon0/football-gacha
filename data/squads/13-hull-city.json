@@ -1,0 +1,300 @@
+{
+  "club": "헐 타이거",
+  "realClub": "헐 시티",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Hull_City_A.F.C.",
+  "pilot": false,
+  "players": [
+    {
+      "key": "hul-01",
+      "number": 1,
+      "name": "잭 버틀런더",
+      "real": "잭 버틀런드",
+      "pos": "GK",
+      "nation": "잉글랜드",
+      "birthYear": 1993,
+      "ovr": 77
+    },
+    {
+      "key": "hul-02",
+      "number": 2,
+      "name": "루이 코일라",
+      "real": "루이 코일",
+      "pos": "RB",
+      "nation": "잉글랜드",
+      "birthYear": 1995,
+      "ovr": 69
+    },
+    {
+      "key": "hul-03",
+      "number": 3,
+      "name": "라이언 자일러",
+      "real": "라이언 자일스",
+      "pos": "LB",
+      "nation": "잉글랜드",
+      "birthYear": 2000,
+      "ovr": 72
+    },
+    {
+      "key": "hul-04",
+      "number": 4,
+      "name": "찰리 휴선",
+      "real": "찰리 휴스",
+      "pos": "CB",
+      "nation": "잉글랜드",
+      "birthYear": 2003,
+      "ovr": 72
+    },
+    {
+      "key": "hul-05",
+      "number": 5,
+      "name": "모리타 히데마산",
+      "real": "모리타 히데마사",
+      "pos": "CDM",
+      "nation": "일본",
+      "birthYear": 1995,
+      "ovr": 78
+    },
+    {
+      "key": "hul-06",
+      "number": 6,
+      "name": "세미 아자인",
+      "real": "세미 아자이",
+      "pos": "CB",
+      "nation": "나이지리아",
+      "birthYear": 1993,
+      "ovr": 72
+    },
+    {
+      "key": "hul-07",
+      "number": 7,
+      "name": "소르바 토머슨",
+      "real": "소르바 토머스",
+      "pos": "RW",
+      "nation": "웨일스",
+      "birthYear": 1999,
+      "ovr": 73
+    },
+    {
+      "key": "hul-08",
+      "number": 8,
+      "name": "엘리오 마타존",
+      "real": "엘리오 마타조",
+      "pos": "CM",
+      "nation": "벨기에",
+      "birthYear": 2002,
+      "ovr": 72
+    },
+    {
+      "key": "hul-09",
+      "number": 9,
+      "name": "올리 맥버닌",
+      "real": "올리 맥버니",
+      "pos": "ST",
+      "nation": "스코틀랜드",
+      "birthYear": 1996,
+      "ovr": 72
+    },
+    {
+      "key": "hul-10",
+      "number": 10,
+      "name": "모하메드 벨루민",
+      "real": "모하메드 벨루미",
+      "pos": "LW",
+      "nation": "알제리",
+      "birthYear": 2002,
+      "ovr": 72
+    },
+    {
+      "key": "hul-11",
+      "number": 11,
+      "name": "조 겔하트르",
+      "real": "조 겔하트",
+      "pos": "CAM",
+      "nation": "잉글랜드",
+      "birthYear": 2002,
+      "ovr": 72
+    },
+    {
+      "key": "hul-12",
+      "number": 12,
+      "name": "딜런 필립손",
+      "real": "딜런 필립스",
+      "pos": "GK",
+      "nation": "잉글랜드",
+      "birthYear": 1995,
+      "ovr": 68
+    },
+    {
+      "key": "hul-13",
+      "number": 14,
+      "name": "옌스 예르퇴달라",
+      "real": "옌스 예르퇴달",
+      "pos": "CM",
+      "nation": "노르웨이",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "hul-14",
+      "number": 15,
+      "name": "존 이거른",
+      "real": "존 이건",
+      "pos": "CB",
+      "nation": "아일랜드",
+      "birthYear": 1992,
+      "ovr": 71
+    },
+    {
+      "key": "hul-15",
+      "number": 17,
+      "name": "패디 맥네언",
+      "real": "패디 맥네어",
+      "pos": "CB",
+      "nation": "북아일랜드",
+      "birthYear": 1995,
+      "ovr": 71
+    },
+    {
+      "key": "hul-16",
+      "number": 19,
+      "name": "콘스탄티노스 촐라키손",
+      "real": "콘스탄티노스 촐라키스",
+      "pos": "GK",
+      "nation": "그리스",
+      "birthYear": 2002,
+      "ovr": 73
+    },
+    {
+      "key": "hul-17",
+      "number": 20,
+      "name": "오스카르 삼브라논",
+      "real": "오스카르 삼브라노",
+      "pos": "CDM",
+      "nation": "에콰도르",
+      "birthYear": 2004,
+      "ovr": 70
+    },
+    {
+      "key": "hul-18",
+      "number": 21,
+      "name": "엘리엇 스트라우든",
+      "real": "엘리엇 스트라우드",
+      "pos": "LW",
+      "nation": "스웨덴",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "hul-19",
+      "number": 23,
+      "name": "맷 타기트",
+      "real": "맷 타깃",
+      "pos": "LB",
+      "nation": "잉글랜드",
+      "birthYear": 1995,
+      "ovr": 71
+    },
+    {
+      "key": "hul-20",
+      "number": 24,
+      "name": "다르코 갸빈",
+      "real": "다르코 갸비",
+      "pos": "CM",
+      "nation": "잉글랜드",
+      "birthYear": 2004,
+      "ovr": 70
+    },
+    {
+      "key": "hul-21",
+      "number": 25,
+      "name": "맷 크룩손",
+      "real": "맷 크룩스",
+      "pos": "CM",
+      "nation": "잉글랜드",
+      "birthYear": 1994,
+      "ovr": 69
+    },
+    {
+      "key": "hul-22",
+      "number": 26,
+      "name": "키어런 다웰라",
+      "real": "키어런 다월",
+      "pos": "CAM",
+      "nation": "잉글랜드",
+      "birthYear": 1997,
+      "ovr": 71
+    },
+    {
+      "key": "hul-23",
+      "number": 27,
+      "name": "리건 슬레이터스",
+      "real": "리건 슬레이터",
+      "pos": "CDM",
+      "nation": "잉글랜드",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "hul-24",
+      "number": 29,
+      "name": "루카스 구르나두아트르",
+      "real": "루카스 구르나두아트",
+      "pos": "CDM",
+      "nation": "프랑스",
+      "birthYear": 2003,
+      "ovr": 74
+    },
+    {
+      "key": "hul-25",
+      "number": 30,
+      "name": "데이비드 아킨톨란",
+      "real": "데이비드 아킨톨라",
+      "pos": "ST",
+      "nation": "나이지리아",
+      "birthYear": 1996,
+      "ovr": 69
+    },
+    {
+      "key": "hul-26",
+      "number": 32,
+      "name": "노벨 멘딘",
+      "real": "노벨 멘디",
+      "pos": "CB",
+      "nation": "세네갈",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "hul-27",
+      "number": 33,
+      "name": "압뒬카디르 외뮈른",
+      "real": "압뒬카디르 외뮈르",
+      "pos": "RM",
+      "nation": "튀르키예",
+      "birthYear": 1999,
+      "ovr": 71
+    },
+    {
+      "key": "hul-28",
+      "number": 42,
+      "name": "팀 이로그분아르",
+      "real": "팀 이로그분암",
+      "pos": "CM",
+      "nation": "잉글랜드",
+      "birthYear": 2003,
+      "ovr": 74
+    },
+    {
+      "key": "hul-29",
+      "number": 50,
+      "name": "모하메드알리 쇼른",
+      "real": "모하메드알리 쇼",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 2004,
+      "ovr": 74
+    }
+  ]
+}

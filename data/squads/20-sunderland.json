@@ -1,0 +1,290 @@
+{
+  "club": "선덜랜드 블랙캣",
+  "realClub": "선덜랜드",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Sunderland_A.F.C.",
+  "pilot": false,
+  "players": [
+    {
+      "key": "sun-01",
+      "number": 4,
+      "name": "케빈 단손",
+      "real": "케빈 단소",
+      "pos": "CB",
+      "nation": "오스트리아",
+      "birthYear": 1998,
+      "ovr": 77
+    },
+    {
+      "key": "sun-02",
+      "number": 5,
+      "name": "대니얼 밸러든",
+      "real": "대니얼 밸러드",
+      "pos": "CB",
+      "nation": "북아일랜드",
+      "birthYear": 1999,
+      "ovr": 74
+    },
+    {
+      "key": "sun-03",
+      "number": 6,
+      "name": "다얀 메탈린",
+      "real": "다얀 메탈리",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 69
+    },
+    {
+      "key": "sun-04",
+      "number": 7,
+      "name": "솀스딘 탈빈",
+      "real": "솀스딘 탈비",
+      "pos": "RW",
+      "nation": "모로코",
+      "birthYear": 2005,
+      "ovr": 76
+    },
+    {
+      "key": "sun-05",
+      "number": 8,
+      "name": "앨런 브라운드",
+      "real": "앨런 브라운",
+      "pos": "CM",
+      "nation": "아일랜드",
+      "birthYear": 1995,
+      "ovr": 71
+    },
+    {
+      "key": "sun-06",
+      "number": 9,
+      "name": "브라이언 브로베인",
+      "real": "브라이언 브로베이",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 2002,
+      "ovr": 78
+    },
+    {
+      "key": "sun-07",
+      "number": 10,
+      "name": "닐손 앙굴론",
+      "real": "닐손 앙굴로",
+      "pos": "LW",
+      "nation": "에콰도르",
+      "birthYear": 2003,
+      "ovr": 74
+    },
+    {
+      "key": "sun-08",
+      "number": 11,
+      "name": "크리스 리근",
+      "real": "크리스 리그",
+      "pos": "CAM",
+      "nation": "잉글랜드",
+      "birthYear": 2007,
+      "ovr": 75
+    },
+    {
+      "key": "sun-09",
+      "number": 12,
+      "name": "토마 뫼니엔",
+      "real": "토마 뫼니에",
+      "pos": "RB",
+      "nation": "벨기에",
+      "birthYear": 1991,
+      "ovr": 73
+    },
+    {
+      "key": "sun-10",
+      "number": 13,
+      "name": "루크 오니언드",
+      "real": "루크 오니언",
+      "pos": "CM",
+      "nation": "잉글랜드",
+      "birthYear": 1994,
+      "ovr": 72
+    },
+    {
+      "key": "sun-11",
+      "number": 14,
+      "name": "로메인 문들라",
+      "real": "로메인 문들",
+      "pos": "LW",
+      "nation": "잉글랜드",
+      "birthYear": 2003,
+      "ovr": 73
+    },
+    {
+      "key": "sun-12",
+      "number": 15,
+      "name": "오마르 알데레텐",
+      "real": "오마르 알데레테",
+      "pos": "CB",
+      "nation": "파라과이",
+      "birthYear": 1996,
+      "ovr": 76
+    },
+    {
+      "key": "sun-13",
+      "number": 17,
+      "name": "레이닐둔",
+      "real": "레이닐두",
+      "pos": "LB",
+      "nation": "모잠비크",
+      "birthYear": 1994,
+      "ovr": 77
+    },
+    {
+      "key": "sun-14",
+      "number": 18,
+      "name": "윌슨 이시도른",
+      "real": "윌슨 이시도르",
+      "pos": "ST",
+      "nation": "아이티",
+      "birthYear": 2000,
+      "ovr": 75
+    },
+    {
+      "key": "sun-15",
+      "number": 19,
+      "name": "하비브 디아란",
+      "real": "하비브 디아라",
+      "pos": "CM",
+      "nation": "세네갈",
+      "birthYear": 2004,
+      "ovr": 78
+    },
+    {
+      "key": "sun-16",
+      "number": 20,
+      "name": "노르디 무키엘렌",
+      "real": "노르디 무키엘레",
+      "pos": "RB",
+      "nation": "프랑스",
+      "birthYear": 1997,
+      "ovr": 77
+    },
+    {
+      "key": "sun-17",
+      "number": 21,
+      "name": "사이먼 무언",
+      "real": "사이먼 무어",
+      "pos": "GK",
+      "nation": "잉글랜드",
+      "birthYear": 1990,
+      "ovr": 64
+    },
+    {
+      "key": "sun-18",
+      "number": 22,
+      "name": "로빈 루프손",
+      "real": "로빈 루프스",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 77
+    },
+    {
+      "key": "sun-19",
+      "number": 27,
+      "name": "노아 사디킨",
+      "real": "노아 사디키",
+      "pos": "CM",
+      "nation": "콩고민주공화국",
+      "birthYear": 2004,
+      "ovr": 78
+    },
+    {
+      "key": "sun-20",
+      "number": 28,
+      "name": "엔조 르 펜",
+      "real": "엔조 르 페",
+      "pos": "CAM",
+      "nation": "프랑스",
+      "birthYear": 2000,
+      "ovr": 76
+    },
+    {
+      "key": "sun-21",
+      "number": 29,
+      "name": "쥘 아오칸",
+      "real": "쥘 아오카",
+      "pos": "CM",
+      "nation": "콩고민주공화국",
+      "birthYear": 2006,
+      "ovr": 67
+    },
+    {
+      "key": "sun-22",
+      "number": 31,
+      "name": "멜케르 엘보린",
+      "real": "멜케르 엘보리",
+      "pos": "GK",
+      "nation": "스웨덴",
+      "birthYear": 2003,
+      "ovr": 65
+    },
+    {
+      "key": "sun-23",
+      "number": 32,
+      "name": "트라이 흄드",
+      "real": "트라이 흄",
+      "pos": "RB",
+      "nation": "북아일랜드",
+      "birthYear": 2002,
+      "ovr": 74
+    },
+    {
+      "key": "sun-24",
+      "number": 34,
+      "name": "그라니트 자칸",
+      "real": "그라니트 자카",
+      "pos": "CDM",
+      "nation": "스위스",
+      "birthYear": 1992,
+      "ovr": 82
+    },
+    {
+      "key": "sun-25",
+      "number": 37,
+      "name": "조슬랭 타 빈",
+      "real": "조슬랭 타 비",
+      "pos": "RW",
+      "nation": "코트디부아르",
+      "birthYear": 2005,
+      "ovr": 70
+    },
+    {
+      "key": "sun-26",
+      "number": 39,
+      "name": "말리크 포파난",
+      "real": "말리크 포파나",
+      "pos": "LW",
+      "nation": "벨기에",
+      "birthYear": 2005,
+      "ovr": 78
+    },
+    {
+      "key": "sun-27",
+      "number": 42,
+      "name": "아지 알레센",
+      "real": "아지 알레세",
+      "pos": "LB",
+      "nation": "잉글랜드",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "sun-28",
+      "number": 46,
+      "name": "압둘라 바르",
+      "real": "압둘라 바",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2003,
+      "ovr": 70
+    }
+  ]
+}

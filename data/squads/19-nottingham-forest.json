@@ -1,0 +1,250 @@
+{
+  "club": "노팅엄 포레스터",
+  "realClub": "노팅엄 포레스트",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Nottingham_Forest_F.C.",
+  "pilot": false,
+  "players": [
+    {
+      "key": "nfo-01",
+      "number": 2,
+      "name": "우스만 디오망덴",
+      "real": "우스만 디오망데",
+      "pos": "CB",
+      "nation": "코트디부아르",
+      "birthYear": 2003,
+      "ovr": 80
+    },
+    {
+      "key": "nfo-02",
+      "number": 3,
+      "name": "네코 윌리엄손",
+      "real": "네코 윌리엄스",
+      "pos": "RB",
+      "nation": "웨일스",
+      "birthYear": 2001,
+      "ovr": 76
+    },
+    {
+      "key": "nfo-03",
+      "number": 5,
+      "name": "무릴룬",
+      "real": "무릴루",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 2002,
+      "ovr": 81
+    },
+    {
+      "key": "nfo-04",
+      "number": 6,
+      "name": "이브라힘 상가렌",
+      "real": "이브라힘 상가레",
+      "pos": "CDM",
+      "nation": "코트디부아르",
+      "birthYear": 1997,
+      "ovr": 79
+    },
+    {
+      "key": "nfo-05",
+      "number": 7,
+      "name": "칼럼 허드슨오도인",
+      "real": "칼럼 허드슨오도이",
+      "pos": "LW",
+      "nation": "잉글랜드",
+      "birthYear": 2000,
+      "ovr": 78
+    },
+    {
+      "key": "nfo-06",
+      "number": 8,
+      "name": "니콜라스 도밍게노",
+      "real": "니콜라스 도밍게스",
+      "pos": "CM",
+      "nation": "아르헨티나",
+      "birthYear": 1998,
+      "ovr": 77
+    },
+    {
+      "key": "nfo-07",
+      "number": 9,
+      "name": "크리스 우든",
+      "real": "크리스 우드",
+      "pos": "ST",
+      "nation": "뉴질랜드",
+      "birthYear": 1991,
+      "ovr": 78
+    },
+    {
+      "key": "nfo-08",
+      "number": 10,
+      "name": "모건 깁스화이튼",
+      "real": "모건 깁스화이트",
+      "pos": "CAM",
+      "nation": "잉글랜드",
+      "birthYear": 2000,
+      "ovr": 83
+    },
+    {
+      "key": "nfo-09",
+      "number": 11,
+      "name": "이고르 제주손",
+      "real": "이고르 제주스",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 2001,
+      "ovr": 76
+    },
+    {
+      "key": "nfo-10",
+      "number": 12,
+      "name": "존 빅토른",
+      "real": "존 빅토르",
+      "pos": "GK",
+      "nation": "브라질",
+      "birthYear": 1996,
+      "ovr": 73
+    },
+    {
+      "key": "nfo-11",
+      "number": 14,
+      "name": "단 은도옌",
+      "real": "단 은도예",
+      "pos": "RW",
+      "nation": "스위스",
+      "birthYear": 2000,
+      "ovr": 79
+    },
+    {
+      "key": "nfo-12",
+      "number": 15,
+      "name": "아르노 칼리무엔돈",
+      "real": "아르노 칼리무엔도",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 78
+    },
+    {
+      "key": "nfo-13",
+      "number": 19,
+      "name": "리암 델라픈",
+      "real": "리암 델랍",
+      "pos": "ST",
+      "nation": "잉글랜드",
+      "birthYear": 2003,
+      "ovr": 78
+    },
+    {
+      "key": "nfo-14",
+      "number": 21,
+      "name": "크사버 슐라거스",
+      "real": "크사버 슐라거",
+      "pos": "CM",
+      "nation": "오스트리아",
+      "birthYear": 1997,
+      "ovr": 77
+    },
+    {
+      "key": "nfo-15",
+      "number": 22,
+      "name": "라이언 예이추",
+      "real": "라이언 예이츠",
+      "pos": "CDM",
+      "nation": "잉글랜드",
+      "birthYear": 1997,
+      "ovr": 74
+    },
+    {
+      "key": "nfo-16",
+      "number": 23,
+      "name": "자이르 쿠냔",
+      "real": "자이르 쿠냐",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 2005,
+      "ovr": 73
+    },
+    {
+      "key": "nfo-17",
+      "number": 24,
+      "name": "제임스 매카틴",
+      "real": "제임스 매카티",
+      "pos": "CAM",
+      "nation": "잉글랜드",
+      "birthYear": 2002,
+      "ovr": 78
+    },
+    {
+      "key": "nfo-18",
+      "number": 25,
+      "name": "루카 네추",
+      "real": "루카 네츠",
+      "pos": "LB",
+      "nation": "독일",
+      "birthYear": 2003,
+      "ovr": 76
+    },
+    {
+      "key": "nfo-19",
+      "number": 26,
+      "name": "마츠 셀손",
+      "real": "마츠 셀스",
+      "pos": "GK",
+      "nation": "벨기에",
+      "birthYear": 1992,
+      "ovr": 79
+    },
+    {
+      "key": "nfo-20",
+      "number": 27,
+      "name": "다니엘 무뇨손",
+      "real": "다니엘 무뇨스",
+      "pos": "RB",
+      "nation": "콜롬비아",
+      "birthYear": 1996,
+      "ovr": 80
+    },
+    {
+      "key": "nfo-21",
+      "number": 31,
+      "name": "니콜라 밀렌코비츠",
+      "real": "니콜라 밀렌코비치",
+      "pos": "CB",
+      "nation": "세르비아",
+      "birthYear": 1997,
+      "ovr": 81
+    },
+    {
+      "key": "nfo-22",
+      "number": 33,
+      "name": "슈테펜 벤단",
+      "real": "슈테펜 벤다",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 66
+    },
+    {
+      "key": "nfo-23",
+      "number": 34,
+      "name": "올라 아이난",
+      "real": "올라 아이나",
+      "pos": "RB",
+      "nation": "나이지리아",
+      "birthYear": 1996,
+      "ovr": 77
+    },
+    {
+      "key": "nfo-24",
+      "number": 37,
+      "name": "니콜로 사보난",
+      "real": "니콜로 사보나",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 2003,
+      "ovr": 75
+    }
+  ]
+}

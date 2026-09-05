@@ -1,0 +1,290 @@
+{
+  "club": "입스위치 트랙터",
+  "realClub": "입스위치 타운",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Ipswich_Town_F.C.",
+  "pilot": false,
+  "players": [
+    {
+      "key": "ips-01",
+      "number": 1,
+      "name": "알렉스 파머스",
+      "real": "알렉스 파머",
+      "pos": "GK",
+      "nation": "잉글랜드",
+      "birthYear": 1996,
+      "ovr": 74
+    },
+    {
+      "key": "ips-02",
+      "number": 2,
+      "name": "다넬 펄롱크",
+      "real": "다넬 펄롱",
+      "pos": "RB",
+      "nation": "잉글랜드",
+      "birthYear": 1995,
+      "ovr": 72
+    },
+    {
+      "key": "ips-03",
+      "number": 3,
+      "name": "레이프 데이비손",
+      "real": "레이프 데이비스",
+      "pos": "LB",
+      "nation": "잉글랜드",
+      "birthYear": 1999,
+      "ovr": 74
+    },
+    {
+      "key": "ips-04",
+      "number": 4,
+      "name": "세드리크 키프렌",
+      "real": "세드리크 키프레",
+      "pos": "CB",
+      "nation": "코트디부아르",
+      "birthYear": 1996,
+      "ovr": 72
+    },
+    {
+      "key": "ips-05",
+      "number": 5,
+      "name": "아조르 마투시완",
+      "real": "아조르 마투시와",
+      "pos": "CDM",
+      "nation": "네덜란드",
+      "birthYear": 1998,
+      "ovr": 74
+    },
+    {
+      "key": "ips-06",
+      "number": 6,
+      "name": "이사 디오픈",
+      "real": "이사 디오프",
+      "pos": "CB",
+      "nation": "모로코",
+      "birthYear": 1997,
+      "ovr": 74
+    },
+    {
+      "key": "ips-07",
+      "number": 7,
+      "name": "압둘 파타운",
+      "real": "압둘 파타우",
+      "pos": "RW",
+      "nation": "가나",
+      "birthYear": 2004,
+      "ovr": 76
+    },
+    {
+      "key": "ips-08",
+      "number": 8,
+      "name": "신드레 발레 에겔린",
+      "real": "신드레 발레 에겔리",
+      "pos": "LW",
+      "nation": "노르웨이",
+      "birthYear": 2006,
+      "ovr": 70
+    },
+    {
+      "key": "ips-09",
+      "number": 9,
+      "name": "지안 플레밍크",
+      "real": "지안 플레밍",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 1998,
+      "ovr": 75
+    },
+    {
+      "key": "ips-10",
+      "number": 10,
+      "name": "훌리오 엔시손",
+      "real": "훌리오 엔시소",
+      "pos": "CAM",
+      "nation": "파라과이",
+      "birthYear": 2004,
+      "ovr": 77
+    },
+    {
+      "key": "ips-11",
+      "number": 11,
+      "name": "제이든 필로지느",
+      "real": "제이든 필로진",
+      "pos": "LW",
+      "nation": "잉글랜드",
+      "birthYear": 2002,
+      "ovr": 75
+    },
+    {
+      "key": "ips-12",
+      "number": 12,
+      "name": "플로렌티누 루이손",
+      "real": "플로렌티누 루이스",
+      "pos": "CDM",
+      "nation": "포르투갈",
+      "birthYear": 1999,
+      "ovr": 75
+    },
+    {
+      "key": "ips-13",
+      "number": 14,
+      "name": "잭 테일러스",
+      "real": "잭 테일러",
+      "pos": "CM",
+      "nation": "아일랜드",
+      "birthYear": 1998,
+      "ovr": 70
+    },
+    {
+      "key": "ips-14",
+      "number": 19,
+      "name": "에메르손드",
+      "real": "에메르손",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 2004,
+      "ovr": 73
+    },
+    {
+      "key": "ips-15",
+      "number": 20,
+      "name": "케이시 맥아티언",
+      "real": "케이시 맥아티어",
+      "pos": "RW",
+      "nation": "아일랜드",
+      "birthYear": 2001,
+      "ovr": 71
+    },
+    {
+      "key": "ips-16",
+      "number": 23,
+      "name": "사샤 루키츠",
+      "real": "사샤 루키치",
+      "pos": "CDM",
+      "nation": "세르비아",
+      "birthYear": 1996,
+      "ovr": 74
+    },
+    {
+      "key": "ips-17",
+      "number": 24,
+      "name": "제이컵 그리브손",
+      "real": "제이컵 그리브스",
+      "pos": "CB",
+      "nation": "잉글랜드",
+      "birthYear": 2000,
+      "ovr": 74
+    },
+    {
+      "key": "ips-18",
+      "number": 25,
+      "name": "에세키엘 팔라시오손",
+      "real": "에세키엘 팔라시오스",
+      "pos": "CM",
+      "nation": "아르헨티나",
+      "birthYear": 1998,
+      "ovr": 78
+    },
+    {
+      "key": "ips-19",
+      "number": 26,
+      "name": "다라 오셰인",
+      "real": "다라 오셰이",
+      "pos": "CB",
+      "nation": "아일랜드",
+      "birthYear": 1999,
+      "ovr": 74
+    },
+    {
+      "key": "ips-20",
+      "number": 27,
+      "name": "데이비드 버트나",
+      "real": "데이비드 버튼",
+      "pos": "GK",
+      "nation": "잉글랜드",
+      "birthYear": 1989,
+      "ovr": 64
+    },
+    {
+      "key": "ips-21",
+      "number": 28,
+      "name": "크리스천 월터느",
+      "real": "크리스천 월턴",
+      "pos": "GK",
+      "nation": "잉글랜드",
+      "birthYear": 1995,
+      "ovr": 69
+    },
+    {
+      "key": "ips-22",
+      "number": 29,
+      "name": "추바 아크포므",
+      "real": "추바 아크폼",
+      "pos": "ST",
+      "nation": "잉글랜드",
+      "birthYear": 1995,
+      "ovr": 71
+    },
+    {
+      "key": "ips-23",
+      "number": 32,
+      "name": "마르셀리노 누녜노",
+      "real": "마르셀리노 누녜스",
+      "pos": "CM",
+      "nation": "칠레",
+      "birthYear": 2000,
+      "ovr": 73
+    },
+    {
+      "key": "ips-24",
+      "number": 33,
+      "name": "아니스 메메틴",
+      "real": "아니스 메메티",
+      "pos": "LW",
+      "nation": "알바니아",
+      "birthYear": 2001,
+      "ovr": 71
+    },
+    {
+      "key": "ips-25",
+      "number": 37,
+      "name": "켈 스헤르페느",
+      "real": "켈 스헤르펜",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "ips-26",
+      "number": 38,
+      "name": "마에다 다이제느",
+      "real": "마에다 다이젠",
+      "pos": "LW",
+      "nation": "일본",
+      "birthYear": 1997,
+      "ovr": 76
+    },
+    {
+      "key": "ips-27",
+      "number": 42,
+      "name": "압둘 우아타란",
+      "real": "압둘 우아타라",
+      "pos": "RB",
+      "nation": "코트디부아르",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "ips-28",
+      "number": 47,
+      "name": "잭 클라크르",
+      "real": "잭 클라크",
+      "pos": "LW",
+      "nation": "잉글랜드",
+      "birthYear": 2000,
+      "ovr": 73
+    }
+  ]
+}

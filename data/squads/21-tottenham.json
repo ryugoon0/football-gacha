@@ -1,0 +1,290 @@
+{
+  "club": "북런던 화이트",
+  "realClub": "토트넘 홋스퍼",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Tottenham_Hotspur_F.C.",
+  "pilot": false,
+  "players": [
+    {
+      "key": "tot-01",
+      "number": 3,
+      "name": "앤디 로버트슨드",
+      "real": "앤디 로버트슨",
+      "pos": "LB",
+      "nation": "스코틀랜드",
+      "birthYear": 1994,
+      "ovr": 80
+    },
+    {
+      "key": "tot-02",
+      "number": 4,
+      "name": "토신 아다라비오욘",
+      "real": "토신 아다라비오요",
+      "pos": "CB",
+      "nation": "잉글랜드",
+      "birthYear": 1997,
+      "ovr": 78
+    },
+    {
+      "key": "tot-03",
+      "number": 5,
+      "name": "마르코스 세네신",
+      "real": "마르코스 세네시",
+      "pos": "CB",
+      "nation": "아르헨티나",
+      "birthYear": 1997,
+      "ovr": 78
+    },
+    {
+      "key": "tot-04",
+      "number": 6,
+      "name": "얀 파울 판헤켄",
+      "real": "얀 파울 판헤케",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2000,
+      "ovr": 78
+    },
+    {
+      "key": "tot-05",
+      "number": 7,
+      "name": "사비 시몬손",
+      "real": "사비 시몬스",
+      "pos": "CAM",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 85
+    },
+    {
+      "key": "tot-06",
+      "number": 8,
+      "name": "코너 갤러거스",
+      "real": "코너 갤러거",
+      "pos": "CM",
+      "nation": "잉글랜드",
+      "birthYear": 2000,
+      "ovr": 80
+    },
+    {
+      "key": "tot-07",
+      "number": 9,
+      "name": "히샤를리송드",
+      "real": "히샤를리송",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 1997,
+      "ovr": 78
+    },
+    {
+      "key": "tot-08",
+      "number": 10,
+      "name": "제임스 매디슨드",
+      "real": "제임스 매디슨",
+      "pos": "CAM",
+      "nation": "잉글랜드",
+      "birthYear": 1996,
+      "ovr": 82
+    },
+    {
+      "key": "tot-09",
+      "number": 11,
+      "name": "마티스 텔라",
+      "real": "마티스 텔",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 2005,
+      "ovr": 78
+    },
+    {
+      "key": "tot-10",
+      "number": 13,
+      "name": "데스티니 우도긴",
+      "real": "데스티니 우도기",
+      "pos": "LB",
+      "nation": "이탈리아",
+      "birthYear": 2002,
+      "ovr": 80
+    },
+    {
+      "key": "tot-11",
+      "number": 14,
+      "name": "아치 그레인",
+      "real": "아치 그레이",
+      "pos": "CM",
+      "nation": "잉글랜드",
+      "birthYear": 2006,
+      "ovr": 78
+    },
+    {
+      "key": "tot-12",
+      "number": 15,
+      "name": "루카스 베리발라",
+      "real": "루카스 베리발",
+      "pos": "CM",
+      "nation": "스웨덴",
+      "birthYear": 2006,
+      "ovr": 79
+    },
+    {
+      "key": "tot-13",
+      "number": 16,
+      "name": "산드로 토날린",
+      "real": "산드로 토날리",
+      "pos": "CDM",
+      "nation": "이탈리아",
+      "birthYear": 2000,
+      "ovr": 83
+    },
+    {
+      "key": "tot-14",
+      "number": 17,
+      "name": "사비운",
+      "real": "사비우",
+      "pos": "LW",
+      "nation": "브라질",
+      "birthYear": 2004,
+      "ovr": 81
+    },
+    {
+      "key": "tot-15",
+      "number": 18,
+      "name": "마테우스 페르난드손",
+      "real": "마테우스 페르난드스",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 2004,
+      "ovr": 77
+    },
+    {
+      "key": "tot-16",
+      "number": 19,
+      "name": "도미닉 솔란켄",
+      "real": "도미닉 솔란케",
+      "pos": "ST",
+      "nation": "잉글랜드",
+      "birthYear": 1997,
+      "ovr": 78
+    },
+    {
+      "key": "tot-17",
+      "number": 20,
+      "name": "모하메드 쿠두손",
+      "real": "모하메드 쿠두스",
+      "pos": "RW",
+      "nation": "가나",
+      "birthYear": 2000,
+      "ovr": 84
+    },
+    {
+      "key": "tot-18",
+      "number": 21,
+      "name": "데얀 쿨루셉스킨",
+      "real": "데얀 쿨루셉스키",
+      "pos": "RW",
+      "nation": "스웨덴",
+      "birthYear": 2000,
+      "ovr": 83
+    },
+    {
+      "key": "tot-19",
+      "number": 22,
+      "name": "오마르 마르무신",
+      "real": "오마르 마르무시",
+      "pos": "RW",
+      "nation": "이집트",
+      "birthYear": 1999,
+      "ovr": 82
+    },
+    {
+      "key": "tot-20",
+      "number": 23,
+      "name": "페드로 포론",
+      "real": "페드로 포로",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 1999,
+      "ovr": 80
+    },
+    {
+      "key": "tot-21",
+      "number": 27,
+      "name": "미하일로 무드리큰",
+      "real": "미하일로 무드리크",
+      "pos": "LW",
+      "nation": "우크라이나",
+      "birthYear": 2001,
+      "ovr": 74
+    },
+    {
+      "key": "tot-22",
+      "number": 28,
+      "name": "윌슨 오도베른",
+      "real": "윌슨 오도베르",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 2004,
+      "ovr": 76
+    },
+    {
+      "key": "tot-23",
+      "number": 30,
+      "name": "로드리고 벤탄쿠른",
+      "real": "로드리고 벤탄쿠르",
+      "pos": "CM",
+      "nation": "우루과이",
+      "birthYear": 1997,
+      "ovr": 78
+    },
+    {
+      "key": "tot-24",
+      "number": 31,
+      "name": "안토닌 킨스킨",
+      "real": "안토닌 킨스키",
+      "pos": "GK",
+      "nation": "체코",
+      "birthYear": 2003,
+      "ovr": 76
+    },
+    {
+      "key": "tot-25",
+      "number": 33,
+      "name": "벤 데이비손",
+      "real": "벤 데이비스",
+      "pos": "CB",
+      "nation": "웨일스",
+      "birthYear": 1993,
+      "ovr": 72
+    },
+    {
+      "key": "tot-26",
+      "number": 37,
+      "name": "미키 판더페느",
+      "real": "미키 판더펜",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2001,
+      "ovr": 84
+    },
+    {
+      "key": "tot-27",
+      "number": 39,
+      "name": "마르틴 두브라프칸",
+      "real": "마르틴 두브라프카",
+      "pos": "GK",
+      "nation": "슬로바키아",
+      "birthYear": 1989,
+      "ovr": 74
+    },
+    {
+      "key": "tot-28",
+      "number": 40,
+      "name": "브랜던 오스티느",
+      "real": "브랜던 오스틴",
+      "pos": "GK",
+      "nation": "미국",
+      "birthYear": 1999,
+      "ovr": 64
+    }
+  ]
+}

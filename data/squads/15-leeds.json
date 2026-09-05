@@ -1,0 +1,240 @@
+{
+  "club": "리즈 화이트",
+  "realClub": "리즈 유나이티드",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Leeds_United_F.C.",
+  "pilot": false,
+  "players": [
+    {
+      "key": "lee-01",
+      "number": 1,
+      "name": "제임스 트래퍼든",
+      "real": "제임스 트래퍼드",
+      "pos": "GK",
+      "nation": "잉글랜드",
+      "birthYear": 2002,
+      "ovr": 79
+    },
+    {
+      "key": "lee-02",
+      "number": 2,
+      "name": "제이든 보글라",
+      "real": "제이든 보글",
+      "pos": "RB",
+      "nation": "잉글랜드",
+      "birthYear": 2000,
+      "ovr": 73
+    },
+    {
+      "key": "lee-03",
+      "number": 3,
+      "name": "가브리엘 구드문드슨드",
+      "real": "가브리엘 구드문드손",
+      "pos": "LB",
+      "nation": "스웨덴",
+      "birthYear": 1999,
+      "ovr": 74
+    },
+    {
+      "key": "lee-04",
+      "number": 4,
+      "name": "이선 암파둔",
+      "real": "이선 암파두",
+      "pos": "CDM",
+      "nation": "웨일스",
+      "birthYear": 2000,
+      "ovr": 77
+    },
+    {
+      "key": "lee-05",
+      "number": 5,
+      "name": "타리크 무하레모비츠",
+      "real": "타리크 무하레모비치",
+      "pos": "CB",
+      "nation": "보스니아헤르체고비나",
+      "birthYear": 2003,
+      "ovr": 74
+    },
+    {
+      "key": "lee-06",
+      "number": 6,
+      "name": "조 로더른",
+      "real": "조 로던",
+      "pos": "CB",
+      "nation": "웨일스",
+      "birthYear": 1997,
+      "ovr": 76
+    },
+    {
+      "key": "lee-07",
+      "number": 7,
+      "name": "대니얼 제임슨",
+      "real": "대니얼 제임스",
+      "pos": "RW",
+      "nation": "웨일스",
+      "birthYear": 1997,
+      "ovr": 76
+    },
+    {
+      "key": "lee-08",
+      "number": 8,
+      "name": "션 롱스태프르",
+      "real": "션 롱스태프",
+      "pos": "CM",
+      "nation": "잉글랜드",
+      "birthYear": 1997,
+      "ovr": 76
+    },
+    {
+      "key": "lee-09",
+      "number": 9,
+      "name": "도미닉 캘버트르위르",
+      "real": "도미닉 캘버트르윈",
+      "pos": "ST",
+      "nation": "잉글랜드",
+      "birthYear": 1997,
+      "ovr": 76
+    },
+    {
+      "key": "lee-10",
+      "number": 10,
+      "name": "해리 윌슨드",
+      "real": "해리 윌슨",
+      "pos": "CAM",
+      "nation": "웨일스",
+      "birthYear": 1997,
+      "ovr": 77
+    },
+    {
+      "key": "lee-11",
+      "number": 11,
+      "name": "브렌던 애런슨드",
+      "real": "브렌던 애런슨",
+      "pos": "CAM",
+      "nation": "미국",
+      "birthYear": 2000,
+      "ovr": 74
+    },
+    {
+      "key": "lee-12",
+      "number": 14,
+      "name": "루카스 은메찬",
+      "real": "루카스 은메차",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 75
+    },
+    {
+      "key": "lee-13",
+      "number": 15,
+      "name": "야카 비욜라",
+      "real": "야카 비욜",
+      "pos": "CB",
+      "nation": "슬로베니아",
+      "birthYear": 1999,
+      "ovr": 76
+    },
+    {
+      "key": "lee-14",
+      "number": 16,
+      "name": "미하엘 체트런",
+      "real": "미하엘 체트러",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1995,
+      "ovr": 73
+    },
+    {
+      "key": "lee-15",
+      "number": 18,
+      "name": "안톤 슈타흐르",
+      "real": "안톤 슈타흐",
+      "pos": "CDM",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 76
+    },
+    {
+      "key": "lee-16",
+      "number": 19,
+      "name": "노아 오카포른",
+      "real": "노아 오카포르",
+      "pos": "LW",
+      "nation": "스위스",
+      "birthYear": 2000,
+      "ovr": 77
+    },
+    {
+      "key": "lee-17",
+      "number": 21,
+      "name": "알렉스 케언손",
+      "real": "알렉스 케언스",
+      "pos": "GK",
+      "nation": "잉글랜드",
+      "birthYear": 1993,
+      "ovr": 66
+    },
+    {
+      "key": "lee-18",
+      "number": 22,
+      "name": "다나카 아온",
+      "real": "다나카 아오",
+      "pos": "CM",
+      "nation": "일본",
+      "birthYear": 1998,
+      "ovr": 75
+    },
+    {
+      "key": "lee-19",
+      "number": 23,
+      "name": "장마테오 바오얀",
+      "real": "장마테오 바오야",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 2005,
+      "ovr": 75
+    },
+    {
+      "key": "lee-20",
+      "number": 24,
+      "name": "제임스 저스티노",
+      "real": "제임스 저스틴",
+      "pos": "RB",
+      "nation": "잉글랜드",
+      "birthYear": 1998,
+      "ovr": 75
+    },
+    {
+      "key": "lee-21",
+      "number": 26,
+      "name": "멜뱅 바르드",
+      "real": "멜뱅 바르",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 2000,
+      "ovr": 74
+    },
+    {
+      "key": "lee-22",
+      "number": 30,
+      "name": "니코 엘베딘",
+      "real": "니코 엘베디",
+      "pos": "CB",
+      "nation": "스위스",
+      "birthYear": 1996,
+      "ovr": 76
+    },
+    {
+      "key": "lee-23",
+      "number": 44,
+      "name": "일리야 그루에브스",
+      "real": "일리야 그루에프",
+      "pos": "CM",
+      "nation": "불가리아",
+      "birthYear": 2000,
+      "ovr": 73
+    }
+  ]
+}

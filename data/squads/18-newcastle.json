@@ -1,0 +1,260 @@
+{
+  "club": "뉴캐슬 매파이",
+  "realClub": "뉴캐슬 유나이티드",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Newcastle_United_F.C.",
+  "pilot": false,
+  "players": [
+    {
+      "key": "new-01",
+      "number": 1,
+      "name": "닉 포픈",
+      "real": "닉 포프",
+      "pos": "GK",
+      "nation": "잉글랜드",
+      "birthYear": 1992,
+      "ovr": 80
+    },
+    {
+      "key": "new-02",
+      "number": 2,
+      "name": "티노 리브라멘톤",
+      "real": "티노 리브라멘토",
+      "pos": "RB",
+      "nation": "잉글랜드",
+      "birthYear": 2002,
+      "ovr": 80
+    },
+    {
+      "key": "new-03",
+      "number": 3,
+      "name": "루이스 홀라",
+      "real": "루이스 홀",
+      "pos": "LB",
+      "nation": "잉글랜드",
+      "birthYear": 2004,
+      "ovr": 79
+    },
+    {
+      "key": "new-04",
+      "number": 4,
+      "name": "스벤 보트마르",
+      "real": "스벤 보트만",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2000,
+      "ovr": 81
+    },
+    {
+      "key": "new-05",
+      "number": 5,
+      "name": "파비안 셰언",
+      "real": "파비안 셰어",
+      "pos": "CB",
+      "nation": "스위스",
+      "birthYear": 1991,
+      "ovr": 79
+    },
+    {
+      "key": "new-06",
+      "number": 6,
+      "name": "니코 곤살레손",
+      "real": "니코 곤살레스",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 78
+    },
+    {
+      "key": "new-07",
+      "number": 7,
+      "name": "조엘린토느",
+      "real": "조엘린톤",
+      "pos": "CM",
+      "nation": "브라질",
+      "birthYear": 1996,
+      "ovr": 82
+    },
+    {
+      "key": "new-08",
+      "number": 8,
+      "name": "알라지 밤반",
+      "real": "알라지 밤바",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 69
+    },
+    {
+      "key": "new-09",
+      "number": 9,
+      "name": "요안 위산",
+      "real": "요안 위사",
+      "pos": "ST",
+      "nation": "콩고민주공화국",
+      "birthYear": 1996,
+      "ovr": 82
+    },
+    {
+      "key": "new-10",
+      "number": 10,
+      "name": "윌리엄 오술란",
+      "real": "윌리엄 오술라",
+      "pos": "ST",
+      "nation": "덴마크",
+      "birthYear": 2003,
+      "ovr": 73
+    },
+    {
+      "key": "new-11",
+      "number": 11,
+      "name": "하비 반손",
+      "real": "하비 반스",
+      "pos": "LW",
+      "nation": "잉글랜드",
+      "birthYear": 1997,
+      "ovr": 80
+    },
+    {
+      "key": "new-12",
+      "number": 12,
+      "name": "말리크 티아운",
+      "real": "말리크 티아우",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2001,
+      "ovr": 80
+    },
+    {
+      "key": "new-13",
+      "number": 14,
+      "name": "션 스퇴른",
+      "real": "션 스퇴르",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2008,
+      "ovr": 66
+    },
+    {
+      "key": "new-14",
+      "number": 17,
+      "name": "바주마나 투렌",
+      "real": "바주마나 투레",
+      "pos": "LW",
+      "nation": "코트디부아르",
+      "birthYear": 2006,
+      "ovr": 70
+    },
+    {
+      "key": "new-15",
+      "number": 19,
+      "name": "안토니 엘랑간",
+      "real": "안토니 엘랑가",
+      "pos": "RW",
+      "nation": "스웨덴",
+      "birthYear": 2002,
+      "ovr": 81
+    },
+    {
+      "key": "new-16",
+      "number": 20,
+      "name": "마티아스 페르난데스파르돈",
+      "real": "마티아스 페르난데스파르도",
+      "pos": "LW",
+      "nation": "벨기에",
+      "birthYear": 2005,
+      "ovr": 73
+    },
+    {
+      "key": "new-17",
+      "number": 21,
+      "name": "루카시 호르니체큰",
+      "real": "루카시 호르니체크",
+      "pos": "GK",
+      "nation": "체코",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "new-18",
+      "number": 23,
+      "name": "제이컵 머핀",
+      "real": "제이컵 머피",
+      "pos": "RW",
+      "nation": "잉글랜드",
+      "birthYear": 1995,
+      "ovr": 76
+    },
+    {
+      "key": "new-19",
+      "number": 24,
+      "name": "유언 자우에느",
+      "real": "유언 자우엔",
+      "pos": "GK",
+      "nation": "프랑스",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "new-20",
+      "number": 28,
+      "name": "조 윌로큰",
+      "real": "조 윌록",
+      "pos": "CM",
+      "nation": "잉글랜드",
+      "birthYear": 1999,
+      "ovr": 77
+    },
+    {
+      "key": "new-21",
+      "number": 29,
+      "name": "마크 길레스핀",
+      "real": "마크 길레스피",
+      "pos": "GK",
+      "nation": "잉글랜드",
+      "birthYear": 1992,
+      "ovr": 64
+    },
+    {
+      "key": "new-22",
+      "number": 33,
+      "name": "댄 버느",
+      "real": "댄 번",
+      "pos": "CB",
+      "nation": "잉글랜드",
+      "birthYear": 1992,
+      "ovr": 78
+    },
+    {
+      "key": "new-23",
+      "number": 37,
+      "name": "아마르 데디츠",
+      "real": "아마르 데디치",
+      "pos": "RB",
+      "nation": "보스니아헤르체고비나",
+      "birthYear": 2002,
+      "ovr": 76
+    },
+    {
+      "key": "new-24",
+      "number": 41,
+      "name": "제이컵 램진",
+      "real": "제이컵 램지",
+      "pos": "CAM",
+      "nation": "잉글랜드",
+      "birthYear": 2001,
+      "ovr": 79
+    },
+    {
+      "key": "new-25",
+      "number": 67,
+      "name": "루이스 마일린",
+      "real": "루이스 마일리",
+      "pos": "CM",
+      "nation": "잉글랜드",
+      "birthYear": 2006,
+      "ovr": 73
+    }
+  ]
+}
