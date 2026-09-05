@@ -67,7 +67,7 @@ export function limitedCardsOf(batch: LimitedBatch): PlayerDef[] {
   return PLAYERS.filter((player) => player.limited?.label === batch.label && !player.unreleased)
 }
 
-/** 「9월 8일(월) 00:00」 style, KST. */
+/** 「9월 8일 (화) 14:00」 style, KST. */
 export function formatKst(iso: string): string {
   return new Date(iso).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul', month: 'long', day: 'numeric', weekday: 'short', hour: '2-digit', minute: '2-digit' })
 }
