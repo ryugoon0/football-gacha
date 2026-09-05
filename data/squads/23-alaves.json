@@ -1,0 +1,260 @@
+{
+  "club": "알라베스 아술",
+  "realClub": "데포르티보 알라베스",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Deportivo_Alavés",
+  "pilot": false,
+  "players": [
+    {
+      "key": "ala-01",
+      "number": 1,
+      "name": "안토니오 시베로",
+      "real": "안토니오 시베라",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 1996,
+      "ovr": 76
+    },
+    {
+      "key": "ala-02",
+      "number": 2,
+      "name": "니콜라스 발렌티노",
+      "real": "니콜라스 발렌티니",
+      "pos": "CB",
+      "nation": "아르헨티나",
+      "birthYear": 2001,
+      "ovr": 75
+    },
+    {
+      "key": "ala-03",
+      "number": 3,
+      "name": "유세프 엔리케르",
+      "real": "유세프 엔리케스",
+      "pos": "RB",
+      "nation": "모로코",
+      "birthYear": 2005,
+      "ovr": 71
+    },
+    {
+      "key": "ala-04",
+      "number": 4,
+      "name": "데니스 수아레노",
+      "real": "데니스 수아레스",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1994,
+      "ovr": 76
+    },
+    {
+      "key": "ala-05",
+      "number": 5,
+      "name": "파쿤도 가르세노",
+      "real": "파쿤도 가르세스",
+      "pos": "CB",
+      "nation": "아르헨티나",
+      "birthYear": 1999,
+      "ovr": 75
+    },
+    {
+      "key": "ala-06",
+      "number": 6,
+      "name": "안데르 게바로",
+      "real": "안데르 게바라",
+      "pos": "CDM",
+      "nation": "스페인",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "ala-07",
+      "number": 7,
+      "name": "앙헬 페레노",
+      "real": "앙헬 페레스",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "ala-08",
+      "number": 8,
+      "name": "안토니오 블랑카",
+      "real": "안토니오 블랑코",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 75
+    },
+    {
+      "key": "ala-09",
+      "number": 9,
+      "name": "마리아노 디아노",
+      "real": "마리아노 디아스",
+      "pos": "ST",
+      "nation": "도미니카공화국",
+      "birthYear": 1993,
+      "ovr": 72
+    },
+    {
+      "key": "ala-10",
+      "number": 10,
+      "name": "카를레스 알레뇨",
+      "real": "카를레스 알레냐",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 1998,
+      "ovr": 75
+    },
+    {
+      "key": "ala-11",
+      "number": 11,
+      "name": "토니 마르티네르",
+      "real": "토니 마르티네스",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 1997,
+      "ovr": 76
+    },
+    {
+      "key": "ala-12",
+      "number": 12,
+      "name": "우고 노보안",
+      "real": "우고 노보아",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 71
+    },
+    {
+      "key": "ala-13",
+      "number": 13,
+      "name": "아드리안 로드리게노",
+      "real": "아드리안 로드리게스",
+      "pos": "GK",
+      "nation": "아르헨티나",
+      "birthYear": 2000,
+      "ovr": 68
+    },
+    {
+      "key": "ala-14",
+      "number": 14,
+      "name": "나우엘 테나글리오",
+      "real": "나우엘 테나글리아",
+      "pos": "RB",
+      "nation": "아르헨티나",
+      "birthYear": 1996,
+      "ovr": 74
+    },
+    {
+      "key": "ala-15",
+      "number": 15,
+      "name": "루카스 보옌",
+      "real": "루카스 보예",
+      "pos": "ST",
+      "nation": "아르헨티나",
+      "birthYear": 1996,
+      "ovr": 77
+    },
+    {
+      "key": "ala-16",
+      "number": 16,
+      "name": "빌레 코스킨",
+      "real": "빌레 코스키",
+      "pos": "CB",
+      "nation": "핀란드",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "ala-17",
+      "number": 17,
+      "name": "조니 오톤",
+      "real": "조니 오토",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 1994,
+      "ovr": 74
+    },
+    {
+      "key": "ala-18",
+      "number": 18,
+      "name": "미켈 로드리게르",
+      "real": "미켈 로드리게스",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "ala-19",
+      "number": 19,
+      "name": "파블로 이바네르",
+      "real": "파블로 이바녜스",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1998,
+      "ovr": 73
+    },
+    {
+      "key": "ala-20",
+      "number": 20,
+      "name": "아이토르 마냐노",
+      "real": "아이토르 마냐스",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "ala-21",
+      "number": 21,
+      "name": "압데 레바흐",
+      "real": "압데 레바크",
+      "pos": "RW",
+      "nation": "알제리",
+      "birthYear": 1998,
+      "ovr": 73
+    },
+    {
+      "key": "ala-22",
+      "number": 22,
+      "name": "미겔 로드리게산",
+      "real": "미겔 로드리게스",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "ala-23",
+      "number": 23,
+      "name": "카를로스 프로테소닌",
+      "real": "카를로스 프로테소니",
+      "pos": "CDM",
+      "nation": "우루과이",
+      "birthYear": 1998,
+      "ovr": 71
+    },
+    {
+      "key": "ala-24",
+      "number": 24,
+      "name": "셀루 디알론",
+      "real": "셀루 디알로",
+      "pos": "CM",
+      "nation": "기니",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "ala-25",
+      "number": 31,
+      "name": "그레고이르 시비데르스칸",
+      "real": "그레고이르 시비데르스키",
+      "pos": "GK",
+      "nation": "캐나다",
+      "birthYear": 2005,
+      "ovr": 65
+    }
+  ]
+}

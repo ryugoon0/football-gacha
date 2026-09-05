@@ -1,0 +1,260 @@
+{
+  "club": "바스크 아슬레",
+  "realClub": "아틀레틱 빌바오",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Athletic_Bilbao",
+  "pilot": false,
+  "players": [
+    {
+      "key": "ath-01",
+      "number": 1,
+      "name": "우나이 시몬드",
+      "real": "우나이 시몬",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 1997,
+      "ovr": 85
+    },
+    {
+      "key": "ath-02",
+      "number": 3,
+      "name": "다니 비비앙",
+      "real": "다니 비비안",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 1999,
+      "ovr": 80
+    },
+    {
+      "key": "ath-03",
+      "number": 4,
+      "name": "아이토르 파레데노",
+      "real": "아이토르 파레데스",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 78
+    },
+    {
+      "key": "ath-04",
+      "number": 5,
+      "name": "예라이 알바레노",
+      "real": "예라이 알바레스",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 1995,
+      "ovr": 79
+    },
+    {
+      "key": "ath-05",
+      "number": 6,
+      "name": "베냐트 프라도르",
+      "real": "베냐트 프라도스",
+      "pos": "CDM",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 76
+    },
+    {
+      "key": "ath-06",
+      "number": 7,
+      "name": "알렉스 베렝게로",
+      "real": "알렉스 베렝게르",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 1995,
+      "ovr": 79
+    },
+    {
+      "key": "ath-07",
+      "number": 8,
+      "name": "오이안 산세타",
+      "real": "오이안 산세트",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 83
+    },
+    {
+      "key": "ath-08",
+      "number": 9,
+      "name": "이냐키 윌리엄슨",
+      "real": "이냐키 윌리엄스",
+      "pos": "ST",
+      "nation": "가나",
+      "birthYear": 1994,
+      "ovr": 80
+    },
+    {
+      "key": "ath-09",
+      "number": 10,
+      "name": "니코 윌리엄슨",
+      "real": "니코 윌리엄스",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 87
+    },
+    {
+      "key": "ath-10",
+      "number": 11,
+      "name": "고르카 구루세토",
+      "real": "고르카 구루세타",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 1996,
+      "ovr": 78
+    },
+    {
+      "key": "ath-11",
+      "number": 12,
+      "name": "헤수스 아레손",
+      "real": "헤수스 아레소",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 1999,
+      "ovr": 78
+    },
+    {
+      "key": "ath-12",
+      "number": 13,
+      "name": "알렉스 파디요",
+      "real": "알렉스 파디야",
+      "pos": "GK",
+      "nation": "멕시코",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "ath-13",
+      "number": 14,
+      "name": "에므리크 라포르타",
+      "real": "에므리크 라포르트",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 1994,
+      "ovr": 81
+    },
+    {
+      "key": "ath-14",
+      "number": 15,
+      "name": "우고 린콘드",
+      "real": "우고 린콘",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 71
+    },
+    {
+      "key": "ath-15",
+      "number": 16,
+      "name": "이니고 루이스 데 갈라레토",
+      "real": "이니고 루이스 데 갈라레타",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1993,
+      "ovr": 77
+    },
+    {
+      "key": "ath-16",
+      "number": 17,
+      "name": "유리 베르치첸",
+      "real": "유리 베르치체",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 1990,
+      "ovr": 76
+    },
+    {
+      "key": "ath-17",
+      "number": 18,
+      "name": "미켈 하우레기사른",
+      "real": "미켈 하우레기사르",
+      "pos": "CDM",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 74
+    },
+    {
+      "key": "ath-18",
+      "number": 20,
+      "name": "알레한드로 레곤",
+      "real": "알레한드로 레고",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "ath-19",
+      "number": 21,
+      "name": "마로안 산나딘",
+      "real": "마로안 산나디",
+      "pos": "ST",
+      "nation": "모로코",
+      "birthYear": 2001,
+      "ovr": 75
+    },
+    {
+      "key": "ath-20",
+      "number": 22,
+      "name": "니코 세라논",
+      "real": "니코 세라노",
+      "pos": "RW",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 72
+    },
+    {
+      "key": "ath-21",
+      "number": 23,
+      "name": "로베르트 나바론",
+      "real": "로베르트 나바로",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 73
+    },
+    {
+      "key": "ath-22",
+      "number": 24,
+      "name": "베냐트 헤레나바레노",
+      "real": "베냐트 헤레나바레나",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "ath-23",
+      "number": 25,
+      "name": "알바로 자론",
+      "real": "알바로 자로",
+      "pos": "RW",
+      "nation": "기니비사우",
+      "birthYear": 1999,
+      "ovr": 75
+    },
+    {
+      "key": "ath-24",
+      "number": 28,
+      "name": "페이오 카날레노",
+      "real": "페이오 카날레스",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 2005,
+      "ovr": 72
+    },
+    {
+      "key": "ath-25",
+      "number": 31,
+      "name": "요아네코 루이잔",
+      "real": "요아네코 루이장",
+      "pos": "RB",
+      "nation": "프랑스",
+      "birthYear": 2004,
+      "ovr": 68
+    }
+  ]
+}

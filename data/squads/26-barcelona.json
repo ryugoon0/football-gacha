@@ -1,0 +1,260 @@
+{
+  "club": "카탈루냐 블라우",
+  "realClub": "FC 바르셀로나",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/FC_Barcelona",
+  "pilot": false,
+  "players": [
+    {
+      "key": "fcb-01",
+      "number": 1,
+      "name": "조안 가르시안",
+      "real": "조안 가르시아",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 83
+    },
+    {
+      "key": "fcb-02",
+      "number": 2,
+      "name": "주앙 칸셀로",
+      "real": "주앙 칸셀루",
+      "pos": "RB",
+      "nation": "포르투갈",
+      "birthYear": 1994,
+      "ovr": 80
+    },
+    {
+      "key": "fcb-03",
+      "number": 3,
+      "name": "알레한드로 발덴",
+      "real": "알레한드로 발데",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 82
+    },
+    {
+      "key": "fcb-04",
+      "number": 4,
+      "name": "브리안 파리냐노",
+      "real": "브리안 파리냐스",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2006,
+      "ovr": 66
+    },
+    {
+      "key": "fcb-05",
+      "number": 5,
+      "name": "파우 쿠바르신",
+      "real": "파우 쿠바르시",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2007,
+      "ovr": 85
+    },
+    {
+      "key": "fcb-06",
+      "number": 6,
+      "name": "가빈",
+      "real": "가비",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 84
+    },
+    {
+      "key": "fcb-07",
+      "number": 7,
+      "name": "페르민 로페노",
+      "real": "페르민 로페스",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 84
+    },
+    {
+      "key": "fcb-08",
+      "number": 8,
+      "name": "페드린",
+      "real": "페드리",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 89
+    },
+    {
+      "key": "fcb-09",
+      "number": 9,
+      "name": "가브리엘 제주노",
+      "real": "가브리엘 제주스",
+      "pos": "ST",
+      "nation": "브라질",
+      "birthYear": 1997,
+      "ovr": 81
+    },
+    {
+      "key": "fcb-10",
+      "number": 10,
+      "name": "라민 야멀",
+      "real": "라민 야말",
+      "pos": "RW",
+      "nation": "스페인",
+      "birthYear": 2007,
+      "ovr": 91
+    },
+    {
+      "key": "fcb-11",
+      "number": 11,
+      "name": "하피뇨",
+      "real": "하피냐",
+      "pos": "LW",
+      "nation": "브라질",
+      "birthYear": 1996,
+      "ovr": 88
+    },
+    {
+      "key": "fcb-12",
+      "number": 12,
+      "name": "샤비 에스파르타",
+      "real": "샤비 에스파르트",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 2007,
+      "ovr": 65
+    },
+    {
+      "key": "fcb-13",
+      "number": 13,
+      "name": "보이치에흐 슈쳉스노",
+      "real": "보이치에흐 슈쳉스니",
+      "pos": "GK",
+      "nation": "폴란드",
+      "birthYear": 1990,
+      "ovr": 78
+    },
+    {
+      "key": "fcb-14",
+      "number": 14,
+      "name": "카림 아데예민",
+      "real": "카림 아데예미",
+      "pos": "LW",
+      "nation": "독일",
+      "birthYear": 2002,
+      "ovr": 83
+    },
+    {
+      "key": "fcb-15",
+      "number": 15,
+      "name": "안드레아스 크리스텐센드",
+      "real": "안드레아스 크리스텐센",
+      "pos": "CB",
+      "nation": "덴마크",
+      "birthYear": 1996,
+      "ovr": 78
+    },
+    {
+      "key": "fcb-16",
+      "number": 16,
+      "name": "로드린",
+      "real": "로드리",
+      "pos": "CDM",
+      "nation": "스페인",
+      "birthYear": 1996,
+      "ovr": 87
+    },
+    {
+      "key": "fcb-17",
+      "number": 17,
+      "name": "앤서니 고돈",
+      "real": "앤서니 고든",
+      "pos": "LW",
+      "nation": "잉글랜드",
+      "birthYear": 2001,
+      "ovr": 83
+    },
+    {
+      "key": "fcb-18",
+      "number": 18,
+      "name": "제라르드 마르티노",
+      "real": "제라르드 마르틴",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 75
+    },
+    {
+      "key": "fcb-19",
+      "number": 19,
+      "name": "루니 바르그진",
+      "real": "루니 바르그지",
+      "pos": "RW",
+      "nation": "스웨덴",
+      "birthYear": 2005,
+      "ovr": 75
+    },
+    {
+      "key": "fcb-20",
+      "number": 20,
+      "name": "다니 올모르",
+      "real": "다니 올모",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 1998,
+      "ovr": 84
+    },
+    {
+      "key": "fcb-21",
+      "number": 21,
+      "name": "프렌키 더 요른",
+      "real": "프렌키 더 용",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 1997,
+      "ovr": 85
+    },
+    {
+      "key": "fcb-22",
+      "number": 22,
+      "name": "마르크 베르낼",
+      "real": "마르크 베르날",
+      "pos": "CDM",
+      "nation": "스페인",
+      "birthYear": 2007,
+      "ovr": 72
+    },
+    {
+      "key": "fcb-23",
+      "number": 23,
+      "name": "쥘 쿤덴",
+      "real": "쥘 쿤데",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 1998,
+      "ovr": 85
+    },
+    {
+      "key": "fcb-24",
+      "number": 24,
+      "name": "에리크 가르시안",
+      "real": "에리크 가르시아",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 78
+    },
+    {
+      "key": "fcb-25",
+      "number": 25,
+      "name": "도미니크 리바코비츠",
+      "real": "도미니크 리바코비치",
+      "pos": "GK",
+      "nation": "크로아티아",
+      "birthYear": 1995,
+      "ovr": 76
+    }
+  ]
+}

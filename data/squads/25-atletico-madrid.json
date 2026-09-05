@@ -1,0 +1,250 @@
+{
+  "club": "마드리드 로히",
+  "realClub": "아틀레티코 마드리드",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Atlético_Madrid",
+  "pilot": false,
+  "players": [
+    {
+      "key": "atm-01",
+      "number": 1,
+      "name": "후안 무손",
+      "real": "후안 무소",
+      "pos": "GK",
+      "nation": "아르헨티나",
+      "birthYear": 1994,
+      "ovr": 80
+    },
+    {
+      "key": "atm-02",
+      "number": 3,
+      "name": "오베드 바르가노",
+      "real": "오베드 바르가스",
+      "pos": "CDM",
+      "nation": "멕시코",
+      "birthYear": 2005,
+      "ovr": 72
+    },
+    {
+      "key": "atm-03",
+      "number": 4,
+      "name": "로드리고 멘도산",
+      "real": "로드리고 멘도사",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2005,
+      "ovr": 73
+    },
+    {
+      "key": "atm-04",
+      "number": 5,
+      "name": "자니 카르도손",
+      "real": "자니 카르도소",
+      "pos": "CDM",
+      "nation": "미국",
+      "birthYear": 2001,
+      "ovr": 77
+    },
+    {
+      "key": "atm-05",
+      "number": 6,
+      "name": "코켄",
+      "real": "코케",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1992,
+      "ovr": 80
+    },
+    {
+      "key": "atm-06",
+      "number": 7,
+      "name": "이간인",
+      "real": "이강인",
+      "pos": "CAM",
+      "nation": "대한민국",
+      "birthYear": 2001,
+      "ovr": 83
+    },
+    {
+      "key": "atm-07",
+      "number": 8,
+      "name": "파블로 바리오노",
+      "real": "파블로 바리오스",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 81
+    },
+    {
+      "key": "atm-08",
+      "number": 9,
+      "name": "알렉산데르 쇠를로타",
+      "real": "알렉산데르 쇠를로트",
+      "pos": "ST",
+      "nation": "노르웨이",
+      "birthYear": 1995,
+      "ovr": 82
+    },
+    {
+      "key": "atm-09",
+      "number": 10,
+      "name": "알렉스 바에노",
+      "real": "알렉스 바에나",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 84
+    },
+    {
+      "key": "atm-10",
+      "number": 11,
+      "name": "아데몰라 루크몬",
+      "real": "아데몰라 루크만",
+      "pos": "RW",
+      "nation": "나이지리아",
+      "birthYear": 1997,
+      "ovr": 84
+    },
+    {
+      "key": "atm-11",
+      "number": 13,
+      "name": "얀 오블라킨",
+      "real": "얀 오블라크",
+      "pos": "GK",
+      "nation": "슬로베니아",
+      "birthYear": 1993,
+      "ovr": 86
+    },
+    {
+      "key": "atm-12",
+      "number": 14,
+      "name": "마르코스 요렌토",
+      "real": "마르코스 요렌테",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1995,
+      "ovr": 80
+    },
+    {
+      "key": "atm-13",
+      "number": 15,
+      "name": "조너선 데이비스",
+      "real": "조너선 데이비드",
+      "pos": "ST",
+      "nation": "캐나다",
+      "birthYear": 2000,
+      "ovr": 83
+    },
+    {
+      "key": "atm-14",
+      "number": 16,
+      "name": "아르나우 오르티노",
+      "real": "아르나우 오르티스",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "atm-15",
+      "number": 17,
+      "name": "다비드 한츠콘",
+      "real": "다비드 한츠코",
+      "pos": "CB",
+      "nation": "슬로바키아",
+      "birthYear": 1997,
+      "ovr": 84
+    },
+    {
+      "key": "atm-16",
+      "number": 18,
+      "name": "마르크 푸비요",
+      "real": "마르크 푸비야",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 76
+    },
+    {
+      "key": "atm-17",
+      "number": 19,
+      "name": "훌리안 알바레노",
+      "real": "훌리안 알바레스",
+      "pos": "ST",
+      "nation": "아르헨티나",
+      "birthYear": 2000,
+      "ovr": 88
+    },
+    {
+      "key": "atm-18",
+      "number": 20,
+      "name": "줄리아노 시메오나",
+      "real": "줄리아노 시메오네",
+      "pos": "RW",
+      "nation": "아르헨티나",
+      "birthYear": 2002,
+      "ovr": 80
+    },
+    {
+      "key": "atm-19",
+      "number": 21,
+      "name": "크리스티안 로메론",
+      "real": "크리스티안 로메로",
+      "pos": "CB",
+      "nation": "아르헨티나",
+      "birthYear": 1998,
+      "ovr": 85
+    },
+    {
+      "key": "atm-20",
+      "number": 22,
+      "name": "알레한드로 그리말두",
+      "real": "알레한드로 그리말도",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 1995,
+      "ovr": 83
+    },
+    {
+      "key": "atm-21",
+      "number": 23,
+      "name": "모르텐 율마르",
+      "real": "모르텐 율만",
+      "pos": "CDM",
+      "nation": "덴마크",
+      "birthYear": 1999,
+      "ovr": 81
+    },
+    {
+      "key": "atm-22",
+      "number": 24,
+      "name": "로뱅 르 노르만드",
+      "real": "로뱅 르 노르망",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 1996,
+      "ovr": 83
+    },
+    {
+      "key": "atm-23",
+      "number": 25,
+      "name": "살비 에스키베르",
+      "real": "살비 에스키벨",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 2005,
+      "ovr": 64
+    },
+    {
+      "key": "atm-24",
+      "number": 30,
+      "name": "다니 마르티네노",
+      "real": "다니 마르티네스",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 67
+    }
+  ]
+}

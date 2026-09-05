@@ -1,0 +1,260 @@
+{
+  "club": "비고 셀레스테",
+  "realClub": "셀타 비고",
+  "league": "이베리아 리가",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/RC_Celta_de_Vigo",
+  "pilot": false,
+  "players": [
+    {
+      "key": "cel-01",
+      "number": 1,
+      "name": "알타이 바이은드론",
+      "real": "알타이 바이은드르",
+      "pos": "GK",
+      "nation": "튀르키예",
+      "birthYear": 1998,
+      "ovr": 77
+    },
+    {
+      "key": "cel-02",
+      "number": 2,
+      "name": "칼 스타르펠타",
+      "real": "칼 스타르펠트",
+      "pos": "CB",
+      "nation": "스웨덴",
+      "birthYear": 1995,
+      "ovr": 76
+    },
+    {
+      "key": "cel-03",
+      "number": 3,
+      "name": "마르코스 알론사",
+      "real": "마르코스 알론소",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 1990,
+      "ovr": 74
+    },
+    {
+      "key": "cel-04",
+      "number": 4,
+      "name": "압둘라예 파옌",
+      "real": "압둘라예 파예",
+      "pos": "CB",
+      "nation": "세네갈",
+      "birthYear": 2004,
+      "ovr": 72
+    },
+    {
+      "key": "cel-05",
+      "number": 5,
+      "name": "세르히오 카레이로",
+      "real": "세르히오 카레이라",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 74
+    },
+    {
+      "key": "cel-06",
+      "number": 6,
+      "name": "일라시 모리반",
+      "real": "일라시 모리바",
+      "pos": "CDM",
+      "nation": "기니",
+      "birthYear": 2003,
+      "ovr": 74
+    },
+    {
+      "key": "cel-07",
+      "number": 7,
+      "name": "보르하 이글레시아노",
+      "real": "보르하 이글레시아스",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 1993,
+      "ovr": 78
+    },
+    {
+      "key": "cel-08",
+      "number": 8,
+      "name": "미겔 로마르",
+      "real": "미겔 로만",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 73
+    },
+    {
+      "key": "cel-09",
+      "number": 9,
+      "name": "페란 후트글란",
+      "real": "페란 후트글라",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 1999,
+      "ovr": 78
+    },
+    {
+      "key": "cel-10",
+      "number": 10,
+      "name": "이아고 아스파노",
+      "real": "이아고 아스파스",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 1987,
+      "ovr": 80
+    },
+    {
+      "key": "cel-11",
+      "number": 11,
+      "name": "파블로 두란드",
+      "real": "파블로 두란",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 73
+    },
+    {
+      "key": "cel-12",
+      "number": 13,
+      "name": "이오누츠 라둔",
+      "real": "이오누츠 라두",
+      "pos": "GK",
+      "nation": "루마니아",
+      "birthYear": 1997,
+      "ovr": 74
+    },
+    {
+      "key": "cel-13",
+      "number": 14,
+      "name": "알레익스 페바노",
+      "real": "알레익스 페바스",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1996,
+      "ovr": 73
+    },
+    {
+      "key": "cel-14",
+      "number": 15,
+      "name": "알바로 누녜노",
+      "real": "알바로 누녜스",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 73
+    },
+    {
+      "key": "cel-15",
+      "number": 16,
+      "name": "우고 곤살레노",
+      "real": "우고 곤살레스",
+      "pos": "RW",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "cel-16",
+      "number": 17,
+      "name": "하비 루에단",
+      "real": "하비 루에다",
+      "pos": "RB",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 72
+    },
+    {
+      "key": "cel-17",
+      "number": 18,
+      "name": "요엘 라곤",
+      "real": "요엘 라고",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "cel-18",
+      "number": 19,
+      "name": "윌리오트 스베드베린",
+      "real": "윌리오트 스베드베리",
+      "pos": "LW",
+      "nation": "스웨덴",
+      "birthYear": 2004,
+      "ovr": 75
+    },
+    {
+      "key": "cel-19",
+      "number": 20,
+      "name": "하비 로드리게노",
+      "real": "하비 로드리게스",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "cel-20",
+      "number": 21,
+      "name": "세바스티안 카세레노",
+      "real": "세바스티안 카세레스",
+      "pos": "CB",
+      "nation": "우루과이",
+      "birthYear": 1999,
+      "ovr": 77
+    },
+    {
+      "key": "cel-21",
+      "number": 22,
+      "name": "하비 갈란드",
+      "real": "하비 갈란",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 1994,
+      "ovr": 76
+    },
+    {
+      "key": "cel-22",
+      "number": 23,
+      "name": "우고 알바레노",
+      "real": "우고 알바레스",
+      "pos": "RW",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 74
+    },
+    {
+      "key": "cel-23",
+      "number": 24,
+      "name": "쿠하입 드리우에신",
+      "real": "쿠하입 드리우에시",
+      "pos": "LW",
+      "nation": "모로코",
+      "birthYear": 2002,
+      "ovr": 73
+    },
+    {
+      "key": "cel-24",
+      "number": 25,
+      "name": "이반 비야른",
+      "real": "이반 비야르",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "cel-25",
+      "number": 39,
+      "name": "존스 엘압델라윈",
+      "real": "존스 엘압델라위",
+      "pos": "LW",
+      "nation": "모로코",
+      "birthYear": 2006,
+      "ovr": 67
+    }
+  ]
+}
