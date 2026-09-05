@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { conditionFactor, isInjured } from '../lib/condition'
 import { effectiveOvr } from '../lib/players'
 import { RARITY_STYLES } from '../lib/rarity'
@@ -9,6 +10,7 @@ import type { Card, PlayerDef, Position } from '../lib/types'
 import HiddenStatsView from './HiddenStatsView'
 import RealHintView from './RealHintView'
 import PlayerCard from './PlayerCard'
+import PositionMap from './PositionMap'
 import StatBreakdown from './StatBreakdown'
 
 /**
@@ -34,6 +36,7 @@ export default function PlayerStatsModal({
   const style = RARITY_STYLES[player.rarity]
   const traits = traitsOf(player)
   const injured = isInjured(card)
+  const [tab, setTab] = useState<'stats' | 'positions'>('stats')
 
   return (
     <div
@@ -107,7 +110,32 @@ export default function PlayerStatsModal({
           </div>
         </div>
 
-        <StatBreakdown player={player} level={card.level} className="mt-3" />
+        <div className="mt-3 flex gap-1 border-b border-white/10">
+          {(
+            [
+              ['stats', '능력치'],
+              ['positions', '포지션'],
+            ] as const
+          ).map(([key, label]) => (
+            <button
+              key={key}
+              onClick={() => setTab(key)}
+              className={`-mb-px border-b-2 px-3 py-1.5 text-xs font-bold transition ${
+                tab === key ? 'border-emerald-400 text-emerald-300' : 'border-transparent text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {tab === 'stats' ? (
+          <StatBreakdown player={player} level={card.level} className="mt-3" />
+        ) : (
+          <div className="mt-3">
+            <PositionMap player={player} level={card.level} condition={card.condition} />
+          </div>
+        )}
 
         <HiddenStatsView hidden={player.hidden} className="mt-3" />
         <RealHintView name={player.name} club={player.club} nation={player.nation} className="mt-2" />

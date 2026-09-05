@@ -27,6 +27,7 @@ import { TRAITS, traitsOf } from '../lib/traits'
 import HiddenStatsView from './HiddenStatsView'
 import RealHintView from './RealHintView'
 import StatBreakdown from './StatBreakdown'
+import PositionMap from './PositionMap'
 import type { Card, PlayerDef, Stats } from '../lib/types'
 import PlayerCard from './PlayerCard'
 
@@ -53,6 +54,7 @@ export default function PlayerDetailModal({
   onSell: () => void
 }) {
   const [showSubs, setShowSubs] = useState(false)
+  const [showMap, setShowMap] = useState(false)
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -306,6 +308,17 @@ export default function PlayerDetailModal({
                 이 외의 자리에 넣으면 능력치가 약 {Math.round((1 - tune('outOfPositionFactor')) * 100)}%
                 깎입니다.
               </p>
+              <button
+                onClick={() => setShowMap((value) => !value)}
+                className="mt-2 w-full rounded-lg bg-white/5 py-1.5 text-xs font-bold text-slate-300 hover:bg-white/10"
+              >
+                {showMap ? '전술판 접기' : '전술판에서 모든 자리 점수 보기'}
+              </button>
+              {showMap && (
+                <div className="mt-3">
+                  <PositionMap player={player} level={card.level} condition={card.condition} />
+                </div>
+              )}
             </section>
 
             <section className="rounded-xl bg-white/5 p-4">
