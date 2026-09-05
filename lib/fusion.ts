@@ -1,4 +1,5 @@
-import { PLAYERS_BY_RARITY, getPlayer } from './players'
+import { getPlayer } from './players'
+import { releasedPoolFor } from './gacha'
 import { KNOBS, tune } from './tuning'
 import { RARITIES } from './rarity'
 import type { Card, PlayerDef, Rarity, Squad } from './types'
@@ -64,7 +65,7 @@ export function checkFusion(
     return { ok: false, reason: '같은 등급끼리만 합성할 수 있습니다.' }
   }
   const to = nextRarity(from)
-  if (!to) return { ok: false, reason: '레전드 등급은 더 올라갈 곳이 없습니다.', from }
+  if (!to) return { ok: false, reason: '월드 등급은 더 올라갈 곳이 없습니다.', from }
   const size = fusionSizeFor(from)
   if (uids.length !== size) {
     return { ok: false, reason: `같은 등급 카드 ${size}장을 선택하세요 (지금 ${uids.length}장).`, from, to }
@@ -76,6 +77,6 @@ export function checkFusion(
 }
 
 export function fusionResult(to: Rarity, rng: () => number = Math.random): PlayerDef {
-  const pool = PLAYERS_BY_RARITY[to]
+  const pool = releasedPoolFor(to)
   return pool[Math.floor(rng() * pool.length)]
 }

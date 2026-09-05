@@ -51,6 +51,7 @@ export default function PlayerStatsModal({
           <div className="min-w-0">
             <h3 className="truncate text-base font-black text-white">{player.name}</h3>
             <p className="truncate text-[11px] text-slate-400">
+              {player.season && <span className="mr-1 rounded bg-white/10 px-1 font-bold text-slate-200">{player.season}</span>}
               {player.club} · {player.league} · {player.nation}
             </p>
           </div>

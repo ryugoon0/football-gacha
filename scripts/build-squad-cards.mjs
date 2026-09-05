@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync, writeFileSync } from 'fs'
+import { existsSync, readdirSync, readFileSync, writeFileSync } from 'fs'
 import { join } from 'path'
 
 /**
@@ -67,10 +67,40 @@ for (const file of files) {
     const extras = { squad: true, unreleased: squad.pilot === true }
     if (p.stats) extras.stats = p.stats
     if (p.hidden) extras.hidden = p.hidden
-    rows[rarityFor(p.ovr)].push([p.name, p.pos, p.ovr, squad.club, p.nation, extras])
+    // The season the file describes ("2026-27 (2026-09-05 기준)" → "2026-27").
+    const season = typeof squad.season === 'string' ? squad.season.split(' ')[0] : undefined
+    if (season) extras.season = season
+    // A current player good enough for the World list stays in it (ids never
+    // move) but plays as 플래티넘: the World grade is for past-season legends
+    // (docs/CARD_GRADES_PLAN.md).
+    const list = rarityFor(p.ovr)
+    if (list === 'World') extras.rarity = 'Live'
+    rows[list].push([p.name, p.pos, p.ovr, squad.club, p.nation, extras])
     realHints[p.name] = `${p.real} (${squad.realClub}${p.number ? ` #${p.number}` : ''})`
     portraits[p.name] = p.key
     meta[p.key] = { name: p.name, nation: p.nation, birthYear: p.birthYear, pos: p.pos, club: squad.club }
+  }
+}
+
+// 월드 카드 — 과거 시즌 레전드 (data/world/*.json). 한 파일이 리그 하나; 항목마다 당시 가명
+// 클럽·시즌을 갖는다. World 목록에 들어가고 등급도 World 그대로다. 파일 순서·항목 순서가 id 라
+// 새 카드는 파일 끝(또는 새 파일)에만 붙인다.
+const WORLD_DIR = 'data/world'
+const worldFiles = existsSync(WORLD_DIR) ? readdirSync(WORLD_DIR).filter((f) => f.endsWith('.json')).sort() : []
+for (const file of worldFiles) {
+  const set = JSON.parse(readFileSync(join(WORLD_DIR, file), 'utf8'))
+  if (!set.league) throw new Error(`${file}: league 필드가 필요합니다`)
+  for (const p of set.players) {
+    if (realHints[p.name] || takenNames.has(p.name)) throw new Error(`가명 중복: ${p.name} (${file})`)
+    if (!p.key || !p.club || !p.season) throw new Error(`${file}: ${p.name} 에 key·club·season 이 필요합니다`)
+    if (!clubs.some((c) => c.name === p.club)) clubs.push({ name: p.club, league: set.league })
+    const extras = { squad: true, rarity: 'World', season: p.season, unreleased: set.pilot === true }
+    if (p.stats) extras.stats = p.stats
+    if (p.hidden) extras.hidden = p.hidden
+    rows.World.push([p.name, p.pos, p.ovr, p.club, p.nation, extras])
+    realHints[p.name] = `${p.real} (${p.realClub} ${p.season})`
+    portraits[p.name] = p.key
+    meta[p.key] = { name: p.name, nation: p.nation, birthYear: p.birthYear, pos: p.pos, club: p.club }
   }
 }
 

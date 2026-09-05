@@ -5,9 +5,11 @@ import { RARITIES } from '../lib/rarity'
 import { seededRandom } from '../lib/players'
 
 describe('roster', () => {
-  it('has players of every rarity and a keeper in each', () => {
+  it('has players of every regular rarity and a keeper in each', () => {
     for (const rarity of RARITIES) {
       const pool = PLAYERS_BY_RARITY[rarity]
+      // 월드 is reserved for past-season legends and is empty until the first batch is released.
+      if (rarity === 'World' && pool.length === 0) continue
       expect(pool.length).toBeGreaterThan(0)
       expect(pool.some((player) => player.position === 'GK')).toBe(true)
     }
@@ -196,7 +198,9 @@ describe('shards', () => {
   it('exchanges for the rarity that was paid for', async () => {
     const { SHARD_OFFERS, exchangeResult } = await import('../lib/shards')
     for (const offer of SHARD_OFFERS) {
-      expect(exchangeResult(offer.rarity, seededRandom(3)).rarity).toBe(offer.rarity)
+      // A grade with nothing released yet (월드 before the legends) hands out the grade below.
+      const expected = PLAYERS_BY_RARITY[offer.rarity].length > 0 ? offer.rarity : 'Live'
+      expect(exchangeResult(offer.rarity, seededRandom(3)).rarity).toBe(expected)
     }
   })
 })

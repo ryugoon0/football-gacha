@@ -76,6 +76,8 @@ export interface PlayerDef {
   unreleased?: boolean
   /** Built from a real squad file (data/squads). */
   fromSquad?: boolean
+  /** The season this card stands for — "2026-27" for a current squad, "2003-04" for a 월드 legend. */
+  season?: string
   /**
    * An older generated card whose club now has a real squad: out of the packs,
    * and owned copies migrate to a squad card on load (lib/rosterMigration.ts).

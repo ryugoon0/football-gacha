@@ -142,8 +142,23 @@ export function rollRarity(
   return rolled
 }
 
+/**
+ * The cards a grade can hand out. A grade with nothing released yet (월드
+ * before the first legends land) falls back to the grade below, so a roll
+ * never comes up empty.
+ */
+export function releasedPoolFor(rarity: Rarity): PlayerDef[] {
+  let index = rarityIndex(rarity)
+  while (index >= 0) {
+    const pool = PLAYERS_BY_RARITY[RARITIES[index]]
+    if (pool && pool.length > 0) return pool
+    index -= 1
+  }
+  return PLAYERS
+}
+
 function poolFor(rarity: Rarity, group?: PositionGroup | null): PlayerDef[] {
-  const pool = PLAYERS_BY_RARITY[rarity]
+  const pool = releasedPoolFor(rarity)
   if (!group) return pool
   const filtered = pool.filter((player) => POSITION_GROUP[player.position] === group)
   return filtered.length > 0 ? filtered : pool

@@ -254,7 +254,7 @@ export const KNOBS = {
     group: '비용',
     integer: true,
   },
-  // 스카우트 확률 (%) — 등급별로 실버·골드·라이브·레전드만 두고 일반은 100에서 나머지를
+  // 스카우트 확률 (%) — 등급별로 실버·골드·플래티넘·월드만 두고 일반은 100에서 나머지를
   // 뺀 값이 된다. 그래서 어떻게 움직여도 합이 100이다. 뽑기 서버(draw-pack)도 같은
   // game_config를 읽어 같은 표로 뽑는다.
   basicRateRare: {
@@ -276,7 +276,7 @@ export const KNOBS = {
     group: '스카우트',
   },
   basicRateLive: {
-    label: '일반 스카우트 · 라이브 확률(%)',
+    label: '일반 스카우트 · 플래티넘 확률(%)',
     note: '한 장을 뽑을 때 이 등급이 나올 확률(%)입니다.',
     default: 0.4,
     min: 0,
@@ -285,7 +285,7 @@ export const KNOBS = {
     group: '스카우트',
   },
   basicRateLegend: {
-    label: '일반 스카우트 · 레전드 확률(%)',
+    label: '일반 스카우트 · 월드 확률(%)',
     note: '한 장을 뽑을 때 이 등급이 나올 확률(%)입니다.',
     default: 0.15,
     min: 0,
@@ -312,7 +312,7 @@ export const KNOBS = {
     group: '스카우트',
   },
   premiumRateLive: {
-    label: '프리미엄 스카우트 · 라이브 확률(%)',
+    label: '프리미엄 스카우트 · 플래티넘 확률(%)',
     note: '한 장을 뽑을 때 이 등급이 나올 확률(%)입니다.',
     default: 7,
     min: 0,
@@ -321,7 +321,7 @@ export const KNOBS = {
     group: '스카우트',
   },
   premiumRateLegend: {
-    label: '프리미엄 스카우트 · 레전드 확률(%)',
+    label: '프리미엄 스카우트 · 월드 확률(%)',
     note: '한 장을 뽑을 때 이 등급이 나올 확률(%)입니다.',
     default: 3,
     min: 0,
@@ -352,7 +352,7 @@ export const KNOBS = {
     integer: true,
   },
   fusionSizeGold: {
-    label: '합성 장수 · 골드 → 라이브',
+    label: '합성 장수 · 골드 → 플래티넘',
     note: '이 등급 카드 몇 장으로 한 단계 위 카드 1장을 만들지.',
     default: 3,
     min: 2,
@@ -362,7 +362,7 @@ export const KNOBS = {
     integer: true,
   },
   fusionSizeLive: {
-    label: '합성 장수 · 라이브 → 레전드',
+    label: '합성 장수 · 플래티넘 → 월드',
     note: '이 등급 카드 몇 장으로 한 단계 위 카드 1장을 만들지.',
     default: 3,
     min: 2,

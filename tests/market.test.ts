@@ -1,12 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import { BOTTOM_DIVISION } from '../lib/league'
 import { MARKET_SIZE, dailyMarket, rollListings, transferPrice } from '../lib/market'
+import { releasedPoolFor } from '../lib/gacha'
 import { PLAYERS_BY_RARITY, getPlayer, seededRandom } from '../lib/players'
 
 describe('transfer prices', () => {
   it('charges more for better players', () => {
     const normal = PLAYERS_BY_RARITY.Normal[0]
-    const world = PLAYERS_BY_RARITY.World[0]
+    // The top released grade — 월드 once legends exist, 플래티넘 until then.
+    const world = releasedPoolFor('World')[0]
     expect(transferPrice(world)).toBeGreaterThan(transferPrice(normal) * 5)
     expect(transferPrice(normal, 5)).toBeGreaterThan(transferPrice(normal, 1))
   })

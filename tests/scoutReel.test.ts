@@ -3,7 +3,8 @@ import { PLAYERS_BY_RARITY } from '../lib/players'
 import { seededRandom } from '../lib/random'
 import { REEL_SIZE, isGoldOrBetter, isHighRarity, planReel } from '../lib/scoutReel'
 
-const pick = (rarity: keyof typeof PLAYERS_BY_RARITY) => PLAYERS_BY_RARITY[rarity][0]
+// 월드 has no released cards until the first legends land; the reel treats it like 플래티넘 then.
+const pick = (rarity: keyof typeof PLAYERS_BY_RARITY) => (PLAYERS_BY_RARITY[rarity] ?? PLAYERS_BY_RARITY.Live)[0] ?? PLAYERS_BY_RARITY.Live[0]
 
 describe('premium scout reel', () => {
   it('seats the result in a seven-card strip with no repeats', () => {

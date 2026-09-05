@@ -116,7 +116,7 @@ describe('auto fill', () => {
 
   it('fills every slot with a different card and prefers stronger players', () => {
     const state = initialState()
-    const world = PLAYERS_BY_RARITY.World[0]
+    const world = (PLAYERS_BY_RARITY.World[0] ?? PLAYERS_BY_RARITY.Live[0])!
     const cards: Card[] = [
       ...state.cards,
       { uid: 'star', playerId: world.id, level: 5, limit: 6, condition: 100, injuredFor: 0, exp: 0 },

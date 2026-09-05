@@ -262,6 +262,15 @@ export interface RosterExtras {
   unreleased?: boolean
   /** A card built from a real squad (data/squads) — never retired by REPLACED_CLUBS. */
   squad?: boolean
+  /**
+   * The grade the card plays at when it differs from the list it sits in. A
+   * card's id is its place in a rarity list and cannot move, so a current
+   * squad player good enough for the World list is kept there but plays as
+   * 플래티넘 — the World grade belongs to past-season legends.
+   */
+  rarity?: Rarity
+  /** Season label shown on the card ("2026-27", "2003-04"). */
+  season?: string
 }
 
 export type RosterRow = [
@@ -404,8 +413,12 @@ for (const rarity of Object.keys(ROSTER) as Rarity[]) {
 export function buildPlayer(id: string, fix: PlayerOverride = PLAYER_OVERRIDES[id] ?? {}): PlayerDef | null {
   const entry = ROW_BY_ID[id]
   if (!entry) return null
-  const { rarity, row } = entry
+  const { rarity: listRarity, row } = entry
   const [name, position, ovr, clubName, nation, extras] = row
+  // The World grade is for past-season legends only (data/world, which set
+  // extras.rarity explicitly). Anything else that sits in the World list —
+  // hand-written and generated stars of today — plays as 플래티넘.
+  const rarity = extras?.rarity ?? (listRarity === 'World' ? 'Live' : listRarity)
   // A roster row may pin values, and a hand correction may override those
   // again — the correction is the last word because it is the one a person
   // made on purpose after seeing the card.
@@ -436,6 +449,7 @@ export function buildPlayer(id: string, fix: PlayerOverride = PLAYER_OVERRIDES[i
     unreleased: extras?.unreleased === true || retired ? true : undefined,
     fromSquad: extras?.squad ? true : undefined,
     retired: retired ? true : undefined,
+    season: extras?.season,
   }
 }
 
@@ -457,12 +471,14 @@ export const PLAYERS_BY_ID: Record<string, PlayerDef> = PLAYERS.reduce(
 
 // The pools packs, the market, fusion and shards draw from — an unreleased
 // card is in PLAYERS (so it can be viewed, edited and owned) but not here.
+// Every grade has an entry even when nothing is released in it yet (월드 until
+// the first legends land), so callers can index without a guard.
 export const PLAYERS_BY_RARITY: Record<Rarity, PlayerDef[]> = PLAYERS.reduce(
   (map, player) => {
-    if (!player.unreleased) (map[player.rarity] ||= []).push(player)
+    if (!player.unreleased) map[player.rarity].push(player)
     return map
   },
-  {} as Record<Rarity, PlayerDef[]>,
+  { Normal: [], Rare: [], Legend: [], Live: [], World: [] } as Record<Rarity, PlayerDef[]>,
 )
 
 export function getPlayer(id: string): PlayerDef | undefined {

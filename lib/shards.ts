@@ -1,4 +1,4 @@
-import { PLAYERS_BY_RARITY } from './players'
+import { releasedPoolFor } from './gacha'
 import { RARITY_STYLES } from './rarity'
 import type { Card, PlayerDef, Rarity } from './types'
 import { getPlayer } from './players'
@@ -105,6 +105,7 @@ export function shardOffers(): ShardOffer[] {
 }
 
 export function exchangeResult(rarity: Rarity, rng: () => number = Math.random): PlayerDef {
-  const pool = PLAYERS_BY_RARITY[rarity]
+  // A grade with nothing released yet hands out the grade below (lib/gacha.ts releasedPoolFor).
+  const pool = releasedPoolFor(rarity)
   return pool[Math.floor(rng() * pool.length)]
 }

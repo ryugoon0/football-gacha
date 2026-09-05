@@ -4,8 +4,10 @@ import type { Rarity } from './types'
 /**
  * The type name and the label a player sees no longer match: an earlier
  * rename swapped only the *display* labels below, so the 'Legend' type shows
- * as 골드 (was 월드 until 2026-09-05) and the 'World' type shows as 레전드 (the
- * actual top tier). The ladder a player sees is 일반 · 실버 · 골드 · 라이브 · 레전드. Renaming
+ * as 골드, the 'Live' type as 플래티넘 and the 'World' type as 월드 (the actual
+ * top tier: past-season legends, docs/CARD_GRADES_PLAN.md). The ladder a player
+ * sees is 일반 · 실버 · 골드 · 플래티넘 · 월드; 「라이브」 is reserved for the
+ * time-limited card kind still to come. Renaming
  * the type itself would touch save data already written under these keys
  * (e.g. GameState.pulls.byRarity) and needs a migration, so it stays as-is —
  * read RARITY_STYLES[x].label, not the type name, for what a player sees.
@@ -73,7 +75,7 @@ export const RARITY_STYLES: Record<Rarity, RarityStyle> = {
     trainCost: 700,
   },
   Live: {
-    label: '라이브',
+    label: '플래티넘',
     face: 'from-rose-300 via-red-400 to-rose-700',
     border: 'border-rose-900',
     ink: 'text-rose-50',
@@ -83,7 +85,7 @@ export const RARITY_STYLES: Record<Rarity, RarityStyle> = {
     trainCost: 1000,
   },
   World: {
-    label: '레전드',
+    label: '월드',
     face: 'from-emerald-200 via-teal-300 to-emerald-600',
     border: 'border-emerald-900',
     ink: 'text-emerald-950',
