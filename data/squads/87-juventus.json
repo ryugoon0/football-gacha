@@ -1,0 +1,290 @@
+{
+  "club": "토리노 비앙코네로",
+  "realClub": "유벤투스 FC",
+  "league": "아주로 세리에",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Juventus_FC",
+  "pilot": false,
+  "players": [
+    {
+      "key": "juv-01",
+      "number": 1,
+      "name": "카밀 그라바란",
+      "real": "카밀 그라바라",
+      "pos": "GK",
+      "nation": "폴란드",
+      "birthYear": 1999,
+      "ovr": 78
+    },
+    {
+      "key": "juv-02",
+      "number": 2,
+      "name": "제키 첼리큰",
+      "real": "제키 첼릭",
+      "pos": "RB",
+      "nation": "튀르키예",
+      "birthYear": 1997,
+      "ovr": 75
+    },
+    {
+      "key": "juv-03",
+      "number": 3,
+      "name": "브레메른",
+      "real": "브레메르",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 1997,
+      "ovr": 83
+    },
+    {
+      "key": "juv-04",
+      "number": 4,
+      "name": "페데리코 가틴",
+      "real": "페데리코 가티",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 1998,
+      "ovr": 78
+    },
+    {
+      "key": "juv-05",
+      "number": 5,
+      "name": "마누엘 로카텔린",
+      "real": "마누엘 로카텔리",
+      "pos": "CDM",
+      "nation": "이탈리아",
+      "birthYear": 1998,
+      "ovr": 78
+    },
+    {
+      "key": "juv-06",
+      "number": 6,
+      "name": "로이드 켈린",
+      "real": "로이드 켈리",
+      "pos": "CB",
+      "nation": "잉글랜드",
+      "birthYear": 1998,
+      "ovr": 74
+    },
+    {
+      "key": "juv-07",
+      "number": 7,
+      "name": "프란시스쿠 콘세이상드",
+      "real": "프란시스쿠 콘세이상",
+      "pos": "RW",
+      "nation": "포르투갈",
+      "birthYear": 2002,
+      "ovr": 79
+    },
+    {
+      "key": "juv-08",
+      "number": 8,
+      "name": "테윈 코프메이너르손",
+      "real": "테윈 코프메이너르스",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 1998,
+      "ovr": 79
+    },
+    {
+      "key": "juv-09",
+      "number": 9,
+      "name": "랑달 콜로 무아닌",
+      "real": "랑달 콜로 무아니",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 1998,
+      "ovr": 81
+    },
+    {
+      "key": "juv-10",
+      "number": 10,
+      "name": "케난 이을드주",
+      "real": "케난 이을드즈",
+      "pos": "CAM",
+      "nation": "튀르키예",
+      "birthYear": 2005,
+      "ovr": 84
+    },
+    {
+      "key": "juv-11",
+      "number": 11,
+      "name": "에돈 제그로반",
+      "real": "에돈 제그로바",
+      "pos": "LW",
+      "nation": "코소보",
+      "birthYear": 1999,
+      "ovr": 78
+    },
+    {
+      "key": "juv-12",
+      "number": 12,
+      "name": "두글라스 루이손",
+      "real": "두글라스 루이스",
+      "pos": "CM",
+      "nation": "브라질",
+      "birthYear": 1998,
+      "ovr": 76
+    },
+    {
+      "key": "juv-13",
+      "number": 13,
+      "name": "제레미 보간",
+      "real": "제레미 보가",
+      "pos": "LW",
+      "nation": "코트디부아르",
+      "birthYear": 1997,
+      "ovr": 74
+    },
+    {
+      "key": "juv-14",
+      "number": 14,
+      "name": "아르카디우시 밀리큰",
+      "real": "아르카디우시 밀리크",
+      "pos": "ST",
+      "nation": "폴란드",
+      "birthYear": 1994,
+      "ovr": 75
+    },
+    {
+      "key": "juv-15",
+      "number": 15,
+      "name": "피에르 칼룰룬",
+      "real": "피에르 칼룰루",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2000,
+      "ovr": 78
+    },
+    {
+      "key": "juv-16",
+      "number": 17,
+      "name": "케림 알라이베고비츠",
+      "real": "케림 알라이베고비치",
+      "pos": "LW",
+      "nation": "보스니아헤르체고비나",
+      "birthYear": 2007,
+      "ovr": 66
+    },
+    {
+      "key": "juv-17",
+      "number": 18,
+      "name": "제프 에크하토른",
+      "real": "제프 에크하토르",
+      "pos": "ST",
+      "nation": "이탈리아",
+      "birthYear": 2006,
+      "ovr": 66
+    },
+    {
+      "key": "juv-18",
+      "number": 19,
+      "name": "케프렌 튀랑드",
+      "real": "케프렌 튀랑",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2001,
+      "ovr": 81
+    },
+    {
+      "key": "juv-19",
+      "number": 20,
+      "name": "안드레아 캄비아손",
+      "real": "안드레아 캄비아소",
+      "pos": "LB",
+      "nation": "이탈리아",
+      "birthYear": 2000,
+      "ovr": 79
+    },
+    {
+      "key": "juv-20",
+      "number": 22,
+      "name": "웨스턴 매케닌",
+      "real": "웨스턴 매케니",
+      "pos": "CM",
+      "nation": "미국",
+      "birthYear": 1998,
+      "ovr": 77
+    },
+    {
+      "key": "juv-21",
+      "number": 23,
+      "name": "카를로 핀솔리온",
+      "real": "카를로 핀솔리오",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 1990,
+      "ovr": 62
+    },
+    {
+      "key": "juv-22",
+      "number": 24,
+      "name": "다니엘레 루가닌",
+      "real": "다니엘레 루가니",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 1994,
+      "ovr": 73
+    },
+    {
+      "key": "juv-23",
+      "number": 25,
+      "name": "굴리엘모 비카리온",
+      "real": "굴리엘모 비카리오",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 1996,
+      "ovr": 80
+    },
+    {
+      "key": "juv-24",
+      "number": 26,
+      "name": "욘 루쿠민",
+      "real": "욘 루쿠미",
+      "pos": "CB",
+      "nation": "콜롬비아",
+      "birthYear": 1998,
+      "ovr": 79
+    },
+    {
+      "key": "juv-25",
+      "number": 27,
+      "name": "닉 볼테마덴",
+      "real": "닉 볼테마데",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 2002,
+      "ovr": 81
+    },
+    {
+      "key": "juv-26",
+      "number": 29,
+      "name": "파프 마타르 사른",
+      "real": "파프 마타르 사르",
+      "pos": "CM",
+      "nation": "세네갈",
+      "birthYear": 2002,
+      "ovr": 78
+    },
+    {
+      "key": "juv-27",
+      "number": 31,
+      "name": "니코 곤살레노",
+      "real": "니코 곤살레스",
+      "pos": "RW",
+      "nation": "아르헨티나",
+      "birthYear": 1998,
+      "ovr": 78
+    },
+    {
+      "key": "juv-28",
+      "number": 32,
+      "name": "후안 카발라",
+      "real": "후안 카발",
+      "pos": "LB",
+      "nation": "콜롬비아",
+      "birthYear": 2001,
+      "ovr": 75
+    }
+  ]
+}

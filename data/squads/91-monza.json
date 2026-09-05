@@ -1,0 +1,290 @@
+{
+  "club": "몬차 비앙코로소",
+  "realClub": "AC 몬차",
+  "league": "아주로 세리에",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/AC_Monza",
+  "pilot": false,
+  "players": [
+    {
+      "key": "moz-01",
+      "number": 1,
+      "name": "노엘 퇴른크비스튼",
+      "real": "노엘 퇴른크비스트",
+      "pos": "GK",
+      "nation": "스웨덴",
+      "birthYear": 2002,
+      "ovr": 67
+    },
+    {
+      "key": "moz-02",
+      "number": 2,
+      "name": "사바 고글리치젠",
+      "real": "사바 고글리치제",
+      "pos": "RB",
+      "nation": "조지아",
+      "birthYear": 2004,
+      "ovr": 70
+    },
+    {
+      "key": "moz-03",
+      "number": 3,
+      "name": "로렌초 루케신",
+      "real": "로렌초 루케시",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "moz-04",
+      "number": 4,
+      "name": "얀 지우코프스킨",
+      "real": "얀 지우코프스키",
+      "pos": "CB",
+      "nation": "폴란드",
+      "birthYear": 2005,
+      "ovr": 70
+    },
+    {
+      "key": "moz-05",
+      "number": 5,
+      "name": "이반 마옌",
+      "real": "이반 마예",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 66
+    },
+    {
+      "key": "moz-06",
+      "number": 6,
+      "name": "발렌틴 안토픈",
+      "real": "발렌틴 안토프",
+      "pos": "CB",
+      "nation": "불가리아",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "moz-07",
+      "number": 7,
+      "name": "히카르두 망가손",
+      "real": "히카르두 망가스",
+      "pos": "LB",
+      "nation": "포르투갈",
+      "birthYear": 1998,
+      "ovr": 70
+    },
+    {
+      "key": "moz-08",
+      "number": 8,
+      "name": "망가 포에 온도안",
+      "real": "망가 포에 온도아",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2005,
+      "ovr": 65
+    },
+    {
+      "key": "moz-09",
+      "number": 9,
+      "name": "구스타부 바렐란",
+      "real": "구스타부 바렐라",
+      "pos": "ST",
+      "nation": "포르투갈",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "moz-10",
+      "number": 10,
+      "name": "파트리크 쿠트로넨",
+      "real": "파트리크 쿠트로네",
+      "pos": "ST",
+      "nation": "이탈리아",
+      "birthYear": 1998,
+      "ovr": 72
+    },
+    {
+      "key": "moz-11",
+      "number": 11,
+      "name": "오마리 포손드",
+      "real": "오마리 포슨",
+      "pos": "RW",
+      "nation": "잉글랜드",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "moz-12",
+      "number": 14,
+      "name": "에베네저 아킨산미론",
+      "real": "에베네저 아킨산미로",
+      "pos": "CDM",
+      "nation": "나이지리아",
+      "birthYear": 2004,
+      "ovr": 70
+    },
+    {
+      "key": "moz-13",
+      "number": 16,
+      "name": "시릴 응옹겐",
+      "real": "시릴 응옹게",
+      "pos": "LW",
+      "nation": "벨기에",
+      "birthYear": 2000,
+      "ovr": 73
+    },
+    {
+      "key": "moz-14",
+      "number": 17,
+      "name": "케이타 발덴",
+      "real": "케이타 발데",
+      "pos": "ST",
+      "nation": "세네갈",
+      "birthYear": 1995,
+      "ovr": 70
+    },
+    {
+      "key": "moz-15",
+      "number": 19,
+      "name": "사무엘레 비린델린",
+      "real": "사무엘레 비린델리",
+      "pos": "RB",
+      "nation": "이탈리아",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "moz-16",
+      "number": 20,
+      "name": "뎀바 티아므",
+      "real": "뎀바 티암",
+      "pos": "GK",
+      "nation": "세네갈",
+      "birthYear": 1998,
+      "ovr": 66
+    },
+    {
+      "key": "moz-17",
+      "number": 21,
+      "name": "레오나르도 콜롬본",
+      "real": "레오나르도 콜롬보",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 2005,
+      "ovr": 64
+    },
+    {
+      "key": "moz-18",
+      "number": 22,
+      "name": "에세키엘 세바요손",
+      "real": "에세키엘 세바요스",
+      "pos": "LW",
+      "nation": "아르헨티나",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "moz-19",
+      "number": 24,
+      "name": "아담 바쿠넨",
+      "real": "아담 바쿠네",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 2006,
+      "ovr": 64
+    },
+    {
+      "key": "moz-20",
+      "number": 26,
+      "name": "파트리크 치우리안",
+      "real": "파트리크 치우리아",
+      "pos": "RW",
+      "nation": "이탈리아",
+      "birthYear": 1995,
+      "ovr": 70
+    },
+    {
+      "key": "moz-21",
+      "number": 27,
+      "name": "이드리사 투렌",
+      "real": "이드리사 투레",
+      "pos": "CM",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 70
+    },
+    {
+      "key": "moz-22",
+      "number": 28,
+      "name": "안드레아 콜파닌",
+      "real": "안드레아 콜파니",
+      "pos": "CAM",
+      "nation": "이탈리아",
+      "birthYear": 1999,
+      "ovr": 73
+    },
+    {
+      "key": "moz-23",
+      "number": 32,
+      "name": "마테오 페시난",
+      "real": "마테오 페시나",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "moz-24",
+      "number": 43,
+      "name": "알라주 스트라이나른",
+      "real": "알라주 스트라이나르",
+      "pos": "GK",
+      "nation": "슬로베니아",
+      "birthYear": 2007,
+      "ovr": 62
+    },
+    {
+      "key": "moz-25",
+      "number": 44,
+      "name": "안드레아 카르보닌",
+      "real": "안드레아 카르보니",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "moz-26",
+      "number": 47,
+      "name": "다니 모탄",
+      "real": "다니 모타",
+      "pos": "ST",
+      "nation": "포르투갈",
+      "birthYear": 1998,
+      "ovr": 72
+    },
+    {
+      "key": "moz-27",
+      "number": 70,
+      "name": "케빈 마르틴손",
+      "real": "케빈 마르틴스",
+      "pos": "ST",
+      "nation": "이탈리아",
+      "birthYear": 2005,
+      "ovr": 64
+    },
+    {
+      "key": "moz-28",
+      "number": 90,
+      "name": "미카엘 폴로룬숀",
+      "real": "미카엘 폴로룬쇼",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 1998,
+      "ovr": 73
+    }
+  ]
+}

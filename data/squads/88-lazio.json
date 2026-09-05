@@ -1,0 +1,270 @@
+{
+  "club": "로마 비앙코셀레스테",
+  "realClub": "SS 라치오",
+  "league": "아주로 세리에",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/SS_Lazio",
+  "pilot": false,
+  "players": [
+    {
+      "key": "laz-01",
+      "number": 5,
+      "name": "다닐로 두킨",
+      "real": "다닐로 두키",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 1998,
+      "ovr": 75
+    },
+    {
+      "key": "laz-02",
+      "number": 6,
+      "name": "니콜로 로벨란",
+      "real": "니콜로 로벨라",
+      "pos": "CDM",
+      "nation": "이탈리아",
+      "birthYear": 2001,
+      "ovr": 78
+    },
+    {
+      "key": "laz-03",
+      "number": 7,
+      "name": "피사요 델레바시룬",
+      "real": "피사요 델레바시루",
+      "pos": "CM",
+      "nation": "나이지리아",
+      "birthYear": 2001,
+      "ovr": 73
+    },
+    {
+      "key": "laz-04",
+      "number": 8,
+      "name": "브루노 갈라신",
+      "real": "브루노 갈라시",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2007,
+      "ovr": 64
+    },
+    {
+      "key": "laz-05",
+      "number": 9,
+      "name": "안드레아 피나몬틴",
+      "real": "안드레아 피나몬티",
+      "pos": "ST",
+      "nation": "이탈리아",
+      "birthYear": 1999,
+      "ovr": 76
+    },
+    {
+      "key": "laz-06",
+      "number": 10,
+      "name": "마티아 자카닌",
+      "real": "마티아 자카니",
+      "pos": "LW",
+      "nation": "이탈리아",
+      "birthYear": 1995,
+      "ovr": 80
+    },
+    {
+      "key": "laz-07",
+      "number": 11,
+      "name": "구스타브 이삭센드",
+      "real": "구스타브 이삭센",
+      "pos": "RW",
+      "nation": "덴마크",
+      "birthYear": 2001,
+      "ovr": 76
+    },
+    {
+      "key": "laz-08",
+      "number": 14,
+      "name": "티자니 노슬린드",
+      "real": "티자니 노슬린",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 1999,
+      "ovr": 74
+    },
+    {
+      "key": "laz-09",
+      "number": 15,
+      "name": "로마노 플로리아니 무솔리닌",
+      "real": "로마노 플로리아니 무솔리니",
+      "pos": "RB",
+      "nation": "이탈리아",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "laz-10",
+      "number": 16,
+      "name": "다비데 프라테신",
+      "real": "다비데 프라테시",
+      "pos": "CAM",
+      "nation": "이탈리아",
+      "birthYear": 1999,
+      "ovr": 80
+    },
+    {
+      "key": "laz-11",
+      "number": 17,
+      "name": "누누 타바레손",
+      "real": "누누 타바레스",
+      "pos": "LB",
+      "nation": "포르투갈",
+      "birthYear": 2000,
+      "ovr": 76
+    },
+    {
+      "key": "laz-12",
+      "number": 21,
+      "name": "레다 벨라야넨",
+      "real": "레다 벨라야네",
+      "pos": "CM",
+      "nation": "모로코",
+      "birthYear": 2004,
+      "ovr": 72
+    },
+    {
+      "key": "laz-13",
+      "number": 22,
+      "name": "마테오 칸첼리에린",
+      "real": "마테오 칸첼리에리",
+      "pos": "RW",
+      "nation": "이탈리아",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "laz-14",
+      "number": 23,
+      "name": "알폰소 페드라산",
+      "real": "알폰소 페드라사",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 1996,
+      "ovr": 73
+    },
+    {
+      "key": "laz-15",
+      "number": 24,
+      "name": "케네트 테일러스",
+      "real": "케네트 테일러",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2002,
+      "ovr": 77
+    },
+    {
+      "key": "laz-16",
+      "number": 25,
+      "name": "올리베르 프로우스트고른",
+      "real": "올리베르 프로우스트고르",
+      "pos": "CB",
+      "nation": "덴마크",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "laz-17",
+      "number": 28,
+      "name": "아드리안 프시보레큰",
+      "real": "아드리안 프시보레크",
+      "pos": "CM",
+      "nation": "폴란드",
+      "birthYear": 2007,
+      "ovr": 64
+    },
+    {
+      "key": "laz-18",
+      "number": 29,
+      "name": "마누엘 라차린",
+      "real": "마누엘 라차리",
+      "pos": "RB",
+      "nation": "이탈리아",
+      "birthYear": 1993,
+      "ovr": 73
+    },
+    {
+      "key": "laz-19",
+      "number": 32,
+      "name": "다닐로 카탈딘",
+      "real": "다닐로 카탈디",
+      "pos": "CDM",
+      "nation": "이탈리아",
+      "birthYear": 1994,
+      "ovr": 73
+    },
+    {
+      "key": "laz-20",
+      "number": 35,
+      "name": "흐리스토스 만다손",
+      "real": "흐리스토스 만다스",
+      "pos": "GK",
+      "nation": "그리스",
+      "birthYear": 2001,
+      "ovr": 76
+    },
+    {
+      "key": "laz-21",
+      "number": 37,
+      "name": "요시프 슈탈론",
+      "real": "요시프 슈탈로",
+      "pos": "CB",
+      "nation": "크로아티아",
+      "birthYear": 2000,
+      "ovr": 77
+    },
+    {
+      "key": "laz-22",
+      "number": 40,
+      "name": "에도아르도 모탄",
+      "real": "에도아르도 모타",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 2005,
+      "ovr": 63
+    },
+    {
+      "key": "laz-23",
+      "number": 55,
+      "name": "알레시오 푸를라네톤",
+      "real": "알레시오 푸를라네토",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 2002,
+      "ovr": 64
+    },
+    {
+      "key": "laz-24",
+      "number": 76,
+      "name": "필리피 보르동드",
+      "real": "필리피 보르동",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "laz-25",
+      "number": 77,
+      "name": "아담 마루시츠",
+      "real": "아담 마루시치",
+      "pos": "RB",
+      "nation": "몬테네그로",
+      "birthYear": 1992,
+      "ovr": 74
+    },
+    {
+      "key": "laz-26",
+      "number": 80,
+      "name": "알베르트 구드문드손드",
+      "real": "알베르트 구드문드손",
+      "pos": "ST",
+      "nation": "아이슬란드",
+      "birthYear": 1997,
+      "ovr": 77
+    }
+  ]
+}

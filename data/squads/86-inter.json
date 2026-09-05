@@ -1,0 +1,250 @@
+{
+  "club": "밀라노 네라주로",
+  "realClub": "인테르 밀란",
+  "league": "아주로 세리에",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Inter_Milan",
+  "pilot": false,
+  "players": [
+    {
+      "key": "int-01",
+      "number": 1,
+      "name": "조셉 마르티네손",
+      "real": "조셉 마르티네스",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 1998,
+      "ovr": 78
+    },
+    {
+      "key": "int-02",
+      "number": 5,
+      "name": "알렉산다르 스탄코비츠",
+      "real": "알렉산다르 스탄코비치",
+      "pos": "CM",
+      "nation": "세르비아",
+      "birthYear": 2005,
+      "ovr": 75
+    },
+    {
+      "key": "int-03",
+      "number": 6,
+      "name": "존 스톤손",
+      "real": "존 스톤스",
+      "pos": "CB",
+      "nation": "잉글랜드",
+      "birthYear": 1994,
+      "ovr": 82
+    },
+    {
+      "key": "int-04",
+      "number": 7,
+      "name": "피오트르 지엘린스킨",
+      "real": "피오트르 지엘린스키",
+      "pos": "CAM",
+      "nation": "폴란드",
+      "birthYear": 1994,
+      "ovr": 81
+    },
+    {
+      "key": "int-05",
+      "number": 8,
+      "name": "페타르 수치츠",
+      "real": "페타르 수치치",
+      "pos": "CM",
+      "nation": "크로아티아",
+      "birthYear": 2003,
+      "ovr": 78
+    },
+    {
+      "key": "int-06",
+      "number": 9,
+      "name": "마르쿠스 튀랑드",
+      "real": "마르쿠스 튀랑",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 1997,
+      "ovr": 86
+    },
+    {
+      "key": "int-07",
+      "number": 10,
+      "name": "라우타로 마르티네손",
+      "real": "라우타로 마르티네스",
+      "pos": "ST",
+      "nation": "아르헨티나",
+      "birthYear": 1997,
+      "ovr": 88
+    },
+    {
+      "key": "int-08",
+      "number": 11,
+      "name": "루이스 엔히킨",
+      "real": "루이스 엔히키",
+      "pos": "LW",
+      "nation": "브라질",
+      "birthYear": 2001,
+      "ovr": 77
+    },
+    {
+      "key": "int-09",
+      "number": 12,
+      "name": "라파엘레 디 젠나론",
+      "real": "라파엘레 디 젠나로",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 1993,
+      "ovr": 66
+    },
+    {
+      "key": "int-10",
+      "number": 14,
+      "name": "앙주요안 보닌",
+      "real": "앙주요안 보니",
+      "pos": "ST",
+      "nation": "코트디부아르",
+      "birthYear": 2003,
+      "ovr": 78
+    },
+    {
+      "key": "int-11",
+      "number": 17,
+      "name": "앤디 디우픈",
+      "real": "앤디 디우프",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2003,
+      "ovr": 76
+    },
+    {
+      "key": "int-12",
+      "number": 20,
+      "name": "하칸 찰하노글룬",
+      "real": "하칸 찰하노글루",
+      "pos": "CM",
+      "nation": "튀르키예",
+      "birthYear": 1994,
+      "ovr": 85
+    },
+    {
+      "key": "int-13",
+      "number": 21,
+      "name": "커티스 존손",
+      "real": "커티스 존스",
+      "pos": "CM",
+      "nation": "잉글랜드",
+      "birthYear": 2001,
+      "ovr": 79
+    },
+    {
+      "key": "int-14",
+      "number": 22,
+      "name": "헨리크 므히타리안드",
+      "real": "헨리크 므히타리안",
+      "pos": "CAM",
+      "nation": "아르메니아",
+      "birthYear": 1989,
+      "ovr": 76
+    },
+    {
+      "key": "int-15",
+      "number": 23,
+      "name": "니콜로 바렐란",
+      "real": "니콜로 바렐라",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 1997,
+      "ovr": 86
+    },
+    {
+      "key": "int-16",
+      "number": 25,
+      "name": "마누엘 아칸진",
+      "real": "마누엘 아칸지",
+      "pos": "CB",
+      "nation": "스위스",
+      "birthYear": 1995,
+      "ovr": 84
+    },
+    {
+      "key": "int-17",
+      "number": 28,
+      "name": "뱅자맹 파바른",
+      "real": "뱅자맹 파바르",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 1996,
+      "ovr": 81
+    },
+    {
+      "key": "int-18",
+      "number": 30,
+      "name": "카를루스 아우구스툰",
+      "real": "카를루스 아우구스투",
+      "pos": "LB",
+      "nation": "브라질",
+      "birthYear": 1999,
+      "ovr": 78
+    },
+    {
+      "key": "int-19",
+      "number": 31,
+      "name": "얀 비세큰",
+      "real": "얀 비세크",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2000,
+      "ovr": 80
+    },
+    {
+      "key": "int-20",
+      "number": 32,
+      "name": "페데리코 디마르콘",
+      "real": "페데리코 디마르코",
+      "pos": "LB",
+      "nation": "이탈리아",
+      "birthYear": 1997,
+      "ovr": 84
+    },
+    {
+      "key": "int-21",
+      "number": 49,
+      "name": "이반 프로베델라",
+      "real": "이반 프로베델",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 1994,
+      "ovr": 78
+    },
+    {
+      "key": "int-22",
+      "number": 94,
+      "name": "피오 에스포시톤",
+      "real": "피오 에스포시토",
+      "pos": "ST",
+      "nation": "이탈리아",
+      "birthYear": 2005,
+      "ovr": 78
+    },
+    {
+      "key": "int-23",
+      "number": 95,
+      "name": "알레산드로 바스토닌",
+      "real": "알레산드로 바스토니",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 1999,
+      "ovr": 85
+    },
+    {
+      "key": "int-24",
+      "number": 99,
+      "name": "제드 스펜손",
+      "real": "제드 스펜스",
+      "pos": "RB",
+      "nation": "잉글랜드",
+      "birthYear": 2000,
+      "ovr": 77
+    }
+  ]
+}

@@ -1,0 +1,270 @@
+{
+  "club": "밀라노 로소네로",
+  "realClub": "AC 밀란",
+  "league": "아주로 세리에",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/AC_Milan",
+  "pilot": false,
+  "players": [
+    {
+      "key": "mil-01",
+      "number": 1,
+      "name": "피에트로 테라차논",
+      "real": "피에트로 테라차노",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 1990,
+      "ovr": 68
+    },
+    {
+      "key": "mil-02",
+      "number": 2,
+      "name": "페르비스 에스투피냔드",
+      "real": "페르비스 에스투피냔",
+      "pos": "LB",
+      "nation": "에콰도르",
+      "birthYear": 1998,
+      "ovr": 81
+    },
+    {
+      "key": "mil-03",
+      "number": 5,
+      "name": "코니 데 빈터른",
+      "real": "코니 데 빈터르",
+      "pos": "CB",
+      "nation": "벨기에",
+      "birthYear": 2002,
+      "ovr": 78
+    },
+    {
+      "key": "mil-04",
+      "number": 8,
+      "name": "루벤 로프터스치큰",
+      "real": "루벤 로프터스치크",
+      "pos": "CM",
+      "nation": "잉글랜드",
+      "birthYear": 1996,
+      "ovr": 78
+    },
+    {
+      "key": "mil-05",
+      "number": 9,
+      "name": "곤살루 하무손",
+      "real": "곤살루 하무스",
+      "pos": "ST",
+      "nation": "포르투갈",
+      "birthYear": 2001,
+      "ovr": 81
+    },
+    {
+      "key": "mil-06",
+      "number": 11,
+      "name": "크리스천 풀리시크르",
+      "real": "크리스천 풀리식",
+      "pos": "RW",
+      "nation": "미국",
+      "birthYear": 1998,
+      "ovr": 84
+    },
+    {
+      "key": "mil-07",
+      "number": 12,
+      "name": "아드리앵 라비온",
+      "real": "아드리앵 라비오",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 1995,
+      "ovr": 83
+    },
+    {
+      "key": "mil-08",
+      "number": 13,
+      "name": "상쿤 디아와란",
+      "real": "상쿤 디아와라",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 65
+    },
+    {
+      "key": "mil-09",
+      "number": 14,
+      "name": "루카 모드리츠",
+      "real": "루카 모드리치",
+      "pos": "CAM",
+      "nation": "크로아티아",
+      "birthYear": 1985,
+      "ovr": 80
+    },
+    {
+      "key": "mil-10",
+      "number": 16,
+      "name": "마이크 메냥드",
+      "real": "마이크 메냥",
+      "pos": "GK",
+      "nation": "프랑스",
+      "birthYear": 1995,
+      "ovr": 85
+    },
+    {
+      "key": "mil-11",
+      "number": 20,
+      "name": "오마리 허친슨드",
+      "real": "오마리 허친슨",
+      "pos": "CAM",
+      "nation": "잉글랜드",
+      "birthYear": 2003,
+      "ovr": 75
+    },
+    {
+      "key": "mil-12",
+      "number": 21,
+      "name": "사무엘 추쿠에젠",
+      "real": "사무엘 추쿠에제",
+      "pos": "RW",
+      "nation": "나이지리아",
+      "birthYear": 1999,
+      "ovr": 76
+    },
+    {
+      "key": "mil-13",
+      "number": 22,
+      "name": "디오구 모레이란",
+      "real": "디오구 모레이라",
+      "pos": "LW",
+      "nation": "벨기에",
+      "birthYear": 2004,
+      "ovr": 73
+    },
+    {
+      "key": "mil-14",
+      "number": 23,
+      "name": "피카요 토모린",
+      "real": "피카요 토모리",
+      "pos": "CB",
+      "nation": "잉글랜드",
+      "birthYear": 1997,
+      "ovr": 81
+    },
+    {
+      "key": "mil-15",
+      "number": 28,
+      "name": "크리스티안 코모톤",
+      "real": "크리스티안 코모토",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 2008,
+      "ovr": 64
+    },
+    {
+      "key": "mil-16",
+      "number": 30,
+      "name": "아르돈 야샤린",
+      "real": "아르돈 야샤리",
+      "pos": "CM",
+      "nation": "스위스",
+      "birthYear": 2002,
+      "ovr": 77
+    },
+    {
+      "key": "mil-17",
+      "number": 31,
+      "name": "스트라히냐 파블로비츠",
+      "real": "스트라히냐 파블로비치",
+      "pos": "CB",
+      "nation": "세르비아",
+      "birthYear": 2001,
+      "ovr": 79
+    },
+    {
+      "key": "mil-18",
+      "number": 33,
+      "name": "다비데 바르테사긴",
+      "real": "다비데 바르테사기",
+      "pos": "LB",
+      "nation": "이탈리아",
+      "birthYear": 2005,
+      "ovr": 72
+    },
+    {
+      "key": "mil-19",
+      "number": 34,
+      "name": "마리오 힐란",
+      "real": "마리오 힐라",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 77
+    },
+    {
+      "key": "mil-20",
+      "number": 42,
+      "name": "필리포 테라차논드",
+      "real": "필리포 테라차노",
+      "pos": "RB",
+      "nation": "이탈리아",
+      "birthYear": 2003,
+      "ovr": 72
+    },
+    {
+      "key": "mil-21",
+      "number": 46,
+      "name": "마테오 가비안",
+      "real": "마테오 가비아",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 1999,
+      "ovr": 77
+    },
+    {
+      "key": "mil-22",
+      "number": 56,
+      "name": "알렉시스 살레마커르손",
+      "real": "알렉시스 살레마커르스",
+      "pos": "RW",
+      "nation": "벨기에",
+      "birthYear": 1999,
+      "ovr": 76
+    },
+    {
+      "key": "mil-23",
+      "number": 70,
+      "name": "알파조 치센",
+      "real": "알파조 치세",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 2006,
+      "ovr": 64
+    },
+    {
+      "key": "mil-24",
+      "number": 73,
+      "name": "프란체스코 카마르단",
+      "real": "프란체스코 카마르다",
+      "pos": "ST",
+      "nation": "이탈리아",
+      "birthYear": 2008,
+      "ovr": 70
+    },
+    {
+      "key": "mil-25",
+      "number": 80,
+      "name": "유누스 무산",
+      "real": "유누스 무사",
+      "pos": "CM",
+      "nation": "미국",
+      "birthYear": 2002,
+      "ovr": 76
+    },
+    {
+      "key": "mil-26",
+      "number": 96,
+      "name": "로렌초 토리아닌",
+      "real": "로렌초 토리아니",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 2005,
+      "ovr": 66
+    }
+  ]
+}
