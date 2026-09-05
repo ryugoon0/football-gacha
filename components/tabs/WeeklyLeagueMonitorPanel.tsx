@@ -56,7 +56,18 @@ interface UpcomingFixture {
 
 const JOB_LABEL: Record<string, string> = {
   'settle-weekly-fixtures': '경기 자동 정산 (5분마다)',
-  'auto-bootstrap-placement': '개막 배치 리그 자동 생성 (10분마다)',
+  'auto-bootstrap-placement': '개막 배치 리그 자동 생성 · 신규 가입자 편입 (10분마다)',
+  'auto-bootstrap-next-week': '다음 주 리그 자동 생성 (승격·강등)',
+}
+
+interface UnplacedRow {
+  user_id: string
+  email: string | null
+  club: string
+  created_at: string
+  has_save: boolean
+  starters: number
+  last_seen_at: string | null
 }
 
 function fmtKst(iso: string): string {
@@ -73,6 +84,10 @@ export default function WeeklyLeagueMonitorPanel() {
   const [upcoming, setUpcoming] = useState<UpcomingFixture[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  /** Accounts in no running league — the ones the 10-minute sweep has not (or cannot) place. */
+  const [unplaced, setUnplaced] = useState<UnplacedRow[]>([])
+  const [sweeping, setSweeping] = useState(false)
+  const [sweepNote, setSweepNote] = useState<string | null>(null)
 
   const load = useCallback(async (week: string) => {
     const supabase = getSupabase()
@@ -83,10 +98,12 @@ export default function WeeklyLeagueMonitorPanel() {
     setLoading(true)
     setError(null)
 
-    const [cronRes, groupsRes] = await Promise.all([
+    const [cronRes, groupsRes, unplacedRes] = await Promise.all([
       supabase.rpc('admin_weekly_cron_status'),
       supabase.from('weekly_league_groups').select('id, tier, status').eq('week_id', week).order('tier'),
+      supabase.rpc('unplaced_users_for_admin'),
     ])
+    if (!unplacedRes.error && Array.isArray(unplacedRes.data)) setUnplaced(unplacedRes.data as UnplacedRow[])
 
     if (cronRes.error) setError(cronRes.error.message)
     else {
@@ -177,6 +194,21 @@ export default function WeeklyLeagueMonitorPanel() {
   const clubName = (groupId: number, slot: number) =>
     members.find((m) => m.group_id === groupId && m.slot === slot)?.club_name ?? `슬롯 ${slot}`
 
+  const sweepNow = async () => {
+    const supabase = getSupabase()
+    if (!supabase) return
+    setSweeping(true)
+    const { data, error: sweepError } = await supabase.rpc('admin_sweep_new_users')
+    setSweeping(false)
+    const body = data as { ok?: boolean; reason?: string; swapped?: number; week?: string } | null
+    if (sweepError || !body?.ok) {
+      setSweepNote(`편입 실패: ${sweepError?.message ?? body?.reason ?? '알 수 없음'}`)
+      return
+    }
+    setSweepNote(`${body.week} 에 ${body.swapped ?? 0}명 편입했습니다.`)
+    void load(weekId)
+  }
+
   return (
     <section className="panel p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
@@ -230,6 +262,37 @@ export default function WeeklyLeagueMonitorPanel() {
             })}
             {jobs.length === 0 && (
               <p className="text-[11px] text-slate-500">크론 상태를 볼 수 없습니다(운영자 계정으로 로그인했는지 확인).</p>
+            )}
+          </div>
+
+          <div className="mt-3 rounded-xl border border-amber-400/30 bg-amber-400/5 p-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="text-xs font-black text-amber-200">
+                리그 미배정 계정 {unplaced.length}명
+                <span className="ml-2 text-[10px] font-normal text-slate-500">진행 중인 어느 리그에도 없는 계정 · 선발 11명이 있어야 편입됩니다</span>
+              </span>
+              <button
+                onClick={() => void sweepNow()}
+                disabled={sweeping || unplaced.filter((row) => row.starters >= 11).length === 0}
+                className="rounded-lg bg-amber-400 px-3 py-1.5 text-[11px] font-black text-slate-900 disabled:opacity-40"
+              >
+                {sweeping ? '편입 중…' : '지금 편입'}
+              </button>
+            </div>
+            {sweepNote && <p className="mt-1 text-[11px] text-emerald-200">{sweepNote}</p>}
+            {unplaced.length > 0 && (
+              <div className="mt-2 space-y-1">
+                {unplaced.map((row) => (
+                  <div key={row.user_id} className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-black/20 px-2 py-1 text-[11px]">
+                    <span className="min-w-0 truncate text-slate-200">
+                      <b>{row.club || '(클럽명 없음)'}</b> <span className="text-slate-500">{row.email}</span>
+                    </span>
+                    <span className={`shrink-0 ${row.starters >= 11 ? 'text-emerald-300' : 'text-slate-500'}`}>
+                      {row.has_save ? `선발 ${row.starters}/11` : '세이브 없음(첫 로그인 전)'} · 가입 {fmtKst(row.created_at)}
+                    </span>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
 
