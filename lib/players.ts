@@ -240,12 +240,11 @@ const NEVER_RETIRED = new Set<string>(['n1125'])
 
 /**
  * Whether the older cards of a club with a published squad are retired (out
- * of the packs, owned copies migrated — lib/rosterMigration.ts). Off during
- * the test period by the user's decision (2026-09-05): players who no longer
- * match their club stay, only their grade is corrected (World-list → 플래티넘).
- * Flip to true when the test period ends; nothing else needs to change.
+ * of the packs, owned copies migrated — lib/rosterMigration.ts). On since
+ * 2026-09-05 by the user's decision: every card is brought to the present
+ * day at once, test period or not. Kept as a switch so it can be paused.
  */
-export const RETIRE_REPLACED_CLUBS = false
+export const RETIRE_REPLACED_CLUBS = true
 
 export const LEAGUE_OF_CLUB: Record<string, string> = CLUBS.reduce(
   (map, club) => {

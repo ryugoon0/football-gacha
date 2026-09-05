@@ -7403,7 +7403,7 @@ var CLUBS = [
 ];
 var REPLACED_CLUBS = new Set(SQUAD_REPLACED_CLUBS);
 var NEVER_RETIRED = /* @__PURE__ */ new Set(["n1125"]);
-var RETIRE_REPLACED_CLUBS = false;
+var RETIRE_REPLACED_CLUBS = true;
 var LEAGUE_OF_CLUB = CLUBS.reduce(
   (map, club) => {
     map[club.name] = club.league;
