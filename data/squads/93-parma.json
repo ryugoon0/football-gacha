@@ -1,0 +1,230 @@
+{
+  "club": "파르마 크로치아",
+  "realClub": "파르마 칼초 1913",
+  "league": "아주로 세리에",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Parma_Calcio_1913",
+  "pilot": false,
+  "players": [
+    {
+      "key": "par-01",
+      "number": 3,
+      "name": "압둘라예 은디아옌",
+      "real": "압둘라예 은디아예",
+      "pos": "CB",
+      "nation": "세네갈",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "par-02",
+      "number": 5,
+      "name": "라우타로 발렌틴",
+      "real": "라우타로 발렌티",
+      "pos": "CB",
+      "nation": "아르헨티나",
+      "birthYear": 1999,
+      "ovr": 72
+    },
+    {
+      "key": "par-03",
+      "number": 7,
+      "name": "우스만 디알론",
+      "real": "우스만 디알로",
+      "pos": "LW",
+      "nation": "스페인",
+      "birthYear": 2007,
+      "ovr": 65
+    },
+    {
+      "key": "par-04",
+      "number": 8,
+      "name": "벤저민 크레마스킨",
+      "real": "벤저민 크레마스키",
+      "pos": "CM",
+      "nation": "미국",
+      "birthYear": 2005,
+      "ovr": 70
+    },
+    {
+      "key": "par-05",
+      "number": 9,
+      "name": "다비드 로메론",
+      "real": "다비드 로메로",
+      "pos": "ST",
+      "nation": "아르헨티나",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "par-06",
+      "number": 10,
+      "name": "아드리안 베르나벤",
+      "real": "아드리안 베르나베",
+      "pos": "CAM",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 74
+    },
+    {
+      "key": "par-07",
+      "number": 11,
+      "name": "폰투스 알름크비스튼",
+      "real": "폰투스 알름크비스트",
+      "pos": "RW",
+      "nation": "스웨덴",
+      "birthYear": 1999,
+      "ovr": 72
+    },
+    {
+      "key": "par-08",
+      "number": 14,
+      "name": "에마누엘레 발레린",
+      "real": "에마누엘레 발레리",
+      "pos": "LB",
+      "nation": "이탈리아",
+      "birthYear": 1998,
+      "ovr": 71
+    },
+    {
+      "key": "par-09",
+      "number": 15,
+      "name": "엔리코 델프라톤",
+      "real": "엔리코 델프라토",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 1999,
+      "ovr": 73
+    },
+    {
+      "key": "par-10",
+      "number": 16,
+      "name": "만델라 케이탄",
+      "real": "만델라 케이타",
+      "pos": "CDM",
+      "nation": "벨기에",
+      "birthYear": 2002,
+      "ovr": 72
+    },
+    {
+      "key": "par-11",
+      "number": 19,
+      "name": "엘 빌랄 투렌",
+      "real": "엘 빌랄 투레",
+      "pos": "ST",
+      "nation": "말리",
+      "birthYear": 2001,
+      "ovr": 73
+    },
+    {
+      "key": "par-12",
+      "number": 20,
+      "name": "마티야 프리간드",
+      "real": "마티야 프리간",
+      "pos": "ST",
+      "nation": "크로아티아",
+      "birthYear": 2003,
+      "ovr": 71
+    },
+    {
+      "key": "par-13",
+      "number": 23,
+      "name": "네스타 엘페겐",
+      "real": "네스타 엘페게",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "par-14",
+      "number": 27,
+      "name": "사샤 브리치긴",
+      "real": "사샤 브리치기",
+      "pos": "RB",
+      "nation": "스위스",
+      "birthYear": 2006,
+      "ovr": 66
+    },
+    {
+      "key": "par-15",
+      "number": 29,
+      "name": "프랑코 카르보닌",
+      "real": "프랑코 카르보니",
+      "pos": "LB",
+      "nation": "아르헨티나",
+      "birthYear": 2003,
+      "ovr": 71
+    },
+    {
+      "key": "par-16",
+      "number": 30,
+      "name": "조반니 다파란",
+      "real": "조반니 다파라",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 2004,
+      "ovr": 65
+    },
+    {
+      "key": "par-17",
+      "number": 32,
+      "name": "크리스티안 오르도녜손",
+      "real": "크리스티안 오르도녜스",
+      "pos": "CM",
+      "nation": "아르헨티나",
+      "birthYear": 2004,
+      "ovr": 70
+    },
+    {
+      "key": "par-18",
+      "number": 37,
+      "name": "마리아노 트로일론",
+      "real": "마리아노 트로일로",
+      "pos": "CB",
+      "nation": "아르헨티나",
+      "birthYear": 2003,
+      "ovr": 72
+    },
+    {
+      "key": "par-19",
+      "number": 40,
+      "name": "에도아르도 코르빈",
+      "real": "에도아르도 코르비",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "par-20",
+      "number": 41,
+      "name": "한스 니콜루시 카빌리안",
+      "real": "한스 니콜루시 카빌리아",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 2000,
+      "ovr": 72
+    },
+    {
+      "key": "par-21",
+      "number": 76,
+      "name": "시모네 론타닌",
+      "real": "시모네 론타니",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 2008,
+      "ovr": 62
+    },
+    {
+      "key": "par-22",
+      "number": 80,
+      "name": "조반니 파비아느",
+      "real": "조반니 파비안",
+      "pos": "CAM",
+      "nation": "이탈리아",
+      "birthYear": 2003,
+      "ovr": 73
+    }
+  ]
+}

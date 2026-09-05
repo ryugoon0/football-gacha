@@ -1,0 +1,270 @@
+{
+  "club": "나폴리 파르테노",
+  "realClub": "SSC 나폴리",
+  "league": "아주로 세리에",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/SSC_Napoli",
+  "pilot": false,
+  "players": [
+    {
+      "key": "nap-01",
+      "number": 1,
+      "name": "알렉스 메레튼",
+      "real": "알렉스 메레트",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 1997,
+      "ovr": 78
+    },
+    {
+      "key": "nap-02",
+      "number": 2,
+      "name": "코스탄티노 파바술린",
+      "real": "코스탄티노 파바술리",
+      "pos": "RB",
+      "nation": "이탈리아",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "nap-03",
+      "number": 4,
+      "name": "알레산드로 부온조르논",
+      "real": "알레산드로 부온조르노",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 1999,
+      "ovr": 82
+    },
+    {
+      "key": "nap-04",
+      "number": 5,
+      "name": "브누아 바디아실라",
+      "real": "브누아 바디아실",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2001,
+      "ovr": 78
+    },
+    {
+      "key": "nap-05",
+      "number": 6,
+      "name": "빌리 길모언",
+      "real": "빌리 길모어",
+      "pos": "CM",
+      "nation": "스코틀랜드",
+      "birthYear": 2001,
+      "ovr": 78
+    },
+    {
+      "key": "nap-06",
+      "number": 7,
+      "name": "다비드 네리손",
+      "real": "다비드 네리스",
+      "pos": "LW",
+      "nation": "브라질",
+      "birthYear": 1997,
+      "ovr": 82
+    },
+    {
+      "key": "nap-07",
+      "number": 8,
+      "name": "스콧 매토미네인",
+      "real": "스콧 매토미네이",
+      "pos": "CM",
+      "nation": "스코틀랜드",
+      "birthYear": 1996,
+      "ovr": 85
+    },
+    {
+      "key": "nap-08",
+      "number": 11,
+      "name": "케빈 더 브라위너스",
+      "real": "케빈 더 브라위너",
+      "pos": "CAM",
+      "nation": "벨기에",
+      "birthYear": 1991,
+      "ovr": 85
+    },
+    {
+      "key": "nap-09",
+      "number": 13,
+      "name": "아미르 라마닌",
+      "real": "아미르 라마니",
+      "pos": "CB",
+      "nation": "코소보",
+      "birthYear": 1994,
+      "ovr": 79
+    },
+    {
+      "key": "nap-10",
+      "number": 14,
+      "name": "니키타 콘티닌",
+      "real": "니키타 콘티니",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 1996,
+      "ovr": 66
+    },
+    {
+      "key": "nap-11",
+      "number": 16,
+      "name": "라파 마리느",
+      "real": "라파 마린",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 72
+    },
+    {
+      "key": "nap-12",
+      "number": 17,
+      "name": "마티아스 올리베란",
+      "real": "마티아스 올리베라",
+      "pos": "LB",
+      "nation": "우루과이",
+      "birthYear": 1997,
+      "ovr": 78
+    },
+    {
+      "key": "nap-13",
+      "number": 19,
+      "name": "라스무스 회일룬드",
+      "real": "라스무스 회일룬",
+      "pos": "ST",
+      "nation": "덴마크",
+      "birthYear": 2003,
+      "ovr": 81
+    },
+    {
+      "key": "nap-14",
+      "number": 20,
+      "name": "로렌초 루칸",
+      "real": "로렌초 루카",
+      "pos": "ST",
+      "nation": "이탈리아",
+      "birthYear": 2000,
+      "ovr": 78
+    },
+    {
+      "key": "nap-15",
+      "number": 21,
+      "name": "마테오 폴리타논",
+      "real": "마테오 폴리타노",
+      "pos": "RW",
+      "nation": "이탈리아",
+      "birthYear": 1993,
+      "ovr": 79
+    },
+    {
+      "key": "nap-16",
+      "number": 22,
+      "name": "조반니 디 로렌촌",
+      "real": "조반니 디 로렌초",
+      "pos": "RB",
+      "nation": "이탈리아",
+      "birthYear": 1993,
+      "ovr": 81
+    },
+    {
+      "key": "nap-17",
+      "number": 23,
+      "name": "조바넨",
+      "real": "조바네",
+      "pos": "LW",
+      "nation": "브라질",
+      "birthYear": 2003,
+      "ovr": 72
+    },
+    {
+      "key": "nap-18",
+      "number": 26,
+      "name": "안토니오 베르가란",
+      "real": "안토니오 베르가라",
+      "pos": "CAM",
+      "nation": "이탈리아",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "nap-19",
+      "number": 27,
+      "name": "알리송 산투손",
+      "real": "알리송 산투스",
+      "pos": "RW",
+      "nation": "브라질",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "nap-20",
+      "number": 31,
+      "name": "삼 뵈케만",
+      "real": "삼 뵈케마",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 1998,
+      "ovr": 79
+    },
+    {
+      "key": "nap-21",
+      "number": 32,
+      "name": "바냐 밀린코비치사비츠",
+      "real": "바냐 밀린코비치사비치",
+      "pos": "GK",
+      "nation": "세르비아",
+      "birthYear": 1997,
+      "ovr": 78
+    },
+    {
+      "key": "nap-22",
+      "number": 35,
+      "name": "루카 마리아누친",
+      "real": "루카 마리아누치",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 2004,
+      "ovr": 70
+    },
+    {
+      "key": "nap-23",
+      "number": 37,
+      "name": "레오나르도 스피나촐란",
+      "real": "레오나르도 스피나촐라",
+      "pos": "LB",
+      "nation": "이탈리아",
+      "birthYear": 1993,
+      "ovr": 74
+    },
+    {
+      "key": "nap-24",
+      "number": 68,
+      "name": "스타니슬라프 로보트칸",
+      "real": "스타니슬라프 로보트카",
+      "pos": "CDM",
+      "nation": "슬로바키아",
+      "birthYear": 1994,
+      "ovr": 81
+    },
+    {
+      "key": "nap-25",
+      "number": 70,
+      "name": "노아 랑그",
+      "real": "노아 랑",
+      "pos": "LW",
+      "nation": "네덜란드",
+      "birthYear": 1999,
+      "ovr": 77
+    },
+    {
+      "key": "nap-26",
+      "number": 99,
+      "name": "프랑크 앙귀산",
+      "real": "프랑크 앙귀사",
+      "pos": "CM",
+      "nation": "카메룬",
+      "birthYear": 1995,
+      "ovr": 81
+    }
+  ]
+}

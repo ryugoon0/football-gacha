@@ -1,0 +1,300 @@
+{
+  "club": "베네치아 아란치오",
+  "realClub": "베네치아 FC",
+  "league": "아주로 세리에",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Venezia_FC",
+  "pilot": false,
+  "players": [
+    {
+      "key": "ven-01",
+      "number": 1,
+      "name": "필리프 스탄코비츠",
+      "real": "필리프 스탄코비치",
+      "pos": "GK",
+      "nation": "세르비아",
+      "birthYear": 2002,
+      "ovr": 72
+    },
+    {
+      "key": "ven-02",
+      "number": 2,
+      "name": "마티아스 모레논",
+      "real": "마티아스 모레노",
+      "pos": "CB",
+      "nation": "아르헨티나",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "ven-03",
+      "number": 3,
+      "name": "조엘 싱티엔드",
+      "real": "조엘 싱티엔",
+      "pos": "CB",
+      "nation": "벨기에",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "ven-04",
+      "number": 4,
+      "name": "바르톨 프라니츠",
+      "real": "바르톨 프라니치",
+      "pos": "CDM",
+      "nation": "크로아티아",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "ven-05",
+      "number": 5,
+      "name": "리지시아노 합손",
+      "real": "리지시아노 합스",
+      "pos": "LB",
+      "nation": "수리남",
+      "birthYear": 1993,
+      "ovr": 70
+    },
+    {
+      "key": "ven-06",
+      "number": 6,
+      "name": "잔루카 부시온",
+      "real": "잔루카 부시오",
+      "pos": "CM",
+      "nation": "미국",
+      "birthYear": 2002,
+      "ovr": 73
+    },
+    {
+      "key": "ven-07",
+      "number": 7,
+      "name": "알비온 라마닌",
+      "real": "알비온 라마니",
+      "pos": "ST",
+      "nation": "코소보",
+      "birthYear": 2000,
+      "ovr": 73
+    },
+    {
+      "key": "ven-08",
+      "number": 8,
+      "name": "라미네 판넨",
+      "real": "라미네 판네",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "ven-09",
+      "number": 9,
+      "name": "안드레아 아도란텐",
+      "real": "안드레아 아도란테",
+      "pos": "ST",
+      "nation": "이탈리아",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "ven-10",
+      "number": 10,
+      "name": "존 예보안",
+      "real": "존 예보아",
+      "pos": "LW",
+      "nation": "에콰도르",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "ven-11",
+      "number": 14,
+      "name": "티에리 코헤이안",
+      "real": "티에리 코헤이아",
+      "pos": "RB",
+      "nation": "포르투갈",
+      "birthYear": 1999,
+      "ovr": 72
+    },
+    {
+      "key": "ven-12",
+      "number": 15,
+      "name": "주안 제주손",
+      "real": "주안 제주스",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 1991,
+      "ovr": 71
+    },
+    {
+      "key": "ven-13",
+      "number": 16,
+      "name": "루파이 모하메든",
+      "real": "루파이 모하메드",
+      "pos": "RB",
+      "nation": "가나",
+      "birthYear": 2006,
+      "ovr": 64
+    },
+    {
+      "key": "ven-14",
+      "number": 17,
+      "name": "아르멜 벨라코차픈",
+      "real": "아르멜 벨라코차프",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2001,
+      "ovr": 73
+    },
+    {
+      "key": "ven-15",
+      "number": 18,
+      "name": "앙투안 에논",
+      "real": "앙투안 에노",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 68
+    },
+    {
+      "key": "ven-16",
+      "number": 19,
+      "name": "시몬 조므",
+      "real": "시몬 좀",
+      "pos": "CM",
+      "nation": "스위스",
+      "birthYear": 2001,
+      "ovr": 75
+    },
+    {
+      "key": "ven-17",
+      "number": 20,
+      "name": "리치 사그라돈",
+      "real": "리치 사그라도",
+      "pos": "CB",
+      "nation": "벨기에",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "ven-18",
+      "number": 21,
+      "name": "토리르 요한 헬가손드",
+      "real": "토리르 요한 헬가손",
+      "pos": "CM",
+      "nation": "아이슬란드",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "ven-19",
+      "number": 23,
+      "name": "마테오 그란딘",
+      "real": "마테오 그란디",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 1992,
+      "ovr": 66
+    },
+    {
+      "key": "ven-20",
+      "number": 25,
+      "name": "레두안 할할라",
+      "real": "레두안 할할",
+      "pos": "CB",
+      "nation": "모로코",
+      "birthYear": 2003,
+      "ovr": 66
+    },
+    {
+      "key": "ven-21",
+      "number": 26,
+      "name": "토마 바시츠",
+      "real": "토마 바시치",
+      "pos": "CM",
+      "nation": "크로아티아",
+      "birthYear": 1996,
+      "ovr": 72
+    },
+    {
+      "key": "ven-22",
+      "number": 27,
+      "name": "사드 엘 하다든",
+      "real": "사드 엘 하다드",
+      "pos": "LW",
+      "nation": "모로코",
+      "birthYear": 2005,
+      "ovr": 65
+    },
+    {
+      "key": "ven-23",
+      "number": 29,
+      "name": "리온 라우버바흔",
+      "real": "리온 라우버바흐",
+      "pos": "ST",
+      "nation": "독일",
+      "birthYear": 1998,
+      "ovr": 69
+    },
+    {
+      "key": "ven-24",
+      "number": 30,
+      "name": "마테오 다가손",
+      "real": "마테오 다가소",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "ven-25",
+      "number": 32,
+      "name": "알프레드 던커느",
+      "real": "알프레드 던컨",
+      "pos": "CDM",
+      "nation": "가나",
+      "birthYear": 1993,
+      "ovr": 71
+    },
+    {
+      "key": "ven-26",
+      "number": 33,
+      "name": "마린 슈베르콘",
+      "real": "마린 슈베르코",
+      "pos": "CB",
+      "nation": "크로아티아",
+      "birthYear": 1998,
+      "ovr": 69
+    },
+    {
+      "key": "ven-27",
+      "number": 45,
+      "name": "아코르 아담손",
+      "real": "아코르 아담스",
+      "pos": "ST",
+      "nation": "나이지리아",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "ven-28",
+      "number": 70,
+      "name": "파스콸레 마초킨",
+      "real": "파스콸레 마초키",
+      "pos": "RB",
+      "nation": "이탈리아",
+      "birthYear": 1995,
+      "ovr": 71
+    },
+    {
+      "key": "ven-29",
+      "number": 96,
+      "name": "로렌초 몬티폰",
+      "real": "로렌초 몬티포",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 1996,
+      "ovr": 71
+    }
+  ]
+}

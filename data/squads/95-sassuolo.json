@@ -1,0 +1,300 @@
+{
+  "club": "사수올 네로베르데",
+  "realClub": "US 사수올로 칼초",
+  "league": "아주로 세리에",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/US_Sassuolo_Calcio",
+  "pilot": false,
+  "players": [
+    {
+      "key": "sas-01",
+      "number": 3,
+      "name": "조시 도이그르",
+      "real": "조시 도이그",
+      "pos": "LB",
+      "nation": "스코틀랜드",
+      "birthYear": 2002,
+      "ovr": 72
+    },
+    {
+      "key": "sas-02",
+      "number": 5,
+      "name": "팔리 칸덴",
+      "real": "팔리 칸데",
+      "pos": "CB",
+      "nation": "기니비사우",
+      "birthYear": 1998,
+      "ovr": 70
+    },
+    {
+      "key": "sas-03",
+      "number": 6,
+      "name": "세바스티안 발루키에비츠",
+      "real": "세바스티안 발루키에비치",
+      "pos": "CB",
+      "nation": "폴란드",
+      "birthYear": 2000,
+      "ovr": 72
+    },
+    {
+      "key": "sas-04",
+      "number": 7,
+      "name": "크리스티안 볼파톤",
+      "real": "크리스티안 볼파토",
+      "pos": "CAM",
+      "nation": "호주",
+      "birthYear": 2003,
+      "ovr": 73
+    },
+    {
+      "key": "sas-05",
+      "number": 8,
+      "name": "안드레아 기온드",
+      "real": "안드레아 기온",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "sas-06",
+      "number": 9,
+      "name": "키어런 보윈",
+      "real": "키어런 보위",
+      "pos": "ST",
+      "nation": "스코틀랜드",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "sas-07",
+      "number": 10,
+      "name": "도메니코 베라르딘",
+      "real": "도메니코 베라르디",
+      "pos": "RW",
+      "nation": "이탈리아",
+      "birthYear": 1994,
+      "ovr": 79
+    },
+    {
+      "key": "sas-08",
+      "number": 11,
+      "name": "다니엘 볼로칸",
+      "real": "다니엘 볼로카",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 1998,
+      "ovr": 72
+    },
+    {
+      "key": "sas-09",
+      "number": 12,
+      "name": "자코모 사탈리논",
+      "real": "자코모 사탈리노",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 1999,
+      "ovr": 67
+    },
+    {
+      "key": "sas-10",
+      "number": 15,
+      "name": "두예 찰레타차른",
+      "real": "두예 찰레타차르",
+      "pos": "CB",
+      "nation": "크로아티아",
+      "birthYear": 1996,
+      "ovr": 74
+    },
+    {
+      "key": "sas-11",
+      "number": 16,
+      "name": "페더 레이선드",
+      "real": "페더 레이선",
+      "pos": "CB",
+      "nation": "벨기에",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "sas-12",
+      "number": 17,
+      "name": "바실리예 아지츠",
+      "real": "바실리예 아지치",
+      "pos": "CAM",
+      "nation": "몬테네그로",
+      "birthYear": 2006,
+      "ovr": 70
+    },
+    {
+      "key": "sas-13",
+      "number": 18,
+      "name": "네마냐 마티츠",
+      "real": "네마냐 마티치",
+      "pos": "CDM",
+      "nation": "세르비아",
+      "birthYear": 1988,
+      "ovr": 72
+    },
+    {
+      "key": "sas-14",
+      "number": 19,
+      "name": "라우르스 셸레루픈",
+      "real": "라우르스 셸레루프",
+      "pos": "ST",
+      "nation": "덴마크",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "sas-15",
+      "number": 20,
+      "name": "이냐스 판 더르 브렘프튼",
+      "real": "이냐스 판 더르 브렘프트",
+      "pos": "RB",
+      "nation": "벨기에",
+      "birthYear": 2002,
+      "ovr": 72
+    },
+    {
+      "key": "sas-16",
+      "number": 21,
+      "name": "제이 이드제손",
+      "real": "제이 이드제스",
+      "pos": "CB",
+      "nation": "인도네시아",
+      "birthYear": 2000,
+      "ovr": 73
+    },
+    {
+      "key": "sas-17",
+      "number": 25,
+      "name": "벤하 도밍게손",
+      "real": "벤하 도밍게스",
+      "pos": "LW",
+      "nation": "아르헨티나",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "sas-18",
+      "number": 26,
+      "name": "카스 오덴탈라",
+      "real": "카스 오덴탈",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "sas-19",
+      "number": 27,
+      "name": "예페르손 파손",
+      "real": "예페르손 파스",
+      "pos": "CB",
+      "nation": "콜롬비아",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "sas-20",
+      "number": 33,
+      "name": "라파 오브라도른",
+      "real": "라파 오브라도르",
+      "pos": "LB",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 70
+    },
+    {
+      "key": "sas-21",
+      "number": 35,
+      "name": "루카 리파닌",
+      "real": "루카 리파니",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "sas-22",
+      "number": 42,
+      "name": "크리스티안 토르스트베튼",
+      "real": "크리스티안 토르스트베트",
+      "pos": "CM",
+      "nation": "노르웨이",
+      "birthYear": 1999,
+      "ovr": 73
+    },
+    {
+      "key": "sas-23",
+      "number": 45,
+      "name": "아르망 로리앙텐",
+      "real": "아르망 로리앙테",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 1998,
+      "ovr": 75
+    },
+    {
+      "key": "sas-24",
+      "number": 46,
+      "name": "시모네 친퀘그라논",
+      "real": "시모네 친퀘그라노",
+      "pos": "RB",
+      "nation": "이탈리아",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "sas-25",
+      "number": 49,
+      "name": "아리야네트 무리츠",
+      "real": "아리야네트 무리치",
+      "pos": "GK",
+      "nation": "코소보",
+      "birthYear": 1998,
+      "ovr": 73
+    },
+    {
+      "key": "sas-26",
+      "number": 55,
+      "name": "이브라힘 술레마난",
+      "real": "이브라힘 술레마나",
+      "pos": "CDM",
+      "nation": "가나",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "sas-27",
+      "number": 80,
+      "name": "스테파노 투라틴",
+      "real": "스테파노 투라티",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 2001,
+      "ovr": 71
+    },
+    {
+      "key": "sas-28",
+      "number": 90,
+      "name": "이스마엘 코넨드",
+      "real": "이스마엘 코네",
+      "pos": "CM",
+      "nation": "캐나다",
+      "birthYear": 2002,
+      "ovr": 72
+    },
+    {
+      "key": "sas-29",
+      "number": 94,
+      "name": "세바스티아노 에스포시톤",
+      "real": "세바스티아노 에스포시토",
+      "pos": "ST",
+      "nation": "이탈리아",
+      "birthYear": 2002,
+      "ovr": 72
+    }
+  ]
+}

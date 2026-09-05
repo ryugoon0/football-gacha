@@ -1,0 +1,280 @@
+{
+  "club": "토리노 그라나타",
+  "realClub": "토리노 FC",
+  "league": "아주로 세리에",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Torino_FC",
+  "pilot": false,
+  "players": [
+    {
+      "key": "tor-01",
+      "number": 1,
+      "name": "알베르토 팔레아린",
+      "real": "알베르토 팔레아리",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 1992,
+      "ovr": 70
+    },
+    {
+      "key": "tor-02",
+      "number": 2,
+      "name": "네이선 패터슨드",
+      "real": "네이선 패터슨",
+      "pos": "RB",
+      "nation": "스코틀랜드",
+      "birthYear": 2001,
+      "ovr": 73
+    },
+    {
+      "key": "tor-03",
+      "number": 3,
+      "name": "크리스티아노 비라긴",
+      "real": "크리스티아노 비라기",
+      "pos": "LB",
+      "nation": "이탈리아",
+      "birthYear": 1992,
+      "ovr": 72
+    },
+    {
+      "key": "tor-04",
+      "number": 5,
+      "name": "에라이 죔메르튼",
+      "real": "에라이 죔메르트",
+      "pos": "CB",
+      "nation": "스위스",
+      "birthYear": 1998,
+      "ovr": 72
+    },
+    {
+      "key": "tor-05",
+      "number": 6,
+      "name": "에미르한 일카느",
+      "real": "에미르한 일칸",
+      "pos": "CDM",
+      "nation": "튀르키예",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "tor-06",
+      "number": 7,
+      "name": "자카리아 아부클랄라",
+      "real": "자카리아 아부클랄",
+      "pos": "RW",
+      "nation": "모로코",
+      "birthYear": 2000,
+      "ovr": 75
+    },
+    {
+      "key": "tor-07",
+      "number": 8,
+      "name": "롤란도 만드라고란",
+      "real": "롤란도 만드라고라",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 1997,
+      "ovr": 75
+    },
+    {
+      "key": "tor-08",
+      "number": 9,
+      "name": "피에트로 펠레그린",
+      "real": "피에트로 펠레그리",
+      "pos": "ST",
+      "nation": "이탈리아",
+      "birthYear": 2001,
+      "ovr": 71
+    },
+    {
+      "key": "tor-09",
+      "number": 10,
+      "name": "니콜라 블라시츠",
+      "real": "니콜라 블라시치",
+      "pos": "CAM",
+      "nation": "크로아티아",
+      "birthYear": 1997,
+      "ovr": 77
+    },
+    {
+      "key": "tor-10",
+      "number": 11,
+      "name": "가에타노 오리스타니온",
+      "real": "가에타노 오리스타니오",
+      "pos": "LW",
+      "nation": "이탈리아",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "tor-11",
+      "number": 13,
+      "name": "리카르도 로드리게노",
+      "real": "리카르도 로드리게스",
+      "pos": "LB",
+      "nation": "스위스",
+      "birthYear": 1992,
+      "ovr": 71
+    },
+    {
+      "key": "tor-12",
+      "number": 14,
+      "name": "티노 안조리느",
+      "real": "티노 안조린",
+      "pos": "CAM",
+      "nation": "잉글랜드",
+      "birthYear": 2001,
+      "ovr": 71
+    },
+    {
+      "key": "tor-13",
+      "number": 15,
+      "name": "피에트로 코무촌",
+      "real": "피에트로 코무초",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 2005,
+      "ovr": 75
+    },
+    {
+      "key": "tor-14",
+      "number": 17,
+      "name": "산드로 쿨레노비츠",
+      "real": "산드로 쿨레노비치",
+      "pos": "ST",
+      "nation": "크로아티아",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "tor-15",
+      "number": 18,
+      "name": "조반니 시메오넨",
+      "real": "조반니 시메오네",
+      "pos": "ST",
+      "nation": "아르헨티나",
+      "birthYear": 1995,
+      "ovr": 77
+    },
+    {
+      "key": "tor-16",
+      "number": 19,
+      "name": "셰 애덤손",
+      "real": "셰 애덤스",
+      "pos": "ST",
+      "nation": "스코틀랜드",
+      "birthYear": 1996,
+      "ovr": 74
+    },
+    {
+      "key": "tor-17",
+      "number": 20,
+      "name": "루카스 페린",
+      "real": "루카스 페리",
+      "pos": "GK",
+      "nation": "브라질",
+      "birthYear": 1997,
+      "ovr": 76
+    },
+    {
+      "key": "tor-18",
+      "number": 21,
+      "name": "다니엘 브라간산",
+      "real": "다니엘 브라간사",
+      "pos": "CM",
+      "nation": "포르투갈",
+      "birthYear": 1999,
+      "ovr": 73
+    },
+    {
+      "key": "tor-19",
+      "number": 22,
+      "name": "체사레 카사데인",
+      "real": "체사레 카사데이",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 2003,
+      "ovr": 74
+    },
+    {
+      "key": "tor-20",
+      "number": 23,
+      "name": "사울 코콘",
+      "real": "사울 코코",
+      "pos": "CB",
+      "nation": "적도기니",
+      "birthYear": 1999,
+      "ovr": 74
+    },
+    {
+      "key": "tor-21",
+      "number": 28,
+      "name": "키안 피츠지므",
+      "real": "키안 피츠짐",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 71
+    },
+    {
+      "key": "tor-22",
+      "number": 29,
+      "name": "니콜로 포르티닌",
+      "real": "니콜로 포르티니",
+      "pos": "RB",
+      "nation": "이탈리아",
+      "birthYear": 2006,
+      "ovr": 67
+    },
+    {
+      "key": "tor-23",
+      "number": 44,
+      "name": "아르디안 이스마일린",
+      "real": "아르디안 이스마일리",
+      "pos": "CB",
+      "nation": "알바니아",
+      "birthYear": 1996,
+      "ovr": 72
+    },
+    {
+      "key": "tor-24",
+      "number": 45,
+      "name": "라피크 벨갈린",
+      "real": "라피크 벨갈리",
+      "pos": "RB",
+      "nation": "알제리",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "tor-25",
+      "number": 66,
+      "name": "그비다스 기네이티손",
+      "real": "그비다스 기네이티스",
+      "pos": "CM",
+      "nation": "리투아니아",
+      "birthYear": 2004,
+      "ovr": 70
+    },
+    {
+      "key": "tor-26",
+      "number": 81,
+      "name": "프랑코 이스라엘라",
+      "real": "프랑코 이스라엘",
+      "pos": "GK",
+      "nation": "우루과이",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "tor-27",
+      "number": 91,
+      "name": "두반 사파탄",
+      "real": "두반 사파타",
+      "pos": "ST",
+      "nation": "콜롬비아",
+      "birthYear": 1991,
+      "ovr": 72
+    }
+  ]
+}

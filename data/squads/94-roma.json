@@ -1,0 +1,240 @@
+{
+  "club": "로마 잘로로소",
+  "realClub": "AS 로마",
+  "league": "아주로 세리에",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/AS_Roma",
+  "pilot": false,
+  "players": [
+    {
+      "key": "rom-01",
+      "number": 2,
+      "name": "데비너 렌스흔",
+      "real": "데비너 렌스흐",
+      "pos": "RB",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 76
+    },
+    {
+      "key": "rom-02",
+      "number": 3,
+      "name": "콘스탄티노스 쿨리에라키손",
+      "real": "콘스탄티노스 쿨리에라키스",
+      "pos": "CB",
+      "nation": "그리스",
+      "birthYear": 2003,
+      "ovr": 77
+    },
+    {
+      "key": "rom-03",
+      "number": 4,
+      "name": "브라이언 크리스탄텐",
+      "real": "브라이언 크리스탄테",
+      "pos": "CDM",
+      "nation": "이탈리아",
+      "birthYear": 1995,
+      "ovr": 77
+    },
+    {
+      "key": "rom-04",
+      "number": 5,
+      "name": "에방 은디칸",
+      "real": "에방 은디카",
+      "pos": "CB",
+      "nation": "코트디부아르",
+      "birthYear": 1999,
+      "ovr": 80
+    },
+    {
+      "key": "rom-05",
+      "number": 7,
+      "name": "로렌초 펠레그리닌",
+      "real": "로렌초 펠레그리니",
+      "pos": "CAM",
+      "nation": "이탈리아",
+      "birthYear": 1996,
+      "ovr": 80
+    },
+    {
+      "key": "rom-06",
+      "number": 9,
+      "name": "산티아고 카스트론",
+      "real": "산티아고 카스트로",
+      "pos": "ST",
+      "nation": "아르헨티나",
+      "birthYear": 2004,
+      "ovr": 77
+    },
+    {
+      "key": "rom-07",
+      "number": 14,
+      "name": "도니엘 말러느",
+      "real": "도니엘 말런",
+      "pos": "LW",
+      "nation": "네덜란드",
+      "birthYear": 1999,
+      "ovr": 79
+    },
+    {
+      "key": "rom-08",
+      "number": 15,
+      "name": "마르턴 더 로느",
+      "real": "마르턴 더 론",
+      "pos": "CDM",
+      "nation": "네덜란드",
+      "birthYear": 1991,
+      "ovr": 76
+    },
+    {
+      "key": "rom-09",
+      "number": 17,
+      "name": "마누 코넨",
+      "real": "마누 코네",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2001,
+      "ovr": 81
+    },
+    {
+      "key": "rom-10",
+      "number": 18,
+      "name": "마티아스 술렌",
+      "real": "마티아스 술레",
+      "pos": "RW",
+      "nation": "아르헨티나",
+      "birthYear": 2003,
+      "ovr": 79
+    },
+    {
+      "key": "rom-11",
+      "number": 20,
+      "name": "나우엘 몰리난",
+      "real": "나우엘 몰리나",
+      "pos": "RB",
+      "nation": "아르헨티나",
+      "birthYear": 1998,
+      "ovr": 78
+    },
+    {
+      "key": "rom-12",
+      "number": 21,
+      "name": "파울로 디발란",
+      "real": "파울로 디발라",
+      "pos": "CAM",
+      "nation": "아르헨티나",
+      "birthYear": 1993,
+      "ovr": 81
+    },
+    {
+      "key": "rom-13",
+      "number": 22,
+      "name": "마리오 에르모손",
+      "real": "마리오 에르모소",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 1995,
+      "ovr": 75
+    },
+    {
+      "key": "rom-14",
+      "number": 23,
+      "name": "잔루카 만치닌",
+      "real": "잔루카 만치니",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 1996,
+      "ovr": 79
+    },
+    {
+      "key": "rom-15",
+      "number": 26,
+      "name": "레오나르도 발레르딘",
+      "real": "레오나르도 발레르디",
+      "pos": "CB",
+      "nation": "아르헨티나",
+      "birthYear": 1999,
+      "ovr": 78
+    },
+    {
+      "key": "rom-16",
+      "number": 43,
+      "name": "웨슬린",
+      "real": "웨슬리",
+      "pos": "LB",
+      "nation": "브라질",
+      "birthYear": 2003,
+      "ovr": 76
+    },
+    {
+      "key": "rom-17",
+      "number": 61,
+      "name": "니콜로 피실린",
+      "real": "니콜로 피실리",
+      "pos": "CM",
+      "nation": "이탈리아",
+      "birthYear": 2004,
+      "ovr": 71
+    },
+    {
+      "key": "rom-18",
+      "number": 70,
+      "name": "조르조 데 마르친",
+      "real": "조르조 데 마르치",
+      "pos": "GK",
+      "nation": "미국",
+      "birthYear": 2007,
+      "ovr": 62
+    },
+    {
+      "key": "rom-19",
+      "number": 77,
+      "name": "에마누엘레 룰린",
+      "real": "에마누엘레 룰리",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 2007,
+      "ovr": 63
+    },
+    {
+      "key": "rom-20",
+      "number": 86,
+      "name": "호드리구 모란",
+      "real": "호드리구 모라",
+      "pos": "CAM",
+      "nation": "포르투갈",
+      "birthYear": 2007,
+      "ovr": 76
+    },
+    {
+      "key": "rom-21",
+      "number": 87,
+      "name": "다니엘레 길라르딘",
+      "real": "다니엘레 길라르디",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 2003,
+      "ovr": 72
+    },
+    {
+      "key": "rom-22",
+      "number": 95,
+      "name": "피에를루이지 골리닌",
+      "real": "피에를루이지 골리니",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 1995,
+      "ovr": 72
+    },
+    {
+      "key": "rom-23",
+      "number": 99,
+      "name": "밀레 스빌라른",
+      "real": "밀레 스빌라르",
+      "pos": "GK",
+      "nation": "세르비아",
+      "birthYear": 1999,
+      "ovr": 82
+    }
+  ]
+}

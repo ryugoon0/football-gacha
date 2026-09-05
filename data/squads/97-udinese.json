@@ -1,0 +1,280 @@
+{
+  "club": "우디네 제브레",
+  "realClub": "우디네세 칼초",
+  "league": "아주로 세리에",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Udinese_Calcio",
+  "pilot": false,
+  "players": [
+    {
+      "key": "udi-01",
+      "number": 4,
+      "name": "산디 로브리츠",
+      "real": "산디 로브리치",
+      "pos": "CM",
+      "nation": "슬로베니아",
+      "birthYear": 1998,
+      "ovr": 74
+    },
+    {
+      "key": "udi-02",
+      "number": 6,
+      "name": "오이에르 사라간",
+      "real": "오이에르 사라가",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 1999,
+      "ovr": 72
+    },
+    {
+      "key": "udi-03",
+      "number": 7,
+      "name": "이드리사 게옌",
+      "real": "이드리사 게예",
+      "pos": "LW",
+      "nation": "세네갈",
+      "birthYear": 2006,
+      "ovr": 68
+    },
+    {
+      "key": "udi-04",
+      "number": 8,
+      "name": "예스페르 칼스트뢰므",
+      "real": "예스페르 칼스트룀",
+      "pos": "CDM",
+      "nation": "스웨덴",
+      "birthYear": 1995,
+      "ovr": 73
+    },
+    {
+      "key": "udi-05",
+      "number": 9,
+      "name": "케이넌 데이비손",
+      "real": "케이넌 데이비스",
+      "pos": "ST",
+      "nation": "잉글랜드",
+      "birthYear": 1998,
+      "ovr": 72
+    },
+    {
+      "key": "udi-06",
+      "number": 10,
+      "name": "니콜로 자니올론",
+      "real": "니콜로 자니올로",
+      "pos": "CAM",
+      "nation": "이탈리아",
+      "birthYear": 1999,
+      "ovr": 75
+    },
+    {
+      "key": "udi-07",
+      "number": 11,
+      "name": "아산 카마란",
+      "real": "아산 카마라",
+      "pos": "LB",
+      "nation": "코트디부아르",
+      "birthYear": 1994,
+      "ovr": 73
+    },
+    {
+      "key": "udi-08",
+      "number": 13,
+      "name": "니콜로 베르톨란",
+      "real": "니콜로 베르톨라",
+      "pos": "CB",
+      "nation": "이탈리아",
+      "birthYear": 2003,
+      "ovr": 71
+    },
+    {
+      "key": "udi-09",
+      "number": 14,
+      "name": "제임스 아반쿠안",
+      "real": "제임스 아반쿠아",
+      "pos": "CB",
+      "nation": "아일랜드",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "udi-10",
+      "number": 15,
+      "name": "바쿤 바욘",
+      "real": "바쿤 바요",
+      "pos": "ST",
+      "nation": "코트디부아르",
+      "birthYear": 1997,
+      "ovr": 71
+    },
+    {
+      "key": "udi-11",
+      "number": 16,
+      "name": "마테오 팔만",
+      "real": "마테오 팔마",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2008,
+      "ovr": 62
+    },
+    {
+      "key": "udi-12",
+      "number": 20,
+      "name": "후안 다비드 아리살란",
+      "real": "후안 다비드 아리살라",
+      "pos": "CB",
+      "nation": "콜롬비아",
+      "birthYear": 2005,
+      "ovr": 67
+    },
+    {
+      "key": "udi-13",
+      "number": 23,
+      "name": "메르김 보이보단",
+      "real": "메르김 보이보다",
+      "pos": "RB",
+      "nation": "코소보",
+      "birthYear": 1995,
+      "ovr": 73
+    },
+    {
+      "key": "udi-14",
+      "number": 24,
+      "name": "야쿠프 피오트로프스킨",
+      "real": "야쿠프 피오트로프스키",
+      "pos": "CM",
+      "nation": "폴란드",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "udi-15",
+      "number": 27,
+      "name": "크리스티안 카바셀렌",
+      "real": "크리스티안 카바셀레",
+      "pos": "CB",
+      "nation": "벨기에",
+      "birthYear": 1991,
+      "ovr": 70
+    },
+    {
+      "key": "udi-16",
+      "number": 28,
+      "name": "우마르 솔렌",
+      "real": "우마르 솔레",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2000,
+      "ovr": 76
+    },
+    {
+      "key": "udi-17",
+      "number": 30,
+      "name": "기오르기 차크베타젠",
+      "real": "기오르기 차크베타제",
+      "pos": "CAM",
+      "nation": "조지아",
+      "birthYear": 1999,
+      "ovr": 73
+    },
+    {
+      "key": "udi-18",
+      "number": 32,
+      "name": "유르헌 에컬렌캄픈",
+      "real": "유르헌 에컬렌캄프",
+      "pos": "CAM",
+      "nation": "네덜란드",
+      "birthYear": 2000,
+      "ovr": 72
+    },
+    {
+      "key": "udi-19",
+      "number": 38,
+      "name": "레넌 밀러스",
+      "real": "레넌 밀러",
+      "pos": "CM",
+      "nation": "스코틀랜드",
+      "birthYear": 2006,
+      "ovr": 72
+    },
+    {
+      "key": "udi-20",
+      "number": 40,
+      "name": "마두카 오코옌",
+      "real": "마두카 오코예",
+      "pos": "GK",
+      "nation": "나이지리아",
+      "birthYear": 1999,
+      "ovr": 73
+    },
+    {
+      "key": "udi-21",
+      "number": 41,
+      "name": "바르토시 므로제큰",
+      "real": "바르토시 므로제크",
+      "pos": "GK",
+      "nation": "폴란드",
+      "birthYear": 2000,
+      "ovr": 66
+    },
+    {
+      "key": "udi-22",
+      "number": 46,
+      "name": "우나이 고메손",
+      "real": "우나이 고메스",
+      "pos": "CM",
+      "nation": "스페인",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "udi-23",
+      "number": 59,
+      "name": "알레산드로 자놀린",
+      "real": "알레산드로 자놀리",
+      "pos": "RB",
+      "nation": "이탈리아",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "udi-24",
+      "number": 77,
+      "name": "엔조 에보센",
+      "real": "엔조 에보세",
+      "pos": "CB",
+      "nation": "카메룬",
+      "birthYear": 1999,
+      "ovr": 71
+    },
+    {
+      "key": "udi-25",
+      "number": 79,
+      "name": "다비드 페이치츠",
+      "real": "다비드 페이치치",
+      "pos": "CM",
+      "nation": "슬로베니아",
+      "birthYear": 2007,
+      "ovr": 63
+    },
+    {
+      "key": "udi-26",
+      "number": 91,
+      "name": "라자르 요바노비츠",
+      "real": "라자르 요바노비치",
+      "pos": "ST",
+      "nation": "세르비아",
+      "birthYear": 2006,
+      "ovr": 65
+    },
+    {
+      "key": "udi-27",
+      "number": 93,
+      "name": "다니엘레 파델린",
+      "real": "다니엘레 파델리",
+      "pos": "GK",
+      "nation": "이탈리아",
+      "birthYear": 1985,
+      "ovr": 62
+    }
+  ]
+}
