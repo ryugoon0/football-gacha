@@ -18,6 +18,8 @@ export type GiftTarget =
   | { kind: 'active'; days: number }
   /** Accounts created within the last `days` days. */
   | { kind: 'new'; days: number }
+  /** Every account created from now on, the moment it is created (auth.users trigger). Replaces the previous welcome gift. */
+  | { kind: 'welcome' }
 
 export const GIFT_TARGET_LABEL: Record<GiftTarget['kind'], string> = {
   all: '전체 유저',
@@ -25,10 +27,13 @@ export const GIFT_TARGET_LABEL: Record<GiftTarget['kind'], string> = {
   inactive: '접속 안 한 지 N일 이상',
   active: '최근 N일 안에 접속',
   new: '가입 N일 이내',
+  welcome: '신규 가입자 (가입 때 자동)',
 }
 
 export function describeTarget(target: GiftTarget): string {
   switch (target.kind) {
+    case 'welcome':
+      return '신규 가입자 — 가입하는 순간 자동'
     case 'all':
       return '전체 유저'
     case 'users':

@@ -16,7 +16,6 @@ export type ItemId =
   | 'drink'
   | 'energyFull'
   | 'medkit'
-  | 'marketTicket'
   | 'friendlyTicket'
   | 'vaultPermit'
   | 'shardPouch'
@@ -83,16 +82,8 @@ export const ITEMS: Record<ItemId, ItemDef> = {
     shards: 80,
     dailyLimit: 3,
   },
-  marketTicket: {
-    id: 'marketTicket',
-    name: '이적시장 갱신권',
-    note: '매물 목록을 공짜로 새로 뽑습니다.',
-    target: 'club',
-    icon: '🎟️',
-    gold: 250,
-    shards: null,
-    dailyLimit: null,
-  },
+  // 이적시장 갱신권 (marketTicket) was retired with the market tab (2026-09-05);
+  // normalizeInventory drops it from old saves.
   friendlyTicket: {
     id: 'friendlyTicket',
     name: '친선 경기권',

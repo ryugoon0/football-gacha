@@ -41,6 +41,7 @@ export default function GiftPanel() {
 
   const target = useMemo<GiftTarget>(() => {
     if (kind === 'all') return { kind: 'all' }
+    if (kind === 'welcome') return { kind: 'welcome' }
     if (kind === 'users') return { kind: 'users', userIds: picked.map((row) => row.user_id) }
     return { kind, days: Math.max(0, Math.floor(days)) }
   }, [kind, days, picked])
@@ -241,7 +242,11 @@ export default function GiftPanel() {
           )}
           <p className="mt-2 text-[11px] text-slate-500">
             대상: <b className="text-slate-200">{describeTarget(target)}</b>
-            {audience !== null ? ` · 지금 기준 ${audience}명` : ' · 세는 중…'}
+            {kind === 'welcome'
+              ? ' · 지금 있는 계정에는 가지 않고, 앞으로 가입하는 계정마다 선물함에 들어갑니다. 새로 보내면 이전 가입 선물은 만료됩니다.'
+              : audience !== null
+                ? ` · 지금 기준 ${audience}명`
+                : ' · 세는 중…'}
             {kind === 'active' || kind === 'inactive' ? ' — 세이브가 마지막으로 저장된 시각 기준' : ''}
           </p>
         </div>

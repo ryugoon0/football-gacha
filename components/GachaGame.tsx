@@ -12,7 +12,7 @@ import { CardStyleProvider, CardStyleToggle } from './CardStyle'
 import { TacticsModeProvider } from './TacticsMode'
 import { AdminProvider, useAdmin } from './useAdmin'
 import GuideOverlay from './GuideOverlay'
-import GiftInbox, { useGiftCount } from './GiftInbox'
+import GiftInbox, { GiftArrivalPopup, useGiftCount } from './GiftInbox'
 import LoginScreen from './LoginScreen'
 import BoardTab from './tabs/BoardTab'
 import ClubTab from './tabs/ClubTab'
@@ -242,6 +242,16 @@ function Shell() {
       </footer>
 
       {giftsOpen && <GiftInbox onClose={() => setGiftsOpen(false)} onChanged={() => void gifts.refresh()} />}
+      {!giftsOpen && ready && (
+        <GiftArrivalPopup
+          gifts={gifts.fresh}
+          onDismiss={gifts.markSeen}
+          onOpen={() => {
+            gifts.markSeen()
+            setGiftsOpen(true)
+          }}
+        />
+      )}
       {(accountOpen || account.conflict) && (
         <AccountPanel onClose={() => setAccountOpen(false)} />
       )}

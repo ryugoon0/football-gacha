@@ -8,7 +8,7 @@ import {
   readCloudSave,
   type CloudSave,
 } from '../lib/cloudSave'
-import { friendlyError, getSupabase, isSupabaseConfigured, rejectionMessage } from '../lib/supabase'
+import { SUPABASE_REST, friendlyError, getSupabase, isSupabaseConfigured, rejectionMessage } from '../lib/supabase'
 import { seedEconomy } from '../lib/serverDraw'
 import { SIGN_UP_MESSAGE, signUpOutcome } from '../lib/signup'
 import { reducer } from '../lib/gameReducer'
@@ -55,6 +55,12 @@ export interface AccountApi {
   signOut: () => Promise<void>
   resolveConflict: (choice: 'useLocal' | 'useCloud') => Promise<void>
   clearMessages: () => void
+  /**
+   * Write the save to the cloud right now instead of after the usual pause —
+   * for the moment gold or items the server already granted land in the save
+   * (선물·보상 수령), so a refresh a second later cannot lose them.
+   */
+  saveNow: () => Promise<void>
 }
 
 /** Wait this long after the last change before writing the save to the cloud. */
@@ -246,13 +252,59 @@ export function useAccountSync(
   }, [ready, status, user, fetchCloud, upload])
 
   // Keep the cloud copy current, a few seconds after the last change.
+  // `dirtyRef` remembers that a change is still waiting, so the page-hide
+  // flush below knows whether there is anything to send.
+  const dirtyRef = useRef(false)
   useEffect(() => {
     if (status !== 'signedIn' || !user || holdRef.current || !ready) return
+    dirtyRef.current = true
     const timer = window.setTimeout(() => {
+      dirtyRef.current = false
       void upload(user.id, stateRef.current)
     }, UPLOAD_DEBOUNCE_MS)
     return () => window.clearTimeout(timer)
   }, [state, status, user, ready, upload])
+
+  const saveNow = useCallback(async () => {
+    if (status !== 'signedIn' || !user || holdRef.current || !ready) return
+    dirtyRef.current = false
+    await upload(user.id, stateRef.current)
+  }, [status, user, ready, upload])
+
+  // A refresh or a closed tab inside the debounce window used to drop the last
+  // change (a claimed gift, a finished match): the next sign-in read the older
+  // cloud row. On page hide the pending save goes out with keepalive, which the
+  // browser finishes even after the page is gone. Same RPC, same checks.
+  useEffect(() => {
+    if (status !== 'signedIn' || !user) return
+    const flush = () => {
+      const rest = SUPABASE_REST
+      if (!dirtyRef.current || holdRef.current || !rest) return
+      const supabase = getSupabase()
+      if (!supabase) return
+      dirtyRef.current = false
+      const body = JSON.stringify({ p_data: stateRef.current, p_base_revision: revisionRef.current })
+      void supabase.auth.getSession().then(({ data }) => {
+        const token = data.session?.access_token
+        if (!token) return
+        void fetch(`${rest.url}/rest/v1/rpc/put_save`, {
+          method: 'POST',
+          keepalive: true,
+          headers: { 'Content-Type': 'application/json', apikey: rest.anonKey, Authorization: `Bearer ${token}` },
+          body,
+        }).catch(() => {})
+      })
+    }
+    const onVisibility = () => {
+      if (document.visibilityState === 'hidden') flush()
+    }
+    window.addEventListener('pagehide', flush)
+    document.addEventListener('visibilitychange', onVisibility)
+    return () => {
+      window.removeEventListener('pagehide', flush)
+      document.removeEventListener('visibilitychange', onVisibility)
+    }
+  }, [status, user])
 
   const signUp = useCallback(async (email: string, password: string, club?: string) => {
     const supabase = getSupabase()
@@ -399,5 +451,6 @@ export function useAccountSync(
     signOut,
     resolveConflict,
     clearMessages,
+    saveNow,
   }
 }

@@ -14,7 +14,6 @@ import {
   type ItemDef,
   type ItemId,
 } from '../../lib/items'
-import { rollListings } from '../../lib/market'
 import { getPlayer } from '../../lib/players'
 import { MAX_CAPACITY } from '../../lib/vault'
 import { useGame } from '../GameProvider'
@@ -73,11 +72,6 @@ export default function ItemsTab() {
   }
 
   const spendOnClub = (id: ItemId) => {
-    if (id === 'marketTicket') {
-      spendItemOnClub(id, rollListings(state.season.division))
-      setNote('이적시장 매물을 새로 뽑았습니다.')
-      return
-    }
     if (id === 'vaultPermit' && state.capacity >= MAX_CAPACITY) {
       setNote(`보관함은 ${MAX_CAPACITY}칸이 최대입니다.`)
       return

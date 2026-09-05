@@ -235,6 +235,8 @@ export default function WeeklyTab() {
     }
     if (result.amount > 0) grantGold(result.amount)
     if (result.cards.length > 0) grantItems(result.cards.map((line) => ({ id: line.cardId, count: line.count })))
+    // Server-granted gold goes to the cloud save at once (see GiftInbox).
+    setTimeout(() => void account.saveNow(), 50)
     setRewards([])
     const parts = [
       result.amount > 0 ? `${result.amount.toLocaleString('ko-KR')}G` : '',

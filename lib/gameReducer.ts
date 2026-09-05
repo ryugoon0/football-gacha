@@ -784,10 +784,6 @@ export function reducer(state: GameState, action: Action): GameState {
       const spend = { ...state.items, [action.id]: itemCount(state.items, action.id) - 1 }
 
       switch (action.id) {
-        case 'marketTicket': {
-          if (!action.listings) return state
-          return { ...state, items: spend, market: { ...state.market, listings: action.listings } }
-        }
         case 'friendlyTicket':
           return {
             ...state,

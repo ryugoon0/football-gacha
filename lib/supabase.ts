@@ -17,6 +17,8 @@ export function normalizeSupabaseUrl(value: string | undefined): string {
 
 const URL = normalizeSupabaseUrl(process.env.NEXT_PUBLIC_SUPABASE_URL)
 const ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim()
+/** For the one place that has to call the REST endpoint without the client (a keepalive save on page hide). */
+export const SUPABASE_REST = URL && ANON_KEY ? { url: URL, anonKey: ANON_KEY } : null
 
 /**
  * The game works with no server at all — accounts, cloud saves and the board

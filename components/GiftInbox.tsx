@@ -5,13 +5,45 @@ import { ITEMS } from '../lib/items'
 import { GIFT_FAILURE_MESSAGE, claimGifts, fetchMyGifts, giftItemLines, type GiftRow } from '../lib/gifts'
 import { useGame } from './GameProvider'
 
-/** Unclaimed gifts, for the header badge. Polls slowly; the inbox refreshes it on open and claim. */
-export function useGiftCount(enabled: boolean): { count: number; refresh: () => Promise<void> } {
+const SEEN_KEY = 'football-gacha:gifts-seen'
+
+function readSeen(): Set<number> {
+  try {
+    const raw = window.localStorage.getItem(SEEN_KEY)
+    return new Set(raw ? (JSON.parse(raw) as number[]) : [])
+  } catch {
+    return new Set()
+  }
+}
+
+function writeSeen(ids: Iterable<number>) {
+  try {
+    window.localStorage.setItem(SEEN_KEY, JSON.stringify([...ids].slice(-200)))
+  } catch {
+    // Storage may be unavailable; the popup then shows again next time, which is harmless.
+  }
+}
+
+/**
+ * Unclaimed gifts, for the header badge and the arrival popup. Polls slowly;
+ * the inbox refreshes it on open and claim. `fresh` is the unclaimed gifts
+ * this browser has not been told about yet — cleared by `markSeen`.
+ */
+export function useGiftCount(enabled: boolean): {
+  count: number
+  fresh: GiftRow[]
+  refresh: () => Promise<void>
+  markSeen: () => void
+} {
   const [count, setCount] = useState(0)
+  const [fresh, setFresh] = useState<GiftRow[]>([])
   const refresh = useCallback(async () => {
     if (!enabled) return
     const rows = await fetchMyGifts()
-    setCount(rows.filter((row) => !row.claimedAt).length)
+    const unclaimed = rows.filter((row) => !row.claimedAt)
+    setCount(unclaimed.length)
+    const seen = readSeen()
+    setFresh(unclaimed.filter((row) => !seen.has(row.inboxId)))
   }, [enabled])
   useEffect(() => {
     if (!enabled) return
@@ -19,7 +51,41 @@ export function useGiftCount(enabled: boolean): { count: number; refresh: () => 
     const timer = setInterval(() => void refresh(), 3 * 60 * 1000)
     return () => clearInterval(timer)
   }, [enabled, refresh])
-  return { count, refresh }
+  const markSeen = useCallback(() => {
+    const seen = readSeen()
+    for (const row of fresh) seen.add(row.inboxId)
+    writeSeen(seen)
+    setFresh([])
+  }, [fresh])
+  return { count, fresh, refresh, markSeen }
+}
+
+/** The small "a gift has arrived" notice — one tap opens the inbox, the other dismisses. */
+export function GiftArrivalPopup({ gifts, onOpen, onDismiss }: { gifts: GiftRow[]; onOpen: () => void; onDismiss: () => void }) {
+  if (gifts.length === 0) return null
+  const first = gifts[0]
+  const totalGold = gifts.reduce((sum, row) => sum + row.gold, 0)
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={onDismiss}>
+      <div className="panel rise-in w-full max-w-sm p-5 text-center" onClick={(event) => event.stopPropagation()} role="dialog" aria-modal="true">
+        <div className="text-3xl">🎁</div>
+        <div className="mt-1 text-[10px] font-bold uppercase tracking-widest text-amber-300">새 선물</div>
+        <h3 className="mt-1 text-base font-black text-white">
+          {gifts.length === 1 ? `「${first.title}」이 도착했습니다` : `선물 ${gifts.length}개가 도착했습니다`}
+        </h3>
+        {first.message && gifts.length === 1 && <p className="mt-2 whitespace-pre-wrap text-xs leading-relaxed text-slate-300">{first.message}</p>}
+        {totalGold > 0 && <p className="mt-2 text-sm font-black text-amber-200">{totalGold.toLocaleString('ko-KR')}G 포함</p>}
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          <button onClick={onDismiss} className="rounded-lg btn-ghost py-2 text-xs font-bold">
+            나중에
+          </button>
+          <button onClick={onOpen} className="rounded-lg btn-gold py-2 text-xs font-black">
+            선물함 열기
+          </button>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 const fmtDate = (iso: string) => new Date(iso).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul', dateStyle: 'short', timeStyle: 'short' })
@@ -30,7 +96,7 @@ const fmtDate = (iso: string) => new Date(iso).toLocaleString('ko-KR', { timeZon
  * screen adds it to the save.
  */
 export default function GiftInbox({ onClose, onChanged }: { onClose: () => void; onChanged?: () => void }) {
-  const { grantGold, grantItems } = useGame()
+  const { grantGold, grantItems, account } = useGame()
   const [rows, setRows] = useState<GiftRow[] | null>(null)
   const [busy, setBusy] = useState(false)
   const [notice, setNotice] = useState<string | null>(null)
@@ -50,6 +116,9 @@ export default function GiftInbox({ onClose, onChanged }: { onClose: () => void;
     }
     if (result.gold > 0) grantGold(result.gold)
     if (result.items.length > 0) grantItems(result.items)
+    // The server has already recorded the gold; the save must follow at once,
+    // not after the usual pause — a refresh in between would lose the claim.
+    setTimeout(() => void account.saveNow(), 50)
     const parts = [
       result.gold > 0 ? `${result.gold.toLocaleString('ko-KR')}G` : '',
       ...result.items.map((line) => `${ITEMS[line.id].name} ×${line.count}`),
