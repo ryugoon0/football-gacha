@@ -37,7 +37,7 @@ export default function MarketTab() {
 
         {!hasRoomFor(state.cards.length, state.capacity, 1) && (
           <p className="mt-4 rounded-lg bg-rose-500/15 px-3 py-2 text-xs font-bold text-rose-200">
-            보관함이 가득 찼습니다 ({state.cards.length} / {state.capacity}). 선수단 탭에서 증설하거나
+            보관함이 가득 찼습니다 ({state.cards.length} / {state.capacity}). 선수관리 탭에서 증설하거나
             선수를 방출해야 영입할 수 있습니다.
           </p>
         )}

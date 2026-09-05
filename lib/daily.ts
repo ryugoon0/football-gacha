@@ -12,7 +12,7 @@ export interface MissionDef {
 export const DAILY_MISSIONS: MissionDef[] = [
   { id: 'draw', label: '카드 10장 뽑기', hint: '10연차 한 번이면 끝납니다', target: 10, reward: 400 },
   { id: 'win', label: '리그 경기 2승', hint: '경기 탭에서 승리하세요', target: 2, reward: 600 },
-  { id: 'train', label: '선수 2회 강화', hint: '선수단 탭에서 강화하세요', target: 2, reward: 300 },
+  { id: 'train', label: '선수 2회 강화', hint: '선수관리 탭에서 강화하세요', target: 2, reward: 300 },
 ]
 
 export interface DailyState {
