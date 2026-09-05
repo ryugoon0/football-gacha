@@ -1,0 +1,250 @@
+{
+  "club": "스파르타 로테르",
+  "realClub": "스파르타 로테르담",
+  "league": "오라녜 에레디",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Sparta_Rotterdam",
+  "pilot": false,
+  "players": [
+    {
+      "key": "spa-01",
+      "number": null,
+      "name": "필리프 베드나레큰",
+      "real": "필리프 베드나레크",
+      "pos": "GK",
+      "nation": "폴란드",
+      "birthYear": 1992,
+      "ovr": 70
+    },
+    {
+      "key": "spa-02",
+      "number": null,
+      "name": "미하엘 브라우어른",
+      "real": "미하엘 브라우어르",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 1993,
+      "ovr": 67
+    },
+    {
+      "key": "spa-03",
+      "number": null,
+      "name": "막스 더 리흐튼",
+      "real": "막스 더 리흐트",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "spa-04",
+      "number": null,
+      "name": "바스 카위퍼르손",
+      "real": "바스 카위퍼르스",
+      "pos": "LB",
+      "nation": "네덜란드",
+      "birthYear": 1994,
+      "ovr": 68
+    },
+    {
+      "key": "spa-05",
+      "number": null,
+      "name": "루셴드리 마르테손",
+      "real": "루셴드리 마르테스",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2008,
+      "ovr": 62
+    },
+    {
+      "key": "spa-06",
+      "number": null,
+      "name": "브루노 마르틴스 인딘",
+      "real": "브루노 마르틴스 인디",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 1992,
+      "ovr": 71
+    },
+    {
+      "key": "spa-07",
+      "number": null,
+      "name": "테오 킨테론",
+      "real": "테오 킨테로",
+      "pos": "CB",
+      "nation": "베네수엘라",
+      "birthYear": 1999,
+      "ovr": 68
+    },
+    {
+      "key": "spa-08",
+      "number": null,
+      "name": "보이트 레이튼",
+      "real": "보이트 레이트",
+      "pos": "RB",
+      "nation": "네덜란드",
+      "birthYear": 1999,
+      "ovr": 68
+    },
+    {
+      "key": "spa-09",
+      "number": null,
+      "name": "마르빈 영그",
+      "real": "마르빈 영",
+      "pos": "LB",
+      "nation": "수리남",
+      "birthYear": 2005,
+      "ovr": 65
+    },
+    {
+      "key": "spa-10",
+      "number": null,
+      "name": "율리안 바손",
+      "real": "율리안 바스",
+      "pos": "CDM",
+      "nation": "네덜란드",
+      "birthYear": 2002,
+      "ovr": 68
+    },
+    {
+      "key": "spa-11",
+      "number": null,
+      "name": "미토 슌스켄",
+      "real": "미토 슌스케",
+      "pos": "CM",
+      "nation": "일본",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "spa-12",
+      "number": null,
+      "name": "알완데 로알드쇠인",
+      "real": "알완데 로알드쇠이",
+      "pos": "CM",
+      "nation": "노르웨이",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "spa-13",
+      "number": null,
+      "name": "세드리크 하텐부른",
+      "real": "세드리크 하텐부르",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2005,
+      "ovr": 65
+    },
+    {
+      "key": "spa-14",
+      "number": null,
+      "name": "옌스 토른스트란",
+      "real": "옌스 토른스트라",
+      "pos": "CAM",
+      "nation": "네덜란드",
+      "birthYear": 1989,
+      "ovr": 69
+    },
+    {
+      "key": "spa-15",
+      "number": null,
+      "name": "로빈 판크라위선드",
+      "real": "로빈 판크라위선",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2006,
+      "ovr": 64
+    },
+    {
+      "key": "spa-16",
+      "number": null,
+      "name": "요엘 이데혼",
+      "real": "요엘 이데호",
+      "pos": "LW",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "spa-17",
+      "number": null,
+      "name": "카스페르 테르혼",
+      "real": "카스페르 테르호",
+      "pos": "RW",
+      "nation": "핀란드",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "spa-18",
+      "number": null,
+      "name": "뇌크비 테이르 토리손드",
+      "real": "뇌크비 테이르 토리손",
+      "pos": "ST",
+      "nation": "아이슬란드",
+      "birthYear": 1999,
+      "ovr": 69
+    },
+    {
+      "key": "spa-19",
+      "number": null,
+      "name": "미첼 판베르헌드",
+      "real": "미첼 판베르헌",
+      "pos": "LW",
+      "nation": "네덜란드",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "spa-20",
+      "number": null,
+      "name": "밀란 조너펠튼",
+      "real": "밀란 조너펠트",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 66
+    },
+    {
+      "key": "spa-21",
+      "number": null,
+      "name": "안드레이 코스티츠",
+      "real": "안드레이 코스티치",
+      "pos": "ST",
+      "nation": "몬테네그로",
+      "birthYear": 2007,
+      "ovr": 63
+    },
+    {
+      "key": "spa-22",
+      "number": null,
+      "name": "미커 클레인드",
+      "real": "미커 클레인",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2005,
+      "ovr": 65
+    },
+    {
+      "key": "spa-23",
+      "number": null,
+      "name": "알바로 헨린",
+      "real": "알바로 헨리",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2005,
+      "ovr": 65
+    },
+    {
+      "key": "spa-24",
+      "number": null,
+      "name": "퀸시 후버스",
+      "real": "퀸시 후버",
+      "pos": "ST",
+      "nation": "보네르",
+      "birthYear": 2003,
+      "ovr": 65
+    }
+  ]
+}

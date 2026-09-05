@@ -1,0 +1,160 @@
+{
+  "club": "텔스타르 레이우",
+  "realClub": "SC 텔스타르",
+  "league": "오라녜 에레디",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/SC_Telstar",
+  "pilot": false,
+  "players": [
+    {
+      "key": "tel-01",
+      "number": 1,
+      "name": "로날트 코이만 주니오르",
+      "real": "로날트 코이만 주니어",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 1995,
+      "ovr": 66
+    },
+    {
+      "key": "tel-02",
+      "number": 2,
+      "name": "예프 하르더펠튼",
+      "real": "예프 하르더펠트",
+      "pos": "RB",
+      "nation": "네덜란드",
+      "birthYear": 1995,
+      "ovr": 66
+    },
+    {
+      "key": "tel-03",
+      "number": 3,
+      "name": "헤랄트 알더르손",
+      "real": "헤랄트 알더르스",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2005,
+      "ovr": 63
+    },
+    {
+      "key": "tel-04",
+      "number": 5,
+      "name": "프린스 아닝크",
+      "real": "프린스 아닝",
+      "pos": "LB",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 65
+    },
+    {
+      "key": "tel-05",
+      "number": 7,
+      "name": "후이 멘드손",
+      "real": "후이 멘드스",
+      "pos": "ST",
+      "nation": "포르투갈",
+      "birthYear": 1999,
+      "ovr": 68
+    },
+    {
+      "key": "tel-06",
+      "number": 8,
+      "name": "에미르한 데미르자느",
+      "real": "에미르한 데미르잔",
+      "pos": "RW",
+      "nation": "튀르키예",
+      "birthYear": 2005,
+      "ovr": 64
+    },
+    {
+      "key": "tel-07",
+      "number": 9,
+      "name": "젤라니 세도르픈",
+      "real": "젤라니 세도르프",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 65
+    },
+    {
+      "key": "tel-08",
+      "number": 10,
+      "name": "티론 오우순",
+      "real": "티론 오우수",
+      "pos": "CAM",
+      "nation": "네덜란드",
+      "birthYear": 1999,
+      "ovr": 66
+    },
+    {
+      "key": "tel-09",
+      "number": 15,
+      "name": "나이절 오기디 은완쿤",
+      "real": "나이절 오기디 은완쿠",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 1998,
+      "ovr": 65
+    },
+    {
+      "key": "tel-10",
+      "number": 17,
+      "name": "닐스 로선드",
+      "real": "닐스 로선",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2005,
+      "ovr": 63
+    },
+    {
+      "key": "tel-11",
+      "number": 18,
+      "name": "가비 카스킬린",
+      "real": "가비 카스킬리",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 64
+    },
+    {
+      "key": "tel-12",
+      "number": 20,
+      "name": "단 레이지허른",
+      "real": "단 레이지허르",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 2001,
+      "ovr": 64
+    },
+    {
+      "key": "tel-13",
+      "number": 27,
+      "name": "파트릭 브라우어른",
+      "real": "파트릭 브라우어르",
+      "pos": "LW",
+      "nation": "네덜란드",
+      "birthYear": 2001,
+      "ovr": 65
+    },
+    {
+      "key": "tel-14",
+      "number": 28,
+      "name": "로연드로 아우스턴드",
+      "real": "로연드로 아우스턴",
+      "pos": "CM",
+      "nation": "수리남",
+      "birthYear": 2007,
+      "ovr": 61
+    },
+    {
+      "key": "tel-15",
+      "number": 43,
+      "name": "마르빈 페이르스마느",
+      "real": "마르빈 페이르스만",
+      "pos": "CB",
+      "nation": "벨기에",
+      "birthYear": 1991,
+      "ovr": 65
+    }
+  ]
+}

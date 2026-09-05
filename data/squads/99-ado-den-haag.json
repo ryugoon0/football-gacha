@@ -1,0 +1,230 @@
+{
+  "club": "덴하흐 오이에바르",
+  "realClub": "ADO 덴하흐",
+  "league": "오라녜 에레디",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/ADO_Den_Haag",
+  "pilot": false,
+  "players": [
+    {
+      "key": "ado-01",
+      "number": 1,
+      "name": "킬리안 니키에만",
+      "real": "킬리안 니키에마",
+      "pos": "GK",
+      "nation": "부르키나파소",
+      "birthYear": 2003,
+      "ovr": 67
+    },
+    {
+      "key": "ado-02",
+      "number": 2,
+      "name": "오트니엘 라터링크르",
+      "real": "오트니엘 라터링크",
+      "pos": "RB",
+      "nation": "네덜란드",
+      "birthYear": 2006,
+      "ovr": 64
+    },
+    {
+      "key": "ado-03",
+      "number": 4,
+      "name": "마테오 바므",
+      "real": "마테오 밤",
+      "pos": "CB",
+      "nation": "벨기에",
+      "birthYear": 2000,
+      "ovr": 67
+    },
+    {
+      "key": "ado-04",
+      "number": 5,
+      "name": "요나스 옌센아베운",
+      "real": "요나스 옌센아베우",
+      "pos": "CB",
+      "nation": "덴마크",
+      "birthYear": 2002,
+      "ovr": 67
+    },
+    {
+      "key": "ado-05",
+      "number": 7,
+      "name": "다릴 판미헤이므",
+      "real": "다릴 판미헤임",
+      "pos": "LW",
+      "nation": "네덜란드",
+      "birthYear": 1989,
+      "ovr": 66
+    },
+    {
+      "key": "ado-06",
+      "number": 8,
+      "name": "얀 잠부레큰",
+      "real": "얀 잠부레크",
+      "pos": "CM",
+      "nation": "체코",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "ado-07",
+      "number": 9,
+      "name": "예서 발라",
+      "real": "예서 발",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 2006,
+      "ovr": 64
+    },
+    {
+      "key": "ado-08",
+      "number": 11,
+      "name": "에번 로티어스",
+      "real": "에번 로티어",
+      "pos": "LW",
+      "nation": "네덜란드",
+      "birthYear": 2002,
+      "ovr": 66
+    },
+    {
+      "key": "ado-09",
+      "number": 14,
+      "name": "밀리안 히메네손",
+      "real": "밀리안 히메네스",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 65
+    },
+    {
+      "key": "ado-10",
+      "number": 15,
+      "name": "밀란 호커스",
+      "real": "밀란 호커",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 65
+    },
+    {
+      "key": "ado-11",
+      "number": 16,
+      "name": "핀 더 브라윈드",
+      "real": "핀 더 브라윈",
+      "pos": "CDM",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 65
+    },
+    {
+      "key": "ado-12",
+      "number": 17,
+      "name": "제일런 호킨손",
+      "real": "제일런 호킨스",
+      "pos": "RW",
+      "nation": "미국",
+      "birthYear": 2001,
+      "ovr": 66
+    },
+    {
+      "key": "ado-13",
+      "number": 18,
+      "name": "세쿠 실란",
+      "real": "세쿠 실라",
+      "pos": "CB",
+      "nation": "기니",
+      "birthYear": 1999,
+      "ovr": 66
+    },
+    {
+      "key": "ado-14",
+      "number": 19,
+      "name": "루카 라이슐라",
+      "real": "루카 라이슐",
+      "pos": "ST",
+      "nation": "오스트리아",
+      "birthYear": 2004,
+      "ovr": 65
+    },
+    {
+      "key": "ado-15",
+      "number": 20,
+      "name": "케일럽 크레이머스",
+      "real": "케일럽 크레이머",
+      "pos": "GK",
+      "nation": "케냐",
+      "birthYear": 2006,
+      "ovr": 62
+    },
+    {
+      "key": "ado-16",
+      "number": 21,
+      "name": "캐머런 푸피온드",
+      "real": "캐머런 푸피온",
+      "pos": "RW",
+      "nation": "호주",
+      "birthYear": 2002,
+      "ovr": 66
+    },
+    {
+      "key": "ado-17",
+      "number": 23,
+      "name": "니클라스 티덴",
+      "real": "니클라스 티데",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1999,
+      "ovr": 67
+    },
+    {
+      "key": "ado-18",
+      "number": 25,
+      "name": "유호 킬론",
+      "real": "유호 킬로",
+      "pos": "CM",
+      "nation": "핀란드",
+      "birthYear": 2002,
+      "ovr": 65
+    },
+    {
+      "key": "ado-19",
+      "number": 27,
+      "name": "나이절 토머슨",
+      "real": "나이절 토머스",
+      "pos": "LB",
+      "nation": "네덜란드",
+      "birthYear": 2001,
+      "ovr": 65
+    },
+    {
+      "key": "ado-20",
+      "number": 33,
+      "name": "마테이 시느",
+      "real": "마테이 신",
+      "pos": "CAM",
+      "nation": "체코",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "ado-21",
+      "number": 46,
+      "name": "야니크 에두아르돈",
+      "real": "야니크 에두아르도",
+      "pos": "ST",
+      "nation": "체코",
+      "birthYear": 2006,
+      "ovr": 63
+    },
+    {
+      "key": "ado-22",
+      "number": 77,
+      "name": "도나트 바라닌",
+      "real": "도나트 바라니",
+      "pos": "ST",
+      "nation": "헝가리",
+      "birthYear": 2000,
+      "ovr": 66
+    }
+  ]
+}

@@ -1,0 +1,200 @@
+{
+  "club": "흐로닝언 그린",
+  "realClub": "FC 흐로닝언",
+  "league": "오라녜 에레디",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/FC_Groningen",
+  "pilot": false,
+  "players": [
+    {
+      "key": "gro-01",
+      "number": 1,
+      "name": "에티엔 파선드",
+      "real": "에티엔 파선",
+      "pos": "GK",
+      "nation": "수리남",
+      "birthYear": 1995,
+      "ovr": 70
+    },
+    {
+      "key": "gro-02",
+      "number": 2,
+      "name": "바우터르 프린손",
+      "real": "바우터르 프린스",
+      "pos": "RB",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "gro-03",
+      "number": 3,
+      "name": "테이먼 블록제일라",
+      "real": "테이먼 블록제일",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2005,
+      "ovr": 71
+    },
+    {
+      "key": "gro-04",
+      "number": 4,
+      "name": "마르크 친게른",
+      "real": "마르크 친게르",
+      "pos": "CB",
+      "nation": "헝가리",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "gro-05",
+      "number": 5,
+      "name": "마르코 렌텐",
+      "real": "마르코 렌테",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1997,
+      "ovr": 69
+    },
+    {
+      "key": "gro-06",
+      "number": 7,
+      "name": "트라비스 헤르네손",
+      "real": "트라비스 헤르네스",
+      "pos": "CAM",
+      "nation": "노르웨이",
+      "birthYear": 2005,
+      "ovr": 70
+    },
+    {
+      "key": "gro-07",
+      "number": 8,
+      "name": "티카 더 용언",
+      "real": "티카 더 용어",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "gro-08",
+      "number": 9,
+      "name": "브린욜뷔르 빌뤼름손드",
+      "real": "브린욜뷔르 빌뤼름손",
+      "pos": "ST",
+      "nation": "아이슬란드",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "gro-09",
+      "number": 11,
+      "name": "야코브 온드레이칸",
+      "real": "야코브 온드레이카",
+      "pos": "LW",
+      "nation": "스웨덴",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "gro-10",
+      "number": 12,
+      "name": "니콜라스 브란디손",
+      "real": "니콜라스 브란디스",
+      "pos": "RB",
+      "nation": "슬로바키아",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "gro-11",
+      "number": 14,
+      "name": "요르흐 스흐레우더르손",
+      "real": "요르흐 스흐레우더르스",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "gro-12",
+      "number": 15,
+      "name": "엘비스 판데르라느",
+      "real": "엘비스 판데르란",
+      "pos": "LB",
+      "nation": "스웨덴",
+      "birthYear": 2008,
+      "ovr": 62
+    },
+    {
+      "key": "gro-13",
+      "number": 17,
+      "name": "다비트 판데르베르픈",
+      "real": "다비트 판데르베르프",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "gro-14",
+      "number": 18,
+      "name": "테이호 란튼",
+      "real": "테이호 란트",
+      "pos": "CAM",
+      "nation": "네덜란드",
+      "birthYear": 2006,
+      "ovr": 67
+    },
+    {
+      "key": "gro-15",
+      "number": 19,
+      "name": "오스카르 자바단",
+      "real": "오스카르 자바다",
+      "pos": "ST",
+      "nation": "폴란드",
+      "birthYear": 1996,
+      "ovr": 70
+    },
+    {
+      "key": "gro-16",
+      "number": 21,
+      "name": "말콤 옝그",
+      "real": "말콤 옝",
+      "pos": "CB",
+      "nation": "스웨덴",
+      "birthYear": 2005,
+      "ovr": 67
+    },
+    {
+      "key": "gro-17",
+      "number": 24,
+      "name": "펠러 클레먼튼",
+      "real": "펠러 클레먼트",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 1996,
+      "ovr": 70
+    },
+    {
+      "key": "gro-18",
+      "number": 26,
+      "name": "톰 판베르헌드",
+      "real": "톰 판베르헌",
+      "pos": "LW",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "gro-19",
+      "number": 29,
+      "name": "티리케 메르세란",
+      "real": "티리케 메르세라",
+      "pos": "RB",
+      "nation": "퀴라소",
+      "birthYear": 2003,
+      "ovr": 67
+    }
+  ]
+}

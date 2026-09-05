@@ -1,0 +1,180 @@
+{
+  "club": "빌럼 틸뷔르흐",
+  "realClub": "빌럼 II 틸뷔르흐",
+  "league": "오라녜 에레디",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Willem_II_Tilburg",
+  "pilot": false,
+  "players": [
+    {
+      "key": "wil-01",
+      "number": 1,
+      "name": "토마 디디용회들라",
+      "real": "토마 디디용회들",
+      "pos": "GK",
+      "nation": "프랑스",
+      "birthYear": 1995,
+      "ovr": 69
+    },
+    {
+      "key": "wil-02",
+      "number": 2,
+      "name": "알레산드로 치란닌",
+      "real": "알레산드로 치란니",
+      "pos": "RB",
+      "nation": "벨기에",
+      "birthYear": 1996,
+      "ovr": 68
+    },
+    {
+      "key": "wil-03",
+      "number": 3,
+      "name": "핀 스타므",
+      "real": "핀 스탐",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 67
+    },
+    {
+      "key": "wil-04",
+      "number": 4,
+      "name": "유스틴 호흐만",
+      "real": "유스틴 호흐마",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 1998,
+      "ovr": 69
+    },
+    {
+      "key": "wil-05",
+      "number": 5,
+      "name": "히더 테르 아버스튼",
+      "real": "히더 테르 아버스트",
+      "pos": "RB",
+      "nation": "네덜란드",
+      "birthYear": 1997,
+      "ovr": 69
+    },
+    {
+      "key": "wil-06",
+      "number": 7,
+      "name": "야던 슬로린",
+      "real": "야던 슬로리",
+      "pos": "LW",
+      "nation": "네덜란드",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "wil-07",
+      "number": 8,
+      "name": "카스퍼르 보하르튼",
+      "real": "카스퍼르 보하르트",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2006,
+      "ovr": 64
+    },
+    {
+      "key": "wil-08",
+      "number": 9,
+      "name": "데빈 하언드",
+      "real": "데빈 하언",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "wil-09",
+      "number": 10,
+      "name": "야리 스휘르마느",
+      "real": "야리 스휘르만",
+      "pos": "CAM",
+      "nation": "네덜란드",
+      "birthYear": 1997,
+      "ovr": 69
+    },
+    {
+      "key": "wil-10",
+      "number": 11,
+      "name": "아르민 출루므",
+      "real": "아르민 출룸",
+      "pos": "ST",
+      "nation": "스웨덴",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "wil-11",
+      "number": 15,
+      "name": "아민 에트타이빈",
+      "real": "아민 에트타이비",
+      "pos": "CB",
+      "nation": "모로코",
+      "birthYear": 2003,
+      "ovr": 66
+    },
+    {
+      "key": "wil-12",
+      "number": 19,
+      "name": "우리엘 판알스튼",
+      "real": "우리엘 판알스트",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2006,
+      "ovr": 64
+    },
+    {
+      "key": "wil-13",
+      "number": 21,
+      "name": "바우터르 판데르스테인드",
+      "real": "바우터르 판데르스테인",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 1990,
+      "ovr": 66
+    },
+    {
+      "key": "wil-14",
+      "number": 22,
+      "name": "페르 판로느",
+      "real": "페르 판론",
+      "pos": "LB",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 65
+    },
+    {
+      "key": "wil-15",
+      "number": 24,
+      "name": "네이선 추어아온드",
+      "real": "네이선 추어아온",
+      "pos": "LB",
+      "nation": "인도네시아",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "wil-16",
+      "number": 28,
+      "name": "토마스 페르헤이튼",
+      "real": "토마스 페르헤이트",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 1992,
+      "ovr": 68
+    },
+    {
+      "key": "wil-17",
+      "number": 50,
+      "name": "에세르 귀르뷔주",
+      "real": "에세르 귀르뷔즈",
+      "pos": "LW",
+      "nation": "네덜란드",
+      "birthYear": 2007,
+      "ovr": 62
+    }
+  ]
+}

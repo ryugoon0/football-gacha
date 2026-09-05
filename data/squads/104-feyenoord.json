@@ -1,0 +1,280 @@
+{
+  "club": "로테르 페예",
+  "realClub": "페예노르트",
+  "league": "오라녜 에레디",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Feyenoord",
+  "pilot": false,
+  "players": [
+    {
+      "key": "fey-01",
+      "number": 1,
+      "name": "티아르크 에른스튼",
+      "real": "티아르크 에른스트",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 2003,
+      "ovr": 73
+    },
+    {
+      "key": "fey-02",
+      "number": 2,
+      "name": "바르트 니우코픈",
+      "real": "바르트 니우코프",
+      "pos": "RB",
+      "nation": "네덜란드",
+      "birthYear": 1996,
+      "ovr": 72
+    },
+    {
+      "key": "fey-03",
+      "number": 3,
+      "name": "토마스 벨런드",
+      "real": "토마스 벨런",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2001,
+      "ovr": 75
+    },
+    {
+      "key": "fey-04",
+      "number": 4,
+      "name": "와타나베 쓰요신",
+      "real": "와타나베 쓰요시",
+      "pos": "CB",
+      "nation": "일본",
+      "birthYear": 1997,
+      "ovr": 75
+    },
+    {
+      "key": "fey-05",
+      "number": 5,
+      "name": "헤이스 스말라",
+      "real": "헤이스 스말",
+      "pos": "LB",
+      "nation": "네덜란드",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "fey-06",
+      "number": 6,
+      "name": "제리 세인트 쥐스튼",
+      "real": "제리 세인트 쥐스트",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 1996,
+      "ovr": 74
+    },
+    {
+      "key": "fey-07",
+      "number": 7,
+      "name": "야쿠프 모데른",
+      "real": "야쿠프 모데르",
+      "pos": "CM",
+      "nation": "폴란드",
+      "birthYear": 1999,
+      "ovr": 75
+    },
+    {
+      "key": "fey-08",
+      "number": 8,
+      "name": "히바이 제히엘라",
+      "real": "히바이 제히엘",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 72
+    },
+    {
+      "key": "fey-09",
+      "number": 10,
+      "name": "루치아노 발렌텐",
+      "real": "루치아노 발렌테",
+      "pos": "CAM",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 77
+    },
+    {
+      "key": "fey-10",
+      "number": 11,
+      "name": "곤살루 보르지손",
+      "real": "곤살루 보르지스",
+      "pos": "RW",
+      "nation": "포르투갈",
+      "birthYear": 2001,
+      "ovr": 74
+    },
+    {
+      "key": "fey-11",
+      "number": 14,
+      "name": "셈 스테인드",
+      "real": "셈 스테인",
+      "pos": "CAM",
+      "nation": "네덜란드",
+      "birthYear": 2001,
+      "ovr": 77
+    },
+    {
+      "key": "fey-12",
+      "number": 15,
+      "name": "조던 보손",
+      "real": "조던 보스",
+      "pos": "LB",
+      "nation": "호주",
+      "birthYear": 2002,
+      "ovr": 75
+    },
+    {
+      "key": "fey-13",
+      "number": 16,
+      "name": "하비 로페손",
+      "real": "하비 로페스",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "fey-14",
+      "number": 17,
+      "name": "레이스 넬슨드",
+      "real": "레이스 넬슨",
+      "pos": "RW",
+      "nation": "잉글랜드",
+      "birthYear": 1999,
+      "ovr": 74
+    },
+    {
+      "key": "fey-15",
+      "number": 19,
+      "name": "나초 페린",
+      "real": "나초 페리",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 71
+    },
+    {
+      "key": "fey-16",
+      "number": 20,
+      "name": "마츠 데일라",
+      "real": "마츠 데일",
+      "pos": "RB",
+      "nation": "네덜란드",
+      "birthYear": 1997,
+      "ovr": 70
+    },
+    {
+      "key": "fey-17",
+      "number": 22,
+      "name": "토비아스 판덴엘스하우튼",
+      "real": "토비아스 판덴엘스하우트",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2007,
+      "ovr": 64
+    },
+    {
+      "key": "fey-18",
+      "number": 23,
+      "name": "아니스 하지 무산",
+      "real": "아니스 하지 무사",
+      "pos": "RW",
+      "nation": "알제리",
+      "birthYear": 2002,
+      "ovr": 75
+    },
+    {
+      "key": "fey-19",
+      "number": 24,
+      "name": "테이스 크라이여펠튼",
+      "real": "테이스 크라이여펠트",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2007,
+      "ovr": 63
+    },
+    {
+      "key": "fey-20",
+      "number": 26,
+      "name": "히바이로 레이튼",
+      "real": "히바이로 레이트",
+      "pos": "RB",
+      "nation": "네덜란드",
+      "birthYear": 2006,
+      "ovr": 73
+    },
+    {
+      "key": "fey-21",
+      "number": 27,
+      "name": "가우수 디아란",
+      "real": "가우수 디아라",
+      "pos": "ST",
+      "nation": "말리",
+      "birthYear": 2002,
+      "ovr": 72
+    },
+    {
+      "key": "fey-22",
+      "number": 28,
+      "name": "우사마 타르갈리느",
+      "real": "우사마 타르갈린",
+      "pos": "CDM",
+      "nation": "모로코",
+      "birthYear": 2002,
+      "ovr": 73
+    },
+    {
+      "key": "fey-23",
+      "number": 33,
+      "name": "플로리안 카스텐마이언",
+      "real": "플로리안 카스텐마이어",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1997,
+      "ovr": 70
+    },
+    {
+      "key": "fey-24",
+      "number": 34,
+      "name": "샤를 판하우터스",
+      "real": "샤를 판하우터",
+      "pos": "CDM",
+      "nation": "벨기에",
+      "birthYear": 1998,
+      "ovr": 74
+    },
+    {
+      "key": "fey-25",
+      "number": 35,
+      "name": "미카 마르몰라",
+      "real": "미카 마르몰",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2001,
+      "ovr": 73
+    },
+    {
+      "key": "fey-26",
+      "number": 39,
+      "name": "리암 보생드",
+      "real": "리암 보생",
+      "pos": "GK",
+      "nation": "아일랜드",
+      "birthYear": 1996,
+      "ovr": 66
+    },
+    {
+      "key": "fey-27",
+      "number": 49,
+      "name": "샤킬 판페르신",
+      "real": "샤킬 판페르시",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 2006,
+      "ovr": 70
+    }
+  ]
+}

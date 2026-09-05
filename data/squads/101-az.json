@@ -1,0 +1,280 @@
+{
+  "club": "알크마르 치즈",
+  "realClub": "AZ 알크마르",
+  "league": "오라녜 에레디",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/AZ_Alkmaar",
+  "pilot": false,
+  "players": [
+    {
+      "key": "azk-01",
+      "number": 1,
+      "name": "로메제이던 오우수오두론",
+      "real": "로메제이던 오우수오두로",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 73
+    },
+    {
+      "key": "azk-02",
+      "number": 2,
+      "name": "마이쿠마 세이얀",
+      "real": "마이쿠마 세이야",
+      "pos": "RB",
+      "nation": "일본",
+      "birthYear": 1997,
+      "ovr": 71
+    },
+    {
+      "key": "azk-03",
+      "number": 3,
+      "name": "바우터르 후손",
+      "real": "바우터르 후스",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 73
+    },
+    {
+      "key": "azk-04",
+      "number": 4,
+      "name": "루이스 스하우턴드",
+      "real": "루이스 스하우턴",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 70
+    },
+    {
+      "key": "azk-05",
+      "number": 5,
+      "name": "마테오 차베손",
+      "real": "마테오 차베스",
+      "pos": "LB",
+      "nation": "멕시코",
+      "birthYear": 2004,
+      "ovr": 72
+    },
+    {
+      "key": "azk-06",
+      "number": 6,
+      "name": "페이르 코프메이너르손",
+      "real": "페이르 코프메이너르스",
+      "pos": "CDM",
+      "nation": "네덜란드",
+      "birthYear": 2000,
+      "ovr": 72
+    },
+    {
+      "key": "azk-07",
+      "number": 7,
+      "name": "웨슬리 파타틴",
+      "real": "웨슬리 파타티",
+      "pos": "RW",
+      "nation": "브라질",
+      "birthYear": 2003,
+      "ovr": 71
+    },
+    {
+      "key": "azk-08",
+      "number": 8,
+      "name": "요르디 클라신",
+      "real": "요르디 클라시",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 1991,
+      "ovr": 72
+    },
+    {
+      "key": "azk-09",
+      "number": 9,
+      "name": "멕스 메이르딩큰",
+      "real": "멕스 메이르딩크",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 73
+    },
+    {
+      "key": "azk-10",
+      "number": 10,
+      "name": "케이스 스미튼",
+      "real": "케이스 스밋",
+      "pos": "CAM",
+      "nation": "네덜란드",
+      "birthYear": 2006,
+      "ovr": 74
+    },
+    {
+      "key": "azk-11",
+      "number": 11,
+      "name": "로장헬로 달라",
+      "real": "로장헬로 달",
+      "pos": "LW",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 71
+    },
+    {
+      "key": "azk-12",
+      "number": 12,
+      "name": "호비 페르휠스튼",
+      "real": "호비 페르휠스트",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 1993,
+      "ovr": 67
+    },
+    {
+      "key": "azk-13",
+      "number": 14,
+      "name": "칼빈 스텡손",
+      "real": "칼빈 스텡스",
+      "pos": "RW",
+      "nation": "네덜란드",
+      "birthYear": 1998,
+      "ovr": 75
+    },
+    {
+      "key": "azk-14",
+      "number": 16,
+      "name": "스테이어 레싱크르",
+      "real": "스테이어 레싱크",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "azk-15",
+      "number": 17,
+      "name": "발데마르 뷔스코븐",
+      "real": "발데마르 뷔스코브",
+      "pos": "CM",
+      "nation": "덴마크",
+      "birthYear": 2005,
+      "ovr": 70
+    },
+    {
+      "key": "azk-16",
+      "number": 18,
+      "name": "벤데구즈 코바친",
+      "real": "벤데구즈 코바치",
+      "pos": "ST",
+      "nation": "헝가리",
+      "birthYear": 2007,
+      "ovr": 65
+    },
+    {
+      "key": "azk-17",
+      "number": 19,
+      "name": "이즈 호른캄픈",
+      "real": "이즈 호른캄프",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 1998,
+      "ovr": 70
+    },
+    {
+      "key": "azk-18",
+      "number": 21,
+      "name": "다버 크바크마느",
+      "real": "다버 크바크만",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "azk-19",
+      "number": 22,
+      "name": "엘라이자 데이크스트란",
+      "real": "엘라이자 데이크스트라",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2006,
+      "ovr": 65
+    },
+    {
+      "key": "azk-20",
+      "number": 24,
+      "name": "아유브 우프키른",
+      "real": "아유브 우프키르",
+      "pos": "LW",
+      "nation": "네덜란드",
+      "birthYear": 2006,
+      "ovr": 66
+    },
+    {
+      "key": "azk-21",
+      "number": 28,
+      "name": "야리 더 뷔서른",
+      "real": "야리 더 뷔서르",
+      "pos": "GK",
+      "nation": "벨기에",
+      "birthYear": 1999,
+      "ovr": 69
+    },
+    {
+      "key": "azk-22",
+      "number": 29,
+      "name": "베슬리 후트르",
+      "real": "베슬리 훗",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 1994,
+      "ovr": 72
+    },
+    {
+      "key": "azk-23",
+      "number": 30,
+      "name": "덴소 카시위손",
+      "real": "덴소 카시위스",
+      "pos": "RB",
+      "nation": "네덜란드",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "azk-24",
+      "number": 31,
+      "name": "이치하라 리온드",
+      "real": "이치하라 리온",
+      "pos": "CB",
+      "nation": "일본",
+      "birthYear": 2005,
+      "ovr": 67
+    },
+    {
+      "key": "azk-25",
+      "number": 34,
+      "name": "메이스 더 비튼",
+      "real": "메이스 더 빗",
+      "pos": "LB",
+      "nation": "네덜란드",
+      "birthYear": 1998,
+      "ovr": 70
+    },
+    {
+      "key": "azk-26",
+      "number": 41,
+      "name": "예룬 주튼",
+      "real": "예룬 주트",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 1991,
+      "ovr": 68
+    },
+    {
+      "key": "azk-27",
+      "number": 44,
+      "name": "와심 부지아느",
+      "real": "와심 부지안",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 2006,
+      "ovr": 65
+    }
+  ]
+}

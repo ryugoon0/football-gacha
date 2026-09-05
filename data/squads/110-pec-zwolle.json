@@ -1,0 +1,200 @@
+{
+  "club": "즈볼레 블루",
+  "realClub": "PEC 즈볼러",
+  "league": "오라녜 에레디",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/PEC_Zwolle",
+  "pilot": false,
+  "players": [
+    {
+      "key": "pec-01",
+      "number": 1,
+      "name": "야스퍼르 스헨델라른",
+      "real": "야스퍼르 스헨델라르",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "pec-02",
+      "number": 2,
+      "name": "셰럴 플로라뉘손",
+      "real": "셰럴 플로라뉘스",
+      "pos": "RB",
+      "nation": "퀴라소",
+      "birthYear": 1998,
+      "ovr": 69
+    },
+    {
+      "key": "pec-03",
+      "number": 3,
+      "name": "올리비어 아르츤드",
+      "real": "올리비어 아르츤",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "pec-04",
+      "number": 4,
+      "name": "테이스 펠트하위손",
+      "real": "테이스 펠트하위스",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "pec-05",
+      "number": 6,
+      "name": "얀 뷔르거스",
+      "real": "얀 뷔르거",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2007,
+      "ovr": 64
+    },
+    {
+      "key": "pec-06",
+      "number": 7,
+      "name": "유네스 남린",
+      "real": "유네스 남리",
+      "pos": "LW",
+      "nation": "덴마크",
+      "birthYear": 1994,
+      "ovr": 70
+    },
+    {
+      "key": "pec-07",
+      "number": 8,
+      "name": "토비아스 좀머스",
+      "real": "토비아스 좀머",
+      "pos": "CM",
+      "nation": "덴마크",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "pec-08",
+      "number": 9,
+      "name": "엘리아스 쇠렌센드",
+      "real": "엘리아스 쇠렌센",
+      "pos": "ST",
+      "nation": "덴마크",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "pec-09",
+      "number": 10,
+      "name": "쿤 코스톤손",
+      "real": "쿤 코스톤스",
+      "pos": "CAM",
+      "nation": "네덜란드",
+      "birthYear": 1999,
+      "ovr": 70
+    },
+    {
+      "key": "pec-10",
+      "number": 11,
+      "name": "딜란 음바욘",
+      "real": "딜란 음바요",
+      "pos": "LW",
+      "nation": "벨기에",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "pec-11",
+      "number": 16,
+      "name": "톰 더 흐라픈",
+      "real": "톰 더 흐라프",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 65
+    },
+    {
+      "key": "pec-12",
+      "number": 18,
+      "name": "오디세우스 벨라나손",
+      "real": "오디세우스 벨라나스",
+      "pos": "CAM",
+      "nation": "네덜란드",
+      "birthYear": 1998,
+      "ovr": 69
+    },
+    {
+      "key": "pec-13",
+      "number": 22,
+      "name": "이브라힘 시소콘",
+      "real": "이브라힘 시소코",
+      "pos": "RW",
+      "nation": "기니",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "pec-14",
+      "number": 24,
+      "name": "니크 피르헤버른",
+      "real": "니크 피르헤버르",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 1989,
+      "ovr": 68
+    },
+    {
+      "key": "pec-15",
+      "number": 25,
+      "name": "테이스 오스팅크",
+      "real": "테이스 오스팅",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "pec-16",
+      "number": 26,
+      "name": "야디엘 페레이라 다 가만",
+      "real": "야디엘 페레이라 다 가마",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2009,
+      "ovr": 61
+    },
+    {
+      "key": "pec-17",
+      "number": 28,
+      "name": "시몬 그라베손",
+      "real": "시몬 그라베스",
+      "pos": "LB",
+      "nation": "덴마크",
+      "birthYear": 1999,
+      "ovr": 69
+    },
+    {
+      "key": "pec-18",
+      "number": 30,
+      "name": "라이언 토머슨",
+      "real": "라이언 토머스",
+      "pos": "CDM",
+      "nation": "뉴질랜드",
+      "birthYear": 1994,
+      "ovr": 70
+    },
+    {
+      "key": "pec-19",
+      "number": 34,
+      "name": "니크 피흐팅어스",
+      "real": "니크 피흐팅어",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 66
+    }
+  ]
+}

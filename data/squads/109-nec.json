@@ -1,0 +1,250 @@
+{
+  "club": "님메헌 니메",
+  "realClub": "NEC 네이메헌",
+  "league": "오라녜 에레디",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/NEC_Nijmegen",
+  "pilot": false,
+  "players": [
+    {
+      "key": "nec-01",
+      "number": 1,
+      "name": "곤살로 크레타손",
+      "real": "곤살로 크레타스",
+      "pos": "GK",
+      "nation": "스페인",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "nec-02",
+      "number": 2,
+      "name": "브라이안 페레이란",
+      "real": "브라이안 페레이라",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "nec-03",
+      "number": 3,
+      "name": "필리프 산들러른",
+      "real": "필리프 산들러르",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 1997,
+      "ovr": 71
+    },
+    {
+      "key": "nec-04",
+      "number": 4,
+      "name": "페르 스휘르손",
+      "real": "페르 스휘르스",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 1999,
+      "ovr": 74
+    },
+    {
+      "key": "nec-05",
+      "number": 5,
+      "name": "토마스 아우베야느",
+      "real": "토마스 아우베얀",
+      "pos": "LB",
+      "nation": "네덜란드",
+      "birthYear": 1996,
+      "ovr": 71
+    },
+    {
+      "key": "nec-06",
+      "number": 6,
+      "name": "다르코 네야시미츠",
+      "real": "다르코 네야시미치",
+      "pos": "CDM",
+      "nation": "크로아티아",
+      "birthYear": 1999,
+      "ovr": 71
+    },
+    {
+      "key": "nec-07",
+      "number": 7,
+      "name": "엠레 모른",
+      "real": "엠레 모르",
+      "pos": "RW",
+      "nation": "튀르키예",
+      "birthYear": 1997,
+      "ovr": 72
+    },
+    {
+      "key": "nec-08",
+      "number": 8,
+      "name": "이사크 한센아뢰엔드",
+      "real": "이사크 한센아뢰엔",
+      "pos": "CM",
+      "nation": "노르웨이",
+      "birthYear": 2004,
+      "ovr": 71
+    },
+    {
+      "key": "nec-09",
+      "number": 9,
+      "name": "차론 셰린",
+      "real": "차론 셰리",
+      "pos": "CAM",
+      "nation": "수리남",
+      "birthYear": 1988,
+      "ovr": 71
+    },
+    {
+      "key": "nec-10",
+      "number": 10,
+      "name": "두샨 타디츠",
+      "real": "두샨 타디치",
+      "pos": "CAM",
+      "nation": "세르비아",
+      "birthYear": 1988,
+      "ovr": 75
+    },
+    {
+      "key": "nec-11",
+      "number": 11,
+      "name": "빌륌 토르 빌륌손드",
+      "real": "빌륌 토르 빌륌손",
+      "pos": "RW",
+      "nation": "아이슬란드",
+      "birthYear": 1998,
+      "ovr": 72
+    },
+    {
+      "key": "nec-12",
+      "number": 12,
+      "name": "니콜라스 폴스터스",
+      "real": "니콜라스 폴스터",
+      "pos": "GK",
+      "nation": "오스트리아",
+      "birthYear": 2002,
+      "ovr": 67
+    },
+    {
+      "key": "nec-13",
+      "number": 14,
+      "name": "카이 시르하위손",
+      "real": "카이 시르하위스",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 1998,
+      "ovr": 71
+    },
+    {
+      "key": "nec-14",
+      "number": 17,
+      "name": "브람 나위팅큰",
+      "real": "브람 나위팅크",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 1990,
+      "ovr": 70
+    },
+    {
+      "key": "nec-15",
+      "number": 18,
+      "name": "오가와 고킨",
+      "real": "오가와 고키",
+      "pos": "ST",
+      "nation": "일본",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "nec-16",
+      "number": 20,
+      "name": "노에 르브르통드",
+      "real": "노에 르브르통",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "nec-17",
+      "number": 21,
+      "name": "토비아스 스토르므",
+      "real": "토비아스 스토름",
+      "pos": "CB",
+      "nation": "덴마크",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "nec-18",
+      "number": 24,
+      "name": "데버론 폰빌러스",
+      "real": "데버론 폰빌러",
+      "pos": "RB",
+      "nation": "퀴라소",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "nec-19",
+      "number": 25,
+      "name": "사미 우아이산드",
+      "real": "사미 우아이사",
+      "pos": "LW",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "nec-20",
+      "number": 30,
+      "name": "브라이언 린선드",
+      "real": "브라이언 린선",
+      "pos": "LW",
+      "nation": "네덜란드",
+      "birthYear": 1990,
+      "ovr": 71
+    },
+    {
+      "key": "nec-21",
+      "number": 32,
+      "name": "비토 판크로에인",
+      "real": "비토 판크로에이",
+      "pos": "RW",
+      "nation": "네덜란드",
+      "birthYear": 1996,
+      "ovr": 70
+    },
+    {
+      "key": "nec-22",
+      "number": 35,
+      "name": "자미로 몬테이룬",
+      "real": "자미로 몬테이루",
+      "pos": "CM",
+      "nation": "카보베르데",
+      "birthYear": 1993,
+      "ovr": 71
+    },
+    {
+      "key": "nec-23",
+      "number": 66,
+      "name": "알무게라 카바른",
+      "real": "알무게라 카바르",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 2006,
+      "ovr": 67
+    },
+    {
+      "key": "nec-24",
+      "number": 99,
+      "name": "클레멘트 비쇼픈",
+      "real": "클레멘트 비쇼프",
+      "pos": "ST",
+      "nation": "덴마크",
+      "birthYear": 2005,
+      "ovr": 68
+    }
+  ]
+}

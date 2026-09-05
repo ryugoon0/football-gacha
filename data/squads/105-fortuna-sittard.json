@@ -1,0 +1,200 @@
+{
+  "club": "포르투나 시타르",
+  "realClub": "포르투나 시타르트",
+  "league": "오라녜 에레디",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Fortuna_Sittard",
+  "pilot": false,
+  "players": [
+    {
+      "key": "fos-01",
+      "number": 1,
+      "name": "뤽 코프만손",
+      "real": "뤽 코프만스",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 1993,
+      "ovr": 69
+    },
+    {
+      "key": "fos-02",
+      "number": 2,
+      "name": "시버 베일린드",
+      "real": "시버 베일린",
+      "pos": "RB",
+      "nation": "벨기에",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "fos-03",
+      "number": 3,
+      "name": "호드리구 구튼",
+      "real": "호드리구 구트",
+      "pos": "CB",
+      "nation": "브라질",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "fos-04",
+      "number": 5,
+      "name": "야신 우킬린",
+      "real": "야신 우킬리",
+      "pos": "CDM",
+      "nation": "모로코",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "fos-05",
+      "number": 6,
+      "name": "시프 판오텔러스",
+      "real": "시프 판오텔러",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "fos-06",
+      "number": 7,
+      "name": "크리스토페르 페테르손드",
+      "real": "크리스토페르 페테르손",
+      "pos": "LW",
+      "nation": "스웨덴",
+      "birthYear": 1994,
+      "ovr": 70
+    },
+    {
+      "key": "fos-07",
+      "number": 8,
+      "name": "야스퍼르 달하우손",
+      "real": "야스퍼르 달하우스",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "fos-08",
+      "number": 9,
+      "name": "앙토니 데스코튼",
+      "real": "앙토니 데스코트",
+      "pos": "ST",
+      "nation": "벨기에",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "fos-09",
+      "number": 10,
+      "name": "올러 로메닌",
+      "real": "올러 로메니",
+      "pos": "ST",
+      "nation": "인도네시아",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "fos-10",
+      "number": 12,
+      "name": "이부 핀툰",
+      "real": "이부 핀투",
+      "pos": "RB",
+      "nation": "포르투갈",
+      "birthYear": 1990,
+      "ovr": 67
+    },
+    {
+      "key": "fos-11",
+      "number": 15,
+      "name": "니크 더 흐로튼",
+      "real": "니크 더 흐로트",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2001,
+      "ovr": 68
+    },
+    {
+      "key": "fos-12",
+      "number": 20,
+      "name": "에두아르 미쉰",
+      "real": "에두아르 미쉬",
+      "pos": "CAM",
+      "nation": "프랑스",
+      "birthYear": 2003,
+      "ovr": 71
+    },
+    {
+      "key": "fos-13",
+      "number": 22,
+      "name": "실로 트 잔튼",
+      "real": "실로 트 잔트",
+      "pos": "LW",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 66
+    },
+    {
+      "key": "fos-14",
+      "number": 23,
+      "name": "필립 브리테인드",
+      "real": "필립 브리테인",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "fos-15",
+      "number": 25,
+      "name": "레퀸시오 제이푸이큰",
+      "real": "레퀸시오 제이푸이크",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "fos-16",
+      "number": 28,
+      "name": "저스틴 후브너스",
+      "real": "저스틴 후브너",
+      "pos": "CB",
+      "nation": "인도네시아",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "fos-17",
+      "number": 31,
+      "name": "마테이스 브란더르호르스튼",
+      "real": "마테이스 브란더르호르스트",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 1993,
+      "ovr": 68
+    },
+    {
+      "key": "fos-18",
+      "number": 44,
+      "name": "이반 마르케손",
+      "real": "이반 마르케스",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 1994,
+      "ovr": 69
+    },
+    {
+      "key": "fos-19",
+      "number": 52,
+      "name": "모하메드 이하타런드",
+      "real": "모하메드 이하타런",
+      "pos": "CAM",
+      "nation": "모로코",
+      "birthYear": 2002,
+      "ovr": 69
+    }
+  ]
+}

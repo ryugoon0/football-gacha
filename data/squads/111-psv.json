@@ -1,0 +1,290 @@
+{
+  "club": "에인트 라이트",
+  "realClub": "PSV 에인트호번",
+  "league": "오라녜 에레디",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/PSV_Eindhoven",
+  "pilot": false,
+  "players": [
+    {
+      "key": "psv-01",
+      "number": 1,
+      "name": "니크 올레인",
+      "real": "니크 올레이",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 1995,
+      "ovr": 74
+    },
+    {
+      "key": "psv-02",
+      "number": 2,
+      "name": "루차렐 헤이르트라위단",
+      "real": "루차렐 헤이르트라위다",
+      "pos": "RB",
+      "nation": "네덜란드",
+      "birthYear": 2000,
+      "ovr": 79
+    },
+    {
+      "key": "psv-03",
+      "number": 3,
+      "name": "야레크 가시오로프스킨",
+      "real": "야레크 가시오로프스키",
+      "pos": "CB",
+      "nation": "스페인",
+      "birthYear": 2005,
+      "ovr": 73
+    },
+    {
+      "key": "psv-04",
+      "number": 4,
+      "name": "아르만도 오비스폰",
+      "real": "아르만도 오비스포",
+      "pos": "CB",
+      "nation": "퀴라소",
+      "birthYear": 1999,
+      "ovr": 73
+    },
+    {
+      "key": "psv-05",
+      "number": 5,
+      "name": "이반 페리시츠",
+      "real": "이반 페리시치",
+      "pos": "LW",
+      "nation": "크로아티아",
+      "birthYear": 1989,
+      "ovr": 76
+    },
+    {
+      "key": "psv-06",
+      "number": 6,
+      "name": "라이언 플라밍곤",
+      "real": "라이언 플라밍고",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2002,
+      "ovr": 74
+    },
+    {
+      "key": "psv-07",
+      "number": 7,
+      "name": "뤼번 판 보멀라",
+      "real": "뤼번 판 보멀",
+      "pos": "LW",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 76
+    },
+    {
+      "key": "psv-08",
+      "number": 8,
+      "name": "세르지뇨 데스튼",
+      "real": "세르지뇨 데스트",
+      "pos": "RB",
+      "nation": "미국",
+      "birthYear": 2000,
+      "ovr": 78
+    },
+    {
+      "key": "psv-09",
+      "number": 9,
+      "name": "리카르도 페핀",
+      "real": "리카르도 페피",
+      "pos": "ST",
+      "nation": "미국",
+      "birthYear": 2003,
+      "ovr": 78
+    },
+    {
+      "key": "psv-10",
+      "number": 10,
+      "name": "파울 바너스",
+      "real": "파울 바너",
+      "pos": "CAM",
+      "nation": "오스트리아",
+      "birthYear": 2005,
+      "ovr": 78
+    },
+    {
+      "key": "psv-11",
+      "number": 11,
+      "name": "사미 우아이산",
+      "real": "사미 우아이사",
+      "pos": "LW",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 70
+    },
+    {
+      "key": "psv-12",
+      "number": 14,
+      "name": "알라산 플레안",
+      "real": "알라산 플레아",
+      "pos": "ST",
+      "nation": "프랑스",
+      "birthYear": 1993,
+      "ovr": 76
+    },
+    {
+      "key": "psv-13",
+      "number": 17,
+      "name": "마우루 주니오른",
+      "real": "마우루 주니오르",
+      "pos": "LB",
+      "nation": "브라질",
+      "birthYear": 1999,
+      "ovr": 73
+    },
+    {
+      "key": "psv-14",
+      "number": 18,
+      "name": "필리프 코스티츠",
+      "real": "필리프 코스티치",
+      "pos": "LW",
+      "nation": "세르비아",
+      "birthYear": 1992,
+      "ovr": 76
+    },
+    {
+      "key": "psv-15",
+      "number": 19,
+      "name": "에스미르 바이락타레비츠",
+      "real": "에스미르 바이락타레비치",
+      "pos": "RW",
+      "nation": "보스니아헤르체고비나",
+      "birthYear": 2005,
+      "ovr": 73
+    },
+    {
+      "key": "psv-16",
+      "number": 20,
+      "name": "휘스 틸라",
+      "real": "휘스 틸",
+      "pos": "CAM",
+      "nation": "네덜란드",
+      "birthYear": 1997,
+      "ovr": 75
+    },
+    {
+      "key": "psv-17",
+      "number": 21,
+      "name": "스벤 메이나르손",
+      "real": "스벤 메이나르스",
+      "pos": "CAM",
+      "nation": "네덜란드",
+      "birthYear": 2000,
+      "ovr": 76
+    },
+    {
+      "key": "psv-18",
+      "number": 22,
+      "name": "예르디 스하우턴드",
+      "real": "예르디 스하우턴",
+      "pos": "CDM",
+      "nation": "네덜란드",
+      "birthYear": 1997,
+      "ovr": 78
+    },
+    {
+      "key": "psv-19",
+      "number": 23,
+      "name": "미켈 브로 한센드",
+      "real": "미켈 브로 한센",
+      "pos": "ST",
+      "nation": "덴마크",
+      "birthYear": 2009,
+      "ovr": 62
+    },
+    {
+      "key": "psv-20",
+      "number": 24,
+      "name": "사노 고다인",
+      "real": "사노 고다이",
+      "pos": "CM",
+      "nation": "일본",
+      "birthYear": 2003,
+      "ovr": 73
+    },
+    {
+      "key": "psv-21",
+      "number": 25,
+      "name": "킬리안 실디얀",
+      "real": "킬리안 실디야",
+      "pos": "RB",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 75
+    },
+    {
+      "key": "psv-22",
+      "number": 27,
+      "name": "데니스 마느",
+      "real": "데니스 만",
+      "pos": "RW",
+      "nation": "루마니아",
+      "birthYear": 1998,
+      "ovr": 78
+    },
+    {
+      "key": "psv-23",
+      "number": 29,
+      "name": "삼 라머르손",
+      "real": "삼 라머르스",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "psv-24",
+      "number": 31,
+      "name": "노아 페르난데손",
+      "real": "노아 페르난데스",
+      "pos": "CM",
+      "nation": "벨기에",
+      "birthYear": 2008,
+      "ovr": 64
+    },
+    {
+      "key": "psv-25",
+      "number": 32,
+      "name": "마테이 코바르신",
+      "real": "마테이 코바르시",
+      "pos": "GK",
+      "nation": "체코",
+      "birthYear": 2000,
+      "ovr": 77
+    },
+    {
+      "key": "psv-26",
+      "number": 35,
+      "name": "아요니 산투손",
+      "real": "아요니 산투스",
+      "pos": "CM",
+      "nation": "카보베르데",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "psv-27",
+      "number": 39,
+      "name": "아다모 나갈론",
+      "real": "아다모 나갈로",
+      "pos": "CB",
+      "nation": "부르키나파소",
+      "birthYear": 2002,
+      "ovr": 72
+    },
+    {
+      "key": "psv-28",
+      "number": 51,
+      "name": "테인 스몰레나르손",
+      "real": "테인 스몰레나르스",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 2005,
+      "ovr": 64
+    }
+  ]
+}

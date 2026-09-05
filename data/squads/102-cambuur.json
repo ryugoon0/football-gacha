@@ -1,0 +1,200 @@
+{
+  "club": "카임브레 블랙",
+  "realClub": "SC 캄뷔르",
+  "league": "오라녜 에레디",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/SC_Cambuur",
+  "pilot": false,
+  "players": [
+    {
+      "key": "cam-01",
+      "number": 1,
+      "name": "테이스 얀선드",
+      "real": "테이스 얀선",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 2001,
+      "ovr": 67
+    },
+    {
+      "key": "cam-02",
+      "number": 2,
+      "name": "데비드 외젠 부안",
+      "real": "데비드 외젠 부아",
+      "pos": "RB",
+      "nation": "이탈리아",
+      "birthYear": 2001,
+      "ovr": 66
+    },
+    {
+      "key": "cam-03",
+      "number": 3,
+      "name": "요른 베르크하우튼",
+      "real": "요른 베르크하우트",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2002,
+      "ovr": 66
+    },
+    {
+      "key": "cam-04",
+      "number": 4,
+      "name": "이스마엘 바우픈",
+      "real": "이스마엘 바우프",
+      "pos": "CB",
+      "nation": "모로코",
+      "birthYear": 2006,
+      "ovr": 64
+    },
+    {
+      "key": "cam-05",
+      "number": 6,
+      "name": "자말 아모판",
+      "real": "자말 아모파",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 1998,
+      "ovr": 68
+    },
+    {
+      "key": "cam-06",
+      "number": 7,
+      "name": "사미 부후다넨",
+      "real": "사미 부후다네",
+      "pos": "LW",
+      "nation": "모로코",
+      "birthYear": 2008,
+      "ovr": 61
+    },
+    {
+      "key": "cam-07",
+      "number": 8,
+      "name": "니키 사우런드",
+      "real": "니키 사우런",
+      "pos": "CM",
+      "nation": "퀴라소",
+      "birthYear": 1999,
+      "ovr": 66
+    },
+    {
+      "key": "cam-08",
+      "number": 9,
+      "name": "스카이 핑큰",
+      "real": "스카이 핑크",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 2006,
+      "ovr": 64
+    },
+    {
+      "key": "cam-09",
+      "number": 11,
+      "name": "일리에스 아마슌",
+      "real": "일리에스 아마슈",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 2003,
+      "ovr": 67
+    },
+    {
+      "key": "cam-10",
+      "number": 13,
+      "name": "니콜라스 빈더스",
+      "real": "니콜라스 빈더",
+      "pos": "ST",
+      "nation": "오스트리아",
+      "birthYear": 2002,
+      "ovr": 67
+    },
+    {
+      "key": "cam-11",
+      "number": 15,
+      "name": "파비안 크바므",
+      "real": "파비안 크밤",
+      "pos": "ST",
+      "nation": "노르웨이",
+      "birthYear": 2005,
+      "ovr": 64
+    },
+    {
+      "key": "cam-12",
+      "number": 16,
+      "name": "리크 뮐더르손",
+      "real": "리크 뮐더르스",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2000,
+      "ovr": 66
+    },
+    {
+      "key": "cam-13",
+      "number": 17,
+      "name": "이선 아프카쿤",
+      "real": "이선 아프카쿠",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2006,
+      "ovr": 63
+    },
+    {
+      "key": "cam-14",
+      "number": 20,
+      "name": "단 피서른",
+      "real": "단 피서르",
+      "pos": "CAM",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 65
+    },
+    {
+      "key": "cam-15",
+      "number": 23,
+      "name": "루카스 예턴드",
+      "real": "루카스 예턴",
+      "pos": "RB",
+      "nation": "네덜란드",
+      "birthYear": 2007,
+      "ovr": 62
+    },
+    {
+      "key": "cam-16",
+      "number": 27,
+      "name": "비버 코이스트란",
+      "real": "비버 코이스트라",
+      "pos": "LB",
+      "nation": "네덜란드",
+      "birthYear": 2006,
+      "ovr": 63
+    },
+    {
+      "key": "cam-17",
+      "number": 28,
+      "name": "모르강 코스타렐린",
+      "real": "모르강 코스타렐리",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 2005,
+      "ovr": 64
+    },
+    {
+      "key": "cam-18",
+      "number": 29,
+      "name": "이완 헨스트란",
+      "real": "이완 헨스트라",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 2006,
+      "ovr": 63
+    },
+    {
+      "key": "cam-19",
+      "number": 33,
+      "name": "마티외 마르턴손",
+      "real": "마티외 마르턴스",
+      "pos": "CDM",
+      "nation": "벨기에",
+      "birthYear": 1995,
+      "ovr": 68
+    }
+  ]
+}

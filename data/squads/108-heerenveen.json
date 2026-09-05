@@ -1,0 +1,200 @@
+{
+  "club": "헤렌벤 프리즈",
+  "realClub": "SC 헤렌베인",
+  "league": "오라녜 에레디",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/SC_Heerenveen",
+  "pilot": false,
+  "players": [
+    {
+      "key": "her-01",
+      "number": 3,
+      "name": "마스 빌럼선드",
+      "real": "마스 빌럼선",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "her-02",
+      "number": 4,
+      "name": "삼 케르스턴드",
+      "real": "삼 케르스턴",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 1998,
+      "ovr": 70
+    },
+    {
+      "key": "her-03",
+      "number": 6,
+      "name": "디르크 프로퍼른",
+      "real": "디르크 프로퍼르",
+      "pos": "CDM",
+      "nation": "네덜란드",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "her-04",
+      "number": 7,
+      "name": "막상스 리베란",
+      "real": "막상스 리베라",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "her-05",
+      "number": 8,
+      "name": "뤽 브라우어르손",
+      "real": "뤽 브라우어르스",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 1998,
+      "ovr": 71
+    },
+    {
+      "key": "her-06",
+      "number": 9,
+      "name": "딜란 벤터스",
+      "real": "딜란 벤터",
+      "pos": "ST",
+      "nation": "수리남",
+      "birthYear": 1999,
+      "ovr": 71
+    },
+    {
+      "key": "her-07",
+      "number": 10,
+      "name": "링고 메이르벨튼",
+      "real": "링고 메이르벨트",
+      "pos": "CAM",
+      "nation": "네덜란드",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "her-08",
+      "number": 11,
+      "name": "루카 오연드",
+      "real": "루카 오연",
+      "pos": "CAM",
+      "nation": "벨기에",
+      "birthYear": 2003,
+      "ovr": 71
+    },
+    {
+      "key": "her-09",
+      "number": 14,
+      "name": "레비 스만손",
+      "real": "레비 스만스",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 67
+    },
+    {
+      "key": "her-10",
+      "number": 16,
+      "name": "마르쿠스 린다인",
+      "real": "마르쿠스 린다이",
+      "pos": "CM",
+      "nation": "스웨덴",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "her-11",
+      "number": 17,
+      "name": "니콜라이 홉란드",
+      "real": "니콜라이 홉란",
+      "pos": "RB",
+      "nation": "노르웨이",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "her-12",
+      "number": 19,
+      "name": "바실리오스 자가리치손",
+      "real": "바실리오스 자가리치스",
+      "pos": "LB",
+      "nation": "그리스",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "her-13",
+      "number": 20,
+      "name": "야코브 트렌스콘",
+      "real": "야코브 트렌스코",
+      "pos": "ST",
+      "nation": "덴마크",
+      "birthYear": 2000,
+      "ovr": 69
+    },
+    {
+      "key": "her-14",
+      "number": 22,
+      "name": "베른트 클라베르부른",
+      "real": "베른트 클라베르부르",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 2005,
+      "ovr": 65
+    },
+    {
+      "key": "her-15",
+      "number": 23,
+      "name": "달링 블라딘",
+      "real": "달링 블라디",
+      "pos": "CB",
+      "nation": "프랑스",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "her-16",
+      "number": 28,
+      "name": "흐리스티얀 페트로픈",
+      "real": "흐리스티얀 페트로프",
+      "pos": "CB",
+      "nation": "불가리아",
+      "birthYear": 2002,
+      "ovr": 68
+    },
+    {
+      "key": "her-17",
+      "number": 29,
+      "name": "란로이 마시느",
+      "real": "란로이 마신",
+      "pos": "LB",
+      "nation": "프랑스",
+      "birthYear": 2005,
+      "ovr": 65
+    },
+    {
+      "key": "her-18",
+      "number": 44,
+      "name": "안드리스 노퍼르튼",
+      "real": "안드리스 노퍼르트",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 1994,
+      "ovr": 71
+    },
+    {
+      "key": "her-19",
+      "number": 45,
+      "name": "올리베르 브라우덴",
+      "real": "올리베르 브라우데",
+      "pos": "RB",
+      "nation": "노르웨이",
+      "birthYear": 2004,
+      "ovr": 66
+    }
+  ]
+}

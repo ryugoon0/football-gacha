@@ -1,0 +1,280 @@
+{
+  "club": "트벤테 토카",
+  "realClub": "FC 트벤테",
+  "league": "오라녜 에레디",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/FC_Twente",
+  "pilot": false,
+  "players": [
+    {
+      "key": "twe-01",
+      "number": 1,
+      "name": "라르스 우너슈탈라",
+      "real": "라르스 우너슈탈",
+      "pos": "GK",
+      "nation": "독일",
+      "birthYear": 1990,
+      "ovr": 73
+    },
+    {
+      "key": "twe-02",
+      "number": 2,
+      "name": "메이스 힐허르손",
+      "real": "메이스 힐허르스",
+      "pos": "CB",
+      "nation": "인도네시아",
+      "birthYear": 2001,
+      "ovr": 76
+    },
+    {
+      "key": "twe-03",
+      "number": 3,
+      "name": "로빈 프뢰퍼른",
+      "real": "로빈 프뢰퍼르",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 1993,
+      "ovr": 72
+    },
+    {
+      "key": "twe-04",
+      "number": 6,
+      "name": "라미즈 제루킨",
+      "real": "라미즈 제루키",
+      "pos": "CDM",
+      "nation": "알제리",
+      "birthYear": 1998,
+      "ovr": 74
+    },
+    {
+      "key": "twe-05",
+      "number": 7,
+      "name": "마르코 피아찬",
+      "real": "마르코 피아차",
+      "pos": "RW",
+      "nation": "크로아티아",
+      "birthYear": 1995,
+      "ovr": 72
+    },
+    {
+      "key": "twe-06",
+      "number": 8,
+      "name": "테일러 부손",
+      "real": "테일러 부스",
+      "pos": "CAM",
+      "nation": "미국",
+      "birthYear": 2001,
+      "ovr": 73
+    },
+    {
+      "key": "twe-07",
+      "number": 9,
+      "name": "바우트 베호르스튼",
+      "real": "바우트 베호르스트",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 1992,
+      "ovr": 76
+    },
+    {
+      "key": "twe-08",
+      "number": 10,
+      "name": "삼 라머르스르",
+      "real": "삼 라머르스",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 1997,
+      "ovr": 73
+    },
+    {
+      "key": "twe-09",
+      "number": 11,
+      "name": "단 로추",
+      "real": "단 로츠",
+      "pos": "LW",
+      "nation": "네덜란드",
+      "birthYear": 2001,
+      "ovr": 73
+    },
+    {
+      "key": "twe-10",
+      "number": 14,
+      "name": "크리스티안 흘륀손드",
+      "real": "크리스티안 흘륀손",
+      "pos": "CAM",
+      "nation": "아이슬란드",
+      "birthYear": 2004,
+      "ovr": 72
+    },
+    {
+      "key": "twe-11",
+      "number": 16,
+      "name": "요엘 드롬멀라",
+      "real": "요엘 드롬멀",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 1996,
+      "ovr": 71
+    },
+    {
+      "key": "twe-12",
+      "number": 17,
+      "name": "필립 토르발센드",
+      "real": "필립 토르발센",
+      "pos": "LW",
+      "nation": "노르웨이",
+      "birthYear": 2006,
+      "ovr": 66
+    },
+    {
+      "key": "twe-13",
+      "number": 19,
+      "name": "유네스 타한",
+      "real": "유네스 타하",
+      "pos": "CAM",
+      "nation": "모로코",
+      "birthYear": 2002,
+      "ovr": 73
+    },
+    {
+      "key": "twe-14",
+      "number": 20,
+      "name": "토마스 판덴벨튼",
+      "real": "토마스 판덴벨트",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2001,
+      "ovr": 74
+    },
+    {
+      "key": "twe-15",
+      "number": 22,
+      "name": "렘코 파스베른",
+      "real": "렘코 파스베르",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 1983,
+      "ovr": 66
+    },
+    {
+      "key": "twe-16",
+      "number": 23,
+      "name": "스타브 렘키느",
+      "real": "스타브 렘킨",
+      "pos": "CB",
+      "nation": "이스라엘",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "twe-17",
+      "number": 24,
+      "name": "크시슈토프 쿠로프스킨",
+      "real": "크시슈토프 쿠로프스키",
+      "pos": "RB",
+      "nation": "폴란드",
+      "birthYear": 2006,
+      "ovr": 66
+    },
+    {
+      "key": "twe-18",
+      "number": 25,
+      "name": "루카스 페네호르 오프 헤셀링큰",
+      "real": "루카스 페네호르 오프 헤셀링크",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 2006,
+      "ovr": 67
+    },
+    {
+      "key": "twe-19",
+      "number": 27,
+      "name": "손드레 외리아세테른",
+      "real": "손드레 외리아세테르",
+      "pos": "CM",
+      "nation": "노르웨이",
+      "birthYear": 2003,
+      "ovr": 72
+    },
+    {
+      "key": "twe-20",
+      "number": 28,
+      "name": "바르트 판로에인",
+      "real": "바르트 판로에이",
+      "pos": "RB",
+      "nation": "네덜란드",
+      "birthYear": 2001,
+      "ovr": 72
+    },
+    {
+      "key": "twe-21",
+      "number": 29,
+      "name": "아스케 아델고른",
+      "real": "아스케 아델고르",
+      "pos": "CB",
+      "nation": "덴마크",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "twe-22",
+      "number": 32,
+      "name": "아르노 페르스휘런드",
+      "real": "아르노 페르스휘런",
+      "pos": "CM",
+      "nation": "벨기에",
+      "birthYear": 1997,
+      "ovr": 72
+    },
+    {
+      "key": "twe-23",
+      "number": 37,
+      "name": "나지 위뉘바른",
+      "real": "나지 위뉘바르",
+      "pos": "LW",
+      "nation": "튀르키예",
+      "birthYear": 2003,
+      "ovr": 71
+    },
+    {
+      "key": "twe-24",
+      "number": 38,
+      "name": "막스 브륀손",
+      "real": "막스 브륀스",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2002,
+      "ovr": 71
+    },
+    {
+      "key": "twe-25",
+      "number": 41,
+      "name": "헤이스 베셀링큰",
+      "real": "헤이스 베셀링크",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "twe-26",
+      "number": 42,
+      "name": "다우다 바이트마느",
+      "real": "다우다 바이트만",
+      "pos": "CM",
+      "nation": "프랑스",
+      "birthYear": 2003,
+      "ovr": 69
+    },
+    {
+      "key": "twe-27",
+      "number": 52,
+      "name": "이삼 엘 마흔",
+      "real": "이삼 엘 마흐",
+      "pos": "GK",
+      "nation": "모로코",
+      "birthYear": 2000,
+      "ovr": 68
+    }
+  ]
+}

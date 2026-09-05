@@ -1,0 +1,220 @@
+{
+  "club": "고어헤드 이글",
+  "realClub": "고 어헤드 이글스",
+  "league": "오라녜 에레디",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Go_Ahead_Eagles",
+  "pilot": false,
+  "players": [
+    {
+      "key": "gae-01",
+      "number": 1,
+      "name": "셰틸 하우그르",
+      "real": "셰틸 하우그",
+      "pos": "GK",
+      "nation": "노르웨이",
+      "birthYear": 1998,
+      "ovr": 70
+    },
+    {
+      "key": "gae-02",
+      "number": 2,
+      "name": "알폰스 삼프스테든",
+      "real": "알폰스 삼프스테드",
+      "pos": "RB",
+      "nation": "아이슬란드",
+      "birthYear": 1998,
+      "ovr": 71
+    },
+    {
+      "key": "gae-03",
+      "number": 3,
+      "name": "게리트 나우버스",
+      "real": "게리트 나우버",
+      "pos": "CB",
+      "nation": "독일",
+      "birthYear": 1992,
+      "ovr": 70
+    },
+    {
+      "key": "gae-04",
+      "number": 4,
+      "name": "요리스 크라머른",
+      "real": "요리스 크라머르",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 1996,
+      "ovr": 71
+    },
+    {
+      "key": "gae-05",
+      "number": 5,
+      "name": "딘 제임손",
+      "real": "딘 제임스",
+      "pos": "LB",
+      "nation": "인도네시아",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "gae-06",
+      "number": 8,
+      "name": "에버르트 린토르스튼",
+      "real": "에버르트 린토르스트",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "gae-07",
+      "number": 9,
+      "name": "스테판 잉기 시귀르다르손드",
+      "real": "스테판 잉기 시귀르다르손",
+      "pos": "ST",
+      "nation": "아이슬란드",
+      "birthYear": 2001,
+      "ovr": 70
+    },
+    {
+      "key": "gae-08",
+      "number": 10,
+      "name": "쇠렌 텡스테든",
+      "real": "쇠렌 텡스테드",
+      "pos": "ST",
+      "nation": "덴마크",
+      "birthYear": 2000,
+      "ovr": 72
+    },
+    {
+      "key": "gae-09",
+      "number": 11,
+      "name": "오스카르 시베르트센드",
+      "real": "오스카르 시베르트센",
+      "pos": "LW",
+      "nation": "노르웨이",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "gae-10",
+      "number": 15,
+      "name": "로빈 베이엔베르흔",
+      "real": "로빈 베이엔베르흐",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 68
+    },
+    {
+      "key": "gae-11",
+      "number": 16,
+      "name": "빅토르 에드바르센느",
+      "real": "빅토르 에드바르센",
+      "pos": "RW",
+      "nation": "스웨덴",
+      "birthYear": 1996,
+      "ovr": 71
+    },
+    {
+      "key": "gae-12",
+      "number": 17,
+      "name": "마티스 쉬렌",
+      "real": "마티스 쉬레",
+      "pos": "CAM",
+      "nation": "벨기에",
+      "birthYear": 2001,
+      "ovr": 69
+    },
+    {
+      "key": "gae-13",
+      "number": 18,
+      "name": "리코넬 마르하렛트",
+      "real": "리코넬 마르하렛",
+      "pos": "ST",
+      "nation": "수리남",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "gae-14",
+      "number": 21,
+      "name": "멜러 뮐렌스테인드",
+      "real": "멜러 뮐렌스테인",
+      "pos": "CDM",
+      "nation": "네덜란드",
+      "birthYear": 1999,
+      "ovr": 71
+    },
+    {
+      "key": "gae-15",
+      "number": 22,
+      "name": "니크 마르스마느",
+      "real": "니크 마르스만",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 1990,
+      "ovr": 67
+    },
+    {
+      "key": "gae-16",
+      "number": 23,
+      "name": "티보 바텐드",
+      "real": "티보 바텐",
+      "pos": "LW",
+      "nation": "벨기에",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "gae-17",
+      "number": 25,
+      "name": "조바니 판즈바므",
+      "real": "조바니 판즈밤",
+      "pos": "LB",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "gae-18",
+      "number": 26,
+      "name": "율리위스 디르크선드",
+      "real": "율리위스 디르크선",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "gae-19",
+      "number": 27,
+      "name": "토마스 갈베손",
+      "real": "토마스 갈베스",
+      "pos": "RB",
+      "nation": "핀란드",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "gae-20",
+      "number": 28,
+      "name": "핌 사토픈",
+      "real": "핌 사토프",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 67
+    },
+    {
+      "key": "gae-21",
+      "number": 29,
+      "name": "에리크 플라타케른",
+      "real": "에리크 플라타케르",
+      "pos": "ST",
+      "nation": "노르웨이",
+      "birthYear": 2004,
+      "ovr": 67
+    }
+  ]
+}

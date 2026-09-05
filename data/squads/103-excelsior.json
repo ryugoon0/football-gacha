@@ -1,0 +1,170 @@
+{
+  "club": "엑셀시오 크루",
+  "realClub": "엑셀시오르 로테르담",
+  "league": "오라녜 에레디",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/Excelsior_Rotterdam",
+  "pilot": false,
+  "players": [
+    {
+      "key": "exc-01",
+      "number": 1,
+      "name": "스테인 판하설라",
+      "real": "스테인 판하설",
+      "pos": "GK",
+      "nation": "네덜란드",
+      "birthYear": 1996,
+      "ovr": 69
+    },
+    {
+      "key": "exc-02",
+      "number": 3,
+      "name": "리크 메이선드",
+      "real": "리크 메이선",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2002,
+      "ovr": 67
+    },
+    {
+      "key": "exc-03",
+      "number": 4,
+      "name": "카스페르 비델라",
+      "real": "카스페르 비델",
+      "pos": "CB",
+      "nation": "스웨덴",
+      "birthYear": 2003,
+      "ovr": 68
+    },
+    {
+      "key": "exc-04",
+      "number": 7,
+      "name": "아이멘 슬리틴",
+      "real": "아이멘 슬리티",
+      "pos": "LW",
+      "nation": "네덜란드",
+      "birthYear": 2006,
+      "ovr": 65
+    },
+    {
+      "key": "exc-05",
+      "number": 8,
+      "name": "이라클리 예고얀드",
+      "real": "이라클리 예고얀",
+      "pos": "CM",
+      "nation": "조지아",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "exc-06",
+      "number": 9,
+      "name": "마리오 도밍게손",
+      "real": "마리오 도밍게스",
+      "pos": "ST",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 67
+    },
+    {
+      "key": "exc-07",
+      "number": 10,
+      "name": "노아 나우요크손",
+      "real": "노아 나우요크스",
+      "pos": "CAM",
+      "nation": "네덜란드",
+      "birthYear": 2002,
+      "ovr": 69
+    },
+    {
+      "key": "exc-08",
+      "number": 12,
+      "name": "케이시 보손",
+      "real": "케이시 보스",
+      "pos": "RB",
+      "nation": "호주",
+      "birthYear": 2004,
+      "ovr": 66
+    },
+    {
+      "key": "exc-09",
+      "number": 14,
+      "name": "얀 플뤼흔",
+      "real": "얀 플뤼흐",
+      "pos": "CB",
+      "nation": "네덜란드",
+      "birthYear": 2005,
+      "ovr": 65
+    },
+    {
+      "key": "exc-10",
+      "number": 15,
+      "name": "시몬 얀선드",
+      "real": "시몬 얀선",
+      "pos": "LB",
+      "nation": "네덜란드",
+      "birthYear": 2000,
+      "ovr": 68
+    },
+    {
+      "key": "exc-11",
+      "number": 16,
+      "name": "셀턴 비아인",
+      "real": "셀턴 비아이",
+      "pos": "GK",
+      "nation": "기니비사우",
+      "birthYear": 2000,
+      "ovr": 68
+    },
+    {
+      "key": "exc-12",
+      "number": 18,
+      "name": "발렌틴 줄츠바허스",
+      "real": "발렌틴 줄츠바허",
+      "pos": "CM",
+      "nation": "오스트리아",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "exc-13",
+      "number": 20,
+      "name": "레나르트 하르트여손",
+      "real": "레나르트 하르트여스",
+      "pos": "CDM",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 67
+    },
+    {
+      "key": "exc-14",
+      "number": 21,
+      "name": "일라노 실바 티마손",
+      "real": "일라노 실바 티마스",
+      "pos": "RW",
+      "nation": "카보베르데",
+      "birthYear": 2002,
+      "ovr": 68
+    },
+    {
+      "key": "exc-15",
+      "number": 25,
+      "name": "말론 판더베테링크",
+      "real": "말론 판더베테링",
+      "pos": "RB",
+      "nation": "자메이카",
+      "birthYear": 2007,
+      "ovr": 63
+    },
+    {
+      "key": "exc-16",
+      "number": 30,
+      "name": "알리레자 자한바크신",
+      "real": "알리레자 자한바크시",
+      "pos": "RW",
+      "nation": "이란",
+      "birthYear": 1993,
+      "ovr": 72
+    }
+  ]
+}

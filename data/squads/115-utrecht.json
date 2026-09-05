@@ -1,0 +1,260 @@
+{
+  "club": "위트레흐 돔",
+  "realClub": "FC 위트레흐트",
+  "league": "오라녜 에레디",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/FC_Utrecht",
+  "pilot": false,
+  "players": [
+    {
+      "key": "utr-01",
+      "number": 1,
+      "name": "바실리스 바르카손",
+      "real": "바실리스 바르카스",
+      "pos": "GK",
+      "nation": "그리스",
+      "birthYear": 1994,
+      "ovr": 73
+    },
+    {
+      "key": "utr-02",
+      "number": 2,
+      "name": "시버 호레만손",
+      "real": "시버 호레만스",
+      "pos": "RB",
+      "nation": "벨기에",
+      "birthYear": 1998,
+      "ovr": 72
+    },
+    {
+      "key": "utr-03",
+      "number": 3,
+      "name": "마티서 디던드",
+      "real": "마티서 디던",
+      "pos": "CB",
+      "nation": "벨기에",
+      "birthYear": 2001,
+      "ovr": 72
+    },
+    {
+      "key": "utr-04",
+      "number": 5,
+      "name": "니콜라스 파나요툰",
+      "real": "니콜라스 파나요투",
+      "pos": "CB",
+      "nation": "키프로스",
+      "birthYear": 2000,
+      "ovr": 71
+    },
+    {
+      "key": "utr-05",
+      "number": 6,
+      "name": "휘스 오퍼르하위손",
+      "real": "휘스 오퍼르하위스",
+      "pos": "CDM",
+      "nation": "네덜란드",
+      "birthYear": 2001,
+      "ovr": 72
+    },
+    {
+      "key": "utr-06",
+      "number": 7,
+      "name": "빅토르 옌센드",
+      "real": "빅토르 옌센",
+      "pos": "LW",
+      "nation": "덴마크",
+      "birthYear": 2000,
+      "ovr": 74
+    },
+    {
+      "key": "utr-07",
+      "number": 8,
+      "name": "요리스 판 오버레이므",
+      "real": "요리스 판 오버레임",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 1994,
+      "ovr": 72
+    },
+    {
+      "key": "utr-08",
+      "number": 9,
+      "name": "아르템 스테파노픈",
+      "real": "아르템 스테파노프",
+      "pos": "ST",
+      "nation": "우크라이나",
+      "birthYear": 2007,
+      "ovr": 66
+    },
+    {
+      "key": "utr-09",
+      "number": 10,
+      "name": "요안 카틀린드",
+      "real": "요안 카틀린",
+      "pos": "LW",
+      "nation": "프랑스",
+      "birthYear": 2002,
+      "ovr": 74
+    },
+    {
+      "key": "utr-10",
+      "number": 11,
+      "name": "앙헬 알라르코느",
+      "real": "앙헬 알라르콘",
+      "pos": "RW",
+      "nation": "스페인",
+      "birthYear": 2004,
+      "ovr": 73
+    },
+    {
+      "key": "utr-11",
+      "number": 15,
+      "name": "에이드리언 블레이큰",
+      "real": "에이드리언 블레이크",
+      "pos": "ST",
+      "nation": "잉글랜드",
+      "birthYear": 2005,
+      "ovr": 68
+    },
+    {
+      "key": "utr-12",
+      "number": 17,
+      "name": "셈 판 다위느",
+      "real": "셈 판 다윈",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "utr-13",
+      "number": 18,
+      "name": "야코프 메디츠",
+      "real": "야코프 메디치",
+      "pos": "CB",
+      "nation": "크로아티아",
+      "birthYear": 1998,
+      "ovr": 73
+    },
+    {
+      "key": "utr-14",
+      "number": 20,
+      "name": "다니 더 비튼",
+      "real": "다니 더 빗",
+      "pos": "CAM",
+      "nation": "네덜란드",
+      "birthYear": 1998,
+      "ovr": 74
+    },
+    {
+      "key": "utr-15",
+      "number": 21,
+      "name": "네빌 오기디 은완쿤",
+      "real": "네빌 오기디 은완쿠",
+      "pos": "RB",
+      "nation": "네덜란드",
+      "birthYear": 2002,
+      "ovr": 70
+    },
+    {
+      "key": "utr-16",
+      "number": 23,
+      "name": "니클라스 베스테를룬드",
+      "real": "니클라스 베스테를룬",
+      "pos": "CM",
+      "nation": "덴마크",
+      "birthYear": 1999,
+      "ovr": 71
+    },
+    {
+      "key": "utr-17",
+      "number": 26,
+      "name": "밀리아노 요나탄손",
+      "real": "밀리아노 요나탄스",
+      "pos": "RW",
+      "nation": "인도네시아",
+      "birthYear": 2004,
+      "ovr": 73
+    },
+    {
+      "key": "utr-18",
+      "number": 27,
+      "name": "알론조 엥완단",
+      "real": "알론조 엥완다",
+      "pos": "CM",
+      "nation": "벨기에",
+      "birthYear": 2003,
+      "ovr": 70
+    },
+    {
+      "key": "utr-19",
+      "number": 29,
+      "name": "노아 오히온",
+      "real": "노아 오히오",
+      "pos": "ST",
+      "nation": "네덜란드",
+      "birthYear": 2003,
+      "ovr": 73
+    },
+    {
+      "key": "utr-20",
+      "number": 30,
+      "name": "케빈 파레데손",
+      "real": "케빈 파레데스",
+      "pos": "LW",
+      "nation": "미국",
+      "birthYear": 2003,
+      "ovr": 74
+    },
+    {
+      "key": "utr-21",
+      "number": 34,
+      "name": "다비 판덴베르흐트",
+      "real": "다비 판덴베르흐",
+      "pos": "CM",
+      "nation": "네덜란드",
+      "birthYear": 2000,
+      "ovr": 70
+    },
+    {
+      "key": "utr-22",
+      "number": 38,
+      "name": "우알리드 아구길라",
+      "real": "우알리드 아구길",
+      "pos": "CM",
+      "nation": "모로코",
+      "birthYear": 2005,
+      "ovr": 66
+    },
+    {
+      "key": "utr-23",
+      "number": 39,
+      "name": "노르딘 암라바튼",
+      "real": "노르딘 암라바트",
+      "pos": "LW",
+      "nation": "모로코",
+      "birthYear": 1987,
+      "ovr": 68
+    },
+    {
+      "key": "utr-24",
+      "number": 80,
+      "name": "마리우스 브로홀르므",
+      "real": "마리우스 브로홀름",
+      "pos": "ST",
+      "nation": "노르웨이",
+      "birthYear": 2004,
+      "ovr": 69
+    },
+    {
+      "key": "utr-25",
+      "number": 92,
+      "name": "아르튀르 자그렌",
+      "real": "아르튀르 자그레",
+      "pos": "LB",
+      "nation": "부르키나파소",
+      "birthYear": 2001,
+      "ovr": 71
+    }
+  ]
+}
