@@ -2,39 +2,82 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { RARITY_STYLES } from '../lib/rarity'
-import { isHighRarity, type ReelPlan } from '../lib/scoutReel'
+import { isHighRarity, type ReelPlan, type ReelStop } from '../lib/scoutReel'
 import PlayerCard from './PlayerCard'
 
 /** PlayerCard size "md" is w-32; the gap is what keeps the strip readable at speed. */
 const CARD_W = 128
 const GAP = 12
 const STEP = CARD_W + GAP
-/** The seven-card strip repeats so the run-up is long enough to feel like a spin. */
-const CYCLES = 5
-const SPIN_MS = 3600
+/** Laps of the seven-card strip before the stop; `long` adds two or three more. */
+const BASE_CYCLES = 5
 const FAST_MS = 350
 
+const EASE_OUT = 'cubic-bezier(0.08, 0.82, 0.17, 1)'
+
+interface Phase {
+  /** translateX target, px. */
+  x: number
+  ms: number
+  ease: string
+  /** Wait this long after arriving before the next phase starts (the 멈칫). */
+  holdMs?: number
+}
+
+/** The stop choreography, as a list of transitions ending exactly on `end`. */
+function phasesFor(stop: ReelStop, end: number): Phase[] {
+  switch (stop) {
+    case 'long':
+      return [{ x: end, ms: 5400, ease: EASE_OUT }]
+    case 'overshoot':
+      // Past the result by most of a card, rock back a little too far the other way, settle.
+      return [
+        { x: end - STEP * 0.8, ms: 3200, ease: 'cubic-bezier(0.1, 0.9, 0.25, 1)' },
+        { x: end + STEP * 0.3, ms: 750, ease: 'cubic-bezier(0.45, 0, 0.55, 1)' },
+        { x: end, ms: 650, ease: 'cubic-bezier(0.3, 0, 0.2, 1)' },
+      ]
+    case 'crawl':
+      // One card short, hang there long enough to believe it, then tick over.
+      return [
+        { x: end + STEP, ms: 3300, ease: EASE_OUT, holdMs: 650 },
+        { x: end, ms: 1000, ease: 'cubic-bezier(0.35, 0, 0.15, 1)' },
+      ]
+    default:
+      return [{ x: end, ms: 3600, ease: EASE_OUT }]
+  }
+}
+
 /**
- * A horizontal roulette of cards. The strip starts at speed, eases out over
- * about three and a half seconds and lands with the result under the frame.
- * `fast` (빨리 보기) collapses the remaining travel into a third of a second —
- * flipping it mid-spin is fine, the browser retimes from wherever the strip is.
+ * A horizontal roulette of cards. The strip starts at speed and comes to rest
+ * with the result under the frame — straight in, after extra laps, sliding
+ * past and rocking back, or hanging one card short before ticking over (see
+ * lib/scoutReel.ts ReelStop). `fast` (빨리 보기) collapses whatever remains
+ * into a third of a second; flipping it mid-spin is fine, the browser retimes
+ * from wherever the strip is.
  */
 export default function ScoutReel({ plan, fast, onDone }: { plan: ReelPlan; fast: boolean; onDone: () => void }) {
-  const sequence = useMemo(() => Array.from({ length: CYCLES }, () => plan.cards).flat(), [plan])
-  const finalIndex = (CYCLES - 1) * plan.cards.length + plan.stopIndex
-  const [go, setGo] = useState(false)
+  const cycles = plan.stop === 'long' ? BASE_CYCLES + 2 + (plan.stopIndex % 2) : BASE_CYCLES
+  const sequence = useMemo(() => Array.from({ length: cycles }, () => plan.cards).flat(), [plan, cycles])
+  const finalIndex = (cycles - 1) * plan.cards.length + plan.stopIndex
+  const endX = -(finalIndex * STEP + CARD_W / 2)
+  const startX = -(CARD_W / 2)
+  const phases = useMemo(() => phasesFor(plan.stop, endX), [plan.stop, endX])
+
+  // -1: parked at the start (painted once before anything moves); 0..n-1: running that phase.
+  const [phase, setPhase] = useState(-1)
   const [landed, setLanded] = useState(false)
   const done = useRef(false)
+  const holdTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // Start on the next frame so the initial position is painted before the
-  // transition begins; otherwise the strip just appears at the end.
   useEffect(() => {
     done.current = false
     setLanded(false)
-    setGo(false)
-    const frame = requestAnimationFrame(() => setGo(true))
-    return () => cancelAnimationFrame(frame)
+    setPhase(-1)
+    const frame = requestAnimationFrame(() => setPhase(0))
+    return () => {
+      cancelAnimationFrame(frame)
+      if (holdTimer.current) clearTimeout(holdTimer.current)
+    }
   }, [plan])
 
   const finish = () => {
@@ -44,17 +87,34 @@ export default function ScoutReel({ plan, fast, onDone }: { plan: ReelPlan; fast
     onDone()
   }
 
-  // transitionend can be swallowed (tab hidden, reduced motion); a timer backs it up.
-  const duration = fast ? FAST_MS : SPIN_MS
+  const lastPhase = phases.length - 1
+  // 빨리 보기 jumps to the end regardless of where the choreography stands.
+  const active = fast ? phases[lastPhase] : phases[Math.max(0, Math.min(phase, lastPhase))]
+  const duration = fast ? FAST_MS : active.ms
+  const targetX = phase < 0 && !fast ? startX : active.x
+  const isLast = fast || phase >= lastPhase
+
+  const advance = () => {
+    if (isLast) {
+      finish()
+      return
+    }
+    const hold = active.holdMs ?? 0
+    if (hold > 0) {
+      holdTimer.current = setTimeout(() => setPhase((current) => current + 1), hold)
+    } else {
+      setPhase((current) => current + 1)
+    }
+  }
+
+  // transitionend can be swallowed (tab hidden, reduced motion); a timer backs each phase up.
   useEffect(() => {
-    if (!go) return
-    const timer = setTimeout(finish, duration + 250)
+    if (phase < 0 && !fast) return
+    const timer = setTimeout(advance, duration + 250)
     return () => clearTimeout(timer)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [go, duration])
+  }, [phase, fast, duration])
 
-  const startX = -(CARD_W / 2)
-  const endX = -(finalIndex * STEP + CARD_W / 2)
   const result = plan.cards[plan.stopIndex]
   // Static class names only — Tailwind has to see them in the source to ship them.
   const landedRing = isHighRarity(result.rarity) ? 'ring-amber-300' : 'ring-emerald-300'
@@ -79,11 +139,11 @@ export default function ScoutReel({ plan, fast, onDone }: { plan: ReelPlan; fast
         style={{
           paddingLeft: '50%',
           gap: GAP,
-          transform: `translateX(${go ? endX : startX}px)`,
-          transition: go ? `transform ${duration}ms cubic-bezier(0.08, 0.82, 0.17, 1)` : 'none',
+          transform: `translateX(${targetX}px)`,
+          transition: phase < 0 && !fast ? 'none' : `transform ${duration}ms ${fast ? EASE_OUT : active.ease}`,
         }}
         onTransitionEnd={(event) => {
-          if (event.propertyName === 'transform') finish()
+          if (event.propertyName === 'transform' && event.target === event.currentTarget) advance()
         }}
       >
         {sequence.map((player, index) => {

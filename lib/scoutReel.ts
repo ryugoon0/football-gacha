@@ -20,11 +20,37 @@ export const TEASE_CHANCE = 0.25
 const HIGH: Rarity[] = ['Live', 'World']
 const LOW_WEIGHTS: Partial<Record<Rarity, number>> = { Normal: 40, Rare: 35, Legend: 25 }
 
+/**
+ * How the strip comes to rest. `plain` eases straight in; `long` runs two or
+ * three extra laps first; `overshoot` slides past the result and rocks back;
+ * `crawl` stops one card short, hangs there, then ticks over. The result is
+ * the same in every case — only the wait differs.
+ */
+export type ReelStop = 'plain' | 'long' | 'overshoot' | 'crawl'
+
 export interface ReelPlan {
   cards: PlayerDef[]
   /** Index in `cards` the reel stops on — the result. */
   stopIndex: number
   special: boolean
+  stop: ReelStop
+}
+
+/** Weights per mood: a special reel leans on the two teasing stops. */
+const STOP_WEIGHTS: Record<'plain' | 'special', Record<ReelStop, number>> = {
+  plain: { plain: 50, long: 20, overshoot: 18, crawl: 12 },
+  special: { plain: 15, long: 20, overshoot: 30, crawl: 35 },
+}
+
+export function pickStop(special: boolean, rng: () => number = Math.random): ReelStop {
+  const weights = STOP_WEIGHTS[special ? 'special' : 'plain']
+  const total = Object.values(weights).reduce((sum, weight) => sum + weight, 0)
+  let roll = rng() * total
+  for (const [stop, weight] of Object.entries(weights) as [ReelStop, number][]) {
+    roll -= weight
+    if (roll <= 0) return stop
+  }
+  return 'plain'
 }
 
 export type ReelPool = Partial<Record<Rarity, PlayerDef[]>>
@@ -94,5 +120,5 @@ export function planReel(result: PlayerDef, pool: ReelPool, rng: () => number = 
   const stopIndex = decoys.length === 0 ? 0 : 1 + Math.floor(rng() * decoys.length)
   const cards = [...decoys]
   cards.splice(stopIndex, 0, result)
-  return { cards, stopIndex, special }
+  return { cards, stopIndex, special, stop: pickStop(special, rng) }
 }

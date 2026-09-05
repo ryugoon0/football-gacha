@@ -47,6 +47,19 @@ describe('premium scout reel', () => {
     }
   })
 
+  it('varies how the strip stops, leaning on the teasing stops when special', () => {
+    const rng = seededRandom(21)
+    const seen = new Set<string>()
+    let teasing = 0
+    for (let i = 0; i < 200; i += 1) {
+      const plan = planReel(pick('Live'), PLAYERS_BY_RARITY, rng)
+      seen.add(plan.stop)
+      if (plan.stop === 'overshoot' || plan.stop === 'crawl') teasing += 1
+    }
+    expect(seen.size).toBe(4)
+    expect(teasing).toBeGreaterThan(100)
+  })
+
   it('never fires the tease when told not to', () => {
     const rng = seededRandom(5)
     for (let i = 0; i < 30; i += 1) {
