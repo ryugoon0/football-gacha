@@ -1,83 +1,418 @@
 // scripts/build-squad-cards.mjs가 data/squads/*.json에서 만든다. 손으로 고치지 않는다.
 import type { Rarity } from './types'
-import type { RosterRow } from './players'
+import type { ClubDef, RosterRow } from './players'
 
 /** 실제 스쿼드 기반 카드 — ROSTER에서 LATE_ADDITIONS 뒤에 붙는다. */
 export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
   Normal: [
-    ['최주헌', 'GK', 60, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['류승민', 'GK', 64, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['황병건', 'GK', 67, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['조민석', 'CM', 65, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['백인유', 'CM', 66, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['최석헌', 'CB', 66, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['셰이 레이스', 'RW', 66, '맨체스 레즈', '잉글랜드', {"unreleased":true}],
-    ['잭 플레쳐', 'CM', 65, '맨체스 레즈', '잉글랜드', {"unreleased":true}],
-    ['타일러 플레쳐', 'CM', 63, '맨체스 레즈', '스코틀랜드', {"unreleased":true}],
-    ['더못 미이', 'GK', 58, '맨체스 레즈', '북아일랜드', {"unreleased":true}],
+    ['최주헌', 'GK', 60, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['류승민', 'GK', 64, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['황병건', 'GK', 67, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['조민석', 'CM', 65, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['백인유', 'CM', 66, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['최석헌', 'CB', 66, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['셰이 레이스', 'RW', 66, '맨체스 레즈', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['잭 플레쳐', 'CM', 65, '맨체스 레즈', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['타일러 플레쳐', 'CM', 63, '맨체스 레즈', '스코틀랜드', {"squad":true,"unreleased":false}],
+    ['더못 미이', 'GK', 58, '맨체스 레즈', '북아일랜드', {"squad":true,"unreleased":false}],
+    ['제임스 라이토', 'GK', 62, '아스톤 라이온', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['트래비스 패터손', 'RB', 63, '아스톤 라이온', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['자말딘 지모알로반', 'CM', 66, '아스톤 라이온', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['줄리안 아이스턴', 'GK', 62, '브렌트 벌', '미국', {"squad":true,"unreleased":false}],
+    ['톰 맥길런', 'GK', 66, '브라이턴 걸스', '캐나다', {"squad":true,"unreleased":false}],
+    ['자독 요한노', 'CM', 64, '브라이턴 걸스', '나이지리아', {"squad":true,"unreleased":false}],
+    ['테디 샤먼루', 'GK', 62, '런던 블루스', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['댄 벤틀로', 'GK', 66, '코번트리 스카이', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['스티븐 음푸노', 'CB', 62, '코번트리 스카이', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['시디키 셰리포', 'ST', 66, '코번트리 스카이', '기니', {"squad":true,"unreleased":false}],
+    ['레미 매슈손', 'GK', 66, '크리스탈 이글', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['자비에르 고즈', 'RW', 66, '크리스탈 이글', '미국', {"squad":true,"unreleased":false}],
+    ['톰 킹스', 'GK', 65, '에버턴 토피', '웨일스', {"squad":true,"unreleased":false}],
+    ['해리슨 암스트론', 'CM', 66, '에버턴 토피', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['알렉스 보르투', 'GK', 62, '풀럼 코티지', '미국', {"squad":true,"unreleased":false}],
   ],
   Rare: [
-    ['윤중규', 'RB', 71, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['정선빈', 'CB', 68, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['서명권', 'CB', 72, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['이희근', 'RW', 74, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['이진헌', 'CM', 74, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['박우재', 'CM', 69, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['강상유', 'LB', 74, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['정재삼', 'ST', 71, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['문정일', 'GK', 68, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['이규선', 'CDM', 75, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['조현탁', 'LB', 73, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['페드리노', 'RW', 75, '울산 호랑', '브라질', {"unreleased":true}],
-    ['이재억', 'CB', 71, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['장시연', 'RM', 70, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['토마스 오데코트', 'CB', 72, '울산 호랑', '네덜란드', {"unreleased":true}],
-    ['밀로시 트로약', 'CB', 73, '울산 호랑', '폴란드', {"unreleased":true}],
-    ['심상만', 'LB', 70, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['벤지 미셀', 'LM', 72, '울산 호랑', '미국', {"unreleased":true}],
-    ['칼 다를로', 'GK', 72, '맨체스 레즈', '웨일스', {"unreleased":true}],
-    ['톰 히튼', 'GK', 68, '맨체스 레즈', '잉글랜드', {"unreleased":true}],
-    ['에이든 헤번', 'CB', 72, '맨체스 레즈', '잉글랜드', {"unreleased":true}],
-    ['해리 아마즈', 'LB', 68, '맨체스 레즈', '잉글랜드', {"unreleased":true}],
+    ['윤중규', 'RB', 71, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['정선빈', 'CB', 68, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['서명권', 'CB', 72, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['이희근', 'RW', 74, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['이진헌', 'CM', 74, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['박우재', 'CM', 69, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['강상유', 'LB', 74, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['정재삼', 'ST', 71, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['문정일', 'GK', 68, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['이규선', 'CDM', 75, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['조현탁', 'LB', 73, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['페드리노', 'RW', 75, '울산 호랑', '브라질', {"squad":true,"unreleased":true}],
+    ['이재억', 'CB', 71, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['장시연', 'RM', 70, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['토마스 오데코트', 'CB', 72, '울산 호랑', '네덜란드', {"squad":true,"unreleased":true}],
+    ['밀로시 트로약', 'CB', 73, '울산 호랑', '폴란드', {"squad":true,"unreleased":true}],
+    ['심상만', 'LB', 70, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['벤지 미셀', 'LM', 72, '울산 호랑', '미국', {"squad":true,"unreleased":true}],
+    ['칼 다를로', 'GK', 72, '맨체스 레즈', '웨일스', {"squad":true,"unreleased":false}],
+    ['톰 히튼', 'GK', 68, '맨체스 레즈', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['에이든 헤번', 'CB', 72, '맨체스 레즈', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['해리 아마즈', 'LB', 68, '맨체스 레즈', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['모두 케바 시소', 'CB', 68, '아스톤 라이온', '세네갈', {"squad":true,"unreleased":false}],
+    ['라마레 보하르도', 'CDM', 69, '아스톤 라이온', '네덜란드', {"squad":true,"unreleased":false}],
+    ['요한 만잠보', 'CM', 70, '아스톤 라이온', '스위스', {"squad":true,"unreleased":false}],
+    ['이브라힘 음바여', 'RW', 70, '아스톤 라이온', '세네갈', {"squad":true,"unreleased":false}],
+    ['알리손 주니오', 'LW', 70, '아스톤 라이온', '브라질', {"squad":true,"unreleased":false}],
+    ['하콘 발디마르센', 'GK', 75, '브렌트 벌', '아이슬란드', {"squad":true,"unreleased":false}],
+    ['제이든 메고모', 'LB', 68, '브렌트 벌', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['김지승', 'CB', 68, '브렌트 벌', '대한민국', {"squad":true,"unreleased":false}],
+    ['조시 다실반', 'CAM', 74, '브렌트 벌', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['안토니 밀람바', 'CM', 74, '브렌트 벌', '네덜란드', {"squad":true,"unreleased":false}],
+    ['마마두 상가로', 'CDM', 73, '브렌트 벌', '말리', {"squad":true,"unreleased":false}],
+    ['유누스 코나키', 'CM', 68, '브렌트 벌', '튀르키예', {"squad":true,"unreleased":false}],
+    ['칼럼 윌손', 'ST', 75, '브렌트 벌', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['제이든 앤서노', 'LW', 74, '브렌트 벌', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['구스타보 누네소', 'LW', 70, '브렌트 벌', '브라질', {"squad":true,"unreleased":false}],
+    ['프레이저 포스톤', 'GK', 72, '본머스 체리', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['제임스 힐런', 'CB', 72, '본머스 체리', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['훌리오 솔레로', 'LB', 72, '본머스 체리', '아르헨티나', {"squad":true,"unreleased":false}],
+    ['애덤 스미슨', 'RB', 73, '본머스 체리', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['맥스 애런손', 'RB', 73, '본머스 체리', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['벨코 밀로사블레빈', 'CB', 68, '본머스 체리', '세르비아', {"squad":true,"unreleased":false}],
+    ['알렉스 토토', 'CM', 70, '본머스 체리', '헝가리', {"squad":true,"unreleased":false}],
+    ['엘리 크루포', 'ST', 74, '본머스 체리', '프랑스', {"squad":true,"unreleased":false}],
+    ['대니얼 제비손', 'ST', 70, '본머스 체리', '캐나다', {"squad":true,"unreleased":false}],
+    ['알바로 로드리게소', 'ST', 72, '본머스 체리', '우루과이', {"squad":true,"unreleased":false}],
+    ['하이안', 'LW', 72, '본머스 체리', '브라질', {"squad":true,"unreleased":false}],
+    ['제이슨 스틸런', 'GK', 74, '브라이턴 걸스', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['자우엔 하자모', 'LB', 74, '브라이턴 걸스', '알제리', {"squad":true,"unreleased":false}],
+    ['코스치노', 'RB', 74, '브라이턴 걸스', '포르투갈', {"squad":true,"unreleased":false}],
+    ['미하엘 스보보도', 'CB', 70, '브라이턴 걸스', '오스트리아', {"squad":true,"unreleased":false}],
+    ['루카 부슈코빈', 'CB', 74, '브라이턴 걸스', '크로아티아', {"squad":true,"unreleased":false}],
+    ['체마 안드레소', 'CDM', 72, '브라이턴 걸스', '스페인', {"squad":true,"unreleased":false}],
+    ['이브라힘 오스마노', 'RW', 72, '브라이턴 걸스', '가나', {"squad":true,"unreleased":false}],
+    ['말리크 얄쿠여', 'CDM', 70, '브라이턴 걸스', '코트디부아르', {"squad":true,"unreleased":false}],
+    ['페미 아지소', 'RW', 68, '브라이턴 걸스', '나이지리아', {"squad":true,"unreleased":false}],
+    ['스테파노스 치마소', 'ST', 74, '브라이턴 걸스', '그리스', {"squad":true,"unreleased":false}],
+    ['하랄람보스 코스툴라소', 'ST', 73, '브라이턴 걸스', '그리스', {"squad":true,"unreleased":false}],
+    ['마이크 펜더손', 'GK', 72, '런던 블루스', '벨기에', {"squad":true,"unreleased":false}],
+    ['가브리엘 슬로니노', 'GK', 70, '런던 블루스', '미국', {"squad":true,"unreleased":false}],
+    ['펩 차바리오', 'LB', 74, '런던 블루스', '스페인', {"squad":true,"unreleased":false}],
+    ['아론 안셀미나', 'CB', 74, '런던 블루스', '아르헨티나', {"squad":true,"unreleased":false}],
+    ['조던 헨더손', 'CM', 75, '런던 블루스', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['대니 웰베크', 'ST', 74, '런던 블루스', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['벤 윌손', 'GK', 70, '코번트리 스카이', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['칼 러시워드', 'GK', 70, '코번트리 스카이', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['이선 피노크', 'CB', 73, '코번트리 스카이', '자메이카', {"squad":true,"unreleased":false}],
+    ['제이 다실보', 'LB', 69, '코번트리 스카이', '웨일스', {"squad":true,"unreleased":false}],
+    ['보비 토머슨', 'CB', 72, '코번트리 스카이', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['케인 케슬러헤이던', 'RB', 70, '코번트리 스카이', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['제이크 비드웰런', 'LB', 68, '코번트리 스카이', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['조엘 라티보디에', 'CB', 70, '코번트리 스카이', '자메이카', {"squad":true,"unreleased":false}],
+    ['오렐 아멘도', 'CB', 71, '코번트리 스카이', '스위스', {"squad":true,"unreleased":false}],
+    ['루크 울펜던', 'CB', 71, '코번트리 스카이', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['밀란 판 에베이코', 'RB', 73, '코번트리 스카이', '네덜란드', {"squad":true,"unreleased":false}],
+    ['잭 루도노', 'CM', 74, '코번트리 스카이', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['맷 그라임손', 'CDM', 72, '코번트리 스카이', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['케일럽 이렌코', 'CM', 68, '코번트리 스카이', '가나', {"squad":true,"unreleased":false}],
+    ['프랭크 오니에코', 'CDM', 72, '코번트리 스카이', '나이지리아', {"squad":true,"unreleased":false}],
+    ['조시 에클손', 'CM', 68, '코번트리 스카이', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['빅토르 토르포', 'CM', 71, '코번트리 스카이', '덴마크', {"squad":true,"unreleased":false}],
+    ['얀 그보후', 'CAM', 70, '코번트리 스카이', '프랑스', {"squad":true,"unreleased":false}],
+    ['사카모토 다쓰히루', 'RW', 72, '코번트리 스카이', '일본', {"squad":true,"unreleased":false}],
+    ['엘리스 심손', 'ST', 72, '코번트리 스카이', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['에프론 메이슨클라코', 'LW', 71, '코번트리 스카이', '자메이카', {"squad":true,"unreleased":false}],
+    ['하지 라이토', 'ST', 73, '코번트리 스카이', '미국', {"squad":true,"unreleased":false}],
+    ['타이워 아워니오', 'ST', 74, '코번트리 스카이', '나이지리아', {"squad":true,"unreleased":false}],
+    ['룸 차우노', 'RW', 72, '코번트리 스카이', '프랑스', {"squad":true,"unreleased":false}],
+    ['브랜던 토머스아산토', 'ST', 70, '코번트리 스카이', '가나', {"squad":true,"unreleased":false}],
+    ['샤디 리아도', 'CB', 74, '크리스탈 이글', '모로코', {"squad":true,"unreleased":false}],
+    ['제이디 캉보트', 'CB', 74, '크리스탈 이글', '프랑스', {"squad":true,"unreleased":false}],
+    ['어니스트 아하노', 'LB', 70, '크리스탈 이글', '이탈리아', {"squad":true,"unreleased":false}],
+    ['아난 칼라일로', 'RB', 72, '크리스탈 이글', '이스라엘', {"squad":true,"unreleased":false}],
+    ['벤 칠웰런', 'LB', 75, '크리스탈 이글', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['에디 은케티오', 'ST', 75, '크리스탈 이글', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['마크 트래버손', 'GK', 72, '에버턴 토피', '아일랜드', {"squad":true,"unreleased":false}],
+    ['메를린 뢸러', 'CM', 74, '에버턴 토피', '독일', {"squad":true,"unreleased":false}],
+    ['타이리크 조지오', 'LW', 72, '에버턴 토피', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['뱅자맹 르콩테', 'GK', 72, '풀럼 코티지', '프랑스', {"squad":true,"unreleased":false}],
+    ['호르헤 쿠엥코', 'CB', 75, '풀럼 코티지', '스페인', {"squad":true,"unreleased":false}],
+    ['다비트 아펜그루베르', 'CB', 74, '풀럼 코티지', '오스트리아', {"squad":true,"unreleased":false}],
+    ['뤽 드 푸제로', 'CB', 68, '풀럼 코티지', '캐나다', {"squad":true,"unreleased":false}],
+    ['해리슨 리드슨', 'CM', 74, '풀럼 코티지', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['세사르 팔라시오', 'CM', 72, '풀럼 코티지', '스페인', {"squad":true,"unreleased":false}],
+    ['톰 케어노', 'CM', 75, '풀럼 코티지', '스코틀랜드', {"squad":true,"unreleased":false}],
+    ['셰이 찰손', 'CDM', 72, '풀럼 코티지', '북아일랜드', {"squad":true,"unreleased":false}],
+    ['마누엘 앙헬로', 'CM', 70, '풀럼 코티지', '스페인', {"squad":true,"unreleased":false}],
+    ['조시 킹거', 'CM', 70, '풀럼 코티지', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['라이언 세세뇨', 'LM', 74, '풀럼 코티지', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['요나 쿠시아사로', 'ST', 68, '풀럼 코티지', '스웨덴', {"squad":true,"unreleased":false}],
   ],
   Legend: [
-    ['다리안 보야닉', 'CM', 78, '울산 호랑', '스웨덴', {"unreleased":true}],
-    ['마르카노', 'ST', 78, '울산 호랑', '브라질', {"unreleased":true}],
-    ['이동겸', 'CAM', 79, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['에릭 파리스', 'LW', 77, '울산 호랑', '브라질', {"unreleased":true}],
-    ['정승헌', 'CB', 77, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['김영궁', 'CB', 80, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['박용유', 'CDM', 76, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['야고 카리엘', 'ST', 76, '울산 호랑', '브라질', {"unreleased":true}],
-    ['세네 라멘츠', 'GK', 79, '맨체스 레즈', '벨기에', {"unreleased":true}],
-    ['디오고 달로', 'RB', 80, '맨체스 레즈', '포르투갈', {"unreleased":true}],
-    ['누사이르 마즈라우', 'RB', 81, '맨체스 레즈', '모로코', {"unreleased":true}],
-    ['해리 맥과이', 'CB', 79, '맨체스 레즈', '잉글랜드', {"unreleased":true}],
-    ['메이슨 마운드', 'CM', 79, '맨체스 레즈', '잉글랜드', {"unreleased":true}],
-    ['조슈아 지르크', 'ST', 78, '맨체스 레즈', '네덜란드', {"unreleased":true}],
-    ['패트릭 도르그', 'LB', 77, '맨체스 레즈', '덴마크', {"unreleased":true}],
-    ['레니 요루', 'CB', 80, '맨체스 레즈', '프랑스', {"unreleased":true}],
-    ['안드레이 산토', 'CM', 78, '맨체스 레즈', '브라질', {"unreleased":true}],
-    ['유리 틸레망', 'CM', 81, '맨체스 레즈', '벨기에', {"unreleased":true}],
-    ['카를로스 발레브', 'CDM', 80, '맨체스 레즈', '카메룬', {"unreleased":true}],
-    ['루크 쇼어', 'LB', 79, '맨체스 레즈', '잉글랜드', {"unreleased":true}],
-    ['마누엘 우가르타', 'CDM', 79, '맨체스 레즈', '우루과이', {"unreleased":true}],
-    ['코비 마이노', 'CM', 79, '맨체스 레즈', '잉글랜드', {"unreleased":true}],
+    ['다리안 보야닉', 'CM', 78, '울산 호랑', '스웨덴', {"squad":true,"unreleased":true}],
+    ['마르카노', 'ST', 78, '울산 호랑', '브라질', {"squad":true,"unreleased":true}],
+    ['이동겸', 'CAM', 79, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['에릭 파리스', 'LW', 77, '울산 호랑', '브라질', {"squad":true,"unreleased":true}],
+    ['정승헌', 'CB', 77, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['김영궁', 'CB', 80, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['박용유', 'CDM', 76, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['야고 카리엘', 'ST', 76, '울산 호랑', '브라질', {"squad":true,"unreleased":true}],
+    ['세네 라멘츠', 'GK', 79, '맨체스 레즈', '벨기에', {"squad":true,"unreleased":false}],
+    ['디오고 달로', 'RB', 80, '맨체스 레즈', '포르투갈', {"squad":true,"unreleased":false}],
+    ['누사이르 마즈라우', 'RB', 81, '맨체스 레즈', '모로코', {"squad":true,"unreleased":false}],
+    ['해리 맥과이', 'CB', 79, '맨체스 레즈', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['메이슨 마운드', 'CM', 79, '맨체스 레즈', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['조슈아 지르크', 'ST', 78, '맨체스 레즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['패트릭 도르그', 'LB', 77, '맨체스 레즈', '덴마크', {"squad":true,"unreleased":false}],
+    ['레니 요루', 'CB', 80, '맨체스 레즈', '프랑스', {"squad":true,"unreleased":false}],
+    ['안드레이 산토', 'CM', 78, '맨체스 레즈', '브라질', {"squad":true,"unreleased":false}],
+    ['유리 틸레망', 'CM', 81, '맨체스 레즈', '벨기에', {"squad":true,"unreleased":false}],
+    ['카를로스 발레브', 'CDM', 80, '맨체스 레즈', '카메룬', {"squad":true,"unreleased":false}],
+    ['루크 쇼어', 'LB', 79, '맨체스 레즈', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['마누엘 우가르타', 'CDM', 79, '맨체스 레즈', '우루과이', {"squad":true,"unreleased":false}],
+    ['코비 마이노', 'CM', 79, '맨체스 레즈', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['케파 아리사발라고', 'GK', 79, '북런던 건너스', '스페인', {"squad":true,"unreleased":false}],
+    ['일랑 멜리어', 'GK', 76, '북런던 건너스', '프랑스', {"squad":true,"unreleased":false}],
+    ['크리스티안 모스케로', 'CB', 78, '북런던 건너스', '스페인', {"squad":true,"unreleased":false}],
+    ['에즈리 콘살', 'CB', 81, '북런던 건너스', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['마일스 루이스켈리', 'LB', 79, '북런던 건너스', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['흐리스토스 촐리소', 'LW', 79, '북런던 건너스', '그리스', {"squad":true,"unreleased":false}],
+    ['노니 마두에코', 'RW', 81, '북런던 건너스', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['스즈키 자이언', 'GK', 80, '아스톤 라이온', '일본', {"squad":true,"unreleased":false}],
+    ['마르코 비조', 'GK', 76, '아스톤 라이온', '네덜란드', {"squad":true,"unreleased":false}],
+    ['매티 캐신', 'RB', 80, '아스톤 라이온', '폴란드', {"squad":true,"unreleased":false}],
+    ['빅토르 린델로프', 'CB', 77, '아스톤 라이온', '스웨덴', {"squad":true,"unreleased":false}],
+    ['테일러 하우드벨린', 'CB', 78, '아스톤 라이온', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['타이론 밍고', 'CB', 79, '아스톤 라이온', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['마테오 루제로', 'LB', 78, '아스톤 라이온', '이탈리아', {"squad":true,"unreleased":false}],
+    ['이안 마트손', 'LB', 80, '아스톤 라이온', '네덜란드', {"squad":true,"unreleased":false}],
+    ['애런 완비사코', 'RB', 79, '아스톤 라이온', '콩고민주공화국', {"squad":true,"unreleased":false}],
+    ['로스 바클라', 'CM', 76, '아스톤 라이온', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['에밀리아노 부엔디오', 'CAM', 78, '아스톤 라이온', '아르헨티나', {"squad":true,"unreleased":false}],
+    ['주앙 고메손', 'CM', 81, '아스톤 라이온', '브라질', {"squad":true,"unreleased":false}],
+    ['니콜라 잭손', 'ST', 81, '아스톤 라이온', '세네갈', {"squad":true,"unreleased":false}],
+    ['알레한드로 가르나쇼', 'LW', 81, '아스톤 라이온', '아르헨티나', {"squad":true,"unreleased":false}],
+    ['태미 에이브러함', 'ST', 77, '아스톤 라이온', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['키빈 켈러하', 'GK', 81, '브렌트 벌', '아일랜드', {"squad":true,"unreleased":false}],
+    ['애런 히코', 'RB', 77, '브렌트 벌', '스코틀랜드', {"squad":true,"unreleased":false}],
+    ['리코 헨로', 'LB', 76, '브렌트 벌', '자메이카', {"squad":true,"unreleased":false}],
+    ['세프 판덴베르크', 'CB', 78, '브렌트 벌', '네덜란드', {"squad":true,"unreleased":false}],
+    ['크리스토페르 아예로', 'CB', 78, '브렌트 벌', '노르웨이', {"squad":true,"unreleased":false}],
+    ['네이선 콜린손', 'CB', 81, '브렌트 벌', '아일랜드', {"squad":true,"unreleased":false}],
+    ['말리크 디우포', 'LB', 76, '브렌트 벌', '세네갈', {"squad":true,"unreleased":false}],
+    ['마이클 카요도', 'RB', 77, '브렌트 벌', '이탈리아', {"squad":true,"unreleased":false}],
+    ['예고르 야르몰륙', 'CM', 78, '브렌트 벌', '우크라이나', {"squad":true,"unreleased":false}],
+    ['마티아스 옌손', 'CM', 78, '브렌트 벌', '덴마크', {"squad":true,"unreleased":false}],
+    ['파비우 카르발료', 'CAM', 76, '브렌트 벌', '포르투갈', {"squad":true,"unreleased":false}],
+    ['미켈 담스고어', 'CAM', 80, '브렌트 벌', '덴마크', {"squad":true,"unreleased":false}],
+    ['비탈리 야넬토', 'CDM', 78, '브렌트 벌', '독일', {"squad":true,"unreleased":false}],
+    ['케빈 샤도', 'LW', 79, '브렌트 벌', '독일', {"squad":true,"unreleased":false}],
+    ['이고르 치아고', 'ST', 80, '브렌트 벌', '브라질', {"squad":true,"unreleased":false}],
+    ['당고 와타로', 'RW', 78, '브렌트 벌', '부르키나파소', {"squad":true,"unreleased":false}],
+    ['킨 루이스포토', 'LW', 76, '브렌트 벌', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['미켈레 디 그레고로', 'GK', 81, '본머스 체리', '이탈리아', {"squad":true,"unreleased":false}],
+    ['훌리안 아라우조', 'RB', 76, '본머스 체리', '멕시코', {"squad":true,"unreleased":false}],
+    ['아드리앵 트뤼페로', 'LB', 78, '본머스 체리', '프랑스', {"squad":true,"unreleased":false}],
+    ['안토니우 실반', 'CB', 80, '본머스 체리', '포르투갈', {"squad":true,"unreleased":false}],
+    ['바포데 디아키토', 'CB', 80, '본머스 체리', '프랑스', {"squad":true,"unreleased":false}],
+    ['후안루 산체소', 'RB', 76, '본머스 체리', '스페인', {"squad":true,"unreleased":false}],
+    ['루이스 쿡스', 'CM', 78, '본머스 체리', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['데이비드 브룩손', 'RW', 76, '본머스 체리', '웨일스', {"squad":true,"unreleased":false}],
+    ['알렉스 스코트', 'CM', 78, '본머스 체리', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['라이언 크리스토', 'CM', 78, '본머스 체리', '스코틀랜드', {"squad":true,"unreleased":false}],
+    ['타일러 애덤손', 'CDM', 79, '본머스 체리', '미국', {"squad":true,"unreleased":false}],
+    ['마커스 태버니오', 'LW', 78, '본머스 체리', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['아민 아들로', 'LW', 78, '본머스 체리', '모로코', {"squad":true,"unreleased":false}],
+    ['에바닐손', 'ST', 81, '본머스 체리', '브라질', {"squad":true,"unreleased":false}],
+    ['벤 개넌독', 'RW', 77, '본머스 체리', '스코틀랜드', {"squad":true,"unreleased":false}],
+    ['저스틴 클라위베르', 'LW', 80, '본머스 체리', '네덜란드', {"squad":true,"unreleased":false}],
+    ['파스칼 스트라위코', 'CB', 78, '브라이턴 걸스', '네덜란드', {"squad":true,"unreleased":false}],
+    ['루이스 덩크스', 'CB', 80, '브라이턴 걸스', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['올리비에 보스칼로', 'CB', 79, '브라이턴 걸스', '프랑스', {"squad":true,"unreleased":false}],
+    ['페르디 카디오글로', 'LB', 78, '브라이턴 걸스', '튀르키예', {"squad":true,"unreleased":false}],
+    ['마츠 비페르', 'CDM', 78, '브라이턴 걸스', '네덜란드', {"squad":true,"unreleased":false}],
+    ['막심 더 카위페르', 'LB', 77, '브라이턴 걸스', '벨기에', {"squad":true,"unreleased":false}],
+    ['잭 힌셸우즈', 'CM', 76, '브라이턴 걸스', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['얀쿠바 민테흐', 'RW', 80, '브라이턴 걸스', '감비아', {"squad":true,"unreleased":false}],
+    ['파스칼 그로소', 'CM', 79, '브라이턴 걸스', '독일', {"squad":true,"unreleased":false}],
+    ['디에고 고메소', 'CM', 78, '브라이턴 걸스', '파라과이', {"squad":true,"unreleased":false}],
+    ['야신 아야로', 'CM', 77, '브라이턴 걸스', '스웨덴', {"squad":true,"unreleased":false}],
+    ['맷 오라일로', 'CAM', 79, '브라이턴 걸스', '덴마크', {"squad":true,"unreleased":false}],
+    ['조르지니오 뤼테로', 'CAM', 80, '브라이턴 걸스', '프랑스', {"squad":true,"unreleased":false}],
+    ['에반 퍼거손', 'ST', 77, '브라이턴 걸스', '아일랜드', {"squad":true,"unreleased":false}],
+    ['마르코 팔레스트로', 'RB', 77, '런던 블루스', '이탈리아', {"squad":true,"unreleased":false}],
+    ['웨슬리 포파노', 'CB', 80, '런던 블루스', '프랑스', {"squad":true,"unreleased":false}],
+    ['발렌틴 바르카', 'LB', 76, '런던 블루스', '아르헨티나', {"squad":true,"unreleased":false}],
+    ['막상스 라크루오', 'CB', 81, '런던 블루스', '프랑스', {"squad":true,"unreleased":false}],
+    ['조렐 하투', 'LB', 80, '런던 블루스', '네덜란드', {"squad":true,"unreleased":false}],
+    ['말로 귀스투', 'RB', 81, '런던 블루스', '프랑스', {"squad":true,"unreleased":false}],
+    ['조시 아쳄포', 'CB', 76, '런던 블루스', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['로메오 라비오', 'CDM', 80, '런던 블루스', '벨기에', {"squad":true,"unreleased":false}],
+    ['제이미 기튼손', 'LW', 79, '런던 블루스', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['에마뉘엘 에메호', 'ST', 78, '런던 블루스', '네덜란드', {"squad":true,"unreleased":false}],
+    ['제오바니 켄도', 'RW', 76, '런던 블루스', '포르투갈', {"squad":true,"unreleased":false}],
+    ['구스타보 하메르', 'CAM', 76, '코번트리 스카이', '네덜란드', {"squad":true,"unreleased":false}],
+    ['발테르 베니테소', 'GK', 78, '크리스탈 이글', '아르헨티나', {"squad":true,"unreleased":false}],
+    ['타이릭 미첼런', 'LB', 79, '크리스탈 이글', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['악셀 디사소', 'CB', 78, '크리스탈 이글', '프랑스', {"squad":true,"unreleased":false}],
+    ['도미야스 다케히루', 'RB', 78, '크리스탈 이글', '일본', {"squad":true,"unreleased":false}],
+    ['크리스 리처드', 'CB', 80, '크리스탈 이글', '미국', {"squad":true,"unreleased":false}],
+    ['오스카르 밍게소', 'RB', 78, '크리스탈 이글', '스페인', {"squad":true,"unreleased":false}],
+    ['헤페르손 레르모', 'CDM', 78, '크리스탈 이글', '콜롬비아', {"squad":true,"unreleased":false}],
+    ['가마다 다이지', 'CAM', 79, '크리스탈 이글', '일본', {"squad":true,"unreleased":false}],
+    ['윌 휴스', 'CM', 76, '크리스탈 이글', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['퀸턴 팀베르', 'CM', 78, '크리스탈 이글', '네덜란드', {"squad":true,"unreleased":false}],
+    ['셰이크 두쿠로', 'CDM', 77, '크리스탈 이글', '말리', {"squad":true,"unreleased":false}],
+    ['이스마일라 사로', 'RW', 81, '크리스탈 이글', '세네갈', {"squad":true,"unreleased":false}],
+    ['예레미 피나', 'RW', 79, '크리스탈 이글', '스페인', {"squad":true,"unreleased":false}],
+    ['드와이트 맥닐런', 'LW', 77, '크리스탈 이글', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['예르겐 스트란 라르손', 'ST', 80, '크리스탈 이글', '노르웨이', {"squad":true,"unreleased":false}],
+    ['다리오 오소리아', 'LW', 76, '크리스탈 이글', '칠레', {"squad":true,"unreleased":false}],
+    ['에반 게상드', 'ST', 77, '크리스탈 이글', '코트디부아르', {"squad":true,"unreleased":false}],
+    ['에인슬리 메이틀랜드나일손', 'RB', 76, '에버턴 토피', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['마이클 킨스', 'CB', 76, '에버턴 토피', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['제임스 타코스코', 'CB', 80, '에버턴 토피', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['제이크 오브라이엔', 'CB', 78, '에버턴 토피', '아일랜드', {"squad":true,"unreleased":false}],
+    ['비탈리 미콜렌카', 'LB', 78, '에버턴 토피', '우크라이나', {"squad":true,"unreleased":false}],
+    ['키어넌 듀스버리홀런', 'CM', 78, '에버턴 토피', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['크리스티안 뇌르고어', 'CDM', 79, '에버턴 토피', '덴마크', {"squad":true,"unreleased":false}],
+    ['찰리 알카라소', 'CAM', 78, '에버턴 토피', '아르헨티나', {"squad":true,"unreleased":false}],
+    ['헤이든 해크노', 'CM', 76, '에버턴 토피', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['제임스 가너스', 'CM', 78, '에버턴 토피', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['잭 그릴리소', 'LW', 81, '에버턴 토피', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['티에르노 바로', 'ST', 76, '에버턴 토피', '프랑스', {"squad":true,"unreleased":false}],
+    ['타일러 디블린', 'RW', 76, '에버턴 토피', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['브레넌 존손', 'RW', 80, '에버턴 토피', '웨일스', {"squad":true,"unreleased":false}],
+    ['케니 테토', 'RB', 77, '풀럼 코티지', '네덜란드', {"squad":true,"unreleased":false}],
+    ['캘빈 배소', 'CB', 79, '풀럼 코티지', '나이지리아', {"squad":true,"unreleased":false}],
+    ['요아킴 아네르손', 'CB', 81, '풀럼 코티지', '덴마크', {"squad":true,"unreleased":false}],
+    ['티모시 카스타뇨', 'RB', 78, '풀럼 코티지', '벨기에', {"squad":true,"unreleased":false}],
+    ['휴고 라르센', 'CM', 80, '풀럼 코티지', '스웨덴', {"squad":true,"unreleased":false}],
+    ['산데르 베르고', 'CDM', 79, '풀럼 코티지', '노르웨이', {"squad":true,"unreleased":false}],
+    ['알렉스 이워보', 'CAM', 79, '풀럼 코티지', '나이지리아', {"squad":true,"unreleased":false}],
+    ['에밀 스미스 로웨', 'CAM', 79, '풀럼 코티지', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['곤살로 가르시오', 'ST', 76, '풀럼 코티지', '스페인', {"squad":true,"unreleased":false}],
+    ['로드리구 무니소', 'ST', 78, '풀럼 코티지', '브라질', {"squad":true,"unreleased":false}],
+    ['케비노', 'LW', 78, '풀럼 코티지', '브라질', {"squad":true,"unreleased":false}],
+    ['오스카르 보브', 'RW', 78, '풀럼 코티지', '노르웨이', {"squad":true,"unreleased":false}],
   ],
   Live: [
-    ['조현운', 'GK', 84, '울산 호랑', '대한민국', {"unreleased":true}],
-    ['마테이스 데 리트', 'CB', 83, '맨체스 레즈', '네덜란드', {"unreleased":true}],
-    ['리산드로 마르티노', 'CB', 84, '맨체스 레즈', '아르헨티나', {"unreleased":true}],
-    ['마커스 래시포', 'LW', 82, '맨체스 레즈', '잉글랜드', {"unreleased":true}],
-    ['마테우스 쿠뉴', 'CAM', 84, '맨체스 레즈', '브라질', {"unreleased":true}],
-    ['아마드 디알', 'RW', 82, '맨체스 레즈', '코트디부아르', {"unreleased":true}],
-    ['브라이언 음보모', 'RW', 84, '맨체스 레즈', '카메룬', {"unreleased":true}],
-    ['벤야민 셰스코', 'ST', 82, '맨체스 레즈', '슬로베니아', {"unreleased":true}],
+    ['조현운', 'GK', 84, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
+    ['마테이스 데 리트', 'CB', 83, '맨체스 레즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['리산드로 마르티노', 'CB', 84, '맨체스 레즈', '아르헨티나', {"squad":true,"unreleased":false}],
+    ['마커스 래시포', 'LW', 82, '맨체스 레즈', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['마테우스 쿠뉴', 'CAM', 84, '맨체스 레즈', '브라질', {"squad":true,"unreleased":false}],
+    ['아마드 디알', 'RW', 82, '맨체스 레즈', '코트디부아르', {"squad":true,"unreleased":false}],
+    ['브라이언 음보모', 'RW', 84, '맨체스 레즈', '카메룬', {"squad":true,"unreleased":false}],
+    ['벤야민 셰스코', 'ST', 82, '맨체스 레즈', '슬로베니아', {"squad":true,"unreleased":false}],
+    ['벤 화이터', 'RB', 82, '북런던 건너스', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['피에로 인카피오', 'CB', 82, '북런던 건너스', '에콰도르', {"squad":true,"unreleased":false}],
+    ['유리엔 팀베르', 'RB', 84, '북런던 건너스', '네덜란드', {"squad":true,"unreleased":false}],
+    ['리카르도 칼라피오레', 'LB', 82, '북런던 건너스', '이탈리아', {"squad":true,"unreleased":false}],
+    ['에베레치 에젬', 'CAM', 84, '북런던 건너스', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['미켈 메리나', 'CM', 82, '북런던 건너스', '스페인', {"squad":true,"unreleased":false}],
+    ['마르틴 수비멘도', 'CDM', 85, '북런던 건너스', '스페인', {"squad":true,"unreleased":false}],
+    ['카이 하베르치', 'ST', 83, '북런던 건너스', '독일', {"squad":true,"unreleased":false}],
+    ['파우 토레소', 'CB', 84, '아스톤 라이온', '스페인', {"squad":true,"unreleased":false}],
+    ['존 맥기너', 'CM', 82, '아스톤 라이온', '스코틀랜드', {"squad":true,"unreleased":false}],
+    ['부바카르 카마로', 'CDM', 82, '아스톤 라이온', '프랑스', {"squad":true,"unreleased":false}],
+    ['아마두 오나노', 'CDM', 82, '아스톤 라이온', '벨기에', {"squad":true,"unreleased":false}],
+    ['레온 고레츠코', 'CM', 82, '아스톤 라이온', '독일', {"squad":true,"unreleased":false}],
+    ['조르제 페트로빈', 'GK', 82, '본머스 체리', '세르비아', {"squad":true,"unreleased":false}],
+    ['바르트 페르브뤼헌', 'GK', 82, '브라이턴 걸스', '네덜란드', {"squad":true,"unreleased":false}],
+    ['미토마 가오로', 'LW', 83, '브라이턴 걸스', '일본', {"squad":true,"unreleased":false}],
+    ['레비 콜윈', 'CB', 83, '런던 블루스', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['리스 제임손', 'RB', 83, '런던 블루스', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['모건 로저손', 'CAM', 84, '런던 블루스', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['페드루 네토', 'RW', 82, '런던 블루스', '포르투갈', {"squad":true,"unreleased":false}],
+    ['주앙 페드로', 'ST', 83, '런던 블루스', '브라질', {"squad":true,"unreleased":false}],
+    ['이스테반', 'RW', 84, '런던 블루스', '브라질', {"squad":true,"unreleased":false}],
+    ['딘 헨더손', 'GK', 82, '크리스탈 이글', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['애덤 워톤', 'CM', 83, '크리스탈 이글', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['장필리프 마테토', 'ST', 82, '크리스탈 이글', '프랑스', {"squad":true,"unreleased":false}],
+    ['조던 픽포르', 'GK', 84, '에버턴 토피', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['재러드 브랜스웨이터', 'CB', 84, '에버턴 토피', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['베른트 레노어', 'GK', 82, '풀럼 코티지', '독일', {"squad":true,"unreleased":false}],
+    ['앤토니 로빈손', 'LB', 82, '풀럼 코티지', '미국', {"squad":true,"unreleased":false}],
   ],
   World: [
-    ['브루노 페르난도', 'CAM', 88, '맨체스 레즈', '포르투갈', {"unreleased":true}],
+    ['브루노 페르난도', 'CAM', 88, '맨체스 레즈', '포르투갈', {"squad":true,"unreleased":false}],
+    ['다비드 라얀', 'GK', 87, '북런던 건너스', '스페인', {"squad":true,"unreleased":false}],
+    ['윌리엄 살리반', 'CB', 88, '북런던 건너스', '프랑스', {"squad":true,"unreleased":false}],
+    ['가브리엘 마갈량스', 'CB', 87, '북런던 건너스', '브라질', {"squad":true,"unreleased":false}],
+    ['마르틴 외데가르', 'CAM', 87, '북런던 건너스', '노르웨이', {"squad":true,"unreleased":false}],
+    ['브루누 기마랑스', 'CM', 86, '북런던 건너스', '브라질', {"squad":true,"unreleased":false}],
+    ['데클란 라이슨', 'CM', 88, '북런던 건너스', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['부카요 사칸', 'RW', 89, '북런던 건너스', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['빅토르 요케레손', 'ST', 87, '북런던 건너스', '스웨덴', {"squad":true,"unreleased":false}],
+    ['에밀리아노 마르티네소', 'GK', 86, '런던 블루스', '아르헨티나', {"squad":true,"unreleased":false}],
+    ['콜 파메르', 'CAM', 89, '런던 블루스', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['모이세스 카이세두', 'CDM', 89, '런던 블루스', '에콰도르', {"squad":true,"unreleased":false}],
   ],
 }
+
+/** 실제 스쿼드가 있는 클럽과 그 리그 — CLUBS에 없는 클럽(승격팀 등)을 보탠다. */
+export const SQUAD_CLUBS: ClubDef[] = [
+  {
+    "name": "울산 호랑",
+    "league": "코리아 리그"
+  },
+  {
+    "name": "맨체스 레즈",
+    "league": "킹덤 리그"
+  },
+  {
+    "name": "북런던 건너스",
+    "league": "킹덤 리그"
+  },
+  {
+    "name": "아스톤 라이온",
+    "league": "킹덤 리그"
+  },
+  {
+    "name": "브렌트 벌",
+    "league": "킹덤 리그"
+  },
+  {
+    "name": "본머스 체리",
+    "league": "킹덤 리그"
+  },
+  {
+    "name": "브라이턴 걸스",
+    "league": "킹덤 리그"
+  },
+  {
+    "name": "런던 블루스",
+    "league": "킹덤 리그"
+  },
+  {
+    "name": "코번트리 스카이",
+    "league": "킹덤 리그"
+  },
+  {
+    "name": "크리스탈 이글",
+    "league": "킹덤 리그"
+  },
+  {
+    "name": "에버턴 토피",
+    "league": "킹덤 리그"
+  },
+  {
+    "name": "풀럼 코티지",
+    "league": "킹덤 리그"
+  }
+]
+
+/** 공개된(pilot 아님) 실제 스쿼드 클럽 — 같은 클럽의 옛 생성 카드는 뽑기 풀에서 빠진다. */
+export const SQUAD_REPLACED_CLUBS: string[] = [
+  "맨체스 레즈",
+  "북런던 건너스",
+  "아스톤 라이온",
+  "브렌트 벌",
+  "본머스 체리",
+  "브라이턴 걸스",
+  "런던 블루스",
+  "코번트리 스카이",
+  "크리스탈 이글",
+  "에버턴 토피",
+  "풀럼 코티지"
+]
 
 /** 운영자 전용 — 가명 → 실명 (실제 클럽 #등번호). 정확한 1:1 매핑. */
 export const SQUAD_REAL_HINTS: Record<string, string> = {
@@ -143,7 +478,275 @@ export const SQUAD_REAL_HINTS: Record<string, string> = {
   "잭 플레쳐": "잭 플레처 (맨체스터 유나이티드 #38)",
   "타일러 플레쳐": "타일러 플레처 (맨체스터 유나이티드 #39)",
   "해리 아마즈": "해리 아마스 (맨체스터 유나이티드 #41)",
-  "더못 미이": "더못 미 (맨체스터 유나이티드 #45)"
+  "더못 미이": "더못 미 (맨체스터 유나이티드 #45)",
+  "다비드 라얀": "다비드 라야 (아스널 #1)",
+  "케파 아리사발라고": "케파 아리사발라가 (아스널 #13)",
+  "일랑 멜리어": "일랑 멜리에 (아스널 #30)",
+  "윌리엄 살리반": "윌리앙 살리바 (아스널 #2)",
+  "크리스티안 모스케로": "크리스티안 모스케라 (아스널 #3)",
+  "벤 화이터": "벤 화이트 (아스널 #4)",
+  "피에로 인카피오": "피에로 인카피에 (아스널 #5)",
+  "가브리엘 마갈량스": "가브리엘 마갈량이스 (아스널 #6)",
+  "유리엔 팀베르": "유리엔 팀버 (아스널 #12)",
+  "에즈리 콘살": "에즈리 콘사 (아스널 #15)",
+  "리카르도 칼라피오레": "리카르도 칼라피오리 (아스널 #33)",
+  "마일스 루이스켈리": "마일스 루이스스켈리 (아스널 #49)",
+  "마르틴 외데가르": "마르틴 외데가르드 (아스널 #8)",
+  "에베레치 에젬": "에베레치 에제 (아스널 #10)",
+  "미켈 메리나": "미켈 메리노 (아스널 #23)",
+  "마르틴 수비멘도": "마르틴 수비멘디 (아스널 #36)",
+  "브루누 기마랑스": "브루누 기마랑이스 (아스널 #39)",
+  "데클란 라이슨": "데클란 라이스 (아스널 #41)",
+  "부카요 사칸": "부카요 사카 (아스널 #7)",
+  "빅토르 요케레손": "빅토르 요케레스 (아스널 #14)",
+  "흐리스토스 촐리소": "흐리스토스 촐리스 (아스널 #17)",
+  "노니 마두에코": "노니 마두에케 (아스널 #20)",
+  "카이 하베르치": "카이 하베르츠 (아스널 #29)",
+  "스즈키 자이언": "스즈키 자이온 (애스턴 빌라 #1)",
+  "마르코 비조": "마르코 비조트 (애스턴 빌라 #40)",
+  "제임스 라이토": "제임스 라이트 (애스턴 빌라 #42)",
+  "매티 캐신": "매티 캐시 (애스턴 빌라 #2)",
+  "빅토르 린델로프": "빅토르 린델뢰프 (애스턴 빌라 #3)",
+  "테일러 하우드벨린": "테일러 하우드벨리스 (애스턴 빌라 #4)",
+  "타이론 밍고": "타이론 밍스 (애스턴 빌라 #5)",
+  "마테오 루제로": "마테오 루제리 (애스턴 빌라 #13)",
+  "파우 토레소": "파우 토레스 (애스턴 빌라 #14)",
+  "이안 마트손": "이안 마트센 (애스턴 빌라 #22)",
+  "애런 완비사코": "애런 완비사카 (애스턴 빌라 #29)",
+  "모두 케바 시소": "모두 케바 시세 (애스턴 빌라 #48)",
+  "트래비스 패터손": "트래비스 패터슨 (애스턴 빌라 #55)",
+  "로스 바클라": "로스 바클리 (애스턴 빌라 #6)",
+  "존 맥기너": "존 맥긴 (애스턴 빌라 #7)",
+  "부바카르 카마로": "부바카르 카마라 (애스턴 빌라 #8)",
+  "에밀리아노 부엔디오": "에밀리아노 부엔디아 (애스턴 빌라 #10)",
+  "자말딘 지모알로반": "자말딘 지모알로바 (애스턴 빌라 #20)",
+  "아마두 오나노": "아마두 오나나 (애스턴 빌라 #24)",
+  "라마레 보하르도": "라마레 보하르데 (애스턴 빌라 #26)",
+  "레온 고레츠코": "레온 고레츠카 (애스턴 빌라 #27)",
+  "주앙 고메손": "주앙 고메스 (애스턴 빌라 #35)",
+  "요한 만잠보": "요한 만잠비 (애스턴 빌라 #44)",
+  "니콜라 잭손": "니콜라 잭슨 (애스턴 빌라 #11)",
+  "알레한드로 가르나쇼": "알레한드로 가르나초 (애스턴 빌라 #17)",
+  "태미 에이브러함": "태미 에이브러햄 (애스턴 빌라 #18)",
+  "이브라힘 음바여": "이브라힘 음바예 (애스턴 빌라 #19)",
+  "알리손 주니오": "알리송 (애스턴 빌라 #47)",
+  "키빈 켈러하": "키빈 켈러허 (브렌트퍼드 #1)",
+  "하콘 발디마르센": "하콘 발디마르손 (브렌트퍼드 #12)",
+  "줄리안 아이스턴": "줄리안 아이스톤 (브렌트퍼드 #41)",
+  "애런 히코": "애런 히키 (브렌트퍼드 #2)",
+  "리코 헨로": "리코 헨리 (브렌트퍼드 #3)",
+  "세프 판덴베르크": "세프 판덴베르흐 (브렌트퍼드 #4)",
+  "크리스토페르 아예로": "크리스토페르 아예르 (브렌트퍼드 #20)",
+  "제이든 메고모": "제이든 메고마 (브렌트퍼드 #21)",
+  "네이선 콜린손": "네이선 콜린스 (브렌트퍼드 #22)",
+  "말리크 디우포": "엘하지 말리크 디우프 (브렌트퍼드 #25)",
+  "마이클 카요도": "마이클 카요데 (브렌트퍼드 #33)",
+  "김지승": "김지수 (브렌트퍼드 #36)",
+  "예고르 야르몰륙": "예고르 야르몰류크 (브렌트퍼드 #6)",
+  "마티아스 옌손": "마티아스 옌센 (브렌트퍼드 #8)",
+  "조시 다실반": "조시 다실바 (브렌트퍼드 #10)",
+  "파비우 카르발료": "파비우 카르발류 (브렌트퍼드 #14)",
+  "안토니 밀람바": "안토니 밀람보 (브렌트퍼드 #17)",
+  "마마두 상가로": "마마두 상가레 (브렌트퍼드 #18)",
+  "미켈 담스고어": "미켈 담스고르 (브렌트퍼드 #24)",
+  "유누스 코나키": "유누스 엠레 코나크 (브렌트퍼드 #26)",
+  "비탈리 야넬토": "비탈리 야넬트 (브렌트퍼드 #27)",
+  "케빈 샤도": "케빈 샤데 (브렌트퍼드 #7)",
+  "이고르 치아고": "이고르 치아구 (브렌트퍼드 #9)",
+  "당고 와타로": "당고 와타라 (브렌트퍼드 #11)",
+  "칼럼 윌손": "칼럼 윌슨 (브렌트퍼드 #13)",
+  "제이든 앤서노": "제이든 앤서니 (브렌트퍼드 #19)",
+  "킨 루이스포토": "킨 루이스포터 (브렌트퍼드 #23)",
+  "구스타보 누네소": "구스타보 누네스 (브렌트퍼드 #39)",
+  "조르제 페트로빈": "조르제 페트로비치 (본머스 #1)",
+  "프레이저 포스톤": "프레이저 포스터 (본머스 #17)",
+  "미켈레 디 그레고로": "미켈레 디 그레고리오 (본머스 #20)",
+  "훌리안 아라우조": "훌리안 아라우호 (본머스 #2)",
+  "아드리앵 트뤼페로": "아드리앵 트뤼페르 (본머스 #3)",
+  "제임스 힐런": "제임스 힐 (본머스 #5)",
+  "훌리오 솔레로": "훌리오 솔레르 (본머스 #6)",
+  "안토니우 실반": "안토니우 실바 (본머스 #14)",
+  "애덤 스미슨": "애덤 스미스 (본머스 #15)",
+  "바포데 디아키토": "바포데 디아키테 (본머스 #18)",
+  "후안루 산체소": "후안루 산체스 (본머스 #24)",
+  "맥스 애런손": "맥스 애런스 (본머스 #28)",
+  "벨코 밀로사블레빈": "벨코 밀로사블레비치 (본머스 #44)",
+  "루이스 쿡스": "루이스 쿡 (본머스 #4)",
+  "데이비드 브룩손": "데이비드 브룩스 (본머스 #7)",
+  "알렉스 스코트": "알렉스 스콧 (본머스 #8)",
+  "라이언 크리스토": "라이언 크리스티 (본머스 #10)",
+  "타일러 애덤손": "타일러 애덤스 (본머스 #12)",
+  "마커스 태버니오": "마커스 태버니어 (본머스 #16)",
+  "아민 아들로": "아민 아들리 (본머스 #21)",
+  "알렉스 토토": "알렉스 토트 (본머스 #27)",
+  "에바닐손": "에바닐송 (본머스 #9)",
+  "벤 개넌독": "벤 개넌도크 (본머스 #11)",
+  "저스틴 클라위베르": "저스틴 클라위베르트 (본머스 #19)",
+  "엘리 크루포": "엘리 주니오르 크루피 (본머스 #22)",
+  "대니얼 제비손": "대니얼 제비슨 (본머스 #29)",
+  "알바로 로드리게소": "알바로 로드리게스 (본머스 #30)",
+  "하이안": "하얀 (본머스 #37)",
+  "바르트 페르브뤼헌": "바르트 페르브뤼헨 (브라이턴 #1)",
+  "제이슨 스틸런": "제이슨 스틸 (브라이턴 #23)",
+  "톰 맥길런": "톰 맥길 (브라이턴 #38)",
+  "자우엔 하자모": "자우엔 하잠 (브라이턴 #3)",
+  "파스칼 스트라위코": "파스칼 스트라위크 (브라이턴 #4)",
+  "루이스 덩크스": "루이스 덩크 (브라이턴 #5)",
+  "코스치노": "코스치냐 (브라이턴 #20)",
+  "올리비에 보스칼로": "올리비에 보스칼리 (브라이턴 #21)",
+  "페르디 카디오글로": "페르디 카디오글루 (브라이턴 #24)",
+  "마츠 비페르": "마츠 비퍼 (브라이턴 #27)",
+  "막심 더 카위페르": "막심 더 카위퍼 (브라이턴 #29)",
+  "미하엘 스보보도": "미하엘 스보보다 (브라이턴 #30)",
+  "루카 부슈코빈": "루카 부슈코비치 (브라이턴 #44)",
+  "미토마 가오로": "미토마 가오루 (브라이턴 #7)",
+  "잭 힌셸우즈": "잭 힌셸우드 (브라이턴 #8)",
+  "얀쿠바 민테흐": "얀쿠바 민테 (브라이턴 #11)",
+  "파스칼 그로소": "파스칼 그로스 (브라이턴 #13)",
+  "체마 안드레소": "체마 안드레스 (브라이턴 #14)",
+  "이브라힘 오스마노": "이브라힘 오스만 (브라이턴 #15)",
+  "디에고 고메소": "디에고 고메스 (브라이턴 #25)",
+  "야신 아야로": "야신 아야리 (브라이턴 #26)",
+  "맷 오라일로": "맷 오라일리 (브라이턴 #33)",
+  "말리크 얄쿠여": "말리크 얄쿠예 (브라이턴 #35)",
+  "자독 요한노": "자독 요한나 (브라이턴 #36)",
+  "페미 아지소": "페미 아지즈 (브라이턴 #39)",
+  "스테파노스 치마소": "스테파노스 치마스 (브라이턴 #9)",
+  "조르지니오 뤼테로": "조르지니오 뤼테르 (브라이턴 #10)",
+  "하랄람보스 코스툴라소": "하랄람보스 코스툴라스 (브라이턴 #19)",
+  "에반 퍼거손": "에반 퍼거슨 (브라이턴 #28)",
+  "에밀리아노 마르티네소": "에밀리아노 마르티네스 (첼시 #1)",
+  "테디 샤먼루": "테디 샤먼로 (첼시 #28)",
+  "마이크 펜더손": "마이크 펜더스 (첼시 #39)",
+  "가브리엘 슬로니노": "가브리엘 슬로니나 (첼시 #44)",
+  "마르코 팔레스트로": "마르코 팔레스트라 (첼시 #2)",
+  "웨슬리 포파노": "웨슬리 포파나 (첼시 #3)",
+  "발렌틴 바르카": "발렌틴 바르코 (첼시 #4)",
+  "막상스 라크루오": "막상스 라크루아 (첼시 #5)",
+  "레비 콜윈": "레비 콜윌 (첼시 #6)",
+  "조렐 하투": "조렐 하토 (첼시 #21)",
+  "리스 제임손": "리스 제임스 (첼시 #24)",
+  "말로 귀스투": "말로 귀스토 (첼시 #27)",
+  "펩 차바리오": "펩 차바리아 (첼시 #29)",
+  "아론 안셀미나": "아론 안셀미노 (첼시 #30)",
+  "조시 아쳄포": "조시 아쳄퐁 (첼시 #34)",
+  "콜 파메르": "콜 파머 (첼시 #10)",
+  "조던 헨더손": "조던 헨더슨 (첼시 #14)",
+  "모건 로저손": "모건 로저스 (첼시 #17)",
+  "모이세스 카이세두": "모이세스 카이세도 (첼시 #25)",
+  "로메오 라비오": "로메오 라비아 (첼시 #45)",
+  "페드루 네토": "페드루 네투 (첼시 #7)",
+  "주앙 페드로": "주앙 페드루 (첼시 #9)",
+  "제이미 기튼손": "제이미 기튼스 (첼시 #11)",
+  "대니 웰베크": "대니 웰벡 (첼시 #18)",
+  "에마뉘엘 에메호": "에마뉘엘 에메하 (첼시 #22)",
+  "제오바니 켄도": "제오바니 켄다 (첼시 #23)",
+  "이스테반": "이스테방 (첼시 #41)",
+  "벤 윌손": "벤 윌슨 (코번트리 시티 #13)",
+  "칼 러시워드": "칼 러시워스 (코번트리 시티 #19)",
+  "댄 벤틀로": "댄 벤틀리 (코번트리 시티 #25)",
+  "이선 피노크": "이선 피녹 (코번트리 시티 #2)",
+  "제이 다실보": "제이 다실바 (코번트리 시티 #3)",
+  "보비 토머슨": "보비 토머스 (코번트리 시티 #4)",
+  "케인 케슬러헤이던": "케인 케슬러헤이든 (코번트리 시티 #20)",
+  "제이크 비드웰런": "제이크 비드웰 (코번트리 시티 #21)",
+  "조엘 라티보디에": "조엘 라티보디에르 (코번트리 시티 #22)",
+  "오렐 아멘도": "오렐 아멘다 (코번트리 시티 #24)",
+  "루크 울펜던": "루크 울펜든 (코번트리 시티 #26)",
+  "밀란 판 에베이코": "밀란 판 에베이크 (코번트리 시티 #27)",
+  "스티븐 음푸노": "스티븐 음푸니 (코번트리 시티 #30)",
+  "잭 루도노": "잭 루도니 (코번트리 시티 #5)",
+  "맷 그라임손": "맷 그라임스 (코번트리 시티 #6)",
+  "케일럽 이렌코": "케일럽 이렌키 (코번트리 시티 #8)",
+  "프랭크 오니에코": "프랭크 오니에카 (코번트리 시티 #16)",
+  "조시 에클손": "조시 에클스 (코번트리 시티 #28)",
+  "빅토르 토르포": "빅토르 토르프 (코번트리 시티 #29)",
+  "구스타보 하메르": "구스타보 하머 (코번트리 시티 #38)",
+  "얀 그보후": "얀 그보호 (코번트리 시티)",
+  "사카모토 다쓰히루": "사카모토 다쓰히로 (코번트리 시티 #7)",
+  "엘리스 심손": "엘리스 심스 (코번트리 시티 #9)",
+  "에프론 메이슨클라코": "에프론 메이슨클라크 (코번트리 시티 #10)",
+  "하지 라이토": "하지 라이트 (코번트리 시티 #11)",
+  "타이워 아워니오": "타이워 아워니이 (코번트리 시티 #14)",
+  "룸 차우노": "룸 차우나 (코번트리 시티 #18)",
+  "브랜던 토머스아산토": "브랜던 토머스아산테 (코번트리 시티 #23)",
+  "시디키 셰리포": "시디키 셰리프 (코번트리 시티 #49)",
+  "딘 헨더손": "딘 헨더슨 (크리스털 팰리스 #1)",
+  "레미 매슈손": "레미 매슈스 (크리스털 팰리스 #31)",
+  "발테르 베니테소": "발테르 베니테스 (크리스털 팰리스 #44)",
+  "타이릭 미첼런": "타이릭 미첼 (크리스털 팰리스 #3)",
+  "샤디 리아도": "샤디 리아드 (크리스털 팰리스 #4)",
+  "악셀 디사소": "악셀 디사시 (크리스털 팰리스 #5)",
+  "제이디 캉보트": "제이디 캉보 (크리스털 팰리스 #6)",
+  "도미야스 다케히루": "도미야스 다케히로 (크리스털 팰리스 #17)",
+  "어니스트 아하노": "어니스트 아하노르 (크리스털 팰리스 #21)",
+  "아난 칼라일로": "아난 칼라일리 (크리스털 팰리스 #25)",
+  "크리스 리처드": "크리스 리처즈 (크리스털 팰리스 #26)",
+  "오스카르 밍게소": "오스카르 밍게사 (크리스털 팰리스 #30)",
+  "벤 칠웰런": "벤 칠웰 (크리스털 팰리스 #33)",
+  "헤페르손 레르모": "헤페르손 레르마 (크리스털 팰리스 #8)",
+  "가마다 다이지": "가마다 다이치 (크리스털 팰리스 #18)",
+  "윌 휴스": "윌 휴즈 (크리스털 팰리스 #19)",
+  "애덤 워톤": "애덤 워턴 (크리스털 팰리스 #20)",
+  "퀸턴 팀베르": "퀸턴 팀버 (크리스털 팰리스 #23)",
+  "셰이크 두쿠로": "셰이크 두쿠레 (크리스털 팰리스 #28)",
+  "이스마일라 사로": "이스마일라 사르 (크리스털 팰리스 #7)",
+  "에디 은케티오": "에디 은케티아 (크리스털 팰리스 #9)",
+  "예레미 피나": "예레미 피노 (크리스털 팰리스 #10)",
+  "드와이트 맥닐런": "드와이트 맥닐 (크리스털 팰리스 #11)",
+  "자비에르 고즈": "자비에르 고조 (크리스털 팰리스 #12)",
+  "장필리프 마테토": "장필리프 마테타 (크리스털 팰리스 #14)",
+  "예르겐 스트란 라르손": "예르겐 스트란 라르센 (크리스털 팰리스 #22)",
+  "다리오 오소리아": "다리오 오소리오 (크리스털 팰리스 #24)",
+  "에반 게상드": "에반 게상 (크리스털 팰리스 #29)",
+  "조던 픽포르": "조던 픽포드 (에버턴 #1)",
+  "마크 트래버손": "마크 트래버스 (에버턴 #12)",
+  "톰 킹스": "톰 킹 (에버턴 #31)",
+  "에인슬리 메이틀랜드나일손": "에인슬리 메이틀랜드나일스 (에버턴 #2)",
+  "재러드 브랜스웨이터": "재러드 브랜스웨이트 (에버턴 #4)",
+  "마이클 킨스": "마이클 킨 (에버턴 #5)",
+  "제임스 타코스코": "제임스 타코스키 (에버턴 #6)",
+  "제이크 오브라이엔": "제이크 오브라이언 (에버턴 #15)",
+  "비탈리 미콜렌카": "비탈리 미콜렌코 (에버턴 #16)",
+  "키어넌 듀스버리홀런": "키어넌 듀스버리홀 (에버턴 #8)",
+  "크리스티안 뇌르고어": "크리스티안 뇌르고르 (에버턴 #23)",
+  "찰리 알카라소": "찰리 알카라스 (에버턴 #24)",
+  "헤이든 해크노": "헤이든 해크니 (에버턴 #30)",
+  "메를린 뢸러": "메를린 뢸 (에버턴 #34)",
+  "제임스 가너스": "제임스 가너 (에버턴 #37)",
+  "해리슨 암스트론": "해리슨 암스트롱 (에버턴 #45)",
+  "잭 그릴리소": "잭 그릴리시 (에버턴 #10)",
+  "티에르노 바로": "티에르노 바리 (에버턴 #11)",
+  "타이리크 조지오": "타이리크 조지 (에버턴 #19)",
+  "타일러 디블린": "타일러 디블링 (에버턴 #20)",
+  "브레넌 존손": "브레넌 존슨 (에버턴 #22)",
+  "베른트 레노어": "베른트 레노 (풀럼 #1)",
+  "뱅자맹 르콩테": "뱅자맹 르콩트 (풀럼 #23)",
+  "알렉스 보르투": "알렉스 보르토 (풀럼 #36)",
+  "케니 테토": "케니 테테 (풀럼 #2)",
+  "캘빈 배소": "캘빈 배시 (풀럼 #3)",
+  "호르헤 쿠엥코": "호르헤 쿠엥카 (풀럼 #4)",
+  "요아킴 아네르손": "요아킴 아네르센 (풀럼 #5)",
+  "티모시 카스타뇨": "티모시 카스타뉴 (풀럼 #21)",
+  "다비트 아펜그루베르": "다비트 아펜그루버 (풀럼 #22)",
+  "앤토니 로빈손": "앤토니 로빈슨 (풀럼 #33)",
+  "뤽 드 푸제로": "뤽 드 푸제롤 (풀럼 #44)",
+  "해리슨 리드슨": "해리슨 리드 (풀럼 #6)",
+  "세사르 팔라시오": "세사르 팔라시오스 (풀럼 #8)",
+  "톰 케어노": "톰 케어니 (풀럼 #10)",
+  "휴고 라르센": "휴고 라르손 (풀럼 #15)",
+  "산데르 베르고": "산데르 베르게 (풀럼 #16)",
+  "알렉스 이워보": "알렉스 이워비 (풀럼 #17)",
+  "셰이 찰손": "셰이 찰스 (풀럼 #19)",
+  "마누엘 앙헬로": "마누엘 앙헬 (풀럼 #20)",
+  "조시 킹거": "조시 킹 (풀럼 #24)",
+  "라이언 세세뇨": "라이언 세세뇽 (풀럼 #30)",
+  "에밀 스미스 로웨": "에밀 스미스 로우 (풀럼 #32)",
+  "곤살로 가르시오": "곤살로 가르시아 (풀럼 #7)",
+  "로드리구 무니소": "로드리구 무니스 (풀럼 #9)",
+  "케비노": "케빙 (풀럼 #11)",
+  "오스카르 보브": "오스카르 봅 (풀럼 #14)",
+  "요나 쿠시아사로": "요나 쿠시아사레 (풀럼 #18)"
 }
 
 /** 가명 → 초상 파일 키 (public/players/<key>.webp). */
@@ -210,7 +813,275 @@ export const SQUAD_PORTRAITS: Record<string, string> = {
   "잭 플레쳐": "manred-38",
   "타일러 플레쳐": "manred-39",
   "해리 아마즈": "manred-41",
-  "더못 미이": "manred-45"
+  "더못 미이": "manred-45",
+  "다비드 라얀": "ars-01",
+  "케파 아리사발라고": "ars-02",
+  "일랑 멜리어": "ars-03",
+  "윌리엄 살리반": "ars-04",
+  "크리스티안 모스케로": "ars-05",
+  "벤 화이터": "ars-06",
+  "피에로 인카피오": "ars-07",
+  "가브리엘 마갈량스": "ars-08",
+  "유리엔 팀베르": "ars-09",
+  "에즈리 콘살": "ars-10",
+  "리카르도 칼라피오레": "ars-11",
+  "마일스 루이스켈리": "ars-12",
+  "마르틴 외데가르": "ars-13",
+  "에베레치 에젬": "ars-14",
+  "미켈 메리나": "ars-15",
+  "마르틴 수비멘도": "ars-16",
+  "브루누 기마랑스": "ars-17",
+  "데클란 라이슨": "ars-18",
+  "부카요 사칸": "ars-19",
+  "빅토르 요케레손": "ars-20",
+  "흐리스토스 촐리소": "ars-21",
+  "노니 마두에코": "ars-22",
+  "카이 하베르치": "ars-23",
+  "스즈키 자이언": "avl-01",
+  "마르코 비조": "avl-02",
+  "제임스 라이토": "avl-03",
+  "매티 캐신": "avl-04",
+  "빅토르 린델로프": "avl-05",
+  "테일러 하우드벨린": "avl-06",
+  "타이론 밍고": "avl-07",
+  "마테오 루제로": "avl-08",
+  "파우 토레소": "avl-09",
+  "이안 마트손": "avl-10",
+  "애런 완비사코": "avl-11",
+  "모두 케바 시소": "avl-12",
+  "트래비스 패터손": "avl-13",
+  "로스 바클라": "avl-14",
+  "존 맥기너": "avl-15",
+  "부바카르 카마로": "avl-16",
+  "에밀리아노 부엔디오": "avl-17",
+  "자말딘 지모알로반": "avl-18",
+  "아마두 오나노": "avl-19",
+  "라마레 보하르도": "avl-20",
+  "레온 고레츠코": "avl-21",
+  "주앙 고메손": "avl-22",
+  "요한 만잠보": "avl-23",
+  "니콜라 잭손": "avl-24",
+  "알레한드로 가르나쇼": "avl-25",
+  "태미 에이브러함": "avl-26",
+  "이브라힘 음바여": "avl-27",
+  "알리손 주니오": "avl-28",
+  "키빈 켈러하": "bre-01",
+  "하콘 발디마르센": "bre-02",
+  "줄리안 아이스턴": "bre-03",
+  "애런 히코": "bre-04",
+  "리코 헨로": "bre-05",
+  "세프 판덴베르크": "bre-06",
+  "크리스토페르 아예로": "bre-07",
+  "제이든 메고모": "bre-08",
+  "네이선 콜린손": "bre-09",
+  "말리크 디우포": "bre-10",
+  "마이클 카요도": "bre-11",
+  "김지승": "bre-12",
+  "예고르 야르몰륙": "bre-13",
+  "마티아스 옌손": "bre-14",
+  "조시 다실반": "bre-15",
+  "파비우 카르발료": "bre-16",
+  "안토니 밀람바": "bre-17",
+  "마마두 상가로": "bre-18",
+  "미켈 담스고어": "bre-19",
+  "유누스 코나키": "bre-20",
+  "비탈리 야넬토": "bre-21",
+  "케빈 샤도": "bre-22",
+  "이고르 치아고": "bre-23",
+  "당고 와타로": "bre-24",
+  "칼럼 윌손": "bre-25",
+  "제이든 앤서노": "bre-26",
+  "킨 루이스포토": "bre-27",
+  "구스타보 누네소": "bre-28",
+  "조르제 페트로빈": "bou-01",
+  "프레이저 포스톤": "bou-02",
+  "미켈레 디 그레고로": "bou-03",
+  "훌리안 아라우조": "bou-04",
+  "아드리앵 트뤼페로": "bou-05",
+  "제임스 힐런": "bou-06",
+  "훌리오 솔레로": "bou-07",
+  "안토니우 실반": "bou-08",
+  "애덤 스미슨": "bou-09",
+  "바포데 디아키토": "bou-10",
+  "후안루 산체소": "bou-11",
+  "맥스 애런손": "bou-12",
+  "벨코 밀로사블레빈": "bou-13",
+  "루이스 쿡스": "bou-14",
+  "데이비드 브룩손": "bou-15",
+  "알렉스 스코트": "bou-16",
+  "라이언 크리스토": "bou-17",
+  "타일러 애덤손": "bou-18",
+  "마커스 태버니오": "bou-19",
+  "아민 아들로": "bou-20",
+  "알렉스 토토": "bou-21",
+  "에바닐손": "bou-22",
+  "벤 개넌독": "bou-23",
+  "저스틴 클라위베르": "bou-24",
+  "엘리 크루포": "bou-25",
+  "대니얼 제비손": "bou-26",
+  "알바로 로드리게소": "bou-27",
+  "하이안": "bou-28",
+  "바르트 페르브뤼헌": "bha-01",
+  "제이슨 스틸런": "bha-02",
+  "톰 맥길런": "bha-03",
+  "자우엔 하자모": "bha-04",
+  "파스칼 스트라위코": "bha-05",
+  "루이스 덩크스": "bha-06",
+  "코스치노": "bha-07",
+  "올리비에 보스칼로": "bha-08",
+  "페르디 카디오글로": "bha-09",
+  "마츠 비페르": "bha-10",
+  "막심 더 카위페르": "bha-11",
+  "미하엘 스보보도": "bha-12",
+  "루카 부슈코빈": "bha-13",
+  "미토마 가오로": "bha-14",
+  "잭 힌셸우즈": "bha-15",
+  "얀쿠바 민테흐": "bha-16",
+  "파스칼 그로소": "bha-17",
+  "체마 안드레소": "bha-18",
+  "이브라힘 오스마노": "bha-19",
+  "디에고 고메소": "bha-20",
+  "야신 아야로": "bha-21",
+  "맷 오라일로": "bha-22",
+  "말리크 얄쿠여": "bha-23",
+  "자독 요한노": "bha-24",
+  "페미 아지소": "bha-25",
+  "스테파노스 치마소": "bha-26",
+  "조르지니오 뤼테로": "bha-27",
+  "하랄람보스 코스툴라소": "bha-28",
+  "에반 퍼거손": "bha-29",
+  "에밀리아노 마르티네소": "che-01",
+  "테디 샤먼루": "che-02",
+  "마이크 펜더손": "che-03",
+  "가브리엘 슬로니노": "che-04",
+  "마르코 팔레스트로": "che-05",
+  "웨슬리 포파노": "che-06",
+  "발렌틴 바르카": "che-07",
+  "막상스 라크루오": "che-08",
+  "레비 콜윈": "che-09",
+  "조렐 하투": "che-10",
+  "리스 제임손": "che-11",
+  "말로 귀스투": "che-12",
+  "펩 차바리오": "che-13",
+  "아론 안셀미나": "che-14",
+  "조시 아쳄포": "che-15",
+  "콜 파메르": "che-16",
+  "조던 헨더손": "che-17",
+  "모건 로저손": "che-18",
+  "모이세스 카이세두": "che-19",
+  "로메오 라비오": "che-20",
+  "페드루 네토": "che-21",
+  "주앙 페드로": "che-22",
+  "제이미 기튼손": "che-23",
+  "대니 웰베크": "che-24",
+  "에마뉘엘 에메호": "che-25",
+  "제오바니 켄도": "che-26",
+  "이스테반": "che-27",
+  "벤 윌손": "cov-01",
+  "칼 러시워드": "cov-02",
+  "댄 벤틀로": "cov-03",
+  "이선 피노크": "cov-04",
+  "제이 다실보": "cov-05",
+  "보비 토머슨": "cov-06",
+  "케인 케슬러헤이던": "cov-07",
+  "제이크 비드웰런": "cov-08",
+  "조엘 라티보디에": "cov-09",
+  "오렐 아멘도": "cov-10",
+  "루크 울펜던": "cov-11",
+  "밀란 판 에베이코": "cov-12",
+  "스티븐 음푸노": "cov-13",
+  "잭 루도노": "cov-14",
+  "맷 그라임손": "cov-15",
+  "케일럽 이렌코": "cov-16",
+  "프랭크 오니에코": "cov-17",
+  "조시 에클손": "cov-18",
+  "빅토르 토르포": "cov-19",
+  "구스타보 하메르": "cov-20",
+  "얀 그보후": "cov-21",
+  "사카모토 다쓰히루": "cov-22",
+  "엘리스 심손": "cov-23",
+  "에프론 메이슨클라코": "cov-24",
+  "하지 라이토": "cov-25",
+  "타이워 아워니오": "cov-26",
+  "룸 차우노": "cov-27",
+  "브랜던 토머스아산토": "cov-28",
+  "시디키 셰리포": "cov-29",
+  "딘 헨더손": "cry-01",
+  "레미 매슈손": "cry-02",
+  "발테르 베니테소": "cry-03",
+  "타이릭 미첼런": "cry-04",
+  "샤디 리아도": "cry-05",
+  "악셀 디사소": "cry-06",
+  "제이디 캉보트": "cry-07",
+  "도미야스 다케히루": "cry-08",
+  "어니스트 아하노": "cry-09",
+  "아난 칼라일로": "cry-10",
+  "크리스 리처드": "cry-11",
+  "오스카르 밍게소": "cry-12",
+  "벤 칠웰런": "cry-13",
+  "헤페르손 레르모": "cry-14",
+  "가마다 다이지": "cry-15",
+  "윌 휴스": "cry-16",
+  "애덤 워톤": "cry-17",
+  "퀸턴 팀베르": "cry-18",
+  "셰이크 두쿠로": "cry-19",
+  "이스마일라 사로": "cry-20",
+  "에디 은케티오": "cry-21",
+  "예레미 피나": "cry-22",
+  "드와이트 맥닐런": "cry-23",
+  "자비에르 고즈": "cry-24",
+  "장필리프 마테토": "cry-25",
+  "예르겐 스트란 라르손": "cry-26",
+  "다리오 오소리아": "cry-27",
+  "에반 게상드": "cry-28",
+  "조던 픽포르": "eve-01",
+  "마크 트래버손": "eve-02",
+  "톰 킹스": "eve-03",
+  "에인슬리 메이틀랜드나일손": "eve-04",
+  "재러드 브랜스웨이터": "eve-05",
+  "마이클 킨스": "eve-06",
+  "제임스 타코스코": "eve-07",
+  "제이크 오브라이엔": "eve-08",
+  "비탈리 미콜렌카": "eve-09",
+  "키어넌 듀스버리홀런": "eve-10",
+  "크리스티안 뇌르고어": "eve-11",
+  "찰리 알카라소": "eve-12",
+  "헤이든 해크노": "eve-13",
+  "메를린 뢸러": "eve-14",
+  "제임스 가너스": "eve-15",
+  "해리슨 암스트론": "eve-16",
+  "잭 그릴리소": "eve-17",
+  "티에르노 바로": "eve-18",
+  "타이리크 조지오": "eve-19",
+  "타일러 디블린": "eve-20",
+  "브레넌 존손": "eve-21",
+  "베른트 레노어": "ful-01",
+  "뱅자맹 르콩테": "ful-02",
+  "알렉스 보르투": "ful-03",
+  "케니 테토": "ful-04",
+  "캘빈 배소": "ful-05",
+  "호르헤 쿠엥코": "ful-06",
+  "요아킴 아네르손": "ful-07",
+  "티모시 카스타뇨": "ful-08",
+  "다비트 아펜그루베르": "ful-09",
+  "앤토니 로빈손": "ful-10",
+  "뤽 드 푸제로": "ful-11",
+  "해리슨 리드슨": "ful-12",
+  "세사르 팔라시오": "ful-13",
+  "톰 케어노": "ful-14",
+  "휴고 라르센": "ful-15",
+  "산데르 베르고": "ful-16",
+  "알렉스 이워보": "ful-17",
+  "셰이 찰손": "ful-18",
+  "마누엘 앙헬로": "ful-19",
+  "조시 킹거": "ful-20",
+  "라이언 세세뇨": "ful-21",
+  "에밀 스미스 로웨": "ful-22",
+  "곤살로 가르시오": "ful-23",
+  "로드리구 무니소": "ful-24",
+  "케비노": "ful-25",
+  "오스카르 보브": "ful-26",
+  "요나 쿠시아사로": "ful-27"
 }
 
 /** 초상 생성 프롬프트용 속성. */
@@ -655,5 +1526,1881 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "birthYear": 2005,
     "pos": "GK",
     "club": "맨체스 레즈"
+  },
+  "ars-01": {
+    "name": "다비드 라얀",
+    "nation": "스페인",
+    "birthYear": 1995,
+    "pos": "GK",
+    "club": "북런던 건너스"
+  },
+  "ars-02": {
+    "name": "케파 아리사발라고",
+    "nation": "스페인",
+    "birthYear": 1994,
+    "pos": "GK",
+    "club": "북런던 건너스"
+  },
+  "ars-03": {
+    "name": "일랑 멜리어",
+    "nation": "프랑스",
+    "birthYear": 2000,
+    "pos": "GK",
+    "club": "북런던 건너스"
+  },
+  "ars-04": {
+    "name": "윌리엄 살리반",
+    "nation": "프랑스",
+    "birthYear": 2001,
+    "pos": "CB",
+    "club": "북런던 건너스"
+  },
+  "ars-05": {
+    "name": "크리스티안 모스케로",
+    "nation": "스페인",
+    "birthYear": 2004,
+    "pos": "CB",
+    "club": "북런던 건너스"
+  },
+  "ars-06": {
+    "name": "벤 화이터",
+    "nation": "잉글랜드",
+    "birthYear": 1997,
+    "pos": "RB",
+    "club": "북런던 건너스"
+  },
+  "ars-07": {
+    "name": "피에로 인카피오",
+    "nation": "에콰도르",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "북런던 건너스"
+  },
+  "ars-08": {
+    "name": "가브리엘 마갈량스",
+    "nation": "브라질",
+    "birthYear": 1997,
+    "pos": "CB",
+    "club": "북런던 건너스"
+  },
+  "ars-09": {
+    "name": "유리엔 팀베르",
+    "nation": "네덜란드",
+    "birthYear": 2001,
+    "pos": "RB",
+    "club": "북런던 건너스"
+  },
+  "ars-10": {
+    "name": "에즈리 콘살",
+    "nation": "잉글랜드",
+    "birthYear": 1997,
+    "pos": "CB",
+    "club": "북런던 건너스"
+  },
+  "ars-11": {
+    "name": "리카르도 칼라피오레",
+    "nation": "이탈리아",
+    "birthYear": 2002,
+    "pos": "LB",
+    "club": "북런던 건너스"
+  },
+  "ars-12": {
+    "name": "마일스 루이스켈리",
+    "nation": "잉글랜드",
+    "birthYear": 2006,
+    "pos": "LB",
+    "club": "북런던 건너스"
+  },
+  "ars-13": {
+    "name": "마르틴 외데가르",
+    "nation": "노르웨이",
+    "birthYear": 1998,
+    "pos": "CAM",
+    "club": "북런던 건너스"
+  },
+  "ars-14": {
+    "name": "에베레치 에젬",
+    "nation": "잉글랜드",
+    "birthYear": 1998,
+    "pos": "CAM",
+    "club": "북런던 건너스"
+  },
+  "ars-15": {
+    "name": "미켈 메리나",
+    "nation": "스페인",
+    "birthYear": 1996,
+    "pos": "CM",
+    "club": "북런던 건너스"
+  },
+  "ars-16": {
+    "name": "마르틴 수비멘도",
+    "nation": "스페인",
+    "birthYear": 1999,
+    "pos": "CDM",
+    "club": "북런던 건너스"
+  },
+  "ars-17": {
+    "name": "브루누 기마랑스",
+    "nation": "브라질",
+    "birthYear": 1997,
+    "pos": "CM",
+    "club": "북런던 건너스"
+  },
+  "ars-18": {
+    "name": "데클란 라이슨",
+    "nation": "잉글랜드",
+    "birthYear": 1999,
+    "pos": "CM",
+    "club": "북런던 건너스"
+  },
+  "ars-19": {
+    "name": "부카요 사칸",
+    "nation": "잉글랜드",
+    "birthYear": 2001,
+    "pos": "RW",
+    "club": "북런던 건너스"
+  },
+  "ars-20": {
+    "name": "빅토르 요케레손",
+    "nation": "스웨덴",
+    "birthYear": 1998,
+    "pos": "ST",
+    "club": "북런던 건너스"
+  },
+  "ars-21": {
+    "name": "흐리스토스 촐리소",
+    "nation": "그리스",
+    "birthYear": 2002,
+    "pos": "LW",
+    "club": "북런던 건너스"
+  },
+  "ars-22": {
+    "name": "노니 마두에코",
+    "nation": "잉글랜드",
+    "birthYear": 2002,
+    "pos": "RW",
+    "club": "북런던 건너스"
+  },
+  "ars-23": {
+    "name": "카이 하베르치",
+    "nation": "독일",
+    "birthYear": 1999,
+    "pos": "ST",
+    "club": "북런던 건너스"
+  },
+  "avl-01": {
+    "name": "스즈키 자이언",
+    "nation": "일본",
+    "birthYear": 2002,
+    "pos": "GK",
+    "club": "아스톤 라이온"
+  },
+  "avl-02": {
+    "name": "마르코 비조",
+    "nation": "네덜란드",
+    "birthYear": 1991,
+    "pos": "GK",
+    "club": "아스톤 라이온"
+  },
+  "avl-03": {
+    "name": "제임스 라이토",
+    "nation": "잉글랜드",
+    "birthYear": 2004,
+    "pos": "GK",
+    "club": "아스톤 라이온"
+  },
+  "avl-04": {
+    "name": "매티 캐신",
+    "nation": "폴란드",
+    "birthYear": 1997,
+    "pos": "RB",
+    "club": "아스톤 라이온"
+  },
+  "avl-05": {
+    "name": "빅토르 린델로프",
+    "nation": "스웨덴",
+    "birthYear": 1994,
+    "pos": "CB",
+    "club": "아스톤 라이온"
+  },
+  "avl-06": {
+    "name": "테일러 하우드벨린",
+    "nation": "잉글랜드",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "아스톤 라이온"
+  },
+  "avl-07": {
+    "name": "타이론 밍고",
+    "nation": "잉글랜드",
+    "birthYear": 1993,
+    "pos": "CB",
+    "club": "아스톤 라이온"
+  },
+  "avl-08": {
+    "name": "마테오 루제로",
+    "nation": "이탈리아",
+    "birthYear": 2002,
+    "pos": "LB",
+    "club": "아스톤 라이온"
+  },
+  "avl-09": {
+    "name": "파우 토레소",
+    "nation": "스페인",
+    "birthYear": 1997,
+    "pos": "CB",
+    "club": "아스톤 라이온"
+  },
+  "avl-10": {
+    "name": "이안 마트손",
+    "nation": "네덜란드",
+    "birthYear": 2002,
+    "pos": "LB",
+    "club": "아스톤 라이온"
+  },
+  "avl-11": {
+    "name": "애런 완비사코",
+    "nation": "콩고민주공화국",
+    "birthYear": 1997,
+    "pos": "RB",
+    "club": "아스톤 라이온"
+  },
+  "avl-12": {
+    "name": "모두 케바 시소",
+    "nation": "세네갈",
+    "birthYear": 2005,
+    "pos": "CB",
+    "club": "아스톤 라이온"
+  },
+  "avl-13": {
+    "name": "트래비스 패터손",
+    "nation": "잉글랜드",
+    "birthYear": 2005,
+    "pos": "RB",
+    "club": "아스톤 라이온"
+  },
+  "avl-14": {
+    "name": "로스 바클라",
+    "nation": "잉글랜드",
+    "birthYear": 1993,
+    "pos": "CM",
+    "club": "아스톤 라이온"
+  },
+  "avl-15": {
+    "name": "존 맥기너",
+    "nation": "스코틀랜드",
+    "birthYear": 1994,
+    "pos": "CM",
+    "club": "아스톤 라이온"
+  },
+  "avl-16": {
+    "name": "부바카르 카마로",
+    "nation": "프랑스",
+    "birthYear": 1999,
+    "pos": "CDM",
+    "club": "아스톤 라이온"
+  },
+  "avl-17": {
+    "name": "에밀리아노 부엔디오",
+    "nation": "아르헨티나",
+    "birthYear": 1996,
+    "pos": "CAM",
+    "club": "아스톤 라이온"
+  },
+  "avl-18": {
+    "name": "자말딘 지모알로반",
+    "nation": "잉글랜드",
+    "birthYear": 2006,
+    "pos": "CM",
+    "club": "아스톤 라이온"
+  },
+  "avl-19": {
+    "name": "아마두 오나노",
+    "nation": "벨기에",
+    "birthYear": 2001,
+    "pos": "CDM",
+    "club": "아스톤 라이온"
+  },
+  "avl-20": {
+    "name": "라마레 보하르도",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "CDM",
+    "club": "아스톤 라이온"
+  },
+  "avl-21": {
+    "name": "레온 고레츠코",
+    "nation": "독일",
+    "birthYear": 1995,
+    "pos": "CM",
+    "club": "아스톤 라이온"
+  },
+  "avl-22": {
+    "name": "주앙 고메손",
+    "nation": "브라질",
+    "birthYear": 2001,
+    "pos": "CM",
+    "club": "아스톤 라이온"
+  },
+  "avl-23": {
+    "name": "요한 만잠보",
+    "nation": "스위스",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "아스톤 라이온"
+  },
+  "avl-24": {
+    "name": "니콜라 잭손",
+    "nation": "세네갈",
+    "birthYear": 2001,
+    "pos": "ST",
+    "club": "아스톤 라이온"
+  },
+  "avl-25": {
+    "name": "알레한드로 가르나쇼",
+    "nation": "아르헨티나",
+    "birthYear": 2004,
+    "pos": "LW",
+    "club": "아스톤 라이온"
+  },
+  "avl-26": {
+    "name": "태미 에이브러함",
+    "nation": "잉글랜드",
+    "birthYear": 1997,
+    "pos": "ST",
+    "club": "아스톤 라이온"
+  },
+  "avl-27": {
+    "name": "이브라힘 음바여",
+    "nation": "세네갈",
+    "birthYear": 2008,
+    "pos": "RW",
+    "club": "아스톤 라이온"
+  },
+  "avl-28": {
+    "name": "알리손 주니오",
+    "nation": "브라질",
+    "birthYear": 2006,
+    "pos": "LW",
+    "club": "아스톤 라이온"
+  },
+  "bre-01": {
+    "name": "키빈 켈러하",
+    "nation": "아일랜드",
+    "birthYear": 1998,
+    "pos": "GK",
+    "club": "브렌트 벌"
+  },
+  "bre-02": {
+    "name": "하콘 발디마르센",
+    "nation": "아이슬란드",
+    "birthYear": 2001,
+    "pos": "GK",
+    "club": "브렌트 벌"
+  },
+  "bre-03": {
+    "name": "줄리안 아이스턴",
+    "nation": "미국",
+    "birthYear": 2006,
+    "pos": "GK",
+    "club": "브렌트 벌"
+  },
+  "bre-04": {
+    "name": "애런 히코",
+    "nation": "스코틀랜드",
+    "birthYear": 2002,
+    "pos": "RB",
+    "club": "브렌트 벌"
+  },
+  "bre-05": {
+    "name": "리코 헨로",
+    "nation": "자메이카",
+    "birthYear": 1997,
+    "pos": "LB",
+    "club": "브렌트 벌"
+  },
+  "bre-06": {
+    "name": "세프 판덴베르크",
+    "nation": "네덜란드",
+    "birthYear": 2001,
+    "pos": "CB",
+    "club": "브렌트 벌"
+  },
+  "bre-07": {
+    "name": "크리스토페르 아예로",
+    "nation": "노르웨이",
+    "birthYear": 1998,
+    "pos": "CB",
+    "club": "브렌트 벌"
+  },
+  "bre-08": {
+    "name": "제이든 메고모",
+    "nation": "잉글랜드",
+    "birthYear": 2006,
+    "pos": "LB",
+    "club": "브렌트 벌"
+  },
+  "bre-09": {
+    "name": "네이선 콜린손",
+    "nation": "아일랜드",
+    "birthYear": 2001,
+    "pos": "CB",
+    "club": "브렌트 벌"
+  },
+  "bre-10": {
+    "name": "말리크 디우포",
+    "nation": "세네갈",
+    "birthYear": 2004,
+    "pos": "LB",
+    "club": "브렌트 벌"
+  },
+  "bre-11": {
+    "name": "마이클 카요도",
+    "nation": "이탈리아",
+    "birthYear": 2004,
+    "pos": "RB",
+    "club": "브렌트 벌"
+  },
+  "bre-12": {
+    "name": "김지승",
+    "nation": "대한민국",
+    "birthYear": 2004,
+    "pos": "CB",
+    "club": "브렌트 벌"
+  },
+  "bre-13": {
+    "name": "예고르 야르몰륙",
+    "nation": "우크라이나",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "브렌트 벌"
+  },
+  "bre-14": {
+    "name": "마티아스 옌손",
+    "nation": "덴마크",
+    "birthYear": 1996,
+    "pos": "CM",
+    "club": "브렌트 벌"
+  },
+  "bre-15": {
+    "name": "조시 다실반",
+    "nation": "잉글랜드",
+    "birthYear": 1998,
+    "pos": "CAM",
+    "club": "브렌트 벌"
+  },
+  "bre-16": {
+    "name": "파비우 카르발료",
+    "nation": "포르투갈",
+    "birthYear": 2002,
+    "pos": "CAM",
+    "club": "브렌트 벌"
+  },
+  "bre-17": {
+    "name": "안토니 밀람바",
+    "nation": "네덜란드",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "브렌트 벌"
+  },
+  "bre-18": {
+    "name": "마마두 상가로",
+    "nation": "말리",
+    "birthYear": 2002,
+    "pos": "CDM",
+    "club": "브렌트 벌"
+  },
+  "bre-19": {
+    "name": "미켈 담스고어",
+    "nation": "덴마크",
+    "birthYear": 2000,
+    "pos": "CAM",
+    "club": "브렌트 벌"
+  },
+  "bre-20": {
+    "name": "유누스 코나키",
+    "nation": "튀르키예",
+    "birthYear": 2006,
+    "pos": "CM",
+    "club": "브렌트 벌"
+  },
+  "bre-21": {
+    "name": "비탈리 야넬토",
+    "nation": "독일",
+    "birthYear": 1998,
+    "pos": "CDM",
+    "club": "브렌트 벌"
+  },
+  "bre-22": {
+    "name": "케빈 샤도",
+    "nation": "독일",
+    "birthYear": 2001,
+    "pos": "LW",
+    "club": "브렌트 벌"
+  },
+  "bre-23": {
+    "name": "이고르 치아고",
+    "nation": "브라질",
+    "birthYear": 2001,
+    "pos": "ST",
+    "club": "브렌트 벌"
+  },
+  "bre-24": {
+    "name": "당고 와타로",
+    "nation": "부르키나파소",
+    "birthYear": 2002,
+    "pos": "RW",
+    "club": "브렌트 벌"
+  },
+  "bre-25": {
+    "name": "칼럼 윌손",
+    "nation": "잉글랜드",
+    "birthYear": 1992,
+    "pos": "ST",
+    "club": "브렌트 벌"
+  },
+  "bre-26": {
+    "name": "제이든 앤서노",
+    "nation": "잉글랜드",
+    "birthYear": 1999,
+    "pos": "LW",
+    "club": "브렌트 벌"
+  },
+  "bre-27": {
+    "name": "킨 루이스포토",
+    "nation": "잉글랜드",
+    "birthYear": 2001,
+    "pos": "LW",
+    "club": "브렌트 벌"
+  },
+  "bre-28": {
+    "name": "구스타보 누네소",
+    "nation": "브라질",
+    "birthYear": 2005,
+    "pos": "LW",
+    "club": "브렌트 벌"
+  },
+  "bou-01": {
+    "name": "조르제 페트로빈",
+    "nation": "세르비아",
+    "birthYear": 1999,
+    "pos": "GK",
+    "club": "본머스 체리"
+  },
+  "bou-02": {
+    "name": "프레이저 포스톤",
+    "nation": "잉글랜드",
+    "birthYear": 1988,
+    "pos": "GK",
+    "club": "본머스 체리"
+  },
+  "bou-03": {
+    "name": "미켈레 디 그레고로",
+    "nation": "이탈리아",
+    "birthYear": 1997,
+    "pos": "GK",
+    "club": "본머스 체리"
+  },
+  "bou-04": {
+    "name": "훌리안 아라우조",
+    "nation": "멕시코",
+    "birthYear": 2001,
+    "pos": "RB",
+    "club": "본머스 체리"
+  },
+  "bou-05": {
+    "name": "아드리앵 트뤼페로",
+    "nation": "프랑스",
+    "birthYear": 2001,
+    "pos": "LB",
+    "club": "본머스 체리"
+  },
+  "bou-06": {
+    "name": "제임스 힐런",
+    "nation": "잉글랜드",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "본머스 체리"
+  },
+  "bou-07": {
+    "name": "훌리오 솔레로",
+    "nation": "아르헨티나",
+    "birthYear": 2005,
+    "pos": "LB",
+    "club": "본머스 체리"
+  },
+  "bou-08": {
+    "name": "안토니우 실반",
+    "nation": "포르투갈",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "본머스 체리"
+  },
+  "bou-09": {
+    "name": "애덤 스미슨",
+    "nation": "잉글랜드",
+    "birthYear": 1991,
+    "pos": "RB",
+    "club": "본머스 체리"
+  },
+  "bou-10": {
+    "name": "바포데 디아키토",
+    "nation": "프랑스",
+    "birthYear": 2001,
+    "pos": "CB",
+    "club": "본머스 체리"
+  },
+  "bou-11": {
+    "name": "후안루 산체소",
+    "nation": "스페인",
+    "birthYear": 2003,
+    "pos": "RB",
+    "club": "본머스 체리"
+  },
+  "bou-12": {
+    "name": "맥스 애런손",
+    "nation": "잉글랜드",
+    "birthYear": 2000,
+    "pos": "RB",
+    "club": "본머스 체리"
+  },
+  "bou-13": {
+    "name": "벨코 밀로사블레빈",
+    "nation": "세르비아",
+    "birthYear": 2007,
+    "pos": "CB",
+    "club": "본머스 체리"
+  },
+  "bou-14": {
+    "name": "루이스 쿡스",
+    "nation": "잉글랜드",
+    "birthYear": 1997,
+    "pos": "CM",
+    "club": "본머스 체리"
+  },
+  "bou-15": {
+    "name": "데이비드 브룩손",
+    "nation": "웨일스",
+    "birthYear": 1997,
+    "pos": "RW",
+    "club": "본머스 체리"
+  },
+  "bou-16": {
+    "name": "알렉스 스코트",
+    "nation": "잉글랜드",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "본머스 체리"
+  },
+  "bou-17": {
+    "name": "라이언 크리스토",
+    "nation": "스코틀랜드",
+    "birthYear": 1995,
+    "pos": "CM",
+    "club": "본머스 체리"
+  },
+  "bou-18": {
+    "name": "타일러 애덤손",
+    "nation": "미국",
+    "birthYear": 1999,
+    "pos": "CDM",
+    "club": "본머스 체리"
+  },
+  "bou-19": {
+    "name": "마커스 태버니오",
+    "nation": "잉글랜드",
+    "birthYear": 1999,
+    "pos": "LW",
+    "club": "본머스 체리"
+  },
+  "bou-20": {
+    "name": "아민 아들로",
+    "nation": "모로코",
+    "birthYear": 2000,
+    "pos": "LW",
+    "club": "본머스 체리"
+  },
+  "bou-21": {
+    "name": "알렉스 토토",
+    "nation": "헝가리",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "본머스 체리"
+  },
+  "bou-22": {
+    "name": "에바닐손",
+    "nation": "브라질",
+    "birthYear": 1999,
+    "pos": "ST",
+    "club": "본머스 체리"
+  },
+  "bou-23": {
+    "name": "벤 개넌독",
+    "nation": "스코틀랜드",
+    "birthYear": 2005,
+    "pos": "RW",
+    "club": "본머스 체리"
+  },
+  "bou-24": {
+    "name": "저스틴 클라위베르",
+    "nation": "네덜란드",
+    "birthYear": 1999,
+    "pos": "LW",
+    "club": "본머스 체리"
+  },
+  "bou-25": {
+    "name": "엘리 크루포",
+    "nation": "프랑스",
+    "birthYear": 2006,
+    "pos": "ST",
+    "club": "본머스 체리"
+  },
+  "bou-26": {
+    "name": "대니얼 제비손",
+    "nation": "캐나다",
+    "birthYear": 2003,
+    "pos": "ST",
+    "club": "본머스 체리"
+  },
+  "bou-27": {
+    "name": "알바로 로드리게소",
+    "nation": "우루과이",
+    "birthYear": 2004,
+    "pos": "ST",
+    "club": "본머스 체리"
+  },
+  "bou-28": {
+    "name": "하이안",
+    "nation": "브라질",
+    "birthYear": 2006,
+    "pos": "LW",
+    "club": "본머스 체리"
+  },
+  "bha-01": {
+    "name": "바르트 페르브뤼헌",
+    "nation": "네덜란드",
+    "birthYear": 2002,
+    "pos": "GK",
+    "club": "브라이턴 걸스"
+  },
+  "bha-02": {
+    "name": "제이슨 스틸런",
+    "nation": "잉글랜드",
+    "birthYear": 1990,
+    "pos": "GK",
+    "club": "브라이턴 걸스"
+  },
+  "bha-03": {
+    "name": "톰 맥길런",
+    "nation": "캐나다",
+    "birthYear": 2000,
+    "pos": "GK",
+    "club": "브라이턴 걸스"
+  },
+  "bha-04": {
+    "name": "자우엔 하자모",
+    "nation": "알제리",
+    "birthYear": 2003,
+    "pos": "LB",
+    "club": "브라이턴 걸스"
+  },
+  "bha-05": {
+    "name": "파스칼 스트라위코",
+    "nation": "네덜란드",
+    "birthYear": 1999,
+    "pos": "CB",
+    "club": "브라이턴 걸스"
+  },
+  "bha-06": {
+    "name": "루이스 덩크스",
+    "nation": "잉글랜드",
+    "birthYear": 1991,
+    "pos": "CB",
+    "club": "브라이턴 걸스"
+  },
+  "bha-07": {
+    "name": "코스치노",
+    "nation": "포르투갈",
+    "birthYear": 2000,
+    "pos": "RB",
+    "club": "브라이턴 걸스"
+  },
+  "bha-08": {
+    "name": "올리비에 보스칼로",
+    "nation": "프랑스",
+    "birthYear": 1997,
+    "pos": "CB",
+    "club": "브라이턴 걸스"
+  },
+  "bha-09": {
+    "name": "페르디 카디오글로",
+    "nation": "튀르키예",
+    "birthYear": 1999,
+    "pos": "LB",
+    "club": "브라이턴 걸스"
+  },
+  "bha-10": {
+    "name": "마츠 비페르",
+    "nation": "네덜란드",
+    "birthYear": 1999,
+    "pos": "CDM",
+    "club": "브라이턴 걸스"
+  },
+  "bha-11": {
+    "name": "막심 더 카위페르",
+    "nation": "벨기에",
+    "birthYear": 2000,
+    "pos": "LB",
+    "club": "브라이턴 걸스"
+  },
+  "bha-12": {
+    "name": "미하엘 스보보도",
+    "nation": "오스트리아",
+    "birthYear": 1998,
+    "pos": "CB",
+    "club": "브라이턴 걸스"
+  },
+  "bha-13": {
+    "name": "루카 부슈코빈",
+    "nation": "크로아티아",
+    "birthYear": 2007,
+    "pos": "CB",
+    "club": "브라이턴 걸스"
+  },
+  "bha-14": {
+    "name": "미토마 가오로",
+    "nation": "일본",
+    "birthYear": 1997,
+    "pos": "LW",
+    "club": "브라이턴 걸스"
+  },
+  "bha-15": {
+    "name": "잭 힌셸우즈",
+    "nation": "잉글랜드",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "브라이턴 걸스"
+  },
+  "bha-16": {
+    "name": "얀쿠바 민테흐",
+    "nation": "감비아",
+    "birthYear": 2004,
+    "pos": "RW",
+    "club": "브라이턴 걸스"
+  },
+  "bha-17": {
+    "name": "파스칼 그로소",
+    "nation": "독일",
+    "birthYear": 1991,
+    "pos": "CM",
+    "club": "브라이턴 걸스"
+  },
+  "bha-18": {
+    "name": "체마 안드레소",
+    "nation": "스페인",
+    "birthYear": 2005,
+    "pos": "CDM",
+    "club": "브라이턴 걸스"
+  },
+  "bha-19": {
+    "name": "이브라힘 오스마노",
+    "nation": "가나",
+    "birthYear": 2004,
+    "pos": "RW",
+    "club": "브라이턴 걸스"
+  },
+  "bha-20": {
+    "name": "디에고 고메소",
+    "nation": "파라과이",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "브라이턴 걸스"
+  },
+  "bha-21": {
+    "name": "야신 아야로",
+    "nation": "스웨덴",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "브라이턴 걸스"
+  },
+  "bha-22": {
+    "name": "맷 오라일로",
+    "nation": "덴마크",
+    "birthYear": 2000,
+    "pos": "CAM",
+    "club": "브라이턴 걸스"
+  },
+  "bha-23": {
+    "name": "말리크 얄쿠여",
+    "nation": "코트디부아르",
+    "birthYear": 2005,
+    "pos": "CDM",
+    "club": "브라이턴 걸스"
+  },
+  "bha-24": {
+    "name": "자독 요한노",
+    "nation": "나이지리아",
+    "birthYear": 2007,
+    "pos": "CM",
+    "club": "브라이턴 걸스"
+  },
+  "bha-25": {
+    "name": "페미 아지소",
+    "nation": "나이지리아",
+    "birthYear": 2001,
+    "pos": "RW",
+    "club": "브라이턴 걸스"
+  },
+  "bha-26": {
+    "name": "스테파노스 치마소",
+    "nation": "그리스",
+    "birthYear": 2006,
+    "pos": "ST",
+    "club": "브라이턴 걸스"
+  },
+  "bha-27": {
+    "name": "조르지니오 뤼테로",
+    "nation": "프랑스",
+    "birthYear": 2002,
+    "pos": "CAM",
+    "club": "브라이턴 걸스"
+  },
+  "bha-28": {
+    "name": "하랄람보스 코스툴라소",
+    "nation": "그리스",
+    "birthYear": 2007,
+    "pos": "ST",
+    "club": "브라이턴 걸스"
+  },
+  "bha-29": {
+    "name": "에반 퍼거손",
+    "nation": "아일랜드",
+    "birthYear": 2004,
+    "pos": "ST",
+    "club": "브라이턴 걸스"
+  },
+  "che-01": {
+    "name": "에밀리아노 마르티네소",
+    "nation": "아르헨티나",
+    "birthYear": 1992,
+    "pos": "GK",
+    "club": "런던 블루스"
+  },
+  "che-02": {
+    "name": "테디 샤먼루",
+    "nation": "잉글랜드",
+    "birthYear": 2003,
+    "pos": "GK",
+    "club": "런던 블루스"
+  },
+  "che-03": {
+    "name": "마이크 펜더손",
+    "nation": "벨기에",
+    "birthYear": 2005,
+    "pos": "GK",
+    "club": "런던 블루스"
+  },
+  "che-04": {
+    "name": "가브리엘 슬로니노",
+    "nation": "미국",
+    "birthYear": 2004,
+    "pos": "GK",
+    "club": "런던 블루스"
+  },
+  "che-05": {
+    "name": "마르코 팔레스트로",
+    "nation": "이탈리아",
+    "birthYear": 2005,
+    "pos": "RB",
+    "club": "런던 블루스"
+  },
+  "che-06": {
+    "name": "웨슬리 포파노",
+    "nation": "프랑스",
+    "birthYear": 2000,
+    "pos": "CB",
+    "club": "런던 블루스"
+  },
+  "che-07": {
+    "name": "발렌틴 바르카",
+    "nation": "아르헨티나",
+    "birthYear": 2004,
+    "pos": "LB",
+    "club": "런던 블루스"
+  },
+  "che-08": {
+    "name": "막상스 라크루오",
+    "nation": "프랑스",
+    "birthYear": 2000,
+    "pos": "CB",
+    "club": "런던 블루스"
+  },
+  "che-09": {
+    "name": "레비 콜윈",
+    "nation": "잉글랜드",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "런던 블루스"
+  },
+  "che-10": {
+    "name": "조렐 하투",
+    "nation": "네덜란드",
+    "birthYear": 2006,
+    "pos": "LB",
+    "club": "런던 블루스"
+  },
+  "che-11": {
+    "name": "리스 제임손",
+    "nation": "잉글랜드",
+    "birthYear": 1999,
+    "pos": "RB",
+    "club": "런던 블루스"
+  },
+  "che-12": {
+    "name": "말로 귀스투",
+    "nation": "프랑스",
+    "birthYear": 2003,
+    "pos": "RB",
+    "club": "런던 블루스"
+  },
+  "che-13": {
+    "name": "펩 차바리오",
+    "nation": "스페인",
+    "birthYear": 1998,
+    "pos": "LB",
+    "club": "런던 블루스"
+  },
+  "che-14": {
+    "name": "아론 안셀미나",
+    "nation": "아르헨티나",
+    "birthYear": 2005,
+    "pos": "CB",
+    "club": "런던 블루스"
+  },
+  "che-15": {
+    "name": "조시 아쳄포",
+    "nation": "잉글랜드",
+    "birthYear": 2006,
+    "pos": "CB",
+    "club": "런던 블루스"
+  },
+  "che-16": {
+    "name": "콜 파메르",
+    "nation": "잉글랜드",
+    "birthYear": 2002,
+    "pos": "CAM",
+    "club": "런던 블루스"
+  },
+  "che-17": {
+    "name": "조던 헨더손",
+    "nation": "잉글랜드",
+    "birthYear": 1990,
+    "pos": "CM",
+    "club": "런던 블루스"
+  },
+  "che-18": {
+    "name": "모건 로저손",
+    "nation": "잉글랜드",
+    "birthYear": 2002,
+    "pos": "CAM",
+    "club": "런던 블루스"
+  },
+  "che-19": {
+    "name": "모이세스 카이세두",
+    "nation": "에콰도르",
+    "birthYear": 2001,
+    "pos": "CDM",
+    "club": "런던 블루스"
+  },
+  "che-20": {
+    "name": "로메오 라비오",
+    "nation": "벨기에",
+    "birthYear": 2004,
+    "pos": "CDM",
+    "club": "런던 블루스"
+  },
+  "che-21": {
+    "name": "페드루 네토",
+    "nation": "포르투갈",
+    "birthYear": 2000,
+    "pos": "RW",
+    "club": "런던 블루스"
+  },
+  "che-22": {
+    "name": "주앙 페드로",
+    "nation": "브라질",
+    "birthYear": 2001,
+    "pos": "ST",
+    "club": "런던 블루스"
+  },
+  "che-23": {
+    "name": "제이미 기튼손",
+    "nation": "잉글랜드",
+    "birthYear": 2004,
+    "pos": "LW",
+    "club": "런던 블루스"
+  },
+  "che-24": {
+    "name": "대니 웰베크",
+    "nation": "잉글랜드",
+    "birthYear": 1990,
+    "pos": "ST",
+    "club": "런던 블루스"
+  },
+  "che-25": {
+    "name": "에마뉘엘 에메호",
+    "nation": "네덜란드",
+    "birthYear": 2003,
+    "pos": "ST",
+    "club": "런던 블루스"
+  },
+  "che-26": {
+    "name": "제오바니 켄도",
+    "nation": "포르투갈",
+    "birthYear": 2007,
+    "pos": "RW",
+    "club": "런던 블루스"
+  },
+  "che-27": {
+    "name": "이스테반",
+    "nation": "브라질",
+    "birthYear": 2007,
+    "pos": "RW",
+    "club": "런던 블루스"
+  },
+  "cov-01": {
+    "name": "벤 윌손",
+    "nation": "잉글랜드",
+    "birthYear": 1992,
+    "pos": "GK",
+    "club": "코번트리 스카이"
+  },
+  "cov-02": {
+    "name": "칼 러시워드",
+    "nation": "잉글랜드",
+    "birthYear": 2001,
+    "pos": "GK",
+    "club": "코번트리 스카이"
+  },
+  "cov-03": {
+    "name": "댄 벤틀로",
+    "nation": "잉글랜드",
+    "birthYear": 1993,
+    "pos": "GK",
+    "club": "코번트리 스카이"
+  },
+  "cov-04": {
+    "name": "이선 피노크",
+    "nation": "자메이카",
+    "birthYear": 1993,
+    "pos": "CB",
+    "club": "코번트리 스카이"
+  },
+  "cov-05": {
+    "name": "제이 다실보",
+    "nation": "웨일스",
+    "birthYear": 1998,
+    "pos": "LB",
+    "club": "코번트리 스카이"
+  },
+  "cov-06": {
+    "name": "보비 토머슨",
+    "nation": "잉글랜드",
+    "birthYear": 2001,
+    "pos": "CB",
+    "club": "코번트리 스카이"
+  },
+  "cov-07": {
+    "name": "케인 케슬러헤이던",
+    "nation": "잉글랜드",
+    "birthYear": 2002,
+    "pos": "RB",
+    "club": "코번트리 스카이"
+  },
+  "cov-08": {
+    "name": "제이크 비드웰런",
+    "nation": "잉글랜드",
+    "birthYear": 1993,
+    "pos": "LB",
+    "club": "코번트리 스카이"
+  },
+  "cov-09": {
+    "name": "조엘 라티보디에",
+    "nation": "자메이카",
+    "birthYear": 2000,
+    "pos": "CB",
+    "club": "코번트리 스카이"
+  },
+  "cov-10": {
+    "name": "오렐 아멘도",
+    "nation": "스위스",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "코번트리 스카이"
+  },
+  "cov-11": {
+    "name": "루크 울펜던",
+    "nation": "잉글랜드",
+    "birthYear": 1998,
+    "pos": "CB",
+    "club": "코번트리 스카이"
+  },
+  "cov-12": {
+    "name": "밀란 판 에베이코",
+    "nation": "네덜란드",
+    "birthYear": 2000,
+    "pos": "RB",
+    "club": "코번트리 스카이"
+  },
+  "cov-13": {
+    "name": "스티븐 음푸노",
+    "nation": "잉글랜드",
+    "birthYear": 2007,
+    "pos": "CB",
+    "club": "코번트리 스카이"
+  },
+  "cov-14": {
+    "name": "잭 루도노",
+    "nation": "잉글랜드",
+    "birthYear": 2001,
+    "pos": "CM",
+    "club": "코번트리 스카이"
+  },
+  "cov-15": {
+    "name": "맷 그라임손",
+    "nation": "잉글랜드",
+    "birthYear": 1995,
+    "pos": "CDM",
+    "club": "코번트리 스카이"
+  },
+  "cov-16": {
+    "name": "케일럽 이렌코",
+    "nation": "가나",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "코번트리 스카이"
+  },
+  "cov-17": {
+    "name": "프랭크 오니에코",
+    "nation": "나이지리아",
+    "birthYear": 1998,
+    "pos": "CDM",
+    "club": "코번트리 스카이"
+  },
+  "cov-18": {
+    "name": "조시 에클손",
+    "nation": "잉글랜드",
+    "birthYear": 2000,
+    "pos": "CM",
+    "club": "코번트리 스카이"
+  },
+  "cov-19": {
+    "name": "빅토르 토르포",
+    "nation": "덴마크",
+    "birthYear": 1999,
+    "pos": "CM",
+    "club": "코번트리 스카이"
+  },
+  "cov-20": {
+    "name": "구스타보 하메르",
+    "nation": "네덜란드",
+    "birthYear": 1997,
+    "pos": "CAM",
+    "club": "코번트리 스카이"
+  },
+  "cov-21": {
+    "name": "얀 그보후",
+    "nation": "프랑스",
+    "birthYear": 2001,
+    "pos": "CAM",
+    "club": "코번트리 스카이"
+  },
+  "cov-22": {
+    "name": "사카모토 다쓰히루",
+    "nation": "일본",
+    "birthYear": 1996,
+    "pos": "RW",
+    "club": "코번트리 스카이"
+  },
+  "cov-23": {
+    "name": "엘리스 심손",
+    "nation": "잉글랜드",
+    "birthYear": 2001,
+    "pos": "ST",
+    "club": "코번트리 스카이"
+  },
+  "cov-24": {
+    "name": "에프론 메이슨클라코",
+    "nation": "자메이카",
+    "birthYear": 1999,
+    "pos": "LW",
+    "club": "코번트리 스카이"
+  },
+  "cov-25": {
+    "name": "하지 라이토",
+    "nation": "미국",
+    "birthYear": 1998,
+    "pos": "ST",
+    "club": "코번트리 스카이"
+  },
+  "cov-26": {
+    "name": "타이워 아워니오",
+    "nation": "나이지리아",
+    "birthYear": 1997,
+    "pos": "ST",
+    "club": "코번트리 스카이"
+  },
+  "cov-27": {
+    "name": "룸 차우노",
+    "nation": "프랑스",
+    "birthYear": 2003,
+    "pos": "RW",
+    "club": "코번트리 스카이"
+  },
+  "cov-28": {
+    "name": "브랜던 토머스아산토",
+    "nation": "가나",
+    "birthYear": 1998,
+    "pos": "ST",
+    "club": "코번트리 스카이"
+  },
+  "cov-29": {
+    "name": "시디키 셰리포",
+    "nation": "기니",
+    "birthYear": 2006,
+    "pos": "ST",
+    "club": "코번트리 스카이"
+  },
+  "cry-01": {
+    "name": "딘 헨더손",
+    "nation": "잉글랜드",
+    "birthYear": 1997,
+    "pos": "GK",
+    "club": "크리스탈 이글"
+  },
+  "cry-02": {
+    "name": "레미 매슈손",
+    "nation": "잉글랜드",
+    "birthYear": 1994,
+    "pos": "GK",
+    "club": "크리스탈 이글"
+  },
+  "cry-03": {
+    "name": "발테르 베니테소",
+    "nation": "아르헨티나",
+    "birthYear": 1993,
+    "pos": "GK",
+    "club": "크리스탈 이글"
+  },
+  "cry-04": {
+    "name": "타이릭 미첼런",
+    "nation": "잉글랜드",
+    "birthYear": 1999,
+    "pos": "LB",
+    "club": "크리스탈 이글"
+  },
+  "cry-05": {
+    "name": "샤디 리아도",
+    "nation": "모로코",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "크리스탈 이글"
+  },
+  "cry-06": {
+    "name": "악셀 디사소",
+    "nation": "프랑스",
+    "birthYear": 1998,
+    "pos": "CB",
+    "club": "크리스탈 이글"
+  },
+  "cry-07": {
+    "name": "제이디 캉보트",
+    "nation": "프랑스",
+    "birthYear": 2006,
+    "pos": "CB",
+    "club": "크리스탈 이글"
+  },
+  "cry-08": {
+    "name": "도미야스 다케히루",
+    "nation": "일본",
+    "birthYear": 1998,
+    "pos": "RB",
+    "club": "크리스탈 이글"
+  },
+  "cry-09": {
+    "name": "어니스트 아하노",
+    "nation": "이탈리아",
+    "birthYear": 2008,
+    "pos": "LB",
+    "club": "크리스탈 이글"
+  },
+  "cry-10": {
+    "name": "아난 칼라일로",
+    "nation": "이스라엘",
+    "birthYear": 2004,
+    "pos": "RB",
+    "club": "크리스탈 이글"
+  },
+  "cry-11": {
+    "name": "크리스 리처드",
+    "nation": "미국",
+    "birthYear": 2000,
+    "pos": "CB",
+    "club": "크리스탈 이글"
+  },
+  "cry-12": {
+    "name": "오스카르 밍게소",
+    "nation": "스페인",
+    "birthYear": 1999,
+    "pos": "RB",
+    "club": "크리스탈 이글"
+  },
+  "cry-13": {
+    "name": "벤 칠웰런",
+    "nation": "잉글랜드",
+    "birthYear": 1996,
+    "pos": "LB",
+    "club": "크리스탈 이글"
+  },
+  "cry-14": {
+    "name": "헤페르손 레르모",
+    "nation": "콜롬비아",
+    "birthYear": 1994,
+    "pos": "CDM",
+    "club": "크리스탈 이글"
+  },
+  "cry-15": {
+    "name": "가마다 다이지",
+    "nation": "일본",
+    "birthYear": 1996,
+    "pos": "CAM",
+    "club": "크리스탈 이글"
+  },
+  "cry-16": {
+    "name": "윌 휴스",
+    "nation": "잉글랜드",
+    "birthYear": 1995,
+    "pos": "CM",
+    "club": "크리스탈 이글"
+  },
+  "cry-17": {
+    "name": "애덤 워톤",
+    "nation": "잉글랜드",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "크리스탈 이글"
+  },
+  "cry-18": {
+    "name": "퀸턴 팀베르",
+    "nation": "네덜란드",
+    "birthYear": 2001,
+    "pos": "CM",
+    "club": "크리스탈 이글"
+  },
+  "cry-19": {
+    "name": "셰이크 두쿠로",
+    "nation": "말리",
+    "birthYear": 2000,
+    "pos": "CDM",
+    "club": "크리스탈 이글"
+  },
+  "cry-20": {
+    "name": "이스마일라 사로",
+    "nation": "세네갈",
+    "birthYear": 1998,
+    "pos": "RW",
+    "club": "크리스탈 이글"
+  },
+  "cry-21": {
+    "name": "에디 은케티오",
+    "nation": "잉글랜드",
+    "birthYear": 1999,
+    "pos": "ST",
+    "club": "크리스탈 이글"
+  },
+  "cry-22": {
+    "name": "예레미 피나",
+    "nation": "스페인",
+    "birthYear": 2002,
+    "pos": "RW",
+    "club": "크리스탈 이글"
+  },
+  "cry-23": {
+    "name": "드와이트 맥닐런",
+    "nation": "잉글랜드",
+    "birthYear": 1999,
+    "pos": "LW",
+    "club": "크리스탈 이글"
+  },
+  "cry-24": {
+    "name": "자비에르 고즈",
+    "nation": "미국",
+    "birthYear": 2007,
+    "pos": "RW",
+    "club": "크리스탈 이글"
+  },
+  "cry-25": {
+    "name": "장필리프 마테토",
+    "nation": "프랑스",
+    "birthYear": 1997,
+    "pos": "ST",
+    "club": "크리스탈 이글"
+  },
+  "cry-26": {
+    "name": "예르겐 스트란 라르손",
+    "nation": "노르웨이",
+    "birthYear": 2000,
+    "pos": "ST",
+    "club": "크리스탈 이글"
+  },
+  "cry-27": {
+    "name": "다리오 오소리아",
+    "nation": "칠레",
+    "birthYear": 2004,
+    "pos": "LW",
+    "club": "크리스탈 이글"
+  },
+  "cry-28": {
+    "name": "에반 게상드",
+    "nation": "코트디부아르",
+    "birthYear": 2001,
+    "pos": "ST",
+    "club": "크리스탈 이글"
+  },
+  "eve-01": {
+    "name": "조던 픽포르",
+    "nation": "잉글랜드",
+    "birthYear": 1994,
+    "pos": "GK",
+    "club": "에버턴 토피"
+  },
+  "eve-02": {
+    "name": "마크 트래버손",
+    "nation": "아일랜드",
+    "birthYear": 1999,
+    "pos": "GK",
+    "club": "에버턴 토피"
+  },
+  "eve-03": {
+    "name": "톰 킹스",
+    "nation": "웨일스",
+    "birthYear": 1995,
+    "pos": "GK",
+    "club": "에버턴 토피"
+  },
+  "eve-04": {
+    "name": "에인슬리 메이틀랜드나일손",
+    "nation": "잉글랜드",
+    "birthYear": 1997,
+    "pos": "RB",
+    "club": "에버턴 토피"
+  },
+  "eve-05": {
+    "name": "재러드 브랜스웨이터",
+    "nation": "잉글랜드",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "에버턴 토피"
+  },
+  "eve-06": {
+    "name": "마이클 킨스",
+    "nation": "잉글랜드",
+    "birthYear": 1993,
+    "pos": "CB",
+    "club": "에버턴 토피"
+  },
+  "eve-07": {
+    "name": "제임스 타코스코",
+    "nation": "잉글랜드",
+    "birthYear": 1992,
+    "pos": "CB",
+    "club": "에버턴 토피"
+  },
+  "eve-08": {
+    "name": "제이크 오브라이엔",
+    "nation": "아일랜드",
+    "birthYear": 2001,
+    "pos": "CB",
+    "club": "에버턴 토피"
+  },
+  "eve-09": {
+    "name": "비탈리 미콜렌카",
+    "nation": "우크라이나",
+    "birthYear": 1999,
+    "pos": "LB",
+    "club": "에버턴 토피"
+  },
+  "eve-10": {
+    "name": "키어넌 듀스버리홀런",
+    "nation": "잉글랜드",
+    "birthYear": 1998,
+    "pos": "CM",
+    "club": "에버턴 토피"
+  },
+  "eve-11": {
+    "name": "크리스티안 뇌르고어",
+    "nation": "덴마크",
+    "birthYear": 1994,
+    "pos": "CDM",
+    "club": "에버턴 토피"
+  },
+  "eve-12": {
+    "name": "찰리 알카라소",
+    "nation": "아르헨티나",
+    "birthYear": 2002,
+    "pos": "CAM",
+    "club": "에버턴 토피"
+  },
+  "eve-13": {
+    "name": "헤이든 해크노",
+    "nation": "잉글랜드",
+    "birthYear": 2002,
+    "pos": "CM",
+    "club": "에버턴 토피"
+  },
+  "eve-14": {
+    "name": "메를린 뢸러",
+    "nation": "독일",
+    "birthYear": 2002,
+    "pos": "CM",
+    "club": "에버턴 토피"
+  },
+  "eve-15": {
+    "name": "제임스 가너스",
+    "nation": "잉글랜드",
+    "birthYear": 2001,
+    "pos": "CM",
+    "club": "에버턴 토피"
+  },
+  "eve-16": {
+    "name": "해리슨 암스트론",
+    "nation": "잉글랜드",
+    "birthYear": 2007,
+    "pos": "CM",
+    "club": "에버턴 토피"
+  },
+  "eve-17": {
+    "name": "잭 그릴리소",
+    "nation": "잉글랜드",
+    "birthYear": 1995,
+    "pos": "LW",
+    "club": "에버턴 토피"
+  },
+  "eve-18": {
+    "name": "티에르노 바로",
+    "nation": "프랑스",
+    "birthYear": 2002,
+    "pos": "ST",
+    "club": "에버턴 토피"
+  },
+  "eve-19": {
+    "name": "타이리크 조지오",
+    "nation": "잉글랜드",
+    "birthYear": 2006,
+    "pos": "LW",
+    "club": "에버턴 토피"
+  },
+  "eve-20": {
+    "name": "타일러 디블린",
+    "nation": "잉글랜드",
+    "birthYear": 2006,
+    "pos": "RW",
+    "club": "에버턴 토피"
+  },
+  "eve-21": {
+    "name": "브레넌 존손",
+    "nation": "웨일스",
+    "birthYear": 2001,
+    "pos": "RW",
+    "club": "에버턴 토피"
+  },
+  "ful-01": {
+    "name": "베른트 레노어",
+    "nation": "독일",
+    "birthYear": 1992,
+    "pos": "GK",
+    "club": "풀럼 코티지"
+  },
+  "ful-02": {
+    "name": "뱅자맹 르콩테",
+    "nation": "프랑스",
+    "birthYear": 1991,
+    "pos": "GK",
+    "club": "풀럼 코티지"
+  },
+  "ful-03": {
+    "name": "알렉스 보르투",
+    "nation": "미국",
+    "birthYear": 2004,
+    "pos": "GK",
+    "club": "풀럼 코티지"
+  },
+  "ful-04": {
+    "name": "케니 테토",
+    "nation": "네덜란드",
+    "birthYear": 1995,
+    "pos": "RB",
+    "club": "풀럼 코티지"
+  },
+  "ful-05": {
+    "name": "캘빈 배소",
+    "nation": "나이지리아",
+    "birthYear": 1999,
+    "pos": "CB",
+    "club": "풀럼 코티지"
+  },
+  "ful-06": {
+    "name": "호르헤 쿠엥코",
+    "nation": "스페인",
+    "birthYear": 1999,
+    "pos": "CB",
+    "club": "풀럼 코티지"
+  },
+  "ful-07": {
+    "name": "요아킴 아네르손",
+    "nation": "덴마크",
+    "birthYear": 1996,
+    "pos": "CB",
+    "club": "풀럼 코티지"
+  },
+  "ful-08": {
+    "name": "티모시 카스타뇨",
+    "nation": "벨기에",
+    "birthYear": 1995,
+    "pos": "RB",
+    "club": "풀럼 코티지"
+  },
+  "ful-09": {
+    "name": "다비트 아펜그루베르",
+    "nation": "오스트리아",
+    "birthYear": 2001,
+    "pos": "CB",
+    "club": "풀럼 코티지"
+  },
+  "ful-10": {
+    "name": "앤토니 로빈손",
+    "nation": "미국",
+    "birthYear": 1997,
+    "pos": "LB",
+    "club": "풀럼 코티지"
+  },
+  "ful-11": {
+    "name": "뤽 드 푸제로",
+    "nation": "캐나다",
+    "birthYear": 2005,
+    "pos": "CB",
+    "club": "풀럼 코티지"
+  },
+  "ful-12": {
+    "name": "해리슨 리드슨",
+    "nation": "잉글랜드",
+    "birthYear": 1995,
+    "pos": "CM",
+    "club": "풀럼 코티지"
+  },
+  "ful-13": {
+    "name": "세사르 팔라시오",
+    "nation": "스페인",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "풀럼 코티지"
+  },
+  "ful-14": {
+    "name": "톰 케어노",
+    "nation": "스코틀랜드",
+    "birthYear": 1991,
+    "pos": "CM",
+    "club": "풀럼 코티지"
+  },
+  "ful-15": {
+    "name": "휴고 라르센",
+    "nation": "스웨덴",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "풀럼 코티지"
+  },
+  "ful-16": {
+    "name": "산데르 베르고",
+    "nation": "노르웨이",
+    "birthYear": 1998,
+    "pos": "CDM",
+    "club": "풀럼 코티지"
+  },
+  "ful-17": {
+    "name": "알렉스 이워보",
+    "nation": "나이지리아",
+    "birthYear": 1996,
+    "pos": "CAM",
+    "club": "풀럼 코티지"
+  },
+  "ful-18": {
+    "name": "셰이 찰손",
+    "nation": "북아일랜드",
+    "birthYear": 2003,
+    "pos": "CDM",
+    "club": "풀럼 코티지"
+  },
+  "ful-19": {
+    "name": "마누엘 앙헬로",
+    "nation": "스페인",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "풀럼 코티지"
+  },
+  "ful-20": {
+    "name": "조시 킹거",
+    "nation": "잉글랜드",
+    "birthYear": 2007,
+    "pos": "CM",
+    "club": "풀럼 코티지"
+  },
+  "ful-21": {
+    "name": "라이언 세세뇨",
+    "nation": "잉글랜드",
+    "birthYear": 2000,
+    "pos": "LM",
+    "club": "풀럼 코티지"
+  },
+  "ful-22": {
+    "name": "에밀 스미스 로웨",
+    "nation": "잉글랜드",
+    "birthYear": 2000,
+    "pos": "CAM",
+    "club": "풀럼 코티지"
+  },
+  "ful-23": {
+    "name": "곤살로 가르시오",
+    "nation": "스페인",
+    "birthYear": 2006,
+    "pos": "ST",
+    "club": "풀럼 코티지"
+  },
+  "ful-24": {
+    "name": "로드리구 무니소",
+    "nation": "브라질",
+    "birthYear": 2001,
+    "pos": "ST",
+    "club": "풀럼 코티지"
+  },
+  "ful-25": {
+    "name": "케비노",
+    "nation": "브라질",
+    "birthYear": 2003,
+    "pos": "LW",
+    "club": "풀럼 코티지"
+  },
+  "ful-26": {
+    "name": "오스카르 보브",
+    "nation": "노르웨이",
+    "birthYear": 2003,
+    "pos": "RW",
+    "club": "풀럼 코티지"
+  },
+  "ful-27": {
+    "name": "요나 쿠시아사로",
+    "nation": "스웨덴",
+    "birthYear": 2007,
+    "pos": "ST",
+    "club": "풀럼 코티지"
   }
 }

@@ -1,9 +1,10 @@
 {
   "club": "맨체스 레즈",
   "realClub": "맨체스터 유나이티드",
+  "league": "킹덤 리그",
   "season": "2026-27 (2026-08-30 기준)",
   "source": "en.wikipedia.org/wiki/2026–27_Manchester_United_F.C._season",
-  "pilot": true,
+  "pilot": false,
   "players": [
     {
       "key": "manred-01",

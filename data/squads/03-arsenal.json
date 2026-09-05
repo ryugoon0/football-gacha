@@ -1,0 +1,33 @@
+{
+  "club": "북런던 건너스",
+  "realClub": "아스널",
+  "league": "킹덤 리그",
+  "season": "2026-27 (2026-09-05 기준)",
+  "source": "en.wikipedia.org/wiki/2026–27_Arsenal_F.C._season",
+  "pilot": false,
+  "players": [
+    { "key": "ars-01", "number": 1, "name": "다비드 라얀", "real": "다비드 라야", "pos": "GK", "nation": "스페인", "birthYear": 1995, "ovr": 87 },
+    { "key": "ars-02", "number": 13, "name": "케파 아리사발라고", "real": "케파 아리사발라가", "pos": "GK", "nation": "스페인", "birthYear": 1994, "ovr": 79 },
+    { "key": "ars-03", "number": 30, "name": "일랑 멜리어", "real": "일랑 멜리에", "pos": "GK", "nation": "프랑스", "birthYear": 2000, "ovr": 76 },
+    { "key": "ars-04", "number": 2, "name": "윌리엄 살리반", "real": "윌리앙 살리바", "pos": "CB", "nation": "프랑스", "birthYear": 2001, "ovr": 88 },
+    { "key": "ars-05", "number": 3, "name": "크리스티안 모스케로", "real": "크리스티안 모스케라", "pos": "CB", "nation": "스페인", "birthYear": 2004, "ovr": 78 },
+    { "key": "ars-06", "number": 4, "name": "벤 화이터", "real": "벤 화이트", "pos": "RB", "nation": "잉글랜드", "birthYear": 1997, "ovr": 82 },
+    { "key": "ars-07", "number": 5, "name": "피에로 인카피오", "real": "피에로 인카피에", "pos": "CB", "nation": "에콰도르", "birthYear": 2002, "ovr": 82 },
+    { "key": "ars-08", "number": 6, "name": "가브리엘 마갈량스", "real": "가브리엘 마갈량이스", "pos": "CB", "nation": "브라질", "birthYear": 1997, "ovr": 87 },
+    { "key": "ars-09", "number": 12, "name": "유리엔 팀베르", "real": "유리엔 팀버", "pos": "RB", "nation": "네덜란드", "birthYear": 2001, "ovr": 84 },
+    { "key": "ars-10", "number": 15, "name": "에즈리 콘살", "real": "에즈리 콘사", "pos": "CB", "nation": "잉글랜드", "birthYear": 1997, "ovr": 81 },
+    { "key": "ars-11", "number": 33, "name": "리카르도 칼라피오레", "real": "리카르도 칼라피오리", "pos": "LB", "nation": "이탈리아", "birthYear": 2002, "ovr": 82 },
+    { "key": "ars-12", "number": 49, "name": "마일스 루이스켈리", "real": "마일스 루이스스켈리", "pos": "LB", "nation": "잉글랜드", "birthYear": 2006, "ovr": 79 },
+    { "key": "ars-13", "number": 8, "name": "마르틴 외데가르", "real": "마르틴 외데가르드", "pos": "CAM", "nation": "노르웨이", "birthYear": 1998, "ovr": 87 },
+    { "key": "ars-14", "number": 10, "name": "에베레치 에젬", "real": "에베레치 에제", "pos": "CAM", "nation": "잉글랜드", "birthYear": 1998, "ovr": 84 },
+    { "key": "ars-15", "number": 23, "name": "미켈 메리나", "real": "미켈 메리노", "pos": "CM", "nation": "스페인", "birthYear": 1996, "ovr": 82 },
+    { "key": "ars-16", "number": 36, "name": "마르틴 수비멘도", "real": "마르틴 수비멘디", "pos": "CDM", "nation": "스페인", "birthYear": 1999, "ovr": 85 },
+    { "key": "ars-17", "number": 39, "name": "브루누 기마랑스", "real": "브루누 기마랑이스", "pos": "CM", "nation": "브라질", "birthYear": 1997, "ovr": 86 },
+    { "key": "ars-18", "number": 41, "name": "데클란 라이슨", "real": "데클란 라이스", "pos": "CM", "nation": "잉글랜드", "birthYear": 1999, "ovr": 88 },
+    { "key": "ars-19", "number": 7, "name": "부카요 사칸", "real": "부카요 사카", "pos": "RW", "nation": "잉글랜드", "birthYear": 2001, "ovr": 89 },
+    { "key": "ars-20", "number": 14, "name": "빅토르 요케레손", "real": "빅토르 요케레스", "pos": "ST", "nation": "스웨덴", "birthYear": 1998, "ovr": 87 },
+    { "key": "ars-21", "number": 17, "name": "흐리스토스 촐리소", "real": "흐리스토스 촐리스", "pos": "LW", "nation": "그리스", "birthYear": 2002, "ovr": 79 },
+    { "key": "ars-22", "number": 20, "name": "노니 마두에코", "real": "노니 마두에케", "pos": "RW", "nation": "잉글랜드", "birthYear": 2002, "ovr": 81 },
+    { "key": "ars-23", "number": 29, "name": "카이 하베르치", "real": "카이 하베르츠", "pos": "ST", "nation": "독일", "birthYear": 1999, "ovr": 83 }
+  ]
+}

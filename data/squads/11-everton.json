@@ -1,0 +1,31 @@
+{
+  "club": "에버턴 토피",
+  "realClub": "에버턴",
+  "league": "킹덤 리그",
+  "season": "2026-27 (2026-09-02 기준)",
+  "source": "en.wikipedia.org/wiki/Everton_F.C. (First-team squad)",
+  "pilot": false,
+  "players": [
+    { "key": "eve-01", "number": 1, "name": "조던 픽포르", "real": "조던 픽포드", "pos": "GK", "nation": "잉글랜드", "birthYear": 1994, "ovr": 84 },
+    { "key": "eve-02", "number": 12, "name": "마크 트래버손", "real": "마크 트래버스", "pos": "GK", "nation": "아일랜드", "birthYear": 1999, "ovr": 72 },
+    { "key": "eve-03", "number": 31, "name": "톰 킹스", "real": "톰 킹", "pos": "GK", "nation": "웨일스", "birthYear": 1995, "ovr": 65 },
+    { "key": "eve-04", "number": 2, "name": "에인슬리 메이틀랜드나일손", "real": "에인슬리 메이틀랜드나일스", "pos": "RB", "nation": "잉글랜드", "birthYear": 1997, "ovr": 76 },
+    { "key": "eve-05", "number": 4, "name": "재러드 브랜스웨이터", "real": "재러드 브랜스웨이트", "pos": "CB", "nation": "잉글랜드", "birthYear": 2002, "ovr": 84 },
+    { "key": "eve-06", "number": 5, "name": "마이클 킨스", "real": "마이클 킨", "pos": "CB", "nation": "잉글랜드", "birthYear": 1993, "ovr": 76 },
+    { "key": "eve-07", "number": 6, "name": "제임스 타코스코", "real": "제임스 타코스키", "pos": "CB", "nation": "잉글랜드", "birthYear": 1992, "ovr": 80 },
+    { "key": "eve-08", "number": 15, "name": "제이크 오브라이엔", "real": "제이크 오브라이언", "pos": "CB", "nation": "아일랜드", "birthYear": 2001, "ovr": 78 },
+    { "key": "eve-09", "number": 16, "name": "비탈리 미콜렌카", "real": "비탈리 미콜렌코", "pos": "LB", "nation": "우크라이나", "birthYear": 1999, "ovr": 78 },
+    { "key": "eve-10", "number": 8, "name": "키어넌 듀스버리홀런", "real": "키어넌 듀스버리홀", "pos": "CM", "nation": "잉글랜드", "birthYear": 1998, "ovr": 78 },
+    { "key": "eve-11", "number": 23, "name": "크리스티안 뇌르고어", "real": "크리스티안 뇌르고르", "pos": "CDM", "nation": "덴마크", "birthYear": 1994, "ovr": 79 },
+    { "key": "eve-12", "number": 24, "name": "찰리 알카라소", "real": "찰리 알카라스", "pos": "CAM", "nation": "아르헨티나", "birthYear": 2002, "ovr": 78 },
+    { "key": "eve-13", "number": 30, "name": "헤이든 해크노", "real": "헤이든 해크니", "pos": "CM", "nation": "잉글랜드", "birthYear": 2002, "ovr": 76 },
+    { "key": "eve-14", "number": 34, "name": "메를린 뢸러", "real": "메를린 뢸", "pos": "CM", "nation": "독일", "birthYear": 2002, "ovr": 74 },
+    { "key": "eve-15", "number": 37, "name": "제임스 가너스", "real": "제임스 가너", "pos": "CM", "nation": "잉글랜드", "birthYear": 2001, "ovr": 78 },
+    { "key": "eve-16", "number": 45, "name": "해리슨 암스트론", "real": "해리슨 암스트롱", "pos": "CM", "nation": "잉글랜드", "birthYear": 2007, "ovr": 66 },
+    { "key": "eve-17", "number": 10, "name": "잭 그릴리소", "real": "잭 그릴리시", "pos": "LW", "nation": "잉글랜드", "birthYear": 1995, "ovr": 81 },
+    { "key": "eve-18", "number": 11, "name": "티에르노 바로", "real": "티에르노 바리", "pos": "ST", "nation": "프랑스", "birthYear": 2002, "ovr": 76 },
+    { "key": "eve-19", "number": 19, "name": "타이리크 조지오", "real": "타이리크 조지", "pos": "LW", "nation": "잉글랜드", "birthYear": 2006, "ovr": 72 },
+    { "key": "eve-20", "number": 20, "name": "타일러 디블린", "real": "타일러 디블링", "pos": "RW", "nation": "잉글랜드", "birthYear": 2006, "ovr": 76 },
+    { "key": "eve-21", "number": 22, "name": "브레넌 존손", "real": "브레넌 존슨", "pos": "RW", "nation": "웨일스", "birthYear": 2001, "ovr": 80 }
+  ]
+}

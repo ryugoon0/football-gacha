@@ -1,7 +1,7 @@
 import { hashString, pickInRange, seededRandom } from './random'
 import { PLAYER_OVERRIDES, type PlayerOverride } from './rosterOverrides'
 import { GENERATED_CLUBS, GENERATED_ROSTER } from './rosterData'
-import { SQUAD_ROSTER } from './rosterSquads'
+import { SQUAD_CLUBS, SQUAD_REPLACED_CLUBS, SQUAD_ROSTER } from './rosterSquads'
 import { RARITY_TIERS, startLevelOf, MAX_LEVEL } from './rarity'
 import type { HiddenStats, PlayerDef, Position, PositionGroup, Rarity, Stats } from './types'
 
@@ -224,7 +224,19 @@ export const CLUBS: ClubDef[] = [
     (club) => !GENERATED_CLUBS.some((other) => other.name === club.name),
   ),
   ...GENERATED_CLUBS,
+  // Real-squad clubs the generated leagues never had (promoted sides and the like).
+  ...SQUAD_CLUBS.filter(
+    (club) => !HAND_WRITTEN_CLUBS.some((other) => other.name === club.name) && !GENERATED_CLUBS.some((other) => other.name === club.name),
+  ),
 ]
+
+/**
+ * Clubs whose real squad has been published: the older generated (and
+ * hand-written) cards for that club leave the packs so the club is not
+ * fielded twice. Owners keep them. 「퇴장감」 is never retired (CLAUDE.md).
+ */
+const REPLACED_CLUBS = new Set<string>(SQUAD_REPLACED_CLUBS)
+const NEVER_RETIRED = new Set<string>(['n1125'])
 
 export const LEAGUE_OF_CLUB: Record<string, string> = CLUBS.reduce(
   (map, club) => {
@@ -248,6 +260,8 @@ export interface RosterExtras {
   hidden?: Partial<HiddenStats>
   /** Kept out of packs, market, fusion and shards until the card is approved. */
   unreleased?: boolean
+  /** A card built from a real squad (data/squads) — never retired by REPLACED_CLUBS. */
+  squad?: boolean
 }
 
 export type RosterRow = [
@@ -418,7 +432,8 @@ export function buildPlayer(id: string, fix: PlayerOverride = PLAYER_OVERRIDES[i
     subStats: fix.subStats,
     hidden: { ...buildHidden(id, rarity), ...(extras?.hidden ?? {}), ...(fix.hidden ?? {}) },
     ovr: computeOvr(stats, slot),
-    unreleased: extras?.unreleased === true ? true : undefined,
+    unreleased:
+      extras?.unreleased === true || (!extras?.squad && REPLACED_CLUBS.has(club.name) && !NEVER_RETIRED.has(id)) ? true : undefined,
   }
 }
 
