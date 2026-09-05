@@ -27,9 +27,230 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['시디키 셰리포', 'ST', 66, '코번트리 스카이', '기니', {"squad":true,"unreleased":false}],
     ['레미 매슈손', 'GK', 66, '크리스탈 이글', '잉글랜드', {"squad":true,"unreleased":false}],
     ['자비에르 고즈', 'RW', 66, '크리스탈 이글', '미국', {"squad":true,"unreleased":false}],
+    ['조프레 토렌추', 'CB', 66, '암스텔 아약', '스페인', {"squad":true,"unreleased":false}],
+    ['유리 헤르컨손', 'GK', 64, '암스텔 아약', '네덜란드', {"squad":true,"unreleased":false}],
+    ['아론 바우마느', 'CB', 65, '암스텔 아약', '네덜란드', {"squad":true,"unreleased":false}],
+    ['디스 얀선', 'CB', 66, '암스텔 아약', '네덜란드', {"squad":true,"unreleased":false}],
+    ['호비 페르휠스튼', 'GK', 67, '알크마르 치즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['벤데구즈 코바친', 'ST', 65, '알크마르 치즈', '헝가리', {"squad":true,"unreleased":false}],
+    ['엘라이자 데이크스트란', 'CB', 65, '알크마르 치즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['아유브 우프키른', 'LW', 66, '알크마르 치즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['이치하라 리온드', 'CB', 67, '알크마르 치즈', '일본', {"squad":true,"unreleased":false}],
+    ['와심 부지아느', 'ST', 65, '알크마르 치즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['테이스 얀선드', 'GK', 67, '카임브레 블랙', '네덜란드', {"squad":true,"unreleased":false}],
+    ['데비드 외젠 부안', 'RB', 66, '카임브레 블랙', '이탈리아', {"squad":true,"unreleased":false}],
+    ['요른 베르크하우튼', 'CB', 66, '카임브레 블랙', '네덜란드', {"squad":true,"unreleased":false}],
+    ['이스마엘 바우픈', 'CB', 64, '카임브레 블랙', '모로코', {"squad":true,"unreleased":false}],
+    ['사미 부후다넨', 'LW', 61, '카임브레 블랙', '모로코', {"squad":true,"unreleased":false}],
+    ['니키 사우런드', 'CM', 66, '카임브레 블랙', '퀴라소', {"squad":true,"unreleased":false}],
+    ['스카이 핑큰', 'ST', 64, '카임브레 블랙', '네덜란드', {"squad":true,"unreleased":false}],
+    ['일리에스 아마슌', 'LW', 67, '카임브레 블랙', '프랑스', {"squad":true,"unreleased":false}],
+    ['니콜라스 빈더스', 'ST', 67, '카임브레 블랙', '오스트리아', {"squad":true,"unreleased":false}],
+    ['파비안 크바므', 'ST', 64, '카임브레 블랙', '노르웨이', {"squad":true,"unreleased":false}],
+    ['리크 뮐더르손', 'CB', 66, '카임브레 블랙', '네덜란드', {"squad":true,"unreleased":false}],
+    ['이선 아프카쿤', 'CM', 63, '카임브레 블랙', '프랑스', {"squad":true,"unreleased":false}],
+    ['단 피서른', 'CAM', 65, '카임브레 블랙', '네덜란드', {"squad":true,"unreleased":false}],
+    ['루카스 예턴드', 'RB', 62, '카임브레 블랙', '네덜란드', {"squad":true,"unreleased":false}],
+    ['비버 코이스트란', 'LB', 63, '카임브레 블랙', '네덜란드', {"squad":true,"unreleased":false}],
+    ['모르강 코스타렐린', 'LB', 64, '카임브레 블랙', '프랑스', {"squad":true,"unreleased":false}],
+    ['이완 헨스트란', 'ST', 63, '카임브레 블랙', '네덜란드', {"squad":true,"unreleased":false}],
+    ['리크 메이선드', 'CB', 67, '엑셀시오 크루', '네덜란드', {"squad":true,"unreleased":false}],
+    ['아이멘 슬리틴', 'LW', 65, '엑셀시오 크루', '네덜란드', {"squad":true,"unreleased":false}],
+    ['이라클리 예고얀드', 'CM', 67, '엑셀시오 크루', '조지아', {"squad":true,"unreleased":false}],
+    ['마리오 도밍게손', 'ST', 67, '엑셀시오 크루', '스페인', {"squad":true,"unreleased":false}],
+    ['케이시 보손', 'RB', 66, '엑셀시오 크루', '호주', {"squad":true,"unreleased":false}],
+    ['얀 플뤼흔', 'CB', 65, '엑셀시오 크루', '네덜란드', {"squad":true,"unreleased":false}],
+    ['발렌틴 줄츠바허스', 'CM', 66, '엑셀시오 크루', '오스트리아', {"squad":true,"unreleased":false}],
+    ['레나르트 하르트여손', 'CDM', 67, '엑셀시오 크루', '네덜란드', {"squad":true,"unreleased":false}],
+    ['말론 판더베테링크', 'RB', 63, '엑셀시오 크루', '자메이카', {"squad":true,"unreleased":false}],
+    ['토비아스 판덴엘스하우튼', 'CM', 64, '로테르 페예', '네덜란드', {"squad":true,"unreleased":false}],
+    ['테이스 크라이여펠튼', 'CM', 63, '로테르 페예', '네덜란드', {"squad":true,"unreleased":false}],
+    ['리암 보생드', 'GK', 66, '로테르 페예', '아일랜드', {"squad":true,"unreleased":false}],
+    ['이부 핀툰', 'RB', 67, '포르투나 시타르', '포르투갈', {"squad":true,"unreleased":false}],
+    ['실로 트 잔튼', 'LW', 66, '포르투나 시타르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['필립 브리테인드', 'CM', 66, '포르투나 시타르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['레퀸시오 제이푸이큰', 'ST', 67, '포르투나 시타르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['니크 마르스마느', 'GK', 67, '고어헤드 이글', '네덜란드', {"squad":true,"unreleased":false}],
+    ['조바니 판즈바므', 'LB', 67, '고어헤드 이글', '네덜란드', {"squad":true,"unreleased":false}],
+    ['토마스 갈베손', 'RB', 66, '고어헤드 이글', '핀란드', {"squad":true,"unreleased":false}],
+    ['핌 사토픈', 'CB', 67, '고어헤드 이글', '네덜란드', {"squad":true,"unreleased":false}],
+    ['에리크 플라타케른', 'ST', 67, '고어헤드 이글', '노르웨이', {"squad":true,"unreleased":false}],
+    ['바우터르 프린손', 'RB', 67, '흐로닝언 그린', '네덜란드', {"squad":true,"unreleased":false}],
+    ['니콜라스 브란디손', 'RB', 66, '흐로닝언 그린', '슬로바키아', {"squad":true,"unreleased":false}],
+    ['엘비스 판데르라느', 'LB', 62, '흐로닝언 그린', '스웨덴', {"squad":true,"unreleased":false}],
+    ['다비트 판데르베르픈', 'CM', 67, '흐로닝언 그린', '네덜란드', {"squad":true,"unreleased":false}],
+    ['테이호 란튼', 'CAM', 67, '흐로닝언 그린', '네덜란드', {"squad":true,"unreleased":false}],
+    ['말콤 옝그', 'CB', 67, '흐로닝언 그린', '스웨덴', {"squad":true,"unreleased":false}],
+    ['티리케 메르세란', 'RB', 67, '흐로닝언 그린', '퀴라소', {"squad":true,"unreleased":false}],
+    ['레비 스만손', 'CM', 67, '헤렌벤 프리즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['니콜라이 홉란드', 'RB', 67, '헤렌벤 프리즈', '노르웨이', {"squad":true,"unreleased":false}],
+    ['베른트 클라베르부른', 'GK', 65, '헤렌벤 프리즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['달링 블라딘', 'CB', 67, '헤렌벤 프리즈', '프랑스', {"squad":true,"unreleased":false}],
+    ['란로이 마시느', 'LB', 65, '헤렌벤 프리즈', '프랑스', {"squad":true,"unreleased":false}],
+    ['올리베르 브라우덴', 'RB', 66, '헤렌벤 프리즈', '노르웨이', {"squad":true,"unreleased":false}],
+    ['니콜라스 폴스터스', 'GK', 67, '님메헌 니메', '오스트리아', {"squad":true,"unreleased":false}],
+    ['알무게라 카바른', 'CB', 67, '님메헌 니메', '독일', {"squad":true,"unreleased":false}],
     ['톰 킹스', 'GK', 65, '에버턴 토피', '웨일스', {"squad":true,"unreleased":false}],
     ['해리슨 암스트론', 'CM', 66, '에버턴 토피', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['얀 뷔르거스', 'CB', 64, '즈볼레 블루', '독일', {"squad":true,"unreleased":false}],
+    ['톰 더 흐라픈', 'GK', 65, '즈볼레 블루', '네덜란드', {"squad":true,"unreleased":false}],
+    ['야디엘 페레이라 다 가만', 'CM', 61, '즈볼레 블루', '네덜란드', {"squad":true,"unreleased":false}],
+    ['니크 피흐팅어스', 'CM', 66, '즈볼레 블루', '네덜란드', {"squad":true,"unreleased":false}],
+    ['미켈 브로 한센드', 'ST', 62, '에인트 라이트', '덴마크', {"squad":true,"unreleased":false}],
+    ['노아 페르난데손', 'CM', 64, '에인트 라이트', '벨기에', {"squad":true,"unreleased":false}],
+    ['아요니 산투손', 'CM', 66, '에인트 라이트', '카보베르데', {"squad":true,"unreleased":false}],
+    ['테인 스몰레나르손', 'GK', 64, '에인트 라이트', '네덜란드', {"squad":true,"unreleased":false}],
+    ['미하엘 브라우어른', 'GK', 67, '스파르타 로테르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['루셴드리 마르테손', 'CB', 62, '스파르타 로테르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['마르빈 영그', 'LB', 65, '스파르타 로테르', '수리남', {"squad":true,"unreleased":false}],
+    ['알완데 로알드쇠인', 'CM', 66, '스파르타 로테르', '노르웨이', {"squad":true,"unreleased":false}],
+    ['세드리크 하텐부른', 'CM', 65, '스파르타 로테르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['로빈 판크라위선드', 'CM', 64, '스파르타 로테르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['밀란 조너펠튼', 'ST', 66, '스파르타 로테르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['안드레이 코스티츠', 'ST', 63, '스파르타 로테르', '몬테네그로', {"squad":true,"unreleased":false}],
+    ['미커 클레인드', 'CM', 65, '스파르타 로테르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['알바로 헨린', 'CB', 65, '스파르타 로테르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['퀸시 후버스', 'ST', 65, '스파르타 로테르', '보네르', {"squad":true,"unreleased":false}],
+    ['로날트 코이만 주니오르', 'GK', 66, '텔스타르 레이우', '네덜란드', {"squad":true,"unreleased":false}],
+    ['예프 하르더펠튼', 'RB', 66, '텔스타르 레이우', '네덜란드', {"squad":true,"unreleased":false}],
+    ['헤랄트 알더르손', 'CB', 63, '텔스타르 레이우', '네덜란드', {"squad":true,"unreleased":false}],
+    ['프린스 아닝크', 'LB', 65, '텔스타르 레이우', '네덜란드', {"squad":true,"unreleased":false}],
+    ['에미르한 데미르자느', 'RW', 64, '텔스타르 레이우', '튀르키예', {"squad":true,"unreleased":false}],
+    ['젤라니 세도르픈', 'ST', 65, '텔스타르 레이우', '네덜란드', {"squad":true,"unreleased":false}],
+    ['티론 오우순', 'CAM', 66, '텔스타르 레이우', '네덜란드', {"squad":true,"unreleased":false}],
+    ['나이절 오기디 은완쿤', 'CB', 65, '텔스타르 레이우', '네덜란드', {"squad":true,"unreleased":false}],
+    ['닐스 로선드', 'CM', 63, '텔스타르 레이우', '네덜란드', {"squad":true,"unreleased":false}],
+    ['가비 카스킬린', 'CB', 64, '텔스타르 레이우', '네덜란드', {"squad":true,"unreleased":false}],
+    ['단 레이지허른', 'GK', 64, '텔스타르 레이우', '네덜란드', {"squad":true,"unreleased":false}],
+    ['파트릭 브라우어른', 'LW', 65, '텔스타르 레이우', '네덜란드', {"squad":true,"unreleased":false}],
+    ['로연드로 아우스턴드', 'CM', 61, '텔스타르 레이우', '수리남', {"squad":true,"unreleased":false}],
+    ['마르빈 페이르스마느', 'CB', 65, '텔스타르 레이우', '벨기에', {"squad":true,"unreleased":false}],
+    ['필립 토르발센드', 'LW', 66, '트벤테 토카', '노르웨이', {"squad":true,"unreleased":false}],
+    ['렘코 파스베른', 'GK', 66, '트벤테 토카', '네덜란드', {"squad":true,"unreleased":false}],
+    ['크시슈토프 쿠로프스킨', 'RB', 66, '트벤테 토카', '폴란드', {"squad":true,"unreleased":false}],
+    ['루카스 페네호르 오프 헤셀링큰', 'ST', 67, '트벤테 토카', '네덜란드', {"squad":true,"unreleased":false}],
+    ['아르템 스테파노픈', 'ST', 66, '위트레흐 돔', '우크라이나', {"squad":true,"unreleased":false}],
+    ['우알리드 아구길라', 'CM', 66, '위트레흐 돔', '모로코', {"squad":true,"unreleased":false}],
+    ['핀 스타므', 'CB', 67, '빌럼 틸뷔르흐', '네덜란드', {"squad":true,"unreleased":false}],
+    ['야던 슬로린', 'LW', 66, '빌럼 틸뷔르흐', '네덜란드', {"squad":true,"unreleased":false}],
+    ['카스퍼르 보하르튼', 'CM', 64, '빌럼 틸뷔르흐', '네덜란드', {"squad":true,"unreleased":false}],
+    ['데빈 하언드', 'ST', 67, '빌럼 틸뷔르흐', '네덜란드', {"squad":true,"unreleased":false}],
+    ['아민 에트타이빈', 'CB', 66, '빌럼 틸뷔르흐', '모로코', {"squad":true,"unreleased":false}],
+    ['우리엘 판알스튼', 'CM', 64, '빌럼 틸뷔르흐', '네덜란드', {"squad":true,"unreleased":false}],
+    ['바우터르 판데르스테인드', 'GK', 66, '빌럼 틸뷔르흐', '네덜란드', {"squad":true,"unreleased":false}],
+    ['페르 판로느', 'LB', 65, '빌럼 틸뷔르흐', '네덜란드', {"squad":true,"unreleased":false}],
+    ['에세르 귀르뷔주', 'LW', 62, '빌럼 틸뷔르흐', '네덜란드', {"squad":true,"unreleased":false}],
+    ['마르코스 라비느', 'GK', 67, '비제우 아카데미', '스페인', {"squad":true,"unreleased":false}],
+    ['니코스 미헬리손', 'RB', 66, '비제우 아카데미', '그리스', {"squad":true,"unreleased":false}],
+    ['미겔 앙헬 브라운', 'CB', 66, '비제우 아카데미', '스페인', {"squad":true,"unreleased":false}],
+    ['페드루 바르셀루손', 'CB', 67, '비제우 아카데미', '브라질', {"squad":true,"unreleased":false}],
+    ['안드레 세이틸라', 'CDM', 67, '비제우 아카데미', '포르투갈', {"squad":true,"unreleased":false}],
+    ['루이스 실반', 'CM', 67, '비제우 아카데미', '포르투갈', {"squad":true,"unreleased":false}],
+    ['지한 카흐라마느', 'CM', 67, '비제우 아카데미', '튀르키예', {"squad":true,"unreleased":false}],
+    ['도미니크 스테치큰', 'ST', 67, '비제우 아카데미', '폴란드', {"squad":true,"unreleased":false}],
+    ['수피안 메세게므', 'CM', 66, '비제우 아카데미', '독일', {"squad":true,"unreleased":false}],
+    ['크리스티안 페레이란', 'CAM', 67, '비제우 아카데미', '아르헨티나', {"squad":true,"unreleased":false}],
+    ['토마스 도밍구손', 'RB', 66, '비제우 아카데미', '포르투갈', {"squad":true,"unreleased":false}],
+    ['닐스 모티머스', 'CM', 66, '비제우 아카데미', '스페인', {"squad":true,"unreleased":false}],
+    ['안드레 클로비손', 'ST', 67, '비제우 아카데미', '브라질', {"squad":true,"unreleased":false}],
+    ['앙토니 코헤이안', 'CB', 66, '비제우 아카데미', '프랑스', {"squad":true,"unreleased":false}],
+    ['후벵 페레이란', 'CB', 66, '비제우 아카데미', '포르투갈', {"squad":true,"unreleased":false}],
+    ['호비뉸', 'LB', 66, '비제우 아카데미', '포르투갈', {"squad":true,"unreleased":false}],
+    ['파울리뉸', 'LW', 66, '비제우 아카데미', '포르투갈', {"squad":true,"unreleased":false}],
+    ['훌리안 마르티네손', 'CB', 67, '알베르카 히베이라', '온두라스', {"squad":true,"unreleased":false}],
+    ['야야 보장드', 'CB', 67, '알베르카 히베이라', '감비아', {"squad":true,"unreleased":false}],
+    ['다비 기르', 'CM', 66, '알베르카 히베이라', '코트디부아르', {"squad":true,"unreleased":false}],
+    ['세드리크 누오친', 'CM', 66, '알베르카 히베이라', '벨기에', {"squad":true,"unreleased":false}],
+    ['아이작 제임손', 'CB', 67, '알베르카 히베이라', '나이지리아', {"squad":true,"unreleased":false}],
+    ['스티븐 바세얀', 'LB', 66, '알베르카 히베이라', '프랑스', {"squad":true,"unreleased":false}],
+    ['사미 메르헤근', 'LW', 65, '알베르카 히베이라', '레바논', {"squad":true,"unreleased":false}],
+    ['디오구 스펜서스', 'LB', 66, '알베르카 히베이라', '포르투갈', {"squad":true,"unreleased":false}],
+    ['안드레 파울룬', 'GK', 67, '알베르카 히베이라', '포르투갈', {"squad":true,"unreleased":false}],
+    ['모페 제미덴', 'CB', 65, '알베르카 히베이라', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['이안 루카손', 'CM', 67, '알베르카 히베이라', '브라질', {"squad":true,"unreleased":false}],
+    ['토니 타마리튼', 'RB', 66, '알베르카 히베이라', '스페인', {"squad":true,"unreleased":false}],
+    ['마테우스 멘드손', 'GK', 66, '알베르카 히베이라', '브라질', {"squad":true,"unreleased":false}],
+    ['바스티앵 뫼피윤', 'CB', 66, '알베르카 히베이라', '프랑스', {"squad":true,"unreleased":false}],
+    ['라이안 루카스르', 'CM', 66, '알베르카 히베이라', '브라질', {"squad":true,"unreleased":false}],
+    ['프란시스쿠 시숨반', 'CB', 66, '알베르카 히베이라', '포르투갈', {"squad":true,"unreleased":false}],
+    ['조나타느', 'GK', 66, '알베르카 히베이라', '브라질', {"squad":true,"unreleased":false}],
+    ['마테오 플로레손', 'CM', 66, '아루카 몬타냐', '스페인', {"squad":true,"unreleased":false}],
     ['알렉스 보르투', 'GK', 62, '풀럼 코티지', '미국', {"squad":true,"unreleased":false}],
+    ['가브리에우 인디운', 'CB', 64, '리스본 아길라', '브라질', {"squad":true,"unreleased":false}],
+    ['아니지우 카브랄라', 'ST', 66, '리스본 아길라', '포르투갈', {"squad":true,"unreleased":false}],
+    ['코레데 오순디난', 'ST', 67, '카사피아 리스보', '미국', {"squad":true,"unreleased":false}],
+    ['셀비 클루안', 'CM', 66, '카사피아 리스보', '스페인', {"squad":true,"unreleased":false}],
+    ['안드레 고미스르', 'GK', 65, '카사피아 리스보', '포르투갈', {"squad":true,"unreleased":false}],
+    ['뱅자맹 파월손', 'CM', 67, '카사피아 리스보', '벨기에', {"squad":true,"unreleased":false}],
+    ['제펜', 'CM', 66, '카사피아 리스보', '브라질', {"squad":true,"unreleased":false}],
+    ['마르틴 투르큰', 'GK', 67, '에스토릴 카나리', '슬로베니아', {"squad":true,"unreleased":false}],
+    ['티아구 파렌튼', 'RB', 66, '에스토릴 카나리', '포르투갈', {"squad":true,"unreleased":false}],
+    ['페드루 카르발륜', 'CB', 67, '에스토릴 카나리', '포르투갈', {"squad":true,"unreleased":false}],
+    ['새뮤얼 아미산', 'CB', 64, '에스토릴 카나리', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['플레처 스마이스론', 'GK', 63, '에스토릴 카나리', '남아프리카공화국', {"squad":true,"unreleased":false}],
+    ['티아구 브리툰', 'CM', 66, '에스토릴 카나리', '포르투갈', {"squad":true,"unreleased":false}],
+    ['뤼카 맹카렐린', 'LB', 66, '아마도라 에스트렐라', '프랑스', {"squad":true,"unreleased":false}],
+    ['스테판 레코비츠', 'CB', 67, '아마도라 에스트렐라', '세르비아', {"squad":true,"unreleased":false}],
+    ['호비뉴스', 'CM', 66, '아마도라 에스트렐라', '브라질', {"squad":true,"unreleased":false}],
+    ['제페르손 엔카단', 'CB', 67, '아마도라 에스트렐라', '기니비사우', {"squad":true,"unreleased":false}],
+    ['루안 파트리큰', 'CB', 67, '아마도라 에스트렐라', '브라질', {"squad":true,"unreleased":false}],
+    ['레안드로 안토네틴', 'ST', 66, '아마도라 에스트렐라', '푸에르토리코', {"squad":true,"unreleased":false}],
+    ['에디 두엔', 'CM', 66, '아마도라 에스트렐라', '코트디부아르', {"squad":true,"unreleased":false}],
+    ['디오구 핀툰', 'GK', 65, '아마도라 에스트렐라', '포르투갈', {"squad":true,"unreleased":false}],
+    ['아타나스 체르네픈', 'RB', 66, '아마도라 에스트렐라', '불가리아', {"squad":true,"unreleased":false}],
+    ['마르코스 페냔', 'CM', 67, '파말리캉 파마', '스페인', {"squad":true,"unreleased":false}],
+    ['마티아스 드 아모링크', 'CM', 67, '파말리캉 파마', '포르투갈', {"squad":true,"unreleased":false}],
+    ['터마시 수친', 'CAM', 67, '파말리캉 파마', '헝가리', {"squad":true,"unreleased":false}],
+    ['마티스 장제알라', 'CM', 62, '파말리캉 파마', '프랑스', {"squad":true,"unreleased":false}],
+    ['페드루 본둔', 'LB', 67, '파말리캉 파마', '앙골라', {"squad":true,"unreleased":false}],
+    ['보인 세라피모비츠', 'CB', 66, '파말리캉 파마', '세르비아', {"squad":true,"unreleased":false}],
+    ['곤살로 파스토른', 'CM', 66, '파말리캉 파마', '스페인', {"squad":true,"unreleased":false}],
+    ['페드루 산투스르', 'CM', 67, '파말리캉 파마', '포르투갈', {"squad":true,"unreleased":false}],
+    ['마르틴 페르난데손', 'CM', 67, '지우비센트 갈로', '우루과이', {"squad":true,"unreleased":false}],
+    ['다비드 모레이라스', 'CB', 67, '지우비센트 갈로', '카보베르데', {"squad":true,"unreleased":false}],
+    ['안토니오 에스피가레손', 'CB', 66, '지우비센트 갈로', '스페인', {"squad":true,"unreleased":false}],
+    ['디오구 프리오스튼', 'CM', 67, '지우비센트 갈로', '포르투갈', {"squad":true,"unreleased":false}],
+    ['바스코 소예른', 'CM', 65, '지우비센트 갈로', '페루', {"squad":true,"unreleased":false}],
+    ['조제 멜룬', 'ST', 67, '마데이라 마리티', '포르투갈', {"squad":true,"unreleased":false}],
+    ['알폰소 파스토른', 'GK', 67, '마데이라 마리티', '스페인', {"squad":true,"unreleased":false}],
+    ['프란시스쿠 고미손', 'LW', 67, '마데이라 마리티', '포르투갈', {"squad":true,"unreleased":false}],
+    ['이브라힘 알라닌', 'CM', 65, '마데이라 마리티', '나이지리아', {"squad":true,"unreleased":false}],
+    ['옐루 산티아곤', 'CM', 66, '마데이라 마리티', '스페인', {"squad":true,"unreleased":false}],
+    ['사무엘 밤반', 'RW', 67, '마데이라 마리티', '독일', {"squad":true,"unreleased":false}],
+    ['키미스 자발란', 'GK', 64, '마데이라 마리티', '모잠비크', {"squad":true,"unreleased":false}],
+    ['이스라엘 아유만', 'CM', 65, '마데이라 마리티', '나이지리아', {"squad":true,"unreleased":false}],
+    ['모리스 보아키엔', 'ST', 67, '마데이라 마리티', '독일', {"squad":true,"unreleased":false}],
+    ['레안드룬', 'LB', 67, '모레이렌 코네고', '포르투갈', {"squad":true,"unreleased":false}],
+    ['주앙 벨로순', 'CM', 66, '모레이렌 코네고', '포르투갈', {"squad":true,"unreleased":false}],
+    ['아폰수 아시손', 'CM', 65, '모레이렌 코네고', '포르투갈', {"squad":true,"unreleased":false}],
+    ['지미 가워스', 'CM', 66, '모레이렌 코네고', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['미카엘 다코스탄', 'CM', 66, '모레이렌 코네고', '스페인', {"squad":true,"unreleased":false}],
+    ['질베르투 바티스탄', 'CB', 67, '모레이렌 코네고', '기니비사우', {"squad":true,"unreleased":false}],
+    ['코비 모톤', 'RW', 64, '모레이렌 코네고', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['페르난도 나반', 'ST', 67, '나시오날 알비', '볼리비아', {"squad":true,"unreleased":false}],
+    ['마테우스 이세펜', 'CM', 66, '나시오날 알비', '브라질', {"squad":true,"unreleased":false}],
+    ['마르팀 와추', 'CM', 66, '나시오날 알비', '포르투갈', {"squad":true,"unreleased":false}],
+    ['프란시스쿠 곤살베스르', 'RB', 67, '나시오날 알비', '포르투갈', {"squad":true,"unreleased":false}],
+    ['가브리에우 메큰', 'RW', 66, '포르투 드라강', '브라질', {"squad":true,"unreleased":false}],
+    ['오스카르 피에투셰프스킨', 'ST', 66, '포르투 드라강', '폴란드', {"squad":true,"unreleased":false}],
+    ['주앙 토멘', 'RB', 67, '히우아베 베르데', '포르투갈', {"squad":true,"unreleased":false}],
+    ['구스타부 만샨', 'CB', 66, '히우아베 베르데', '브라질', {"squad":true,"unreleased":false}],
+    ['요르요스 리아바손', 'CM', 67, '히우아베 베르데', '그리스', {"squad":true,"unreleased":false}],
+    ['디오구 나시멘툰', 'CM', 67, '히우아베 베르데', '포르투갈', {"squad":true,"unreleased":false}],
+    ['에니오 판 데르 하운', 'GK', 67, '히우아베 베르데', '네덜란드', {"squad":true,"unreleased":false}],
+    ['페르난둔', 'RW', 67, '산타클라라 아소르', '브라질', {"squad":true,"unreleased":false}],
+    ['네네칸', 'GK', 66, '산타클라라 아소르', '브라질', {"squad":true,"unreleased":false}],
+    ['주앙 바스콘셀루손', 'CM', 66, '산타클라라 아소르', '포르투갈', {"squad":true,"unreleased":false}],
+    ['비치뉸', 'CAM', 67, '산타클라라 아소르', '브라질', {"squad":true,"unreleased":false}],
+    ['다니 보르지손', 'CM', 67, '산타클라라 아소르', '브라질', {"squad":true,"unreleased":false}],
+    ['레우 자콘', 'LW', 66, '산타클라라 아소르', '브라질', {"squad":true,"unreleased":false}],
+    ['몬세프 제크린', 'CB', 64, '리스본 레앙', '모로코', {"squad":true,"unreleased":false}],
+    ['에두아르두 펠리시시문', 'LB', 67, '리스본 레앙', '포르투갈', {"squad":true,"unreleased":false}],
+    ['프란시스쿠 실반', 'GK', 66, '리스본 레앙', '포르투갈', {"squad":true,"unreleased":false}],
+    ['우마르 카마란', 'LW', 66, '기마랑 비토리', '프랑스', {"squad":true,"unreleased":false}],
+    ['예이마르 모스케란', 'LB', 67, '기마랑 비토리', '콜롬비아', {"squad":true,"unreleased":false}],
+    ['토니 스트라탄', 'RB', 67, '기마랑 비토리', '루마니아', {"squad":true,"unreleased":false}],
+    ['패트릭 우오트론', 'RW', 67, '기마랑 비토리', '코트디부아르', {"squad":true,"unreleased":false}],
     ['데이비드 버트나', 'GK', 64, '입스위치 트랙터', '잉글랜드', {"squad":true,"unreleased":false}],
     ['알렉스 케언손', 'GK', 66, '리즈 화이트', '잉글랜드', {"squad":true,"unreleased":false}],
     ['션 스퇴른', 'CM', 66, '뉴캐슬 매파이', '네덜란드', {"squad":true,"unreleased":false}],
@@ -352,6 +573,27 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['레두안 할할라', 'CB', 66, '베네치아 아란치오', '모로코', {"squad":true,"unreleased":false}],
     ['사드 엘 하다든', 'LW', 65, '베네치아 아란치오', '모로코', {"squad":true,"unreleased":false}],
     ['마테오 다가손', 'CM', 66, '베네치아 아란치오', '이탈리아', {"squad":true,"unreleased":false}],
+    ['킬리안 니키에만', 'GK', 67, '덴하흐 오이에바르', '부르키나파소', {"squad":true,"unreleased":false}],
+    ['오트니엘 라터링크르', 'RB', 64, '덴하흐 오이에바르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['마테오 바므', 'CB', 67, '덴하흐 오이에바르', '벨기에', {"squad":true,"unreleased":false}],
+    ['요나스 옌센아베운', 'CB', 67, '덴하흐 오이에바르', '덴마크', {"squad":true,"unreleased":false}],
+    ['다릴 판미헤이므', 'LW', 66, '덴하흐 오이에바르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['예서 발라', 'ST', 64, '덴하흐 오이에바르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['에번 로티어스', 'LW', 66, '덴하흐 오이에바르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['밀리안 히메네손', 'CM', 65, '덴하흐 오이에바르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['밀란 호커스', 'CB', 65, '덴하흐 오이에바르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['핀 더 브라윈드', 'CDM', 65, '덴하흐 오이에바르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['제일런 호킨손', 'RW', 66, '덴하흐 오이에바르', '미국', {"squad":true,"unreleased":false}],
+    ['세쿠 실란', 'CB', 66, '덴하흐 오이에바르', '기니', {"squad":true,"unreleased":false}],
+    ['루카 라이슐라', 'ST', 65, '덴하흐 오이에바르', '오스트리아', {"squad":true,"unreleased":false}],
+    ['케일럽 크레이머스', 'GK', 62, '덴하흐 오이에바르', '케냐', {"squad":true,"unreleased":false}],
+    ['캐머런 푸피온드', 'RW', 66, '덴하흐 오이에바르', '호주', {"squad":true,"unreleased":false}],
+    ['니클라스 티덴', 'GK', 67, '덴하흐 오이에바르', '독일', {"squad":true,"unreleased":false}],
+    ['유호 킬론', 'CM', 65, '덴하흐 오이에바르', '핀란드', {"squad":true,"unreleased":false}],
+    ['나이절 토머슨', 'LB', 65, '덴하흐 오이에바르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['마테이 시느', 'CAM', 66, '덴하흐 오이에바르', '체코', {"squad":true,"unreleased":false}],
+    ['야니크 에두아르돈', 'ST', 63, '덴하흐 오이에바르', '체코', {"squad":true,"unreleased":false}],
+    ['도나트 바라닌', 'ST', 66, '덴하흐 오이에바르', '헝가리', {"squad":true,"unreleased":false}],
   ],
   Rare: [
     ['윤중규', 'RB', 71, '울산 호랑', '대한민국', {"squad":true,"unreleased":true}],
@@ -450,9 +692,275 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['아난 칼라일로', 'RB', 72, '크리스탈 이글', '이스라엘', {"squad":true,"unreleased":false}],
     ['벤 칠웰런', 'LB', 75, '크리스탈 이글', '잉글랜드', {"squad":true,"unreleased":false}],
     ['에디 은케티오', 'ST', 75, '크리스탈 이글', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['루카스 호잔', 'RB', 72, '암스텔 아약', '브라질', {"squad":true,"unreleased":false}],
+    ['안톤 가에인', 'RB', 72, '암스텔 아약', '덴마크', {"squad":true,"unreleased":false}],
+    ['오언 베인달라', 'LB', 75, '암스텔 아약', '네덜란드', {"squad":true,"unreleased":false}],
+    ['유리 바손', 'CB', 73, '암스텔 아약', '네덜란드', {"squad":true,"unreleased":false}],
+    ['달레이 블린튼', 'CB', 71, '암스텔 아약', '네덜란드', {"squad":true,"unreleased":false}],
+    ['다비 클라선드', 'CM', 75, '암스텔 아약', '네덜란드', {"squad":true,"unreleased":false}],
+    ['올리베르 에드바르센드', 'LW', 74, '암스텔 아약', '노르웨이', {"squad":true,"unreleased":false}],
+    ['요르티 모키온', 'CDM', 70, '암스텔 아약', '콩고민주공화국', {"squad":true,"unreleased":false}],
+    ['마르턴 파손', 'GK', 72, '암스텔 아약', '인도네시아', {"squad":true,"unreleased":false}],
+    ['라야네 부니단', 'RW', 72, '암스텔 아약', '모로코', {"squad":true,"unreleased":false}],
+    ['로메제이던 오우수오두론', 'GK', 73, '알크마르 치즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['마이쿠마 세이얀', 'RB', 71, '알크마르 치즈', '일본', {"squad":true,"unreleased":false}],
+    ['바우터르 후손', 'CB', 73, '알크마르 치즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['루이스 스하우턴드', 'CB', 70, '알크마르 치즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['마테오 차베손', 'LB', 72, '알크마르 치즈', '멕시코', {"squad":true,"unreleased":false}],
+    ['페이르 코프메이너르손', 'CDM', 72, '알크마르 치즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['웨슬리 파타틴', 'RW', 71, '알크마르 치즈', '브라질', {"squad":true,"unreleased":false}],
+    ['요르디 클라신', 'CM', 72, '알크마르 치즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['멕스 메이르딩큰', 'ST', 73, '알크마르 치즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['케이스 스미튼', 'CAM', 74, '알크마르 치즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['로장헬로 달라', 'LW', 71, '알크마르 치즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['칼빈 스텡손', 'RW', 75, '알크마르 치즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['스테이어 레싱크르', 'CM', 69, '알크마르 치즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['발데마르 뷔스코븐', 'CM', 70, '알크마르 치즈', '덴마크', {"squad":true,"unreleased":false}],
+    ['이즈 호른캄픈', 'ST', 70, '알크마르 치즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['다버 크바크마느', 'CM', 68, '알크마르 치즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['야리 더 뷔서른', 'GK', 69, '알크마르 치즈', '벨기에', {"squad":true,"unreleased":false}],
+    ['베슬리 후트르', 'CB', 72, '알크마르 치즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['덴소 카시위손', 'RB', 71, '알크마르 치즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['메이스 더 비튼', 'LB', 70, '알크마르 치즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['예룬 주튼', 'GK', 68, '알크마르 치즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['자말 아모판', 'CB', 68, '카임브레 블랙', '네덜란드', {"squad":true,"unreleased":false}],
+    ['마티외 마르턴손', 'CDM', 68, '카임브레 블랙', '벨기에', {"squad":true,"unreleased":false}],
+    ['스테인 판하설라', 'GK', 69, '엑셀시오 크루', '네덜란드', {"squad":true,"unreleased":false}],
+    ['카스페르 비델라', 'CB', 68, '엑셀시오 크루', '스웨덴', {"squad":true,"unreleased":false}],
+    ['노아 나우요크손', 'CAM', 69, '엑셀시오 크루', '네덜란드', {"squad":true,"unreleased":false}],
+    ['시몬 얀선드', 'LB', 68, '엑셀시오 크루', '네덜란드', {"squad":true,"unreleased":false}],
+    ['셀턴 비아인', 'GK', 68, '엑셀시오 크루', '기니비사우', {"squad":true,"unreleased":false}],
+    ['일라노 실바 티마손', 'RW', 68, '엑셀시오 크루', '카보베르데', {"squad":true,"unreleased":false}],
+    ['알리레자 자한바크신', 'RW', 72, '엑셀시오 크루', '이란', {"squad":true,"unreleased":false}],
+    ['티아르크 에른스튼', 'GK', 73, '로테르 페예', '독일', {"squad":true,"unreleased":false}],
+    ['바르트 니우코픈', 'RB', 72, '로테르 페예', '네덜란드', {"squad":true,"unreleased":false}],
+    ['토마스 벨런드', 'CB', 75, '로테르 페예', '네덜란드', {"squad":true,"unreleased":false}],
+    ['와타나베 쓰요신', 'CB', 75, '로테르 페예', '일본', {"squad":true,"unreleased":false}],
+    ['헤이스 스말라', 'LB', 73, '로테르 페예', '네덜란드', {"squad":true,"unreleased":false}],
+    ['제리 세인트 쥐스튼', 'CB', 74, '로테르 페예', '네덜란드', {"squad":true,"unreleased":false}],
+    ['야쿠프 모데른', 'CM', 75, '로테르 페예', '폴란드', {"squad":true,"unreleased":false}],
+    ['히바이 제히엘라', 'CM', 72, '로테르 페예', '네덜란드', {"squad":true,"unreleased":false}],
+    ['곤살루 보르지손', 'RW', 74, '로테르 페예', '포르투갈', {"squad":true,"unreleased":false}],
+    ['조던 보손', 'LB', 75, '로테르 페예', '호주', {"squad":true,"unreleased":false}],
+    ['하비 로페손', 'CB', 71, '로테르 페예', '스페인', {"squad":true,"unreleased":false}],
+    ['레이스 넬슨드', 'RW', 74, '로테르 페예', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['나초 페린', 'ST', 71, '로테르 페예', '스페인', {"squad":true,"unreleased":false}],
+    ['마츠 데일라', 'RB', 70, '로테르 페예', '네덜란드', {"squad":true,"unreleased":false}],
+    ['아니스 하지 무산', 'RW', 75, '로테르 페예', '알제리', {"squad":true,"unreleased":false}],
+    ['히바이로 레이튼', 'RB', 73, '로테르 페예', '네덜란드', {"squad":true,"unreleased":false}],
+    ['가우수 디아란', 'ST', 72, '로테르 페예', '말리', {"squad":true,"unreleased":false}],
+    ['우사마 타르갈리느', 'CDM', 73, '로테르 페예', '모로코', {"squad":true,"unreleased":false}],
+    ['플로리안 카스텐마이언', 'GK', 70, '로테르 페예', '독일', {"squad":true,"unreleased":false}],
+    ['샤를 판하우터스', 'CDM', 74, '로테르 페예', '벨기에', {"squad":true,"unreleased":false}],
+    ['미카 마르몰라', 'CB', 73, '로테르 페예', '스페인', {"squad":true,"unreleased":false}],
+    ['샤킬 판페르신', 'ST', 70, '로테르 페예', '네덜란드', {"squad":true,"unreleased":false}],
+    ['뤽 코프만손', 'GK', 69, '포르투나 시타르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['시버 베일린드', 'RB', 68, '포르투나 시타르', '벨기에', {"squad":true,"unreleased":false}],
+    ['호드리구 구튼', 'CB', 70, '포르투나 시타르', '브라질', {"squad":true,"unreleased":false}],
+    ['야신 우킬린', 'CDM', 70, '포르투나 시타르', '모로코', {"squad":true,"unreleased":false}],
+    ['시프 판오텔러스', 'CB', 69, '포르투나 시타르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['크리스토페르 페테르손드', 'LW', 70, '포르투나 시타르', '스웨덴', {"squad":true,"unreleased":false}],
+    ['야스퍼르 달하우손', 'CM', 69, '포르투나 시타르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['앙토니 데스코튼', 'ST', 69, '포르투나 시타르', '벨기에', {"squad":true,"unreleased":false}],
+    ['올러 로메닌', 'ST', 71, '포르투나 시타르', '인도네시아', {"squad":true,"unreleased":false}],
+    ['니크 더 흐로튼', 'CB', 68, '포르투나 시타르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['에두아르 미쉰', 'CAM', 71, '포르투나 시타르', '프랑스', {"squad":true,"unreleased":false}],
+    ['저스틴 후브너스', 'CB', 70, '포르투나 시타르', '인도네시아', {"squad":true,"unreleased":false}],
+    ['마테이스 브란더르호르스튼', 'GK', 68, '포르투나 시타르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['이반 마르케손', 'CB', 69, '포르투나 시타르', '스페인', {"squad":true,"unreleased":false}],
+    ['모하메드 이하타런드', 'CAM', 69, '포르투나 시타르', '모로코', {"squad":true,"unreleased":false}],
+    ['셰틸 하우그르', 'GK', 70, '고어헤드 이글', '노르웨이', {"squad":true,"unreleased":false}],
+    ['알폰스 삼프스테든', 'RB', 71, '고어헤드 이글', '아이슬란드', {"squad":true,"unreleased":false}],
+    ['게리트 나우버스', 'CB', 70, '고어헤드 이글', '독일', {"squad":true,"unreleased":false}],
+    ['요리스 크라머른', 'CB', 71, '고어헤드 이글', '네덜란드', {"squad":true,"unreleased":false}],
+    ['딘 제임손', 'LB', 71, '고어헤드 이글', '인도네시아', {"squad":true,"unreleased":false}],
+    ['에버르트 린토르스튼', 'CM', 70, '고어헤드 이글', '네덜란드', {"squad":true,"unreleased":false}],
+    ['스테판 잉기 시귀르다르손드', 'ST', 70, '고어헤드 이글', '아이슬란드', {"squad":true,"unreleased":false}],
+    ['쇠렌 텡스테든', 'ST', 72, '고어헤드 이글', '덴마크', {"squad":true,"unreleased":false}],
+    ['오스카르 시베르트센드', 'LW', 69, '고어헤드 이글', '노르웨이', {"squad":true,"unreleased":false}],
+    ['로빈 베이엔베르흔', 'CM', 68, '고어헤드 이글', '네덜란드', {"squad":true,"unreleased":false}],
+    ['빅토르 에드바르센느', 'RW', 71, '고어헤드 이글', '스웨덴', {"squad":true,"unreleased":false}],
+    ['마티스 쉬렌', 'CAM', 69, '고어헤드 이글', '벨기에', {"squad":true,"unreleased":false}],
+    ['리코넬 마르하렛트', 'ST', 70, '고어헤드 이글', '수리남', {"squad":true,"unreleased":false}],
+    ['멜러 뮐렌스테인드', 'CDM', 71, '고어헤드 이글', '네덜란드', {"squad":true,"unreleased":false}],
+    ['티보 바텐드', 'LW', 69, '고어헤드 이글', '벨기에', {"squad":true,"unreleased":false}],
+    ['율리위스 디르크선드', 'CB', 68, '고어헤드 이글', '네덜란드', {"squad":true,"unreleased":false}],
+    ['에티엔 파선드', 'GK', 70, '흐로닝언 그린', '수리남', {"squad":true,"unreleased":false}],
+    ['테이먼 블록제일라', 'CB', 71, '흐로닝언 그린', '네덜란드', {"squad":true,"unreleased":false}],
+    ['마르크 친게른', 'CB', 69, '흐로닝언 그린', '헝가리', {"squad":true,"unreleased":false}],
+    ['마르코 렌텐', 'CB', 69, '흐로닝언 그린', '독일', {"squad":true,"unreleased":false}],
+    ['트라비스 헤르네손', 'CAM', 70, '흐로닝언 그린', '노르웨이', {"squad":true,"unreleased":false}],
+    ['티카 더 용언', 'CM', 68, '흐로닝언 그린', '네덜란드', {"squad":true,"unreleased":false}],
+    ['브린욜뷔르 빌뤼름손드', 'ST', 71, '흐로닝언 그린', '아이슬란드', {"squad":true,"unreleased":false}],
+    ['야코브 온드레이칸', 'LW', 71, '흐로닝언 그린', '스웨덴', {"squad":true,"unreleased":false}],
+    ['요르흐 스흐레우더르손', 'CM', 68, '흐로닝언 그린', '네덜란드', {"squad":true,"unreleased":false}],
+    ['오스카르 자바단', 'ST', 70, '흐로닝언 그린', '폴란드', {"squad":true,"unreleased":false}],
+    ['펠러 클레먼튼', 'CM', 70, '흐로닝언 그린', '네덜란드', {"squad":true,"unreleased":false}],
+    ['톰 판베르헌드', 'LW', 68, '흐로닝언 그린', '네덜란드', {"squad":true,"unreleased":false}],
+    ['마스 빌럼선드', 'CB', 68, '헤렌벤 프리즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['삼 케르스턴드', 'CB', 70, '헤렌벤 프리즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['디르크 프로퍼른', 'CDM', 71, '헤렌벤 프리즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['막상스 리베란', 'LW', 70, '헤렌벤 프리즈', '프랑스', {"squad":true,"unreleased":false}],
+    ['뤽 브라우어르손', 'CM', 71, '헤렌벤 프리즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['딜란 벤터스', 'ST', 71, '헤렌벤 프리즈', '수리남', {"squad":true,"unreleased":false}],
+    ['링고 메이르벨튼', 'CAM', 70, '헤렌벤 프리즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['루카 오연드', 'CAM', 71, '헤렌벤 프리즈', '벨기에', {"squad":true,"unreleased":false}],
+    ['마르쿠스 린다인', 'CM', 68, '헤렌벤 프리즈', '스웨덴', {"squad":true,"unreleased":false}],
+    ['바실리오스 자가리치손', 'LB', 70, '헤렌벤 프리즈', '그리스', {"squad":true,"unreleased":false}],
+    ['야코브 트렌스콘', 'ST', 69, '헤렌벤 프리즈', '덴마크', {"squad":true,"unreleased":false}],
+    ['흐리스티얀 페트로픈', 'CB', 68, '헤렌벤 프리즈', '불가리아', {"squad":true,"unreleased":false}],
+    ['안드리스 노퍼르튼', 'GK', 71, '헤렌벤 프리즈', '네덜란드', {"squad":true,"unreleased":false}],
+    ['곤살로 크레타손', 'GK', 71, '님메헌 니메', '스페인', {"squad":true,"unreleased":false}],
+    ['브라이안 페레이란', 'LB', 70, '님메헌 니메', '프랑스', {"squad":true,"unreleased":false}],
+    ['필리프 산들러른', 'CB', 71, '님메헌 니메', '네덜란드', {"squad":true,"unreleased":false}],
+    ['페르 스휘르손', 'CB', 74, '님메헌 니메', '네덜란드', {"squad":true,"unreleased":false}],
+    ['토마스 아우베야느', 'LB', 71, '님메헌 니메', '네덜란드', {"squad":true,"unreleased":false}],
+    ['다르코 네야시미츠', 'CDM', 71, '님메헌 니메', '크로아티아', {"squad":true,"unreleased":false}],
+    ['엠레 모른', 'RW', 72, '님메헌 니메', '튀르키예', {"squad":true,"unreleased":false}],
+    ['이사크 한센아뢰엔드', 'CM', 71, '님메헌 니메', '노르웨이', {"squad":true,"unreleased":false}],
+    ['차론 셰린', 'CAM', 71, '님메헌 니메', '수리남', {"squad":true,"unreleased":false}],
+    ['두샨 타디츠', 'CAM', 75, '님메헌 니메', '세르비아', {"squad":true,"unreleased":false}],
+    ['빌륌 토르 빌륌손드', 'RW', 72, '님메헌 니메', '아이슬란드', {"squad":true,"unreleased":false}],
+    ['카이 시르하위손', 'ST', 71, '님메헌 니메', '네덜란드', {"squad":true,"unreleased":false}],
+    ['브람 나위팅큰', 'CB', 70, '님메헌 니메', '네덜란드', {"squad":true,"unreleased":false}],
+    ['오가와 고킨', 'ST', 73, '님메헌 니메', '일본', {"squad":true,"unreleased":false}],
+    ['노에 르브르통드', 'CM', 68, '님메헌 니메', '프랑스', {"squad":true,"unreleased":false}],
+    ['토비아스 스토르므', 'CB', 68, '님메헌 니메', '덴마크', {"squad":true,"unreleased":false}],
+    ['데버론 폰빌러스', 'RB', 68, '님메헌 니메', '퀴라소', {"squad":true,"unreleased":false}],
+    ['사미 우아이산드', 'LW', 68, '님메헌 니메', '네덜란드', {"squad":true,"unreleased":false}],
+    ['브라이언 린선드', 'LW', 71, '님메헌 니메', '네덜란드', {"squad":true,"unreleased":false}],
+    ['비토 판크로에인', 'RW', 70, '님메헌 니메', '네덜란드', {"squad":true,"unreleased":false}],
+    ['자미로 몬테이룬', 'CM', 71, '님메헌 니메', '카보베르데', {"squad":true,"unreleased":false}],
+    ['클레멘트 비쇼픈', 'ST', 68, '님메헌 니메', '덴마크', {"squad":true,"unreleased":false}],
     ['마크 트래버손', 'GK', 72, '에버턴 토피', '아일랜드', {"squad":true,"unreleased":false}],
     ['메를린 뢸러', 'CM', 74, '에버턴 토피', '독일', {"squad":true,"unreleased":false}],
     ['타이리크 조지오', 'LW', 72, '에버턴 토피', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['야스퍼르 스헨델라른', 'GK', 69, '즈볼레 블루', '네덜란드', {"squad":true,"unreleased":false}],
+    ['셰럴 플로라뉘손', 'RB', 69, '즈볼레 블루', '퀴라소', {"squad":true,"unreleased":false}],
+    ['올리비어 아르츤드', 'CB', 69, '즈볼레 블루', '네덜란드', {"squad":true,"unreleased":false}],
+    ['테이스 펠트하위손', 'CB', 69, '즈볼레 블루', '네덜란드', {"squad":true,"unreleased":false}],
+    ['유네스 남린', 'LW', 70, '즈볼레 블루', '덴마크', {"squad":true,"unreleased":false}],
+    ['토비아스 좀머스', 'CM', 68, '즈볼레 블루', '덴마크', {"squad":true,"unreleased":false}],
+    ['엘리아스 쇠렌센드', 'ST', 70, '즈볼레 블루', '덴마크', {"squad":true,"unreleased":false}],
+    ['쿤 코스톤손', 'CAM', 70, '즈볼레 블루', '네덜란드', {"squad":true,"unreleased":false}],
+    ['딜란 음바욘', 'LW', 70, '즈볼레 블루', '벨기에', {"squad":true,"unreleased":false}],
+    ['오디세우스 벨라나손', 'CAM', 69, '즈볼레 블루', '네덜란드', {"squad":true,"unreleased":false}],
+    ['이브라힘 시소콘', 'RW', 70, '즈볼레 블루', '기니', {"squad":true,"unreleased":false}],
+    ['니크 피르헤버른', 'CB', 68, '즈볼레 블루', '네덜란드', {"squad":true,"unreleased":false}],
+    ['테이스 오스팅크', 'CM', 69, '즈볼레 블루', '네덜란드', {"squad":true,"unreleased":false}],
+    ['시몬 그라베손', 'LB', 69, '즈볼레 블루', '덴마크', {"squad":true,"unreleased":false}],
+    ['라이언 토머슨', 'CDM', 70, '즈볼레 블루', '뉴질랜드', {"squad":true,"unreleased":false}],
+    ['니크 올레인', 'GK', 74, '에인트 라이트', '네덜란드', {"squad":true,"unreleased":false}],
+    ['야레크 가시오로프스킨', 'CB', 73, '에인트 라이트', '스페인', {"squad":true,"unreleased":false}],
+    ['아르만도 오비스폰', 'CB', 73, '에인트 라이트', '퀴라소', {"squad":true,"unreleased":false}],
+    ['라이언 플라밍곤', 'CB', 74, '에인트 라이트', '네덜란드', {"squad":true,"unreleased":false}],
+    ['사미 우아이산', 'LW', 70, '에인트 라이트', '네덜란드', {"squad":true,"unreleased":false}],
+    ['마우루 주니오른', 'LB', 73, '에인트 라이트', '브라질', {"squad":true,"unreleased":false}],
+    ['에스미르 바이락타레비츠', 'RW', 73, '에인트 라이트', '보스니아헤르체고비나', {"squad":true,"unreleased":false}],
+    ['휘스 틸라', 'CAM', 75, '에인트 라이트', '네덜란드', {"squad":true,"unreleased":false}],
+    ['사노 고다인', 'CM', 73, '에인트 라이트', '일본', {"squad":true,"unreleased":false}],
+    ['킬리안 실디얀', 'RB', 75, '에인트 라이트', '프랑스', {"squad":true,"unreleased":false}],
+    ['삼 라머르손', 'ST', 73, '에인트 라이트', '네덜란드', {"squad":true,"unreleased":false}],
+    ['아다모 나갈론', 'CB', 72, '에인트 라이트', '부르키나파소', {"squad":true,"unreleased":false}],
+    ['필리프 베드나레큰', 'GK', 70, '스파르타 로테르', '폴란드', {"squad":true,"unreleased":false}],
+    ['막스 더 리흐튼', 'CB', 68, '스파르타 로테르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['바스 카위퍼르손', 'LB', 68, '스파르타 로테르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['브루노 마르틴스 인딘', 'CB', 71, '스파르타 로테르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['테오 킨테론', 'CB', 68, '스파르타 로테르', '베네수엘라', {"squad":true,"unreleased":false}],
+    ['보이트 레이튼', 'RB', 68, '스파르타 로테르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['율리안 바손', 'CDM', 68, '스파르타 로테르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['미토 슌스켄', 'CM', 69, '스파르타 로테르', '일본', {"squad":true,"unreleased":false}],
+    ['옌스 토른스트란', 'CAM', 69, '스파르타 로테르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['요엘 이데혼', 'LW', 68, '스파르타 로테르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['카스페르 테르혼', 'RW', 69, '스파르타 로테르', '핀란드', {"squad":true,"unreleased":false}],
+    ['뇌크비 테이르 토리손드', 'ST', 69, '스파르타 로테르', '아이슬란드', {"squad":true,"unreleased":false}],
+    ['미첼 판베르헌드', 'LW', 70, '스파르타 로테르', '네덜란드', {"squad":true,"unreleased":false}],
+    ['후이 멘드손', 'ST', 68, '텔스타르 레이우', '포르투갈', {"squad":true,"unreleased":false}],
+    ['라르스 우너슈탈라', 'GK', 73, '트벤테 토카', '독일', {"squad":true,"unreleased":false}],
+    ['로빈 프뢰퍼른', 'CB', 72, '트벤테 토카', '네덜란드', {"squad":true,"unreleased":false}],
+    ['라미즈 제루킨', 'CDM', 74, '트벤테 토카', '알제리', {"squad":true,"unreleased":false}],
+    ['마르코 피아찬', 'RW', 72, '트벤테 토카', '크로아티아', {"squad":true,"unreleased":false}],
+    ['테일러 부손', 'CAM', 73, '트벤테 토카', '미국', {"squad":true,"unreleased":false}],
+    ['삼 라머르스르', 'ST', 73, '트벤테 토카', '네덜란드', {"squad":true,"unreleased":false}],
+    ['단 로추', 'LW', 73, '트벤테 토카', '네덜란드', {"squad":true,"unreleased":false}],
+    ['크리스티안 흘륀손드', 'CAM', 72, '트벤테 토카', '아이슬란드', {"squad":true,"unreleased":false}],
+    ['요엘 드롬멀라', 'GK', 71, '트벤테 토카', '네덜란드', {"squad":true,"unreleased":false}],
+    ['유네스 타한', 'CAM', 73, '트벤테 토카', '모로코', {"squad":true,"unreleased":false}],
+    ['토마스 판덴벨튼', 'CM', 74, '트벤테 토카', '네덜란드', {"squad":true,"unreleased":false}],
+    ['스타브 렘키느', 'CB', 70, '트벤테 토카', '이스라엘', {"squad":true,"unreleased":false}],
+    ['손드레 외리아세테른', 'CM', 72, '트벤테 토카', '노르웨이', {"squad":true,"unreleased":false}],
+    ['바르트 판로에인', 'RB', 72, '트벤테 토카', '네덜란드', {"squad":true,"unreleased":false}],
+    ['아스케 아델고른', 'CB', 70, '트벤테 토카', '덴마크', {"squad":true,"unreleased":false}],
+    ['아르노 페르스휘런드', 'CM', 72, '트벤테 토카', '벨기에', {"squad":true,"unreleased":false}],
+    ['나지 위뉘바른', 'LW', 71, '트벤테 토카', '튀르키예', {"squad":true,"unreleased":false}],
+    ['막스 브륀손', 'CB', 71, '트벤테 토카', '네덜란드', {"squad":true,"unreleased":false}],
+    ['헤이스 베셀링큰', 'CM', 68, '트벤테 토카', '네덜란드', {"squad":true,"unreleased":false}],
+    ['다우다 바이트마느', 'CM', 69, '트벤테 토카', '프랑스', {"squad":true,"unreleased":false}],
+    ['이삼 엘 마흔', 'GK', 68, '트벤테 토카', '모로코', {"squad":true,"unreleased":false}],
+    ['바실리스 바르카손', 'GK', 73, '위트레흐 돔', '그리스', {"squad":true,"unreleased":false}],
+    ['시버 호레만손', 'RB', 72, '위트레흐 돔', '벨기에', {"squad":true,"unreleased":false}],
+    ['마티서 디던드', 'CB', 72, '위트레흐 돔', '벨기에', {"squad":true,"unreleased":false}],
+    ['니콜라스 파나요툰', 'CB', 71, '위트레흐 돔', '키프로스', {"squad":true,"unreleased":false}],
+    ['휘스 오퍼르하위손', 'CDM', 72, '위트레흐 돔', '네덜란드', {"squad":true,"unreleased":false}],
+    ['빅토르 옌센드', 'LW', 74, '위트레흐 돔', '덴마크', {"squad":true,"unreleased":false}],
+    ['요리스 판 오버레이므', 'CM', 72, '위트레흐 돔', '네덜란드', {"squad":true,"unreleased":false}],
+    ['요안 카틀린드', 'LW', 74, '위트레흐 돔', '프랑스', {"squad":true,"unreleased":false}],
+    ['앙헬 알라르코느', 'RW', 73, '위트레흐 돔', '스페인', {"squad":true,"unreleased":false}],
+    ['에이드리언 블레이큰', 'ST', 68, '위트레흐 돔', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['셈 판 다위느', 'ST', 69, '위트레흐 돔', '네덜란드', {"squad":true,"unreleased":false}],
+    ['야코프 메디츠', 'CB', 73, '위트레흐 돔', '크로아티아', {"squad":true,"unreleased":false}],
+    ['다니 더 비튼', 'CAM', 74, '위트레흐 돔', '네덜란드', {"squad":true,"unreleased":false}],
+    ['네빌 오기디 은완쿤', 'RB', 70, '위트레흐 돔', '네덜란드', {"squad":true,"unreleased":false}],
+    ['니클라스 베스테를룬드', 'CM', 71, '위트레흐 돔', '덴마크', {"squad":true,"unreleased":false}],
+    ['밀리아노 요나탄손', 'RW', 73, '위트레흐 돔', '인도네시아', {"squad":true,"unreleased":false}],
+    ['알론조 엥완단', 'CM', 70, '위트레흐 돔', '벨기에', {"squad":true,"unreleased":false}],
+    ['노아 오히온', 'ST', 73, '위트레흐 돔', '네덜란드', {"squad":true,"unreleased":false}],
+    ['케빈 파레데손', 'LW', 74, '위트레흐 돔', '미국', {"squad":true,"unreleased":false}],
+    ['다비 판덴베르흐트', 'CM', 70, '위트레흐 돔', '네덜란드', {"squad":true,"unreleased":false}],
+    ['노르딘 암라바튼', 'LW', 68, '위트레흐 돔', '모로코', {"squad":true,"unreleased":false}],
+    ['마리우스 브로홀르므', 'ST', 69, '위트레흐 돔', '노르웨이', {"squad":true,"unreleased":false}],
+    ['아르튀르 자그렌', 'LB', 71, '위트레흐 돔', '부르키나파소', {"squad":true,"unreleased":false}],
+    ['토마 디디용회들라', 'GK', 69, '빌럼 틸뷔르흐', '프랑스', {"squad":true,"unreleased":false}],
+    ['알레산드로 치란닌', 'RB', 68, '빌럼 틸뷔르흐', '벨기에', {"squad":true,"unreleased":false}],
+    ['유스틴 호흐만', 'CB', 69, '빌럼 틸뷔르흐', '네덜란드', {"squad":true,"unreleased":false}],
+    ['히더 테르 아버스튼', 'RB', 69, '빌럼 틸뷔르흐', '네덜란드', {"squad":true,"unreleased":false}],
+    ['야리 스휘르마느', 'CAM', 69, '빌럼 틸뷔르흐', '네덜란드', {"squad":true,"unreleased":false}],
+    ['아르민 출루므', 'ST', 68, '빌럼 틸뷔르흐', '스웨덴', {"squad":true,"unreleased":false}],
+    ['네이선 추어아온드', 'LB', 69, '빌럼 틸뷔르흐', '인도네시아', {"squad":true,"unreleased":false}],
+    ['토마스 페르헤이튼', 'ST', 68, '빌럼 틸뷔르흐', '네덜란드', {"squad":true,"unreleased":false}],
+    ['모하메드 불디닌', 'ST', 68, '비제우 아카데미', '모로코', {"squad":true,"unreleased":false}],
+    ['알바로 사모란', 'LW', 68, '비제우 아카데미', '코스타리카', {"squad":true,"unreleased":false}],
+    ['발레리 페르난데손', 'RW', 68, '비제우 아카데미', '스페인', {"squad":true,"unreleased":false}],
+    ['노아 라베이른', 'GK', 69, '알베르카 히베이라', '프랑스', {"squad":true,"unreleased":false}],
+    ['나빌 투아이진', 'RB', 68, '알베르카 히베이라', '모로코', {"squad":true,"unreleased":false}],
+    ['사비트 압둘라인', 'CDM', 68, '알베르카 히베이라', '가나', {"squad":true,"unreleased":false}],
+    ['안드레 비디갈라', 'RW', 70, '알베르카 히베이라', '앙골라', {"squad":true,"unreleased":false}],
+    ['비발두 세메둔', 'ST', 68, '알베르카 히베이라', '포르투갈', {"squad":true,"unreleased":false}],
+    ['시키뉸', 'CAM', 69, '알베르카 히베이라', '포르투갈', {"squad":true,"unreleased":false}],
+    ['마르코 에시민', 'ST', 68, '알베르카 히베이라', '프랑스', {"squad":true,"unreleased":false}],
+    ['세르지 고메손', 'CB', 69, '알베르카 히베이라', '스페인', {"squad":true,"unreleased":false}],
+    ['피게이레둔', 'ST', 68, '알베르카 히베이라', '브라질', {"squad":true,"unreleased":false}],
+    ['제 하파에운', 'CAM', 69, '알베르카 히베이라', '브라질', {"squad":true,"unreleased":false}],
+    ['호세 폰타느', 'CB', 70, '아루카 몬타냐', '스페인', {"squad":true,"unreleased":false}],
+    ['디오구 몬테이룬', 'CB', 68, '아루카 몬타냐', '포르투갈', {"squad":true,"unreleased":false}],
+    ['보리스 포포비츠', 'CB', 69, '아루카 몬타냐', '세르비아', {"squad":true,"unreleased":false}],
+    ['에스펀 판 에인', 'CM', 69, '아루카 몬타냐', '네덜란드', {"squad":true,"unreleased":false}],
+    ['나이스 주아란', 'RW', 70, '아루카 몬타냐', '프랑스', {"squad":true,"unreleased":false}],
+    ['후쿠이 다이친', 'CM', 70, '아루카 몬타냐', '일본', {"squad":true,"unreleased":false}],
+    ['팔리 마율룬', 'ST', 70, '아루카 몬타냐', '프랑스', {"squad":true,"unreleased":false}],
+    ['파블로 고살베손', 'CAM', 70, '아루카 몬타냐', '스페인', {"squad":true,"unreleased":false}],
+    ['미겔 푸첸', 'LW', 70, '아루카 몬타냐', '스페인', {"squad":true,"unreleased":false}],
+    ['이그나시오 데 아루아바레난', 'GK', 69, '아루카 몬타냐', '우루과이', {"squad":true,"unreleased":false}],
+    ['이현조', 'CM', 68, '아루카 몬타냐', '대한민국', {"squad":true,"unreleased":false}],
+    ['하비 산체노', 'CB', 70, '아루카 몬타냐', '스페인', {"squad":true,"unreleased":false}],
+    ['이반 바르베론', 'ST', 70, '아루카 몬타냐', '스페인', {"squad":true,"unreleased":false}],
+    ['오레스트 레베덴콘', 'RB', 69, '아루카 몬타냐', '우크라이나', {"squad":true,"unreleased":false}],
+    ['알폰소 트레산', 'ST', 69, '아루카 몬타냐', '우루과이', {"squad":true,"unreleased":false}],
+    ['딜란 난디느', 'LW', 68, '아루카 몬타냐', '우루과이', {"squad":true,"unreleased":false}],
+    ['브라이언 만실란', 'RW', 69, '아루카 몬타냐', '우루과이', {"squad":true,"unreleased":false}],
+    ['티아구 에스가이운', 'RB', 69, '아루카 몬타냐', '포르투갈', {"squad":true,"unreleased":false}],
+    ['마리오 클리멘튼', 'LB', 68, '아루카 몬타냐', '스페인', {"squad":true,"unreleased":false}],
+    ['페드루 산투손', 'CDM', 69, '아루카 몬타냐', '포르투갈', {"squad":true,"unreleased":false}],
     ['뱅자맹 르콩테', 'GK', 72, '풀럼 코티지', '프랑스', {"squad":true,"unreleased":false}],
     ['호르헤 쿠엥코', 'CB', 75, '풀럼 코티지', '스페인', {"squad":true,"unreleased":false}],
     ['다비트 아펜그루베르', 'CB', 74, '풀럼 코티지', '오스트리아', {"squad":true,"unreleased":false}],
@@ -465,6 +973,172 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['조시 킹거', 'CM', 70, '풀럼 코티지', '잉글랜드', {"squad":true,"unreleased":false}],
     ['라이언 세세뇨', 'LM', 74, '풀럼 코티지', '잉글랜드', {"squad":true,"unreleased":false}],
     ['요나 쿠시아사로', 'ST', 68, '풀럼 코티지', '스웨덴', {"squad":true,"unreleased":false}],
+    ['알레산드로 치르카틴', 'CB', 75, '리스본 아길라', '호주', {"squad":true,"unreleased":false}],
+    ['브루만', 'LW', 75, '리스본 아길라', '포르투갈', {"squad":true,"unreleased":false}],
+    ['마누 실반', 'CM', 73, '리스본 아길라', '포르투갈', {"squad":true,"unreleased":false}],
+    ['사무엘 소아르손', 'GK', 70, '리스본 아길라', '포르투갈', {"squad":true,"unreleased":false}],
+    ['사무엘 달라', 'LB', 74, '리스본 아길라', '스웨덴', {"squad":true,"unreleased":false}],
+    ['수피안 엘 카루아닌', 'LB', 74, '리스본 아길라', '모로코', {"squad":true,"unreleased":false}],
+    ['조슈아 윈더스', 'CB', 68, '리스본 아길라', '미국', {"squad":true,"unreleased":false}],
+    ['빅토르 고메손', 'RB', 74, '브라가 게레이루', '스페인', {"squad":true,"unreleased":false}],
+    ['시쿠 니아카텐', 'CB', 74, '브라가 게레이루', '말리', {"squad":true,"unreleased":false}],
+    ['레오나르두 렐룬', 'LB', 73, '브라가 게레이루', '포르투갈', {"squad":true,"unreleased":false}],
+    ['비토르 카르발륜', 'CDM', 74, '브라가 게레이루', '브라질', {"squad":true,"unreleased":false}],
+    ['디오구 트라바수손', 'RB', 70, '브라가 게레이루', '포르투갈', {"squad":true,"unreleased":false}],
+    ['주앙 무티뉸', 'CM', 72, '브라가 게레이루', '포르투갈', {"squad":true,"unreleased":false}],
+    ['프란 나바론', 'ST', 75, '브라가 게레이루', '스페인', {"squad":true,"unreleased":false}],
+    ['파우 빅토른', 'ST', 75, '브라가 게레이루', '스페인', {"squad":true,"unreleased":false}],
+    ['가브리에우 실반', 'LW', 73, '브라가 게레이루', '브라질', {"squad":true,"unreleased":false}],
+    ['티아구 사르', 'GK', 73, '브라가 게레이루', '포르투갈', {"squad":true,"unreleased":false}],
+    ['구스타프 라게르비엘켄', 'CB', 73, '브라가 게레이루', '스웨덴', {"squad":true,"unreleased":false}],
+    ['토미 마르케손', 'CM', 68, '브라가 게레이루', '스페인', {"squad":true,"unreleased":false}],
+    ['요반 밀로셰비츠', 'ST', 72, '브라가 게레이루', '세르비아', {"squad":true,"unreleased":false}],
+    ['마리오 도르젤레손', 'CM', 72, '브라가 게레이루', '코트디부아르', {"squad":true,"unreleased":false}],
+    ['세르히오 바르시안', 'CB', 73, '브라가 게레이루', '스페인', {"squad":true,"unreleased":false}],
+    ['데니스 후세인바시츠', 'CM', 73, '브라가 게레이루', '보스니아헤르체고비나', {"squad":true,"unreleased":false}],
+    ['브라이트 아레이음빈', 'CB', 72, '브라가 게레이루', '독일', {"squad":true,"unreleased":false}],
+    ['장바티스트 고르빈', 'CDM', 72, '브라가 게레이루', '프랑스', {"squad":true,"unreleased":false}],
+    ['베르나르두 폰트손', 'GK', 68, '브라가 게레이루', '브라질', {"squad":true,"unreleased":false}],
+    ['주앙 마르케스르', 'CM', 70, '브라가 게레이루', '포르투갈', {"squad":true,"unreleased":false}],
+    ['데미르 에게 트나주', 'CAM', 70, '브라가 게레이루', '튀르키예', {"squad":true,"unreleased":false}],
+    ['아드리안 바리시츠', 'CB', 72, '브라가 게레이루', '보스니아헤르체고비나', {"squad":true,"unreleased":false}],
+    ['야니스 다 호샨', 'RB', 69, '브라가 게레이루', '포르투갈', {"squad":true,"unreleased":false}],
+    ['아드리안 바이라민', 'CB', 71, '브라가 게레이루', '스위스', {"squad":true,"unreleased":false}],
+    ['디에구 호드리게손', 'CM', 68, '브라가 게레이루', '포르투갈', {"squad":true,"unreleased":false}],
+    ['가브리 마르티네손', 'RW', 72, '브라가 게레이루', '스페인', {"squad":true,"unreleased":false}],
+    ['주앙 카르발륜드', 'GK', 69, '브라가 게레이루', '포르투갈', {"squad":true,"unreleased":false}],
+    ['패트릭 세케이란', 'GK', 70, '카사피아 리스보', '코스타리카', {"squad":true,"unreleased":false}],
+    ['칼린', 'CB', 68, '카사피아 리스보', '앙골라', {"squad":true,"unreleased":false}],
+    ['주앙 고울라르튼', 'CB', 69, '카사피아 리스보', '포르투갈', {"squad":true,"unreleased":false}],
+    ['압두 콘텐', 'LB', 69, '카사피아 리스보', '포르투갈', {"squad":true,"unreleased":false}],
+    ['엔히키 아라우준', 'ST', 70, '카사피아 리스보', '포르투갈', {"squad":true,"unreleased":false}],
+    ['호시뇬', 'LW', 70, '카사피아 리스보', '포르투갈', {"squad":true,"unreleased":false}],
+    ['안드레 제랄드손', 'RB', 68, '카사피아 리스보', '포르투갈', {"squad":true,"unreleased":false}],
+    ['알라사나 자탄', 'ST', 69, '카사피아 리스보', '감비아', {"squad":true,"unreleased":false}],
+    ['다니엘 아제베둔', 'GK', 68, '카사피아 리스보', '포르투갈', {"squad":true,"unreleased":false}],
+    ['이야드 모하메든', 'CDM', 69, '카사피아 리스보', '코모로', {"squad":true,"unreleased":false}],
+    ['카이키 호샨', 'CB', 68, '카사피아 리스보', '브라질', {"squad":true,"unreleased":false}],
+    ['제레미 리볼랑드', 'RW', 70, '카사피아 리스보', '프랑스', {"squad":true,"unreleased":false}],
+    ['세바 페레손', 'CM', 69, '카사피아 리스보', '콜롬비아', {"squad":true,"unreleased":false}],
+    ['다비드 소잔드', 'CB', 68, '카사피아 리스보', '브라질', {"squad":true,"unreleased":false}],
+    ['페드루 로자손', 'RB', 68, '카사피아 리스보', '포르투갈', {"squad":true,"unreleased":false}],
+    ['로런스 오포린', 'CDM', 69, '카사피아 리스보', '가나', {"squad":true,"unreleased":false}],
+    ['카시아눈', 'ST', 68, '카사피아 리스보', '브라질', {"squad":true,"unreleased":false}],
+    ['클라우디우 멘드손', 'LW', 68, '카사피아 리스보', '기니비사우', {"squad":true,"unreleased":false}],
+    ['호엘 로블레손', 'GK', 70, '에스토릴 카나리', '스페인', {"squad":true,"unreleased":false}],
+    ['리카르드 산체노', 'RB', 69, '에스토릴 카나리', '스페인', {"squad":true,"unreleased":false}],
+    ['페르난도 메드라논', 'CB', 69, '에스토릴 카나리', '스페인', {"squad":true,"unreleased":false}],
+    ['페후르', 'CB', 70, '에스토릴 카나리', '포르투갈', {"squad":true,"unreleased":false}],
+    ['안테프 충긴', 'CB', 69, '에스토릴 카나리', '벨기에', {"squad":true,"unreleased":false}],
+    ['안드레 라시미칸튼', 'RW', 69, '에스토릴 카나리', '포르투갈', {"squad":true,"unreleased":false}],
+    ['셰칸', 'CDM', 70, '에스토릴 카나리', '포르투갈', {"squad":true,"unreleased":false}],
+    ['조던 홀스그로븐', 'CAM', 70, '에스토릴 카나리', '스코틀랜드', {"squad":true,"unreleased":false}],
+    ['카욘 에드워즈르', 'ST', 69, '에스토릴 카나리', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['주앙 카르발류스', 'CM', 71, '에스토릴 카나리', '포르투갈', {"squad":true,"unreleased":false}],
+    ['야니스 베그라윈', 'LW', 69, '에스토릴 카나리', '모로코', {"squad":true,"unreleased":false}],
+    ['페이시뉸', 'LW', 69, '에스토릴 카나리', '포르투갈', {"squad":true,"unreleased":false}],
+    ['곤살루 코스탄', 'LB', 68, '에스토릴 카나리', '포르투갈', {"squad":true,"unreleased":false}],
+    ['스텔리오스 안드레운', 'CB', 69, '에스토릴 카나리', '키프로스', {"squad":true,"unreleased":false}],
+    ['파브리시우 가르시안', 'LB', 68, '에스토릴 카나리', '카보베르데', {"squad":true,"unreleased":false}],
+    ['라피크 기타느', 'RW', 70, '에스토릴 카나리', '알제리', {"squad":true,"unreleased":false}],
+    ['베르나르두 샤폰', 'CB', 68, '아마도라 에스트렐라', '브라질', {"squad":true,"unreleased":false}],
+    ['케빈 회그 얀손드', 'CDM', 68, '아마도라 에스트렐라', '스웨덴', {"squad":true,"unreleased":false}],
+    ['야니스 스토이칸', 'ST', 69, '아마도라 에스트렐라', '루마니아', {"squad":true,"unreleased":false}],
+    ['로브로 즈보나레큰', 'CAM', 70, '아마도라 에스트렐라', '크로아티아', {"squad":true,"unreleased":false}],
+    ['호안 호르다느', 'CM', 70, '아마도라 에스트렐라', '스페인', {"squad":true,"unreleased":false}],
+    ['레오 링큰', 'GK', 68, '아마도라 에스트렐라', '브라질', {"squad":true,"unreleased":false}],
+    ['하파 소아르손', 'LB', 68, '아마도라 에스트렐라', '포르투갈', {"squad":true,"unreleased":false}],
+    ['에이브러햄 마커스르', 'ST', 68, '아마도라 에스트렐라', '나이지리아', {"squad":true,"unreleased":false}],
+    ['이반 즐로비느', 'GK', 70, '파말리캉 파마', '러시아', {"squad":true,"unreleased":false}],
+    ['구스타부 가르시안', 'RB', 69, '파말리캉 파마', '브라질', {"squad":true,"unreleased":false}],
+    ['레오 레알펜', 'CB', 70, '파말리캉 파마', '에콰도르', {"squad":true,"unreleased":false}],
+    ['핀 판 브레먼드', 'CB', 70, '파말리캉 파마', '네덜란드', {"squad":true,"unreleased":false}],
+    ['레니 마이어스', 'CB', 68, '파말리캉 파마', '스위스', {"squad":true,"unreleased":false}],
+    ['톰 판 더 로인', 'CDM', 70, '파말리캉 파마', '네덜란드', {"squad":true,"unreleased":false}],
+    ['소히준', 'LW', 70, '파말리캉 파마', '브라질', {"squad":true,"unreleased":false}],
+    ['우마르 아부바카른', 'ST', 68, '파말리캉 파마', '나이지리아', {"squad":true,"unreleased":false}],
+    ['오스카르 아란단', 'RW', 69, '파말리캉 파마', '스페인', {"squad":true,"unreleased":false}],
+    ['호드리구 피녜이룬', 'RB', 68, '파말리캉 파마', '포르투갈', {"squad":true,"unreleased":false}],
+    ['로메오 베넨', 'ST', 69, '파말리캉 파마', '스위스', {"squad":true,"unreleased":false}],
+    ['파울루 모레이란', 'CM', 69, '파말리캉 파마', '포르투갈', {"squad":true,"unreleased":false}],
+    ['가브리에우 카브랄라', 'GK', 68, '파말리캉 파마', '브라질', {"squad":true,"unreleased":false}],
+    ['질 디아손', 'RW', 70, '파말리캉 파마', '포르투갈', {"squad":true,"unreleased":false}],
+    ['라자르 차레비츠', 'GK', 68, '파말리캉 파마', '몬테네그로', {"squad":true,"unreleased":false}],
+    ['요르요스 쿠치아손', 'ST', 69, '파말리캉 파마', '그리스', {"squad":true,"unreleased":false}],
+    ['안드레 피코르넬라', 'GK', 68, '지우비센트 갈로', '스웨덴', {"squad":true,"unreleased":false}],
+    ['기슬랭 코나느', 'LB', 70, '지우비센트 갈로', '코트디부아르', {"squad":true,"unreleased":false}],
+    ['마르뱅 엘림빈', 'CB', 70, '지우비센트 갈로', '프랑스', {"squad":true,"unreleased":false}],
+    ['파쿤도 카세레손', 'CM', 70, '지우비센트 갈로', '아르헨티나', {"squad":true,"unreleased":false}],
+    ['티자니 투렌', 'RW', 70, '지우비센트 갈로', '프랑스', {"squad":true,"unreleased":false}],
+    ['모하메드 밤반드', 'CDM', 69, '지우비센트 갈로', '코트디부아르', {"squad":true,"unreleased":false}],
+    ['왈라시 프란산', 'ST', 68, '지우비센트 갈로', '브라질', {"squad":true,"unreleased":false}],
+    ['산티 가르시안', 'CAM', 70, '지우비센트 갈로', '스페인', {"squad":true,"unreleased":false}],
+    ['조엘손 페르난드손', 'LW', 70, '지우비센트 갈로', '포르투갈', {"squad":true,"unreleased":false}],
+    ['안드레아스 라우센드', 'CM', 68, '지우비센트 갈로', '덴마크', {"squad":true,"unreleased":false}],
+    ['세르히오 베르메혼', 'LW', 70, '지우비센트 갈로', '스페인', {"squad":true,"unreleased":false}],
+    ['엑토르 에르난데손', 'ST', 70, '지우비센트 갈로', '스페인', {"squad":true,"unreleased":false}],
+    ['웨베르손드', 'LB', 69, '지우비센트 갈로', '브라질', {"squad":true,"unreleased":false}],
+    ['아구스틴 모레이란', 'ST', 69, '지우비센트 갈로', '우루과이', {"squad":true,"unreleased":false}],
+    ['디오구 코스타스', 'CB', 69, '지우비센트 갈로', '포르투갈', {"squad":true,"unreleased":false}],
+    ['카를루스 에두아르둔', 'RW', 69, '지우비센트 갈로', '브라질', {"squad":true,"unreleased":false}],
+    ['루캉드', 'GK', 68, '지우비센트 갈로', '브라질', {"squad":true,"unreleased":false}],
+    ['조나탄 부아툰', 'CB', 69, '지우비센트 갈로', '앙골라', {"squad":true,"unreleased":false}],
+    ['히카르두 에스가이운', 'RB', 70, '지우비센트 갈로', '포르투갈', {"squad":true,"unreleased":false}],
+    ['무릴루 코스타르', 'ST', 69, '지우비센트 갈로', '브라질', {"squad":true,"unreleased":false}],
+    ['사무에우 포르투갈라', 'GK', 68, '지우비센트 갈로', '브라질', {"squad":true,"unreleased":false}],
+    ['모하메드 카바르', 'ST', 69, '지우비센트 갈로', '프랑스', {"squad":true,"unreleased":false}],
+    ['곤살루 타부아순', 'GK', 68, '마데이라 마리티', '포르투갈', {"squad":true,"unreleased":false}],
+    ['이고르 줄리앙드', 'RB', 68, '마데이라 마리티', '브라질', {"squad":true,"unreleased":false}],
+    ['너새니얼 오그베탄', 'LB', 68, '마데이라 마리티', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['하파엘 페르난드손', 'CB', 68, '마데이라 마리티', '포르투갈', {"squad":true,"unreleased":false}],
+    ['닐톤 바렐란', 'LB', 68, '마데이라 마리티', '포르투갈', {"squad":true,"unreleased":false}],
+    ['호드리구 안드라든', 'CDM', 68, '마데이라 마리티', '포르투갈', {"squad":true,"unreleased":false}],
+    ['엔리케 자우네른', 'RW', 68, '마데이라 마리티', '베네수엘라', {"squad":true,"unreleased":false}],
+    ['막심 도밍게손', 'CM', 70, '마데이라 마리티', '스위스', {"squad":true,"unreleased":false}],
+    ['마르틴 테혼드', 'CAM', 68, '마데이라 마리티', '스페인', {"squad":true,"unreleased":false}],
+    ['시모 부자이딘', 'LW', 68, '마데이라 마리티', '모로코', {"squad":true,"unreleased":false}],
+    ['하파에우 구준', 'CM', 69, '마데이라 마리티', '포르투갈', {"squad":true,"unreleased":false}],
+    ['토마스 타바레손', 'RB', 69, '마데이라 마리티', '포르투갈', {"squad":true,"unreleased":false}],
+    ['아드리안 부츠켄', 'ST', 69, '마데이라 마리티', '스페인', {"squad":true,"unreleased":false}],
+    ['블라단 다닐로비츠', 'CM', 69, '마데이라 마리티', '보스니아헤르체고비나', {"squad":true,"unreleased":false}],
+    ['가보르 살러인', 'CB', 68, '마데이라 마리티', '헝가리', {"squad":true,"unreleased":false}],
+    ['파울루 엔히킨', 'RB', 68, '마데이라 마리티', '포르투갈', {"squad":true,"unreleased":false}],
+    ['프란 비에이테손', 'GK', 69, '마데이라 마리티', '스페인', {"squad":true,"unreleased":false}],
+    ['브라이언 림봄벤', 'LW', 68, '마데이라 마리티', '벨기에', {"squad":true,"unreleased":false}],
+    ['호맹 코헤이안', 'CB', 69, '마데이라 마리티', '포르투갈', {"squad":true,"unreleased":false}],
+    ['마누엘 멘돈산', 'CAM', 68, '모레이렌 코네고', '포르투갈', {"squad":true,"unreleased":false}],
+    ['마테야 스테파노비츠', 'CM', 68, '모레이렌 코네고', '세르비아', {"squad":true,"unreleased":false}],
+    ['알렉상드르 파르스맹드', 'ST', 69, '모레이렌 코네고', '마르티니크', {"squad":true,"unreleased":false}],
+    ['키쿠 본도순', 'LW', 70, '모레이렌 코네고', '포르투갈', {"squad":true,"unreleased":false}],
+    ['안드레 페레이라스', 'GK', 69, '모레이렌 코네고', '포르투갈', {"squad":true,"unreleased":false}],
+    ['로드리스', 'CDM', 68, '모레이렌 코네고', '스페인', {"squad":true,"unreleased":false}],
+    ['나일 조느', 'CM', 68, '모레이렌 코네고', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['마라카손', 'CB', 69, '모레이렌 코네고', '브라질', {"squad":true,"unreleased":false}],
+    ['키쿤', 'RB', 68, '모레이렌 코네고', '포르투갈', {"squad":true,"unreleased":false}],
+    ['디니스 핀투르', 'CB', 68, '모레이렌 코네고', '포르투갈', {"squad":true,"unreleased":false}],
+    ['레나토 마리느', 'GK', 70, '나시오날 알비', '이탈리아', {"squad":true,"unreleased":false}],
+    ['다니엘 데 라 크루손', 'RB', 68, '나시오날 알비', '에콰도르', {"squad":true,"unreleased":false}],
+    ['조제 고미손', 'CB', 70, '나시오날 알비', '포르투갈', {"squad":true,"unreleased":false}],
+    ['마테우스 지아손', 'CDM', 70, '나시오날 알비', '브라질', {"squad":true,"unreleased":false}],
+    ['마르쿠스 옌센드', 'CM', 68, '나시오날 알비', '덴마크', {"squad":true,"unreleased":false}],
+    ['미겔 바에산', 'CAM', 71, '나시오날 알비', '스페인', {"squad":true,"unreleased":false}],
+    ['알렌 오반돈', 'ST', 71, '나시오날 알비', '에콰도르', {"squad":true,"unreleased":false}],
+    ['다니에우 주니오른', 'LW', 71, '나시오날 알비', '브라질', {"squad":true,"unreleased":false}],
+    ['스타브로스 가브릴라', 'RW', 69, '나시오날 알비', '키프로스', {"squad":true,"unreleased":false}],
+    ['송민귤', 'ST', 70, '나시오날 알비', '대한민국', {"squad":true,"unreleased":false}],
+    ['주앙 곤살베손', 'GK', 68, '나시오날 알비', '포르투갈', {"squad":true,"unreleased":false}],
+    ['이바닐두 페르난드손', 'CB', 70, '나시오날 알비', '카보베르데', {"squad":true,"unreleased":false}],
+    ['치헤브 라비딘', 'CM', 69, '나시오날 알비', '튀니지', {"squad":true,"unreleased":false}],
+    ['모테즈 누라닌', 'LW', 68, '나시오날 알비', '튀니지', {"squad":true,"unreleased":false}],
+    ['마초이 잘룬', 'LW', 69, '나시오날 알비', '포르투갈', {"squad":true,"unreleased":false}],
+    ['윌리암 코콜론', 'LB', 69, '나시오날 알비', '프랑스', {"squad":true,"unreleased":false}],
+    ['필리프 소아르손', 'CM', 70, '나시오날 알비', '포르투갈', {"squad":true,"unreleased":false}],
+    ['조엘 실반', 'CM', 68, '나시오날 알비', '포르투갈', {"squad":true,"unreleased":false}],
+    ['이고르 리제룬', 'CDM', 70, '나시오날 알비', '브라질', {"squad":true,"unreleased":false}],
+    ['다넬 동몬', 'CM', 68, '나시오날 알비', '카메룬', {"squad":true,"unreleased":false}],
+    ['레우 산투손', 'CB', 71, '나시오날 알비', '브라질', {"squad":true,"unreleased":false}],
+    ['제 비토른', 'CB', 69, '나시오날 알비', '브라질', {"squad":true,"unreleased":false}],
+    ['웨슬리 가솔리난', 'RB', 69, '나시오날 알비', '브라질', {"squad":true,"unreleased":false}],
     ['루이 코일라', 'RB', 69, '헐 타이거', '잉글랜드', {"squad":true,"unreleased":false}],
     ['라이언 자일러', 'LB', 72, '헐 타이거', '잉글랜드', {"squad":true,"unreleased":false}],
     ['찰리 휴선', 'CB', 72, '헐 타이거', '잉글랜드', {"squad":true,"unreleased":false}],
@@ -492,6 +1166,76 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['압뒬카디르 외뮈른', 'RM', 71, '헐 타이거', '튀르키예', {"squad":true,"unreleased":false}],
     ['팀 이로그분아르', 'CM', 74, '헐 타이거', '잉글랜드', {"squad":true,"unreleased":false}],
     ['모하메드알리 쇼른', 'LW', 74, '헐 타이거', '프랑스', {"squad":true,"unreleased":false}],
+    ['윌리앙 고미손', 'RW', 75, '포르투 드라강', '브라질', {"squad":true,"unreleased":false}],
+    ['자이두 사누신', 'LB', 73, '포르투 드라강', '나이지리아', {"squad":true,"unreleased":false}],
+    ['파블로 로사리온', 'CDM', 75, '포르투 드라강', '도미니카공화국', {"squad":true,"unreleased":false}],
+    ['클라우디우 하무손', 'GK', 69, '포르투 드라강', '포르투갈', {"squad":true,"unreleased":false}],
+    ['알베르투 코스탄', 'RB', 75, '포르투 드라강', '포르투갈', {"squad":true,"unreleased":false}],
+    ['도미니크 프르피츠', 'CB', 72, '포르투 드라강', '크로아티아', {"squad":true,"unreleased":false}],
+    ['주앙 코스탄', 'GK', 68, '포르투 드라강', '포르투갈', {"squad":true,"unreleased":false}],
+    ['소잔', 'CB', 71, '포르투 드라강', '브라질', {"squad":true,"unreleased":false}],
+    ['마르팀 페르난드손', 'RB', 75, '포르투 드라강', '포르투갈', {"squad":true,"unreleased":false}],
+    ['프란시스쿠 모란', 'LB', 74, '포르투 드라강', '포르투갈', {"squad":true,"unreleased":false}],
+    ['체자리 미슈탄', 'GK', 69, '히우아베 베르데', '폴란드', {"squad":true,"unreleased":false}],
+    ['안드레아스 은토인', 'CB', 68, '히우아베 베르데', '그리스', {"squad":true,"unreleased":false}],
+    ['넬슨 애빈', 'CB', 68, '히우아베 베르데', '잉글랜드', {"squad":true,"unreleased":false}],
+    ['히안 기예르민', 'CM', 69, '히우아베 베르데', '브라질', {"squad":true,"unreleased":false}],
+    ['탐블레 몬테이룬', 'ST', 70, '히우아베 베르데', '기니비사우', {"squad":true,"unreleased":false}],
+    ['브랜던 아길레란', 'CAM', 70, '히우아베 베르데', '코스타리카', {"squad":true,"unreleased":false}],
+    ['할렌 블레산', 'LW', 69, '히우아베 베르데', '스페인', {"squad":true,"unreleased":false}],
+    ['쥘리앵 롬보톤', 'LB', 68, '히우아베 베르데', '프랑스', {"squad":true,"unreleased":false}],
+    ['야쿠프 브라베추', 'CB', 69, '히우아베 베르데', '체코', {"squad":true,"unreleased":false}],
+    ['마리오스 브루사인', 'RW', 69, '히우아베 베르데', '그리스', {"squad":true,"unreleased":false}],
+    ['말리크 셀루킨', 'CM', 69, '히우아베 베르데', '프랑스', {"squad":true,"unreleased":false}],
+    ['케빈 차모론', 'GK', 68, '히우아베 베르데', '코스타리카', {"squad":true,"unreleased":false}],
+    ['프란시스코 페트라손', 'CB', 68, '히우아베 베르데', '아르헨티나', {"squad":true,"unreleased":false}],
+    ['페드루 아마랄라', 'LB', 69, '히우아베 베르데', '포르투갈', {"squad":true,"unreleased":false}],
+    ['롤란드 갈치큰', 'ST', 69, '히우아베 베르데', '슬로바키아', {"squad":true,"unreleased":false}],
+    ['터마시 니키처스', 'CDM', 69, '히우아베 베르데', '헝가리', {"squad":true,"unreleased":false}],
+    ['사무에우 알베손', 'ST', 68, '히우아베 베르데', '브라질', {"squad":true,"unreleased":false}],
+    ['다리오 슈피키츠', 'RW', 69, '히우아베 베르데', '크로아티아', {"squad":true,"unreleased":false}],
+    ['루카스 프란산', 'GK', 69, '산타클라라 아소르', '브라질', {"squad":true,"unreleased":false}],
+    ['페드루 파셰쿤', 'CB', 69, '산타클라라 아소르', '포르투갈', {"squad":true,"unreleased":false}],
+    ['기예르미 호망드', 'CB', 69, '산타클라라 아소르', '브라질', {"squad":true,"unreleased":false}],
+    ['페드루 페레이란', 'CDM', 69, '산타클라라 아소르', '포르투갈', {"squad":true,"unreleased":false}],
+    ['제 타바레손', 'CM', 68, '산타클라라 아소르', '카보베르데', {"squad":true,"unreleased":false}],
+    ['곤살루 파시엔시안', 'ST', 71, '산타클라라 아소르', '포르투갈', {"squad":true,"unreleased":false}],
+    ['브레네르 루카손', 'CAM', 69, '산타클라라 아소르', '브라질', {"squad":true,"unreleased":false}],
+    ['웰린톤 토항드', 'LW', 69, '산타클라라 아소르', '브라질', {"squad":true,"unreleased":false}],
+    ['티아구 히베이룬', 'CM', 68, '산타클라라 아소르', '포르투갈', {"squad":true,"unreleased":false}],
+    ['엠텐', 'RB', 68, '산타클라라 아소르', '브라질', {"squad":true,"unreleased":false}],
+    ['히우둔', 'CM', 68, '산타클라라 아소르', '브라질', {"squad":true,"unreleased":false}],
+    ['루카스 소아르손', 'LB', 68, '산타클라라 아소르', '브라질', {"squad":true,"unreleased":false}],
+    ['비니시우스 로페손', 'ST', 69, '산타클라라 아소르', '브라질', {"squad":true,"unreleased":false}],
+    ['실라스 안데르센드', 'CDM', 74, '리스본 레앙', '덴마크', {"squad":true,"unreleased":false}],
+    ['세르지 알티미란', 'CM', 75, '리스본 레앙', '스페인', {"squad":true,"unreleased":false}],
+    ['하파엘 넬라', 'ST', 72, '리스본 레앙', '포르투갈', {"squad":true,"unreleased":false}],
+    ['요르요스 바야니디손', 'RB', 75, '리스본 레앙', '그리스', {"squad":true,"unreleased":false}],
+    ['네스토리 이란쿤단', 'RW', 74, '리스본 레앙', '호주', {"squad":true,"unreleased":false}],
+    ['페드루 리만', 'CM', 73, '리스본 레앙', '브라질', {"squad":true,"unreleased":false}],
+    ['카이키 페레이란', 'GK', 69, '리스본 레앙', '브라질', {"squad":true,"unreleased":false}],
+    ['루이스 기예르민', 'LW', 74, '리스본 레앙', '브라질', {"squad":true,"unreleased":false}],
+    ['디에고 칼라인', 'GK', 68, '리스본 레앙', '브라질', {"squad":true,"unreleased":false}],
+    ['호드리구 디아손', 'CB', 72, '리스본 레앙', '포르투갈', {"squad":true,"unreleased":false}],
+    ['주앙 시몽이손', 'CM', 68, '리스본 레앙', '포르투갈', {"squad":true,"unreleased":false}],
+    ['이브라히마 바르', 'CB', 70, '리스본 레앙', '세네갈', {"squad":true,"unreleased":false}],
+    ['플라비우 곤살베손', 'CM', 68, '리스본 레앙', '포르투갈', {"squad":true,"unreleased":false}],
+    ['이사 둠비안', 'CM', 72, '리스본 레앙', '이탈리아', {"squad":true,"unreleased":false}],
+    ['미겔 마간', 'RB', 69, '기마랑 비토리', '포르투갈', {"squad":true,"unreleased":false}],
+    ['오스카르 리바손', 'CB', 70, '기마랑 비토리', '스페인', {"squad":true,"unreleased":false}],
+    ['아메드 시디벤', 'CB', 69, '기마랑 비토리', '프랑스', {"squad":true,"unreleased":false}],
+    ['마티야 미트로비츠', 'CDM', 69, '기마랑 비토리', '세르비아', {"squad":true,"unreleased":false}],
+    ['구스타부 실바르', 'RW', 71, '기마랑 비토리', '브라질', {"squad":true,"unreleased":false}],
+    ['주앙 멘드손', 'CB', 69, '기마랑 비토리', '포르투갈', {"squad":true,"unreleased":false}],
+    ['베니 무켄딘', 'CM', 69, '기마랑 비토리', '앙골라', {"squad":true,"unreleased":false}],
+    ['텔무 아르칸준', 'ST', 70, '기마랑 비토리', '카보베르데', {"squad":true,"unreleased":false}],
+    ['빅토르 안데르손드', 'CM', 68, '기마랑 비토리', '스웨덴', {"squad":true,"unreleased":false}],
+    ['사무르', 'CAM', 71, '기마랑 비토리', '포르투갈', {"squad":true,"unreleased":false}],
+    ['후안 카스티욘', 'GK', 68, '기마랑 비토리', '콜롬비아', {"squad":true,"unreleased":false}],
+    ['알리운 은도옌', 'ST', 69, '기마랑 비토리', '세네갈', {"squad":true,"unreleased":false}],
+    ['치아구 발리에이룬', 'CB', 68, '기마랑 비토리', '브라질', {"squad":true,"unreleased":false}],
+    ['로안 두센', 'CM', 68, '기마랑 비토리', '부르키나파소', {"squad":true,"unreleased":false}],
+    ['올리비에르 지흔', 'GK', 68, '기마랑 비토리', '폴란드', {"squad":true,"unreleased":false}],
     ['알렉스 파머스', 'GK', 74, '입스위치 트랙터', '잉글랜드', {"squad":true,"unreleased":false}],
     ['다넬 펄롱크', 'RB', 72, '입스위치 트랙터', '잉글랜드', {"squad":true,"unreleased":false}],
     ['레이프 데이비손', 'LB', 74, '입스위치 트랙터', '잉글랜드', {"squad":true,"unreleased":false}],
@@ -1684,6 +2428,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['아코르 아담손', 'ST', 71, '베네치아 아란치오', '나이지리아', {"squad":true,"unreleased":false}],
     ['파스콸레 마초킨', 'RB', 71, '베네치아 아란치오', '이탈리아', {"squad":true,"unreleased":false}],
     ['로렌초 몬티폰', 'GK', 71, '베네치아 아란치오', '이탈리아', {"squad":true,"unreleased":false}],
+    ['얀 잠부레큰', 'CM', 68, '덴하흐 오이에바르', '체코', {"squad":true,"unreleased":false}],
   ],
   Legend: [
     ['다리안 보야닉', 'CM', 78, '울산 호랑', '스웨덴', {"squad":true,"unreleased":true}],
@@ -1806,6 +2551,19 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['예르겐 스트란 라르손', 'ST', 80, '크리스탈 이글', '노르웨이', {"squad":true,"unreleased":false}],
     ['다리오 오소리아', 'LW', 76, '크리스탈 이글', '칠레', {"squad":true,"unreleased":false}],
     ['에반 게상드', 'ST', 77, '크리스탈 이글', '코트디부아르', {"squad":true,"unreleased":false}],
+    ['소피안 암라바튼', 'CDM', 76, '암스텔 아약', '모로코', {"squad":true,"unreleased":false}],
+    ['틸로 케러스', 'CB', 77, '암스텔 아약', '독일', {"squad":true,"unreleased":false}],
+    ['시몽 아딩란', 'LW', 77, '암스텔 아약', '코트디부아르', {"squad":true,"unreleased":false}],
+    ['율리안 브란튼', 'CAM', 81, '암스텔 아약', '독일', {"squad":true,"unreleased":false}],
+    ['카스페르 돌베른', 'ST', 76, '암스텔 아약', '덴마크', {"squad":true,"unreleased":false}],
+    ['오스카르 글로우흔', 'CAM', 78, '암스텔 아약', '이스라엘', {"squad":true,"unreleased":false}],
+    ['빅토르 치한코운', 'RW', 78, '암스텔 아약', '우크라이나', {"squad":true,"unreleased":false}],
+    ['카이우 엔히킨', 'LB', 76, '암스텔 아약', '브라질', {"squad":true,"unreleased":false}],
+    ['스테번 베르흐하위손', 'RW', 76, '암스텔 아약', '네덜란드', {"squad":true,"unreleased":false}],
+    ['마르쿠스 레오나르둔', 'ST', 78, '암스텔 아약', '브라질', {"squad":true,"unreleased":false}],
+    ['톨루 아로코다렌', 'ST', 76, '암스텔 아약', '나이지리아', {"squad":true,"unreleased":false}],
+    ['루치아노 발렌텐', 'CAM', 77, '로테르 페예', '네덜란드', {"squad":true,"unreleased":false}],
+    ['셈 스테인드', 'CAM', 77, '로테르 페예', '네덜란드', {"squad":true,"unreleased":false}],
     ['에인슬리 메이틀랜드나일손', 'RB', 76, '에버턴 토피', '잉글랜드', {"squad":true,"unreleased":false}],
     ['마이클 킨스', 'CB', 76, '에버턴 토피', '잉글랜드', {"squad":true,"unreleased":false}],
     ['제임스 타코스코', 'CB', 80, '에버턴 토피', '잉글랜드', {"squad":true,"unreleased":false}],
@@ -1820,6 +2578,20 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['티에르노 바로', 'ST', 76, '에버턴 토피', '프랑스', {"squad":true,"unreleased":false}],
     ['타일러 디블린', 'RW', 76, '에버턴 토피', '잉글랜드', {"squad":true,"unreleased":false}],
     ['브레넌 존손', 'RW', 80, '에버턴 토피', '웨일스', {"squad":true,"unreleased":false}],
+    ['루차렐 헤이르트라위단', 'RB', 79, '에인트 라이트', '네덜란드', {"squad":true,"unreleased":false}],
+    ['이반 페리시츠', 'LW', 76, '에인트 라이트', '크로아티아', {"squad":true,"unreleased":false}],
+    ['뤼번 판 보멀라', 'LW', 76, '에인트 라이트', '네덜란드', {"squad":true,"unreleased":false}],
+    ['세르지뇨 데스튼', 'RB', 78, '에인트 라이트', '미국', {"squad":true,"unreleased":false}],
+    ['리카르도 페핀', 'ST', 78, '에인트 라이트', '미국', {"squad":true,"unreleased":false}],
+    ['파울 바너스', 'CAM', 78, '에인트 라이트', '오스트리아', {"squad":true,"unreleased":false}],
+    ['알라산 플레안', 'ST', 76, '에인트 라이트', '프랑스', {"squad":true,"unreleased":false}],
+    ['필리프 코스티츠', 'LW', 76, '에인트 라이트', '세르비아', {"squad":true,"unreleased":false}],
+    ['스벤 메이나르손', 'CAM', 76, '에인트 라이트', '네덜란드', {"squad":true,"unreleased":false}],
+    ['예르디 스하우턴드', 'CDM', 78, '에인트 라이트', '네덜란드', {"squad":true,"unreleased":false}],
+    ['데니스 마느', 'RW', 78, '에인트 라이트', '루마니아', {"squad":true,"unreleased":false}],
+    ['마테이 코바르신', 'GK', 77, '에인트 라이트', '체코', {"squad":true,"unreleased":false}],
+    ['메이스 힐허르손', 'CB', 76, '트벤테 토카', '인도네시아', {"squad":true,"unreleased":false}],
+    ['바우트 베호르스튼', 'ST', 76, '트벤테 토카', '네덜란드', {"squad":true,"unreleased":false}],
     ['케니 테토', 'RB', 77, '풀럼 코티지', '네덜란드', {"squad":true,"unreleased":false}],
     ['캘빈 배소', 'CB', 79, '풀럼 코티지', '나이지리아', {"squad":true,"unreleased":false}],
     ['요아킴 아네르손', 'CB', 81, '풀럼 코티지', '덴마크', {"squad":true,"unreleased":false}],
@@ -1832,8 +2604,50 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['로드리구 무니소', 'ST', 78, '풀럼 코티지', '브라질', {"squad":true,"unreleased":false}],
     ['케비노', 'LW', 78, '풀럼 코티지', '브라질', {"squad":true,"unreleased":false}],
     ['오스카르 보브', 'RW', 78, '풀럼 코티지', '노르웨이', {"squad":true,"unreleased":false}],
+    ['아나톨리 트루비느', 'GK', 80, '리스본 아길라', '우크라이나', {"squad":true,"unreleased":false}],
+    ['클레망 랑글렌', 'CB', 76, '리스본 아길라', '프랑스', {"squad":true,"unreleased":false}],
+    ['엔소 바레네체안', 'CDM', 76, '리스본 아길라', '아르헨티나', {"squad":true,"unreleased":false}],
+    ['알렉산더 바르', 'RB', 76, '리스본 아길라', '덴마크', {"squad":true,"unreleased":false}],
+    ['프레드리크 아우르스네손', 'CM', 79, '리스본 아길라', '노르웨이', {"squad":true,"unreleased":false}],
+    ['헤오르히 수다코운', 'CAM', 81, '리스본 아길라', '우크라이나', {"squad":true,"unreleased":false}],
+    ['도디 루케바키온', 'RW', 79, '리스본 아길라', '벨기에', {"squad":true,"unreleased":false}],
+    ['야쿠프 카민스킨', 'LW', 76, '리스본 아길라', '폴란드', {"squad":true,"unreleased":false}],
+    ['방겔리스 파블리디손', 'ST', 80, '리스본 아길라', '그리스', {"squad":true,"unreleased":false}],
+    ['레안드루 바헤이룬', 'CM', 76, '리스본 아길라', '룩셈부르크', {"squad":true,"unreleased":false}],
+    ['안드레아스 셸데루픈', 'LW', 78, '리스본 아길라', '노르웨이', {"squad":true,"unreleased":false}],
+    ['욘 두라느', 'ST', 80, '리스본 아길라', '콜롬비아', {"squad":true,"unreleased":false}],
+    ['잔루카 프레스티안닌', 'RW', 76, '리스본 아길라', '아르헨티나', {"squad":true,"unreleased":false}],
+    ['하파 실반', 'LW', 78, '리스본 아길라', '포르투갈', {"squad":true,"unreleased":false}],
+    ['클라우디오 에체베린', 'CAM', 77, '리스본 아길라', '아르헨티나', {"squad":true,"unreleased":false}],
+    ['토마스 아라우준', 'CB', 78, '리스본 아길라', '포르투갈', {"squad":true,"unreleased":false}],
+    ['요나스 빈드', 'ST', 78, '브라가 게레이루', '덴마크', {"squad":true,"unreleased":false}],
+    ['히카르두 오르탄', 'LW', 77, '브라가 게레이루', '포르투갈', {"squad":true,"unreleased":false}],
     ['잭 버틀런더', 'GK', 77, '헐 타이거', '잉글랜드', {"squad":true,"unreleased":false}],
     ['모리타 히데마산', 'CDM', 78, '헐 타이거', '일본', {"squad":true,"unreleased":false}],
+    ['야쿠프 키비오른', 'CB', 78, '포르투 드라강', '폴란드', {"squad":true,"unreleased":false}],
+    ['얀 베드나레큰', 'CB', 77, '포르투 드라강', '폴란드', {"squad":true,"unreleased":false}],
+    ['빅토르 프로홀튼', 'CM', 76, '포르투 드라강', '덴마크', {"squad":true,"unreleased":false}],
+    ['사무 아게호완', 'ST', 81, '포르투 드라강', '스페인', {"squad":true,"unreleased":false}],
+    ['가브리 베이간', 'CAM', 79, '포르투 드라강', '스페인', {"squad":true,"unreleased":false}],
+    ['페펜', 'LW', 78, '포르투 드라강', '브라질', {"squad":true,"unreleased":false}],
+    ['황인버므', 'CM', 77, '포르투 드라강', '대한민국', {"squad":true,"unreleased":false}],
+    ['보르하 사인손', 'LW', 77, '포르투 드라강', '스페인', {"squad":true,"unreleased":false}],
+    ['네우엔 페레손', 'CB', 77, '포르투 드라강', '아르헨티나', {"squad":true,"unreleased":false}],
+    ['안드레 실바르', 'ST', 76, '포르투 드라강', '포르투갈', {"squad":true,"unreleased":false}],
+    ['알란 바렐란', 'CDM', 79, '포르투 드라강', '아르헨티나', {"squad":true,"unreleased":false}],
+    ['산티아고 히메네손', 'ST', 78, '포르투 드라강', '멕시코', {"squad":true,"unreleased":false}],
+    ['세코 포파난', 'CDM', 77, '포르투 드라강', '코트디부아르', {"squad":true,"unreleased":false}],
+    ['후이 실반', 'GK', 78, '리스본 레앙', '포르투갈', {"squad":true,"unreleased":false}],
+    ['제노 데바스튼', 'CB', 79, '리스본 레앙', '벨기에', {"squad":true,"unreleased":false}],
+    ['포티스 이오아니디손', 'ST', 80, '리스본 레앙', '그리스', {"squad":true,"unreleased":false}],
+    ['제니 카타문', 'RW', 77, '리스본 레앙', '모잠비크', {"squad":true,"unreleased":false}],
+    ['누누 산투손', 'LW', 76, '리스본 레앙', '포르투갈', {"squad":true,"unreleased":false}],
+    ['로드리고 살라사른', 'CAM', 77, '리스본 레앙', '우루과이', {"squad":true,"unreleased":false}],
+    ['막시밀리아노 아라우혼', 'LW', 78, '리스본 레앙', '우루과이', {"squad":true,"unreleased":false}],
+    ['이반 프레스네단', 'RB', 77, '리스본 레앙', '스페인', {"squad":true,"unreleased":false}],
+    ['곤살루 이나시운', 'CB', 81, '리스본 레앙', '포르투갈', {"squad":true,"unreleased":false}],
+    ['에두아르두 콰레스만', 'CB', 77, '리스본 레앙', '포르투갈', {"squad":true,"unreleased":false}],
+    ['루이스 수아레손', 'ST', 78, '리스본 레앙', '콜롬비아', {"squad":true,"unreleased":false}],
     ['압둘 파타운', 'RW', 76, '입스위치 트랙터', '가나', {"squad":true,"unreleased":false}],
     ['훌리오 엔시손', 'CAM', 77, '입스위치 트랙터', '파라과이', {"squad":true,"unreleased":false}],
     ['에세키엘 팔라시오손', 'CM', 78, '입스위치 트랙터', '아르헨티나', {"squad":true,"unreleased":false}],
@@ -2337,10 +3151,13 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['딘 헨더손', 'GK', 82, '크리스탈 이글', '잉글랜드', {"squad":true,"unreleased":false}],
     ['애덤 워톤', 'CM', 83, '크리스탈 이글', '잉글랜드', {"squad":true,"unreleased":false}],
     ['장필리프 마테토', 'ST', 82, '크리스탈 이글', '프랑스', {"squad":true,"unreleased":false}],
+    ['마르크안드레 테어 슈테게느', 'GK', 83, '암스텔 아약', '독일', {"squad":true,"unreleased":false}],
     ['조던 픽포르', 'GK', 84, '에버턴 토피', '잉글랜드', {"squad":true,"unreleased":false}],
     ['재러드 브랜스웨이터', 'CB', 84, '에버턴 토피', '잉글랜드', {"squad":true,"unreleased":false}],
     ['베른트 레노어', 'GK', 82, '풀럼 코티지', '독일', {"squad":true,"unreleased":false}],
     ['앤토니 로빈손', 'LB', 82, '풀럼 코티지', '미국', {"squad":true,"unreleased":false}],
+    ['주앙 팔리뇬', 'CDM', 82, '리스본 아길라', '포르투갈', {"squad":true,"unreleased":false}],
+    ['디오구 코스타르', 'GK', 83, '포르투 드라강', '포르투갈', {"squad":true,"unreleased":false}],
     ['밀로시 케르케주', 'LB', 82, '리버 머지', '헝가리', {"squad":true,"unreleased":false}],
     ['코디 학폰', 'LW', 84, '리버 머지', '네덜란드', {"squad":true,"unreleased":false}],
     ['위고 에키티켄', 'ST', 85, '리버 머지', '프랑스', {"squad":true,"unreleased":false}],
@@ -2415,7 +3232,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['뤼카 슈발리엔', 'GK', 83, '파리 캐피탈', '프랑스', {"squad":true,"unreleased":false}],
     ['워런 자이르에메린', 'CM', 83, '파리 캐피탈', '프랑스', {"squad":true,"unreleased":false}],
     ['윌리안 파촌', 'CB', 85, '파리 캐피탈', '에콰도르', {"squad":true,"unreleased":false}],
-    ['그레고어 코벨라', 'GK', 85, '도르트 옐로', '스위스', {"squad":true,"unreleased":false}],
+    ['그레고어 코벨라', 'GK', 84, '도르트 옐로', '스위스', {"squad":true,"unreleased":false}],
     ['니코 슐로터베큰', 'CB', 84, '도르트 옐로', '독일', {"squad":true,"unreleased":false}],
     ['세루 기라신', 'ST', 85, '도르트 옐로', '기니', {"squad":true,"unreleased":false}],
     ['마누엘 노이언', 'GK', 83, '바이언 뮌히', '독일', {"squad":true,"unreleased":false}],
@@ -2536,16 +3353,156 @@ export const SQUAD_CLUBS: ClubDef[] = [
     "league": "킹덤 리그"
   },
   {
+    "name": "암스텔 아약",
+    "league": "오라녜 에레디"
+  },
+  {
+    "name": "알크마르 치즈",
+    "league": "오라녜 에레디"
+  },
+  {
+    "name": "카임브레 블랙",
+    "league": "오라녜 에레디"
+  },
+  {
+    "name": "엑셀시오 크루",
+    "league": "오라녜 에레디"
+  },
+  {
+    "name": "로테르 페예",
+    "league": "오라녜 에레디"
+  },
+  {
+    "name": "포르투나 시타르",
+    "league": "오라녜 에레디"
+  },
+  {
+    "name": "고어헤드 이글",
+    "league": "오라녜 에레디"
+  },
+  {
+    "name": "흐로닝언 그린",
+    "league": "오라녜 에레디"
+  },
+  {
+    "name": "헤렌벤 프리즈",
+    "league": "오라녜 에레디"
+  },
+  {
+    "name": "님메헌 니메",
+    "league": "오라녜 에레디"
+  },
+  {
     "name": "에버턴 토피",
     "league": "킹덤 리그"
+  },
+  {
+    "name": "즈볼레 블루",
+    "league": "오라녜 에레디"
+  },
+  {
+    "name": "에인트 라이트",
+    "league": "오라녜 에레디"
+  },
+  {
+    "name": "스파르타 로테르",
+    "league": "오라녜 에레디"
+  },
+  {
+    "name": "텔스타르 레이우",
+    "league": "오라녜 에레디"
+  },
+  {
+    "name": "트벤테 토카",
+    "league": "오라녜 에레디"
+  },
+  {
+    "name": "위트레흐 돔",
+    "league": "오라녜 에레디"
+  },
+  {
+    "name": "빌럼 틸뷔르흐",
+    "league": "오라녜 에레디"
+  },
+  {
+    "name": "비제우 아카데미",
+    "league": "루소 프리메라"
+  },
+  {
+    "name": "알베르카 히베이라",
+    "league": "루소 프리메라"
+  },
+  {
+    "name": "아루카 몬타냐",
+    "league": "루소 프리메라"
   },
   {
     "name": "풀럼 코티지",
     "league": "킹덤 리그"
   },
   {
+    "name": "리스본 아길라",
+    "league": "루소 프리메라"
+  },
+  {
+    "name": "브라가 게레이루",
+    "league": "루소 프리메라"
+  },
+  {
+    "name": "카사피아 리스보",
+    "league": "루소 프리메라"
+  },
+  {
+    "name": "에스토릴 카나리",
+    "league": "루소 프리메라"
+  },
+  {
+    "name": "아마도라 에스트렐라",
+    "league": "루소 프리메라"
+  },
+  {
+    "name": "파말리캉 파마",
+    "league": "루소 프리메라"
+  },
+  {
+    "name": "지우비센트 갈로",
+    "league": "루소 프리메라"
+  },
+  {
+    "name": "마데이라 마리티",
+    "league": "루소 프리메라"
+  },
+  {
+    "name": "모레이렌 코네고",
+    "league": "루소 프리메라"
+  },
+  {
+    "name": "나시오날 알비",
+    "league": "루소 프리메라"
+  },
+  {
     "name": "헐 타이거",
     "league": "킹덤 리그"
+  },
+  {
+    "name": "포르투 드라강",
+    "league": "루소 프리메라"
+  },
+  {
+    "name": "히우아베 베르데",
+    "league": "루소 프리메라"
+  },
+  {
+    "name": "산타클라라 아소르",
+    "league": "루소 프리메라"
+  },
+  {
+    "name": "리스본 레앙",
+    "league": "루소 프리메라"
+  },
+  {
+    "name": "기마랑 비토리",
+    "league": "루소 프리메라"
   },
   {
     "name": "입스위치 트랙터",
@@ -2882,6 +3839,10 @@ export const SQUAD_CLUBS: ClubDef[] = [
   {
     "name": "베네치아 아란치오",
     "league": "아주로 세리에"
+  },
+  {
+    "name": "덴하흐 오이에바르",
+    "league": "오라녜 에레디"
   }
 ]
 
@@ -2896,9 +3857,44 @@ export const SQUAD_REPLACED_CLUBS: string[] = [
   "런던 블루스",
   "코번트리 스카이",
   "크리스탈 이글",
+  "암스텔 아약",
+  "알크마르 치즈",
+  "카임브레 블랙",
+  "엑셀시오 크루",
+  "로테르 페예",
+  "포르투나 시타르",
+  "고어헤드 이글",
+  "흐로닝언 그린",
+  "헤렌벤 프리즈",
+  "님메헌 니메",
   "에버턴 토피",
+  "즈볼레 블루",
+  "에인트 라이트",
+  "스파르타 로테르",
+  "텔스타르 레이우",
+  "트벤테 토카",
+  "위트레흐 돔",
+  "빌럼 틸뷔르흐",
+  "비제우 아카데미",
+  "알베르카 히베이라",
+  "아루카 몬타냐",
   "풀럼 코티지",
+  "리스본 아길라",
+  "브라가 게레이루",
+  "카사피아 리스보",
+  "에스토릴 카나리",
+  "아마도라 에스트렐라",
+  "파말리캉 파마",
+  "지우비센트 갈로",
+  "마데이라 마리티",
+  "모레이렌 코네고",
+  "나시오날 알비",
   "헐 타이거",
+  "포르투 드라강",
+  "히우아베 베르데",
+  "산타클라라 아소르",
+  "리스본 레앙",
+  "기마랑 비토리",
   "입스위치 트랙터",
   "리즈 화이트",
   "리버 머지",
@@ -2982,7 +3978,8 @@ export const SQUAD_REPLACED_CLUBS: string[] = [
   "사수올 네로베르데",
   "토리노 그라나타",
   "우디네 제브레",
-  "베네치아 아란치오"
+  "베네치아 아란치오",
+  "덴하흐 오이에바르"
 ]
 
 /** 운영자 전용 — 가명 → 실명 (실제 클럽 #등번호). 정확한 1:1 매핑. */
@@ -3270,6 +4267,223 @@ export const SQUAD_REAL_HINTS: Record<string, string> = {
   "예르겐 스트란 라르손": "예르겐 스트란 라르센 (크리스털 팰리스 #22)",
   "다리오 오소리아": "다리오 오소리오 (크리스털 팰리스 #24)",
   "에반 게상드": "에반 게상 (크리스털 팰리스 #29)",
+  "마르크안드레 테어 슈테게느": "마르크안드레 테어 슈테겐 (AFC 아약스 #1)",
+  "루카스 호잔": "루카스 호자 (AFC 아약스 #2)",
+  "안톤 가에인": "안톤 가에이 (AFC 아약스 #3)",
+  "소피안 암라바튼": "소피안 암라바트 (AFC 아약스 #4)",
+  "오언 베인달라": "오언 베인달 (AFC 아약스 #5)",
+  "틸로 케러스": "틸로 케러 (AFC 아약스 #6)",
+  "시몽 아딩란": "시몽 아딩라 (AFC 아약스 #7)",
+  "율리안 브란튼": "율리안 브란트 (AFC 아약스 #8)",
+  "카스페르 돌베른": "카스페르 돌베르 (AFC 아약스 #9)",
+  "오스카르 글로우흔": "오스카르 글로우흐 (AFC 아약스 #10)",
+  "빅토르 치한코운": "빅토르 치한코우 (AFC 아약스 #11)",
+  "카이우 엔히킨": "카이우 엔히키 (AFC 아약스 #12)",
+  "유리 바손": "유리 바스 (AFC 아약스 #15)",
+  "달레이 블린튼": "달레이 블린트 (AFC 아약스 #17)",
+  "다비 클라선드": "다비 클라선 (AFC 아약스 #18)",
+  "올리베르 에드바르센드": "올리베르 에드바르센 (AFC 아약스 #20)",
+  "조프레 토렌추": "조프레 토렌츠 (AFC 아약스 #21)",
+  "유리 헤르컨손": "유리 헤르컨스 (AFC 아약스 #22)",
+  "스테번 베르흐하위손": "스테번 베르흐하위스 (AFC 아약스 #23)",
+  "요르티 모키온": "요르티 모키오 (AFC 아약스 #24)",
+  "마르턴 파손": "마르턴 파스 (AFC 아약스 #26)",
+  "아론 바우마느": "아론 바우만 (AFC 아약스 #30)",
+  "디스 얀선": "디스 얀서 (AFC 아약스 #36)",
+  "마르쿠스 레오나르둔": "마르쿠스 레오나르두 (AFC 아약스 #38)",
+  "라야네 부니단": "라야네 부니다 (AFC 아약스 #43)",
+  "톨루 아로코다렌": "톨루 아로코다레 (AFC 아약스 #99)",
+  "로메제이던 오우수오두론": "로메제이던 오우수오두로 (AZ 알크마르 #1)",
+  "마이쿠마 세이얀": "마이쿠마 세이야 (AZ 알크마르 #2)",
+  "바우터르 후손": "바우터르 후스 (AZ 알크마르 #3)",
+  "루이스 스하우턴드": "루이스 스하우턴 (AZ 알크마르 #4)",
+  "마테오 차베손": "마테오 차베스 (AZ 알크마르 #5)",
+  "페이르 코프메이너르손": "페이르 코프메이너르스 (AZ 알크마르 #6)",
+  "웨슬리 파타틴": "웨슬리 파타티 (AZ 알크마르 #7)",
+  "요르디 클라신": "요르디 클라시 (AZ 알크마르 #8)",
+  "멕스 메이르딩큰": "멕스 메이르딩크 (AZ 알크마르 #9)",
+  "케이스 스미튼": "케이스 스밋 (AZ 알크마르 #10)",
+  "로장헬로 달라": "로장헬로 달 (AZ 알크마르 #11)",
+  "호비 페르휠스튼": "호비 페르휠스트 (AZ 알크마르 #12)",
+  "칼빈 스텡손": "칼빈 스텡스 (AZ 알크마르 #14)",
+  "스테이어 레싱크르": "스테이어 레싱크 (AZ 알크마르 #16)",
+  "발데마르 뷔스코븐": "발데마르 뷔스코브 (AZ 알크마르 #17)",
+  "벤데구즈 코바친": "벤데구즈 코바치 (AZ 알크마르 #18)",
+  "이즈 호른캄픈": "이즈 호른캄프 (AZ 알크마르 #19)",
+  "다버 크바크마느": "다버 크바크만 (AZ 알크마르 #21)",
+  "엘라이자 데이크스트란": "엘라이자 데이크스트라 (AZ 알크마르 #22)",
+  "아유브 우프키른": "아유브 우프키르 (AZ 알크마르 #24)",
+  "야리 더 뷔서른": "야리 더 뷔서르 (AZ 알크마르 #28)",
+  "베슬리 후트르": "베슬리 훗 (AZ 알크마르 #29)",
+  "덴소 카시위손": "덴소 카시위스 (AZ 알크마르 #30)",
+  "이치하라 리온드": "이치하라 리온 (AZ 알크마르 #31)",
+  "메이스 더 비튼": "메이스 더 빗 (AZ 알크마르 #34)",
+  "예룬 주튼": "예룬 주트 (AZ 알크마르 #41)",
+  "와심 부지아느": "와심 부지안 (AZ 알크마르 #44)",
+  "테이스 얀선드": "테이스 얀선 (SC 캄뷔르 #1)",
+  "데비드 외젠 부안": "데비드 외젠 부아 (SC 캄뷔르 #2)",
+  "요른 베르크하우튼": "요른 베르크하우트 (SC 캄뷔르 #3)",
+  "이스마엘 바우픈": "이스마엘 바우프 (SC 캄뷔르 #4)",
+  "자말 아모판": "자말 아모파 (SC 캄뷔르 #6)",
+  "사미 부후다넨": "사미 부후다네 (SC 캄뷔르 #7)",
+  "니키 사우런드": "니키 사우런 (SC 캄뷔르 #8)",
+  "스카이 핑큰": "스카이 핑크 (SC 캄뷔르 #9)",
+  "일리에스 아마슌": "일리에스 아마슈 (SC 캄뷔르 #11)",
+  "니콜라스 빈더스": "니콜라스 빈더 (SC 캄뷔르 #13)",
+  "파비안 크바므": "파비안 크밤 (SC 캄뷔르 #15)",
+  "리크 뮐더르손": "리크 뮐더르스 (SC 캄뷔르 #16)",
+  "이선 아프카쿤": "이선 아프카쿠 (SC 캄뷔르 #17)",
+  "단 피서른": "단 피서르 (SC 캄뷔르 #20)",
+  "루카스 예턴드": "루카스 예턴 (SC 캄뷔르 #23)",
+  "비버 코이스트란": "비버 코이스트라 (SC 캄뷔르 #27)",
+  "모르강 코스타렐린": "모르강 코스타렐리 (SC 캄뷔르 #28)",
+  "이완 헨스트란": "이완 헨스트라 (SC 캄뷔르 #29)",
+  "마티외 마르턴손": "마티외 마르턴스 (SC 캄뷔르 #33)",
+  "스테인 판하설라": "스테인 판하설 (엑셀시오르 로테르담 #1)",
+  "리크 메이선드": "리크 메이선 (엑셀시오르 로테르담 #3)",
+  "카스페르 비델라": "카스페르 비델 (엑셀시오르 로테르담 #4)",
+  "아이멘 슬리틴": "아이멘 슬리티 (엑셀시오르 로테르담 #7)",
+  "이라클리 예고얀드": "이라클리 예고얀 (엑셀시오르 로테르담 #8)",
+  "마리오 도밍게손": "마리오 도밍게스 (엑셀시오르 로테르담 #9)",
+  "노아 나우요크손": "노아 나우요크스 (엑셀시오르 로테르담 #10)",
+  "케이시 보손": "케이시 보스 (엑셀시오르 로테르담 #12)",
+  "얀 플뤼흔": "얀 플뤼흐 (엑셀시오르 로테르담 #14)",
+  "시몬 얀선드": "시몬 얀선 (엑셀시오르 로테르담 #15)",
+  "셀턴 비아인": "셀턴 비아이 (엑셀시오르 로테르담 #16)",
+  "발렌틴 줄츠바허스": "발렌틴 줄츠바허 (엑셀시오르 로테르담 #18)",
+  "레나르트 하르트여손": "레나르트 하르트여스 (엑셀시오르 로테르담 #20)",
+  "일라노 실바 티마손": "일라노 실바 티마스 (엑셀시오르 로테르담 #21)",
+  "말론 판더베테링크": "말론 판더베테링 (엑셀시오르 로테르담 #25)",
+  "알리레자 자한바크신": "알리레자 자한바크시 (엑셀시오르 로테르담 #30)",
+  "티아르크 에른스튼": "티아르크 에른스트 (페예노르트 #1)",
+  "바르트 니우코픈": "바르트 니우코프 (페예노르트 #2)",
+  "토마스 벨런드": "토마스 벨런 (페예노르트 #3)",
+  "와타나베 쓰요신": "와타나베 쓰요시 (페예노르트 #4)",
+  "헤이스 스말라": "헤이스 스말 (페예노르트 #5)",
+  "제리 세인트 쥐스튼": "제리 세인트 쥐스트 (페예노르트 #6)",
+  "야쿠프 모데른": "야쿠프 모데르 (페예노르트 #7)",
+  "히바이 제히엘라": "히바이 제히엘 (페예노르트 #8)",
+  "루치아노 발렌텐": "루치아노 발렌테 (페예노르트 #10)",
+  "곤살루 보르지손": "곤살루 보르지스 (페예노르트 #11)",
+  "셈 스테인드": "셈 스테인 (페예노르트 #14)",
+  "조던 보손": "조던 보스 (페예노르트 #15)",
+  "하비 로페손": "하비 로페스 (페예노르트 #16)",
+  "레이스 넬슨드": "레이스 넬슨 (페예노르트 #17)",
+  "나초 페린": "나초 페리 (페예노르트 #19)",
+  "마츠 데일라": "마츠 데일 (페예노르트 #20)",
+  "토비아스 판덴엘스하우튼": "토비아스 판덴엘스하우트 (페예노르트 #22)",
+  "아니스 하지 무산": "아니스 하지 무사 (페예노르트 #23)",
+  "테이스 크라이여펠튼": "테이스 크라이여펠트 (페예노르트 #24)",
+  "히바이로 레이튼": "히바이로 레이트 (페예노르트 #26)",
+  "가우수 디아란": "가우수 디아라 (페예노르트 #27)",
+  "우사마 타르갈리느": "우사마 타르갈린 (페예노르트 #28)",
+  "플로리안 카스텐마이언": "플로리안 카스텐마이어 (페예노르트 #33)",
+  "샤를 판하우터스": "샤를 판하우터 (페예노르트 #34)",
+  "미카 마르몰라": "미카 마르몰 (페예노르트 #35)",
+  "리암 보생드": "리암 보생 (페예노르트 #39)",
+  "샤킬 판페르신": "샤킬 판페르시 (페예노르트 #49)",
+  "뤽 코프만손": "뤽 코프만스 (포르투나 시타르트 #1)",
+  "시버 베일린드": "시버 베일린 (포르투나 시타르트 #2)",
+  "호드리구 구튼": "호드리구 구트 (포르투나 시타르트 #3)",
+  "야신 우킬린": "야신 우킬리 (포르투나 시타르트 #5)",
+  "시프 판오텔러스": "시프 판오텔러 (포르투나 시타르트 #6)",
+  "크리스토페르 페테르손드": "크리스토페르 페테르손 (포르투나 시타르트 #7)",
+  "야스퍼르 달하우손": "야스퍼르 달하우스 (포르투나 시타르트 #8)",
+  "앙토니 데스코튼": "앙토니 데스코트 (포르투나 시타르트 #9)",
+  "올러 로메닌": "올러 로메니 (포르투나 시타르트 #10)",
+  "이부 핀툰": "이부 핀투 (포르투나 시타르트 #12)",
+  "니크 더 흐로튼": "니크 더 흐로트 (포르투나 시타르트 #15)",
+  "에두아르 미쉰": "에두아르 미쉬 (포르투나 시타르트 #20)",
+  "실로 트 잔튼": "실로 트 잔트 (포르투나 시타르트 #22)",
+  "필립 브리테인드": "필립 브리테인 (포르투나 시타르트 #23)",
+  "레퀸시오 제이푸이큰": "레퀸시오 제이푸이크 (포르투나 시타르트 #25)",
+  "저스틴 후브너스": "저스틴 후브너 (포르투나 시타르트 #28)",
+  "마테이스 브란더르호르스튼": "마테이스 브란더르호르스트 (포르투나 시타르트 #31)",
+  "이반 마르케손": "이반 마르케스 (포르투나 시타르트 #44)",
+  "모하메드 이하타런드": "모하메드 이하타런 (포르투나 시타르트 #52)",
+  "셰틸 하우그르": "셰틸 하우그 (고 어헤드 이글스 #1)",
+  "알폰스 삼프스테든": "알폰스 삼프스테드 (고 어헤드 이글스 #2)",
+  "게리트 나우버스": "게리트 나우버 (고 어헤드 이글스 #3)",
+  "요리스 크라머른": "요리스 크라머르 (고 어헤드 이글스 #4)",
+  "딘 제임손": "딘 제임스 (고 어헤드 이글스 #5)",
+  "에버르트 린토르스튼": "에버르트 린토르스트 (고 어헤드 이글스 #8)",
+  "스테판 잉기 시귀르다르손드": "스테판 잉기 시귀르다르손 (고 어헤드 이글스 #9)",
+  "쇠렌 텡스테든": "쇠렌 텡스테드 (고 어헤드 이글스 #10)",
+  "오스카르 시베르트센드": "오스카르 시베르트센 (고 어헤드 이글스 #11)",
+  "로빈 베이엔베르흔": "로빈 베이엔베르흐 (고 어헤드 이글스 #15)",
+  "빅토르 에드바르센느": "빅토르 에드바르센 (고 어헤드 이글스 #16)",
+  "마티스 쉬렌": "마티스 쉬레 (고 어헤드 이글스 #17)",
+  "리코넬 마르하렛트": "리코넬 마르하렛 (고 어헤드 이글스 #18)",
+  "멜러 뮐렌스테인드": "멜러 뮐렌스테인 (고 어헤드 이글스 #21)",
+  "니크 마르스마느": "니크 마르스만 (고 어헤드 이글스 #22)",
+  "티보 바텐드": "티보 바텐 (고 어헤드 이글스 #23)",
+  "조바니 판즈바므": "조바니 판즈밤 (고 어헤드 이글스 #25)",
+  "율리위스 디르크선드": "율리위스 디르크선 (고 어헤드 이글스 #26)",
+  "토마스 갈베손": "토마스 갈베스 (고 어헤드 이글스 #27)",
+  "핌 사토픈": "핌 사토프 (고 어헤드 이글스 #28)",
+  "에리크 플라타케른": "에리크 플라타케르 (고 어헤드 이글스 #29)",
+  "에티엔 파선드": "에티엔 파선 (FC 흐로닝언 #1)",
+  "바우터르 프린손": "바우터르 프린스 (FC 흐로닝언 #2)",
+  "테이먼 블록제일라": "테이먼 블록제일 (FC 흐로닝언 #3)",
+  "마르크 친게른": "마르크 친게르 (FC 흐로닝언 #4)",
+  "마르코 렌텐": "마르코 렌테 (FC 흐로닝언 #5)",
+  "트라비스 헤르네손": "트라비스 헤르네스 (FC 흐로닝언 #7)",
+  "티카 더 용언": "티카 더 용어 (FC 흐로닝언 #8)",
+  "브린욜뷔르 빌뤼름손드": "브린욜뷔르 빌뤼름손 (FC 흐로닝언 #9)",
+  "야코브 온드레이칸": "야코브 온드레이카 (FC 흐로닝언 #11)",
+  "니콜라스 브란디손": "니콜라스 브란디스 (FC 흐로닝언 #12)",
+  "요르흐 스흐레우더르손": "요르흐 스흐레우더르스 (FC 흐로닝언 #14)",
+  "엘비스 판데르라느": "엘비스 판데르란 (FC 흐로닝언 #15)",
+  "다비트 판데르베르픈": "다비트 판데르베르프 (FC 흐로닝언 #17)",
+  "테이호 란튼": "테이호 란트 (FC 흐로닝언 #18)",
+  "오스카르 자바단": "오스카르 자바다 (FC 흐로닝언 #19)",
+  "말콤 옝그": "말콤 옝 (FC 흐로닝언 #21)",
+  "펠러 클레먼튼": "펠러 클레먼트 (FC 흐로닝언 #24)",
+  "톰 판베르헌드": "톰 판베르헌 (FC 흐로닝언 #26)",
+  "티리케 메르세란": "티리케 메르세라 (FC 흐로닝언 #29)",
+  "마스 빌럼선드": "마스 빌럼선 (SC 헤렌베인 #3)",
+  "삼 케르스턴드": "삼 케르스턴 (SC 헤렌베인 #4)",
+  "디르크 프로퍼른": "디르크 프로퍼르 (SC 헤렌베인 #6)",
+  "막상스 리베란": "막상스 리베라 (SC 헤렌베인 #7)",
+  "뤽 브라우어르손": "뤽 브라우어르스 (SC 헤렌베인 #8)",
+  "딜란 벤터스": "딜란 벤터 (SC 헤렌베인 #9)",
+  "링고 메이르벨튼": "링고 메이르벨트 (SC 헤렌베인 #10)",
+  "루카 오연드": "루카 오연 (SC 헤렌베인 #11)",
+  "레비 스만손": "레비 스만스 (SC 헤렌베인 #14)",
+  "마르쿠스 린다인": "마르쿠스 린다이 (SC 헤렌베인 #16)",
+  "니콜라이 홉란드": "니콜라이 홉란 (SC 헤렌베인 #17)",
+  "바실리오스 자가리치손": "바실리오스 자가리치스 (SC 헤렌베인 #19)",
+  "야코브 트렌스콘": "야코브 트렌스코 (SC 헤렌베인 #20)",
+  "베른트 클라베르부른": "베른트 클라베르부르 (SC 헤렌베인 #22)",
+  "달링 블라딘": "달링 블라디 (SC 헤렌베인 #23)",
+  "흐리스티얀 페트로픈": "흐리스티얀 페트로프 (SC 헤렌베인 #28)",
+  "란로이 마시느": "란로이 마신 (SC 헤렌베인 #29)",
+  "안드리스 노퍼르튼": "안드리스 노퍼르트 (SC 헤렌베인 #44)",
+  "올리베르 브라우덴": "올리베르 브라우데 (SC 헤렌베인 #45)",
+  "곤살로 크레타손": "곤살로 크레타스 (NEC 네이메헌 #1)",
+  "브라이안 페레이란": "브라이안 페레이라 (NEC 네이메헌 #2)",
+  "필리프 산들러른": "필리프 산들러르 (NEC 네이메헌 #3)",
+  "페르 스휘르손": "페르 스휘르스 (NEC 네이메헌 #4)",
+  "토마스 아우베야느": "토마스 아우베얀 (NEC 네이메헌 #5)",
+  "다르코 네야시미츠": "다르코 네야시미치 (NEC 네이메헌 #6)",
+  "엠레 모른": "엠레 모르 (NEC 네이메헌 #7)",
+  "이사크 한센아뢰엔드": "이사크 한센아뢰엔 (NEC 네이메헌 #8)",
+  "차론 셰린": "차론 셰리 (NEC 네이메헌 #9)",
+  "두샨 타디츠": "두샨 타디치 (NEC 네이메헌 #10)",
+  "빌륌 토르 빌륌손드": "빌륌 토르 빌륌손 (NEC 네이메헌 #11)",
+  "니콜라스 폴스터스": "니콜라스 폴스터 (NEC 네이메헌 #12)",
+  "카이 시르하위손": "카이 시르하위스 (NEC 네이메헌 #14)",
+  "브람 나위팅큰": "브람 나위팅크 (NEC 네이메헌 #17)",
+  "오가와 고킨": "오가와 고키 (NEC 네이메헌 #18)",
+  "노에 르브르통드": "노에 르브르통 (NEC 네이메헌 #20)",
+  "토비아스 스토르므": "토비아스 스토름 (NEC 네이메헌 #21)",
+  "데버론 폰빌러스": "데버론 폰빌러 (NEC 네이메헌 #24)",
+  "사미 우아이산드": "사미 우아이사 (NEC 네이메헌 #25)",
+  "브라이언 린선드": "브라이언 린선 (NEC 네이메헌 #30)",
+  "비토 판크로에인": "비토 판크로에이 (NEC 네이메헌 #32)",
+  "자미로 몬테이룬": "자미로 몬테이루 (NEC 네이메헌 #35)",
+  "알무게라 카바른": "알무게라 카바르 (NEC 네이메헌 #66)",
+  "클레멘트 비쇼픈": "클레멘트 비쇼프 (NEC 네이메헌 #99)",
   "조던 픽포르": "조던 픽포드 (에버턴 #1)",
   "마크 트래버손": "마크 트래버스 (에버턴 #12)",
   "톰 킹스": "톰 킹 (에버턴 #31)",
@@ -3291,6 +4505,229 @@ export const SQUAD_REAL_HINTS: Record<string, string> = {
   "타이리크 조지오": "타이리크 조지 (에버턴 #19)",
   "타일러 디블린": "타일러 디블링 (에버턴 #20)",
   "브레넌 존손": "브레넌 존슨 (에버턴 #22)",
+  "야스퍼르 스헨델라른": "야스퍼르 스헨델라르 (PEC 즈볼러 #1)",
+  "셰럴 플로라뉘손": "셰럴 플로라뉘스 (PEC 즈볼러 #2)",
+  "올리비어 아르츤드": "올리비어 아르츤 (PEC 즈볼러 #3)",
+  "테이스 펠트하위손": "테이스 펠트하위스 (PEC 즈볼러 #4)",
+  "얀 뷔르거스": "얀 뷔르거 (PEC 즈볼러 #6)",
+  "유네스 남린": "유네스 남리 (PEC 즈볼러 #7)",
+  "토비아스 좀머스": "토비아스 좀머 (PEC 즈볼러 #8)",
+  "엘리아스 쇠렌센드": "엘리아스 쇠렌센 (PEC 즈볼러 #9)",
+  "쿤 코스톤손": "쿤 코스톤스 (PEC 즈볼러 #10)",
+  "딜란 음바욘": "딜란 음바요 (PEC 즈볼러 #11)",
+  "톰 더 흐라픈": "톰 더 흐라프 (PEC 즈볼러 #16)",
+  "오디세우스 벨라나손": "오디세우스 벨라나스 (PEC 즈볼러 #18)",
+  "이브라힘 시소콘": "이브라힘 시소코 (PEC 즈볼러 #22)",
+  "니크 피르헤버른": "니크 피르헤버르 (PEC 즈볼러 #24)",
+  "테이스 오스팅크": "테이스 오스팅 (PEC 즈볼러 #25)",
+  "야디엘 페레이라 다 가만": "야디엘 페레이라 다 가마 (PEC 즈볼러 #26)",
+  "시몬 그라베손": "시몬 그라베스 (PEC 즈볼러 #28)",
+  "라이언 토머슨": "라이언 토머스 (PEC 즈볼러 #30)",
+  "니크 피흐팅어스": "니크 피흐팅어 (PEC 즈볼러 #34)",
+  "니크 올레인": "니크 올레이 (PSV 에인트호번 #1)",
+  "루차렐 헤이르트라위단": "루차렐 헤이르트라위다 (PSV 에인트호번 #2)",
+  "야레크 가시오로프스킨": "야레크 가시오로프스키 (PSV 에인트호번 #3)",
+  "아르만도 오비스폰": "아르만도 오비스포 (PSV 에인트호번 #4)",
+  "이반 페리시츠": "이반 페리시치 (PSV 에인트호번 #5)",
+  "라이언 플라밍곤": "라이언 플라밍고 (PSV 에인트호번 #6)",
+  "뤼번 판 보멀라": "뤼번 판 보멀 (PSV 에인트호번 #7)",
+  "세르지뇨 데스튼": "세르지뇨 데스트 (PSV 에인트호번 #8)",
+  "리카르도 페핀": "리카르도 페피 (PSV 에인트호번 #9)",
+  "파울 바너스": "파울 바너 (PSV 에인트호번 #10)",
+  "사미 우아이산": "사미 우아이사 (PSV 에인트호번 #11)",
+  "알라산 플레안": "알라산 플레아 (PSV 에인트호번 #14)",
+  "마우루 주니오른": "마우루 주니오르 (PSV 에인트호번 #17)",
+  "필리프 코스티츠": "필리프 코스티치 (PSV 에인트호번 #18)",
+  "에스미르 바이락타레비츠": "에스미르 바이락타레비치 (PSV 에인트호번 #19)",
+  "휘스 틸라": "휘스 틸 (PSV 에인트호번 #20)",
+  "스벤 메이나르손": "스벤 메이나르스 (PSV 에인트호번 #21)",
+  "예르디 스하우턴드": "예르디 스하우턴 (PSV 에인트호번 #22)",
+  "미켈 브로 한센드": "미켈 브로 한센 (PSV 에인트호번 #23)",
+  "사노 고다인": "사노 고다이 (PSV 에인트호번 #24)",
+  "킬리안 실디얀": "킬리안 실디야 (PSV 에인트호번 #25)",
+  "데니스 마느": "데니스 만 (PSV 에인트호번 #27)",
+  "삼 라머르손": "삼 라머르스 (PSV 에인트호번 #29)",
+  "노아 페르난데손": "노아 페르난데스 (PSV 에인트호번 #31)",
+  "마테이 코바르신": "마테이 코바르시 (PSV 에인트호번 #32)",
+  "아요니 산투손": "아요니 산투스 (PSV 에인트호번 #35)",
+  "아다모 나갈론": "아다모 나갈로 (PSV 에인트호번 #39)",
+  "테인 스몰레나르손": "테인 스몰레나르스 (PSV 에인트호번 #51)",
+  "필리프 베드나레큰": "필리프 베드나레크 (스파르타 로테르담)",
+  "미하엘 브라우어른": "미하엘 브라우어르 (스파르타 로테르담)",
+  "막스 더 리흐튼": "막스 더 리흐트 (스파르타 로테르담)",
+  "바스 카위퍼르손": "바스 카위퍼르스 (스파르타 로테르담)",
+  "루셴드리 마르테손": "루셴드리 마르테스 (스파르타 로테르담)",
+  "브루노 마르틴스 인딘": "브루노 마르틴스 인디 (스파르타 로테르담)",
+  "테오 킨테론": "테오 킨테로 (스파르타 로테르담)",
+  "보이트 레이튼": "보이트 레이트 (스파르타 로테르담)",
+  "마르빈 영그": "마르빈 영 (스파르타 로테르담)",
+  "율리안 바손": "율리안 바스 (스파르타 로테르담)",
+  "미토 슌스켄": "미토 슌스케 (스파르타 로테르담)",
+  "알완데 로알드쇠인": "알완데 로알드쇠이 (스파르타 로테르담)",
+  "세드리크 하텐부른": "세드리크 하텐부르 (스파르타 로테르담)",
+  "옌스 토른스트란": "옌스 토른스트라 (스파르타 로테르담)",
+  "로빈 판크라위선드": "로빈 판크라위선 (스파르타 로테르담)",
+  "요엘 이데혼": "요엘 이데호 (스파르타 로테르담)",
+  "카스페르 테르혼": "카스페르 테르호 (스파르타 로테르담)",
+  "뇌크비 테이르 토리손드": "뇌크비 테이르 토리손 (스파르타 로테르담)",
+  "미첼 판베르헌드": "미첼 판베르헌 (스파르타 로테르담)",
+  "밀란 조너펠튼": "밀란 조너펠트 (스파르타 로테르담)",
+  "안드레이 코스티츠": "안드레이 코스티치 (스파르타 로테르담)",
+  "미커 클레인드": "미커 클레인 (스파르타 로테르담)",
+  "알바로 헨린": "알바로 헨리 (스파르타 로테르담)",
+  "퀸시 후버스": "퀸시 후버 (스파르타 로테르담)",
+  "로날트 코이만 주니오르": "로날트 코이만 주니어 (SC 텔스타르 #1)",
+  "예프 하르더펠튼": "예프 하르더펠트 (SC 텔스타르 #2)",
+  "헤랄트 알더르손": "헤랄트 알더르스 (SC 텔스타르 #3)",
+  "프린스 아닝크": "프린스 아닝 (SC 텔스타르 #5)",
+  "후이 멘드손": "후이 멘드스 (SC 텔스타르 #7)",
+  "에미르한 데미르자느": "에미르한 데미르잔 (SC 텔스타르 #8)",
+  "젤라니 세도르픈": "젤라니 세도르프 (SC 텔스타르 #9)",
+  "티론 오우순": "티론 오우수 (SC 텔스타르 #10)",
+  "나이절 오기디 은완쿤": "나이절 오기디 은완쿠 (SC 텔스타르 #15)",
+  "닐스 로선드": "닐스 로선 (SC 텔스타르 #17)",
+  "가비 카스킬린": "가비 카스킬리 (SC 텔스타르 #18)",
+  "단 레이지허른": "단 레이지허르 (SC 텔스타르 #20)",
+  "파트릭 브라우어른": "파트릭 브라우어르 (SC 텔스타르 #27)",
+  "로연드로 아우스턴드": "로연드로 아우스턴 (SC 텔스타르 #28)",
+  "마르빈 페이르스마느": "마르빈 페이르스만 (SC 텔스타르 #43)",
+  "라르스 우너슈탈라": "라르스 우너슈탈 (FC 트벤테 #1)",
+  "메이스 힐허르손": "메이스 힐허르스 (FC 트벤테 #2)",
+  "로빈 프뢰퍼른": "로빈 프뢰퍼르 (FC 트벤테 #3)",
+  "라미즈 제루킨": "라미즈 제루키 (FC 트벤테 #6)",
+  "마르코 피아찬": "마르코 피아차 (FC 트벤테 #7)",
+  "테일러 부손": "테일러 부스 (FC 트벤테 #8)",
+  "바우트 베호르스튼": "바우트 베호르스트 (FC 트벤테 #9)",
+  "삼 라머르스르": "삼 라머르스 (FC 트벤테 #10)",
+  "단 로추": "단 로츠 (FC 트벤테 #11)",
+  "크리스티안 흘륀손드": "크리스티안 흘륀손 (FC 트벤테 #14)",
+  "요엘 드롬멀라": "요엘 드롬멀 (FC 트벤테 #16)",
+  "필립 토르발센드": "필립 토르발센 (FC 트벤테 #17)",
+  "유네스 타한": "유네스 타하 (FC 트벤테 #19)",
+  "토마스 판덴벨튼": "토마스 판덴벨트 (FC 트벤테 #20)",
+  "렘코 파스베른": "렘코 파스베르 (FC 트벤테 #22)",
+  "스타브 렘키느": "스타브 렘킨 (FC 트벤테 #23)",
+  "크시슈토프 쿠로프스킨": "크시슈토프 쿠로프스키 (FC 트벤테 #24)",
+  "루카스 페네호르 오프 헤셀링큰": "루카스 페네호르 오프 헤셀링크 (FC 트벤테 #25)",
+  "손드레 외리아세테른": "손드레 외리아세테르 (FC 트벤테 #27)",
+  "바르트 판로에인": "바르트 판로에이 (FC 트벤테 #28)",
+  "아스케 아델고른": "아스케 아델고르 (FC 트벤테 #29)",
+  "아르노 페르스휘런드": "아르노 페르스휘런 (FC 트벤테 #32)",
+  "나지 위뉘바른": "나지 위뉘바르 (FC 트벤테 #37)",
+  "막스 브륀손": "막스 브륀스 (FC 트벤테 #38)",
+  "헤이스 베셀링큰": "헤이스 베셀링크 (FC 트벤테 #41)",
+  "다우다 바이트마느": "다우다 바이트만 (FC 트벤테 #42)",
+  "이삼 엘 마흔": "이삼 엘 마흐 (FC 트벤테 #52)",
+  "바실리스 바르카손": "바실리스 바르카스 (FC 위트레흐트 #1)",
+  "시버 호레만손": "시버 호레만스 (FC 위트레흐트 #2)",
+  "마티서 디던드": "마티서 디던 (FC 위트레흐트 #3)",
+  "니콜라스 파나요툰": "니콜라스 파나요투 (FC 위트레흐트 #5)",
+  "휘스 오퍼르하위손": "휘스 오퍼르하위스 (FC 위트레흐트 #6)",
+  "빅토르 옌센드": "빅토르 옌센 (FC 위트레흐트 #7)",
+  "요리스 판 오버레이므": "요리스 판 오버레임 (FC 위트레흐트 #8)",
+  "아르템 스테파노픈": "아르템 스테파노프 (FC 위트레흐트 #9)",
+  "요안 카틀린드": "요안 카틀린 (FC 위트레흐트 #10)",
+  "앙헬 알라르코느": "앙헬 알라르콘 (FC 위트레흐트 #11)",
+  "에이드리언 블레이큰": "에이드리언 블레이크 (FC 위트레흐트 #15)",
+  "셈 판 다위느": "셈 판 다윈 (FC 위트레흐트 #17)",
+  "야코프 메디츠": "야코프 메디치 (FC 위트레흐트 #18)",
+  "다니 더 비튼": "다니 더 빗 (FC 위트레흐트 #20)",
+  "네빌 오기디 은완쿤": "네빌 오기디 은완쿠 (FC 위트레흐트 #21)",
+  "니클라스 베스테를룬드": "니클라스 베스테를룬 (FC 위트레흐트 #23)",
+  "밀리아노 요나탄손": "밀리아노 요나탄스 (FC 위트레흐트 #26)",
+  "알론조 엥완단": "알론조 엥완다 (FC 위트레흐트 #27)",
+  "노아 오히온": "노아 오히오 (FC 위트레흐트 #29)",
+  "케빈 파레데손": "케빈 파레데스 (FC 위트레흐트 #30)",
+  "다비 판덴베르흐트": "다비 판덴베르흐 (FC 위트레흐트 #34)",
+  "우알리드 아구길라": "우알리드 아구길 (FC 위트레흐트 #38)",
+  "노르딘 암라바튼": "노르딘 암라바트 (FC 위트레흐트 #39)",
+  "마리우스 브로홀르므": "마리우스 브로홀름 (FC 위트레흐트 #80)",
+  "아르튀르 자그렌": "아르튀르 자그레 (FC 위트레흐트 #92)",
+  "토마 디디용회들라": "토마 디디용회들 (빌럼 II 틸뷔르흐 #1)",
+  "알레산드로 치란닌": "알레산드로 치란니 (빌럼 II 틸뷔르흐 #2)",
+  "핀 스타므": "핀 스탐 (빌럼 II 틸뷔르흐 #3)",
+  "유스틴 호흐만": "유스틴 호흐마 (빌럼 II 틸뷔르흐 #4)",
+  "히더 테르 아버스튼": "히더 테르 아버스트 (빌럼 II 틸뷔르흐 #5)",
+  "야던 슬로린": "야던 슬로리 (빌럼 II 틸뷔르흐 #7)",
+  "카스퍼르 보하르튼": "카스퍼르 보하르트 (빌럼 II 틸뷔르흐 #8)",
+  "데빈 하언드": "데빈 하언 (빌럼 II 틸뷔르흐 #9)",
+  "야리 스휘르마느": "야리 스휘르만 (빌럼 II 틸뷔르흐 #10)",
+  "아르민 출루므": "아르민 출룸 (빌럼 II 틸뷔르흐 #11)",
+  "아민 에트타이빈": "아민 에트타이비 (빌럼 II 틸뷔르흐 #15)",
+  "우리엘 판알스튼": "우리엘 판알스트 (빌럼 II 틸뷔르흐 #19)",
+  "바우터르 판데르스테인드": "바우터르 판데르스테인 (빌럼 II 틸뷔르흐 #21)",
+  "페르 판로느": "페르 판론 (빌럼 II 틸뷔르흐 #22)",
+  "네이선 추어아온드": "네이선 추어아온 (빌럼 II 틸뷔르흐 #24)",
+  "토마스 페르헤이튼": "토마스 페르헤이트 (빌럼 II 틸뷔르흐 #28)",
+  "에세르 귀르뷔주": "에세르 귀르뷔즈 (빌럼 II 틸뷔르흐 #50)",
+  "마르코스 라비느": "마르코스 라빈 (아카데미쿠 드 비제우 #1)",
+  "니코스 미헬리손": "니코스 미헬리스 (아카데미쿠 드 비제우 #2)",
+  "미겔 앙헬 브라운": "미겔 앙헬 브라우 (아카데미쿠 드 비제우 #3)",
+  "페드루 바르셀루손": "페드루 바르셀루스 (아카데미쿠 드 비제우 #5)",
+  "안드레 세이틸라": "안드레 세이틸 (아카데미쿠 드 비제우 #6)",
+  "루이스 실반": "루이스 실바 (아카데미쿠 드 비제우 #7)",
+  "지한 카흐라마느": "지한 카흐라만 (아카데미쿠 드 비제우 #8)",
+  "모하메드 불디닌": "모하메드 불디니 (아카데미쿠 드 비제우 #9)",
+  "알바로 사모란": "알바로 사모라 (아카데미쿠 드 비제우 #10)",
+  "도미니크 스테치큰": "도미니크 스테치크 (아카데미쿠 드 비제우 #11)",
+  "수피안 메세게므": "수피안 메세겜 (아카데미쿠 드 비제우 #14)",
+  "발레리 페르난데손": "발레리 페르난데스 (아카데미쿠 드 비제우 #17)",
+  "크리스티안 페레이란": "크리스티안 페레이라 (아카데미쿠 드 비제우 #18)",
+  "토마스 도밍구손": "토마스 도밍구스 (아카데미쿠 드 비제우 #21)",
+  "닐스 모티머스": "닐스 모티머 (아카데미쿠 드 비제우 #22)",
+  "안드레 클로비손": "안드레 클로비스 (아카데미쿠 드 비제우 #33)",
+  "앙토니 코헤이안": "앙토니 코헤이아 (아카데미쿠 드 비제우 #41)",
+  "후벵 페레이란": "후벵 페레이라 (아카데미쿠 드 비제우 #44)",
+  "호비뉸": "호비뉴 (아카데미쿠 드 비제우 #75)",
+  "파울리뉸": "파울리뉴 (아카데미쿠 드 비제우 #77)",
+  "노아 라베이른": "노아 라베이르 (FC 알베르카 #1)",
+  "나빌 투아이진": "나빌 투아이지 (FC 알베르카 #2)",
+  "훌리안 마르티네손": "훌리안 마르티네스 (FC 알베르카 #3)",
+  "야야 보장드": "야야 보장 (FC 알베르카 #4)",
+  "사비트 압둘라인": "사비트 압둘라이 (FC 알베르카 #5)",
+  "다비 기르": "다비 기 (FC 알베르카 #6)",
+  "안드레 비디갈라": "안드레 비디갈 (FC 알베르카 #7)",
+  "비발두 세메둔": "비발두 세메두 (FC 알베르카 #9)",
+  "시키뉸": "시키뉴 (FC 알베르카 #10)",
+  "세드리크 누오친": "세드리크 누오치 (FC 알베르카 #11)",
+  "아이작 제임손": "아이작 제임스 (FC 알베르카 #12)",
+  "스티븐 바세얀": "스티븐 바세야 (FC 알베르카 #14)",
+  "사미 메르헤근": "사미 메르헤그 (FC 알베르카 #17)",
+  "마르코 에시민": "마르코 에시미 (FC 알베르카 #19)",
+  "디오구 스펜서스": "디오구 스펜서 (FC 알베르카 #20)",
+  "세르지 고메손": "세르지 고메스 (FC 알베르카 #21)",
+  "피게이레둔": "피게이레두 (FC 알베르카 #22)",
+  "안드레 파울룬": "안드레 파울루 (FC 알베르카 #23)",
+  "모페 제미덴": "모페 제미데 (FC 알베르카 #24)",
+  "이안 루카손": "이안 루카스 (FC 알베르카 #25)",
+  "토니 타마리튼": "토니 타마리트 (FC 알베르카 #27)",
+  "마테우스 멘드손": "마테우스 멘드스 (FC 알베르카 #31)",
+  "바스티앵 뫼피윤": "바스티앵 뫼피유 (FC 알베르카 #33)",
+  "라이안 루카스르": "라이안 루카스 (FC 알베르카 #35)",
+  "프란시스쿠 시숨반": "프란시스쿠 시숨바 (FC 알베르카 #55)",
+  "조나타느": "조나탄 (FC 알베르카 #91)",
+  "제 하파에운": "제 하파에우 (FC 알베르카 #93)",
+  "호세 폰타느": "호세 폰탄 (FC 아로우카 #3)",
+  "디오구 몬테이룬": "디오구 몬테이루 (FC 아로우카 #4)",
+  "보리스 포포비츠": "보리스 포포비치 (FC 아로우카 #5)",
+  "에스펀 판 에인": "에스펀 판 에이 (FC 아로우카 #6)",
+  "나이스 주아란": "나이스 주아라 (FC 아로우카 #7)",
+  "후쿠이 다이친": "후쿠이 다이치 (FC 아로우카 #8)",
+  "팔리 마율룬": "팔리 마율루 (FC 아로우카 #9)",
+  "파블로 고살베손": "파블로 고살베스 (FC 아로우카 #10)",
+  "미겔 푸첸": "미겔 푸체 (FC 아로우카 #11)",
+  "이그나시오 데 아루아바레난": "이그나시오 데 아루아바레나 (FC 아로우카 #12)",
+  "이현조": "이현주 (FC 아로우카 #14)",
+  "하비 산체노": "하비 산체스 (FC 아로우카 #15)",
+  "이반 바르베론": "이반 바르베로 (FC 아로우카 #17)",
+  "오레스트 레베덴콘": "오레스트 레베덴코 (FC 아로우카 #18)",
+  "알폰소 트레산": "알폰소 트레사 (FC 아로우카 #19)",
+  "마테오 플로레손": "마테오 플로레스 (FC 아로우카 #21)",
+  "딜란 난디느": "딜란 난딘 (FC 아로우카 #23)",
+  "브라이언 만실란": "브라이언 만실라 (FC 아로우카 #24)",
+  "티아구 에스가이운": "티아구 에스가이우 (FC 아로우카 #28)",
+  "마리오 클리멘튼": "마리오 클리멘트 (FC 아로우카 #37)",
+  "페드루 산투손": "페드루 산투스 (FC 아로우카 #89)",
   "베른트 레노어": "베른트 레노 (풀럼 #1)",
   "뱅자맹 르콩테": "뱅자맹 르콩트 (풀럼 #23)",
   "알렉스 보르투": "알렉스 보르토 (풀럼 #36)",
@@ -3318,6 +4755,246 @@ export const SQUAD_REAL_HINTS: Record<string, string> = {
   "케비노": "케빙 (풀럼 #11)",
   "오스카르 보브": "오스카르 봅 (풀럼 #14)",
   "요나 쿠시아사로": "요나 쿠시아사레 (풀럼 #18)",
+  "아나톨리 트루비느": "아나톨리 트루빈 (SL 벤피카 #1)",
+  "클레망 랑글렌": "클레망 랑글레 (SL 벤피카 #2)",
+  "알레산드로 치르카틴": "알레산드로 치르카티 (SL 벤피카 #3)",
+  "엔소 바레네체안": "엔소 바레네체아 (SL 벤피카 #5)",
+  "알렉산더 바르": "알렉산더 바 (SL 벤피카 #6)",
+  "브루만": "브루마 (SL 벤피카 #7)",
+  "프레드리크 아우르스네손": "프레드리크 아우르스네스 (SL 벤피카 #8)",
+  "헤오르히 수다코운": "헤오르히 수다코우 (SL 벤피카 #10)",
+  "도디 루케바키온": "도디 루케바키오 (SL 벤피카 #11)",
+  "야쿠프 카민스킨": "야쿠프 카민스키 (SL 벤피카 #13)",
+  "방겔리스 파블리디손": "방겔리스 파블리디스 (SL 벤피카 #14)",
+  "마누 실반": "마누 실바 (SL 벤피카 #16)",
+  "레안드루 바헤이룬": "레안드루 바헤이루 (SL 벤피카 #18)",
+  "안드레아스 셸데루픈": "안드레아스 셸데루프 (SL 벤피카 #21)",
+  "욘 두라느": "욘 두란 (SL 벤피카 #22)",
+  "사무엘 소아르손": "사무엘 소아르스 (SL 벤피카 #24)",
+  "잔루카 프레스티안닌": "잔루카 프레스티안니 (SL 벤피카 #25)",
+  "사무엘 달라": "사무엘 달 (SL 벤피카 #26)",
+  "하파 실반": "하파 실바 (SL 벤피카 #27)",
+  "클라우디오 에체베린": "클라우디오 에체베리 (SL 벤피카 #30)",
+  "가브리에우 인디운": "가브리에우 인디우 (SL 벤피카 #33)",
+  "수피안 엘 카루아닌": "수피안 엘 카루아니 (SL 벤피카 #34)",
+  "주앙 팔리뇬": "주앙 팔리냐 (SL 벤피카 #36)",
+  "토마스 아라우준": "토마스 아라우주 (SL 벤피카 #44)",
+  "조슈아 윈더스": "조슈아 윈더 (SL 벤피카 #66)",
+  "아니지우 카브랄라": "아니지우 카브랄 (SL 벤피카 #72)",
+  "빅토르 고메손": "빅토르 고메스 (SC 브라가 #2)",
+  "시쿠 니아카텐": "시쿠 니아카테 (SC 브라가 #4)",
+  "레오나르두 렐룬": "레오나르두 렐루 (SC 브라가 #5)",
+  "비토르 카르발륜": "비토르 카르발류 (SC 브라가 #6)",
+  "디오구 트라바수손": "디오구 트라바수스 (SC 브라가 #7)",
+  "주앙 무티뉸": "주앙 무티뉴 (SC 브라가 #8)",
+  "프란 나바론": "프란 나바로 (SC 브라가 #9)",
+  "파우 빅토른": "파우 빅토르 (SC 브라가 #10)",
+  "가브리에우 실반": "가브리에우 실바 (SC 브라가 #11)",
+  "티아구 사르": "티아구 사 (SC 브라가 #12)",
+  "구스타프 라게르비엘켄": "구스타프 라게르비엘케 (SC 브라가 #14)",
+  "토미 마르케손": "토미 마르케스 (SC 브라가 #16)",
+  "요반 밀로셰비츠": "요반 밀로셰비치 (SC 브라가 #17)",
+  "요나스 빈드": "요나스 빈 (SC 브라가 #19)",
+  "마리오 도르젤레손": "마리오 도르젤레스 (SC 브라가 #20)",
+  "히카르두 오르탄": "히카르두 오르타 (SC 브라가 #21)",
+  "세르히오 바르시안": "세르히오 바르시아 (SC 브라가 #22)",
+  "데니스 후세인바시츠": "데니스 후세인바시치 (SC 브라가 #23)",
+  "브라이트 아레이음빈": "브라이트 아레이음비 (SC 브라가 #26)",
+  "장바티스트 고르빈": "장바티스트 고르비 (SC 브라가 #29)",
+  "베르나르두 폰트손": "베르나르두 폰트스 (SC 브라가 #31)",
+  "주앙 마르케스르": "주앙 마르케스 (SC 브라가 #33)",
+  "데미르 에게 트나주": "데미르 에게 트나즈 (SC 브라가 #34)",
+  "아드리안 바리시츠": "아드리안 바리시치 (SC 브라가 #37)",
+  "야니스 다 호샨": "야니스 다 호샤 (SC 브라가 #41)",
+  "아드리안 바이라민": "아드리안 바이라미 (SC 브라가 #44)",
+  "디에구 호드리게손": "디에구 호드리게스 (SC 브라가 #50)",
+  "가브리 마르티네손": "가브리 마르티네스 (SC 브라가 #77)",
+  "주앙 카르발륜드": "주앙 카르발류 (SC 브라가 #78)",
+  "패트릭 세케이란": "패트릭 세케이라 (카사 피아 AC #1)",
+  "칼린": "칼리 (카사 피아 AC #3)",
+  "주앙 고울라르튼": "주앙 고울라르트 (카사 피아 AC #4)",
+  "압두 콘텐": "압두 콘테 (카사 피아 AC #5)",
+  "엔히키 아라우준": "엔히키 아라우주 (카사 피아 AC #9)",
+  "호시뇬": "호시냐 (카사 피아 AC #10)",
+  "코레데 오순디난": "코레데 오순디나 (카사 피아 AC #13)",
+  "셀비 클루안": "셀비 클루아 (카사 피아 AC #16)",
+  "안드레 제랄드손": "안드레 제랄드스 (카사 피아 AC #18)",
+  "알라사나 자탄": "알라사나 자타 (카사 피아 AC #20)",
+  "다니엘 아제베둔": "다니엘 아제베두 (카사 피아 AC #22)",
+  "이야드 모하메든": "이야드 모하메드 (카사 피아 AC #24)",
+  "카이키 호샨": "카이키 호샤 (카사 피아 AC #27)",
+  "제레미 리볼랑드": "제레미 리볼랑 (카사 피아 AC #29)",
+  "안드레 고미스르": "안드레 고미스 (카사 피아 AC #31)",
+  "세바 페레손": "세바 페레스 (카사 피아 AC #42)",
+  "다비드 소잔드": "다비드 소자 (카사 피아 AC #43)",
+  "페드루 로자손": "페드루 로자스 (카사 피아 AC #75)",
+  "뱅자맹 파월손": "뱅자맹 파월스 (카사 피아 AC #77)",
+  "로런스 오포린": "로런스 오포리 (카사 피아 AC #80)",
+  "카시아눈": "카시아누 (카사 피아 AC #90)",
+  "제펜": "제페 (카사 피아 AC #98)",
+  "클라우디우 멘드손": "클라우디우 멘드스 (카사 피아 AC #99)",
+  "호엘 로블레손": "호엘 로블레스 (GD 이스토릴 프라이아 #1)",
+  "리카르드 산체노": "리카르드 산체스 (GD 이스토릴 프라이아 #2)",
+  "페르난도 메드라논": "페르난도 메드라노 (GD 이스토릴 프라이아 #3)",
+  "페후르": "페후 (GD 이스토릴 프라이아 #4)",
+  "안테프 충긴": "안테프 충기 (GD 이스토릴 프라이아 #5)",
+  "안드레 라시미칸튼": "안드레 라시미칸트 (GD 이스토릴 프라이아 #7)",
+  "셰칸": "셰카 (GD 이스토릴 프라이아 #8)",
+  "조던 홀스그로븐": "조던 홀스그로브 (GD 이스토릴 프라이아 #10)",
+  "카욘 에드워즈르": "카욘 에드워즈 (GD 이스토릴 프라이아 #11)",
+  "주앙 카르발류스": "주앙 카르발류 (GD 이스토릴 프라이아 #12)",
+  "야니스 베그라윈": "야니스 베그라위 (GD 이스토릴 프라이아 #14)",
+  "마르틴 투르큰": "마르틴 투르크 (GD 이스토릴 프라이아 #16)",
+  "페이시뉸": "페이시뉴 (GD 이스토릴 프라이아 #17)",
+  "곤살루 코스탄": "곤살루 코스타 (GD 이스토릴 프라이아 #18)",
+  "티아구 파렌튼": "티아구 파렌트 (GD 이스토릴 프라이아 #19)",
+  "페드루 카르발륜": "페드루 카르발류 (GD 이스토릴 프라이아 #22)",
+  "스텔리오스 안드레운": "스텔리오스 안드레우 (GD 이스토릴 프라이아 #25)",
+  "새뮤얼 아미산": "새뮤얼 아미사 (GD 이스토릴 프라이아 #35)",
+  "플레처 스마이스론": "플레처 스마이스로 (GD 이스토릴 프라이아 #43)",
+  "티아구 브리툰": "티아구 브리투 (GD 이스토릴 프라이아 #90)",
+  "파브리시우 가르시안": "파브리시우 가르시아 (GD 이스토릴 프라이아 #98)",
+  "라피크 기타느": "라피크 기탄 (GD 이스토릴 프라이아 #99)",
+  "뤼카 맹카렐린": "뤼카 맹카렐리 (CF 이스트렐라 다 아마도라 #3)",
+  "베르나르두 샤폰": "베르나르두 샤포 (CF 이스트렐라 다 아마도라 #4)",
+  "스테판 레코비츠": "스테판 레코비치 (CF 이스트렐라 다 아마도라 #5)",
+  "케빈 회그 얀손드": "케빈 회그 얀손 (CF 이스트렐라 다 아마도라 #6)",
+  "호비뉴스": "호비뉴 (CF 이스트렐라 다 아마도라 #8)",
+  "야니스 스토이칸": "야니스 스토이카 (CF 이스트렐라 다 아마도라 #10)",
+  "로브로 즈보나레큰": "로브로 즈보나레크 (CF 이스트렐라 다 아마도라 #14)",
+  "제페르손 엔카단": "제페르손 엔카다 (CF 이스트렐라 다 아마도라 #17)",
+  "호안 호르다느": "호안 호르단 (CF 이스트렐라 다 아마도라 #19)",
+  "레오 링큰": "레오 링크 (CF 이스트렐라 다 아마도라 #24)",
+  "루안 파트리큰": "루안 파트리크 (CF 이스트렐라 다 아마도라 #30)",
+  "레안드로 안토네틴": "레안드로 안토네티 (CF 이스트렐라 다 아마도라 #37)",
+  "에디 두엔": "에디 두에 (CF 이스트렐라 다 아마도라 #39)",
+  "디오구 핀툰": "디오구 핀투 (CF 이스트렐라 다 아마도라 #51)",
+  "하파 소아르손": "하파 소아르스 (CF 이스트렐라 다 아마도라 #55)",
+  "아타나스 체르네픈": "아타나스 체르네프 (CF 이스트렐라 다 아마도라 #79)",
+  "에이브러햄 마커스르": "에이브러햄 마커스 (CF 이스트렐라 다 아마도라 #99)",
+  "이반 즐로비느": "이반 즐로빈 (FC 파말리캉 #1)",
+  "구스타부 가르시안": "구스타부 가르시아 (FC 파말리캉 #2)",
+  "레오 레알펜": "레오 레알페 (FC 파말리캉 #3)",
+  "핀 판 브레먼드": "핀 판 브레먼 (FC 파말리캉 #4)",
+  "레니 마이어스": "레니 마이어 (FC 파말리캉 #5)",
+  "톰 판 더 로인": "톰 판 더 로이 (FC 파말리캉 #6)",
+  "소히준": "소히주 (FC 파말리캉 #7)",
+  "마르코스 페냔": "마르코스 페냐 (FC 파말리캉 #8)",
+  "우마르 아부바카른": "우마르 아부바카르 (FC 파말리캉 #9)",
+  "오스카르 아란단": "오스카르 아란다 (FC 파말리캉 #11)",
+  "마티아스 드 아모링크": "마티아스 드 아모링 (FC 파말리캉 #14)",
+  "호드리구 피녜이룬": "호드리구 피녜이루 (FC 파말리캉 #17)",
+  "로메오 베넨": "로메오 베네 (FC 파말리캉 #18)",
+  "파울루 모레이란": "파울루 모레이라 (FC 파말리캉 #19)",
+  "터마시 수친": "터마시 수치 (FC 파말리캉 #21)",
+  "가브리에우 카브랄라": "가브리에우 카브랄 (FC 파말리캉 #22)",
+  "질 디아손": "질 디아스 (FC 파말리캉 #23)",
+  "마티스 장제알라": "마티스 장제알 (FC 파말리캉 #24)",
+  "라자르 차레비츠": "라자르 차레비치 (FC 파말리캉 #25)",
+  "페드루 본둔": "페드루 본두 (FC 파말리캉 #28)",
+  "보인 세라피모비츠": "보인 세라피모비치 (FC 파말리캉 #30)",
+  "곤살로 파스토른": "곤살로 파스토르 (FC 파말리캉 #47)",
+  "요르요스 쿠치아손": "요르요스 쿠치아스 (FC 파말리캉 #70)",
+  "페드루 산투스르": "페드루 산투스 (FC 파말리캉 #80)",
+  "안드레 피코르넬라": "안드레 피코르넬 (질 비센트 FC #1)",
+  "기슬랭 코나느": "기슬랭 코난 (질 비센트 FC #3)",
+  "마르뱅 엘림빈": "마르뱅 엘림비 (질 비센트 FC #4)",
+  "파쿤도 카세레손": "파쿤도 카세레스 (질 비센트 FC #5)",
+  "티자니 투렌": "티자니 투레 (질 비센트 FC #7)",
+  "모하메드 밤반드": "모하메드 밤바 (질 비센트 FC #8)",
+  "왈라시 프란산": "왈라시 프란사 (질 비센트 FC #9)",
+  "산티 가르시안": "산티 가르시아 (질 비센트 FC #10)",
+  "조엘손 페르난드손": "조엘손 페르난드스 (질 비센트 FC #11)",
+  "안드레아스 라우센드": "안드레아스 라우센 (질 비센트 FC #12)",
+  "세르히오 베르메혼": "세르히오 베르메호 (질 비센트 FC #17)",
+  "엑토르 에르난데손": "엑토르 에르난데스 (질 비센트 FC #23)",
+  "웨베르손드": "웨베르손 (질 비센트 FC #26)",
+  "아구스틴 모레이란": "아구스틴 모레이라 (질 비센트 FC #27)",
+  "디오구 코스타스": "디오구 코스타 (질 비센트 FC #28)",
+  "카를루스 에두아르둔": "카를루스 에두아르두 (질 비센트 FC #29)",
+  "루캉드": "루캉 (질 비센트 FC #30)",
+  "마르틴 페르난데손": "마르틴 페르난데스 (질 비센트 FC #32)",
+  "조나탄 부아툰": "조나탄 부아투 (질 비센트 FC #39)",
+  "다비드 모레이라스": "다비드 모레이라 (질 비센트 FC #45)",
+  "히카르두 에스가이운": "히카르두 에스가이우 (질 비센트 FC #47)",
+  "안토니오 에스피가레손": "안토니오 에스피가레스 (질 비센트 FC #48)",
+  "무릴루 코스타르": "무릴루 코스타 (질 비센트 FC #77)",
+  "디오구 프리오스튼": "디오구 프리오스트 (질 비센트 FC #86)",
+  "바스코 소예른": "바스코 소예르 (질 비센트 FC #88)",
+  "사무에우 포르투갈라": "사무에우 포르투갈 (질 비센트 FC #94)",
+  "모하메드 카바르": "모하메드 카바 (질 비센트 FC #99)",
+  "곤살루 타부아순": "곤살루 타부아수 (CS 마리티무 #1)",
+  "이고르 줄리앙드": "이고르 줄리앙 (CS 마리티무 #2)",
+  "너새니얼 오그베탄": "너새니얼 오그베타 (CS 마리티무 #3)",
+  "하파엘 페르난드손": "하파엘 페르난드스 (CS 마리티무 #4)",
+  "닐톤 바렐란": "닐톤 바렐라 (CS 마리티무 #5)",
+  "호드리구 안드라든": "호드리구 안드라드 (CS 마리티무 #6)",
+  "엔리케 자우네른": "엔리케 자우네르 (CS 마리티무 #7)",
+  "막심 도밍게손": "막심 도밍게스 (CS 마리티무 #8)",
+  "조제 멜룬": "조제 멜루 (CS 마리티무 #9)",
+  "마르틴 테혼드": "마르틴 테혼 (CS 마리티무 #10)",
+  "시모 부자이딘": "시모 부자이디 (CS 마리티무 #11)",
+  "알폰소 파스토른": "알폰소 파스토르 (CS 마리티무 #13)",
+  "하파에우 구준": "하파에우 구주 (CS 마리티무 #14)",
+  "토마스 타바레손": "토마스 타바레스 (CS 마리티무 #15)",
+  "아드리안 부츠켄": "아드리안 부츠케 (CS 마리티무 #17)",
+  "블라단 다닐로비츠": "블라단 다닐로비치 (CS 마리티무 #18)",
+  "프란시스쿠 고미손": "프란시스쿠 고미스 (CS 마리티무 #20)",
+  "이브라힘 알라닌": "이브라힘 알라니 (CS 마리티무 #21)",
+  "가보르 살러인": "가보르 살러이 (CS 마리티무 #22)",
+  "파울루 엔히킨": "파울루 엔히키 (CS 마리티무 #23)",
+  "옐루 산티아곤": "옐루 산티아고 (CS 마리티무 #25)",
+  "사무엘 밤반": "사무엘 밤바 (CS 마리티무 #27)",
+  "프란 비에이테손": "프란 비에이테스 (CS 마리티무 #30)",
+  "키미스 자발란": "키미스 자발라 (CS 마리티무 #34)",
+  "브라이언 림봄벤": "브라이언 림봄베 (CS 마리티무 #35)",
+  "호맹 코헤이안": "호맹 코헤이아 (CS 마리티무 #44)",
+  "이스라엘 아유만": "이스라엘 아유마 (CS 마리티무 #66)",
+  "모리스 보아키엔": "모리스 보아키에 (CS 마리티무 #90)",
+  "레안드룬": "레안드루 (모레이렌스 FC #2)",
+  "마누엘 멘돈산": "마누엘 멘돈사 (모레이렌스 FC #7)",
+  "마테야 스테파노비츠": "마테야 스테파노비치 (모레이렌스 FC #8)",
+  "알렉상드르 파르스맹드": "알렉상드르 파르스맹 (모레이렌스 FC #9)",
+  "키쿠 본도순": "키쿠 본도수 (모레이렌스 FC #10)",
+  "안드레 페레이라스": "안드레 페레이라 (모레이렌스 FC #13)",
+  "주앙 벨로순": "주앙 벨로수 (모레이렌스 FC #20)",
+  "로드리스": "로드리 (모레이렌스 FC #21)",
+  "나일 조느": "나일 존 (모레이렌스 FC #23)",
+  "아폰수 아시손": "아폰수 아시스 (모레이렌스 FC #25)",
+  "마라카손": "마라카스 (모레이렌스 FC #26)",
+  "키쿤": "키쿠 (모레이렌스 FC #27)",
+  "지미 가워스": "지미 가워 (모레이렌스 FC #30)",
+  "미카엘 다코스탄": "미카엘 다코스타 (모레이렌스 FC #44)",
+  "질베르투 바티스탄": "질베르투 바티스타 (모레이렌스 FC #66)",
+  "디니스 핀투르": "디니스 핀투 (모레이렌스 FC #76)",
+  "코비 모톤": "코비 모토 (모레이렌스 FC #77)",
+  "레나토 마리느": "레나토 마린 (CD 나시오날 #1)",
+  "다니엘 데 라 크루손": "다니엘 데 라 크루스 (CD 나시오날 #2)",
+  "조제 고미손": "조제 고미스 (CD 나시오날 #5)",
+  "마테우스 지아손": "마테우스 지아스 (CD 나시오날 #6)",
+  "마르쿠스 옌센드": "마르쿠스 옌센 (CD 나시오날 #7)",
+  "미겔 바에산": "미겔 바에사 (CD 나시오날 #8)",
+  "알렌 오반돈": "알렌 오반도 (CD 나시오날 #9)",
+  "다니에우 주니오른": "다니에우 주니오르 (CD 나시오날 #10)",
+  "스타브로스 가브릴라": "스타브로스 가브릴 (CD 나시오날 #11)",
+  "송민귤": "송민규 (CD 나시오날 #12)",
+  "주앙 곤살베손": "주앙 곤살베스 (CD 나시오날 #13)",
+  "이바닐두 페르난드손": "이바닐두 페르난드스 (CD 나시오날 #14)",
+  "치헤브 라비딘": "치헤브 라비디 (CD 나시오날 #15)",
+  "페르난도 나반": "페르난도 나바 (CD 나시오날 #17)",
+  "모테즈 누라닌": "모테즈 누라니 (CD 나시오날 #19)",
+  "마초이 잘룬": "마초이 잘루 (CD 나시오날 #20)",
+  "윌리암 코콜론": "윌리암 코콜로 (CD 나시오날 #21)",
+  "필리프 소아르손": "필리프 소아르스 (CD 나시오날 #22)",
+  "마테우스 이세펜": "마테우스 이세페 (CD 나시오날 #23)",
+  "조엘 실반": "조엘 실바 (CD 나시오날 #26)",
+  "이고르 리제룬": "이고르 리제루 (CD 나시오날 #28)",
+  "마르팀 와추": "마르팀 와츠 (CD 나시오날 #30)",
+  "다넬 동몬": "다넬 동모 (CD 나시오날 #31)",
+  "프란시스쿠 곤살베스르": "프란시스쿠 곤살베스 (CD 나시오날 #33)",
+  "레우 산투손": "레우 산투스 (CD 나시오날 #34)",
+  "제 비토른": "제 비토르 (CD 나시오날 #38)",
+  "웨슬리 가솔리난": "웨슬리 가솔리나 (CD 나시오날 #52)",
   "잭 버틀런더": "잭 버틀런드 (헐 시티 #1)",
   "루이 코일라": "루이 코일 (헐 시티 #2)",
   "라이언 자일러": "라이언 자일스 (헐 시티 #3)",
@@ -3347,6 +5024,121 @@ export const SQUAD_REAL_HINTS: Record<string, string> = {
   "압뒬카디르 외뮈른": "압뒬카디르 외뮈르 (헐 시티 #33)",
   "팀 이로그분아르": "팀 이로그분암 (헐 시티 #42)",
   "모하메드알리 쇼른": "모하메드알리 쇼 (헐 시티 #50)",
+  "야쿠프 키비오른": "야쿠프 키비오르 (FC 포르투 #4)",
+  "얀 베드나레큰": "얀 베드나레크 (FC 포르투 #5)",
+  "윌리앙 고미손": "윌리앙 고미스 (FC 포르투 #7)",
+  "빅토르 프로홀튼": "빅토르 프로홀트 (FC 포르투 #8)",
+  "사무 아게호완": "사무 아게호와 (FC 포르투 #9)",
+  "가브리 베이간": "가브리 베이가 (FC 포르투 #10)",
+  "페펜": "페페 (FC 포르투 #11)",
+  "자이두 사누신": "자이두 사누시 (FC 포르투 #12)",
+  "파블로 로사리온": "파블로 로사리오 (FC 포르투 #13)",
+  "클라우디우 하무손": "클라우디우 하무스 (FC 포르투 #14)",
+  "황인버므": "황인범 (FC 포르투 #16)",
+  "보르하 사인손": "보르하 사인스 (FC 포르투 #17)",
+  "네우엔 페레손": "네우엔 페레스 (FC 포르투 #18)",
+  "안드레 실바르": "안드레 실바 (FC 포르투 #19)",
+  "알베르투 코스탄": "알베르투 코스타 (FC 포르투 #20)",
+  "도미니크 프르피츠": "도미니크 프르피치 (FC 포르투 #21)",
+  "알란 바렐란": "알란 바렐라 (FC 포르투 #22)",
+  "주앙 코스탄": "주앙 코스타 (FC 포르투 #24)",
+  "산티아고 히메네손": "산티아고 히메네스 (FC 포르투 #29)",
+  "소잔": "소자 (FC 포르투 #33)",
+  "가브리에우 메큰": "가브리에우 메크 (FC 포르투 #37)",
+  "세코 포파난": "세코 포파나 (FC 포르투 #42)",
+  "마르팀 페르난드손": "마르팀 페르난드스 (FC 포르투 #52)",
+  "프란시스쿠 모란": "프란시스쿠 모라 (FC 포르투 #74)",
+  "오스카르 피에투셰프스킨": "오스카르 피에투셰프스키 (FC 포르투 #77)",
+  "디오구 코스타르": "디오구 코스타 (FC 포르투 #99)",
+  "체자리 미슈탄": "체자리 미슈타 (히우 아브 FC #1)",
+  "안드레아스 은토인": "안드레아스 은토이 (히우 아브 FC #5)",
+  "넬슨 애빈": "넬슨 애비 (히우 아브 FC #6)",
+  "히안 기예르민": "히안 기예르미 (히우 아브 FC #8)",
+  "탐블레 몬테이룬": "탐블레 몬테이루 (히우 아브 FC #9)",
+  "브랜던 아길레란": "브랜던 아길레라 (히우 아브 FC #10)",
+  "할렌 블레산": "할렌 블레사 (히우 아브 FC #11)",
+  "쥘리앵 롬보톤": "쥘리앵 롬보토 (히우 아브 FC #13)",
+  "야쿠프 브라베추": "야쿠프 브라베츠 (히우 아브 FC #14)",
+  "마리오스 브루사인": "마리오스 브루사이 (히우 아브 FC #17)",
+  "말리크 셀루킨": "말리크 셀루키 (히우 아브 FC #19)",
+  "주앙 토멘": "주앙 토메 (히우 아브 FC #20)",
+  "케빈 차모론": "케빈 차모로 (히우 아브 FC #22)",
+  "프란시스코 페트라손": "프란시스코 페트라소 (히우 아브 FC #23)",
+  "페드루 아마랄라": "페드루 아마랄 (히우 아브 FC #24)",
+  "롤란드 갈치큰": "롤란드 갈치크 (히우 아브 FC #30)",
+  "구스타부 만샨": "구스타부 만샤 (히우 아브 FC #39)",
+  "터마시 니키처스": "터마시 니키처 (히우 아브 FC #44)",
+  "요르요스 리아바손": "요르요스 리아바스 (히우 아브 FC #54)",
+  "사무에우 알베손": "사무에우 알베스 (히우 아브 FC #67)",
+  "다리오 슈피키츠": "다리오 슈피키치 (히우 아브 FC #77)",
+  "디오구 나시멘툰": "디오구 나시멘투 (히우 아브 FC #90)",
+  "에니오 판 데르 하운": "에니오 판 데르 하우 (히우 아브 FC #99)",
+  "루카스 프란산": "루카스 프란사 (CD 산타 클라라 #1)",
+  "페드루 파셰쿤": "페드루 파셰쿠 (CD 산타 클라라 #4)",
+  "기예르미 호망드": "기예르미 호망 (CD 산타 클라라 #5)",
+  "페드루 페레이란": "페드루 페레이라 (CD 산타 클라라 #6)",
+  "페르난둔": "페르난두 (CD 산타 클라라 #7)",
+  "제 타바레손": "제 타바레스 (CD 산타 클라라 #8)",
+  "곤살루 파시엔시안": "곤살루 파시엔시아 (CD 산타 클라라 #9)",
+  "브레네르 루카손": "브레네르 루카스 (CD 산타 클라라 #10)",
+  "웰린톤 토항드": "웰린톤 토항 (CD 산타 클라라 #11)",
+  "네네칸": "네네카 (CD 산타 클라라 #12)",
+  "주앙 바스콘셀루손": "주앙 바스콘셀루스 (CD 산타 클라라 #17)",
+  "티아구 히베이룬": "티아구 히베이루 (CD 산타 클라라 #20)",
+  "비치뉸": "비치뉴 (CD 산타 클라라 #22)",
+  "엠텐": "엠테 (CD 산타 클라라 #32)",
+  "히우둔": "히우두 (CD 산타 클라라 #37)",
+  "다니 보르지손": "다니 보르지스 (CD 산타 클라라 #41)",
+  "루카스 소아르손": "루카스 소아르스 (CD 산타 클라라 #42)",
+  "비니시우스 로페손": "비니시우스 로페스 (CD 산타 클라라 #70)",
+  "레우 자콘": "레우 자코 (CD 산타 클라라 #73)",
+  "후이 실반": "후이 실바 (스포르팅 CP #1)",
+  "실라스 안데르센드": "실라스 안데르센 (스포르팅 CP #4)",
+  "세르지 알티미란": "세르지 알티미라 (스포르팅 CP #5)",
+  "제노 데바스튼": "제노 데바스트 (스포르팅 CP #6)",
+  "포티스 이오아니디손": "포티스 이오아니디스 (스포르팅 CP #7)",
+  "하파엘 넬라": "하파엘 넬 (스포르팅 CP #9)",
+  "제니 카타문": "제니 카타무 (스포르팅 CP #10)",
+  "누누 산투손": "누누 산투스 (스포르팅 CP #11)",
+  "요르요스 바야니디손": "요르요스 바야니디스 (스포르팅 CP #13)",
+  "로드리고 살라사른": "로드리고 살라사르 (스포르팅 CP #17)",
+  "몬세프 제크린": "몬세프 제크리 (스포르팅 CP #18)",
+  "네스토리 이란쿤단": "네스토리 이란쿤다 (스포르팅 CP #19)",
+  "막시밀리아노 아라우혼": "막시밀리아노 아라우호 (스포르팅 CP #20)",
+  "페드루 리만": "페드루 리마 (스포르팅 CP #21)",
+  "이반 프레스네단": "이반 프레스네다 (스포르팅 CP #22)",
+  "곤살루 이나시운": "곤살루 이나시우 (스포르팅 CP #25)",
+  "카이키 페레이란": "카이키 페레이라 (스포르팅 CP #30)",
+  "루이스 기예르민": "루이스 기예르미 (스포르팅 CP #31)",
+  "디에고 칼라인": "디에고 칼라이 (스포르팅 CP #41)",
+  "호드리구 디아손": "호드리구 디아스 (스포르팅 CP #50)",
+  "주앙 시몽이손": "주앙 시몽이스 (스포르팅 CP #52)",
+  "이브라히마 바르": "이브라히마 바 (스포르팅 CP #55)",
+  "플라비우 곤살베손": "플라비우 곤살베스 (스포르팅 CP #58)",
+  "에두아르두 콰레스만": "에두아르두 콰레스마 (스포르팅 CP #72)",
+  "에두아르두 펠리시시문": "에두아르두 펠리시시무 (스포르팅 CP #73)",
+  "이사 둠비안": "이사 둠비아 (스포르팅 CP #77)",
+  "루이스 수아레손": "루이스 수아레스 (스포르팅 CP #97)",
+  "프란시스쿠 실반": "프란시스쿠 실바 (스포르팅 CP #99)",
+  "미겔 마간": "미겔 마가 (비토리아 SC #2)",
+  "오스카르 리바손": "오스카르 리바스 (비토리아 SC #4)",
+  "아메드 시디벤": "아메드 시디베 (비토리아 SC #5)",
+  "마티야 미트로비츠": "마티야 미트로비치 (비토리아 SC #6)",
+  "우마르 카마란": "우마르 카마라 (비토리아 SC #7)",
+  "구스타부 실바르": "구스타부 실바 (비토리아 SC #11)",
+  "주앙 멘드손": "주앙 멘드스 (비토리아 SC #13)",
+  "예이마르 모스케란": "예이마르 모스케라 (비토리아 SC #15)",
+  "베니 무켄딘": "베니 무켄디 (비토리아 SC #16)",
+  "텔무 아르칸준": "텔무 아르칸주 (비토리아 SC #18)",
+  "빅토르 안데르손드": "빅토르 안데르손 (비토리아 SC #19)",
+  "사무르": "사무 (비토리아 SC #20)",
+  "후안 카스티욘": "후안 카스티요 (비토리아 SC #22)",
+  "토니 스트라탄": "토니 스트라타 (비토리아 SC #23)",
+  "알리운 은도옌": "알리운 은도예 (비토리아 SC #24)",
+  "치아구 발리에이룬": "치아구 발리에이루 (비토리아 SC #28)",
+  "패트릭 우오트론": "패트릭 우오트로 (비토리아 SC #29)",
+  "로안 두센": "로안 두세 (비토리아 SC #44)",
+  "올리비에르 지흔": "올리비에르 지흐 (비토리아 SC #48)",
   "알렉스 파머스": "알렉스 파머 (입스위치 타운 #1)",
   "다넬 펄롱크": "다넬 펄롱 (입스위치 타운 #2)",
   "레이프 데이비손": "레이프 데이비스 (입스위치 타운 #3)",
@@ -5463,7 +7255,29 @@ export const SQUAD_REAL_HINTS: Record<string, string> = {
   "마린 슈베르콘": "마린 슈베르코 (베네치아 FC #33)",
   "아코르 아담손": "아코르 아담스 (베네치아 FC #45)",
   "파스콸레 마초킨": "파스콸레 마초키 (베네치아 FC #70)",
-  "로렌초 몬티폰": "로렌초 몬티포 (베네치아 FC #96)"
+  "로렌초 몬티폰": "로렌초 몬티포 (베네치아 FC #96)",
+  "킬리안 니키에만": "킬리안 니키에마 (ADO 덴하흐 #1)",
+  "오트니엘 라터링크르": "오트니엘 라터링크 (ADO 덴하흐 #2)",
+  "마테오 바므": "마테오 밤 (ADO 덴하흐 #4)",
+  "요나스 옌센아베운": "요나스 옌센아베우 (ADO 덴하흐 #5)",
+  "다릴 판미헤이므": "다릴 판미헤임 (ADO 덴하흐 #7)",
+  "얀 잠부레큰": "얀 잠부레크 (ADO 덴하흐 #8)",
+  "예서 발라": "예서 발 (ADO 덴하흐 #9)",
+  "에번 로티어스": "에번 로티어 (ADO 덴하흐 #11)",
+  "밀리안 히메네손": "밀리안 히메네스 (ADO 덴하흐 #14)",
+  "밀란 호커스": "밀란 호커 (ADO 덴하흐 #15)",
+  "핀 더 브라윈드": "핀 더 브라윈 (ADO 덴하흐 #16)",
+  "제일런 호킨손": "제일런 호킨스 (ADO 덴하흐 #17)",
+  "세쿠 실란": "세쿠 실라 (ADO 덴하흐 #18)",
+  "루카 라이슐라": "루카 라이슐 (ADO 덴하흐 #19)",
+  "케일럽 크레이머스": "케일럽 크레이머 (ADO 덴하흐 #20)",
+  "캐머런 푸피온드": "캐머런 푸피온 (ADO 덴하흐 #21)",
+  "니클라스 티덴": "니클라스 티데 (ADO 덴하흐 #23)",
+  "유호 킬론": "유호 킬로 (ADO 덴하흐 #25)",
+  "나이절 토머슨": "나이절 토머스 (ADO 덴하흐 #27)",
+  "마테이 시느": "마테이 신 (ADO 덴하흐 #33)",
+  "야니크 에두아르돈": "야니크 에두아르도 (ADO 덴하흐 #46)",
+  "도나트 바라닌": "도나트 바라니 (ADO 덴하흐 #77)"
 }
 
 /** 가명 → 초상 파일 키 (public/players/<key>.webp). */
@@ -5751,6 +7565,223 @@ export const SQUAD_PORTRAITS: Record<string, string> = {
   "예르겐 스트란 라르손": "cry-26",
   "다리오 오소리아": "cry-27",
   "에반 게상드": "cry-28",
+  "마르크안드레 테어 슈테게느": "aja-01",
+  "루카스 호잔": "aja-02",
+  "안톤 가에인": "aja-03",
+  "소피안 암라바튼": "aja-04",
+  "오언 베인달라": "aja-05",
+  "틸로 케러스": "aja-06",
+  "시몽 아딩란": "aja-07",
+  "율리안 브란튼": "aja-08",
+  "카스페르 돌베른": "aja-09",
+  "오스카르 글로우흔": "aja-10",
+  "빅토르 치한코운": "aja-11",
+  "카이우 엔히킨": "aja-12",
+  "유리 바손": "aja-13",
+  "달레이 블린튼": "aja-14",
+  "다비 클라선드": "aja-15",
+  "올리베르 에드바르센드": "aja-16",
+  "조프레 토렌추": "aja-17",
+  "유리 헤르컨손": "aja-18",
+  "스테번 베르흐하위손": "aja-19",
+  "요르티 모키온": "aja-20",
+  "마르턴 파손": "aja-21",
+  "아론 바우마느": "aja-22",
+  "디스 얀선": "aja-23",
+  "마르쿠스 레오나르둔": "aja-24",
+  "라야네 부니단": "aja-25",
+  "톨루 아로코다렌": "aja-26",
+  "로메제이던 오우수오두론": "azk-01",
+  "마이쿠마 세이얀": "azk-02",
+  "바우터르 후손": "azk-03",
+  "루이스 스하우턴드": "azk-04",
+  "마테오 차베손": "azk-05",
+  "페이르 코프메이너르손": "azk-06",
+  "웨슬리 파타틴": "azk-07",
+  "요르디 클라신": "azk-08",
+  "멕스 메이르딩큰": "azk-09",
+  "케이스 스미튼": "azk-10",
+  "로장헬로 달라": "azk-11",
+  "호비 페르휠스튼": "azk-12",
+  "칼빈 스텡손": "azk-13",
+  "스테이어 레싱크르": "azk-14",
+  "발데마르 뷔스코븐": "azk-15",
+  "벤데구즈 코바친": "azk-16",
+  "이즈 호른캄픈": "azk-17",
+  "다버 크바크마느": "azk-18",
+  "엘라이자 데이크스트란": "azk-19",
+  "아유브 우프키른": "azk-20",
+  "야리 더 뷔서른": "azk-21",
+  "베슬리 후트르": "azk-22",
+  "덴소 카시위손": "azk-23",
+  "이치하라 리온드": "azk-24",
+  "메이스 더 비튼": "azk-25",
+  "예룬 주튼": "azk-26",
+  "와심 부지아느": "azk-27",
+  "테이스 얀선드": "cam-01",
+  "데비드 외젠 부안": "cam-02",
+  "요른 베르크하우튼": "cam-03",
+  "이스마엘 바우픈": "cam-04",
+  "자말 아모판": "cam-05",
+  "사미 부후다넨": "cam-06",
+  "니키 사우런드": "cam-07",
+  "스카이 핑큰": "cam-08",
+  "일리에스 아마슌": "cam-09",
+  "니콜라스 빈더스": "cam-10",
+  "파비안 크바므": "cam-11",
+  "리크 뮐더르손": "cam-12",
+  "이선 아프카쿤": "cam-13",
+  "단 피서른": "cam-14",
+  "루카스 예턴드": "cam-15",
+  "비버 코이스트란": "cam-16",
+  "모르강 코스타렐린": "cam-17",
+  "이완 헨스트란": "cam-18",
+  "마티외 마르턴손": "cam-19",
+  "스테인 판하설라": "exc-01",
+  "리크 메이선드": "exc-02",
+  "카스페르 비델라": "exc-03",
+  "아이멘 슬리틴": "exc-04",
+  "이라클리 예고얀드": "exc-05",
+  "마리오 도밍게손": "exc-06",
+  "노아 나우요크손": "exc-07",
+  "케이시 보손": "exc-08",
+  "얀 플뤼흔": "exc-09",
+  "시몬 얀선드": "exc-10",
+  "셀턴 비아인": "exc-11",
+  "발렌틴 줄츠바허스": "exc-12",
+  "레나르트 하르트여손": "exc-13",
+  "일라노 실바 티마손": "exc-14",
+  "말론 판더베테링크": "exc-15",
+  "알리레자 자한바크신": "exc-16",
+  "티아르크 에른스튼": "fey-01",
+  "바르트 니우코픈": "fey-02",
+  "토마스 벨런드": "fey-03",
+  "와타나베 쓰요신": "fey-04",
+  "헤이스 스말라": "fey-05",
+  "제리 세인트 쥐스튼": "fey-06",
+  "야쿠프 모데른": "fey-07",
+  "히바이 제히엘라": "fey-08",
+  "루치아노 발렌텐": "fey-09",
+  "곤살루 보르지손": "fey-10",
+  "셈 스테인드": "fey-11",
+  "조던 보손": "fey-12",
+  "하비 로페손": "fey-13",
+  "레이스 넬슨드": "fey-14",
+  "나초 페린": "fey-15",
+  "마츠 데일라": "fey-16",
+  "토비아스 판덴엘스하우튼": "fey-17",
+  "아니스 하지 무산": "fey-18",
+  "테이스 크라이여펠튼": "fey-19",
+  "히바이로 레이튼": "fey-20",
+  "가우수 디아란": "fey-21",
+  "우사마 타르갈리느": "fey-22",
+  "플로리안 카스텐마이언": "fey-23",
+  "샤를 판하우터스": "fey-24",
+  "미카 마르몰라": "fey-25",
+  "리암 보생드": "fey-26",
+  "샤킬 판페르신": "fey-27",
+  "뤽 코프만손": "fos-01",
+  "시버 베일린드": "fos-02",
+  "호드리구 구튼": "fos-03",
+  "야신 우킬린": "fos-04",
+  "시프 판오텔러스": "fos-05",
+  "크리스토페르 페테르손드": "fos-06",
+  "야스퍼르 달하우손": "fos-07",
+  "앙토니 데스코튼": "fos-08",
+  "올러 로메닌": "fos-09",
+  "이부 핀툰": "fos-10",
+  "니크 더 흐로튼": "fos-11",
+  "에두아르 미쉰": "fos-12",
+  "실로 트 잔튼": "fos-13",
+  "필립 브리테인드": "fos-14",
+  "레퀸시오 제이푸이큰": "fos-15",
+  "저스틴 후브너스": "fos-16",
+  "마테이스 브란더르호르스튼": "fos-17",
+  "이반 마르케손": "fos-18",
+  "모하메드 이하타런드": "fos-19",
+  "셰틸 하우그르": "gae-01",
+  "알폰스 삼프스테든": "gae-02",
+  "게리트 나우버스": "gae-03",
+  "요리스 크라머른": "gae-04",
+  "딘 제임손": "gae-05",
+  "에버르트 린토르스튼": "gae-06",
+  "스테판 잉기 시귀르다르손드": "gae-07",
+  "쇠렌 텡스테든": "gae-08",
+  "오스카르 시베르트센드": "gae-09",
+  "로빈 베이엔베르흔": "gae-10",
+  "빅토르 에드바르센느": "gae-11",
+  "마티스 쉬렌": "gae-12",
+  "리코넬 마르하렛트": "gae-13",
+  "멜러 뮐렌스테인드": "gae-14",
+  "니크 마르스마느": "gae-15",
+  "티보 바텐드": "gae-16",
+  "조바니 판즈바므": "gae-17",
+  "율리위스 디르크선드": "gae-18",
+  "토마스 갈베손": "gae-19",
+  "핌 사토픈": "gae-20",
+  "에리크 플라타케른": "gae-21",
+  "에티엔 파선드": "gro-01",
+  "바우터르 프린손": "gro-02",
+  "테이먼 블록제일라": "gro-03",
+  "마르크 친게른": "gro-04",
+  "마르코 렌텐": "gro-05",
+  "트라비스 헤르네손": "gro-06",
+  "티카 더 용언": "gro-07",
+  "브린욜뷔르 빌뤼름손드": "gro-08",
+  "야코브 온드레이칸": "gro-09",
+  "니콜라스 브란디손": "gro-10",
+  "요르흐 스흐레우더르손": "gro-11",
+  "엘비스 판데르라느": "gro-12",
+  "다비트 판데르베르픈": "gro-13",
+  "테이호 란튼": "gro-14",
+  "오스카르 자바단": "gro-15",
+  "말콤 옝그": "gro-16",
+  "펠러 클레먼튼": "gro-17",
+  "톰 판베르헌드": "gro-18",
+  "티리케 메르세란": "gro-19",
+  "마스 빌럼선드": "her-01",
+  "삼 케르스턴드": "her-02",
+  "디르크 프로퍼른": "her-03",
+  "막상스 리베란": "her-04",
+  "뤽 브라우어르손": "her-05",
+  "딜란 벤터스": "her-06",
+  "링고 메이르벨튼": "her-07",
+  "루카 오연드": "her-08",
+  "레비 스만손": "her-09",
+  "마르쿠스 린다인": "her-10",
+  "니콜라이 홉란드": "her-11",
+  "바실리오스 자가리치손": "her-12",
+  "야코브 트렌스콘": "her-13",
+  "베른트 클라베르부른": "her-14",
+  "달링 블라딘": "her-15",
+  "흐리스티얀 페트로픈": "her-16",
+  "란로이 마시느": "her-17",
+  "안드리스 노퍼르튼": "her-18",
+  "올리베르 브라우덴": "her-19",
+  "곤살로 크레타손": "nec-01",
+  "브라이안 페레이란": "nec-02",
+  "필리프 산들러른": "nec-03",
+  "페르 스휘르손": "nec-04",
+  "토마스 아우베야느": "nec-05",
+  "다르코 네야시미츠": "nec-06",
+  "엠레 모른": "nec-07",
+  "이사크 한센아뢰엔드": "nec-08",
+  "차론 셰린": "nec-09",
+  "두샨 타디츠": "nec-10",
+  "빌륌 토르 빌륌손드": "nec-11",
+  "니콜라스 폴스터스": "nec-12",
+  "카이 시르하위손": "nec-13",
+  "브람 나위팅큰": "nec-14",
+  "오가와 고킨": "nec-15",
+  "노에 르브르통드": "nec-16",
+  "토비아스 스토르므": "nec-17",
+  "데버론 폰빌러스": "nec-18",
+  "사미 우아이산드": "nec-19",
+  "브라이언 린선드": "nec-20",
+  "비토 판크로에인": "nec-21",
+  "자미로 몬테이룬": "nec-22",
+  "알무게라 카바른": "nec-23",
+  "클레멘트 비쇼픈": "nec-24",
   "조던 픽포르": "eve-01",
   "마크 트래버손": "eve-02",
   "톰 킹스": "eve-03",
@@ -5772,6 +7803,229 @@ export const SQUAD_PORTRAITS: Record<string, string> = {
   "타이리크 조지오": "eve-19",
   "타일러 디블린": "eve-20",
   "브레넌 존손": "eve-21",
+  "야스퍼르 스헨델라른": "pec-01",
+  "셰럴 플로라뉘손": "pec-02",
+  "올리비어 아르츤드": "pec-03",
+  "테이스 펠트하위손": "pec-04",
+  "얀 뷔르거스": "pec-05",
+  "유네스 남린": "pec-06",
+  "토비아스 좀머스": "pec-07",
+  "엘리아스 쇠렌센드": "pec-08",
+  "쿤 코스톤손": "pec-09",
+  "딜란 음바욘": "pec-10",
+  "톰 더 흐라픈": "pec-11",
+  "오디세우스 벨라나손": "pec-12",
+  "이브라힘 시소콘": "pec-13",
+  "니크 피르헤버른": "pec-14",
+  "테이스 오스팅크": "pec-15",
+  "야디엘 페레이라 다 가만": "pec-16",
+  "시몬 그라베손": "pec-17",
+  "라이언 토머슨": "pec-18",
+  "니크 피흐팅어스": "pec-19",
+  "니크 올레인": "psv-01",
+  "루차렐 헤이르트라위단": "psv-02",
+  "야레크 가시오로프스킨": "psv-03",
+  "아르만도 오비스폰": "psv-04",
+  "이반 페리시츠": "psv-05",
+  "라이언 플라밍곤": "psv-06",
+  "뤼번 판 보멀라": "psv-07",
+  "세르지뇨 데스튼": "psv-08",
+  "리카르도 페핀": "psv-09",
+  "파울 바너스": "psv-10",
+  "사미 우아이산": "psv-11",
+  "알라산 플레안": "psv-12",
+  "마우루 주니오른": "psv-13",
+  "필리프 코스티츠": "psv-14",
+  "에스미르 바이락타레비츠": "psv-15",
+  "휘스 틸라": "psv-16",
+  "스벤 메이나르손": "psv-17",
+  "예르디 스하우턴드": "psv-18",
+  "미켈 브로 한센드": "psv-19",
+  "사노 고다인": "psv-20",
+  "킬리안 실디얀": "psv-21",
+  "데니스 마느": "psv-22",
+  "삼 라머르손": "psv-23",
+  "노아 페르난데손": "psv-24",
+  "마테이 코바르신": "psv-25",
+  "아요니 산투손": "psv-26",
+  "아다모 나갈론": "psv-27",
+  "테인 스몰레나르손": "psv-28",
+  "필리프 베드나레큰": "spa-01",
+  "미하엘 브라우어른": "spa-02",
+  "막스 더 리흐튼": "spa-03",
+  "바스 카위퍼르손": "spa-04",
+  "루셴드리 마르테손": "spa-05",
+  "브루노 마르틴스 인딘": "spa-06",
+  "테오 킨테론": "spa-07",
+  "보이트 레이튼": "spa-08",
+  "마르빈 영그": "spa-09",
+  "율리안 바손": "spa-10",
+  "미토 슌스켄": "spa-11",
+  "알완데 로알드쇠인": "spa-12",
+  "세드리크 하텐부른": "spa-13",
+  "옌스 토른스트란": "spa-14",
+  "로빈 판크라위선드": "spa-15",
+  "요엘 이데혼": "spa-16",
+  "카스페르 테르혼": "spa-17",
+  "뇌크비 테이르 토리손드": "spa-18",
+  "미첼 판베르헌드": "spa-19",
+  "밀란 조너펠튼": "spa-20",
+  "안드레이 코스티츠": "spa-21",
+  "미커 클레인드": "spa-22",
+  "알바로 헨린": "spa-23",
+  "퀸시 후버스": "spa-24",
+  "로날트 코이만 주니오르": "tel-01",
+  "예프 하르더펠튼": "tel-02",
+  "헤랄트 알더르손": "tel-03",
+  "프린스 아닝크": "tel-04",
+  "후이 멘드손": "tel-05",
+  "에미르한 데미르자느": "tel-06",
+  "젤라니 세도르픈": "tel-07",
+  "티론 오우순": "tel-08",
+  "나이절 오기디 은완쿤": "tel-09",
+  "닐스 로선드": "tel-10",
+  "가비 카스킬린": "tel-11",
+  "단 레이지허른": "tel-12",
+  "파트릭 브라우어른": "tel-13",
+  "로연드로 아우스턴드": "tel-14",
+  "마르빈 페이르스마느": "tel-15",
+  "라르스 우너슈탈라": "twe-01",
+  "메이스 힐허르손": "twe-02",
+  "로빈 프뢰퍼른": "twe-03",
+  "라미즈 제루킨": "twe-04",
+  "마르코 피아찬": "twe-05",
+  "테일러 부손": "twe-06",
+  "바우트 베호르스튼": "twe-07",
+  "삼 라머르스르": "twe-08",
+  "단 로추": "twe-09",
+  "크리스티안 흘륀손드": "twe-10",
+  "요엘 드롬멀라": "twe-11",
+  "필립 토르발센드": "twe-12",
+  "유네스 타한": "twe-13",
+  "토마스 판덴벨튼": "twe-14",
+  "렘코 파스베른": "twe-15",
+  "스타브 렘키느": "twe-16",
+  "크시슈토프 쿠로프스킨": "twe-17",
+  "루카스 페네호르 오프 헤셀링큰": "twe-18",
+  "손드레 외리아세테른": "twe-19",
+  "바르트 판로에인": "twe-20",
+  "아스케 아델고른": "twe-21",
+  "아르노 페르스휘런드": "twe-22",
+  "나지 위뉘바른": "twe-23",
+  "막스 브륀손": "twe-24",
+  "헤이스 베셀링큰": "twe-25",
+  "다우다 바이트마느": "twe-26",
+  "이삼 엘 마흔": "twe-27",
+  "바실리스 바르카손": "utr-01",
+  "시버 호레만손": "utr-02",
+  "마티서 디던드": "utr-03",
+  "니콜라스 파나요툰": "utr-04",
+  "휘스 오퍼르하위손": "utr-05",
+  "빅토르 옌센드": "utr-06",
+  "요리스 판 오버레이므": "utr-07",
+  "아르템 스테파노픈": "utr-08",
+  "요안 카틀린드": "utr-09",
+  "앙헬 알라르코느": "utr-10",
+  "에이드리언 블레이큰": "utr-11",
+  "셈 판 다위느": "utr-12",
+  "야코프 메디츠": "utr-13",
+  "다니 더 비튼": "utr-14",
+  "네빌 오기디 은완쿤": "utr-15",
+  "니클라스 베스테를룬드": "utr-16",
+  "밀리아노 요나탄손": "utr-17",
+  "알론조 엥완단": "utr-18",
+  "노아 오히온": "utr-19",
+  "케빈 파레데손": "utr-20",
+  "다비 판덴베르흐트": "utr-21",
+  "우알리드 아구길라": "utr-22",
+  "노르딘 암라바튼": "utr-23",
+  "마리우스 브로홀르므": "utr-24",
+  "아르튀르 자그렌": "utr-25",
+  "토마 디디용회들라": "wil-01",
+  "알레산드로 치란닌": "wil-02",
+  "핀 스타므": "wil-03",
+  "유스틴 호흐만": "wil-04",
+  "히더 테르 아버스튼": "wil-05",
+  "야던 슬로린": "wil-06",
+  "카스퍼르 보하르튼": "wil-07",
+  "데빈 하언드": "wil-08",
+  "야리 스휘르마느": "wil-09",
+  "아르민 출루므": "wil-10",
+  "아민 에트타이빈": "wil-11",
+  "우리엘 판알스튼": "wil-12",
+  "바우터르 판데르스테인드": "wil-13",
+  "페르 판로느": "wil-14",
+  "네이선 추어아온드": "wil-15",
+  "토마스 페르헤이튼": "wil-16",
+  "에세르 귀르뷔주": "wil-17",
+  "마르코스 라비느": "acv-01",
+  "니코스 미헬리손": "acv-02",
+  "미겔 앙헬 브라운": "acv-03",
+  "페드루 바르셀루손": "acv-04",
+  "안드레 세이틸라": "acv-05",
+  "루이스 실반": "acv-06",
+  "지한 카흐라마느": "acv-07",
+  "모하메드 불디닌": "acv-08",
+  "알바로 사모란": "acv-09",
+  "도미니크 스테치큰": "acv-10",
+  "수피안 메세게므": "acv-11",
+  "발레리 페르난데손": "acv-12",
+  "크리스티안 페레이란": "acv-13",
+  "토마스 도밍구손": "acv-14",
+  "닐스 모티머스": "acv-15",
+  "안드레 클로비손": "acv-16",
+  "앙토니 코헤이안": "acv-17",
+  "후벵 페레이란": "acv-18",
+  "호비뉸": "acv-19",
+  "파울리뉸": "acv-20",
+  "노아 라베이른": "alv-01",
+  "나빌 투아이진": "alv-02",
+  "훌리안 마르티네손": "alv-03",
+  "야야 보장드": "alv-04",
+  "사비트 압둘라인": "alv-05",
+  "다비 기르": "alv-06",
+  "안드레 비디갈라": "alv-07",
+  "비발두 세메둔": "alv-08",
+  "시키뉸": "alv-09",
+  "세드리크 누오친": "alv-10",
+  "아이작 제임손": "alv-11",
+  "스티븐 바세얀": "alv-12",
+  "사미 메르헤근": "alv-13",
+  "마르코 에시민": "alv-14",
+  "디오구 스펜서스": "alv-15",
+  "세르지 고메손": "alv-16",
+  "피게이레둔": "alv-17",
+  "안드레 파울룬": "alv-18",
+  "모페 제미덴": "alv-19",
+  "이안 루카손": "alv-20",
+  "토니 타마리튼": "alv-21",
+  "마테우스 멘드손": "alv-22",
+  "바스티앵 뫼피윤": "alv-23",
+  "라이안 루카스르": "alv-24",
+  "프란시스쿠 시숨반": "alv-25",
+  "조나타느": "alv-26",
+  "제 하파에운": "alv-27",
+  "호세 폰타느": "aro-01",
+  "디오구 몬테이룬": "aro-02",
+  "보리스 포포비츠": "aro-03",
+  "에스펀 판 에인": "aro-04",
+  "나이스 주아란": "aro-05",
+  "후쿠이 다이친": "aro-06",
+  "팔리 마율룬": "aro-07",
+  "파블로 고살베손": "aro-08",
+  "미겔 푸첸": "aro-09",
+  "이그나시오 데 아루아바레난": "aro-10",
+  "이현조": "aro-11",
+  "하비 산체노": "aro-12",
+  "이반 바르베론": "aro-13",
+  "오레스트 레베덴콘": "aro-14",
+  "알폰소 트레산": "aro-15",
+  "마테오 플로레손": "aro-16",
+  "딜란 난디느": "aro-17",
+  "브라이언 만실란": "aro-18",
+  "티아구 에스가이운": "aro-19",
+  "마리오 클리멘튼": "aro-20",
+  "페드루 산투손": "aro-21",
   "베른트 레노어": "ful-01",
   "뱅자맹 르콩테": "ful-02",
   "알렉스 보르투": "ful-03",
@@ -5799,6 +8053,246 @@ export const SQUAD_PORTRAITS: Record<string, string> = {
   "케비노": "ful-25",
   "오스카르 보브": "ful-26",
   "요나 쿠시아사로": "ful-27",
+  "아나톨리 트루비느": "ben-01",
+  "클레망 랑글렌": "ben-02",
+  "알레산드로 치르카틴": "ben-03",
+  "엔소 바레네체안": "ben-04",
+  "알렉산더 바르": "ben-05",
+  "브루만": "ben-06",
+  "프레드리크 아우르스네손": "ben-07",
+  "헤오르히 수다코운": "ben-08",
+  "도디 루케바키온": "ben-09",
+  "야쿠프 카민스킨": "ben-10",
+  "방겔리스 파블리디손": "ben-11",
+  "마누 실반": "ben-12",
+  "레안드루 바헤이룬": "ben-13",
+  "안드레아스 셸데루픈": "ben-14",
+  "욘 두라느": "ben-15",
+  "사무엘 소아르손": "ben-16",
+  "잔루카 프레스티안닌": "ben-17",
+  "사무엘 달라": "ben-18",
+  "하파 실반": "ben-19",
+  "클라우디오 에체베린": "ben-20",
+  "가브리에우 인디운": "ben-21",
+  "수피안 엘 카루아닌": "ben-22",
+  "주앙 팔리뇬": "ben-23",
+  "토마스 아라우준": "ben-24",
+  "조슈아 윈더스": "ben-25",
+  "아니지우 카브랄라": "ben-26",
+  "빅토르 고메손": "brg-01",
+  "시쿠 니아카텐": "brg-02",
+  "레오나르두 렐룬": "brg-03",
+  "비토르 카르발륜": "brg-04",
+  "디오구 트라바수손": "brg-05",
+  "주앙 무티뉸": "brg-06",
+  "프란 나바론": "brg-07",
+  "파우 빅토른": "brg-08",
+  "가브리에우 실반": "brg-09",
+  "티아구 사르": "brg-10",
+  "구스타프 라게르비엘켄": "brg-11",
+  "토미 마르케손": "brg-12",
+  "요반 밀로셰비츠": "brg-13",
+  "요나스 빈드": "brg-14",
+  "마리오 도르젤레손": "brg-15",
+  "히카르두 오르탄": "brg-16",
+  "세르히오 바르시안": "brg-17",
+  "데니스 후세인바시츠": "brg-18",
+  "브라이트 아레이음빈": "brg-19",
+  "장바티스트 고르빈": "brg-20",
+  "베르나르두 폰트손": "brg-21",
+  "주앙 마르케스르": "brg-22",
+  "데미르 에게 트나주": "brg-23",
+  "아드리안 바리시츠": "brg-24",
+  "야니스 다 호샨": "brg-25",
+  "아드리안 바이라민": "brg-26",
+  "디에구 호드리게손": "brg-27",
+  "가브리 마르티네손": "brg-28",
+  "주앙 카르발륜드": "brg-29",
+  "패트릭 세케이란": "cpa-01",
+  "칼린": "cpa-02",
+  "주앙 고울라르튼": "cpa-03",
+  "압두 콘텐": "cpa-04",
+  "엔히키 아라우준": "cpa-05",
+  "호시뇬": "cpa-06",
+  "코레데 오순디난": "cpa-07",
+  "셀비 클루안": "cpa-08",
+  "안드레 제랄드손": "cpa-09",
+  "알라사나 자탄": "cpa-10",
+  "다니엘 아제베둔": "cpa-11",
+  "이야드 모하메든": "cpa-12",
+  "카이키 호샨": "cpa-13",
+  "제레미 리볼랑드": "cpa-14",
+  "안드레 고미스르": "cpa-15",
+  "세바 페레손": "cpa-16",
+  "다비드 소잔드": "cpa-17",
+  "페드루 로자손": "cpa-18",
+  "뱅자맹 파월손": "cpa-19",
+  "로런스 오포린": "cpa-20",
+  "카시아눈": "cpa-21",
+  "제펜": "cpa-22",
+  "클라우디우 멘드손": "cpa-23",
+  "호엘 로블레손": "est-01",
+  "리카르드 산체노": "est-02",
+  "페르난도 메드라논": "est-03",
+  "페후르": "est-04",
+  "안테프 충긴": "est-05",
+  "안드레 라시미칸튼": "est-06",
+  "셰칸": "est-07",
+  "조던 홀스그로븐": "est-08",
+  "카욘 에드워즈르": "est-09",
+  "주앙 카르발류스": "est-10",
+  "야니스 베그라윈": "est-11",
+  "마르틴 투르큰": "est-12",
+  "페이시뉸": "est-13",
+  "곤살루 코스탄": "est-14",
+  "티아구 파렌튼": "est-15",
+  "페드루 카르발륜": "est-16",
+  "스텔리오스 안드레운": "est-17",
+  "새뮤얼 아미산": "est-18",
+  "플레처 스마이스론": "est-19",
+  "티아구 브리툰": "est-20",
+  "파브리시우 가르시안": "est-21",
+  "라피크 기타느": "est-22",
+  "뤼카 맹카렐린": "esa-01",
+  "베르나르두 샤폰": "esa-02",
+  "스테판 레코비츠": "esa-03",
+  "케빈 회그 얀손드": "esa-04",
+  "호비뉴스": "esa-05",
+  "야니스 스토이칸": "esa-06",
+  "로브로 즈보나레큰": "esa-07",
+  "제페르손 엔카단": "esa-08",
+  "호안 호르다느": "esa-09",
+  "레오 링큰": "esa-10",
+  "루안 파트리큰": "esa-11",
+  "레안드로 안토네틴": "esa-12",
+  "에디 두엔": "esa-13",
+  "디오구 핀툰": "esa-14",
+  "하파 소아르손": "esa-15",
+  "아타나스 체르네픈": "esa-16",
+  "에이브러햄 마커스르": "esa-17",
+  "이반 즐로비느": "fam-01",
+  "구스타부 가르시안": "fam-02",
+  "레오 레알펜": "fam-03",
+  "핀 판 브레먼드": "fam-04",
+  "레니 마이어스": "fam-05",
+  "톰 판 더 로인": "fam-06",
+  "소히준": "fam-07",
+  "마르코스 페냔": "fam-08",
+  "우마르 아부바카른": "fam-09",
+  "오스카르 아란단": "fam-10",
+  "마티아스 드 아모링크": "fam-11",
+  "호드리구 피녜이룬": "fam-12",
+  "로메오 베넨": "fam-13",
+  "파울루 모레이란": "fam-14",
+  "터마시 수친": "fam-15",
+  "가브리에우 카브랄라": "fam-16",
+  "질 디아손": "fam-17",
+  "마티스 장제알라": "fam-18",
+  "라자르 차레비츠": "fam-19",
+  "페드루 본둔": "fam-20",
+  "보인 세라피모비츠": "fam-21",
+  "곤살로 파스토른": "fam-22",
+  "요르요스 쿠치아손": "fam-23",
+  "페드루 산투스르": "fam-24",
+  "안드레 피코르넬라": "gil-01",
+  "기슬랭 코나느": "gil-02",
+  "마르뱅 엘림빈": "gil-03",
+  "파쿤도 카세레손": "gil-04",
+  "티자니 투렌": "gil-05",
+  "모하메드 밤반드": "gil-06",
+  "왈라시 프란산": "gil-07",
+  "산티 가르시안": "gil-08",
+  "조엘손 페르난드손": "gil-09",
+  "안드레아스 라우센드": "gil-10",
+  "세르히오 베르메혼": "gil-11",
+  "엑토르 에르난데손": "gil-12",
+  "웨베르손드": "gil-13",
+  "아구스틴 모레이란": "gil-14",
+  "디오구 코스타스": "gil-15",
+  "카를루스 에두아르둔": "gil-16",
+  "루캉드": "gil-17",
+  "마르틴 페르난데손": "gil-18",
+  "조나탄 부아툰": "gil-19",
+  "다비드 모레이라스": "gil-20",
+  "히카르두 에스가이운": "gil-21",
+  "안토니오 에스피가레손": "gil-22",
+  "무릴루 코스타르": "gil-23",
+  "디오구 프리오스튼": "gil-24",
+  "바스코 소예른": "gil-25",
+  "사무에우 포르투갈라": "gil-26",
+  "모하메드 카바르": "gil-27",
+  "곤살루 타부아순": "mrt-01",
+  "이고르 줄리앙드": "mrt-02",
+  "너새니얼 오그베탄": "mrt-03",
+  "하파엘 페르난드손": "mrt-04",
+  "닐톤 바렐란": "mrt-05",
+  "호드리구 안드라든": "mrt-06",
+  "엔리케 자우네른": "mrt-07",
+  "막심 도밍게손": "mrt-08",
+  "조제 멜룬": "mrt-09",
+  "마르틴 테혼드": "mrt-10",
+  "시모 부자이딘": "mrt-11",
+  "알폰소 파스토른": "mrt-12",
+  "하파에우 구준": "mrt-13",
+  "토마스 타바레손": "mrt-14",
+  "아드리안 부츠켄": "mrt-15",
+  "블라단 다닐로비츠": "mrt-16",
+  "프란시스쿠 고미손": "mrt-17",
+  "이브라힘 알라닌": "mrt-18",
+  "가보르 살러인": "mrt-19",
+  "파울루 엔히킨": "mrt-20",
+  "옐루 산티아곤": "mrt-21",
+  "사무엘 밤반": "mrt-22",
+  "프란 비에이테손": "mrt-23",
+  "키미스 자발란": "mrt-24",
+  "브라이언 림봄벤": "mrt-25",
+  "호맹 코헤이안": "mrt-26",
+  "이스라엘 아유만": "mrt-27",
+  "모리스 보아키엔": "mrt-28",
+  "레안드룬": "mor-01",
+  "마누엘 멘돈산": "mor-02",
+  "마테야 스테파노비츠": "mor-03",
+  "알렉상드르 파르스맹드": "mor-04",
+  "키쿠 본도순": "mor-05",
+  "안드레 페레이라스": "mor-06",
+  "주앙 벨로순": "mor-07",
+  "로드리스": "mor-08",
+  "나일 조느": "mor-09",
+  "아폰수 아시손": "mor-10",
+  "마라카손": "mor-11",
+  "키쿤": "mor-12",
+  "지미 가워스": "mor-13",
+  "미카엘 다코스탄": "mor-14",
+  "질베르투 바티스탄": "mor-15",
+  "디니스 핀투르": "mor-16",
+  "코비 모톤": "mor-17",
+  "레나토 마리느": "nac-01",
+  "다니엘 데 라 크루손": "nac-02",
+  "조제 고미손": "nac-03",
+  "마테우스 지아손": "nac-04",
+  "마르쿠스 옌센드": "nac-05",
+  "미겔 바에산": "nac-06",
+  "알렌 오반돈": "nac-07",
+  "다니에우 주니오른": "nac-08",
+  "스타브로스 가브릴라": "nac-09",
+  "송민귤": "nac-10",
+  "주앙 곤살베손": "nac-11",
+  "이바닐두 페르난드손": "nac-12",
+  "치헤브 라비딘": "nac-13",
+  "페르난도 나반": "nac-14",
+  "모테즈 누라닌": "nac-15",
+  "마초이 잘룬": "nac-16",
+  "윌리암 코콜론": "nac-17",
+  "필리프 소아르손": "nac-18",
+  "마테우스 이세펜": "nac-19",
+  "조엘 실반": "nac-20",
+  "이고르 리제룬": "nac-21",
+  "마르팀 와추": "nac-22",
+  "다넬 동몬": "nac-23",
+  "프란시스쿠 곤살베스르": "nac-24",
+  "레우 산투손": "nac-25",
+  "제 비토른": "nac-26",
+  "웨슬리 가솔리난": "nac-27",
   "잭 버틀런더": "hul-01",
   "루이 코일라": "hul-02",
   "라이언 자일러": "hul-03",
@@ -5828,6 +8322,121 @@ export const SQUAD_PORTRAITS: Record<string, string> = {
   "압뒬카디르 외뮈른": "hul-27",
   "팀 이로그분아르": "hul-28",
   "모하메드알리 쇼른": "hul-29",
+  "야쿠프 키비오른": "por-01",
+  "얀 베드나레큰": "por-02",
+  "윌리앙 고미손": "por-03",
+  "빅토르 프로홀튼": "por-04",
+  "사무 아게호완": "por-05",
+  "가브리 베이간": "por-06",
+  "페펜": "por-07",
+  "자이두 사누신": "por-08",
+  "파블로 로사리온": "por-09",
+  "클라우디우 하무손": "por-10",
+  "황인버므": "por-11",
+  "보르하 사인손": "por-12",
+  "네우엔 페레손": "por-13",
+  "안드레 실바르": "por-14",
+  "알베르투 코스탄": "por-15",
+  "도미니크 프르피츠": "por-16",
+  "알란 바렐란": "por-17",
+  "주앙 코스탄": "por-18",
+  "산티아고 히메네손": "por-19",
+  "소잔": "por-20",
+  "가브리에우 메큰": "por-21",
+  "세코 포파난": "por-22",
+  "마르팀 페르난드손": "por-23",
+  "프란시스쿠 모란": "por-24",
+  "오스카르 피에투셰프스킨": "por-25",
+  "디오구 코스타르": "por-26",
+  "체자리 미슈탄": "ria-01",
+  "안드레아스 은토인": "ria-02",
+  "넬슨 애빈": "ria-03",
+  "히안 기예르민": "ria-04",
+  "탐블레 몬테이룬": "ria-05",
+  "브랜던 아길레란": "ria-06",
+  "할렌 블레산": "ria-07",
+  "쥘리앵 롬보톤": "ria-08",
+  "야쿠프 브라베추": "ria-09",
+  "마리오스 브루사인": "ria-10",
+  "말리크 셀루킨": "ria-11",
+  "주앙 토멘": "ria-12",
+  "케빈 차모론": "ria-13",
+  "프란시스코 페트라손": "ria-14",
+  "페드루 아마랄라": "ria-15",
+  "롤란드 갈치큰": "ria-16",
+  "구스타부 만샨": "ria-17",
+  "터마시 니키처스": "ria-18",
+  "요르요스 리아바손": "ria-19",
+  "사무에우 알베손": "ria-20",
+  "다리오 슈피키츠": "ria-21",
+  "디오구 나시멘툰": "ria-22",
+  "에니오 판 데르 하운": "ria-23",
+  "루카스 프란산": "stc-01",
+  "페드루 파셰쿤": "stc-02",
+  "기예르미 호망드": "stc-03",
+  "페드루 페레이란": "stc-04",
+  "페르난둔": "stc-05",
+  "제 타바레손": "stc-06",
+  "곤살루 파시엔시안": "stc-07",
+  "브레네르 루카손": "stc-08",
+  "웰린톤 토항드": "stc-09",
+  "네네칸": "stc-10",
+  "주앙 바스콘셀루손": "stc-11",
+  "티아구 히베이룬": "stc-12",
+  "비치뉸": "stc-13",
+  "엠텐": "stc-14",
+  "히우둔": "stc-15",
+  "다니 보르지손": "stc-16",
+  "루카스 소아르손": "stc-17",
+  "비니시우스 로페손": "stc-18",
+  "레우 자콘": "stc-19",
+  "후이 실반": "spo-01",
+  "실라스 안데르센드": "spo-02",
+  "세르지 알티미란": "spo-03",
+  "제노 데바스튼": "spo-04",
+  "포티스 이오아니디손": "spo-05",
+  "하파엘 넬라": "spo-06",
+  "제니 카타문": "spo-07",
+  "누누 산투손": "spo-08",
+  "요르요스 바야니디손": "spo-09",
+  "로드리고 살라사른": "spo-10",
+  "몬세프 제크린": "spo-11",
+  "네스토리 이란쿤단": "spo-12",
+  "막시밀리아노 아라우혼": "spo-13",
+  "페드루 리만": "spo-14",
+  "이반 프레스네단": "spo-15",
+  "곤살루 이나시운": "spo-16",
+  "카이키 페레이란": "spo-17",
+  "루이스 기예르민": "spo-18",
+  "디에고 칼라인": "spo-19",
+  "호드리구 디아손": "spo-20",
+  "주앙 시몽이손": "spo-21",
+  "이브라히마 바르": "spo-22",
+  "플라비우 곤살베손": "spo-23",
+  "에두아르두 콰레스만": "spo-24",
+  "에두아르두 펠리시시문": "spo-25",
+  "이사 둠비안": "spo-26",
+  "루이스 수아레손": "spo-27",
+  "프란시스쿠 실반": "spo-28",
+  "미겔 마간": "vsc-01",
+  "오스카르 리바손": "vsc-02",
+  "아메드 시디벤": "vsc-03",
+  "마티야 미트로비츠": "vsc-04",
+  "우마르 카마란": "vsc-05",
+  "구스타부 실바르": "vsc-06",
+  "주앙 멘드손": "vsc-07",
+  "예이마르 모스케란": "vsc-08",
+  "베니 무켄딘": "vsc-09",
+  "텔무 아르칸준": "vsc-10",
+  "빅토르 안데르손드": "vsc-11",
+  "사무르": "vsc-12",
+  "후안 카스티욘": "vsc-13",
+  "토니 스트라탄": "vsc-14",
+  "알리운 은도옌": "vsc-15",
+  "치아구 발리에이룬": "vsc-16",
+  "패트릭 우오트론": "vsc-17",
+  "로안 두센": "vsc-18",
+  "올리비에르 지흔": "vsc-19",
   "알렉스 파머스": "ips-01",
   "다넬 펄롱크": "ips-02",
   "레이프 데이비손": "ips-03",
@@ -7944,7 +10553,29 @@ export const SQUAD_PORTRAITS: Record<string, string> = {
   "마린 슈베르콘": "ven-26",
   "아코르 아담손": "ven-27",
   "파스콸레 마초킨": "ven-28",
-  "로렌초 몬티폰": "ven-29"
+  "로렌초 몬티폰": "ven-29",
+  "킬리안 니키에만": "ado-01",
+  "오트니엘 라터링크르": "ado-02",
+  "마테오 바므": "ado-03",
+  "요나스 옌센아베운": "ado-04",
+  "다릴 판미헤이므": "ado-05",
+  "얀 잠부레큰": "ado-06",
+  "예서 발라": "ado-07",
+  "에번 로티어스": "ado-08",
+  "밀리안 히메네손": "ado-09",
+  "밀란 호커스": "ado-10",
+  "핀 더 브라윈드": "ado-11",
+  "제일런 호킨손": "ado-12",
+  "세쿠 실란": "ado-13",
+  "루카 라이슐라": "ado-14",
+  "케일럽 크레이머스": "ado-15",
+  "캐머런 푸피온드": "ado-16",
+  "니클라스 티덴": "ado-17",
+  "유호 킬론": "ado-18",
+  "나이절 토머슨": "ado-19",
+  "마테이 시느": "ado-20",
+  "야니크 에두아르돈": "ado-21",
+  "도나트 바라닌": "ado-22"
 }
 
 /** 초상 생성 프롬프트용 속성. */
@@ -9930,6 +12561,1525 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "pos": "ST",
     "club": "크리스탈 이글"
   },
+  "aja-01": {
+    "name": "마르크안드레 테어 슈테게느",
+    "nation": "독일",
+    "birthYear": 1992,
+    "pos": "GK",
+    "club": "암스텔 아약"
+  },
+  "aja-02": {
+    "name": "루카스 호잔",
+    "nation": "브라질",
+    "birthYear": 2000,
+    "pos": "RB",
+    "club": "암스텔 아약"
+  },
+  "aja-03": {
+    "name": "안톤 가에인",
+    "nation": "덴마크",
+    "birthYear": 2002,
+    "pos": "RB",
+    "club": "암스텔 아약"
+  },
+  "aja-04": {
+    "name": "소피안 암라바튼",
+    "nation": "모로코",
+    "birthYear": 1996,
+    "pos": "CDM",
+    "club": "암스텔 아약"
+  },
+  "aja-05": {
+    "name": "오언 베인달라",
+    "nation": "네덜란드",
+    "birthYear": 1999,
+    "pos": "LB",
+    "club": "암스텔 아약"
+  },
+  "aja-06": {
+    "name": "틸로 케러스",
+    "nation": "독일",
+    "birthYear": 1996,
+    "pos": "CB",
+    "club": "암스텔 아약"
+  },
+  "aja-07": {
+    "name": "시몽 아딩란",
+    "nation": "코트디부아르",
+    "birthYear": 2002,
+    "pos": "LW",
+    "club": "암스텔 아약"
+  },
+  "aja-08": {
+    "name": "율리안 브란튼",
+    "nation": "독일",
+    "birthYear": 1996,
+    "pos": "CAM",
+    "club": "암스텔 아약"
+  },
+  "aja-09": {
+    "name": "카스페르 돌베른",
+    "nation": "덴마크",
+    "birthYear": 1997,
+    "pos": "ST",
+    "club": "암스텔 아약"
+  },
+  "aja-10": {
+    "name": "오스카르 글로우흔",
+    "nation": "이스라엘",
+    "birthYear": 2004,
+    "pos": "CAM",
+    "club": "암스텔 아약"
+  },
+  "aja-11": {
+    "name": "빅토르 치한코운",
+    "nation": "우크라이나",
+    "birthYear": 1997,
+    "pos": "RW",
+    "club": "암스텔 아약"
+  },
+  "aja-12": {
+    "name": "카이우 엔히킨",
+    "nation": "브라질",
+    "birthYear": 1997,
+    "pos": "LB",
+    "club": "암스텔 아약"
+  },
+  "aja-13": {
+    "name": "유리 바손",
+    "nation": "네덜란드",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "암스텔 아약"
+  },
+  "aja-14": {
+    "name": "달레이 블린튼",
+    "nation": "네덜란드",
+    "birthYear": 1990,
+    "pos": "CB",
+    "club": "암스텔 아약"
+  },
+  "aja-15": {
+    "name": "다비 클라선드",
+    "nation": "네덜란드",
+    "birthYear": 1993,
+    "pos": "CM",
+    "club": "암스텔 아약"
+  },
+  "aja-16": {
+    "name": "올리베르 에드바르센드",
+    "nation": "노르웨이",
+    "birthYear": 1999,
+    "pos": "LW",
+    "club": "암스텔 아약"
+  },
+  "aja-17": {
+    "name": "조프레 토렌추",
+    "nation": "스페인",
+    "birthYear": 2007,
+    "pos": "CB",
+    "club": "암스텔 아약"
+  },
+  "aja-18": {
+    "name": "유리 헤르컨손",
+    "nation": "네덜란드",
+    "birthYear": 2006,
+    "pos": "GK",
+    "club": "암스텔 아약"
+  },
+  "aja-19": {
+    "name": "스테번 베르흐하위손",
+    "nation": "네덜란드",
+    "birthYear": 1991,
+    "pos": "RW",
+    "club": "암스텔 아약"
+  },
+  "aja-20": {
+    "name": "요르티 모키온",
+    "nation": "콩고민주공화국",
+    "birthYear": 2008,
+    "pos": "CDM",
+    "club": "암스텔 아약"
+  },
+  "aja-21": {
+    "name": "마르턴 파손",
+    "nation": "인도네시아",
+    "birthYear": 1998,
+    "pos": "GK",
+    "club": "암스텔 아약"
+  },
+  "aja-22": {
+    "name": "아론 바우마느",
+    "nation": "네덜란드",
+    "birthYear": 2007,
+    "pos": "CB",
+    "club": "암스텔 아약"
+  },
+  "aja-23": {
+    "name": "디스 얀선",
+    "nation": "네덜란드",
+    "birthYear": 2006,
+    "pos": "CB",
+    "club": "암스텔 아약"
+  },
+  "aja-24": {
+    "name": "마르쿠스 레오나르둔",
+    "nation": "브라질",
+    "birthYear": 2003,
+    "pos": "ST",
+    "club": "암스텔 아약"
+  },
+  "aja-25": {
+    "name": "라야네 부니단",
+    "nation": "모로코",
+    "birthYear": 2006,
+    "pos": "RW",
+    "club": "암스텔 아약"
+  },
+  "aja-26": {
+    "name": "톨루 아로코다렌",
+    "nation": "나이지리아",
+    "birthYear": 2000,
+    "pos": "ST",
+    "club": "암스텔 아약"
+  },
+  "azk-01": {
+    "name": "로메제이던 오우수오두론",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "GK",
+    "club": "알크마르 치즈"
+  },
+  "azk-02": {
+    "name": "마이쿠마 세이얀",
+    "nation": "일본",
+    "birthYear": 1997,
+    "pos": "RB",
+    "club": "알크마르 치즈"
+  },
+  "azk-03": {
+    "name": "바우터르 후손",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "CB",
+    "club": "알크마르 치즈"
+  },
+  "azk-04": {
+    "name": "루이스 스하우턴드",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "CB",
+    "club": "알크마르 치즈"
+  },
+  "azk-05": {
+    "name": "마테오 차베손",
+    "nation": "멕시코",
+    "birthYear": 2004,
+    "pos": "LB",
+    "club": "알크마르 치즈"
+  },
+  "azk-06": {
+    "name": "페이르 코프메이너르손",
+    "nation": "네덜란드",
+    "birthYear": 2000,
+    "pos": "CDM",
+    "club": "알크마르 치즈"
+  },
+  "azk-07": {
+    "name": "웨슬리 파타틴",
+    "nation": "브라질",
+    "birthYear": 2003,
+    "pos": "RW",
+    "club": "알크마르 치즈"
+  },
+  "azk-08": {
+    "name": "요르디 클라신",
+    "nation": "네덜란드",
+    "birthYear": 1991,
+    "pos": "CM",
+    "club": "알크마르 치즈"
+  },
+  "azk-09": {
+    "name": "멕스 메이르딩큰",
+    "nation": "네덜란드",
+    "birthYear": 2003,
+    "pos": "ST",
+    "club": "알크마르 치즈"
+  },
+  "azk-10": {
+    "name": "케이스 스미튼",
+    "nation": "네덜란드",
+    "birthYear": 2006,
+    "pos": "CAM",
+    "club": "알크마르 치즈"
+  },
+  "azk-11": {
+    "name": "로장헬로 달라",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "LW",
+    "club": "알크마르 치즈"
+  },
+  "azk-12": {
+    "name": "호비 페르휠스튼",
+    "nation": "네덜란드",
+    "birthYear": 1993,
+    "pos": "GK",
+    "club": "알크마르 치즈"
+  },
+  "azk-13": {
+    "name": "칼빈 스텡손",
+    "nation": "네덜란드",
+    "birthYear": 1998,
+    "pos": "RW",
+    "club": "알크마르 치즈"
+  },
+  "azk-14": {
+    "name": "스테이어 레싱크르",
+    "nation": "네덜란드",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "알크마르 치즈"
+  },
+  "azk-15": {
+    "name": "발데마르 뷔스코븐",
+    "nation": "덴마크",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "알크마르 치즈"
+  },
+  "azk-16": {
+    "name": "벤데구즈 코바친",
+    "nation": "헝가리",
+    "birthYear": 2007,
+    "pos": "ST",
+    "club": "알크마르 치즈"
+  },
+  "azk-17": {
+    "name": "이즈 호른캄픈",
+    "nation": "네덜란드",
+    "birthYear": 1998,
+    "pos": "ST",
+    "club": "알크마르 치즈"
+  },
+  "azk-18": {
+    "name": "다버 크바크마느",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "알크마르 치즈"
+  },
+  "azk-19": {
+    "name": "엘라이자 데이크스트란",
+    "nation": "네덜란드",
+    "birthYear": 2006,
+    "pos": "CB",
+    "club": "알크마르 치즈"
+  },
+  "azk-20": {
+    "name": "아유브 우프키른",
+    "nation": "네덜란드",
+    "birthYear": 2006,
+    "pos": "LW",
+    "club": "알크마르 치즈"
+  },
+  "azk-21": {
+    "name": "야리 더 뷔서른",
+    "nation": "벨기에",
+    "birthYear": 1999,
+    "pos": "GK",
+    "club": "알크마르 치즈"
+  },
+  "azk-22": {
+    "name": "베슬리 후트르",
+    "nation": "네덜란드",
+    "birthYear": 1994,
+    "pos": "CB",
+    "club": "알크마르 치즈"
+  },
+  "azk-23": {
+    "name": "덴소 카시위손",
+    "nation": "네덜란드",
+    "birthYear": 2002,
+    "pos": "RB",
+    "club": "알크마르 치즈"
+  },
+  "azk-24": {
+    "name": "이치하라 리온드",
+    "nation": "일본",
+    "birthYear": 2005,
+    "pos": "CB",
+    "club": "알크마르 치즈"
+  },
+  "azk-25": {
+    "name": "메이스 더 비튼",
+    "nation": "네덜란드",
+    "birthYear": 1998,
+    "pos": "LB",
+    "club": "알크마르 치즈"
+  },
+  "azk-26": {
+    "name": "예룬 주튼",
+    "nation": "네덜란드",
+    "birthYear": 1991,
+    "pos": "GK",
+    "club": "알크마르 치즈"
+  },
+  "azk-27": {
+    "name": "와심 부지아느",
+    "nation": "네덜란드",
+    "birthYear": 2006,
+    "pos": "ST",
+    "club": "알크마르 치즈"
+  },
+  "cam-01": {
+    "name": "테이스 얀선드",
+    "nation": "네덜란드",
+    "birthYear": 2001,
+    "pos": "GK",
+    "club": "카임브레 블랙"
+  },
+  "cam-02": {
+    "name": "데비드 외젠 부안",
+    "nation": "이탈리아",
+    "birthYear": 2001,
+    "pos": "RB",
+    "club": "카임브레 블랙"
+  },
+  "cam-03": {
+    "name": "요른 베르크하우튼",
+    "nation": "네덜란드",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "카임브레 블랙"
+  },
+  "cam-04": {
+    "name": "이스마엘 바우픈",
+    "nation": "모로코",
+    "birthYear": 2006,
+    "pos": "CB",
+    "club": "카임브레 블랙"
+  },
+  "cam-05": {
+    "name": "자말 아모판",
+    "nation": "네덜란드",
+    "birthYear": 1998,
+    "pos": "CB",
+    "club": "카임브레 블랙"
+  },
+  "cam-06": {
+    "name": "사미 부후다넨",
+    "nation": "모로코",
+    "birthYear": 2008,
+    "pos": "LW",
+    "club": "카임브레 블랙"
+  },
+  "cam-07": {
+    "name": "니키 사우런드",
+    "nation": "퀴라소",
+    "birthYear": 1999,
+    "pos": "CM",
+    "club": "카임브레 블랙"
+  },
+  "cam-08": {
+    "name": "스카이 핑큰",
+    "nation": "네덜란드",
+    "birthYear": 2006,
+    "pos": "ST",
+    "club": "카임브레 블랙"
+  },
+  "cam-09": {
+    "name": "일리에스 아마슌",
+    "nation": "프랑스",
+    "birthYear": 2003,
+    "pos": "LW",
+    "club": "카임브레 블랙"
+  },
+  "cam-10": {
+    "name": "니콜라스 빈더스",
+    "nation": "오스트리아",
+    "birthYear": 2002,
+    "pos": "ST",
+    "club": "카임브레 블랙"
+  },
+  "cam-11": {
+    "name": "파비안 크바므",
+    "nation": "노르웨이",
+    "birthYear": 2005,
+    "pos": "ST",
+    "club": "카임브레 블랙"
+  },
+  "cam-12": {
+    "name": "리크 뮐더르손",
+    "nation": "네덜란드",
+    "birthYear": 2000,
+    "pos": "CB",
+    "club": "카임브레 블랙"
+  },
+  "cam-13": {
+    "name": "이선 아프카쿤",
+    "nation": "프랑스",
+    "birthYear": 2006,
+    "pos": "CM",
+    "club": "카임브레 블랙"
+  },
+  "cam-14": {
+    "name": "단 피서른",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "CAM",
+    "club": "카임브레 블랙"
+  },
+  "cam-15": {
+    "name": "루카스 예턴드",
+    "nation": "네덜란드",
+    "birthYear": 2007,
+    "pos": "RB",
+    "club": "카임브레 블랙"
+  },
+  "cam-16": {
+    "name": "비버 코이스트란",
+    "nation": "네덜란드",
+    "birthYear": 2006,
+    "pos": "LB",
+    "club": "카임브레 블랙"
+  },
+  "cam-17": {
+    "name": "모르강 코스타렐린",
+    "nation": "프랑스",
+    "birthYear": 2005,
+    "pos": "LB",
+    "club": "카임브레 블랙"
+  },
+  "cam-18": {
+    "name": "이완 헨스트란",
+    "nation": "네덜란드",
+    "birthYear": 2006,
+    "pos": "ST",
+    "club": "카임브레 블랙"
+  },
+  "cam-19": {
+    "name": "마티외 마르턴손",
+    "nation": "벨기에",
+    "birthYear": 1995,
+    "pos": "CDM",
+    "club": "카임브레 블랙"
+  },
+  "exc-01": {
+    "name": "스테인 판하설라",
+    "nation": "네덜란드",
+    "birthYear": 1996,
+    "pos": "GK",
+    "club": "엑셀시오 크루"
+  },
+  "exc-02": {
+    "name": "리크 메이선드",
+    "nation": "네덜란드",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "엑셀시오 크루"
+  },
+  "exc-03": {
+    "name": "카스페르 비델라",
+    "nation": "스웨덴",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "엑셀시오 크루"
+  },
+  "exc-04": {
+    "name": "아이멘 슬리틴",
+    "nation": "네덜란드",
+    "birthYear": 2006,
+    "pos": "LW",
+    "club": "엑셀시오 크루"
+  },
+  "exc-05": {
+    "name": "이라클리 예고얀드",
+    "nation": "조지아",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "엑셀시오 크루"
+  },
+  "exc-06": {
+    "name": "마리오 도밍게손",
+    "nation": "스페인",
+    "birthYear": 2004,
+    "pos": "ST",
+    "club": "엑셀시오 크루"
+  },
+  "exc-07": {
+    "name": "노아 나우요크손",
+    "nation": "네덜란드",
+    "birthYear": 2002,
+    "pos": "CAM",
+    "club": "엑셀시오 크루"
+  },
+  "exc-08": {
+    "name": "케이시 보손",
+    "nation": "호주",
+    "birthYear": 2004,
+    "pos": "RB",
+    "club": "엑셀시오 크루"
+  },
+  "exc-09": {
+    "name": "얀 플뤼흔",
+    "nation": "네덜란드",
+    "birthYear": 2005,
+    "pos": "CB",
+    "club": "엑셀시오 크루"
+  },
+  "exc-10": {
+    "name": "시몬 얀선드",
+    "nation": "네덜란드",
+    "birthYear": 2000,
+    "pos": "LB",
+    "club": "엑셀시오 크루"
+  },
+  "exc-11": {
+    "name": "셀턴 비아인",
+    "nation": "기니비사우",
+    "birthYear": 2000,
+    "pos": "GK",
+    "club": "엑셀시오 크루"
+  },
+  "exc-12": {
+    "name": "발렌틴 줄츠바허스",
+    "nation": "오스트리아",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "엑셀시오 크루"
+  },
+  "exc-13": {
+    "name": "레나르트 하르트여손",
+    "nation": "네덜란드",
+    "birthYear": 2003,
+    "pos": "CDM",
+    "club": "엑셀시오 크루"
+  },
+  "exc-14": {
+    "name": "일라노 실바 티마손",
+    "nation": "카보베르데",
+    "birthYear": 2002,
+    "pos": "RW",
+    "club": "엑셀시오 크루"
+  },
+  "exc-15": {
+    "name": "말론 판더베테링크",
+    "nation": "자메이카",
+    "birthYear": 2007,
+    "pos": "RB",
+    "club": "엑셀시오 크루"
+  },
+  "exc-16": {
+    "name": "알리레자 자한바크신",
+    "nation": "이란",
+    "birthYear": 1993,
+    "pos": "RW",
+    "club": "엑셀시오 크루"
+  },
+  "fey-01": {
+    "name": "티아르크 에른스튼",
+    "nation": "독일",
+    "birthYear": 2003,
+    "pos": "GK",
+    "club": "로테르 페예"
+  },
+  "fey-02": {
+    "name": "바르트 니우코픈",
+    "nation": "네덜란드",
+    "birthYear": 1996,
+    "pos": "RB",
+    "club": "로테르 페예"
+  },
+  "fey-03": {
+    "name": "토마스 벨런드",
+    "nation": "네덜란드",
+    "birthYear": 2001,
+    "pos": "CB",
+    "club": "로테르 페예"
+  },
+  "fey-04": {
+    "name": "와타나베 쓰요신",
+    "nation": "일본",
+    "birthYear": 1997,
+    "pos": "CB",
+    "club": "로테르 페예"
+  },
+  "fey-05": {
+    "name": "헤이스 스말라",
+    "nation": "네덜란드",
+    "birthYear": 1997,
+    "pos": "LB",
+    "club": "로테르 페예"
+  },
+  "fey-06": {
+    "name": "제리 세인트 쥐스튼",
+    "nation": "네덜란드",
+    "birthYear": 1996,
+    "pos": "CB",
+    "club": "로테르 페예"
+  },
+  "fey-07": {
+    "name": "야쿠프 모데른",
+    "nation": "폴란드",
+    "birthYear": 1999,
+    "pos": "CM",
+    "club": "로테르 페예"
+  },
+  "fey-08": {
+    "name": "히바이 제히엘라",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "로테르 페예"
+  },
+  "fey-09": {
+    "name": "루치아노 발렌텐",
+    "nation": "네덜란드",
+    "birthYear": 2003,
+    "pos": "CAM",
+    "club": "로테르 페예"
+  },
+  "fey-10": {
+    "name": "곤살루 보르지손",
+    "nation": "포르투갈",
+    "birthYear": 2001,
+    "pos": "RW",
+    "club": "로테르 페예"
+  },
+  "fey-11": {
+    "name": "셈 스테인드",
+    "nation": "네덜란드",
+    "birthYear": 2001,
+    "pos": "CAM",
+    "club": "로테르 페예"
+  },
+  "fey-12": {
+    "name": "조던 보손",
+    "nation": "호주",
+    "birthYear": 2002,
+    "pos": "LB",
+    "club": "로테르 페예"
+  },
+  "fey-13": {
+    "name": "하비 로페손",
+    "nation": "스페인",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "로테르 페예"
+  },
+  "fey-14": {
+    "name": "레이스 넬슨드",
+    "nation": "잉글랜드",
+    "birthYear": 1999,
+    "pos": "RW",
+    "club": "로테르 페예"
+  },
+  "fey-15": {
+    "name": "나초 페린",
+    "nation": "스페인",
+    "birthYear": 2004,
+    "pos": "ST",
+    "club": "로테르 페예"
+  },
+  "fey-16": {
+    "name": "마츠 데일라",
+    "nation": "네덜란드",
+    "birthYear": 1997,
+    "pos": "RB",
+    "club": "로테르 페예"
+  },
+  "fey-17": {
+    "name": "토비아스 판덴엘스하우튼",
+    "nation": "네덜란드",
+    "birthYear": 2007,
+    "pos": "CM",
+    "club": "로테르 페예"
+  },
+  "fey-18": {
+    "name": "아니스 하지 무산",
+    "nation": "알제리",
+    "birthYear": 2002,
+    "pos": "RW",
+    "club": "로테르 페예"
+  },
+  "fey-19": {
+    "name": "테이스 크라이여펠튼",
+    "nation": "네덜란드",
+    "birthYear": 2007,
+    "pos": "CM",
+    "club": "로테르 페예"
+  },
+  "fey-20": {
+    "name": "히바이로 레이튼",
+    "nation": "네덜란드",
+    "birthYear": 2006,
+    "pos": "RB",
+    "club": "로테르 페예"
+  },
+  "fey-21": {
+    "name": "가우수 디아란",
+    "nation": "말리",
+    "birthYear": 2002,
+    "pos": "ST",
+    "club": "로테르 페예"
+  },
+  "fey-22": {
+    "name": "우사마 타르갈리느",
+    "nation": "모로코",
+    "birthYear": 2002,
+    "pos": "CDM",
+    "club": "로테르 페예"
+  },
+  "fey-23": {
+    "name": "플로리안 카스텐마이언",
+    "nation": "독일",
+    "birthYear": 1997,
+    "pos": "GK",
+    "club": "로테르 페예"
+  },
+  "fey-24": {
+    "name": "샤를 판하우터스",
+    "nation": "벨기에",
+    "birthYear": 1998,
+    "pos": "CDM",
+    "club": "로테르 페예"
+  },
+  "fey-25": {
+    "name": "미카 마르몰라",
+    "nation": "스페인",
+    "birthYear": 2001,
+    "pos": "CB",
+    "club": "로테르 페예"
+  },
+  "fey-26": {
+    "name": "리암 보생드",
+    "nation": "아일랜드",
+    "birthYear": 1996,
+    "pos": "GK",
+    "club": "로테르 페예"
+  },
+  "fey-27": {
+    "name": "샤킬 판페르신",
+    "nation": "네덜란드",
+    "birthYear": 2006,
+    "pos": "ST",
+    "club": "로테르 페예"
+  },
+  "fos-01": {
+    "name": "뤽 코프만손",
+    "nation": "네덜란드",
+    "birthYear": 1993,
+    "pos": "GK",
+    "club": "포르투나 시타르"
+  },
+  "fos-02": {
+    "name": "시버 베일린드",
+    "nation": "벨기에",
+    "birthYear": 2003,
+    "pos": "RB",
+    "club": "포르투나 시타르"
+  },
+  "fos-03": {
+    "name": "호드리구 구튼",
+    "nation": "브라질",
+    "birthYear": 2000,
+    "pos": "CB",
+    "club": "포르투나 시타르"
+  },
+  "fos-04": {
+    "name": "야신 우킬린",
+    "nation": "모로코",
+    "birthYear": 2001,
+    "pos": "CDM",
+    "club": "포르투나 시타르"
+  },
+  "fos-05": {
+    "name": "시프 판오텔러스",
+    "nation": "네덜란드",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "포르투나 시타르"
+  },
+  "fos-06": {
+    "name": "크리스토페르 페테르손드",
+    "nation": "스웨덴",
+    "birthYear": 1994,
+    "pos": "LW",
+    "club": "포르투나 시타르"
+  },
+  "fos-07": {
+    "name": "야스퍼르 달하우손",
+    "nation": "네덜란드",
+    "birthYear": 2001,
+    "pos": "CM",
+    "club": "포르투나 시타르"
+  },
+  "fos-08": {
+    "name": "앙토니 데스코튼",
+    "nation": "벨기에",
+    "birthYear": 2003,
+    "pos": "ST",
+    "club": "포르투나 시타르"
+  },
+  "fos-09": {
+    "name": "올러 로메닌",
+    "nation": "인도네시아",
+    "birthYear": 2000,
+    "pos": "ST",
+    "club": "포르투나 시타르"
+  },
+  "fos-10": {
+    "name": "이부 핀툰",
+    "nation": "포르투갈",
+    "birthYear": 1990,
+    "pos": "RB",
+    "club": "포르투나 시타르"
+  },
+  "fos-11": {
+    "name": "니크 더 흐로튼",
+    "nation": "네덜란드",
+    "birthYear": 2001,
+    "pos": "CB",
+    "club": "포르투나 시타르"
+  },
+  "fos-12": {
+    "name": "에두아르 미쉰",
+    "nation": "프랑스",
+    "birthYear": 2003,
+    "pos": "CAM",
+    "club": "포르투나 시타르"
+  },
+  "fos-13": {
+    "name": "실로 트 잔튼",
+    "nation": "네덜란드",
+    "birthYear": 2003,
+    "pos": "LW",
+    "club": "포르투나 시타르"
+  },
+  "fos-14": {
+    "name": "필립 브리테인드",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "포르투나 시타르"
+  },
+  "fos-15": {
+    "name": "레퀸시오 제이푸이큰",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "ST",
+    "club": "포르투나 시타르"
+  },
+  "fos-16": {
+    "name": "저스틴 후브너스",
+    "nation": "인도네시아",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "포르투나 시타르"
+  },
+  "fos-17": {
+    "name": "마테이스 브란더르호르스튼",
+    "nation": "네덜란드",
+    "birthYear": 1993,
+    "pos": "GK",
+    "club": "포르투나 시타르"
+  },
+  "fos-18": {
+    "name": "이반 마르케손",
+    "nation": "스페인",
+    "birthYear": 1994,
+    "pos": "CB",
+    "club": "포르투나 시타르"
+  },
+  "fos-19": {
+    "name": "모하메드 이하타런드",
+    "nation": "모로코",
+    "birthYear": 2002,
+    "pos": "CAM",
+    "club": "포르투나 시타르"
+  },
+  "gae-01": {
+    "name": "셰틸 하우그르",
+    "nation": "노르웨이",
+    "birthYear": 1998,
+    "pos": "GK",
+    "club": "고어헤드 이글"
+  },
+  "gae-02": {
+    "name": "알폰스 삼프스테든",
+    "nation": "아이슬란드",
+    "birthYear": 1998,
+    "pos": "RB",
+    "club": "고어헤드 이글"
+  },
+  "gae-03": {
+    "name": "게리트 나우버스",
+    "nation": "독일",
+    "birthYear": 1992,
+    "pos": "CB",
+    "club": "고어헤드 이글"
+  },
+  "gae-04": {
+    "name": "요리스 크라머른",
+    "nation": "네덜란드",
+    "birthYear": 1996,
+    "pos": "CB",
+    "club": "고어헤드 이글"
+  },
+  "gae-05": {
+    "name": "딘 제임손",
+    "nation": "인도네시아",
+    "birthYear": 2000,
+    "pos": "LB",
+    "club": "고어헤드 이글"
+  },
+  "gae-06": {
+    "name": "에버르트 린토르스튼",
+    "nation": "네덜란드",
+    "birthYear": 2000,
+    "pos": "CM",
+    "club": "고어헤드 이글"
+  },
+  "gae-07": {
+    "name": "스테판 잉기 시귀르다르손드",
+    "nation": "아이슬란드",
+    "birthYear": 2001,
+    "pos": "ST",
+    "club": "고어헤드 이글"
+  },
+  "gae-08": {
+    "name": "쇠렌 텡스테든",
+    "nation": "덴마크",
+    "birthYear": 2000,
+    "pos": "ST",
+    "club": "고어헤드 이글"
+  },
+  "gae-09": {
+    "name": "오스카르 시베르트센드",
+    "nation": "노르웨이",
+    "birthYear": 2004,
+    "pos": "LW",
+    "club": "고어헤드 이글"
+  },
+  "gae-10": {
+    "name": "로빈 베이엔베르흔",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "고어헤드 이글"
+  },
+  "gae-11": {
+    "name": "빅토르 에드바르센느",
+    "nation": "스웨덴",
+    "birthYear": 1996,
+    "pos": "RW",
+    "club": "고어헤드 이글"
+  },
+  "gae-12": {
+    "name": "마티스 쉬렌",
+    "nation": "벨기에",
+    "birthYear": 2001,
+    "pos": "CAM",
+    "club": "고어헤드 이글"
+  },
+  "gae-13": {
+    "name": "리코넬 마르하렛트",
+    "nation": "수리남",
+    "birthYear": 2000,
+    "pos": "ST",
+    "club": "고어헤드 이글"
+  },
+  "gae-14": {
+    "name": "멜러 뮐렌스테인드",
+    "nation": "네덜란드",
+    "birthYear": 1999,
+    "pos": "CDM",
+    "club": "고어헤드 이글"
+  },
+  "gae-15": {
+    "name": "니크 마르스마느",
+    "nation": "네덜란드",
+    "birthYear": 1990,
+    "pos": "GK",
+    "club": "고어헤드 이글"
+  },
+  "gae-16": {
+    "name": "티보 바텐드",
+    "nation": "벨기에",
+    "birthYear": 2002,
+    "pos": "LW",
+    "club": "고어헤드 이글"
+  },
+  "gae-17": {
+    "name": "조바니 판즈바므",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "LB",
+    "club": "고어헤드 이글"
+  },
+  "gae-18": {
+    "name": "율리위스 디르크선드",
+    "nation": "네덜란드",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "고어헤드 이글"
+  },
+  "gae-19": {
+    "name": "토마스 갈베손",
+    "nation": "핀란드",
+    "birthYear": 2005,
+    "pos": "RB",
+    "club": "고어헤드 이글"
+  },
+  "gae-20": {
+    "name": "핌 사토픈",
+    "nation": "네덜란드",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "고어헤드 이글"
+  },
+  "gae-21": {
+    "name": "에리크 플라타케른",
+    "nation": "노르웨이",
+    "birthYear": 2004,
+    "pos": "ST",
+    "club": "고어헤드 이글"
+  },
+  "gro-01": {
+    "name": "에티엔 파선드",
+    "nation": "수리남",
+    "birthYear": 1995,
+    "pos": "GK",
+    "club": "흐로닝언 그린"
+  },
+  "gro-02": {
+    "name": "바우터르 프린손",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "RB",
+    "club": "흐로닝언 그린"
+  },
+  "gro-03": {
+    "name": "테이먼 블록제일라",
+    "nation": "네덜란드",
+    "birthYear": 2005,
+    "pos": "CB",
+    "club": "흐로닝언 그린"
+  },
+  "gro-04": {
+    "name": "마르크 친게른",
+    "nation": "헝가리",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "흐로닝언 그린"
+  },
+  "gro-05": {
+    "name": "마르코 렌텐",
+    "nation": "독일",
+    "birthYear": 1997,
+    "pos": "CB",
+    "club": "흐로닝언 그린"
+  },
+  "gro-06": {
+    "name": "트라비스 헤르네손",
+    "nation": "노르웨이",
+    "birthYear": 2005,
+    "pos": "CAM",
+    "club": "흐로닝언 그린"
+  },
+  "gro-07": {
+    "name": "티카 더 용언",
+    "nation": "네덜란드",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "흐로닝언 그린"
+  },
+  "gro-08": {
+    "name": "브린욜뷔르 빌뤼름손드",
+    "nation": "아이슬란드",
+    "birthYear": 2000,
+    "pos": "ST",
+    "club": "흐로닝언 그린"
+  },
+  "gro-09": {
+    "name": "야코브 온드레이칸",
+    "nation": "스웨덴",
+    "birthYear": 2002,
+    "pos": "LW",
+    "club": "흐로닝언 그린"
+  },
+  "gro-10": {
+    "name": "니콜라스 브란디손",
+    "nation": "슬로바키아",
+    "birthYear": 2005,
+    "pos": "RB",
+    "club": "흐로닝언 그린"
+  },
+  "gro-11": {
+    "name": "요르흐 스흐레우더르손",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "흐로닝언 그린"
+  },
+  "gro-12": {
+    "name": "엘비스 판데르라느",
+    "nation": "스웨덴",
+    "birthYear": 2008,
+    "pos": "LB",
+    "club": "흐로닝언 그린"
+  },
+  "gro-13": {
+    "name": "다비트 판데르베르픈",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "흐로닝언 그린"
+  },
+  "gro-14": {
+    "name": "테이호 란튼",
+    "nation": "네덜란드",
+    "birthYear": 2006,
+    "pos": "CAM",
+    "club": "흐로닝언 그린"
+  },
+  "gro-15": {
+    "name": "오스카르 자바단",
+    "nation": "폴란드",
+    "birthYear": 1996,
+    "pos": "ST",
+    "club": "흐로닝언 그린"
+  },
+  "gro-16": {
+    "name": "말콤 옝그",
+    "nation": "스웨덴",
+    "birthYear": 2005,
+    "pos": "CB",
+    "club": "흐로닝언 그린"
+  },
+  "gro-17": {
+    "name": "펠러 클레먼튼",
+    "nation": "네덜란드",
+    "birthYear": 1996,
+    "pos": "CM",
+    "club": "흐로닝언 그린"
+  },
+  "gro-18": {
+    "name": "톰 판베르헌드",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "LW",
+    "club": "흐로닝언 그린"
+  },
+  "gro-19": {
+    "name": "티리케 메르세란",
+    "nation": "퀴라소",
+    "birthYear": 2003,
+    "pos": "RB",
+    "club": "흐로닝언 그린"
+  },
+  "her-01": {
+    "name": "마스 빌럼선드",
+    "nation": "네덜란드",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "헤렌벤 프리즈"
+  },
+  "her-02": {
+    "name": "삼 케르스턴드",
+    "nation": "네덜란드",
+    "birthYear": 1998,
+    "pos": "CB",
+    "club": "헤렌벤 프리즈"
+  },
+  "her-03": {
+    "name": "디르크 프로퍼른",
+    "nation": "네덜란드",
+    "birthYear": 2002,
+    "pos": "CDM",
+    "club": "헤렌벤 프리즈"
+  },
+  "her-04": {
+    "name": "막상스 리베란",
+    "nation": "프랑스",
+    "birthYear": 2002,
+    "pos": "LW",
+    "club": "헤렌벤 프리즈"
+  },
+  "her-05": {
+    "name": "뤽 브라우어르손",
+    "nation": "네덜란드",
+    "birthYear": 1998,
+    "pos": "CM",
+    "club": "헤렌벤 프리즈"
+  },
+  "her-06": {
+    "name": "딜란 벤터스",
+    "nation": "수리남",
+    "birthYear": 1999,
+    "pos": "ST",
+    "club": "헤렌벤 프리즈"
+  },
+  "her-07": {
+    "name": "링고 메이르벨튼",
+    "nation": "네덜란드",
+    "birthYear": 2002,
+    "pos": "CAM",
+    "club": "헤렌벤 프리즈"
+  },
+  "her-08": {
+    "name": "루카 오연드",
+    "nation": "벨기에",
+    "birthYear": 2003,
+    "pos": "CAM",
+    "club": "헤렌벤 프리즈"
+  },
+  "her-09": {
+    "name": "레비 스만손",
+    "nation": "네덜란드",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "헤렌벤 프리즈"
+  },
+  "her-10": {
+    "name": "마르쿠스 린다인",
+    "nation": "스웨덴",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "헤렌벤 프리즈"
+  },
+  "her-11": {
+    "name": "니콜라이 홉란드",
+    "nation": "노르웨이",
+    "birthYear": 2004,
+    "pos": "RB",
+    "club": "헤렌벤 프리즈"
+  },
+  "her-12": {
+    "name": "바실리오스 자가리치손",
+    "nation": "그리스",
+    "birthYear": 2001,
+    "pos": "LB",
+    "club": "헤렌벤 프리즈"
+  },
+  "her-13": {
+    "name": "야코브 트렌스콘",
+    "nation": "덴마크",
+    "birthYear": 2000,
+    "pos": "ST",
+    "club": "헤렌벤 프리즈"
+  },
+  "her-14": {
+    "name": "베른트 클라베르부른",
+    "nation": "네덜란드",
+    "birthYear": 2005,
+    "pos": "GK",
+    "club": "헤렌벤 프리즈"
+  },
+  "her-15": {
+    "name": "달링 블라딘",
+    "nation": "프랑스",
+    "birthYear": 2004,
+    "pos": "CB",
+    "club": "헤렌벤 프리즈"
+  },
+  "her-16": {
+    "name": "흐리스티얀 페트로픈",
+    "nation": "불가리아",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "헤렌벤 프리즈"
+  },
+  "her-17": {
+    "name": "란로이 마시느",
+    "nation": "프랑스",
+    "birthYear": 2005,
+    "pos": "LB",
+    "club": "헤렌벤 프리즈"
+  },
+  "her-18": {
+    "name": "안드리스 노퍼르튼",
+    "nation": "네덜란드",
+    "birthYear": 1994,
+    "pos": "GK",
+    "club": "헤렌벤 프리즈"
+  },
+  "her-19": {
+    "name": "올리베르 브라우덴",
+    "nation": "노르웨이",
+    "birthYear": 2004,
+    "pos": "RB",
+    "club": "헤렌벤 프리즈"
+  },
+  "nec-01": {
+    "name": "곤살로 크레타손",
+    "nation": "스페인",
+    "birthYear": 2000,
+    "pos": "GK",
+    "club": "님메헌 니메"
+  },
+  "nec-02": {
+    "name": "브라이안 페레이란",
+    "nation": "프랑스",
+    "birthYear": 2003,
+    "pos": "LB",
+    "club": "님메헌 니메"
+  },
+  "nec-03": {
+    "name": "필리프 산들러른",
+    "nation": "네덜란드",
+    "birthYear": 1997,
+    "pos": "CB",
+    "club": "님메헌 니메"
+  },
+  "nec-04": {
+    "name": "페르 스휘르손",
+    "nation": "네덜란드",
+    "birthYear": 1999,
+    "pos": "CB",
+    "club": "님메헌 니메"
+  },
+  "nec-05": {
+    "name": "토마스 아우베야느",
+    "nation": "네덜란드",
+    "birthYear": 1996,
+    "pos": "LB",
+    "club": "님메헌 니메"
+  },
+  "nec-06": {
+    "name": "다르코 네야시미츠",
+    "nation": "크로아티아",
+    "birthYear": 1999,
+    "pos": "CDM",
+    "club": "님메헌 니메"
+  },
+  "nec-07": {
+    "name": "엠레 모른",
+    "nation": "튀르키예",
+    "birthYear": 1997,
+    "pos": "RW",
+    "club": "님메헌 니메"
+  },
+  "nec-08": {
+    "name": "이사크 한센아뢰엔드",
+    "nation": "노르웨이",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "님메헌 니메"
+  },
+  "nec-09": {
+    "name": "차론 셰린",
+    "nation": "수리남",
+    "birthYear": 1988,
+    "pos": "CAM",
+    "club": "님메헌 니메"
+  },
+  "nec-10": {
+    "name": "두샨 타디츠",
+    "nation": "세르비아",
+    "birthYear": 1988,
+    "pos": "CAM",
+    "club": "님메헌 니메"
+  },
+  "nec-11": {
+    "name": "빌륌 토르 빌륌손드",
+    "nation": "아이슬란드",
+    "birthYear": 1998,
+    "pos": "RW",
+    "club": "님메헌 니메"
+  },
+  "nec-12": {
+    "name": "니콜라스 폴스터스",
+    "nation": "오스트리아",
+    "birthYear": 2002,
+    "pos": "GK",
+    "club": "님메헌 니메"
+  },
+  "nec-13": {
+    "name": "카이 시르하위손",
+    "nation": "네덜란드",
+    "birthYear": 1998,
+    "pos": "ST",
+    "club": "님메헌 니메"
+  },
+  "nec-14": {
+    "name": "브람 나위팅큰",
+    "nation": "네덜란드",
+    "birthYear": 1990,
+    "pos": "CB",
+    "club": "님메헌 니메"
+  },
+  "nec-15": {
+    "name": "오가와 고킨",
+    "nation": "일본",
+    "birthYear": 1997,
+    "pos": "ST",
+    "club": "님메헌 니메"
+  },
+  "nec-16": {
+    "name": "노에 르브르통드",
+    "nation": "프랑스",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "님메헌 니메"
+  },
+  "nec-17": {
+    "name": "토비아스 스토르므",
+    "nation": "덴마크",
+    "birthYear": 2004,
+    "pos": "CB",
+    "club": "님메헌 니메"
+  },
+  "nec-18": {
+    "name": "데버론 폰빌러스",
+    "nation": "퀴라소",
+    "birthYear": 2003,
+    "pos": "RB",
+    "club": "님메헌 니메"
+  },
+  "nec-19": {
+    "name": "사미 우아이산드",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "LW",
+    "club": "님메헌 니메"
+  },
+  "nec-20": {
+    "name": "브라이언 린선드",
+    "nation": "네덜란드",
+    "birthYear": 1990,
+    "pos": "LW",
+    "club": "님메헌 니메"
+  },
+  "nec-21": {
+    "name": "비토 판크로에인",
+    "nation": "네덜란드",
+    "birthYear": 1996,
+    "pos": "RW",
+    "club": "님메헌 니메"
+  },
+  "nec-22": {
+    "name": "자미로 몬테이룬",
+    "nation": "카보베르데",
+    "birthYear": 1993,
+    "pos": "CM",
+    "club": "님메헌 니메"
+  },
+  "nec-23": {
+    "name": "알무게라 카바른",
+    "nation": "독일",
+    "birthYear": 2006,
+    "pos": "CB",
+    "club": "님메헌 니메"
+  },
+  "nec-24": {
+    "name": "클레멘트 비쇼픈",
+    "nation": "덴마크",
+    "birthYear": 2005,
+    "pos": "ST",
+    "club": "님메헌 니메"
+  },
   "eve-01": {
     "name": "조던 픽포르",
     "nation": "잉글랜드",
@@ -10076,6 +14226,1567 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "birthYear": 2001,
     "pos": "RW",
     "club": "에버턴 토피"
+  },
+  "pec-01": {
+    "name": "야스퍼르 스헨델라른",
+    "nation": "네덜란드",
+    "birthYear": 2000,
+    "pos": "GK",
+    "club": "즈볼레 블루"
+  },
+  "pec-02": {
+    "name": "셰럴 플로라뉘손",
+    "nation": "퀴라소",
+    "birthYear": 1998,
+    "pos": "RB",
+    "club": "즈볼레 블루"
+  },
+  "pec-03": {
+    "name": "올리비어 아르츤드",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "CB",
+    "club": "즈볼레 블루"
+  },
+  "pec-04": {
+    "name": "테이스 펠트하위손",
+    "nation": "네덜란드",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "즈볼레 블루"
+  },
+  "pec-05": {
+    "name": "얀 뷔르거스",
+    "nation": "독일",
+    "birthYear": 2007,
+    "pos": "CB",
+    "club": "즈볼레 블루"
+  },
+  "pec-06": {
+    "name": "유네스 남린",
+    "nation": "덴마크",
+    "birthYear": 1994,
+    "pos": "LW",
+    "club": "즈볼레 블루"
+  },
+  "pec-07": {
+    "name": "토비아스 좀머스",
+    "nation": "덴마크",
+    "birthYear": 2001,
+    "pos": "CM",
+    "club": "즈볼레 블루"
+  },
+  "pec-08": {
+    "name": "엘리아스 쇠렌센드",
+    "nation": "덴마크",
+    "birthYear": 1999,
+    "pos": "ST",
+    "club": "즈볼레 블루"
+  },
+  "pec-09": {
+    "name": "쿤 코스톤손",
+    "nation": "네덜란드",
+    "birthYear": 1999,
+    "pos": "CAM",
+    "club": "즈볼레 블루"
+  },
+  "pec-10": {
+    "name": "딜란 음바욘",
+    "nation": "벨기에",
+    "birthYear": 2001,
+    "pos": "LW",
+    "club": "즈볼레 블루"
+  },
+  "pec-11": {
+    "name": "톰 더 흐라픈",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "GK",
+    "club": "즈볼레 블루"
+  },
+  "pec-12": {
+    "name": "오디세우스 벨라나손",
+    "nation": "네덜란드",
+    "birthYear": 1998,
+    "pos": "CAM",
+    "club": "즈볼레 블루"
+  },
+  "pec-13": {
+    "name": "이브라힘 시소콘",
+    "nation": "기니",
+    "birthYear": 2003,
+    "pos": "RW",
+    "club": "즈볼레 블루"
+  },
+  "pec-14": {
+    "name": "니크 피르헤버른",
+    "nation": "네덜란드",
+    "birthYear": 1989,
+    "pos": "CB",
+    "club": "즈볼레 블루"
+  },
+  "pec-15": {
+    "name": "테이스 오스팅크",
+    "nation": "네덜란드",
+    "birthYear": 2000,
+    "pos": "CM",
+    "club": "즈볼레 블루"
+  },
+  "pec-16": {
+    "name": "야디엘 페레이라 다 가만",
+    "nation": "네덜란드",
+    "birthYear": 2009,
+    "pos": "CM",
+    "club": "즈볼레 블루"
+  },
+  "pec-17": {
+    "name": "시몬 그라베손",
+    "nation": "덴마크",
+    "birthYear": 1999,
+    "pos": "LB",
+    "club": "즈볼레 블루"
+  },
+  "pec-18": {
+    "name": "라이언 토머슨",
+    "nation": "뉴질랜드",
+    "birthYear": 1994,
+    "pos": "CDM",
+    "club": "즈볼레 블루"
+  },
+  "pec-19": {
+    "name": "니크 피흐팅어스",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "즈볼레 블루"
+  },
+  "psv-01": {
+    "name": "니크 올레인",
+    "nation": "네덜란드",
+    "birthYear": 1995,
+    "pos": "GK",
+    "club": "에인트 라이트"
+  },
+  "psv-02": {
+    "name": "루차렐 헤이르트라위단",
+    "nation": "네덜란드",
+    "birthYear": 2000,
+    "pos": "RB",
+    "club": "에인트 라이트"
+  },
+  "psv-03": {
+    "name": "야레크 가시오로프스킨",
+    "nation": "스페인",
+    "birthYear": 2005,
+    "pos": "CB",
+    "club": "에인트 라이트"
+  },
+  "psv-04": {
+    "name": "아르만도 오비스폰",
+    "nation": "퀴라소",
+    "birthYear": 1999,
+    "pos": "CB",
+    "club": "에인트 라이트"
+  },
+  "psv-05": {
+    "name": "이반 페리시츠",
+    "nation": "크로아티아",
+    "birthYear": 1989,
+    "pos": "LW",
+    "club": "에인트 라이트"
+  },
+  "psv-06": {
+    "name": "라이언 플라밍곤",
+    "nation": "네덜란드",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "에인트 라이트"
+  },
+  "psv-07": {
+    "name": "뤼번 판 보멀라",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "LW",
+    "club": "에인트 라이트"
+  },
+  "psv-08": {
+    "name": "세르지뇨 데스튼",
+    "nation": "미국",
+    "birthYear": 2000,
+    "pos": "RB",
+    "club": "에인트 라이트"
+  },
+  "psv-09": {
+    "name": "리카르도 페핀",
+    "nation": "미국",
+    "birthYear": 2003,
+    "pos": "ST",
+    "club": "에인트 라이트"
+  },
+  "psv-10": {
+    "name": "파울 바너스",
+    "nation": "오스트리아",
+    "birthYear": 2005,
+    "pos": "CAM",
+    "club": "에인트 라이트"
+  },
+  "psv-11": {
+    "name": "사미 우아이산",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "LW",
+    "club": "에인트 라이트"
+  },
+  "psv-12": {
+    "name": "알라산 플레안",
+    "nation": "프랑스",
+    "birthYear": 1993,
+    "pos": "ST",
+    "club": "에인트 라이트"
+  },
+  "psv-13": {
+    "name": "마우루 주니오른",
+    "nation": "브라질",
+    "birthYear": 1999,
+    "pos": "LB",
+    "club": "에인트 라이트"
+  },
+  "psv-14": {
+    "name": "필리프 코스티츠",
+    "nation": "세르비아",
+    "birthYear": 1992,
+    "pos": "LW",
+    "club": "에인트 라이트"
+  },
+  "psv-15": {
+    "name": "에스미르 바이락타레비츠",
+    "nation": "보스니아헤르체고비나",
+    "birthYear": 2005,
+    "pos": "RW",
+    "club": "에인트 라이트"
+  },
+  "psv-16": {
+    "name": "휘스 틸라",
+    "nation": "네덜란드",
+    "birthYear": 1997,
+    "pos": "CAM",
+    "club": "에인트 라이트"
+  },
+  "psv-17": {
+    "name": "스벤 메이나르손",
+    "nation": "네덜란드",
+    "birthYear": 2000,
+    "pos": "CAM",
+    "club": "에인트 라이트"
+  },
+  "psv-18": {
+    "name": "예르디 스하우턴드",
+    "nation": "네덜란드",
+    "birthYear": 1997,
+    "pos": "CDM",
+    "club": "에인트 라이트"
+  },
+  "psv-19": {
+    "name": "미켈 브로 한센드",
+    "nation": "덴마크",
+    "birthYear": 2009,
+    "pos": "ST",
+    "club": "에인트 라이트"
+  },
+  "psv-20": {
+    "name": "사노 고다인",
+    "nation": "일본",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "에인트 라이트"
+  },
+  "psv-21": {
+    "name": "킬리안 실디얀",
+    "nation": "프랑스",
+    "birthYear": 2002,
+    "pos": "RB",
+    "club": "에인트 라이트"
+  },
+  "psv-22": {
+    "name": "데니스 마느",
+    "nation": "루마니아",
+    "birthYear": 1998,
+    "pos": "RW",
+    "club": "에인트 라이트"
+  },
+  "psv-23": {
+    "name": "삼 라머르손",
+    "nation": "네덜란드",
+    "birthYear": 1997,
+    "pos": "ST",
+    "club": "에인트 라이트"
+  },
+  "psv-24": {
+    "name": "노아 페르난데손",
+    "nation": "벨기에",
+    "birthYear": 2008,
+    "pos": "CM",
+    "club": "에인트 라이트"
+  },
+  "psv-25": {
+    "name": "마테이 코바르신",
+    "nation": "체코",
+    "birthYear": 2000,
+    "pos": "GK",
+    "club": "에인트 라이트"
+  },
+  "psv-26": {
+    "name": "아요니 산투손",
+    "nation": "카보베르데",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "에인트 라이트"
+  },
+  "psv-27": {
+    "name": "아다모 나갈론",
+    "nation": "부르키나파소",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "에인트 라이트"
+  },
+  "psv-28": {
+    "name": "테인 스몰레나르손",
+    "nation": "네덜란드",
+    "birthYear": 2005,
+    "pos": "GK",
+    "club": "에인트 라이트"
+  },
+  "spa-01": {
+    "name": "필리프 베드나레큰",
+    "nation": "폴란드",
+    "birthYear": 1992,
+    "pos": "GK",
+    "club": "스파르타 로테르"
+  },
+  "spa-02": {
+    "name": "미하엘 브라우어른",
+    "nation": "네덜란드",
+    "birthYear": 1993,
+    "pos": "GK",
+    "club": "스파르타 로테르"
+  },
+  "spa-03": {
+    "name": "막스 더 리흐튼",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "CB",
+    "club": "스파르타 로테르"
+  },
+  "spa-04": {
+    "name": "바스 카위퍼르손",
+    "nation": "네덜란드",
+    "birthYear": 1994,
+    "pos": "LB",
+    "club": "스파르타 로테르"
+  },
+  "spa-05": {
+    "name": "루셴드리 마르테손",
+    "nation": "네덜란드",
+    "birthYear": 2008,
+    "pos": "CB",
+    "club": "스파르타 로테르"
+  },
+  "spa-06": {
+    "name": "브루노 마르틴스 인딘",
+    "nation": "네덜란드",
+    "birthYear": 1992,
+    "pos": "CB",
+    "club": "스파르타 로테르"
+  },
+  "spa-07": {
+    "name": "테오 킨테론",
+    "nation": "베네수엘라",
+    "birthYear": 1999,
+    "pos": "CB",
+    "club": "스파르타 로테르"
+  },
+  "spa-08": {
+    "name": "보이트 레이튼",
+    "nation": "네덜란드",
+    "birthYear": 1999,
+    "pos": "RB",
+    "club": "스파르타 로테르"
+  },
+  "spa-09": {
+    "name": "마르빈 영그",
+    "nation": "수리남",
+    "birthYear": 2005,
+    "pos": "LB",
+    "club": "스파르타 로테르"
+  },
+  "spa-10": {
+    "name": "율리안 바손",
+    "nation": "네덜란드",
+    "birthYear": 2002,
+    "pos": "CDM",
+    "club": "스파르타 로테르"
+  },
+  "spa-11": {
+    "name": "미토 슌스켄",
+    "nation": "일본",
+    "birthYear": 2002,
+    "pos": "CM",
+    "club": "스파르타 로테르"
+  },
+  "spa-12": {
+    "name": "알완데 로알드쇠인",
+    "nation": "노르웨이",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "스파르타 로테르"
+  },
+  "spa-13": {
+    "name": "세드리크 하텐부른",
+    "nation": "네덜란드",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "스파르타 로테르"
+  },
+  "spa-14": {
+    "name": "옌스 토른스트란",
+    "nation": "네덜란드",
+    "birthYear": 1989,
+    "pos": "CAM",
+    "club": "스파르타 로테르"
+  },
+  "spa-15": {
+    "name": "로빈 판크라위선드",
+    "nation": "네덜란드",
+    "birthYear": 2006,
+    "pos": "CM",
+    "club": "스파르타 로테르"
+  },
+  "spa-16": {
+    "name": "요엘 이데혼",
+    "nation": "네덜란드",
+    "birthYear": 2003,
+    "pos": "LW",
+    "club": "스파르타 로테르"
+  },
+  "spa-17": {
+    "name": "카스페르 테르혼",
+    "nation": "핀란드",
+    "birthYear": 2003,
+    "pos": "RW",
+    "club": "스파르타 로테르"
+  },
+  "spa-18": {
+    "name": "뇌크비 테이르 토리손드",
+    "nation": "아이슬란드",
+    "birthYear": 1999,
+    "pos": "ST",
+    "club": "스파르타 로테르"
+  },
+  "spa-19": {
+    "name": "미첼 판베르헌드",
+    "nation": "네덜란드",
+    "birthYear": 1999,
+    "pos": "LW",
+    "club": "스파르타 로테르"
+  },
+  "spa-20": {
+    "name": "밀란 조너펠튼",
+    "nation": "네덜란드",
+    "birthYear": 2003,
+    "pos": "ST",
+    "club": "스파르타 로테르"
+  },
+  "spa-21": {
+    "name": "안드레이 코스티츠",
+    "nation": "몬테네그로",
+    "birthYear": 2007,
+    "pos": "ST",
+    "club": "스파르타 로테르"
+  },
+  "spa-22": {
+    "name": "미커 클레인드",
+    "nation": "네덜란드",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "스파르타 로테르"
+  },
+  "spa-23": {
+    "name": "알바로 헨린",
+    "nation": "네덜란드",
+    "birthYear": 2005,
+    "pos": "CB",
+    "club": "스파르타 로테르"
+  },
+  "spa-24": {
+    "name": "퀸시 후버스",
+    "nation": "보네르",
+    "birthYear": 2003,
+    "pos": "ST",
+    "club": "스파르타 로테르"
+  },
+  "tel-01": {
+    "name": "로날트 코이만 주니오르",
+    "nation": "네덜란드",
+    "birthYear": 1995,
+    "pos": "GK",
+    "club": "텔스타르 레이우"
+  },
+  "tel-02": {
+    "name": "예프 하르더펠튼",
+    "nation": "네덜란드",
+    "birthYear": 1995,
+    "pos": "RB",
+    "club": "텔스타르 레이우"
+  },
+  "tel-03": {
+    "name": "헤랄트 알더르손",
+    "nation": "네덜란드",
+    "birthYear": 2005,
+    "pos": "CB",
+    "club": "텔스타르 레이우"
+  },
+  "tel-04": {
+    "name": "프린스 아닝크",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "LB",
+    "club": "텔스타르 레이우"
+  },
+  "tel-05": {
+    "name": "후이 멘드손",
+    "nation": "포르투갈",
+    "birthYear": 1999,
+    "pos": "ST",
+    "club": "텔스타르 레이우"
+  },
+  "tel-06": {
+    "name": "에미르한 데미르자느",
+    "nation": "튀르키예",
+    "birthYear": 2005,
+    "pos": "RW",
+    "club": "텔스타르 레이우"
+  },
+  "tel-07": {
+    "name": "젤라니 세도르픈",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "ST",
+    "club": "텔스타르 레이우"
+  },
+  "tel-08": {
+    "name": "티론 오우순",
+    "nation": "네덜란드",
+    "birthYear": 1999,
+    "pos": "CAM",
+    "club": "텔스타르 레이우"
+  },
+  "tel-09": {
+    "name": "나이절 오기디 은완쿤",
+    "nation": "네덜란드",
+    "birthYear": 1998,
+    "pos": "CB",
+    "club": "텔스타르 레이우"
+  },
+  "tel-10": {
+    "name": "닐스 로선드",
+    "nation": "네덜란드",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "텔스타르 레이우"
+  },
+  "tel-11": {
+    "name": "가비 카스킬린",
+    "nation": "네덜란드",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "텔스타르 레이우"
+  },
+  "tel-12": {
+    "name": "단 레이지허른",
+    "nation": "네덜란드",
+    "birthYear": 2001,
+    "pos": "GK",
+    "club": "텔스타르 레이우"
+  },
+  "tel-13": {
+    "name": "파트릭 브라우어른",
+    "nation": "네덜란드",
+    "birthYear": 2001,
+    "pos": "LW",
+    "club": "텔스타르 레이우"
+  },
+  "tel-14": {
+    "name": "로연드로 아우스턴드",
+    "nation": "수리남",
+    "birthYear": 2007,
+    "pos": "CM",
+    "club": "텔스타르 레이우"
+  },
+  "tel-15": {
+    "name": "마르빈 페이르스마느",
+    "nation": "벨기에",
+    "birthYear": 1991,
+    "pos": "CB",
+    "club": "텔스타르 레이우"
+  },
+  "twe-01": {
+    "name": "라르스 우너슈탈라",
+    "nation": "독일",
+    "birthYear": 1990,
+    "pos": "GK",
+    "club": "트벤테 토카"
+  },
+  "twe-02": {
+    "name": "메이스 힐허르손",
+    "nation": "인도네시아",
+    "birthYear": 2001,
+    "pos": "CB",
+    "club": "트벤테 토카"
+  },
+  "twe-03": {
+    "name": "로빈 프뢰퍼른",
+    "nation": "네덜란드",
+    "birthYear": 1993,
+    "pos": "CB",
+    "club": "트벤테 토카"
+  },
+  "twe-04": {
+    "name": "라미즈 제루킨",
+    "nation": "알제리",
+    "birthYear": 1998,
+    "pos": "CDM",
+    "club": "트벤테 토카"
+  },
+  "twe-05": {
+    "name": "마르코 피아찬",
+    "nation": "크로아티아",
+    "birthYear": 1995,
+    "pos": "RW",
+    "club": "트벤테 토카"
+  },
+  "twe-06": {
+    "name": "테일러 부손",
+    "nation": "미국",
+    "birthYear": 2001,
+    "pos": "CAM",
+    "club": "트벤테 토카"
+  },
+  "twe-07": {
+    "name": "바우트 베호르스튼",
+    "nation": "네덜란드",
+    "birthYear": 1992,
+    "pos": "ST",
+    "club": "트벤테 토카"
+  },
+  "twe-08": {
+    "name": "삼 라머르스르",
+    "nation": "네덜란드",
+    "birthYear": 1997,
+    "pos": "ST",
+    "club": "트벤테 토카"
+  },
+  "twe-09": {
+    "name": "단 로추",
+    "nation": "네덜란드",
+    "birthYear": 2001,
+    "pos": "LW",
+    "club": "트벤테 토카"
+  },
+  "twe-10": {
+    "name": "크리스티안 흘륀손드",
+    "nation": "아이슬란드",
+    "birthYear": 2004,
+    "pos": "CAM",
+    "club": "트벤테 토카"
+  },
+  "twe-11": {
+    "name": "요엘 드롬멀라",
+    "nation": "네덜란드",
+    "birthYear": 1996,
+    "pos": "GK",
+    "club": "트벤테 토카"
+  },
+  "twe-12": {
+    "name": "필립 토르발센드",
+    "nation": "노르웨이",
+    "birthYear": 2006,
+    "pos": "LW",
+    "club": "트벤테 토카"
+  },
+  "twe-13": {
+    "name": "유네스 타한",
+    "nation": "모로코",
+    "birthYear": 2002,
+    "pos": "CAM",
+    "club": "트벤테 토카"
+  },
+  "twe-14": {
+    "name": "토마스 판덴벨튼",
+    "nation": "네덜란드",
+    "birthYear": 2001,
+    "pos": "CM",
+    "club": "트벤테 토카"
+  },
+  "twe-15": {
+    "name": "렘코 파스베른",
+    "nation": "네덜란드",
+    "birthYear": 1983,
+    "pos": "GK",
+    "club": "트벤테 토카"
+  },
+  "twe-16": {
+    "name": "스타브 렘키느",
+    "nation": "이스라엘",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "트벤테 토카"
+  },
+  "twe-17": {
+    "name": "크시슈토프 쿠로프스킨",
+    "nation": "폴란드",
+    "birthYear": 2006,
+    "pos": "RB",
+    "club": "트벤테 토카"
+  },
+  "twe-18": {
+    "name": "루카스 페네호르 오프 헤셀링큰",
+    "nation": "네덜란드",
+    "birthYear": 2006,
+    "pos": "ST",
+    "club": "트벤테 토카"
+  },
+  "twe-19": {
+    "name": "손드레 외리아세테른",
+    "nation": "노르웨이",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "트벤테 토카"
+  },
+  "twe-20": {
+    "name": "바르트 판로에인",
+    "nation": "네덜란드",
+    "birthYear": 2001,
+    "pos": "RB",
+    "club": "트벤테 토카"
+  },
+  "twe-21": {
+    "name": "아스케 아델고른",
+    "nation": "덴마크",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "트벤테 토카"
+  },
+  "twe-22": {
+    "name": "아르노 페르스휘런드",
+    "nation": "벨기에",
+    "birthYear": 1997,
+    "pos": "CM",
+    "club": "트벤테 토카"
+  },
+  "twe-23": {
+    "name": "나지 위뉘바른",
+    "nation": "튀르키예",
+    "birthYear": 2003,
+    "pos": "LW",
+    "club": "트벤테 토카"
+  },
+  "twe-24": {
+    "name": "막스 브륀손",
+    "nation": "네덜란드",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "트벤테 토카"
+  },
+  "twe-25": {
+    "name": "헤이스 베셀링큰",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "트벤테 토카"
+  },
+  "twe-26": {
+    "name": "다우다 바이트마느",
+    "nation": "프랑스",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "트벤테 토카"
+  },
+  "twe-27": {
+    "name": "이삼 엘 마흔",
+    "nation": "모로코",
+    "birthYear": 2000,
+    "pos": "GK",
+    "club": "트벤테 토카"
+  },
+  "utr-01": {
+    "name": "바실리스 바르카손",
+    "nation": "그리스",
+    "birthYear": 1994,
+    "pos": "GK",
+    "club": "위트레흐 돔"
+  },
+  "utr-02": {
+    "name": "시버 호레만손",
+    "nation": "벨기에",
+    "birthYear": 1998,
+    "pos": "RB",
+    "club": "위트레흐 돔"
+  },
+  "utr-03": {
+    "name": "마티서 디던드",
+    "nation": "벨기에",
+    "birthYear": 2001,
+    "pos": "CB",
+    "club": "위트레흐 돔"
+  },
+  "utr-04": {
+    "name": "니콜라스 파나요툰",
+    "nation": "키프로스",
+    "birthYear": 2000,
+    "pos": "CB",
+    "club": "위트레흐 돔"
+  },
+  "utr-05": {
+    "name": "휘스 오퍼르하위손",
+    "nation": "네덜란드",
+    "birthYear": 2001,
+    "pos": "CDM",
+    "club": "위트레흐 돔"
+  },
+  "utr-06": {
+    "name": "빅토르 옌센드",
+    "nation": "덴마크",
+    "birthYear": 2000,
+    "pos": "LW",
+    "club": "위트레흐 돔"
+  },
+  "utr-07": {
+    "name": "요리스 판 오버레이므",
+    "nation": "네덜란드",
+    "birthYear": 1994,
+    "pos": "CM",
+    "club": "위트레흐 돔"
+  },
+  "utr-08": {
+    "name": "아르템 스테파노픈",
+    "nation": "우크라이나",
+    "birthYear": 2007,
+    "pos": "ST",
+    "club": "위트레흐 돔"
+  },
+  "utr-09": {
+    "name": "요안 카틀린드",
+    "nation": "프랑스",
+    "birthYear": 2002,
+    "pos": "LW",
+    "club": "위트레흐 돔"
+  },
+  "utr-10": {
+    "name": "앙헬 알라르코느",
+    "nation": "스페인",
+    "birthYear": 2004,
+    "pos": "RW",
+    "club": "위트레흐 돔"
+  },
+  "utr-11": {
+    "name": "에이드리언 블레이큰",
+    "nation": "잉글랜드",
+    "birthYear": 2005,
+    "pos": "ST",
+    "club": "위트레흐 돔"
+  },
+  "utr-12": {
+    "name": "셈 판 다위느",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "ST",
+    "club": "위트레흐 돔"
+  },
+  "utr-13": {
+    "name": "야코프 메디츠",
+    "nation": "크로아티아",
+    "birthYear": 1998,
+    "pos": "CB",
+    "club": "위트레흐 돔"
+  },
+  "utr-14": {
+    "name": "다니 더 비튼",
+    "nation": "네덜란드",
+    "birthYear": 1998,
+    "pos": "CAM",
+    "club": "위트레흐 돔"
+  },
+  "utr-15": {
+    "name": "네빌 오기디 은완쿤",
+    "nation": "네덜란드",
+    "birthYear": 2002,
+    "pos": "RB",
+    "club": "위트레흐 돔"
+  },
+  "utr-16": {
+    "name": "니클라스 베스테를룬드",
+    "nation": "덴마크",
+    "birthYear": 1999,
+    "pos": "CM",
+    "club": "위트레흐 돔"
+  },
+  "utr-17": {
+    "name": "밀리아노 요나탄손",
+    "nation": "인도네시아",
+    "birthYear": 2004,
+    "pos": "RW",
+    "club": "위트레흐 돔"
+  },
+  "utr-18": {
+    "name": "알론조 엥완단",
+    "nation": "벨기에",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "위트레흐 돔"
+  },
+  "utr-19": {
+    "name": "노아 오히온",
+    "nation": "네덜란드",
+    "birthYear": 2003,
+    "pos": "ST",
+    "club": "위트레흐 돔"
+  },
+  "utr-20": {
+    "name": "케빈 파레데손",
+    "nation": "미국",
+    "birthYear": 2003,
+    "pos": "LW",
+    "club": "위트레흐 돔"
+  },
+  "utr-21": {
+    "name": "다비 판덴베르흐트",
+    "nation": "네덜란드",
+    "birthYear": 2000,
+    "pos": "CM",
+    "club": "위트레흐 돔"
+  },
+  "utr-22": {
+    "name": "우알리드 아구길라",
+    "nation": "모로코",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "위트레흐 돔"
+  },
+  "utr-23": {
+    "name": "노르딘 암라바튼",
+    "nation": "모로코",
+    "birthYear": 1987,
+    "pos": "LW",
+    "club": "위트레흐 돔"
+  },
+  "utr-24": {
+    "name": "마리우스 브로홀르므",
+    "nation": "노르웨이",
+    "birthYear": 2004,
+    "pos": "ST",
+    "club": "위트레흐 돔"
+  },
+  "utr-25": {
+    "name": "아르튀르 자그렌",
+    "nation": "부르키나파소",
+    "birthYear": 2001,
+    "pos": "LB",
+    "club": "위트레흐 돔"
+  },
+  "wil-01": {
+    "name": "토마 디디용회들라",
+    "nation": "프랑스",
+    "birthYear": 1995,
+    "pos": "GK",
+    "club": "빌럼 틸뷔르흐"
+  },
+  "wil-02": {
+    "name": "알레산드로 치란닌",
+    "nation": "벨기에",
+    "birthYear": 1996,
+    "pos": "RB",
+    "club": "빌럼 틸뷔르흐"
+  },
+  "wil-03": {
+    "name": "핀 스타므",
+    "nation": "네덜란드",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "빌럼 틸뷔르흐"
+  },
+  "wil-04": {
+    "name": "유스틴 호흐만",
+    "nation": "네덜란드",
+    "birthYear": 1998,
+    "pos": "CB",
+    "club": "빌럼 틸뷔르흐"
+  },
+  "wil-05": {
+    "name": "히더 테르 아버스튼",
+    "nation": "네덜란드",
+    "birthYear": 1997,
+    "pos": "RB",
+    "club": "빌럼 틸뷔르흐"
+  },
+  "wil-06": {
+    "name": "야던 슬로린",
+    "nation": "네덜란드",
+    "birthYear": 2005,
+    "pos": "LW",
+    "club": "빌럼 틸뷔르흐"
+  },
+  "wil-07": {
+    "name": "카스퍼르 보하르튼",
+    "nation": "네덜란드",
+    "birthYear": 2006,
+    "pos": "CM",
+    "club": "빌럼 틸뷔르흐"
+  },
+  "wil-08": {
+    "name": "데빈 하언드",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "ST",
+    "club": "빌럼 틸뷔르흐"
+  },
+  "wil-09": {
+    "name": "야리 스휘르마느",
+    "nation": "네덜란드",
+    "birthYear": 1997,
+    "pos": "CAM",
+    "club": "빌럼 틸뷔르흐"
+  },
+  "wil-10": {
+    "name": "아르민 출루므",
+    "nation": "스웨덴",
+    "birthYear": 2003,
+    "pos": "ST",
+    "club": "빌럼 틸뷔르흐"
+  },
+  "wil-11": {
+    "name": "아민 에트타이빈",
+    "nation": "모로코",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "빌럼 틸뷔르흐"
+  },
+  "wil-12": {
+    "name": "우리엘 판알스튼",
+    "nation": "네덜란드",
+    "birthYear": 2006,
+    "pos": "CM",
+    "club": "빌럼 틸뷔르흐"
+  },
+  "wil-13": {
+    "name": "바우터르 판데르스테인드",
+    "nation": "네덜란드",
+    "birthYear": 1990,
+    "pos": "GK",
+    "club": "빌럼 틸뷔르흐"
+  },
+  "wil-14": {
+    "name": "페르 판로느",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "LB",
+    "club": "빌럼 틸뷔르흐"
+  },
+  "wil-15": {
+    "name": "네이선 추어아온드",
+    "nation": "인도네시아",
+    "birthYear": 2001,
+    "pos": "LB",
+    "club": "빌럼 틸뷔르흐"
+  },
+  "wil-16": {
+    "name": "토마스 페르헤이튼",
+    "nation": "네덜란드",
+    "birthYear": 1992,
+    "pos": "ST",
+    "club": "빌럼 틸뷔르흐"
+  },
+  "wil-17": {
+    "name": "에세르 귀르뷔주",
+    "nation": "네덜란드",
+    "birthYear": 2007,
+    "pos": "LW",
+    "club": "빌럼 틸뷔르흐"
+  },
+  "acv-01": {
+    "name": "마르코스 라비느",
+    "nation": "스페인",
+    "birthYear": 1996,
+    "pos": "GK",
+    "club": "비제우 아카데미"
+  },
+  "acv-02": {
+    "name": "니코스 미헬리손",
+    "nation": "그리스",
+    "birthYear": 2001,
+    "pos": "RB",
+    "club": "비제우 아카데미"
+  },
+  "acv-03": {
+    "name": "미겔 앙헬 브라운",
+    "nation": "스페인",
+    "birthYear": 2001,
+    "pos": "CB",
+    "club": "비제우 아카데미"
+  },
+  "acv-04": {
+    "name": "페드루 바르셀루손",
+    "nation": "브라질",
+    "birthYear": 1996,
+    "pos": "CB",
+    "club": "비제우 아카데미"
+  },
+  "acv-05": {
+    "name": "안드레 세이틸라",
+    "nation": "포르투갈",
+    "birthYear": 1995,
+    "pos": "CDM",
+    "club": "비제우 아카데미"
+  },
+  "acv-06": {
+    "name": "루이스 실반",
+    "nation": "포르투갈",
+    "birthYear": 1992,
+    "pos": "CM",
+    "club": "비제우 아카데미"
+  },
+  "acv-07": {
+    "name": "지한 카흐라마느",
+    "nation": "튀르키예",
+    "birthYear": 1998,
+    "pos": "CM",
+    "club": "비제우 아카데미"
+  },
+  "acv-08": {
+    "name": "모하메드 불디닌",
+    "nation": "모로코",
+    "birthYear": 1995,
+    "pos": "ST",
+    "club": "비제우 아카데미"
+  },
+  "acv-09": {
+    "name": "알바로 사모란",
+    "nation": "코스타리카",
+    "birthYear": 2002,
+    "pos": "LW",
+    "club": "비제우 아카데미"
+  },
+  "acv-10": {
+    "name": "도미니크 스테치큰",
+    "nation": "폴란드",
+    "birthYear": 1999,
+    "pos": "ST",
+    "club": "비제우 아카데미"
+  },
+  "acv-11": {
+    "name": "수피안 메세게므",
+    "nation": "독일",
+    "birthYear": 2001,
+    "pos": "CM",
+    "club": "비제우 아카데미"
+  },
+  "acv-12": {
+    "name": "발레리 페르난데손",
+    "nation": "스페인",
+    "birthYear": 1999,
+    "pos": "RW",
+    "club": "비제우 아카데미"
+  },
+  "acv-13": {
+    "name": "크리스티안 페레이란",
+    "nation": "아르헨티나",
+    "birthYear": 1999,
+    "pos": "CAM",
+    "club": "비제우 아카데미"
+  },
+  "acv-14": {
+    "name": "토마스 도밍구손",
+    "nation": "포르투갈",
+    "birthYear": 1999,
+    "pos": "RB",
+    "club": "비제우 아카데미"
+  },
+  "acv-15": {
+    "name": "닐스 모티머스",
+    "nation": "스페인",
+    "birthYear": 2001,
+    "pos": "CM",
+    "club": "비제우 아카데미"
+  },
+  "acv-16": {
+    "name": "안드레 클로비손",
+    "nation": "브라질",
+    "birthYear": 1997,
+    "pos": "ST",
+    "club": "비제우 아카데미"
+  },
+  "acv-17": {
+    "name": "앙토니 코헤이안",
+    "nation": "프랑스",
+    "birthYear": 1999,
+    "pos": "CB",
+    "club": "비제우 아카데미"
+  },
+  "acv-18": {
+    "name": "후벵 페레이란",
+    "nation": "포르투갈",
+    "birthYear": 1991,
+    "pos": "CB",
+    "club": "비제우 아카데미"
+  },
+  "acv-19": {
+    "name": "호비뉸",
+    "nation": "포르투갈",
+    "birthYear": 1997,
+    "pos": "LB",
+    "club": "비제우 아카데미"
+  },
+  "acv-20": {
+    "name": "파울리뉸",
+    "nation": "포르투갈",
+    "birthYear": 1999,
+    "pos": "LW",
+    "club": "비제우 아카데미"
+  },
+  "alv-01": {
+    "name": "노아 라베이른",
+    "nation": "프랑스",
+    "birthYear": 2005,
+    "pos": "GK",
+    "club": "알베르카 히베이라"
+  },
+  "alv-02": {
+    "name": "나빌 투아이진",
+    "nation": "모로코",
+    "birthYear": 2001,
+    "pos": "RB",
+    "club": "알베르카 히베이라"
+  },
+  "alv-03": {
+    "name": "훌리안 마르티네손",
+    "nation": "온두라스",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "알베르카 히베이라"
+  },
+  "alv-04": {
+    "name": "야야 보장드",
+    "nation": "감비아",
+    "birthYear": 2004,
+    "pos": "CB",
+    "club": "알베르카 히베이라"
+  },
+  "alv-05": {
+    "name": "사비트 압둘라인",
+    "nation": "가나",
+    "birthYear": 1999,
+    "pos": "CDM",
+    "club": "알베르카 히베이라"
+  },
+  "alv-06": {
+    "name": "다비 기르",
+    "nation": "코트디부아르",
+    "birthYear": 2006,
+    "pos": "CM",
+    "club": "알베르카 히베이라"
+  },
+  "alv-07": {
+    "name": "안드레 비디갈라",
+    "nation": "앙골라",
+    "birthYear": 1998,
+    "pos": "RW",
+    "club": "알베르카 히베이라"
+  },
+  "alv-08": {
+    "name": "비발두 세메둔",
+    "nation": "포르투갈",
+    "birthYear": 2005,
+    "pos": "ST",
+    "club": "알베르카 히베이라"
+  },
+  "alv-09": {
+    "name": "시키뉸",
+    "nation": "포르투갈",
+    "birthYear": 2000,
+    "pos": "CAM",
+    "club": "알베르카 히베이라"
+  },
+  "alv-10": {
+    "name": "세드리크 누오친",
+    "nation": "벨기에",
+    "birthYear": 2006,
+    "pos": "CM",
+    "club": "알베르카 히베이라"
+  },
+  "alv-11": {
+    "name": "아이작 제임손",
+    "nation": "나이지리아",
+    "birthYear": 2004,
+    "pos": "CB",
+    "club": "알베르카 히베이라"
+  },
+  "alv-12": {
+    "name": "스티븐 바세얀",
+    "nation": "프랑스",
+    "birthYear": 2005,
+    "pos": "LB",
+    "club": "알베르카 히베이라"
+  },
+  "alv-13": {
+    "name": "사미 메르헤근",
+    "nation": "레바논",
+    "birthYear": 2006,
+    "pos": "LW",
+    "club": "알베르카 히베이라"
+  },
+  "alv-14": {
+    "name": "마르코 에시민",
+    "nation": "프랑스",
+    "birthYear": 1999,
+    "pos": "ST",
+    "club": "알베르카 히베이라"
+  },
+  "alv-15": {
+    "name": "디오구 스펜서스",
+    "nation": "포르투갈",
+    "birthYear": 2004,
+    "pos": "LB",
+    "club": "알베르카 히베이라"
+  },
+  "alv-16": {
+    "name": "세르지 고메손",
+    "nation": "스페인",
+    "birthYear": 1992,
+    "pos": "CB",
+    "club": "알베르카 히베이라"
+  },
+  "alv-17": {
+    "name": "피게이레둔",
+    "nation": "브라질",
+    "birthYear": 2001,
+    "pos": "ST",
+    "club": "알베르카 히베이라"
+  },
+  "alv-18": {
+    "name": "안드레 파울룬",
+    "nation": "포르투갈",
+    "birthYear": 1996,
+    "pos": "GK",
+    "club": "알베르카 히베이라"
+  },
+  "alv-19": {
+    "name": "모페 제미덴",
+    "nation": "잉글랜드",
+    "birthYear": 2006,
+    "pos": "CB",
+    "club": "알베르카 히베이라"
+  },
+  "alv-20": {
+    "name": "이안 루카손",
+    "nation": "브라질",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "알베르카 히베이라"
+  },
+  "alv-21": {
+    "name": "토니 타마리튼",
+    "nation": "스페인",
+    "birthYear": 2005,
+    "pos": "RB",
+    "club": "알베르카 히베이라"
+  },
+  "alv-22": {
+    "name": "마테우스 멘드손",
+    "nation": "브라질",
+    "birthYear": 1999,
+    "pos": "GK",
+    "club": "알베르카 히베이라"
+  },
+  "alv-23": {
+    "name": "바스티앵 뫼피윤",
+    "nation": "프랑스",
+    "birthYear": 2006,
+    "pos": "CB",
+    "club": "알베르카 히베이라"
+  },
+  "alv-24": {
+    "name": "라이안 루카스르",
+    "nation": "브라질",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "알베르카 히베이라"
+  },
+  "alv-25": {
+    "name": "프란시스쿠 시숨반",
+    "nation": "포르투갈",
+    "birthYear": 2005,
+    "pos": "CB",
+    "club": "알베르카 히베이라"
+  },
+  "alv-26": {
+    "name": "조나타느",
+    "nation": "브라질",
+    "birthYear": 1991,
+    "pos": "GK",
+    "club": "알베르카 히베이라"
+  },
+  "alv-27": {
+    "name": "제 하파에운",
+    "nation": "브라질",
+    "birthYear": 1993,
+    "pos": "CAM",
+    "club": "알베르카 히베이라"
+  },
+  "aro-01": {
+    "name": "호세 폰타느",
+    "nation": "스페인",
+    "birthYear": 2000,
+    "pos": "CB",
+    "club": "아루카 몬타냐"
+  },
+  "aro-02": {
+    "name": "디오구 몬테이룬",
+    "nation": "포르투갈",
+    "birthYear": 2005,
+    "pos": "CB",
+    "club": "아루카 몬타냐"
+  },
+  "aro-03": {
+    "name": "보리스 포포비츠",
+    "nation": "세르비아",
+    "birthYear": 2000,
+    "pos": "CB",
+    "club": "아루카 몬타냐"
+  },
+  "aro-04": {
+    "name": "에스펀 판 에인",
+    "nation": "네덜란드",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "아루카 몬타냐"
+  },
+  "aro-05": {
+    "name": "나이스 주아란",
+    "nation": "프랑스",
+    "birthYear": 1999,
+    "pos": "RW",
+    "club": "아루카 몬타냐"
+  },
+  "aro-06": {
+    "name": "후쿠이 다이친",
+    "nation": "일본",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "아루카 몬타냐"
+  },
+  "aro-07": {
+    "name": "팔리 마율룬",
+    "nation": "프랑스",
+    "birthYear": 2002,
+    "pos": "ST",
+    "club": "아루카 몬타냐"
+  },
+  "aro-08": {
+    "name": "파블로 고살베손",
+    "nation": "스페인",
+    "birthYear": 2001,
+    "pos": "CAM",
+    "club": "아루카 몬타냐"
+  },
+  "aro-09": {
+    "name": "미겔 푸첸",
+    "nation": "스페인",
+    "birthYear": 2001,
+    "pos": "LW",
+    "club": "아루카 몬타냐"
+  },
+  "aro-10": {
+    "name": "이그나시오 데 아루아바레난",
+    "nation": "우루과이",
+    "birthYear": 1997,
+    "pos": "GK",
+    "club": "아루카 몬타냐"
+  },
+  "aro-11": {
+    "name": "이현조",
+    "nation": "대한민국",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "아루카 몬타냐"
+  },
+  "aro-12": {
+    "name": "하비 산체노",
+    "nation": "스페인",
+    "birthYear": 1997,
+    "pos": "CB",
+    "club": "아루카 몬타냐"
+  },
+  "aro-13": {
+    "name": "이반 바르베론",
+    "nation": "스페인",
+    "birthYear": 1998,
+    "pos": "ST",
+    "club": "아루카 몬타냐"
+  },
+  "aro-14": {
+    "name": "오레스트 레베덴콘",
+    "nation": "우크라이나",
+    "birthYear": 1998,
+    "pos": "RB",
+    "club": "아루카 몬타냐"
+  },
+  "aro-15": {
+    "name": "알폰소 트레산",
+    "nation": "우루과이",
+    "birthYear": 1999,
+    "pos": "ST",
+    "club": "아루카 몬타냐"
+  },
+  "aro-16": {
+    "name": "마테오 플로레손",
+    "nation": "스페인",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "아루카 몬타냐"
+  },
+  "aro-17": {
+    "name": "딜란 난디느",
+    "nation": "우루과이",
+    "birthYear": 2002,
+    "pos": "LW",
+    "club": "아루카 몬타냐"
+  },
+  "aro-18": {
+    "name": "브라이언 만실란",
+    "nation": "우루과이",
+    "birthYear": 2002,
+    "pos": "RW",
+    "club": "아루카 몬타냐"
+  },
+  "aro-19": {
+    "name": "티아구 에스가이운",
+    "nation": "포르투갈",
+    "birthYear": 1995,
+    "pos": "RB",
+    "club": "아루카 몬타냐"
+  },
+  "aro-20": {
+    "name": "마리오 클리멘튼",
+    "nation": "스페인",
+    "birthYear": 2002,
+    "pos": "LB",
+    "club": "아루카 몬타냐"
+  },
+  "aro-21": {
+    "name": "페드루 산투손",
+    "nation": "포르투갈",
+    "birthYear": 2000,
+    "pos": "CDM",
+    "club": "아루카 몬타냐"
   },
   "ful-01": {
     "name": "베른트 레노어",
@@ -10265,6 +15976,1686 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "birthYear": 2007,
     "pos": "ST",
     "club": "풀럼 코티지"
+  },
+  "ben-01": {
+    "name": "아나톨리 트루비느",
+    "nation": "우크라이나",
+    "birthYear": 2001,
+    "pos": "GK",
+    "club": "리스본 아길라"
+  },
+  "ben-02": {
+    "name": "클레망 랑글렌",
+    "nation": "프랑스",
+    "birthYear": 1995,
+    "pos": "CB",
+    "club": "리스본 아길라"
+  },
+  "ben-03": {
+    "name": "알레산드로 치르카틴",
+    "nation": "호주",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "리스본 아길라"
+  },
+  "ben-04": {
+    "name": "엔소 바레네체안",
+    "nation": "아르헨티나",
+    "birthYear": 2001,
+    "pos": "CDM",
+    "club": "리스본 아길라"
+  },
+  "ben-05": {
+    "name": "알렉산더 바르",
+    "nation": "덴마크",
+    "birthYear": 1997,
+    "pos": "RB",
+    "club": "리스본 아길라"
+  },
+  "ben-06": {
+    "name": "브루만",
+    "nation": "포르투갈",
+    "birthYear": 1994,
+    "pos": "LW",
+    "club": "리스본 아길라"
+  },
+  "ben-07": {
+    "name": "프레드리크 아우르스네손",
+    "nation": "노르웨이",
+    "birthYear": 1995,
+    "pos": "CM",
+    "club": "리스본 아길라"
+  },
+  "ben-08": {
+    "name": "헤오르히 수다코운",
+    "nation": "우크라이나",
+    "birthYear": 2002,
+    "pos": "CAM",
+    "club": "리스본 아길라"
+  },
+  "ben-09": {
+    "name": "도디 루케바키온",
+    "nation": "벨기에",
+    "birthYear": 1997,
+    "pos": "RW",
+    "club": "리스본 아길라"
+  },
+  "ben-10": {
+    "name": "야쿠프 카민스킨",
+    "nation": "폴란드",
+    "birthYear": 2002,
+    "pos": "LW",
+    "club": "리스본 아길라"
+  },
+  "ben-11": {
+    "name": "방겔리스 파블리디손",
+    "nation": "그리스",
+    "birthYear": 1998,
+    "pos": "ST",
+    "club": "리스본 아길라"
+  },
+  "ben-12": {
+    "name": "마누 실반",
+    "nation": "포르투갈",
+    "birthYear": 2001,
+    "pos": "CM",
+    "club": "리스본 아길라"
+  },
+  "ben-13": {
+    "name": "레안드루 바헤이룬",
+    "nation": "룩셈부르크",
+    "birthYear": 2000,
+    "pos": "CM",
+    "club": "리스본 아길라"
+  },
+  "ben-14": {
+    "name": "안드레아스 셸데루픈",
+    "nation": "노르웨이",
+    "birthYear": 2004,
+    "pos": "LW",
+    "club": "리스본 아길라"
+  },
+  "ben-15": {
+    "name": "욘 두라느",
+    "nation": "콜롬비아",
+    "birthYear": 2003,
+    "pos": "ST",
+    "club": "리스본 아길라"
+  },
+  "ben-16": {
+    "name": "사무엘 소아르손",
+    "nation": "포르투갈",
+    "birthYear": 2002,
+    "pos": "GK",
+    "club": "리스본 아길라"
+  },
+  "ben-17": {
+    "name": "잔루카 프레스티안닌",
+    "nation": "아르헨티나",
+    "birthYear": 2006,
+    "pos": "RW",
+    "club": "리스본 아길라"
+  },
+  "ben-18": {
+    "name": "사무엘 달라",
+    "nation": "스웨덴",
+    "birthYear": 2003,
+    "pos": "LB",
+    "club": "리스본 아길라"
+  },
+  "ben-19": {
+    "name": "하파 실반",
+    "nation": "포르투갈",
+    "birthYear": 1993,
+    "pos": "LW",
+    "club": "리스본 아길라"
+  },
+  "ben-20": {
+    "name": "클라우디오 에체베린",
+    "nation": "아르헨티나",
+    "birthYear": 2006,
+    "pos": "CAM",
+    "club": "리스본 아길라"
+  },
+  "ben-21": {
+    "name": "가브리에우 인디운",
+    "nation": "브라질",
+    "birthYear": 2008,
+    "pos": "CB",
+    "club": "리스본 아길라"
+  },
+  "ben-22": {
+    "name": "수피안 엘 카루아닌",
+    "nation": "모로코",
+    "birthYear": 2000,
+    "pos": "LB",
+    "club": "리스본 아길라"
+  },
+  "ben-23": {
+    "name": "주앙 팔리뇬",
+    "nation": "포르투갈",
+    "birthYear": 1995,
+    "pos": "CDM",
+    "club": "리스본 아길라"
+  },
+  "ben-24": {
+    "name": "토마스 아라우준",
+    "nation": "포르투갈",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "리스본 아길라"
+  },
+  "ben-25": {
+    "name": "조슈아 윈더스",
+    "nation": "미국",
+    "birthYear": 2005,
+    "pos": "CB",
+    "club": "리스본 아길라"
+  },
+  "ben-26": {
+    "name": "아니지우 카브랄라",
+    "nation": "포르투갈",
+    "birthYear": 2008,
+    "pos": "ST",
+    "club": "리스본 아길라"
+  },
+  "brg-01": {
+    "name": "빅토르 고메손",
+    "nation": "스페인",
+    "birthYear": 2000,
+    "pos": "RB",
+    "club": "브라가 게레이루"
+  },
+  "brg-02": {
+    "name": "시쿠 니아카텐",
+    "nation": "말리",
+    "birthYear": 1999,
+    "pos": "CB",
+    "club": "브라가 게레이루"
+  },
+  "brg-03": {
+    "name": "레오나르두 렐룬",
+    "nation": "포르투갈",
+    "birthYear": 2000,
+    "pos": "LB",
+    "club": "브라가 게레이루"
+  },
+  "brg-04": {
+    "name": "비토르 카르발륜",
+    "nation": "브라질",
+    "birthYear": 1997,
+    "pos": "CDM",
+    "club": "브라가 게레이루"
+  },
+  "brg-05": {
+    "name": "디오구 트라바수손",
+    "nation": "포르투갈",
+    "birthYear": 2004,
+    "pos": "RB",
+    "club": "브라가 게레이루"
+  },
+  "brg-06": {
+    "name": "주앙 무티뉸",
+    "nation": "포르투갈",
+    "birthYear": 1986,
+    "pos": "CM",
+    "club": "브라가 게레이루"
+  },
+  "brg-07": {
+    "name": "프란 나바론",
+    "nation": "스페인",
+    "birthYear": 1998,
+    "pos": "ST",
+    "club": "브라가 게레이루"
+  },
+  "brg-08": {
+    "name": "파우 빅토른",
+    "nation": "스페인",
+    "birthYear": 2001,
+    "pos": "ST",
+    "club": "브라가 게레이루"
+  },
+  "brg-09": {
+    "name": "가브리에우 실반",
+    "nation": "브라질",
+    "birthYear": 2002,
+    "pos": "LW",
+    "club": "브라가 게레이루"
+  },
+  "brg-10": {
+    "name": "티아구 사르",
+    "nation": "포르투갈",
+    "birthYear": 1995,
+    "pos": "GK",
+    "club": "브라가 게레이루"
+  },
+  "brg-11": {
+    "name": "구스타프 라게르비엘켄",
+    "nation": "스웨덴",
+    "birthYear": 2000,
+    "pos": "CB",
+    "club": "브라가 게레이루"
+  },
+  "brg-12": {
+    "name": "토미 마르케손",
+    "nation": "스페인",
+    "birthYear": 2006,
+    "pos": "CM",
+    "club": "브라가 게레이루"
+  },
+  "brg-13": {
+    "name": "요반 밀로셰비츠",
+    "nation": "세르비아",
+    "birthYear": 2005,
+    "pos": "ST",
+    "club": "브라가 게레이루"
+  },
+  "brg-14": {
+    "name": "요나스 빈드",
+    "nation": "덴마크",
+    "birthYear": 1999,
+    "pos": "ST",
+    "club": "브라가 게레이루"
+  },
+  "brg-15": {
+    "name": "마리오 도르젤레손",
+    "nation": "코트디부아르",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "브라가 게레이루"
+  },
+  "brg-16": {
+    "name": "히카르두 오르탄",
+    "nation": "포르투갈",
+    "birthYear": 1994,
+    "pos": "LW",
+    "club": "브라가 게레이루"
+  },
+  "brg-17": {
+    "name": "세르히오 바르시안",
+    "nation": "스페인",
+    "birthYear": 2000,
+    "pos": "CB",
+    "club": "브라가 게레이루"
+  },
+  "brg-18": {
+    "name": "데니스 후세인바시츠",
+    "nation": "보스니아헤르체고비나",
+    "birthYear": 2001,
+    "pos": "CM",
+    "club": "브라가 게레이루"
+  },
+  "brg-19": {
+    "name": "브라이트 아레이음빈",
+    "nation": "독일",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "브라가 게레이루"
+  },
+  "brg-20": {
+    "name": "장바티스트 고르빈",
+    "nation": "프랑스",
+    "birthYear": 2002,
+    "pos": "CDM",
+    "club": "브라가 게레이루"
+  },
+  "brg-21": {
+    "name": "베르나르두 폰트손",
+    "nation": "브라질",
+    "birthYear": 2002,
+    "pos": "GK",
+    "club": "브라가 게레이루"
+  },
+  "brg-22": {
+    "name": "주앙 마르케스르",
+    "nation": "포르투갈",
+    "birthYear": 2002,
+    "pos": "CM",
+    "club": "브라가 게레이루"
+  },
+  "brg-23": {
+    "name": "데미르 에게 트나주",
+    "nation": "튀르키예",
+    "birthYear": 2004,
+    "pos": "CAM",
+    "club": "브라가 게레이루"
+  },
+  "brg-24": {
+    "name": "아드리안 바리시츠",
+    "nation": "보스니아헤르체고비나",
+    "birthYear": 2001,
+    "pos": "CB",
+    "club": "브라가 게레이루"
+  },
+  "brg-25": {
+    "name": "야니스 다 호샨",
+    "nation": "포르투갈",
+    "birthYear": 2004,
+    "pos": "RB",
+    "club": "브라가 게레이루"
+  },
+  "brg-26": {
+    "name": "아드리안 바이라민",
+    "nation": "스위스",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "브라가 게레이루"
+  },
+  "brg-27": {
+    "name": "디에구 호드리게손",
+    "nation": "포르투갈",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "브라가 게레이루"
+  },
+  "brg-28": {
+    "name": "가브리 마르티네손",
+    "nation": "스페인",
+    "birthYear": 2003,
+    "pos": "RW",
+    "club": "브라가 게레이루"
+  },
+  "brg-29": {
+    "name": "주앙 카르발륜드",
+    "nation": "포르투갈",
+    "birthYear": 1997,
+    "pos": "GK",
+    "club": "브라가 게레이루"
+  },
+  "cpa-01": {
+    "name": "패트릭 세케이란",
+    "nation": "코스타리카",
+    "birthYear": 1999,
+    "pos": "GK",
+    "club": "카사피아 리스보"
+  },
+  "cpa-02": {
+    "name": "칼린",
+    "nation": "앙골라",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "카사피아 리스보"
+  },
+  "cpa-03": {
+    "name": "주앙 고울라르튼",
+    "nation": "포르투갈",
+    "birthYear": 2000,
+    "pos": "CB",
+    "club": "카사피아 리스보"
+  },
+  "cpa-04": {
+    "name": "압두 콘텐",
+    "nation": "포르투갈",
+    "birthYear": 1998,
+    "pos": "LB",
+    "club": "카사피아 리스보"
+  },
+  "cpa-05": {
+    "name": "엔히키 아라우준",
+    "nation": "포르투갈",
+    "birthYear": 2002,
+    "pos": "ST",
+    "club": "카사피아 리스보"
+  },
+  "cpa-06": {
+    "name": "호시뇬",
+    "nation": "포르투갈",
+    "birthYear": 1995,
+    "pos": "LW",
+    "club": "카사피아 리스보"
+  },
+  "cpa-07": {
+    "name": "코레데 오순디난",
+    "nation": "미국",
+    "birthYear": 2004,
+    "pos": "ST",
+    "club": "카사피아 리스보"
+  },
+  "cpa-08": {
+    "name": "셀비 클루안",
+    "nation": "스페인",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "카사피아 리스보"
+  },
+  "cpa-09": {
+    "name": "안드레 제랄드손",
+    "nation": "포르투갈",
+    "birthYear": 1991,
+    "pos": "RB",
+    "club": "카사피아 리스보"
+  },
+  "cpa-10": {
+    "name": "알라사나 자탄",
+    "nation": "감비아",
+    "birthYear": 1999,
+    "pos": "ST",
+    "club": "카사피아 리스보"
+  },
+  "cpa-11": {
+    "name": "다니엘 아제베둔",
+    "nation": "포르투갈",
+    "birthYear": 1998,
+    "pos": "GK",
+    "club": "카사피아 리스보"
+  },
+  "cpa-12": {
+    "name": "이야드 모하메든",
+    "nation": "코모로",
+    "birthYear": 2001,
+    "pos": "CDM",
+    "club": "카사피아 리스보"
+  },
+  "cpa-13": {
+    "name": "카이키 호샨",
+    "nation": "브라질",
+    "birthYear": 2001,
+    "pos": "CB",
+    "club": "카사피아 리스보"
+  },
+  "cpa-14": {
+    "name": "제레미 리볼랑드",
+    "nation": "프랑스",
+    "birthYear": 1998,
+    "pos": "RW",
+    "club": "카사피아 리스보"
+  },
+  "cpa-15": {
+    "name": "안드레 고미스르",
+    "nation": "포르투갈",
+    "birthYear": 2004,
+    "pos": "GK",
+    "club": "카사피아 리스보"
+  },
+  "cpa-16": {
+    "name": "세바 페레손",
+    "nation": "콜롬비아",
+    "birthYear": 1993,
+    "pos": "CM",
+    "club": "카사피아 리스보"
+  },
+  "cpa-17": {
+    "name": "다비드 소잔드",
+    "nation": "브라질",
+    "birthYear": 2001,
+    "pos": "CB",
+    "club": "카사피아 리스보"
+  },
+  "cpa-18": {
+    "name": "페드루 로자손",
+    "nation": "포르투갈",
+    "birthYear": 2000,
+    "pos": "RB",
+    "club": "카사피아 리스보"
+  },
+  "cpa-19": {
+    "name": "뱅자맹 파월손",
+    "nation": "벨기에",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "카사피아 리스보"
+  },
+  "cpa-20": {
+    "name": "로런스 오포린",
+    "nation": "가나",
+    "birthYear": 1998,
+    "pos": "CDM",
+    "club": "카사피아 리스보"
+  },
+  "cpa-21": {
+    "name": "카시아눈",
+    "nation": "브라질",
+    "birthYear": 1989,
+    "pos": "ST",
+    "club": "카사피아 리스보"
+  },
+  "cpa-22": {
+    "name": "제펜",
+    "nation": "브라질",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "카사피아 리스보"
+  },
+  "cpa-23": {
+    "name": "클라우디우 멘드손",
+    "nation": "기니비사우",
+    "birthYear": 2000,
+    "pos": "LW",
+    "club": "카사피아 리스보"
+  },
+  "est-01": {
+    "name": "호엘 로블레손",
+    "nation": "스페인",
+    "birthYear": 1990,
+    "pos": "GK",
+    "club": "에스토릴 카나리"
+  },
+  "est-02": {
+    "name": "리카르드 산체노",
+    "nation": "스페인",
+    "birthYear": 2000,
+    "pos": "RB",
+    "club": "에스토릴 카나리"
+  },
+  "est-03": {
+    "name": "페르난도 메드라논",
+    "nation": "스페인",
+    "birthYear": 2000,
+    "pos": "CB",
+    "club": "에스토릴 카나리"
+  },
+  "est-04": {
+    "name": "페후르",
+    "nation": "포르투갈",
+    "birthYear": 1997,
+    "pos": "CB",
+    "club": "에스토릴 카나리"
+  },
+  "est-05": {
+    "name": "안테프 충긴",
+    "nation": "벨기에",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "에스토릴 카나리"
+  },
+  "est-06": {
+    "name": "안드레 라시미칸튼",
+    "nation": "포르투갈",
+    "birthYear": 2001,
+    "pos": "RW",
+    "club": "에스토릴 카나리"
+  },
+  "est-07": {
+    "name": "셰칸",
+    "nation": "포르투갈",
+    "birthYear": 1994,
+    "pos": "CDM",
+    "club": "에스토릴 카나리"
+  },
+  "est-08": {
+    "name": "조던 홀스그로븐",
+    "nation": "스코틀랜드",
+    "birthYear": 1999,
+    "pos": "CAM",
+    "club": "에스토릴 카나리"
+  },
+  "est-09": {
+    "name": "카욘 에드워즈르",
+    "nation": "잉글랜드",
+    "birthYear": 2003,
+    "pos": "ST",
+    "club": "에스토릴 카나리"
+  },
+  "est-10": {
+    "name": "주앙 카르발류스",
+    "nation": "포르투갈",
+    "birthYear": 1997,
+    "pos": "CM",
+    "club": "에스토릴 카나리"
+  },
+  "est-11": {
+    "name": "야니스 베그라윈",
+    "nation": "모로코",
+    "birthYear": 2001,
+    "pos": "LW",
+    "club": "에스토릴 카나리"
+  },
+  "est-12": {
+    "name": "마르틴 투르큰",
+    "nation": "슬로베니아",
+    "birthYear": 2003,
+    "pos": "GK",
+    "club": "에스토릴 카나리"
+  },
+  "est-13": {
+    "name": "페이시뉸",
+    "nation": "포르투갈",
+    "birthYear": 1993,
+    "pos": "LW",
+    "club": "에스토릴 카나리"
+  },
+  "est-14": {
+    "name": "곤살루 코스탄",
+    "nation": "포르투갈",
+    "birthYear": 2000,
+    "pos": "LB",
+    "club": "에스토릴 카나리"
+  },
+  "est-15": {
+    "name": "티아구 파렌튼",
+    "nation": "포르투갈",
+    "birthYear": 2004,
+    "pos": "RB",
+    "club": "에스토릴 카나리"
+  },
+  "est-16": {
+    "name": "페드루 카르발륜",
+    "nation": "포르투갈",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "에스토릴 카나리"
+  },
+  "est-17": {
+    "name": "스텔리오스 안드레운",
+    "nation": "키프로스",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "에스토릴 카나리"
+  },
+  "est-18": {
+    "name": "새뮤얼 아미산",
+    "nation": "잉글랜드",
+    "birthYear": 2007,
+    "pos": "CB",
+    "club": "에스토릴 카나리"
+  },
+  "est-19": {
+    "name": "플레처 스마이스론",
+    "nation": "남아프리카공화국",
+    "birthYear": 2007,
+    "pos": "GK",
+    "club": "에스토릴 카나리"
+  },
+  "est-20": {
+    "name": "티아구 브리툰",
+    "nation": "포르투갈",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "에스토릴 카나리"
+  },
+  "est-21": {
+    "name": "파브리시우 가르시안",
+    "nation": "카보베르데",
+    "birthYear": 2001,
+    "pos": "LB",
+    "club": "에스토릴 카나리"
+  },
+  "est-22": {
+    "name": "라피크 기타느",
+    "nation": "알제리",
+    "birthYear": 1999,
+    "pos": "RW",
+    "club": "에스토릴 카나리"
+  },
+  "esa-01": {
+    "name": "뤼카 맹카렐린",
+    "nation": "프랑스",
+    "birthYear": 2004,
+    "pos": "LB",
+    "club": "아마도라 에스트렐라"
+  },
+  "esa-02": {
+    "name": "베르나르두 샤폰",
+    "nation": "브라질",
+    "birthYear": 1999,
+    "pos": "CB",
+    "club": "아마도라 에스트렐라"
+  },
+  "esa-03": {
+    "name": "스테판 레코비츠",
+    "nation": "세르비아",
+    "birthYear": 2004,
+    "pos": "CB",
+    "club": "아마도라 에스트렐라"
+  },
+  "esa-04": {
+    "name": "케빈 회그 얀손드",
+    "nation": "스웨덴",
+    "birthYear": 2000,
+    "pos": "CDM",
+    "club": "아마도라 에스트렐라"
+  },
+  "esa-05": {
+    "name": "호비뉴스",
+    "nation": "브라질",
+    "birthYear": 1984,
+    "pos": "CM",
+    "club": "아마도라 에스트렐라"
+  },
+  "esa-06": {
+    "name": "야니스 스토이칸",
+    "nation": "루마니아",
+    "birthYear": 2002,
+    "pos": "ST",
+    "club": "아마도라 에스트렐라"
+  },
+  "esa-07": {
+    "name": "로브로 즈보나레큰",
+    "nation": "크로아티아",
+    "birthYear": 2005,
+    "pos": "CAM",
+    "club": "아마도라 에스트렐라"
+  },
+  "esa-08": {
+    "name": "제페르손 엔카단",
+    "nation": "기니비사우",
+    "birthYear": 1998,
+    "pos": "CB",
+    "club": "아마도라 에스트렐라"
+  },
+  "esa-09": {
+    "name": "호안 호르다느",
+    "nation": "스페인",
+    "birthYear": 1994,
+    "pos": "CM",
+    "club": "아마도라 에스트렐라"
+  },
+  "esa-10": {
+    "name": "레오 링큰",
+    "nation": "브라질",
+    "birthYear": 2001,
+    "pos": "GK",
+    "club": "아마도라 에스트렐라"
+  },
+  "esa-11": {
+    "name": "루안 파트리큰",
+    "nation": "브라질",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "아마도라 에스트렐라"
+  },
+  "esa-12": {
+    "name": "레안드로 안토네틴",
+    "nation": "푸에르토리코",
+    "birthYear": 2003,
+    "pos": "ST",
+    "club": "아마도라 에스트렐라"
+  },
+  "esa-13": {
+    "name": "에디 두엔",
+    "nation": "코트디부아르",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "아마도라 에스트렐라"
+  },
+  "esa-14": {
+    "name": "디오구 핀툰",
+    "nation": "포르투갈",
+    "birthYear": 2004,
+    "pos": "GK",
+    "club": "아마도라 에스트렐라"
+  },
+  "esa-15": {
+    "name": "하파 소아르손",
+    "nation": "포르투갈",
+    "birthYear": 1995,
+    "pos": "LB",
+    "club": "아마도라 에스트렐라"
+  },
+  "esa-16": {
+    "name": "아타나스 체르네픈",
+    "nation": "불가리아",
+    "birthYear": 2002,
+    "pos": "RB",
+    "club": "아마도라 에스트렐라"
+  },
+  "esa-17": {
+    "name": "에이브러햄 마커스르",
+    "nation": "나이지리아",
+    "birthYear": 2000,
+    "pos": "ST",
+    "club": "아마도라 에스트렐라"
+  },
+  "fam-01": {
+    "name": "이반 즐로비느",
+    "nation": "러시아",
+    "birthYear": 1997,
+    "pos": "GK",
+    "club": "파말리캉 파마"
+  },
+  "fam-02": {
+    "name": "구스타부 가르시안",
+    "nation": "브라질",
+    "birthYear": 2002,
+    "pos": "RB",
+    "club": "파말리캉 파마"
+  },
+  "fam-03": {
+    "name": "레오 레알펜",
+    "nation": "에콰도르",
+    "birthYear": 2001,
+    "pos": "CB",
+    "club": "파말리캉 파마"
+  },
+  "fam-04": {
+    "name": "핀 판 브레먼드",
+    "nation": "네덜란드",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "파말리캉 파마"
+  },
+  "fam-05": {
+    "name": "레니 마이어스",
+    "nation": "스위스",
+    "birthYear": 2004,
+    "pos": "CB",
+    "club": "파말리캉 파마"
+  },
+  "fam-06": {
+    "name": "톰 판 더 로인",
+    "nation": "네덜란드",
+    "birthYear": 1999,
+    "pos": "CDM",
+    "club": "파말리캉 파마"
+  },
+  "fam-07": {
+    "name": "소히준",
+    "nation": "브라질",
+    "birthYear": 2001,
+    "pos": "LW",
+    "club": "파말리캉 파마"
+  },
+  "fam-08": {
+    "name": "마르코스 페냔",
+    "nation": "스페인",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "파말리캉 파마"
+  },
+  "fam-09": {
+    "name": "우마르 아부바카른",
+    "nation": "나이지리아",
+    "birthYear": 2006,
+    "pos": "ST",
+    "club": "파말리캉 파마"
+  },
+  "fam-10": {
+    "name": "오스카르 아란단",
+    "nation": "스페인",
+    "birthYear": 2002,
+    "pos": "RW",
+    "club": "파말리캉 파마"
+  },
+  "fam-11": {
+    "name": "마티아스 드 아모링크",
+    "nation": "포르투갈",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "파말리캉 파마"
+  },
+  "fam-12": {
+    "name": "호드리구 피녜이룬",
+    "nation": "포르투갈",
+    "birthYear": 2002,
+    "pos": "RB",
+    "club": "파말리캉 파마"
+  },
+  "fam-13": {
+    "name": "로메오 베넨",
+    "nation": "스위스",
+    "birthYear": 2005,
+    "pos": "ST",
+    "club": "파말리캉 파마"
+  },
+  "fam-14": {
+    "name": "파울루 모레이란",
+    "nation": "포르투갈",
+    "birthYear": 2000,
+    "pos": "CM",
+    "club": "파말리캉 파마"
+  },
+  "fam-15": {
+    "name": "터마시 수친",
+    "nation": "헝가리",
+    "birthYear": 2005,
+    "pos": "CAM",
+    "club": "파말리캉 파마"
+  },
+  "fam-16": {
+    "name": "가브리에우 카브랄라",
+    "nation": "브라질",
+    "birthYear": 1997,
+    "pos": "GK",
+    "club": "파말리캉 파마"
+  },
+  "fam-17": {
+    "name": "질 디아손",
+    "nation": "포르투갈",
+    "birthYear": 1996,
+    "pos": "RW",
+    "club": "파말리캉 파마"
+  },
+  "fam-18": {
+    "name": "마티스 장제알라",
+    "nation": "프랑스",
+    "birthYear": 2008,
+    "pos": "CM",
+    "club": "파말리캉 파마"
+  },
+  "fam-19": {
+    "name": "라자르 차레비츠",
+    "nation": "몬테네그로",
+    "birthYear": 1999,
+    "pos": "GK",
+    "club": "파말리캉 파마"
+  },
+  "fam-20": {
+    "name": "페드루 본둔",
+    "nation": "앙골라",
+    "birthYear": 2004,
+    "pos": "LB",
+    "club": "파말리캉 파마"
+  },
+  "fam-21": {
+    "name": "보인 세라피모비츠",
+    "nation": "세르비아",
+    "birthYear": 2005,
+    "pos": "CB",
+    "club": "파말리캉 파마"
+  },
+  "fam-22": {
+    "name": "곤살로 파스토른",
+    "nation": "스페인",
+    "birthYear": 2006,
+    "pos": "CM",
+    "club": "파말리캉 파마"
+  },
+  "fam-23": {
+    "name": "요르요스 쿠치아손",
+    "nation": "그리스",
+    "birthYear": 2004,
+    "pos": "ST",
+    "club": "파말리캉 파마"
+  },
+  "fam-24": {
+    "name": "페드루 산투스르",
+    "nation": "포르투갈",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "파말리캉 파마"
+  },
+  "gil-01": {
+    "name": "안드레 피코르넬라",
+    "nation": "스웨덴",
+    "birthYear": 2004,
+    "pos": "GK",
+    "club": "지우비센트 갈로"
+  },
+  "gil-02": {
+    "name": "기슬랭 코나느",
+    "nation": "코트디부아르",
+    "birthYear": 1995,
+    "pos": "LB",
+    "club": "지우비센트 갈로"
+  },
+  "gil-03": {
+    "name": "마르뱅 엘림빈",
+    "nation": "프랑스",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "지우비센트 갈로"
+  },
+  "gil-04": {
+    "name": "파쿤도 카세레손",
+    "nation": "아르헨티나",
+    "birthYear": 2001,
+    "pos": "CM",
+    "club": "지우비센트 갈로"
+  },
+  "gil-05": {
+    "name": "티자니 투렌",
+    "nation": "프랑스",
+    "birthYear": 2002,
+    "pos": "RW",
+    "club": "지우비센트 갈로"
+  },
+  "gil-06": {
+    "name": "모하메드 밤반드",
+    "nation": "코트디부아르",
+    "birthYear": 2004,
+    "pos": "CDM",
+    "club": "지우비센트 갈로"
+  },
+  "gil-07": {
+    "name": "왈라시 프란산",
+    "nation": "브라질",
+    "birthYear": 2005,
+    "pos": "ST",
+    "club": "지우비센트 갈로"
+  },
+  "gil-08": {
+    "name": "산티 가르시안",
+    "nation": "스페인",
+    "birthYear": 2001,
+    "pos": "CAM",
+    "club": "지우비센트 갈로"
+  },
+  "gil-09": {
+    "name": "조엘손 페르난드손",
+    "nation": "포르투갈",
+    "birthYear": 2003,
+    "pos": "LW",
+    "club": "지우비센트 갈로"
+  },
+  "gil-10": {
+    "name": "안드레아스 라우센드",
+    "nation": "덴마크",
+    "birthYear": 2002,
+    "pos": "CM",
+    "club": "지우비센트 갈로"
+  },
+  "gil-11": {
+    "name": "세르히오 베르메혼",
+    "nation": "스페인",
+    "birthYear": 1997,
+    "pos": "LW",
+    "club": "지우비센트 갈로"
+  },
+  "gil-12": {
+    "name": "엑토르 에르난데손",
+    "nation": "스페인",
+    "birthYear": 1995,
+    "pos": "ST",
+    "club": "지우비센트 갈로"
+  },
+  "gil-13": {
+    "name": "웨베르손드",
+    "nation": "브라질",
+    "birthYear": 2000,
+    "pos": "LB",
+    "club": "지우비센트 갈로"
+  },
+  "gil-14": {
+    "name": "아구스틴 모레이란",
+    "nation": "우루과이",
+    "birthYear": 2001,
+    "pos": "ST",
+    "club": "지우비센트 갈로"
+  },
+  "gil-15": {
+    "name": "디오구 코스타스",
+    "nation": "포르투갈",
+    "birthYear": 1999,
+    "pos": "CB",
+    "club": "지우비센트 갈로"
+  },
+  "gil-16": {
+    "name": "카를루스 에두아르둔",
+    "nation": "브라질",
+    "birthYear": 2002,
+    "pos": "RW",
+    "club": "지우비센트 갈로"
+  },
+  "gil-17": {
+    "name": "루캉드",
+    "nation": "브라질",
+    "birthYear": 2001,
+    "pos": "GK",
+    "club": "지우비센트 갈로"
+  },
+  "gil-18": {
+    "name": "마르틴 페르난데손",
+    "nation": "우루과이",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "지우비센트 갈로"
+  },
+  "gil-19": {
+    "name": "조나탄 부아툰",
+    "nation": "앙골라",
+    "birthYear": 1993,
+    "pos": "CB",
+    "club": "지우비센트 갈로"
+  },
+  "gil-20": {
+    "name": "다비드 모레이라스",
+    "nation": "카보베르데",
+    "birthYear": 2004,
+    "pos": "CB",
+    "club": "지우비센트 갈로"
+  },
+  "gil-21": {
+    "name": "히카르두 에스가이운",
+    "nation": "포르투갈",
+    "birthYear": 1993,
+    "pos": "RB",
+    "club": "지우비센트 갈로"
+  },
+  "gil-22": {
+    "name": "안토니오 에스피가레손",
+    "nation": "스페인",
+    "birthYear": 2004,
+    "pos": "CB",
+    "club": "지우비센트 갈로"
+  },
+  "gil-23": {
+    "name": "무릴루 코스타르",
+    "nation": "브라질",
+    "birthYear": 1994,
+    "pos": "ST",
+    "club": "지우비센트 갈로"
+  },
+  "gil-24": {
+    "name": "디오구 프리오스튼",
+    "nation": "포르투갈",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "지우비센트 갈로"
+  },
+  "gil-25": {
+    "name": "바스코 소예른",
+    "nation": "페루",
+    "birthYear": 2006,
+    "pos": "CM",
+    "club": "지우비센트 갈로"
+  },
+  "gil-26": {
+    "name": "사무에우 포르투갈라",
+    "nation": "브라질",
+    "birthYear": 1994,
+    "pos": "GK",
+    "club": "지우비센트 갈로"
+  },
+  "gil-27": {
+    "name": "모하메드 카바르",
+    "nation": "프랑스",
+    "birthYear": 2001,
+    "pos": "ST",
+    "club": "지우비센트 갈로"
+  },
+  "mrt-01": {
+    "name": "곤살루 타부아순",
+    "nation": "포르투갈",
+    "birthYear": 2001,
+    "pos": "GK",
+    "club": "마데이라 마리티"
+  },
+  "mrt-02": {
+    "name": "이고르 줄리앙드",
+    "nation": "브라질",
+    "birthYear": 1994,
+    "pos": "RB",
+    "club": "마데이라 마리티"
+  },
+  "mrt-03": {
+    "name": "너새니얼 오그베탄",
+    "nation": "잉글랜드",
+    "birthYear": 2001,
+    "pos": "LB",
+    "club": "마데이라 마리티"
+  },
+  "mrt-04": {
+    "name": "하파엘 페르난드손",
+    "nation": "포르투갈",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "마데이라 마리티"
+  },
+  "mrt-05": {
+    "name": "닐톤 바렐란",
+    "nation": "포르투갈",
+    "birthYear": 2001,
+    "pos": "LB",
+    "club": "마데이라 마리티"
+  },
+  "mrt-06": {
+    "name": "호드리구 안드라든",
+    "nation": "포르투갈",
+    "birthYear": 2001,
+    "pos": "CDM",
+    "club": "마데이라 마리티"
+  },
+  "mrt-07": {
+    "name": "엔리케 자우네른",
+    "nation": "베네수엘라",
+    "birthYear": 2000,
+    "pos": "RW",
+    "club": "마데이라 마리티"
+  },
+  "mrt-08": {
+    "name": "막심 도밍게손",
+    "nation": "스위스",
+    "birthYear": 1996,
+    "pos": "CM",
+    "club": "마데이라 마리티"
+  },
+  "mrt-09": {
+    "name": "조제 멜룬",
+    "nation": "포르투갈",
+    "birthYear": 2004,
+    "pos": "ST",
+    "club": "마데이라 마리티"
+  },
+  "mrt-10": {
+    "name": "마르틴 테혼드",
+    "nation": "스페인",
+    "birthYear": 2004,
+    "pos": "CAM",
+    "club": "마데이라 마리티"
+  },
+  "mrt-11": {
+    "name": "시모 부자이딘",
+    "nation": "모로코",
+    "birthYear": 1999,
+    "pos": "LW",
+    "club": "마데이라 마리티"
+  },
+  "mrt-12": {
+    "name": "알폰소 파스토른",
+    "nation": "스페인",
+    "birthYear": 2000,
+    "pos": "GK",
+    "club": "마데이라 마리티"
+  },
+  "mrt-13": {
+    "name": "하파에우 구준",
+    "nation": "포르투갈",
+    "birthYear": 1995,
+    "pos": "CM",
+    "club": "마데이라 마리티"
+  },
+  "mrt-14": {
+    "name": "토마스 타바레손",
+    "nation": "포르투갈",
+    "birthYear": 2001,
+    "pos": "RB",
+    "club": "마데이라 마리티"
+  },
+  "mrt-15": {
+    "name": "아드리안 부츠켄",
+    "nation": "스페인",
+    "birthYear": 1999,
+    "pos": "ST",
+    "club": "마데이라 마리티"
+  },
+  "mrt-16": {
+    "name": "블라단 다닐로비츠",
+    "nation": "보스니아헤르체고비나",
+    "birthYear": 1999,
+    "pos": "CM",
+    "club": "마데이라 마리티"
+  },
+  "mrt-17": {
+    "name": "프란시스쿠 고미손",
+    "nation": "포르투갈",
+    "birthYear": 2004,
+    "pos": "LW",
+    "club": "마데이라 마리티"
+  },
+  "mrt-18": {
+    "name": "이브라힘 알라닌",
+    "nation": "나이지리아",
+    "birthYear": 2006,
+    "pos": "CM",
+    "club": "마데이라 마리티"
+  },
+  "mrt-19": {
+    "name": "가보르 살러인",
+    "nation": "헝가리",
+    "birthYear": 2000,
+    "pos": "CB",
+    "club": "마데이라 마리티"
+  },
+  "mrt-20": {
+    "name": "파울루 엔히킨",
+    "nation": "포르투갈",
+    "birthYear": 1996,
+    "pos": "RB",
+    "club": "마데이라 마리티"
+  },
+  "mrt-21": {
+    "name": "옐루 산티아곤",
+    "nation": "스페인",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "마데이라 마리티"
+  },
+  "mrt-22": {
+    "name": "사무엘 밤반",
+    "nation": "독일",
+    "birthYear": 2004,
+    "pos": "RW",
+    "club": "마데이라 마리티"
+  },
+  "mrt-23": {
+    "name": "프란 비에이테손",
+    "nation": "스페인",
+    "birthYear": 1999,
+    "pos": "GK",
+    "club": "마데이라 마리티"
+  },
+  "mrt-24": {
+    "name": "키미스 자발란",
+    "nation": "모잠비크",
+    "birthYear": 2004,
+    "pos": "GK",
+    "club": "마데이라 마리티"
+  },
+  "mrt-25": {
+    "name": "브라이언 림봄벤",
+    "nation": "벨기에",
+    "birthYear": 2001,
+    "pos": "LW",
+    "club": "마데이라 마리티"
+  },
+  "mrt-26": {
+    "name": "호맹 코헤이안",
+    "nation": "포르투갈",
+    "birthYear": 1999,
+    "pos": "CB",
+    "club": "마데이라 마리티"
+  },
+  "mrt-27": {
+    "name": "이스라엘 아유만",
+    "nation": "나이지리아",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "마데이라 마리티"
+  },
+  "mrt-28": {
+    "name": "모리스 보아키엔",
+    "nation": "독일",
+    "birthYear": 2004,
+    "pos": "ST",
+    "club": "마데이라 마리티"
+  },
+  "mor-01": {
+    "name": "레안드룬",
+    "nation": "포르투갈",
+    "birthYear": 2005,
+    "pos": "LB",
+    "club": "모레이렌 코네고"
+  },
+  "mor-02": {
+    "name": "마누엘 멘돈산",
+    "nation": "포르투갈",
+    "birthYear": 2005,
+    "pos": "CAM",
+    "club": "모레이렌 코네고"
+  },
+  "mor-03": {
+    "name": "마테야 스테파노비츠",
+    "nation": "세르비아",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "모레이렌 코네고"
+  },
+  "mor-04": {
+    "name": "알렉상드르 파르스맹드",
+    "nation": "마르티니크",
+    "birthYear": 2003,
+    "pos": "ST",
+    "club": "모레이렌 코네고"
+  },
+  "mor-05": {
+    "name": "키쿠 본도순",
+    "nation": "포르투갈",
+    "birthYear": 1995,
+    "pos": "LW",
+    "club": "모레이렌 코네고"
+  },
+  "mor-06": {
+    "name": "안드레 페레이라스",
+    "nation": "포르투갈",
+    "birthYear": 1996,
+    "pos": "GK",
+    "club": "모레이렌 코네고"
+  },
+  "mor-07": {
+    "name": "주앙 벨로순",
+    "nation": "포르투갈",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "모레이렌 코네고"
+  },
+  "mor-08": {
+    "name": "로드리스",
+    "nation": "스페인",
+    "birthYear": 2003,
+    "pos": "CDM",
+    "club": "모레이렌 코네고"
+  },
+  "mor-09": {
+    "name": "나일 조느",
+    "nation": "잉글랜드",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "모레이렌 코네고"
+  },
+  "mor-10": {
+    "name": "아폰수 아시손",
+    "nation": "포르투갈",
+    "birthYear": 2006,
+    "pos": "CM",
+    "club": "모레이렌 코네고"
+  },
+  "mor-11": {
+    "name": "마라카손",
+    "nation": "브라질",
+    "birthYear": 1994,
+    "pos": "CB",
+    "club": "모레이렌 코네고"
+  },
+  "mor-12": {
+    "name": "키쿤",
+    "nation": "포르투갈",
+    "birthYear": 2002,
+    "pos": "RB",
+    "club": "모레이렌 코네고"
+  },
+  "mor-13": {
+    "name": "지미 가워스",
+    "nation": "잉글랜드",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "모레이렌 코네고"
+  },
+  "mor-14": {
+    "name": "미카엘 다코스탄",
+    "nation": "스페인",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "모레이렌 코네고"
+  },
+  "mor-15": {
+    "name": "질베르투 바티스탄",
+    "nation": "기니비사우",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "모레이렌 코네고"
+  },
+  "mor-16": {
+    "name": "디니스 핀투르",
+    "nation": "포르투갈",
+    "birthYear": 2000,
+    "pos": "CB",
+    "club": "모레이렌 코네고"
+  },
+  "mor-17": {
+    "name": "코비 모톤",
+    "nation": "잉글랜드",
+    "birthYear": 2007,
+    "pos": "RW",
+    "club": "모레이렌 코네고"
+  },
+  "nac-01": {
+    "name": "레나토 마리느",
+    "nation": "이탈리아",
+    "birthYear": 2006,
+    "pos": "GK",
+    "club": "나시오날 알비"
+  },
+  "nac-02": {
+    "name": "다니엘 데 라 크루손",
+    "nation": "에콰도르",
+    "birthYear": 2004,
+    "pos": "RB",
+    "club": "나시오날 알비"
+  },
+  "nac-03": {
+    "name": "조제 고미손",
+    "nation": "포르투갈",
+    "birthYear": 1996,
+    "pos": "CB",
+    "club": "나시오날 알비"
+  },
+  "nac-04": {
+    "name": "마테우스 지아손",
+    "nation": "브라질",
+    "birthYear": 2002,
+    "pos": "CDM",
+    "club": "나시오날 알비"
+  },
+  "nac-05": {
+    "name": "마르쿠스 옌센드",
+    "nation": "덴마크",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "나시오날 알비"
+  },
+  "nac-06": {
+    "name": "미겔 바에산",
+    "nation": "스페인",
+    "birthYear": 2000,
+    "pos": "CAM",
+    "club": "나시오날 알비"
+  },
+  "nac-07": {
+    "name": "알렌 오반돈",
+    "nation": "에콰도르",
+    "birthYear": 2006,
+    "pos": "ST",
+    "club": "나시오날 알비"
+  },
+  "nac-08": {
+    "name": "다니에우 주니오른",
+    "nation": "브라질",
+    "birthYear": 2002,
+    "pos": "LW",
+    "club": "나시오날 알비"
+  },
+  "nac-09": {
+    "name": "스타브로스 가브릴라",
+    "nation": "키프로스",
+    "birthYear": 2002,
+    "pos": "RW",
+    "club": "나시오날 알비"
+  },
+  "nac-10": {
+    "name": "송민귤",
+    "nation": "대한민국",
+    "birthYear": 1999,
+    "pos": "ST",
+    "club": "나시오날 알비"
+  },
+  "nac-11": {
+    "name": "주앙 곤살베손",
+    "nation": "포르투갈",
+    "birthYear": 2000,
+    "pos": "GK",
+    "club": "나시오날 알비"
+  },
+  "nac-12": {
+    "name": "이바닐두 페르난드손",
+    "nation": "카보베르데",
+    "birthYear": 1996,
+    "pos": "CB",
+    "club": "나시오날 알비"
+  },
+  "nac-13": {
+    "name": "치헤브 라비딘",
+    "nation": "튀니지",
+    "birthYear": 2001,
+    "pos": "CM",
+    "club": "나시오날 알비"
+  },
+  "nac-14": {
+    "name": "페르난도 나반",
+    "nation": "볼리비아",
+    "birthYear": 2004,
+    "pos": "ST",
+    "club": "나시오날 알비"
+  },
+  "nac-15": {
+    "name": "모테즈 누라닌",
+    "nation": "튀니지",
+    "birthYear": 2002,
+    "pos": "LW",
+    "club": "나시오날 알비"
+  },
+  "nac-16": {
+    "name": "마초이 잘룬",
+    "nation": "포르투갈",
+    "birthYear": 2003,
+    "pos": "LW",
+    "club": "나시오날 알비"
+  },
+  "nac-17": {
+    "name": "윌리암 코콜론",
+    "nation": "프랑스",
+    "birthYear": 2000,
+    "pos": "LB",
+    "club": "나시오날 알비"
+  },
+  "nac-18": {
+    "name": "필리프 소아르손",
+    "nation": "포르투갈",
+    "birthYear": 1999,
+    "pos": "CM",
+    "club": "나시오날 알비"
+  },
+  "nac-19": {
+    "name": "마테우스 이세펜",
+    "nation": "브라질",
+    "birthYear": 2006,
+    "pos": "CM",
+    "club": "나시오날 알비"
+  },
+  "nac-20": {
+    "name": "조엘 실반",
+    "nation": "포르투갈",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "나시오날 알비"
+  },
+  "nac-21": {
+    "name": "이고르 리제룬",
+    "nation": "브라질",
+    "birthYear": 1998,
+    "pos": "CDM",
+    "club": "나시오날 알비"
+  },
+  "nac-22": {
+    "name": "마르팀 와추",
+    "nation": "포르투갈",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "나시오날 알비"
+  },
+  "nac-23": {
+    "name": "다넬 동몬",
+    "nation": "카메룬",
+    "birthYear": 2001,
+    "pos": "CM",
+    "club": "나시오날 알비"
+  },
+  "nac-24": {
+    "name": "프란시스쿠 곤살베스르",
+    "nation": "포르투갈",
+    "birthYear": 2004,
+    "pos": "RB",
+    "club": "나시오날 알비"
+  },
+  "nac-25": {
+    "name": "레우 산투손",
+    "nation": "브라질",
+    "birthYear": 1998,
+    "pos": "CB",
+    "club": "나시오날 알비"
+  },
+  "nac-26": {
+    "name": "제 비토른",
+    "nation": "브라질",
+    "birthYear": 2001,
+    "pos": "CB",
+    "club": "나시오날 알비"
+  },
+  "nac-27": {
+    "name": "웨슬리 가솔리난",
+    "nation": "브라질",
+    "birthYear": 2000,
+    "pos": "RB",
+    "club": "나시오날 알비"
   },
   "hul-01": {
     "name": "잭 버틀런더",
@@ -10468,6 +17859,811 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "birthYear": 2004,
     "pos": "LW",
     "club": "헐 타이거"
+  },
+  "por-01": {
+    "name": "야쿠프 키비오른",
+    "nation": "폴란드",
+    "birthYear": 2000,
+    "pos": "CB",
+    "club": "포르투 드라강"
+  },
+  "por-02": {
+    "name": "얀 베드나레큰",
+    "nation": "폴란드",
+    "birthYear": 1996,
+    "pos": "CB",
+    "club": "포르투 드라강"
+  },
+  "por-03": {
+    "name": "윌리앙 고미손",
+    "nation": "브라질",
+    "birthYear": 2006,
+    "pos": "RW",
+    "club": "포르투 드라강"
+  },
+  "por-04": {
+    "name": "빅토르 프로홀튼",
+    "nation": "덴마크",
+    "birthYear": 2006,
+    "pos": "CM",
+    "club": "포르투 드라강"
+  },
+  "por-05": {
+    "name": "사무 아게호완",
+    "nation": "스페인",
+    "birthYear": 2004,
+    "pos": "ST",
+    "club": "포르투 드라강"
+  },
+  "por-06": {
+    "name": "가브리 베이간",
+    "nation": "스페인",
+    "birthYear": 2002,
+    "pos": "CAM",
+    "club": "포르투 드라강"
+  },
+  "por-07": {
+    "name": "페펜",
+    "nation": "브라질",
+    "birthYear": 1997,
+    "pos": "LW",
+    "club": "포르투 드라강"
+  },
+  "por-08": {
+    "name": "자이두 사누신",
+    "nation": "나이지리아",
+    "birthYear": 1997,
+    "pos": "LB",
+    "club": "포르투 드라강"
+  },
+  "por-09": {
+    "name": "파블로 로사리온",
+    "nation": "도미니카공화국",
+    "birthYear": 1997,
+    "pos": "CDM",
+    "club": "포르투 드라강"
+  },
+  "por-10": {
+    "name": "클라우디우 하무손",
+    "nation": "포르투갈",
+    "birthYear": 1991,
+    "pos": "GK",
+    "club": "포르투 드라강"
+  },
+  "por-11": {
+    "name": "황인버므",
+    "nation": "대한민국",
+    "birthYear": 1996,
+    "pos": "CM",
+    "club": "포르투 드라강"
+  },
+  "por-12": {
+    "name": "보르하 사인손",
+    "nation": "스페인",
+    "birthYear": 2001,
+    "pos": "LW",
+    "club": "포르투 드라강"
+  },
+  "por-13": {
+    "name": "네우엔 페레손",
+    "nation": "아르헨티나",
+    "birthYear": 2000,
+    "pos": "CB",
+    "club": "포르투 드라강"
+  },
+  "por-14": {
+    "name": "안드레 실바르",
+    "nation": "포르투갈",
+    "birthYear": 1995,
+    "pos": "ST",
+    "club": "포르투 드라강"
+  },
+  "por-15": {
+    "name": "알베르투 코스탄",
+    "nation": "포르투갈",
+    "birthYear": 2003,
+    "pos": "RB",
+    "club": "포르투 드라강"
+  },
+  "por-16": {
+    "name": "도미니크 프르피츠",
+    "nation": "크로아티아",
+    "birthYear": 2004,
+    "pos": "CB",
+    "club": "포르투 드라강"
+  },
+  "por-17": {
+    "name": "알란 바렐란",
+    "nation": "아르헨티나",
+    "birthYear": 2001,
+    "pos": "CDM",
+    "club": "포르투 드라강"
+  },
+  "por-18": {
+    "name": "주앙 코스탄",
+    "nation": "포르투갈",
+    "birthYear": 1996,
+    "pos": "GK",
+    "club": "포르투 드라강"
+  },
+  "por-19": {
+    "name": "산티아고 히메네손",
+    "nation": "멕시코",
+    "birthYear": 2001,
+    "pos": "ST",
+    "club": "포르투 드라강"
+  },
+  "por-20": {
+    "name": "소잔",
+    "nation": "브라질",
+    "birthYear": 2006,
+    "pos": "CB",
+    "club": "포르투 드라강"
+  },
+  "por-21": {
+    "name": "가브리에우 메큰",
+    "nation": "브라질",
+    "birthYear": 2008,
+    "pos": "RW",
+    "club": "포르투 드라강"
+  },
+  "por-22": {
+    "name": "세코 포파난",
+    "nation": "코트디부아르",
+    "birthYear": 1995,
+    "pos": "CDM",
+    "club": "포르투 드라강"
+  },
+  "por-23": {
+    "name": "마르팀 페르난드손",
+    "nation": "포르투갈",
+    "birthYear": 2006,
+    "pos": "RB",
+    "club": "포르투 드라강"
+  },
+  "por-24": {
+    "name": "프란시스쿠 모란",
+    "nation": "포르투갈",
+    "birthYear": 1999,
+    "pos": "LB",
+    "club": "포르투 드라강"
+  },
+  "por-25": {
+    "name": "오스카르 피에투셰프스킨",
+    "nation": "폴란드",
+    "birthYear": 2008,
+    "pos": "ST",
+    "club": "포르투 드라강"
+  },
+  "por-26": {
+    "name": "디오구 코스타르",
+    "nation": "포르투갈",
+    "birthYear": 1999,
+    "pos": "GK",
+    "club": "포르투 드라강"
+  },
+  "ria-01": {
+    "name": "체자리 미슈탄",
+    "nation": "폴란드",
+    "birthYear": 2001,
+    "pos": "GK",
+    "club": "히우아베 베르데"
+  },
+  "ria-02": {
+    "name": "안드레아스 은토인",
+    "nation": "그리스",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "히우아베 베르데"
+  },
+  "ria-03": {
+    "name": "넬슨 애빈",
+    "nation": "잉글랜드",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "히우아베 베르데"
+  },
+  "ria-04": {
+    "name": "히안 기예르민",
+    "nation": "브라질",
+    "birthYear": 2002,
+    "pos": "CM",
+    "club": "히우아베 베르데"
+  },
+  "ria-05": {
+    "name": "탐블레 몬테이룬",
+    "nation": "기니비사우",
+    "birthYear": 2000,
+    "pos": "ST",
+    "club": "히우아베 베르데"
+  },
+  "ria-06": {
+    "name": "브랜던 아길레란",
+    "nation": "코스타리카",
+    "birthYear": 2003,
+    "pos": "CAM",
+    "club": "히우아베 베르데"
+  },
+  "ria-07": {
+    "name": "할렌 블레산",
+    "nation": "스페인",
+    "birthYear": 2001,
+    "pos": "LW",
+    "club": "히우아베 베르데"
+  },
+  "ria-08": {
+    "name": "쥘리앵 롬보톤",
+    "nation": "프랑스",
+    "birthYear": 2002,
+    "pos": "LB",
+    "club": "히우아베 베르데"
+  },
+  "ria-09": {
+    "name": "야쿠프 브라베추",
+    "nation": "체코",
+    "birthYear": 1992,
+    "pos": "CB",
+    "club": "히우아베 베르데"
+  },
+  "ria-10": {
+    "name": "마리오스 브루사인",
+    "nation": "그리스",
+    "birthYear": 1998,
+    "pos": "RW",
+    "club": "히우아베 베르데"
+  },
+  "ria-11": {
+    "name": "말리크 셀루킨",
+    "nation": "프랑스",
+    "birthYear": 2000,
+    "pos": "CM",
+    "club": "히우아베 베르데"
+  },
+  "ria-12": {
+    "name": "주앙 토멘",
+    "nation": "포르투갈",
+    "birthYear": 2003,
+    "pos": "RB",
+    "club": "히우아베 베르데"
+  },
+  "ria-13": {
+    "name": "케빈 차모론",
+    "nation": "코스타리카",
+    "birthYear": 2000,
+    "pos": "GK",
+    "club": "히우아베 베르데"
+  },
+  "ria-14": {
+    "name": "프란시스코 페트라손",
+    "nation": "아르헨티나",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "히우아베 베르데"
+  },
+  "ria-15": {
+    "name": "페드루 아마랄라",
+    "nation": "포르투갈",
+    "birthYear": 1997,
+    "pos": "LB",
+    "club": "히우아베 베르데"
+  },
+  "ria-16": {
+    "name": "롤란드 갈치큰",
+    "nation": "슬로바키아",
+    "birthYear": 2001,
+    "pos": "ST",
+    "club": "히우아베 베르데"
+  },
+  "ria-17": {
+    "name": "구스타부 만샨",
+    "nation": "브라질",
+    "birthYear": 2004,
+    "pos": "CB",
+    "club": "히우아베 베르데"
+  },
+  "ria-18": {
+    "name": "터마시 니키처스",
+    "nation": "헝가리",
+    "birthYear": 1999,
+    "pos": "CDM",
+    "club": "히우아베 베르데"
+  },
+  "ria-19": {
+    "name": "요르요스 리아바손",
+    "nation": "그리스",
+    "birthYear": 2001,
+    "pos": "CM",
+    "club": "히우아베 베르데"
+  },
+  "ria-20": {
+    "name": "사무에우 알베손",
+    "nation": "브라질",
+    "birthYear": 1991,
+    "pos": "ST",
+    "club": "히우아베 베르데"
+  },
+  "ria-21": {
+    "name": "다리오 슈피키츠",
+    "nation": "크로아티아",
+    "birthYear": 1999,
+    "pos": "RW",
+    "club": "히우아베 베르데"
+  },
+  "ria-22": {
+    "name": "디오구 나시멘툰",
+    "nation": "포르투갈",
+    "birthYear": 2002,
+    "pos": "CM",
+    "club": "히우아베 베르데"
+  },
+  "ria-23": {
+    "name": "에니오 판 데르 하운",
+    "nation": "네덜란드",
+    "birthYear": 2001,
+    "pos": "GK",
+    "club": "히우아베 베르데"
+  },
+  "stc-01": {
+    "name": "루카스 프란산",
+    "nation": "브라질",
+    "birthYear": 1996,
+    "pos": "GK",
+    "club": "산타클라라 아소르"
+  },
+  "stc-02": {
+    "name": "페드루 파셰쿤",
+    "nation": "포르투갈",
+    "birthYear": 1997,
+    "pos": "CB",
+    "club": "산타클라라 아소르"
+  },
+  "stc-03": {
+    "name": "기예르미 호망드",
+    "nation": "브라질",
+    "birthYear": 1997,
+    "pos": "CB",
+    "club": "산타클라라 아소르"
+  },
+  "stc-04": {
+    "name": "페드루 페레이란",
+    "nation": "포르투갈",
+    "birthYear": 1998,
+    "pos": "CDM",
+    "club": "산타클라라 아소르"
+  },
+  "stc-05": {
+    "name": "페르난둔",
+    "nation": "브라질",
+    "birthYear": 2005,
+    "pos": "RW",
+    "club": "산타클라라 아소르"
+  },
+  "stc-06": {
+    "name": "제 타바레손",
+    "nation": "카보베르데",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "산타클라라 아소르"
+  },
+  "stc-07": {
+    "name": "곤살루 파시엔시안",
+    "nation": "포르투갈",
+    "birthYear": 1994,
+    "pos": "ST",
+    "club": "산타클라라 아소르"
+  },
+  "stc-08": {
+    "name": "브레네르 루카손",
+    "nation": "브라질",
+    "birthYear": 2002,
+    "pos": "CAM",
+    "club": "산타클라라 아소르"
+  },
+  "stc-09": {
+    "name": "웰린톤 토항드",
+    "nation": "브라질",
+    "birthYear": 1999,
+    "pos": "LW",
+    "club": "산타클라라 아소르"
+  },
+  "stc-10": {
+    "name": "네네칸",
+    "nation": "브라질",
+    "birthYear": 2003,
+    "pos": "GK",
+    "club": "산타클라라 아소르"
+  },
+  "stc-11": {
+    "name": "주앙 바스콘셀루손",
+    "nation": "포르투갈",
+    "birthYear": 2005,
+    "pos": "CM",
+    "club": "산타클라라 아소르"
+  },
+  "stc-12": {
+    "name": "티아구 히베이룬",
+    "nation": "포르투갈",
+    "birthYear": 2002,
+    "pos": "CM",
+    "club": "산타클라라 아소르"
+  },
+  "stc-13": {
+    "name": "비치뉸",
+    "nation": "브라질",
+    "birthYear": 2004,
+    "pos": "CAM",
+    "club": "산타클라라 아소르"
+  },
+  "stc-14": {
+    "name": "엠텐",
+    "nation": "브라질",
+    "birthYear": 2001,
+    "pos": "RB",
+    "club": "산타클라라 아소르"
+  },
+  "stc-15": {
+    "name": "히우둔",
+    "nation": "브라질",
+    "birthYear": 2000,
+    "pos": "CM",
+    "club": "산타클라라 아소르"
+  },
+  "stc-16": {
+    "name": "다니 보르지손",
+    "nation": "브라질",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "산타클라라 아소르"
+  },
+  "stc-17": {
+    "name": "루카스 소아르손",
+    "nation": "브라질",
+    "birthYear": 1998,
+    "pos": "LB",
+    "club": "산타클라라 아소르"
+  },
+  "stc-18": {
+    "name": "비니시우스 로페손",
+    "nation": "브라질",
+    "birthYear": 1999,
+    "pos": "ST",
+    "club": "산타클라라 아소르"
+  },
+  "stc-19": {
+    "name": "레우 자콘",
+    "nation": "브라질",
+    "birthYear": 2005,
+    "pos": "LW",
+    "club": "산타클라라 아소르"
+  },
+  "spo-01": {
+    "name": "후이 실반",
+    "nation": "포르투갈",
+    "birthYear": 1994,
+    "pos": "GK",
+    "club": "리스본 레앙"
+  },
+  "spo-02": {
+    "name": "실라스 안데르센드",
+    "nation": "덴마크",
+    "birthYear": 2004,
+    "pos": "CDM",
+    "club": "리스본 레앙"
+  },
+  "spo-03": {
+    "name": "세르지 알티미란",
+    "nation": "스페인",
+    "birthYear": 2001,
+    "pos": "CM",
+    "club": "리스본 레앙"
+  },
+  "spo-04": {
+    "name": "제노 데바스튼",
+    "nation": "벨기에",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "리스본 레앙"
+  },
+  "spo-05": {
+    "name": "포티스 이오아니디손",
+    "nation": "그리스",
+    "birthYear": 2000,
+    "pos": "ST",
+    "club": "리스본 레앙"
+  },
+  "spo-06": {
+    "name": "하파엘 넬라",
+    "nation": "포르투갈",
+    "birthYear": 2005,
+    "pos": "ST",
+    "club": "리스본 레앙"
+  },
+  "spo-07": {
+    "name": "제니 카타문",
+    "nation": "모잠비크",
+    "birthYear": 2001,
+    "pos": "RW",
+    "club": "리스본 레앙"
+  },
+  "spo-08": {
+    "name": "누누 산투손",
+    "nation": "포르투갈",
+    "birthYear": 1995,
+    "pos": "LW",
+    "club": "리스본 레앙"
+  },
+  "spo-09": {
+    "name": "요르요스 바야니디손",
+    "nation": "그리스",
+    "birthYear": 2001,
+    "pos": "RB",
+    "club": "리스본 레앙"
+  },
+  "spo-10": {
+    "name": "로드리고 살라사른",
+    "nation": "우루과이",
+    "birthYear": 1999,
+    "pos": "CAM",
+    "club": "리스본 레앙"
+  },
+  "spo-11": {
+    "name": "몬세프 제크린",
+    "nation": "모로코",
+    "birthYear": 2008,
+    "pos": "CB",
+    "club": "리스본 레앙"
+  },
+  "spo-12": {
+    "name": "네스토리 이란쿤단",
+    "nation": "호주",
+    "birthYear": 2006,
+    "pos": "RW",
+    "club": "리스본 레앙"
+  },
+  "spo-13": {
+    "name": "막시밀리아노 아라우혼",
+    "nation": "우루과이",
+    "birthYear": 2000,
+    "pos": "LW",
+    "club": "리스본 레앙"
+  },
+  "spo-14": {
+    "name": "페드루 리만",
+    "nation": "브라질",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "리스본 레앙"
+  },
+  "spo-15": {
+    "name": "이반 프레스네단",
+    "nation": "스페인",
+    "birthYear": 2004,
+    "pos": "RB",
+    "club": "리스본 레앙"
+  },
+  "spo-16": {
+    "name": "곤살루 이나시운",
+    "nation": "포르투갈",
+    "birthYear": 2001,
+    "pos": "CB",
+    "club": "리스본 레앙"
+  },
+  "spo-17": {
+    "name": "카이키 페레이란",
+    "nation": "브라질",
+    "birthYear": 2003,
+    "pos": "GK",
+    "club": "리스본 레앙"
+  },
+  "spo-18": {
+    "name": "루이스 기예르민",
+    "nation": "브라질",
+    "birthYear": 2006,
+    "pos": "LW",
+    "club": "리스본 레앙"
+  },
+  "spo-19": {
+    "name": "디에고 칼라인",
+    "nation": "브라질",
+    "birthYear": 2004,
+    "pos": "GK",
+    "club": "리스본 레앙"
+  },
+  "spo-20": {
+    "name": "호드리구 디아손",
+    "nation": "포르투갈",
+    "birthYear": 1994,
+    "pos": "CB",
+    "club": "리스본 레앙"
+  },
+  "spo-21": {
+    "name": "주앙 시몽이손",
+    "nation": "포르투갈",
+    "birthYear": 2007,
+    "pos": "CM",
+    "club": "리스본 레앙"
+  },
+  "spo-22": {
+    "name": "이브라히마 바르",
+    "nation": "세네갈",
+    "birthYear": 2005,
+    "pos": "CB",
+    "club": "리스본 레앙"
+  },
+  "spo-23": {
+    "name": "플라비우 곤살베손",
+    "nation": "포르투갈",
+    "birthYear": 2007,
+    "pos": "CM",
+    "club": "리스본 레앙"
+  },
+  "spo-24": {
+    "name": "에두아르두 콰레스만",
+    "nation": "포르투갈",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "리스본 레앙"
+  },
+  "spo-25": {
+    "name": "에두아르두 펠리시시문",
+    "nation": "포르투갈",
+    "birthYear": 2007,
+    "pos": "LB",
+    "club": "리스본 레앙"
+  },
+  "spo-26": {
+    "name": "이사 둠비안",
+    "nation": "이탈리아",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "리스본 레앙"
+  },
+  "spo-27": {
+    "name": "루이스 수아레손",
+    "nation": "콜롬비아",
+    "birthYear": 1997,
+    "pos": "ST",
+    "club": "리스본 레앙"
+  },
+  "spo-28": {
+    "name": "프란시스쿠 실반",
+    "nation": "포르투갈",
+    "birthYear": 2005,
+    "pos": "GK",
+    "club": "리스본 레앙"
+  },
+  "vsc-01": {
+    "name": "미겔 마간",
+    "nation": "포르투갈",
+    "birthYear": 2002,
+    "pos": "RB",
+    "club": "기마랑 비토리"
+  },
+  "vsc-02": {
+    "name": "오스카르 리바손",
+    "nation": "스페인",
+    "birthYear": 2000,
+    "pos": "CB",
+    "club": "기마랑 비토리"
+  },
+  "vsc-03": {
+    "name": "아메드 시디벤",
+    "nation": "프랑스",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "기마랑 비토리"
+  },
+  "vsc-04": {
+    "name": "마티야 미트로비츠",
+    "nation": "세르비아",
+    "birthYear": 2004,
+    "pos": "CDM",
+    "club": "기마랑 비토리"
+  },
+  "vsc-05": {
+    "name": "우마르 카마란",
+    "nation": "프랑스",
+    "birthYear": 2007,
+    "pos": "LW",
+    "club": "기마랑 비토리"
+  },
+  "vsc-06": {
+    "name": "구스타부 실바르",
+    "nation": "브라질",
+    "birthYear": 1999,
+    "pos": "RW",
+    "club": "기마랑 비토리"
+  },
+  "vsc-07": {
+    "name": "주앙 멘드손",
+    "nation": "포르투갈",
+    "birthYear": 2000,
+    "pos": "CB",
+    "club": "기마랑 비토리"
+  },
+  "vsc-08": {
+    "name": "예이마르 모스케란",
+    "nation": "콜롬비아",
+    "birthYear": 2005,
+    "pos": "LB",
+    "club": "기마랑 비토리"
+  },
+  "vsc-09": {
+    "name": "베니 무켄딘",
+    "nation": "앙골라",
+    "birthYear": 2002,
+    "pos": "CM",
+    "club": "기마랑 비토리"
+  },
+  "vsc-10": {
+    "name": "텔무 아르칸준",
+    "nation": "카보베르데",
+    "birthYear": 2001,
+    "pos": "ST",
+    "club": "기마랑 비토리"
+  },
+  "vsc-11": {
+    "name": "빅토르 안데르손드",
+    "nation": "스웨덴",
+    "birthYear": 2004,
+    "pos": "CM",
+    "club": "기마랑 비토리"
+  },
+  "vsc-12": {
+    "name": "사무르",
+    "nation": "포르투갈",
+    "birthYear": 1996,
+    "pos": "CAM",
+    "club": "기마랑 비토리"
+  },
+  "vsc-13": {
+    "name": "후안 카스티욘",
+    "nation": "콜롬비아",
+    "birthYear": 2003,
+    "pos": "GK",
+    "club": "기마랑 비토리"
+  },
+  "vsc-14": {
+    "name": "토니 스트라탄",
+    "nation": "루마니아",
+    "birthYear": 2004,
+    "pos": "RB",
+    "club": "기마랑 비토리"
+  },
+  "vsc-15": {
+    "name": "알리운 은도옌",
+    "nation": "세네갈",
+    "birthYear": 2001,
+    "pos": "ST",
+    "club": "기마랑 비토리"
+  },
+  "vsc-16": {
+    "name": "치아구 발리에이룬",
+    "nation": "브라질",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "기마랑 비토리"
+  },
+  "vsc-17": {
+    "name": "패트릭 우오트론",
+    "nation": "코트디부아르",
+    "birthYear": 2005,
+    "pos": "RW",
+    "club": "기마랑 비토리"
+  },
+  "vsc-18": {
+    "name": "로안 두센",
+    "nation": "부르키나파소",
+    "birthYear": 2002,
+    "pos": "CM",
+    "club": "기마랑 비토리"
+  },
+  "vsc-19": {
+    "name": "올리비에르 지흔",
+    "nation": "폴란드",
+    "birthYear": 2004,
+    "pos": "GK",
+    "club": "기마랑 비토리"
   },
   "ips-01": {
     "name": "알렉스 파머스",
@@ -25147,5 +33343,159 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "birthYear": 1996,
     "pos": "GK",
     "club": "베네치아 아란치오"
+  },
+  "ado-01": {
+    "name": "킬리안 니키에만",
+    "nation": "부르키나파소",
+    "birthYear": 2003,
+    "pos": "GK",
+    "club": "덴하흐 오이에바르"
+  },
+  "ado-02": {
+    "name": "오트니엘 라터링크르",
+    "nation": "네덜란드",
+    "birthYear": 2006,
+    "pos": "RB",
+    "club": "덴하흐 오이에바르"
+  },
+  "ado-03": {
+    "name": "마테오 바므",
+    "nation": "벨기에",
+    "birthYear": 2000,
+    "pos": "CB",
+    "club": "덴하흐 오이에바르"
+  },
+  "ado-04": {
+    "name": "요나스 옌센아베운",
+    "nation": "덴마크",
+    "birthYear": 2002,
+    "pos": "CB",
+    "club": "덴하흐 오이에바르"
+  },
+  "ado-05": {
+    "name": "다릴 판미헤이므",
+    "nation": "네덜란드",
+    "birthYear": 1989,
+    "pos": "LW",
+    "club": "덴하흐 오이에바르"
+  },
+  "ado-06": {
+    "name": "얀 잠부레큰",
+    "nation": "체코",
+    "birthYear": 2001,
+    "pos": "CM",
+    "club": "덴하흐 오이에바르"
+  },
+  "ado-07": {
+    "name": "예서 발라",
+    "nation": "네덜란드",
+    "birthYear": 2006,
+    "pos": "ST",
+    "club": "덴하흐 오이에바르"
+  },
+  "ado-08": {
+    "name": "에번 로티어스",
+    "nation": "네덜란드",
+    "birthYear": 2002,
+    "pos": "LW",
+    "club": "덴하흐 오이에바르"
+  },
+  "ado-09": {
+    "name": "밀리안 히메네손",
+    "nation": "네덜란드",
+    "birthYear": 2003,
+    "pos": "CM",
+    "club": "덴하흐 오이에바르"
+  },
+  "ado-10": {
+    "name": "밀란 호커스",
+    "nation": "네덜란드",
+    "birthYear": 2003,
+    "pos": "CB",
+    "club": "덴하흐 오이에바르"
+  },
+  "ado-11": {
+    "name": "핀 더 브라윈드",
+    "nation": "네덜란드",
+    "birthYear": 2004,
+    "pos": "CDM",
+    "club": "덴하흐 오이에바르"
+  },
+  "ado-12": {
+    "name": "제일런 호킨손",
+    "nation": "미국",
+    "birthYear": 2001,
+    "pos": "RW",
+    "club": "덴하흐 오이에바르"
+  },
+  "ado-13": {
+    "name": "세쿠 실란",
+    "nation": "기니",
+    "birthYear": 1999,
+    "pos": "CB",
+    "club": "덴하흐 오이에바르"
+  },
+  "ado-14": {
+    "name": "루카 라이슐라",
+    "nation": "오스트리아",
+    "birthYear": 2004,
+    "pos": "ST",
+    "club": "덴하흐 오이에바르"
+  },
+  "ado-15": {
+    "name": "케일럽 크레이머스",
+    "nation": "케냐",
+    "birthYear": 2006,
+    "pos": "GK",
+    "club": "덴하흐 오이에바르"
+  },
+  "ado-16": {
+    "name": "캐머런 푸피온드",
+    "nation": "호주",
+    "birthYear": 2002,
+    "pos": "RW",
+    "club": "덴하흐 오이에바르"
+  },
+  "ado-17": {
+    "name": "니클라스 티덴",
+    "nation": "독일",
+    "birthYear": 1999,
+    "pos": "GK",
+    "club": "덴하흐 오이에바르"
+  },
+  "ado-18": {
+    "name": "유호 킬론",
+    "nation": "핀란드",
+    "birthYear": 2002,
+    "pos": "CM",
+    "club": "덴하흐 오이에바르"
+  },
+  "ado-19": {
+    "name": "나이절 토머슨",
+    "nation": "네덜란드",
+    "birthYear": 2001,
+    "pos": "LB",
+    "club": "덴하흐 오이에바르"
+  },
+  "ado-20": {
+    "name": "마테이 시느",
+    "nation": "체코",
+    "birthYear": 2004,
+    "pos": "CAM",
+    "club": "덴하흐 오이에바르"
+  },
+  "ado-21": {
+    "name": "야니크 에두아르돈",
+    "nation": "체코",
+    "birthYear": 2006,
+    "pos": "ST",
+    "club": "덴하흐 오이에바르"
+  },
+  "ado-22": {
+    "name": "도나트 바라닌",
+    "nation": "헝가리",
+    "birthYear": 2000,
+    "pos": "ST",
+    "club": "덴하흐 오이에바르"
   }
 }
