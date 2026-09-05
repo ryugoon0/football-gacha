@@ -43,7 +43,6 @@ export function assistantForTab(tab: string): AssistantId | null {
     case 'minigames':
       return 'hanareum'
     case 'squad':
-    case 'tactics':
     case 'club':
       return 'seojian'
     case 'weekly':

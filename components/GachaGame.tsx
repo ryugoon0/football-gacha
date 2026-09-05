@@ -22,7 +22,6 @@ import ItemsTab from './tabs/ItemsTab'
 import MatchTab from './tabs/MatchTab'
 import MiniGamesTab from './tabs/MiniGamesTab'
 import SquadTab from './tabs/SquadTab'
-import TacticsTab from './tabs/TacticsTab'
 import WeeklyTab from './tabs/WeeklyTab'
 import { BRAND_MARK, BRAND_NAME } from '../lib/brand'
 import { checkClubName, normalizeClubName } from '../lib/clubName'
@@ -33,7 +32,6 @@ const TABS = [
   { key: 'match', label: '캐주얼 모드' },
   { key: 'weekly', label: '경쟁 리그' },
   { key: 'minigames', label: '미니게임' },
-  { key: 'tactics', label: '전술' },
   { key: 'squad', label: '스쿼드' },
   { key: 'club', label: '선수단' },
   { key: 'gacha', label: '뽑기' },
@@ -216,8 +214,7 @@ function Shell() {
             {tab === 'home' && <HomeTab onJump={(key) => setTab(TABS.some((item) => item.key === key) ? (key as TabKey) : 'home')} />}
             {tab === 'gacha' && <GachaTab />}
             {tab === 'items' && <ItemsTab />}
-            {tab === 'tactics' && <TacticsTab />}
-            {tab === 'squad' && <SquadTab onTactics={() => setTab('tactics')} />}
+            {tab === 'squad' && <SquadTab />}
             {tab === 'club' && <ClubTab />}
             {tab === 'match' && <MatchTab />}
             {tab === 'minigames' && <MiniGamesTab />}

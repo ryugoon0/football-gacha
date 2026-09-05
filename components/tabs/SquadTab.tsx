@@ -7,12 +7,12 @@ import { getPlayer } from '../../lib/players'
 import { BENCH_SIZE, positionFit, ratingInSlot } from '../../lib/squad'
 import { evaluateSquad, missingSlots } from '../../lib/squad'
 import { colorName } from '../../lib/teamColor'
-import { tacticSummary } from '../../lib/tactics'
 import { TRAITS, traitsOf } from '../../lib/traits'
 import type { Card, FormationKey, Position } from '../../lib/types'
 import { SAVED_LINEUP_SLOTS } from '../../lib/gameReducer'
 import { useGame } from '../GameProvider'
 import LineupShelf, { useLineupDraft } from '../LineupShelf'
+import TacticsPanel from '../TacticsPanel'
 import PlayerCard from '../PlayerCard'
 import PlayerStatsModal from '../PlayerStatsModal'
 import TeamColorHelp from '../TeamColorHelp'
@@ -27,7 +27,7 @@ const INJURED_RING = 'ring-rose-600'
 
 type Target = { kind: 'slot'; id: string } | { kind: 'bench'; index: number }
 
-export default function SquadTab({ onTactics }: { onTactics: () => void }) {
+export default function SquadTab() {
   const {
     state,
     assign,
@@ -304,16 +304,7 @@ export default function SquadTab({ onTactics }: { onTactics: () => void }) {
           )}
         </section>
 
-        <section className="panel p-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">전술</h3>
-            <button onClick={onTactics} className="rounded-lg btn-ghost px-2.5 py-1 text-[11px] font-bold">
-              전술 탭에서 바꾸기
-            </button>
-          </div>
-          <p className="mt-1 text-[11px] text-slate-400">{tacticSummary(state.tactic)}</p>
-          <p className="mt-1 text-[11px] text-slate-500">자동 교체 {state.autoSub ? '켜짐' : '꺼짐'}</p>
-        </section>
+        <TacticsPanel />
 
         <section className="panel p-4">
           <div className="flex items-center justify-between">
