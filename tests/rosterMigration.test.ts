@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { PLAYERS, POSITION_GROUP, getPlayer, levelCap } from '../lib/players'
+import { PLAYERS, POSITION_GROUP, RETIRE_REPLACED_CLUBS, getPlayer, levelCap } from '../lib/players'
 import { migrateCard, migrateCollection, migrationTarget } from '../lib/rosterMigration'
 import { normalizeSave } from '../lib/storage'
 import { initialState } from '../lib/storage'
@@ -8,7 +8,17 @@ import type { Card } from '../lib/types'
 const retired = PLAYERS.filter((player) => player.retired)
 const card = (uid: string, playerId: string, level = 5, limit = 7): Card => ({ uid, playerId, level, limit, condition: 80, injuredFor: 0, exp: 12 })
 
-describe('retired cards move onto the real squads', () => {
+describe('while retirement is switched off (test period)', () => {
+  it('retires nobody and migrates nothing', () => {
+    if (RETIRE_REPLACED_CLUBS) return
+    expect(retired).toHaveLength(0)
+    const anyOld = PLAYERS.find((player) => !player.fromSquad)!
+    expect(migrationTarget(anyOld.id)).toBeNull()
+    expect(migrateCard(card('a', anyOld.id)).playerId).toBe(anyOld.id)
+  })
+})
+
+describe.skipIf(!RETIRE_REPLACED_CLUBS)('retired cards move onto the real squads', () => {
   it('retires only generated cards of clubs that have a published squad, never 퇴장감', () => {
     expect(retired.length).toBeGreaterThan(100)
     for (const player of retired) {

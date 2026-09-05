@@ -238,6 +238,15 @@ export const CLUBS: ClubDef[] = [
 const REPLACED_CLUBS = new Set<string>(SQUAD_REPLACED_CLUBS)
 const NEVER_RETIRED = new Set<string>(['n1125'])
 
+/**
+ * Whether the older cards of a club with a published squad are retired (out
+ * of the packs, owned copies migrated — lib/rosterMigration.ts). Off during
+ * the test period by the user's decision (2026-09-05): players who no longer
+ * match their club stay, only their grade is corrected (World-list → 플래티넘).
+ * Flip to true when the test period ends; nothing else needs to change.
+ */
+export const RETIRE_REPLACED_CLUBS = false
+
 export const LEAGUE_OF_CLUB: Record<string, string> = CLUBS.reduce(
   (map, club) => {
     map[club.name] = club.league
@@ -432,7 +441,7 @@ export function buildPlayer(id: string, fix: PlayerOverride = PLAYER_OVERRIDES[i
   // to a stable draw from the id so the data is never half filled.
   const rng = seededRandom(hashString(id + name))
   const club = CLUBS.find((item) => item.name === clubName) ?? CLUBS[Math.floor(rng() * CLUBS.length)]
-  const retired = !extras?.squad && REPLACED_CLUBS.has(club.name) && !NEVER_RETIRED.has(id)
+  const retired = RETIRE_REPLACED_CLUBS && !extras?.squad && REPLACED_CLUBS.has(club.name) && !NEVER_RETIRED.has(id)
   return {
     id,
     name,

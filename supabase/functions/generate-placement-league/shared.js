@@ -7386,6 +7386,7 @@ var CLUBS = [
 ];
 var REPLACED_CLUBS = new Set(SQUAD_REPLACED_CLUBS);
 var NEVER_RETIRED = /* @__PURE__ */ new Set(["n1125"]);
+var RETIRE_REPLACED_CLUBS = false;
 var LEAGUE_OF_CLUB = CLUBS.reduce(
   (map, club) => {
     map[club.name] = club.league;
@@ -7505,7 +7506,7 @@ function buildPlayer(id, fix = PLAYER_OVERRIDES[id] ?? {}) {
   };
   const rng = seededRandom(hashString(id + name));
   const club = CLUBS.find((item) => item.name === clubName) ?? CLUBS[Math.floor(rng() * CLUBS.length)];
-  const retired = !extras?.squad && REPLACED_CLUBS.has(club.name) && !NEVER_RETIRED.has(id);
+  const retired = RETIRE_REPLACED_CLUBS && !extras?.squad && REPLACED_CLUBS.has(club.name) && !NEVER_RETIRED.has(id);
   return {
     id,
     name,
