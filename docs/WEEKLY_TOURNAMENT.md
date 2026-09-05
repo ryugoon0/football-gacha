@@ -295,6 +295,38 @@ localStorage에 남아 다시 뜨지 않는다.
   경고 누적 퇴장 → 1경기, 직접 퇴장 → 1~3경기).
 - 경쟁 리그 탭 「내 경기」 상단에 내 클럽의 출전정지·경고 현황이 보입니다.
 
+### 주간 시즌 마감 — 순위·컵·마스터스 보상, 베스트 일레븐, 개인상 (`close_weekly_groups`)
+
+`supabase/migrations/20260906050000_weekly_season_honours.sql` (2026-09-06). 한 주가
+한 시즌이다. 경기마다 쌓이는 골드(`rewardsForFixture`)와 주 종료 카드 보상
+(`grant_weekly_card_rewards`) 위에 시즌 보상을 얹었다.
+
+- **평점 기록**: 엔진으로 정산되는 경기마다 선발 전원의 평점·포지션·골·도움을
+  `weekly_player_ratings`에 적는다(`commit_weekly_fixture_result`의 `p_ratings`,
+  `ratingsOf`). AI 대 AI(포아송) 경기는 기록이 없다.
+- **베스트 일레븐** `weekly_best_eleven(group_id)`: 출전 3경기 이상 선수의 평점을
+  6.0 쪽으로 가상 6경기만큼 당긴 점수(`bestElevenScore`)로 정렬해 GK 1·DF 4·MF 3·FW 3,
+  모자라는 줄은 나머지 최고점으로 채운다. 클라이언트도 이 함수로 "현재 기준"을
+  본다(선수 순위 탭). 규칙 상수는 `lib/weeklyLeague/rewards.ts`에 있고 SQL이 그대로
+  옮겼다 — 바꾸면 둘 다.
+- **마감** `close_weekly_groups()` (10분 cron): `regular-*` 주의 그룹 중 그 주 마지막
+  슬롯(일요일 23시)이 20분 이상 지났고 pending이 없는 그룹을 마감한다. 순위 1~16
+  보상(6개 구간 노브), Cup A/B 우승·준우승, 마스터스 우승(무승부면 홈=Cup A 우승),
+  베스트 일레븐 보유 감독에게 선수당, 득점왕·도움왕·MVP왕 보유 감독에게 각각을
+  `weekly_rewards`에 `fixture_id null`·`ref`로 넣고(기존 「보상 받기」가 그대로 수령),
+  같은 사실을 `weekly_honours`에 남긴다(AI 클럽도 명예에는 오름). 그룹은
+  `status='finished'`. 배치 리그(`placement-*`)는 대상이 아니다.
+- **금액**: `seasonAmount` = 노브(0등급 기준) × `weeklyTierMultiplier<tier>` ×
+  `competitiveGoldMultiplier`. 노브는 `game_config`에서 읽고 없으면 `lib/tuning.ts`
+  기본값(SQL `_weekly_knob`에 같은 값이 하드코딩돼 있으니 기본값을 바꾸면 같이).
+  운영자 「보상」 탭에 등급별 시즌 보상표가 미리보기로 붙어 있다.
+- **화면**: 경쟁 리그 탭 「팀 순위」에 이번 주 시즌 보상표와 지난 주 명예
+  (내가 있던 그룹의 `weekly_honours`), 「선수 순위」에 현재 기준 베스트 일레븐,
+  보상 배너에 시즌 보상 줄 요약, 지난 주 결과 배너에 내 수상 칩.
+- **검증**: 운영 DB에 대고 `BEGIN…ROLLBACK`(예외로 되돌림)으로 실유저 14명 그룹을
+  강제 마감 — 명예 17줄(순위 3 + 개인상 3 + 베스트 일레븐 11), 보상 줄, 1-4-3-3
+  선발, 재실행 시 0건(멱등)까지 확인했다.
+
 ### 득점 순위 (`weekly_goal_scorers`)
 
 실제 엔진으로 정산되는 경기(실유저가 낀 경기)는 득점자를 카드 uid로

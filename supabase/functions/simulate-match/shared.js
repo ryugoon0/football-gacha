@@ -251,6 +251,116 @@ var KNOBS = {
     group: "\uBCF4\uC0C1",
     integer: true
   },
+  weeklySeasonRank1: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 \uC8FC\uAC04 \uC6B0\uC2B9 \uBCF4\uC0C1",
+    note: "\uD55C \uC8FC \uB9AC\uADF8\uAC00 \uB05D\uB0AC\uC744 \uB54C 1\uC704 \uAC10\uB3C5\uC774 \uBC1B\uB294 \uACE8\uB4DC(0\uB4F1\uAE09 \uAE30\uC900). \uB4F1\uAE09 \uBC30\uC728\uACFC \uACBD\uC7C1 \uB9AC\uADF8 \uBC30\uC728\uC774 \uACF1\uD574\uC9D1\uB2C8\uB2E4.",
+    default: 3e4,
+    min: 0,
+    max: 2e5,
+    step: 1e3,
+    group: "\uBCF4\uC0C1",
+    integer: true
+  },
+  weeklySeasonRank2: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 \uC8FC\uAC04 2\uC704 \uBCF4\uC0C1",
+    note: "\uD55C \uC8FC \uB9AC\uADF8 2\uC704 \uAC10\uB3C5\uC774 \uBC1B\uB294 \uACE8\uB4DC(0\uB4F1\uAE09 \uAE30\uC900).",
+    default: 18e3,
+    min: 0,
+    max: 2e5,
+    step: 1e3,
+    group: "\uBCF4\uC0C1",
+    integer: true
+  },
+  weeklySeasonRank3: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 \uC8FC\uAC04 3\uC704 \uBCF4\uC0C1",
+    note: "\uD55C \uC8FC \uB9AC\uADF8 3\uC704 \uAC10\uB3C5\uC774 \uBC1B\uB294 \uACE8\uB4DC(0\uB4F1\uAE09 \uAE30\uC900).",
+    default: 12e3,
+    min: 0,
+    max: 2e5,
+    step: 1e3,
+    group: "\uBCF4\uC0C1",
+    integer: true
+  },
+  weeklySeasonRank4to8: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 \uC8FC\uAC04 4~8\uC704 \uBCF4\uC0C1",
+    note: "\uD55C \uC8FC \uB9AC\uADF8 4~8\uC704 \uAC10\uB3C5\uC774 \uBC1B\uB294 \uACE8\uB4DC(0\uB4F1\uAE09 \uAE30\uC900).",
+    default: 6e3,
+    min: 0,
+    max: 1e5,
+    step: 500,
+    group: "\uBCF4\uC0C1",
+    integer: true
+  },
+  weeklySeasonRank9to13: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 \uC8FC\uAC04 9~13\uC704 \uBCF4\uC0C1",
+    note: "\uD55C \uC8FC \uB9AC\uADF8 9~13\uC704 \uAC10\uB3C5\uC774 \uBC1B\uB294 \uACE8\uB4DC(0\uB4F1\uAE09 \uAE30\uC900).",
+    default: 3e3,
+    min: 0,
+    max: 1e5,
+    step: 500,
+    group: "\uBCF4\uC0C1",
+    integer: true
+  },
+  weeklySeasonRank14to16: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 \uC8FC\uAC04 14~16\uC704 \uBCF4\uC0C1",
+    note: "\uD55C \uC8FC \uB9AC\uADF8 14~16\uC704(\uAC15\uB4F1\uAD8C) \uAC10\uB3C5\uC774 \uBC1B\uB294 \uACE8\uB4DC(0\uB4F1\uAE09 \uAE30\uC900). \uB05D\uAE4C\uC9C0 \uACBD\uAE30\uB97C \uCC44\uC6B4 \uB370 \uB300\uD55C \uC704\uB85C\uAE08\uC785\uB2C8\uB2E4.",
+    default: 1500,
+    min: 0,
+    max: 1e5,
+    step: 500,
+    group: "\uBCF4\uC0C1",
+    integer: true
+  },
+  weeklyCupWinner: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 \uCEF5 \uC6B0\uC2B9 \uBCF4\uC0C1",
+    note: "Cup A\xB7Cup B \uACB0\uC2B9\uC5D0\uC11C \uC774\uAE34 \uAC10\uB3C5\uC774 \uBC1B\uB294 \uACE8\uB4DC(0\uB4F1\uAE09 \uAE30\uC900). \uCEF5\uB9C8\uB2E4 \uB530\uB85C \uBC1B\uC2B5\uB2C8\uB2E4.",
+    default: 12e3,
+    min: 0,
+    max: 2e5,
+    step: 1e3,
+    group: "\uBCF4\uC0C1",
+    integer: true
+  },
+  weeklyCupRunnerUp: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 \uCEF5 \uC900\uC6B0\uC2B9 \uBCF4\uC0C1",
+    note: "Cup A\xB7Cup B \uACB0\uC2B9\uC5D0\uC11C \uC9C4 \uAC10\uB3C5\uC774 \uBC1B\uB294 \uACE8\uB4DC(0\uB4F1\uAE09 \uAE30\uC900).",
+    default: 5e3,
+    min: 0,
+    max: 1e5,
+    step: 500,
+    group: "\uBCF4\uC0C1",
+    integer: true
+  },
+  weeklyMastersWinner: {
+    label: "\uACBD\uC7C1 \uB9AC\uADF8 \uB9C8\uC2A4\uD130\uC2A4 \uC6B0\uC2B9 \uBCF4\uC0C1",
+    note: "\uC77C\uC694\uC77C \uBC24 \uB450 \uCEF5 \uC6B0\uC2B9 \uD300\uC774 \uB9DE\uBD99\uB294 \uACB0\uC2B9\uC5D0\uC11C \uC774\uAE34 \uAC10\uB3C5\uC774 \uBC1B\uB294 \uACE8\uB4DC(0\uB4F1\uAE09 \uAE30\uC900).",
+    default: 15e3,
+    min: 0,
+    max: 2e5,
+    step: 1e3,
+    group: "\uBCF4\uC0C1",
+    integer: true
+  },
+  weeklyBestElevenBonus: {
+    label: "\uBCA0\uC2A4\uD2B8 \uC77C\uB808\uBE10 \uC120\uC218 1\uBA85\uB2F9 \uBCF4\uC0C1",
+    note: "\uD55C \uC8FC \uBCA0\uC2A4\uD2B8 \uC77C\uB808\uBE10\uC5D0 \uB0B4 \uC120\uC218\uAC00 \uD55C \uBA85 \uB4E4\uC5B4\uAC08 \uB54C\uB9C8\uB2E4 \uBC1B\uB294 \uACE8\uB4DC(0\uB4F1\uAE09 \uAE30\uC900). \uC5F4\uD55C \uBA85 \uB2E4 \uB0B4 \uC120\uC218\uBA74 \uC5F4\uD55C \uBC88 \uBC1B\uC2B5\uB2C8\uB2E4.",
+    default: 2500,
+    min: 0,
+    max: 5e4,
+    step: 500,
+    group: "\uBCF4\uC0C1",
+    integer: true
+  },
+  weeklyIndividualAward: {
+    label: "\uB4DD\uC810\uC655\xB7\uB3C4\uC6C0\uC655\xB7MVP\uC655 \uBCF4\uC0C1",
+    note: "\uD55C \uC8FC \uB4DD\uC810\uC655\xB7\uB3C4\uC6C0\uC655\xB7MVP \uCD5C\uB2E4 \uC120\uC218\uB97C \uBCF4\uC720\uD55C \uAC10\uB3C5\uC774 \uAC01\uAC01 \uBC1B\uB294 \uACE8\uB4DC(0\uB4F1\uAE09 \uAE30\uC900).",
+    default: 4e3,
+    min: 0,
+    max: 1e5,
+    step: 500,
+    group: "\uBCF4\uC0C1",
+    integer: true
+  },
   pvpDailyLimit: {
     label: "\uB370\uC77C\uB9AC PvP \uD558\uB8E8 \uB3C4\uC804 \uD69F\uC218",
     note: "\uB3C4\uC804\uC744 \uAC74 \uCABD\uC5D0\uC11C\uB9CC \uC18C\uBAA8\uB429\uB2C8\uB2E4 \u2014 \uB3C4\uC804\uC744 \uBC1B\uB294 \uCABD\uC740 \uC790\uAE30 \uD55C\uB3C4\uB97C \uC4F0\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4.",

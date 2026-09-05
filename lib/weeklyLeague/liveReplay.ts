@@ -495,6 +495,8 @@ export interface FixtureRatingLine {
   side: LiveSide
   playerId: string
   name: string
+  /** The slot the player started in (GK, CB, …) — the 베스트 일레븐 is picked by line. */
+  position: string
   rating: number
   goals: number
   assists: number
@@ -527,6 +529,7 @@ export function ratingsOf(result: ReplayResult, seed: string): FixtureRatingLine
         side,
         playerId: item?.card?.playerId ?? mark.uid,
         name: mark.name,
+        position: String(item?.slotPosition ?? ''),
         rating: mark.rating,
         goals: mark.goals,
         assists: mark.assists ?? 0,

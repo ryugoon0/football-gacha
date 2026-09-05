@@ -38,6 +38,7 @@ import {
   scorersOf,
   disciplineOf,
   mvpOf,
+  ratingsOf,
   sheetsOf,
   clubSheetOf,
   weeklyAiSquad,
@@ -352,6 +353,17 @@ async function settleFromEngine(
         ? { slot: mvp.side === 'home' ? fixture.homeSlot : fixture.awaySlot, playerId: mvp.playerId, name: mvp.name, rating: mvp.rating }
         : null
     })(),
+    // Every starter's mark — the week's 베스트 일레븐 and the ratings behind
+    // the individual awards are picked from these at the week's close.
+    p_ratings: ratingsOf(replay, engine.seed).map((line) => ({
+      slot: line.side === 'home' ? fixture.homeSlot : fixture.awaySlot,
+      playerId: line.playerId,
+      name: line.name,
+      position: line.position,
+      rating: line.rating,
+      goals: line.goals,
+      assists: line.assists,
+    })),
     // Only real clubs carry a ledger — an AI eleven is regenerated every fixture.
     p_discipline: disciplineOf(replay)
       .filter((line) => (line.side === 'home' ? fixture.home.kind : fixture.away.kind) === 'user')

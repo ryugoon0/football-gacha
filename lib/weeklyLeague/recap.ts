@@ -7,6 +7,8 @@ export type TierMovement = 'up' | 'down' | 'stay'
 export interface WeeklyRecap {
   /** The finished week. */
   weekId: string
+  /** The finished week's group — its roll of honour lives in weekly_honours under this id. */
+  groupId: number
   prevTier: number
   newTier: number
   /** Final rank in the finished week's group, 1..16. */
@@ -86,6 +88,7 @@ export async function loadWeeklyRecap(
 
   return {
     weekId: prevGroup.week_id,
+    groupId: previous.group_id,
     prevTier: prevGroup.tier,
     newTier: current.tier,
     rank: mine.rank,

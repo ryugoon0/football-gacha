@@ -187,10 +187,17 @@ export function replayFixture(
 ): SharedReplayResult
 export function publicStateOf(state: SharedLiveState): SharedPublicState
 export function scorersOf(result: SharedReplayResult): { side: SharedSide; playerId: string; name: string; goals: number; assists: number }[]
-export function mvpOf(
-  result: SharedReplayResult,
-  seed: string,
-): { side: SharedSide; playerId: string; name: string; rating: number; goals: number; assists: number } | null
+export interface SharedRatingLine {
+  side: SharedSide
+  playerId: string
+  name: string
+  position: string
+  rating: number
+  goals: number
+  assists: number
+}
+export function ratingsOf(result: SharedReplayResult, seed: string): SharedRatingLine[]
+export function mvpOf(result: SharedReplayResult, seed: string): SharedRatingLine | null
 export function disciplineOf(
   result: SharedReplayResult,
 ): { side: SharedSide; playerId: string; name: string; yellows: number; red: boolean; secondYellow: boolean }[]

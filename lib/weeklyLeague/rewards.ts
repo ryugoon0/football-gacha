@@ -70,6 +70,93 @@ export function hotTimeBonus(kickoffUtcMs: number, commandsSent: number): number
   return Math.round(tune('hotTimeBonus'))
 }
 
+// ---------------------------------------------------------------------------
+// 주간 시즌 보상 — a week's league is a season. When its last fixture has
+// settled the server (close_weekly_groups, supabase/migrations/
+// 20260906050000_weekly_season_honours.sql) pays every real manager by final
+// rank, the cup finalists, the Masters Final winner, and the owners of the
+// week's 베스트 일레븐 and individual award winners. The SQL mirrors these
+// formulas knob for knob; this file is what the operator console and the
+// 경쟁 리그 tab show, so the two must be kept in step.
+// ---------------------------------------------------------------------------
+
+export type SeasonRewardKind =
+  | 'season_rank'
+  | 'cup_winner'
+  | 'cup_runner_up'
+  | 'masters_winner'
+  | 'best_eleven'
+  | 'top_scorer'
+  | 'top_assist'
+  | 'top_mvp'
+
+export const SEASON_REWARD_LABELS: Record<SeasonRewardKind, string> = {
+  season_rank: '주간 순위 보상',
+  cup_winner: '컵 우승',
+  cup_runner_up: '컵 준우승',
+  masters_winner: '마스터스 우승',
+  best_eleven: '베스트 일레븐',
+  top_scorer: '득점왕',
+  top_assist: '도움왕',
+  top_mvp: 'MVP왕',
+}
+
+/** The knob a final rank (1..16) draws its base amount from. */
+export function seasonRankKnob(rank: number): KnobKey {
+  if (rank <= 1) return 'weeklySeasonRank1'
+  if (rank === 2) return 'weeklySeasonRank2'
+  if (rank === 3) return 'weeklySeasonRank3'
+  if (rank <= 8) return 'weeklySeasonRank4to8'
+  if (rank <= 13) return 'weeklySeasonRank9to13'
+  return 'weeklySeasonRank14to16'
+}
+
+/** Base knob amount × the tier's gradient × the operator's competitive multiplier. */
+export function seasonAmount(base: KnobKey, tier: number, rates: Partial<Record<KnobKey, number>> = {}): number {
+  const read = (key: KnobKey) => rates[key] ?? tune(key)
+  return Math.round(read(base) * read(tierMultiplierKnob(tier)) * read('competitiveGoldMultiplier'))
+}
+
+/** Gold for finishing the week at `rank` in a tier's league. */
+export function seasonRankReward(rank: number, tier: number, rates: Partial<Record<KnobKey, number>> = {}): number {
+  return seasonAmount(seasonRankKnob(rank), tier, rates)
+}
+
+export function cupReward(place: 'winner' | 'runnerUp', tier: number, rates: Partial<Record<KnobKey, number>> = {}): number {
+  return seasonAmount(place === 'winner' ? 'weeklyCupWinner' : 'weeklyCupRunnerUp', tier, rates)
+}
+
+export function mastersReward(tier: number, rates: Partial<Record<KnobKey, number>> = {}): number {
+  return seasonAmount('weeklyMastersWinner', tier, rates)
+}
+
+/** Per player of mine in the week's best eleven. */
+export function bestElevenReward(tier: number, rates: Partial<Record<KnobKey, number>> = {}): number {
+  return seasonAmount('weeklyBestElevenBonus', tier, rates)
+}
+
+/** 득점왕 · 도움왕 · MVP왕 — one payment each to the owning manager. */
+export function individualAwardReward(tier: number, rates: Partial<Record<KnobKey, number>> = {}): number {
+  return seasonAmount('weeklyIndividualAward', tier, rates)
+}
+
+/**
+ * How the 베스트 일레븐 is picked (mirrored in SQL weekly_best_eleven): every
+ * starter's marks across the week's engine-settled fixtures, shrunk towards
+ * BEST_ELEVEN_PRIOR by BEST_ELEVEN_PRIOR_WEIGHT phantom matches so a player
+ * with three lucky games does not outrank one who was excellent all week;
+ * then the best goalkeeper, four defenders, three midfielders and three
+ * forwards by that score, with any short line filled from the rest.
+ */
+export const BEST_ELEVEN_MIN_APPEARANCES = 3
+export const BEST_ELEVEN_PRIOR = 6.0
+export const BEST_ELEVEN_PRIOR_WEIGHT = 6
+export const BEST_ELEVEN_SHAPE = { GK: 1, DF: 4, MF: 3, FW: 3 } as const
+
+export function bestElevenScore(ratingSum: number, appearances: number): number {
+  return (ratingSum + BEST_ELEVEN_PRIOR * BEST_ELEVEN_PRIOR_WEIGHT) / (appearances + BEST_ELEVEN_PRIOR_WEIGHT)
+}
+
 export interface WeeklyRewardLine {
   userId: string
   kind: 'match' | 'hot_time'

@@ -23,6 +23,7 @@ export {
   scorersOf,
   disciplineOf,
   mvpOf,
+  ratingsOf,
   sheetsOf,
 } from './weeklyLeague/liveReplay'
 export { clubSheetOf } from './weeklyLeague/clubSheet'

@@ -64,7 +64,7 @@ describe('assistants', () => {
 
   it('tells the club where last week sent it, in each voice, before anything else', () => {
     const state = initialState()
-    const recap = { weekId: 'regular-2026-09-07', prevTier: 1, newTier: 0, rank: 2, points: 40, w: 12, d: 4, l: 2, movement: 'up' as const }
+    const recap = { weekId: 'regular-2026-09-07', groupId: 7, prevTier: 1, newTier: 0, rank: 2, points: 40, w: 12, d: 4, l: 2, movement: 'up' as const }
     const home = assistantSpeech('hanareum', { tab: 'home', state, hourKst: 10, squadGaps: { empty: 0, injured: 0 }, recap })
     expect(home.text).toContain('승격')
     expect(home.expression).toBe('determined')

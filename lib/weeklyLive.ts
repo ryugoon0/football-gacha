@@ -4,6 +4,7 @@ import type { TacticSetup } from './tactics'
 import { emptyMetrics } from './tactics/metrics'
 import type { MatchEvent } from './types'
 import type { ClubSheet } from './weeklyLeague/clubSheet'
+import type { SeasonRewardKind } from './weeklyLeague/rewards'
 import type { TacticCardId } from './weeklyLeague/tacticCards'
 
 /**
@@ -236,13 +237,32 @@ export async function submitWeeklyCommand(
   }
 }
 
+export type WeeklyRewardKind = 'match' | 'hot_time' | 'tactic_card' | SeasonRewardKind
+
 export interface WeeklyRewardRow {
   id: number
-  fixture_id: number
-  kind: 'match' | 'hot_time' | 'tactic_card'
+  /** Null for season-close lines (rank, cup, best eleven …), which belong to a week rather than a match. */
+  fixture_id: number | null
+  kind: WeeklyRewardKind
   amount: number
   card_id?: string | null
+  ref?: string | null
   created_at: string
+}
+
+export const SEASON_REWARD_KINDS: SeasonRewardKind[] = [
+  'season_rank',
+  'cup_winner',
+  'cup_runner_up',
+  'masters_winner',
+  'best_eleven',
+  'top_scorer',
+  'top_assist',
+  'top_mvp',
+]
+
+export function isSeasonReward(kind: WeeklyRewardKind): kind is SeasonRewardKind {
+  return (SEASON_REWARD_KINDS as string[]).includes(kind)
 }
 
 /** My rewards not yet collected — what the "보상 받기" button will pay. */
@@ -251,11 +271,99 @@ export async function fetchUnclaimedWeeklyRewards(): Promise<WeeklyRewardRow[]> 
   if (!supabase) return []
   const { data, error } = await supabase
     .from('weekly_rewards')
-    .select('id, fixture_id, kind, amount, card_id, created_at')
+    .select('id, fixture_id, kind, amount, card_id, ref, created_at')
     .is('claimed_at', null)
     .order('created_at', { ascending: false })
   if (error || !data) return []
   return data as WeeklyRewardRow[]
+}
+
+export type BestElevenLine = 'GK' | 'DF' | 'MF' | 'FW'
+
+export interface BestElevenPick {
+  slot: number
+  playerId: string
+  name: string
+  position: string
+  line: BestElevenLine
+  apps: number
+  avg: number
+  score: number
+  goals: number
+  assists: number
+}
+
+/** The group's best eleven as it stands now (server-side pick, weekly_best_eleven). */
+export async function fetchWeeklyBestEleven(groupId: number): Promise<BestElevenPick[]> {
+  const supabase = getSupabase()
+  if (!supabase) return []
+  const { data, error } = await supabase.rpc('weekly_best_eleven', { p_group_id: groupId })
+  if (error || !Array.isArray(data)) return []
+  return (data as Record<string, unknown>[]).map((row) => ({
+    slot: Number(row.slot),
+    playerId: String(row.playerId ?? ''),
+    name: String(row.name ?? '선수'),
+    position: String(row.position ?? ''),
+    line: (row.line as BestElevenLine) ?? 'FW',
+    apps: Number(row.apps ?? 0),
+    avg: Number(row.avg ?? 0),
+    score: Number(row.score ?? 0),
+    goals: Number(row.goals ?? 0),
+    assists: Number(row.assists ?? 0),
+  }))
+}
+
+export type HonourKind =
+  | 'champion'
+  | 'runner_up'
+  | 'third'
+  | 'cup_a'
+  | 'cup_b'
+  | 'masters'
+  | 'best_eleven'
+  | 'top_scorer'
+  | 'top_assist'
+  | 'top_mvp'
+
+export interface HonourRow {
+  id: number
+  group_id: number
+  week_id: string
+  tier: number
+  kind: HonourKind
+  slot: number
+  user_id: string | null
+  club_name: string
+  player_id: string | null
+  player_name: string | null
+  position: string | null
+  detail: Record<string, unknown>
+}
+
+export const HONOUR_LABELS: Record<HonourKind, string> = {
+  champion: '리그 우승',
+  runner_up: '리그 2위',
+  third: '리그 3위',
+  cup_a: 'Cup A 우승',
+  cup_b: 'Cup B 우승',
+  masters: 'Masters Final 우승',
+  best_eleven: '베스트 일레븐',
+  top_scorer: '득점왕',
+  top_assist: '도움왕',
+  top_mvp: 'MVP왕',
+}
+
+/** Everything a finished group handed out — the week's roll of honour. */
+export async function fetchWeeklyHonours(groupId: number): Promise<HonourRow[]> {
+  const supabase = getSupabase()
+  if (!supabase) return []
+  const { data, error } = await supabase
+    .from('weekly_honours')
+    .select('id, group_id, week_id, tier, kind, slot, user_id, club_name, player_id, player_name, position, detail')
+    .eq('group_id', groupId)
+    .order('id', { ascending: true })
+  if (error || !data) return []
+  return data as HonourRow[]
 }
 
 export interface ClaimedCards {

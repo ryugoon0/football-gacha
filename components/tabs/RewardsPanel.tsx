@@ -6,7 +6,28 @@ import { BOTTOM_DIVISION, TOP_DIVISION, divisionLabel } from '../../lib/league'
 import { rawMatchReward } from '../../lib/match'
 import { KNOBS, currentTuning, type KnobKey } from '../../lib/tuning'
 import { TIERS } from '../../lib/weeklyLeague/config'
-import { weeklyMatchReward } from '../../lib/weeklyLeague/rewards'
+import {
+  bestElevenReward,
+  cupReward,
+  individualAwardReward,
+  mastersReward,
+  seasonRankReward,
+  weeklyMatchReward,
+} from '../../lib/weeklyLeague/rewards'
+
+const SEASON_ROWS: { label: string; amount: (tier: number, rates: Partial<Record<KnobKey, number>>) => number }[] = [
+  { label: '리그 1위', amount: (tier, rates) => seasonRankReward(1, tier, rates) },
+  { label: '리그 2위', amount: (tier, rates) => seasonRankReward(2, tier, rates) },
+  { label: '리그 3위', amount: (tier, rates) => seasonRankReward(3, tier, rates) },
+  { label: '리그 4~8위', amount: (tier, rates) => seasonRankReward(4, tier, rates) },
+  { label: '리그 9~13위', amount: (tier, rates) => seasonRankReward(9, tier, rates) },
+  { label: '리그 14~16위', amount: (tier, rates) => seasonRankReward(14, tier, rates) },
+  { label: '컵 우승 (컵마다)', amount: (tier, rates) => cupReward('winner', tier, rates) },
+  { label: '컵 준우승', amount: (tier, rates) => cupReward('runnerUp', tier, rates) },
+  { label: '마스터스 우승', amount: (tier, rates) => mastersReward(tier, rates) },
+  { label: '베스트 일레븐 선수 1명당', amount: (tier, rates) => bestElevenReward(tier, rates) },
+  { label: '득점왕·도움왕·MVP왕 (각)', amount: (tier, rates) => individualAwardReward(tier, rates) },
+]
 
 const GROUPS = ['보상'] as const
 const OUTCOMES = ['W', 'D', 'L'] as const
@@ -154,6 +175,44 @@ export default function RewardsPanel() {
         <p className="mt-2 text-[11px] leading-relaxed text-slate-500">
           하루 기준 감각: 캐주얼 한 시즌(리그 19 + 컵 최대 4)과 경쟁 리그 하루(리그 13 + 컵)는 경기 수가 비슷합니다.
           경쟁 리그 배율 1.5는 『캐주얼 하루 1시즌 제한 뒤 경쟁 리그가 그 자리를 대신한다』는 뜻입니다.
+        </p>
+      </section>
+
+      <section className="panel p-4">
+        <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">경쟁 리그 주간 시즌 보상표</h3>
+        <p className="mt-0.5 text-[11px] leading-relaxed text-slate-500">
+          일요일 23시 마스터스 결승이 정산된 뒤 서버가 그룹을 마감하며 한 번에 지급합니다(0등급 기준 노브 × 등급 배율 × 경쟁 리그 배율).
+          감각: 0등급 감독이 한 주 105경기를 반쯤 이기면 경기 보상으로 약 7만G를 모으므로, 우승 보상은 그 절반쯤입니다.
+        </p>
+        <div className="mt-3 overflow-x-auto">
+          <table className="w-full min-w-[520px] text-[12px] text-slate-200">
+            <thead>
+              <tr className="border-b border-white/10">
+                <th className="px-2 py-1 text-left text-[10px] font-bold uppercase tracking-wide text-slate-500">항목</th>
+                {TIERS.map((_, tier) => (
+                  <th key={tier} className={head}>
+                    {tier}등급
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {SEASON_ROWS.map((row) => (
+                <tr key={row.label} className="border-b border-white/5">
+                  <td className="px-2 py-1">{row.label}</td>
+                  {TIERS.map((_, tier) => (
+                    <td key={tier} className={cell}>
+                      {fmt(row.amount(tier, rates))}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="mt-2 text-[11px] leading-relaxed text-slate-500">
+          베스트 일레븐은 출전 3경기 이상 선수의 평점을 출전 수로 보정해 골키퍼 1·수비 4·미드필더 3·공격 3을 뽑습니다. AI 클럽
+          선수도 명단에는 오르지만 골드는 실유저 보유 선수에게만 나갑니다.
         </p>
       </section>
 

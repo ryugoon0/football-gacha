@@ -6,10 +6,30 @@ import ModeBadge from '../ModeBadge'
 import WeeklyLiveMatch from '../WeeklyLiveMatch'
 import ClubSheetModal from '../ClubSheetModal'
 import { getSupabase } from '../../lib/supabase'
-import { catchUpWeeklyGroup, claimWeeklyRewards, fetchUnclaimedWeeklyRewards, type WeeklyRewardRow } from '../../lib/weeklyLive'
+import {
+  HONOUR_LABELS,
+  catchUpWeeklyGroup,
+  claimWeeklyRewards,
+  fetchUnclaimedWeeklyRewards,
+  fetchWeeklyBestEleven,
+  fetchWeeklyHonours,
+  isSeasonReward,
+  type BestElevenPick,
+  type HonourRow,
+  type WeeklyRewardRow,
+} from '../../lib/weeklyLive'
 import { setAssistantHints } from '../../lib/assistantHints'
 import { loadWeeklyRecap, markRecapSeen, recapSeen, type WeeklyRecap } from '../../lib/weeklyLeague/recap'
-import { isHotTime } from '../../lib/weeklyLeague/rewards'
+import {
+  SEASON_REWARD_LABELS,
+  bestElevenReward,
+  cupReward,
+  individualAwardReward,
+  isHotTime,
+  mastersReward,
+  seasonRankReward,
+} from '../../lib/weeklyLeague/rewards'
+import { CLUB_COUNT, TOURNAMENT_NAMES } from '../../lib/weeklyLeague/config'
 import { standings, type StandingsMatch, type StandingsResult } from '../../lib/weeklyLeague/standings'
 
 /**
@@ -99,6 +119,11 @@ export default function WeeklyTab() {
   const [scorerRows, setScorerRows] = useState<ScorerRow[]>([])
   /** Last week's result, until the manager dismisses the banner. */
   const [recap, setRecap] = useState<WeeklyRecap | null>(null)
+  /** Last week's roll of honour (champion, cups, best eleven, awards) — stays after the banner is dismissed. */
+  const [honours, setHonours] = useState<HonourRow[]>([])
+  const [honoursWeekId, setHonoursWeekId] = useState<string | null>(null)
+  /** This week's best eleven as it stands, picked on the server. */
+  const [bestEleven, setBestEleven] = useState<BestElevenPick[]>([])
   /** My club's bookings ledger this week: bans in force and yellows piling up. */
   const [discipline, setDiscipline] = useState<DisciplineRow[]>([])
   /** The fixture open in the live view (my own matches only). */
@@ -161,7 +186,15 @@ export default function WeeklyTab() {
       const fresh = result && !recapSeen(result.weekId) ? result : null
       setRecap(fresh)
       setAssistantHints({ recap: fresh })
+      if (result) {
+        setHonoursWeekId(result.weekId)
+        void fetchWeeklyHonours(result.groupId).then(setHonours)
+      } else {
+        setHonoursWeekId(null)
+        setHonours([])
+      }
     })
+    void fetchWeeklyBestEleven(row.group_id).then(setBestEleven)
 
     const [membersRes, fixturesRes, competitionsRes, scorersRes, disciplineRes] = await Promise.all([
       supabase.from('weekly_league_members').select('slot, kind, club_name').eq('group_id', row.group_id),
@@ -225,6 +258,18 @@ export default function WeeklyTab() {
 
   const unclaimedTotal = rewards.filter((row) => row.kind !== 'tactic_card').reduce((total, row) => total + row.amount, 0)
   const unclaimedCards = rewards.filter((row) => row.kind === 'tactic_card').reduce((total, row) => total + row.amount, 0)
+  /** Season-close lines, folded by kind so eleven best-eleven payments read as one row. */
+  const seasonLines = useMemo(() => {
+    const byKind = new Map<string, { label: string; amount: number; count: number }>()
+    for (const row of rewards) {
+      if (!isSeasonReward(row.kind)) continue
+      const entry = byKind.get(row.kind) ?? { label: SEASON_REWARD_LABELS[row.kind], amount: 0, count: 0 }
+      entry.amount += row.amount
+      entry.count += 1
+      byKind.set(row.kind, entry)
+    }
+    return [...byKind.values()]
+  }, [rewards])
   const claim = async () => {
     setClaiming(true)
     const result = await claimWeeklyRewards()
@@ -346,6 +391,8 @@ export default function WeeklyTab() {
     )
   }
 
+  const myHonours = honours.filter((row) => row.user_id === userId)
+
   const dismissRecap = () => {
     if (recap) markRecapSeen(recap.weekId)
     setRecap(null)
@@ -376,7 +423,17 @@ export default function WeeklyTab() {
               <div className="mt-1 text-xs text-slate-300">
                 {recap.prevTier}등급 {recap.rank}위 · {recap.w}승 {recap.d}무 {recap.l}패 · 승점 {recap.points}
               </div>
-              <p className="mt-1 text-[11px] text-slate-500">순위 보상 히든 카드는 위 「보상 받기」에서 받습니다.</p>
+              {myHonours.length > 0 && (
+                <div className="mt-1.5 flex flex-wrap gap-1">
+                  {myHonours.map((row) => (
+                    <span key={row.id} className="rounded bg-amber-400/20 px-1.5 py-0.5 text-[10px] font-black text-amber-200">
+                      🏆 {HONOUR_LABELS[row.kind]}
+                      {row.player_name ? ` · ${row.player_name}` : ''}
+                    </span>
+                  ))}
+                </div>
+              )}
+              <p className="mt-1 text-[11px] text-slate-500">순위·컵·베스트 일레븐 보상은 「내 경기」의 「보상 받기」에서 받습니다.</p>
             </div>
             <button
               type="button"
@@ -464,15 +521,29 @@ export default function WeeklyTab() {
             <section className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-400/30 bg-amber-400/10 p-4">
               <div>
                 <div className="text-[10px] font-bold uppercase tracking-widest text-amber-300">경쟁 리그 보상</div>
-                {rewards.length > 0 ? (
+                {rewards.length > 0 && (
                   <div className="mt-1 text-sm text-slate-100">
                     받지 않은 보상 <b className="text-amber-200">{unclaimedTotal.toLocaleString('ko-KR')}G</b>
                     {unclaimedCards > 0 && <> · 히든 카드 <b className="text-fuchsia-200">{unclaimedCards}장</b></>} · {rewards.length}건
                     {rewards.some((row) => row.kind === 'hot_time') && (
                       <span className="ml-2 rounded bg-rose-500/20 px-1.5 py-0.5 text-[10px] font-black text-rose-200">🔥 핫타임 포함</span>
                     )}
+                    {seasonLines.length > 0 && (
+                      <span className="ml-2 rounded bg-amber-500/25 px-1.5 py-0.5 text-[10px] font-black text-amber-100">🏆 시즌 보상 포함</span>
+                    )}
                   </div>
-                ) : (
+                )}
+                {rewards.length > 0 && seasonLines.length > 0 && (
+                  <ul className="mt-1.5 flex flex-wrap gap-x-3 gap-y-0.5 text-[11px] text-amber-100/90">
+                    {seasonLines.map((line) => (
+                      <li key={line.label}>
+                        {line.label}
+                        {line.count > 1 ? ` ×${line.count}` : ''} <b className="tabular-nums">{line.amount.toLocaleString('ko-KR')}G</b>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {rewards.length === 0 && (
                   <div className="mt-1 text-sm text-slate-300">{claimNotice}</div>
                 )}
               </div>
@@ -584,6 +655,12 @@ export default function WeeklyTab() {
             )}
           </section>
 
+          <SeasonRewardTable tier={membership.tier} myRank={table.find((row) => Number(row.club) === membership.slot)?.rank ?? null} />
+
+          {honours.length > 0 && honoursWeekId && (
+            <HonoursBoard weekId={honoursWeekId} honours={honours} userId={userId} />
+          )}
+
           <section className="panel p-4">
             <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">컵 경기 결과</h3>
             {cupTies.length === 0 ? (
@@ -618,6 +695,8 @@ export default function WeeklyTab() {
       )}
 
       {sub === 'playerStandings' && (
+        <>
+        <BestElevenBoard picks={bestEleven} mySlot={membership.slot} clubName={clubName} tier={membership.tier} />
         <section className="panel p-4">
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">득점 순위</h3>
           {topScorers.length === 0 ? (
@@ -723,8 +802,208 @@ export default function WeeklyTab() {
           )}
           <p className="mt-2 text-[10px] text-slate-600">AI 대 AI 경기는 득점자·MVP 기록이 없어 집계에서 빠집니다.</p>
         </section>
+        </>
       )}
     </div>
+  )
+}
+
+const LINE_LABEL: Record<BestElevenPick['line'], string> = { GK: '골키퍼', DF: '수비', MF: '미드필더', FW: '공격' }
+const LINE_ORDER: BestElevenPick['line'][] = ['FW', 'MF', 'DF', 'GK']
+
+/**
+ * The week's best eleven so far — picked on the server from every engine-
+ * settled fixture's marks (weekly_best_eleven). Shown attack first, the way
+ * a team sheet graphic reads top to bottom.
+ */
+function BestElevenBoard({
+  picks,
+  mySlot,
+  clubName,
+  tier,
+}: {
+  picks: BestElevenPick[]
+  mySlot: number
+  clubName: (slot: number) => string
+  tier: number
+}) {
+  const mine = picks.filter((pick) => pick.slot === mySlot).length
+  const perPlayer = bestElevenReward(tier)
+  return (
+    <section className="panel p-4">
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">베스트 일레븐 (현재 기준)</h3>
+        <span className="text-[10px] text-slate-500">일요일 밤 마감 시점의 명단이 확정 · 내 선수 1명당 {perPlayer.toLocaleString('ko-KR')}G</span>
+      </div>
+      {picks.length === 0 ? (
+        <p className="mt-2 text-xs leading-relaxed text-slate-500">
+          아직 뽑을 기록이 없습니다. 실유저가 낀 경기가 세 번 이상 정산된 선수부터 후보에 오릅니다.
+        </p>
+      ) : (
+        <div className="mt-2 space-y-2">
+          {LINE_ORDER.map((line) => {
+            const row = picks.filter((pick) => pick.line === line)
+            if (row.length === 0) return null
+            return (
+              <div key={line}>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-slate-500">{LINE_LABEL[line]}</div>
+                <div className="mt-1 grid gap-1.5" style={{ gridTemplateColumns: `repeat(${Math.min(4, row.length)}, minmax(0, 1fr))` }}>
+                  {row.map((pick) => (
+                    <div
+                      key={`${pick.slot}-${pick.playerId}`}
+                      className={`rounded-xl px-2.5 py-2 text-[11px] ${
+                        pick.slot === mySlot ? 'bg-emerald-400/15 ring-1 ring-emerald-400/40' : 'bg-white/5'
+                      }`}
+                    >
+                      <div className="flex items-baseline justify-between gap-1">
+                        <span className="truncate font-black text-slate-100">{pick.name}</span>
+                        <span className="shrink-0 font-black tabular-nums text-amber-300">{pick.avg.toFixed(1)}</span>
+                      </div>
+                      <div className="mt-0.5 flex items-baseline justify-between gap-1 text-[10px] text-slate-400">
+                        <span className="truncate">
+                          {pick.position} · {clubName(pick.slot)}
+                        </span>
+                        <span className="shrink-0 tabular-nums">
+                          {pick.apps}경기{pick.goals > 0 ? ` ${pick.goals}골` : ''}{pick.assists > 0 ? ` ${pick.assists}도움` : ''}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          })}
+          <p className="text-[10px] text-slate-600">
+            평점 평균을 출전 수로 보정해 뽑습니다(적게 뛴 선수의 높은 평균은 덜 인정).
+            {mine > 0 && <b className="ml-1 text-emerald-300">내 선수 {mine}명 포함.</b>}
+          </p>
+        </div>
+      )}
+    </section>
+  )
+}
+
+const RANK_BANDS: [string, number][] = [
+  ['1위', 1],
+  ['2위', 2],
+  ['3위', 3],
+  ['4~8위', 4],
+  ['9~13위', 9],
+  ['14~16위', 14],
+]
+
+/** What this tier pays when the week closes, so a manager knows what the last rounds are worth. */
+function SeasonRewardTable({ tier, myRank }: { tier: number; myRank: number | null }) {
+  const fmt = (n: number) => `${n.toLocaleString('ko-KR')}G`
+  const bandOf = (rank: number) => (rank <= 3 ? rank : rank <= 8 ? 4 : rank <= 13 ? 9 : 14)
+  const myBand = myRank ? bandOf(myRank) : null
+  return (
+    <section className="panel p-4">
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">이번 주 시즌 보상 ({tier}등급)</h3>
+        <span className="text-[10px] text-slate-500">일요일 마지막 경기 뒤 자동 정산 · 「보상 받기」로 수령</span>
+      </div>
+      <div className="mt-2 grid gap-3 sm:grid-cols-2">
+        <div>
+          <div className="text-[10px] font-bold uppercase tracking-widest text-slate-500">리그 최종 순위</div>
+          <table className="mt-1 w-full text-[11px]">
+            <tbody>
+              {RANK_BANDS.map(([label, rank]) => (
+                <tr key={label} className={`border-t border-white/5 ${myBand === rank ? 'bg-emerald-400/10' : ''}`}>
+                  <td className="py-1 pr-2 text-slate-300">{label}</td>
+                  <td className="py-1 text-right font-black tabular-nums text-amber-300">{fmt(seasonRankReward(rank, tier))}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <div className="text-[10px] font-bold uppercase tracking-widest text-slate-500">컵 · 개인상</div>
+          <table className="mt-1 w-full text-[11px]">
+            <tbody>
+              <tr className="border-t border-white/5">
+                <td className="py-1 pr-2 text-slate-300">{TOURNAMENT_NAMES.CUP_A} · {TOURNAMENT_NAMES.CUP_B} 우승</td>
+                <td className="py-1 text-right font-black tabular-nums text-amber-300">{fmt(cupReward('winner', tier))}</td>
+              </tr>
+              <tr className="border-t border-white/5">
+                <td className="py-1 pr-2 text-slate-300">컵 준우승</td>
+                <td className="py-1 text-right font-black tabular-nums text-amber-300">{fmt(cupReward('runnerUp', tier))}</td>
+              </tr>
+              <tr className="border-t border-white/5">
+                <td className="py-1 pr-2 text-slate-300">{TOURNAMENT_NAMES.MASTERS_FINAL} 우승</td>
+                <td className="py-1 text-right font-black tabular-nums text-amber-300">{fmt(mastersReward(tier))}</td>
+              </tr>
+              <tr className="border-t border-white/5">
+                <td className="py-1 pr-2 text-slate-300">베스트 일레븐 (내 선수 1명당)</td>
+                <td className="py-1 text-right font-black tabular-nums text-amber-300">{fmt(bestElevenReward(tier))}</td>
+              </tr>
+              <tr className="border-t border-white/5">
+                <td className="py-1 pr-2 text-slate-300">득점왕 · 도움왕 · MVP왕 (각)</td>
+                <td className="py-1 text-right font-black tabular-nums text-amber-300">{fmt(individualAwardReward(tier))}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p className="mt-2 text-[10px] text-slate-600">
+        {CLUB_COUNT}팀 중 상위 3팀 승격, 하위 3팀 강등. 경기별 골드는 이와 별도로 매 경기 뒤 바로 쌓입니다.
+      </p>
+    </section>
+  )
+}
+
+const HONOUR_ORDER: HonourRow['kind'][] = ['champion', 'runner_up', 'third', 'cup_a', 'cup_b', 'masters', 'top_scorer', 'top_assist', 'top_mvp']
+
+/** Last week's roll of honour for the group I came from. */
+function HonoursBoard({ weekId, honours, userId }: { weekId: string; honours: HonourRow[]; userId: string }) {
+  const clubLines = HONOUR_ORDER.map((kind) => honours.find((row) => row.kind === kind)).filter((row): row is HonourRow => Boolean(row))
+  const eleven = honours.filter((row) => row.kind === 'best_eleven')
+  const weekLabel = weekId.replace(/^regular-/, '').replace(/^placement-/, '배치 ')
+  return (
+    <section className="panel p-4">
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">지난 주 명예 ({weekLabel} 주)</h3>
+        <span className="text-[10px] text-slate-500">{honours[0]?.tier}등급 · 내가 있던 리그</span>
+      </div>
+      <div className="mt-2 grid gap-1.5 sm:grid-cols-2">
+        {clubLines.map((row) => (
+          <div
+            key={row.id}
+            className={`flex items-center gap-2 rounded-xl px-3 py-2 text-[11px] ${
+              row.user_id === userId ? 'bg-amber-400/15 ring-1 ring-amber-400/40' : 'bg-white/5'
+            }`}
+          >
+            <span className="w-24 shrink-0 font-bold text-amber-300">🏆 {HONOUR_LABELS[row.kind]}</span>
+            <span className="flex-1 truncate font-bold text-slate-100">
+              {row.player_name ? `${row.player_name} · ` : ''}
+              {row.club_name}
+            </span>
+            {typeof row.detail.count === 'number' && <span className="shrink-0 tabular-nums text-slate-400">{row.detail.count}</span>}
+            {typeof row.detail.points === 'number' && <span className="shrink-0 tabular-nums text-slate-400">{row.detail.points}점</span>}
+          </div>
+        ))}
+      </div>
+      {eleven.length > 0 && (
+        <>
+          <div className="mt-3 text-[10px] font-bold uppercase tracking-widest text-slate-500">베스트 일레븐</div>
+          <div className="mt-1 flex flex-wrap gap-1">
+            {eleven.map((row) => (
+              <span
+                key={row.id}
+                className={`rounded-lg px-2 py-1 text-[11px] ${
+                  row.user_id === userId ? 'bg-emerald-400/15 font-black text-emerald-200' : 'bg-white/5 text-slate-200'
+                }`}
+                title={row.club_name}
+              >
+                {row.position ? `${row.position} ` : ''}
+                {row.player_name}
+                {typeof row.detail.avg === 'number' && <span className="ml-1 tabular-nums text-amber-300">{Number(row.detail.avg).toFixed(1)}</span>}
+              </span>
+            ))}
+          </div>
+        </>
+      )}
+    </section>
   )
 }
 
