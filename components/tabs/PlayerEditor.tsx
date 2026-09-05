@@ -17,6 +17,7 @@ import {
   isEmpty,
   overridesBlock,
   pasteInstructions,
+  pendingOverrides,
   previewEdit,
   searchPlayers,
   tighten,
@@ -54,10 +55,9 @@ export default function PlayerEditor() {
   )
   const problem = validateEdit(edit, preview ? (group) => preview.stats[group] : undefined)
   const block = useMemo(() => overridesBlock(edits), [edits])
-  const touched = useMemo(
-    () => Object.entries(edits).filter(([id, item]) => !isEmpty(tighten(id, item))).length,
-    [edits],
-  )
+  // Only edits that differ from the committed file count — once pasted and
+  // marked done (or once the page reloads with the new file) the block goes away.
+  const pending = useMemo(() => pendingOverrides(edits), [edits])
 
   const pick = (id: string) => {
     setSelected(id)
@@ -456,28 +456,47 @@ export default function PlayerEditor() {
         </>
       )}
 
-      <section className="panel p-4">
-        <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">
-          붙여넣을 내용 {touched > 0 && <span className="text-emerald-300">{touched}명</span>}
-        </h3>
-        <pre className="mt-2 max-h-64 overflow-auto rounded-lg bg-slate-950/70 p-3 text-[11px] leading-relaxed text-emerald-200">
-          {block}
-        </pre>
-        <button
-          onClick={() => void copy()}
-          disabled={Boolean(problem)}
-          className="mt-2 w-full rounded-xl btn-primary px-4 py-2 text-xs font-black disabled:opacity-40"
-        >
-          {copied ? '복사했습니다' : '전체 복사'}
-        </button>
-        <pre className="mt-2 whitespace-pre-wrap rounded-lg bg-white/5 p-3 text-[11px] leading-relaxed text-slate-400">
-          {pasteInstructions()}
-        </pre>
-        <p className="mt-3 rounded-lg bg-amber-400/10 px-3 py-2 text-[11px] leading-relaxed text-amber-200/80">
-          여기서 고친 값은 아직 게임에 반영되지 않습니다. 뽑기를 서버가 하기 때문에 선수 정보는
-          앱과 서버가 같은 파일을 봐야 하고, 그래서 코드로 커밋해야 합니다.
+      {pending.length === 0 ? (
+        <p className="text-[11px] text-slate-500">
+          붙여넣을 변경이 없습니다 — 화면의 수정 내용이 <code>lib/rosterOverrides.ts</code>와 같습니다.
         </p>
-      </section>
+      ) : (
+        <section className="panel p-4">
+          <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">
+            붙여넣을 내용 <span className="text-emerald-300">{pending.length}명 변경</span>
+          </h3>
+          <pre className="mt-2 max-h-64 overflow-auto rounded-lg bg-slate-950/70 p-3 text-[11px] leading-relaxed text-emerald-200">
+            {block}
+          </pre>
+          <div className="mt-2 grid gap-2 sm:grid-cols-[1fr_auto]">
+            <button
+              onClick={() => void copy()}
+              disabled={Boolean(problem)}
+              className="w-full rounded-xl btn-primary px-4 py-2 text-xs font-black disabled:opacity-40"
+            >
+              {copied ? '복사했습니다' : '전체 복사'}
+            </button>
+            <button
+              onClick={() => {
+                setEdits({})
+                setCopied(false)
+              }}
+              disabled={!copied}
+              title="파일에 붙여넣었으면 눌러 이 블록을 닫습니다. 다음 배포 뒤에는 파일 값이 기준이 됩니다."
+              className="rounded-xl btn-ghost px-4 py-2 text-xs font-bold disabled:opacity-40"
+            >
+              붙여넣기 완료
+            </button>
+          </div>
+          <pre className="mt-2 whitespace-pre-wrap rounded-lg bg-white/5 p-3 text-[11px] leading-relaxed text-slate-400">
+            {pasteInstructions()}
+          </pre>
+          <p className="mt-3 rounded-lg bg-amber-400/10 px-3 py-2 text-[11px] leading-relaxed text-amber-200/80">
+            여기서 고친 값은 아직 게임에 반영되지 않습니다. 뽑기를 서버가 하기 때문에 선수 정보는
+            앱과 서버가 같은 파일을 봐야 하고, 그래서 코드로 커밋해야 합니다.
+          </p>
+        </section>
+      )}
     </div>
   )
 }

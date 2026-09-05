@@ -239,6 +239,24 @@ export function overridesBlock(edits: EditMap): string {
   return `export const PLAYER_OVERRIDES: Record<string, PlayerOverride> = {${body}}`
 }
 
+/**
+ * Cards whose edit differs from what lib/rosterOverrides.ts already holds —
+ * the only ones that actually need pasting. Opening a player loads their
+ * committed correction into the editor, and that alone must not read as work
+ * to paste.
+ */
+export function pendingOverrides(edits: EditMap): string[] {
+  return Object.entries(edits)
+    .filter(([id, edit]) => {
+      const fix = tighten(id, edit)
+      const current = PLAYER_OVERRIDES[id]
+      if (isEmpty(fix)) return Boolean(current)
+      if (!current) return true
+      return overrideLine(id, fix) !== overrideLine(id, current)
+    })
+    .map(([id]) => id)
+}
+
 export function pasteInstructions(): string {
   return [
     'lib/rosterOverrides.ts를 열고 PLAYER_OVERRIDES 블록을 이 내용으로 바꾸세요.',
