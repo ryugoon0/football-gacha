@@ -4,7 +4,7 @@ import type { PlayerDef, PositionGroup, Rarity } from './types'
 
 export const DRAW_TEN_SIZE = 10
 
-/** Pulls without a 월드 or better before the next one is guaranteed. */
+/** Pulls without a 골드 or better before the next one is guaranteed. */
 export const PITY_LIMIT = 30
 export const PITY_RARITY: Rarity = 'Legend'
 
@@ -34,12 +34,16 @@ export interface PackDef {
   guarantee?: Rarity
 }
 
+/**
+ * The player-facing name for a pull is 스카우트 (2026-09-05; 뽑기 before). The
+ * ids stay — the server (draw-pack) and pull_log know packs by id.
+ */
 export const PACKS: PackDef[] = [
   {
     id: 'basic',
     family: 'basic',
-    name: '일반팩',
-    description: '카드 1장',
+    name: '일반 스카우트',
+    description: '선수 1명 · 바로 공개',
     cost: 300,
     count: 1,
     rates: PACK_RATES.basic,
@@ -47,8 +51,8 @@ export const PACKS: PackDef[] = [
   {
     id: 'basicTen',
     family: 'basic',
-    name: '일반팩 10연차',
-    description: '10장 · 실버 이상 1장 보장',
+    name: '일반 스카우트 10연속',
+    description: '10명 · 실버 이상 1명 보장',
     cost: 2700,
     count: DRAW_TEN_SIZE,
     rates: PACK_RATES.basic,
@@ -57,8 +61,8 @@ export const PACKS: PackDef[] = [
   {
     id: 'premium',
     family: 'premium',
-    name: '프리미엄팩',
-    description: '고급 카드 확률이 크게 높습니다',
+    name: '프리미엄 스카우트',
+    description: '룰렛 연출 · 고급 카드 확률이 크게 높습니다',
     cost: 1200,
     count: 1,
     rates: PACK_RATES.premium,
@@ -66,8 +70,8 @@ export const PACKS: PackDef[] = [
   {
     id: 'premiumTen',
     family: 'premium',
-    name: '프리미엄팩 10연차',
-    description: '10장 · 월드 이상 1장 보장',
+    name: '프리미엄 스카우트 10연속',
+    description: '한 명씩 10번 · 골드 이상 1명 보장',
     cost: 10800,
     count: DRAW_TEN_SIZE,
     rates: PACK_RATES.premium,

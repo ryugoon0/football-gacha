@@ -137,7 +137,7 @@ export default function HomeTab({ onJump }: { onJump: (tab: string) => void }) {
         <Tile
           label="오늘"
           value={`${miniGamesLeft(state.daily)} / ${tune('miniGameLimit')}`}
-          hint={state.daily.freeDrawUsed ? '무료 뽑기 완료' : '무료 뽑기 가능'}
+          hint={state.daily.freeDrawUsed ? '무료 스카우트 완료' : '무료 스카우트 가능'}
         />
       </div>
 
@@ -151,7 +151,7 @@ export default function HomeTab({ onJump }: { onJump: (tab: string) => void }) {
           )}
           {!state.daily.freeDrawUsed && (
             <Todo tone="good" onClick={() => onJump('gacha')}>
-              무료 뽑기가 남아 있습니다
+              무료 스카우트가 남아 있습니다
             </Todo>
           )}
           {!lineupReady && (

@@ -34,7 +34,7 @@ const TABS = [
   { key: 'minigames', label: '미니게임' },
   { key: 'squad', label: '스쿼드' },
   { key: 'club', label: '선수단' },
-  { key: 'gacha', label: '뽑기' },
+  { key: 'gacha', label: '스카우트' },
   { key: 'items', label: '상점' },
   { key: 'board', label: '게시판' },
 ] as const

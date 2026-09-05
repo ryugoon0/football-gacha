@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { DAILY_MISSIONS, missionClaimable, missionDone } from '../../lib/daily'
 import {
   PACKS,
@@ -13,7 +13,8 @@ import {
   pickupWeekKey,
   type PackFamily,
 } from '../../lib/gacha'
-import { getPlayer } from '../../lib/players'
+import { PLAYERS_BY_RARITY, getPlayer } from '../../lib/players'
+import { planReel, type ReelPlan } from '../../lib/scoutReel'
 import {
   DRAW_FAILURE_MESSAGE,
   drawOnServer,
@@ -23,33 +24,46 @@ import {
 import { RARITIES, RARITY_STYLES } from '../../lib/rarity'
 import { hasRoomFor } from '../../lib/vault'
 import { offerLabel, shardOffers } from '../../lib/shards'
-import type { PlayerDef, PositionGroup, Rarity } from '../../lib/types'
+import type { PlayerDef, Rarity } from '../../lib/types'
 import { useGame } from '../GameProvider'
 import PlayerCard from '../PlayerCard'
+import ScoutReel from '../ScoutReel'
 import { useCardStyle } from '../CardStyle'
 import { RETRO_COLORS } from '../RetroPlayerCard'
 
+/** 일반 스카우트: the pack shakes for this long, then every card is on the table. */
 const SPIN_MS = 1400
+/** 프리미엄: after a reel lands, how long the result sits before the next one rolls. */
+const LANDED_PAUSE_MS = 1100
+const LANDED_PAUSE_FAST_MS = 200
 
-const GROUPS: { id: PositionGroup; label: string }[] = [
-  { id: 'GK', label: '골키퍼' },
-  { id: 'DF', label: '수비' },
-  { id: 'MF', label: '미드필더' },
-  { id: 'FW', label: '공격' },
-]
+type Drawn = { player: PlayerDef; isNew: boolean }
 
+/**
+ * 스카우트 — where cards come from. 일반 opens at once; 프리미엄 runs each
+ * card through a horizontal reel (ScoutReel) one at a time, ten in a row for
+ * a ten-pull. The server decides every card before anything moves; the reel
+ * is how it is told.
+ */
 export default function GachaTab() {
   const { state, addCards, claimMission, exchangeShards } = useGame()
   const [spinning, setSpinning] = useState(false)
   const [reel, setReel] = useState<Rarity>('Normal')
-  const [results, setResults] = useState<{ player: PlayerDef; isNew: boolean }[]>([])
+  const [results, setResults] = useState<Drawn[]>([])
   const [revealed, setRevealed] = useState(0)
-  const [group, setGroup] = useState<PositionGroup | 'all'>('all')
   const [family, setFamily] = useState<PackFamily>('basic')
   const [error, setError] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
+  // The premium sequence: the cards still to roll, the one rolling now, and the reel it rides.
+  const [queue, setQueue] = useState<Drawn[]>([])
+  const [reelAt, setReelAt] = useState(-1)
+  const [plan, setPlan] = useState<ReelPlan | null>(null)
+  const [fast, setFast] = useState(false)
+  const pauseTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const featured = useMemo(() => featuredPlayer(pickupWeekKey()), [])
+  const rolling = reelAt >= 0 && plan !== null
+  const busy = spinning || rolling
 
   useEffect(() => {
     if (!spinning) return
@@ -65,9 +79,36 @@ export default function GachaTab() {
     return () => clearTimeout(timer)
   }, [results, revealed])
 
+  useEffect(() => () => {
+    if (pauseTimer.current) clearTimeout(pauseTimer.current)
+  }, [])
+
+  const startReel = useCallback((items: Drawn[], index: number) => {
+    setReelAt(index)
+    setPlan(planReel(items[index].player, PLAYERS_BY_RARITY))
+  }, [])
+
+  const onReelDone = () => {
+    if (pauseTimer.current) clearTimeout(pauseTimer.current)
+    pauseTimer.current = setTimeout(
+      () => {
+        const next = reelAt + 1
+        if (next < queue.length) {
+          startReel(queue, next)
+        } else {
+          setReelAt(-1)
+          setPlan(null)
+          setResults(queue)
+          setRevealed(queue.length)
+        }
+      },
+      fast ? LANDED_PAUSE_FAST_MS : LANDED_PAUSE_MS,
+    )
+  }
+
   const openPack = async (pack: PackDef, free = false) => {
     const cost = free ? 0 : pack.cost
-    if (spinning) return
+    if (busy) return
     if (state.gold < cost) {
       setError('골드가 부족합니다. 리그 경기를 뛰거나 여분 선수를 방출해 보세요.')
       return
@@ -83,6 +124,7 @@ export default function GachaTab() {
     setNotice(null)
     setResults([])
     setRevealed(0)
+    setFast(false)
     setSpinning(true)
 
     const owned = new Set(state.collected)
@@ -93,10 +135,7 @@ export default function GachaTab() {
     if (serverDrawAvailable()) {
       // With an account, only the server may open a pack. No fallback: a quiet
       // retreat to the browser would be the way around the server itself.
-      const outcome = await drawOnServer(pack.id, group === 'all' ? null : group, {
-        gold: state.gold,
-        pity: state.pity,
-      })
+      const outcome = await drawOnServer(pack.id, null, { gold: state.gold, pity: state.pity })
       if (!outcome.ok) {
         setSpinning(false)
         setError(
@@ -122,7 +161,7 @@ export default function GachaTab() {
         count: pack.count,
         pity: state.pity,
         featured,
-        group: group === 'all' ? null : group,
+        group: null,
         guarantee: pack.guarantee ?? null,
         rates: pack.rates,
       })
@@ -131,11 +170,21 @@ export default function GachaTab() {
       pityHit = outcome.pityHit
     }
 
+    // The cards are the player's the moment the server says so — the reveal
+    // is only a reveal, and leaving the screen mid-spin must not lose them.
+    addCards(players, { cost, free, pity })
+    const drawn = players.map((player) => ({ player, isNew: !owned.has(player.id) }))
+    if (pityHit) setNotice('천장 도달! 골드 이상이 확정으로 나왔습니다.')
+
+    if (pack.family === 'premium') {
+      setSpinning(false)
+      setQueue(drawn)
+      startReel(drawn, 0)
+      return
+    }
     window.setTimeout(() => {
       setSpinning(false)
-      setResults(players.map((player) => ({ player, isNew: !owned.has(player.id) })))
-      addCards(players, { cost, free, pity })
-      if (pityHit) setNotice('천장 도달! 월드 이상이 확정으로 나왔습니다.')
+      setResults(drawn)
     }, SPIN_MS)
   }
 
@@ -143,19 +192,20 @@ export default function GachaTab() {
   const { style: cardStyle } = useCardStyle()
   const freeAvailable = !state.daily.freeDrawUsed
   const pityLeft = Math.max(0, PITY_LIMIT - state.pity)
+  const current = rolling ? queue[reelAt] : null
 
   return (
     <div className="space-y-6">
       <section className="panel p-5">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h2 className="text-xl font-bold text-white">카드팩 뽑기</h2>
+            <h2 className="text-xl font-bold text-white">스카우트</h2>
             <p className="text-sm text-slate-400">
-              팩마다 나오는 카드가 다릅니다. 이번 주 픽업 선수는 확률이 두 배입니다.
+              일반 스카우트는 바로 공개되고, 프리미엄 스카우트는 후보가 룰렛처럼 돌다 한 명에서 멈춥니다. 이번 주 픽업 선수는 확률이 두 배입니다.
             </p>
             <div className="mt-3 max-w-xs rounded-xl bg-white/5 p-3">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-bold text-slate-300">월드 이상 확정까지</span>
+                <span className="font-bold text-slate-300">골드 이상 확정까지</span>
                 <span className="font-black text-amber-300">{pityLeft}회</span>
               </div>
               <div className="mt-1.5 h-1.5 rounded-full bg-white/10">
@@ -165,7 +215,7 @@ export default function GachaTab() {
                 />
               </div>
               <div className="mt-1 text-[10px] text-slate-500">
-                월드 이상을 뽑으면 다시 {PITY_LIMIT}회로 초기화됩니다.
+                골드 이상을 뽑으면 다시 {PITY_LIMIT}회로 초기화됩니다.
               </div>
             </div>
           </div>
@@ -192,25 +242,22 @@ export default function GachaTab() {
             <button
               key={key}
               onClick={() => setFamily(key)}
-              className={`rounded-lg px-4 py-2 text-sm font-bold transition ${
-                family === key
-                  ? key === 'premium'
-                    ? 'bg-violet-400 text-slate-900'
-                    : 'btn-primary'
-                  : 'btn-ghost'
+              disabled={busy}
+              className={`rounded-lg px-4 py-2 text-sm font-bold transition disabled:opacity-60 ${
+                family === key ? (key === 'premium' ? 'btn-gold' : 'btn-primary') : 'btn-ghost'
               }`}
             >
-              {key === 'basic' ? '일반팩' : '프리미엄팩'}
+              {key === 'basic' ? '일반 스카우트' : '프리미엄 스카우트'}
             </button>
           ))}
           <button
             onClick={() => openPack(PACKS[0], true)}
-            disabled={spinning || !freeAvailable || !hasRoomFor(state.cards.length, state.capacity, 1)}
+            disabled={busy || !freeAvailable || !hasRoomFor(state.cards.length, state.capacity, 1)}
             className="ml-auto rounded-lg bg-sky-400 px-4 py-2 text-sm font-bold text-slate-900 transition hover:bg-sky-300 disabled:opacity-40"
           >
-            무료 뽑기
+            무료 스카우트
             <span className="ml-2 text-xs opacity-70">
-              {freeAvailable ? '1일 1회 · 일반팩' : '내일 다시'}
+              {freeAvailable ? '1일 1회 · 일반' : '내일 다시'}
             </span>
           </button>
         </div>
@@ -235,51 +282,27 @@ export default function GachaTab() {
                 ? `골드가 ${(pack.cost - state.gold).toLocaleString()} 부족합니다`
                 : null
             return (
-            <div key={pack.id}>
-            <button
-              onClick={() => openPack(pack)}
-              disabled={spinning || !affordable || !room}
-              className={`rounded-xl px-4 py-3 text-left text-sm font-bold text-slate-900 transition disabled:opacity-40 ${
-                family === 'premium'
-                  ? 'bg-violet-400 hover:bg-violet-300'
-                  : 'bg-emerald-400 hover:bg-emerald-300'
-              }`}
-            >
-              <span className="block">{pack.name}</span>
-              <span className="block text-[11px] font-semibold opacity-70">
-                {pack.description} · {pack.cost.toLocaleString()}G
-              </span>
-            </button>
-            {reason && (
-              <p className="mt-1 text-[11px] font-semibold leading-relaxed text-amber-300">
-                {reason}
-              </p>
-            )}
-            </div>
+              <div key={pack.id}>
+                <button
+                  onClick={() => openPack(pack)}
+                  disabled={busy || !affordable || !room}
+                  className={`w-full rounded-xl px-4 py-3 text-left text-sm font-bold transition disabled:opacity-40 ${
+                    family === 'premium' ? 'btn-gold' : 'btn-primary'
+                  }`}
+                >
+                  <span className="block">{pack.name}</span>
+                  <span className="block text-[11px] font-semibold opacity-70">
+                    {pack.description} · {pack.cost.toLocaleString()}G
+                  </span>
+                </button>
+                {reason && (
+                  <p className="mt-1 text-[11px] font-semibold leading-relaxed text-amber-300">
+                    {reason}
+                  </p>
+                )}
+              </div>
             )
           })}
-        </div>
-
-        <div className="mt-3 rounded-xl bg-white/5 p-3">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-bold text-slate-400">포지션 지정</span>
-            {(['all', ...GROUPS.map((item) => item.id)] as (PositionGroup | 'all')[]).map((id) => (
-              <button
-                key={id}
-                onClick={() => setGroup(id)}
-                className={`rounded-lg px-2.5 py-1 text-xs font-bold transition ${
-                  group === id
-                    ? 'bg-white text-slate-900'
-                    : 'btn-ghost'
-                }`}
-              >
-                {id === 'all' ? '전체' : GROUPS.find((item) => item.id === id)!.label}
-              </button>
-            ))}
-          </div>
-          <p className="mt-1.5 text-[11px] text-slate-500">
-            자리를 고르면 그 자리의 선수만 나옵니다. 등급 확률은 그대로입니다.
-          </p>
         </div>
 
         <div className="mt-3 grid grid-cols-5 gap-1.5">
@@ -287,7 +310,7 @@ export default function GachaTab() {
             <div
               key={rarity}
               className={`rounded-lg border px-2 py-1.5 text-center ${
-                family === 'premium' ? 'border-violet-400/40' : 'border-emerald-400/30'
+                family === 'premium' ? 'border-amber-400/40' : 'border-emerald-400/30'
               }`}
             >
               <div className="text-[10px] font-bold text-slate-400">
@@ -305,9 +328,9 @@ export default function GachaTab() {
         {error && <p className="mt-3 text-sm font-semibold text-rose-400">{error}</p>}
         {notice && <p className="mt-3 text-sm font-semibold text-amber-300">{notice}</p>}
 
-        <div className="mt-5 flex min-h-[210px] items-center justify-center rounded-xl bg-slate-950/60 p-4">
+        <div className="mt-5 min-h-[210px] rounded-xl bg-slate-950/60 p-3 sm:p-4">
           {spinning ? (
-            <div className="flex flex-col items-center gap-3">
+            <div className="flex min-h-[180px] flex-col items-center justify-center gap-3">
               {cardStyle === 'card2' ? (
                 // The original spun a flat rarity block, not a pack.
                 <div
@@ -322,7 +345,36 @@ export default function GachaTab() {
                   <span className={`text-lg font-black ${reelStyle.ink}`}>?</span>
                 </div>
               )}
-              <p className="text-sm font-semibold text-slate-300">팩을 여는 중...</p>
+              <p className="text-sm font-semibold text-slate-300">
+                {family === 'premium' ? '스카우트 명단을 받는 중...' : '선수를 찾는 중...'}
+              </p>
+            </div>
+          ) : rolling && plan && current ? (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-bold text-slate-300">
+                  프리미엄 스카우트 {queue.length > 1 ? `${reelAt + 1} / ${queue.length}` : ''}
+                  {plan.special && <span className="ml-2 rounded bg-amber-400/20 px-1.5 py-0.5 text-[10px] font-black text-amber-200">특별 연출</span>}
+                </span>
+                {queue.length > 1 && !fast && (
+                  <button onClick={() => setFast(true)} className="rounded-lg btn-ghost px-2.5 py-1 text-[11px] font-bold">
+                    빨리 보기
+                  </button>
+                )}
+              </div>
+              <ScoutReel key={`${reelAt}-${current.player.id}`} plan={plan} fast={fast} onDone={onReelDone} />
+              {queue.length > 1 && (
+                <div className="flex flex-wrap justify-center gap-1.5">
+                  {queue.slice(0, reelAt).map((item, index) => (
+                    <span
+                      key={index}
+                      className={`rounded px-1.5 py-0.5 text-[10px] font-bold ${RARITY_STYLES[item.player.rarity].face} ${RARITY_STYLES[item.player.rarity].ink}`}
+                    >
+                      {item.player.name}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           ) : results.length > 0 ? (
             <div className="flex flex-wrap justify-center gap-3">
@@ -338,7 +390,9 @@ export default function GachaTab() {
               ))}
             </div>
           ) : (
-            <p className="text-sm text-slate-500">팩을 골라 카드를 뽑아보세요.</p>
+            <p className="flex min-h-[180px] items-center justify-center text-sm text-slate-500">
+              스카우트 종류를 골라 선수를 영입해 보세요.
+            </p>
           )}
         </div>
       </section>
@@ -363,7 +417,7 @@ export default function GachaTab() {
                   setNotice(`${player.name} 카드를 교환했습니다.`)
                 }
               }}
-              disabled={state.shards < offer.cost || !hasRoomFor(state.cards.length, state.capacity, 1)}
+              disabled={busy || state.shards < offer.cost || !hasRoomFor(state.cards.length, state.capacity, 1)}
               className={`rounded-xl border-2 bg-gradient-to-b p-3 text-center transition disabled:opacity-40 ${
                 RARITY_STYLES[offer.rarity].face
               } ${RARITY_STYLES[offer.rarity].border} ${RARITY_STYLES[offer.rarity].ink}`}
@@ -421,9 +475,9 @@ export default function GachaTab() {
       <section className="panel p-5">
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">
-            내 뽑기 기록
+            내 스카우트 기록
           </h3>
-          <span className="text-xs text-slate-500">지금까지 {state.pulls.total}장 뽑음</span>
+          <span className="text-xs text-slate-500">지금까지 {state.pulls.total}명 영입</span>
         </div>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
           {RARITIES.map((rarity) => {

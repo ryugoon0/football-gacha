@@ -4,7 +4,8 @@ import type { Rarity } from './types'
 /**
  * The type name and the label a player sees no longer match: an earlier
  * rename swapped only the *display* labels below, so the 'Legend' type shows
- * as 월드 and the 'World' type shows as 레전드 (the actual top tier). Renaming
+ * as 골드 (was 월드 until 2026-09-05) and the 'World' type shows as 레전드 (the
+ * actual top tier). The ladder a player sees is 일반 · 실버 · 골드 · 라이브 · 레전드. Renaming
  * the type itself would touch save data already written under these keys
  * (e.g. GameState.pulls.byRarity) and needs a migration, so it stays as-is —
  * read RARITY_STYLES[x].label, not the type name, for what a player sees.
@@ -60,7 +61,7 @@ export const RARITY_STYLES: Record<Rarity, RarityStyle> = {
     trainCost: 320,
   },
   Legend: {
-    label: '월드',
+    label: '골드',
     face: 'from-amber-200 via-yellow-300 to-amber-500',
     border: 'border-amber-700',
     ink: 'text-amber-950',

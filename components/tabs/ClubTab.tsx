@@ -56,7 +56,7 @@ const MODE_HELP: Record<Mode, { what: string; rule: string }> = {
   },
   fuse: {
     what: `같은 등급 카드 ${FUSION_SIZE}장과 ${FUSION_FEE.toLocaleString()}G로 한 단계 위 등급 카드 1장을 만듭니다.`,
-    rule: '어떤 선수가 나올지는 뽑기와 같습니다. 선발·벤치 카드는 재료로 쓸 수 없습니다.',
+    rule: '어떤 선수가 나올지는 스카우트와 같습니다. 선발·벤치 카드는 재료로 쓸 수 없습니다.',
   },
   release: {
     what: '여러 명을 한 번에 내보내고 골드와 조각을 받습니다. 조각은 등급 확정 교환에 씁니다.',
