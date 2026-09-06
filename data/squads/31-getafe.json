@@ -71,10 +71,11 @@
       "number": 7,
       "name": "후안미르",
       "real": "후안미",
-      "pos": "LW",
+      "pos": "LM",
       "nation": "스페인",
       "birthYear": 1993,
-      "ovr": 74
+      "ovr": 74,
+      "positions": ["LM", "LW"]
     },
     {
       "key": "get-08",

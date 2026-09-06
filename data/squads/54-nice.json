@@ -111,10 +111,11 @@
       "number": 21,
       "name": "이사크 얀손드",
       "real": "이사크 얀손",
-      "pos": "LW",
+      "pos": "LM",
       "nation": "스웨덴",
       "birthYear": 2002,
-      "ovr": 72
+      "ovr": 72,
+      "positions": ["LM", "LW"]
     },
     {
       "key": "nic-12",

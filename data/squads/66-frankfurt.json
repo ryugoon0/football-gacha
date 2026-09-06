@@ -71,10 +71,11 @@
       "number": 7,
       "name": "안스가르 크나우픈",
       "real": "안스가르 크나우프",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "독일",
       "birthYear": 2002,
-      "ovr": 76
+      "ovr": 76,
+      "positions": ["RM", "RW"]
     },
     {
       "key": "fra-08",

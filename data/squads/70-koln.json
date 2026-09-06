@@ -221,10 +221,11 @@
       "number": 29,
       "name": "얀 틸마느",
       "real": "얀 틸만",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "독일",
       "birthYear": 2002,
-      "ovr": 71
+      "ovr": 71,
+      "positions": ["RM", "RW"]
     },
     {
       "key": "kol-23",

@@ -211,10 +211,11 @@
       "number": 25,
       "name": "로빈 하큰",
       "real": "로빈 하크",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "독일",
       "birthYear": 1998,
-      "ovr": 73
+      "ovr": 73,
+      "positions": ["RM", "RW"]
     },
     {
       "key": "bmg-22",

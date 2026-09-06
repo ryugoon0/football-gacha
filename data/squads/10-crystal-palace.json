@@ -28,7 +28,7 @@
     { "key": "cry-20", "number": 7, "name": "이스마일라 사로", "real": "이스마일라 사르", "pos": "RW", "nation": "세네갈", "birthYear": 1998, "ovr": 81 },
     { "key": "cry-21", "number": 9, "name": "에디 은케티오", "real": "에디 은케티아", "pos": "ST", "nation": "잉글랜드", "birthYear": 1999, "ovr": 75 },
     { "key": "cry-22", "number": 10, "name": "예레미 피나", "real": "예레미 피노", "pos": "RW", "nation": "스페인", "birthYear": 2002, "ovr": 79 },
-    { "key": "cry-23", "number": 11, "name": "드와이트 맥닐런", "real": "드와이트 맥닐", "pos": "LW", "nation": "잉글랜드", "birthYear": 1999, "ovr": 77 },
+    { "key": "cry-23", "number": 11, "name": "드와이트 맥닐런", "real": "드와이트 맥닐", "pos": "LM", "nation": "잉글랜드", "birthYear": 1999, "ovr": 77, "positions": ["LM", "LW"] },
     { "key": "cry-24", "number": 12, "name": "자비에르 고즈", "real": "자비에르 고조", "pos": "RW", "nation": "미국", "birthYear": 2007, "ovr": 66 },
     { "key": "cry-25", "number": 14, "name": "장필리프 마테토", "real": "장필리프 마테타", "pos": "ST", "nation": "프랑스", "birthYear": 1997, "ovr": 82 },
     { "key": "cry-26", "number": 22, "name": "예르겐 스트란 라르손", "real": "예르겐 스트란 라르센", "pos": "ST", "nation": "노르웨이", "birthYear": 2000, "ovr": 80 },

@@ -121,10 +121,11 @@
       "number": 15,
       "name": "아론 되눔드",
       "real": "아론 되눔",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "노르웨이",
       "birthYear": 1998,
-      "ovr": 73
+      "ovr": 73,
+      "positions": ["RM", "RW"]
     },
     {
       "key": "tou-13",

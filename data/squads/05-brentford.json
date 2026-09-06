@@ -32,7 +32,7 @@
     { "key": "bre-24", "number": 11, "name": "당고 와타로", "real": "당고 와타라", "pos": "RW", "nation": "부르키나파소", "birthYear": 2002, "ovr": 78 },
     { "key": "bre-25", "number": 13, "name": "칼럼 윌손", "real": "칼럼 윌슨", "pos": "ST", "nation": "잉글랜드", "birthYear": 1992, "ovr": 75 },
     { "key": "bre-26", "number": 19, "name": "제이든 앤서노", "real": "제이든 앤서니", "pos": "LW", "nation": "잉글랜드", "birthYear": 1999, "ovr": 74 },
-    { "key": "bre-27", "number": 23, "name": "킨 루이스포토", "real": "킨 루이스포터", "pos": "LW", "nation": "잉글랜드", "birthYear": 2001, "ovr": 76 },
+    { "key": "bre-27", "number": 23, "name": "킨 루이스포토", "real": "킨 루이스포터", "pos": "LM", "nation": "잉글랜드", "birthYear": 2001, "ovr": 76, "positions": ["LM", "LW", "LB"] },
     { "key": "bre-28", "number": 39, "name": "구스타보 누네소", "real": "구스타보 누네스", "pos": "LW", "nation": "브라질", "birthYear": 2005, "ovr": 70 }
   ]
 }

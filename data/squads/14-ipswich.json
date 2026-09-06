@@ -151,10 +151,11 @@
       "number": 20,
       "name": "케이시 맥아티언",
       "real": "케이시 맥아티어",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "아일랜드",
       "birthYear": 2001,
-      "ovr": 71
+      "ovr": 71,
+      "positions": ["RM", "RW"]
     },
     {
       "key": "ips-16",

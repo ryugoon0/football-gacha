@@ -151,10 +151,11 @@
       "number": 21,
       "name": "마테오 폴리타논",
       "real": "마테오 폴리타노",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "이탈리아",
       "birthYear": 1993,
-      "ovr": 79
+      "ovr": 79,
+      "positions": ["RM", "RW"]
     },
     {
       "key": "nap-16",

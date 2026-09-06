@@ -28,7 +28,7 @@ export default function AlbumTab() {
   const { state, account } = useGame()
   const signedIn = account.status === 'signedIn'
   const sets = useMemo(() => albumSets(), [])
-  const owned = useMemo(() => ownedPlayerIds(state.cards), [state.cards])
+  const owned = useMemo(() => ownedPlayerIds(state.cards, state.collected), [state.cards, state.collected])
   const leagues = useMemo(() => [...new Set(sets.filter((set) => set.kind === 'club').map((set) => set.subtitle))], [sets])
   const [league, setLeague] = useState<string>(leagues[0] ?? SPECIAL)
   const [openId, setOpenId] = useState<string | null>(null)
@@ -97,7 +97,7 @@ export default function AlbumTab() {
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">앨범</h3>
           <span className="text-[11px] text-slate-500">
-            클럽 앨범 {completeCount}/{clubCount} 완성 · 카드를 갖고 있으면 자동 등록, 팔면 빠집니다
+            클럽 앨범 {completeCount}/{clubCount} 완성 · 한 번이라도 가진 카드는 자동 등록되고, 팔거나 합성해도 기록은 남습니다
           </span>
         </div>
         <p className="mt-1 text-[11px] leading-relaxed text-slate-500">

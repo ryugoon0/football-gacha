@@ -51,10 +51,11 @@
       "number": 7,
       "name": "데리 셰르한튼",
       "real": "데리 셰르한트",
-      "pos": "LW",
+      "pos": "LM",
       "nation": "독일",
       "birthYear": 2002,
-      "ovr": 72
+      "ovr": 72,
+      "positions": ["LM", "LW"]
     },
     {
       "key": "fri-06",
@@ -111,10 +112,11 @@
       "number": 19,
       "name": "니클라스 베스텐",
       "real": "니클라스 베스테",
-      "pos": "LW",
+      "pos": "LM",
       "nation": "독일",
       "birthYear": 1999,
-      "ovr": 71
+      "ovr": 71,
+      "positions": ["LM", "LW", "LB"]
     },
     {
       "key": "fri-12",

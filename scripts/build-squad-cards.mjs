@@ -81,6 +81,8 @@ for (const file of files) {
     const extras = { squad: true, unreleased: squad.pilot === true, ...(p.real ? { person: personKey(p.real) } : {}) }
     if (p.stats) extras.stats = p.stats
     if (p.hidden) extras.hidden = p.hidden
+    // A row may pin the playable positions (측면 미드필더 conversions keep their wing).
+    if (Array.isArray(p.positions) && p.positions.length > 0) extras.positions = p.positions
     // The season the file describes ("2026-27 (2026-09-05 기준)" → "2026-27").
     const season = typeof squad.season === 'string' ? squad.season.split(' ')[0] : undefined
     if (season) extras.season = season

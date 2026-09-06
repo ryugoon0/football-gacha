@@ -51,10 +51,11 @@
       "number": 5,
       "name": "이반 페리시츠",
       "real": "이반 페리시치",
-      "pos": "LW",
+      "pos": "LM",
       "nation": "크로아티아",
       "birthYear": 1989,
-      "ovr": 76
+      "ovr": 76,
+      "positions": ["LM", "LW", "LB"]
     },
     {
       "key": "psv-06",
@@ -141,10 +142,11 @@
       "number": 18,
       "name": "필리프 코스티츠",
       "real": "필리프 코스티치",
-      "pos": "LW",
+      "pos": "LM",
       "nation": "세르비아",
       "birthYear": 1992,
-      "ovr": 76
+      "ovr": 76,
+      "positions": ["LM", "LW", "LB"]
     },
     {
       "key": "psv-15",

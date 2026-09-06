@@ -151,10 +151,11 @@
       "number": 17,
       "name": "마르코 그륄라",
       "real": "마르코 그륄",
-      "pos": "LW",
+      "pos": "LM",
       "nation": "오스트리아",
       "birthYear": 1998,
-      "ovr": 72
+      "ovr": 72,
+      "positions": ["LM", "LW", "LB"]
     },
     {
       "key": "bre2-16",

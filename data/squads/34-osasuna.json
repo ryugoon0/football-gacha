@@ -81,10 +81,11 @@
       "number": 11,
       "name": "키케 바르한",
       "real": "키케 바르하",
-      "pos": "LW",
+      "pos": "LM",
       "nation": "스페인",
       "birthYear": 1997,
-      "ovr": 73
+      "ovr": 73,
+      "positions": ["LM", "LW"]
     },
     {
       "key": "osa-09",
@@ -101,10 +102,11 @@
       "number": 14,
       "name": "루벤 가르시안",
       "real": "루벤 가르시아",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "스페인",
       "birthYear": 1993,
-      "ovr": 73
+      "ovr": 73,
+      "positions": ["RM", "RW"]
     },
     {
       "key": "osa-11",

@@ -71,10 +71,11 @@
       "number": 7,
       "name": "소르바 토머슨",
       "real": "소르바 토머스",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "웨일스",
       "birthYear": 1999,
-      "ovr": 73
+      "ovr": 73,
+      "positions": ["RM", "RW"]
     },
     {
       "key": "hul-08",

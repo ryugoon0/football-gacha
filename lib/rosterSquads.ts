@@ -263,7 +263,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['성신우', 'CM', 64, '부천 레드', '대한민국', {"squad":true,"unreleased":false,"person":"p4b3faeb4","season":"2026"}],
     ['홍성억', 'CB', 66, '부천 레드', '대한민국', {"squad":true,"unreleased":false,"person":"pc05c174e","season":"2026"}],
     ['김현협', 'GK', 65, '부천 레드', '대한민국', {"squad":true,"unreleased":false,"person":"pa67ae9f4","season":"2026"}],
-    ['한지훈', 'RW', 66, '부천 레드', '대한민국', {"squad":true,"unreleased":false,"person":"p25fa143b","season":"2026"}],
+    ['한지훈', 'RM', 66, '부천 레드', '대한민국', {"squad":true,"unreleased":false,"person":"p25fa143b","positions":["RM","RW"],"season":"2026"}],
     ['여봉헌', 'CDM', 67, '부천 레드', '대한민국', {"squad":true,"unreleased":false,"person":"p6abd842a","season":"2026"}],
     ['유승훈', 'RB', 65, '부천 레드', '대한민국', {"squad":true,"unreleased":false,"person":"p2ae05d82","season":"2026"}],
     ['김승반', 'CM', 65, '부천 레드', '대한민국', {"squad":true,"unreleased":false,"person":"p357db1ae","season":"2026"}],
@@ -688,7 +688,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['윤중규', 'RB', 71, '울산 호랑', '대한민국', {"squad":true,"unreleased":true,"person":"p0a8564fa","season":"2026"}],
     ['정선빈', 'CB', 68, '울산 호랑', '대한민국', {"squad":true,"unreleased":true,"person":"pc7482981","season":"2026"}],
     ['서명권', 'CB', 72, '울산 호랑', '대한민국', {"squad":true,"unreleased":true,"person":"p180eca4e","season":"2026"}],
-    ['이희근', 'RW', 74, '울산 호랑', '대한민국', {"squad":true,"unreleased":true,"person":"p320d9907","season":"2026"}],
+    ['이희근', 'RM', 74, '울산 호랑', '대한민국', {"squad":true,"unreleased":true,"person":"p320d9907","positions":["RM","RW"],"season":"2026"}],
     ['이진헌', 'CM', 74, '울산 호랑', '대한민국', {"squad":true,"unreleased":true,"person":"p4ec710f3","season":"2026"}],
     ['박우재', 'CM', 69, '울산 호랑', '대한민국', {"squad":true,"unreleased":true,"person":"p442c80cc","season":"2026"}],
     ['강상유', 'LB', 74, '울산 호랑', '대한민국', {"squad":true,"unreleased":true,"person":"p5fc993e9","season":"2026"}],
@@ -1232,7 +1232,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['라이언 자일러', 'LB', 72, '헐 타이거', '잉글랜드', {"squad":true,"unreleased":false,"person":"p344fcdff","season":"2026-27"}],
     ['찰리 휴선', 'CB', 72, '헐 타이거', '잉글랜드', {"squad":true,"unreleased":false,"person":"p94bbf8db","season":"2026-27"}],
     ['세미 아자인', 'CB', 72, '헐 타이거', '나이지리아', {"squad":true,"unreleased":false,"person":"p954deebd","season":"2026-27"}],
-    ['소르바 토머슨', 'RW', 73, '헐 타이거', '웨일스', {"squad":true,"unreleased":false,"person":"pe230474f","season":"2026-27"}],
+    ['소르바 토머슨', 'RM', 73, '헐 타이거', '웨일스', {"squad":true,"unreleased":false,"person":"pe230474f","positions":["RM","RW"],"season":"2026-27"}],
     ['엘리오 마타존', 'CM', 72, '헐 타이거', '벨기에', {"squad":true,"unreleased":false,"person":"p5d987017","season":"2026-27"}],
     ['올리 맥버닌', 'ST', 72, '헐 타이거', '스코틀랜드', {"squad":true,"unreleased":false,"person":"pa45f7f02","season":"2026-27"}],
     ['모하메드 벨루민', 'LW', 72, '헐 타이거', '알제리', {"squad":true,"unreleased":false,"person":"pc65a34bd","season":"2026-27"}],
@@ -1404,7 +1404,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['김현욱수', 'CB', 69, '김천 상록', '대한민국', {"squad":true,"unreleased":false,"person":"pdb79aa63","season":"2026"}],
     ['김민귀', 'CB', 69, '김천 상록', '대한민국', {"squad":true,"unreleased":false,"person":"p1ea4e69f","season":"2026"}],
     ['이수반', 'CDM', 70, '김천 상록', '대한민국', {"squad":true,"unreleased":false,"person":"p806c128b","season":"2026"}],
-    ['고재헌', 'RW', 71, '김천 상록', '대한민국', {"squad":true,"unreleased":false,"person":"pbb20e497","season":"2026"}],
+    ['고재헌', 'RM', 71, '김천 상록', '대한민국', {"squad":true,"unreleased":false,"person":"pbb20e497","positions":["RM","RW","RB"],"season":"2026"}],
     ['김이섭', 'CM', 68, '김천 상록', '대한민국', {"squad":true,"unreleased":false,"person":"p31b3ffc4","season":"2026"}],
     ['이건호', 'ST', 69, '김천 상록', '대한민국', {"squad":true,"unreleased":false,"person":"p798d0e5b","season":"2026"}],
     ['전병간', 'CAM', 70, '김천 상록', '대한민국', {"squad":true,"unreleased":false,"person":"p91ba47d2","season":"2026"}],
@@ -1427,7 +1427,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['플로렌티누 루이손', 'CDM', 75, '입스위치 트랙터', '포르투갈', {"squad":true,"unreleased":false,"person":"pc8bdd03f","season":"2026-27"}],
     ['잭 테일러스', 'CM', 70, '입스위치 트랙터', '아일랜드', {"squad":true,"unreleased":false,"person":"p201e2f34","season":"2026-27"}],
     ['에메르손드', 'ST', 73, '입스위치 트랙터', '브라질', {"squad":true,"unreleased":false,"person":"p3d95366d","season":"2026-27"}],
-    ['케이시 맥아티언', 'RW', 71, '입스위치 트랙터', '아일랜드', {"squad":true,"unreleased":false,"person":"p1b636fb0","season":"2026-27"}],
+    ['케이시 맥아티언', 'RM', 71, '입스위치 트랙터', '아일랜드', {"squad":true,"unreleased":false,"person":"p1b636fb0","positions":["RM","RW"],"season":"2026-27"}],
     ['사샤 루키츠', 'CDM', 74, '입스위치 트랙터', '세르비아', {"squad":true,"unreleased":false,"person":"pa807e4d9","season":"2026-27"}],
     ['제이컵 그리브손', 'CB', 74, '입스위치 트랙터', '잉글랜드', {"squad":true,"unreleased":false,"person":"p96c6b404","season":"2026-27"}],
     ['다라 오셰인', 'CB', 74, '입스위치 트랙터', '아일랜드', {"squad":true,"unreleased":false,"person":"p84df172d","season":"2026-27"}],
@@ -1465,7 +1465,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['정치인수', 'ST', 68, '인천 유나이트', '대한민국', {"squad":true,"unreleased":false,"person":"pd49adc80","season":"2026"}],
     ['김연순', 'CB', 69, '인천 유나이트', '대한민국', {"squad":true,"unreleased":false,"person":"pbcf164ff","season":"2026"}],
     ['이주욘', 'LB', 68, '인천 유나이트', '대한민국', {"squad":true,"unreleased":false,"person":"pb687e5ac","season":"2026"}],
-    ['이청욘', 'RW', 70, '인천 유나이트', '대한민국', {"squad":true,"unreleased":false,"person":"pa6fab899","season":"2026"}],
+    ['이청욘', 'RM', 70, '인천 유나이트', '대한민국', {"squad":true,"unreleased":false,"person":"pa6fab899","positions":["RM","RW"],"season":"2026"}],
     ['정원지느', 'CAM', 69, '인천 유나이트', '대한민국', {"squad":true,"unreleased":false,"person":"p4dea3eac","season":"2026"}],
     ['모건 페리언', 'ST', 69, '인천 유나이트', '가이아나', {"squad":true,"unreleased":false,"person":"p42f74881","season":"2026"}],
     ['김동전', 'GK', 71, '제주 오렌지', '대한민국', {"squad":true,"unreleased":false,"person":"p364bf8f6","season":"2026"}],
@@ -1494,7 +1494,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['이동전', 'LW', 72, '전북 모터스', '대한민국', {"squad":true,"unreleased":false,"person":"p2bc06a0a","season":"2026"}],
     ['티아곤', 'ST', 74, '전북 모터스', '브라질', {"squad":true,"unreleased":false,"person":"p9415f983","season":"2026"}],
     ['이승욱', 'CAM', 75, '전북 모터스', '대한민국', {"squad":true,"unreleased":false,"person":"p412e67fa","season":"2026"}],
-    ['김승석', 'LW', 71, '전북 모터스', '대한민국', {"squad":true,"unreleased":false,"person":"p1a562c2d","season":"2026"}],
+    ['김승석', 'LM', 71, '전북 모터스', '대한민국', {"squad":true,"unreleased":false,"person":"p1a562c2d","positions":["LM","LW"],"season":"2026"}],
     ['강상윱', 'CM', 68, '전북 모터스', '대한민국', {"squad":true,"unreleased":false,"person":"pd3cbdd85","season":"2026"}],
     ['감보안', 'CM', 72, '전북 모터스', '포르투갈', {"squad":true,"unreleased":false,"person":"p96ee293f","season":"2026"}],
     ['츄마신', 'ST', 72, '전북 모터스', '가나', {"squad":true,"unreleased":false,"person":"p01685f67","season":"2026"}],
@@ -1522,7 +1522,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['조성운', 'CB', 68, '포항 스틸맨', '대한민국', {"squad":true,"unreleased":false,"person":"p66cdc691","season":"2026"}],
     ['정한믄', 'ST', 68, '포항 스틸맨', '대한민국', {"squad":true,"unreleased":false,"person":"p24ae80a8","season":"2026"}],
     ['기성욘', 'CDM', 73, '포항 스틸맨', '대한민국', {"squad":true,"unreleased":false,"person":"p89a43ae9","season":"2026"}],
-    ['완델솔', 'LW', 70, '포항 스틸맨', '브라질', {"squad":true,"unreleased":false,"person":"p58055e33","season":"2026"}],
+    ['완델솔', 'LM', 70, '포항 스틸맨', '브라질', {"squad":true,"unreleased":false,"person":"p58055e33","positions":["LM","LW","LB"],"season":"2026"}],
     ['이상믄', 'CB', 70, '서울 캐피탈', '대한민국', {"squad":true,"unreleased":false,"person":"pf0778bce","season":"2026"}],
     ['야잔 알아라븐', 'CB', 71, '서울 캐피탈', '요르단', {"squad":true,"unreleased":false,"person":"p6ba3ee3f","season":"2026"}],
     ['바베추', 'CDM', 72, '서울 캐피탈', '크로아티아', {"squad":true,"unreleased":false,"person":"p086aed3b","season":"2026"}],
@@ -1537,7 +1537,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['이한돈', 'CB', 69, '서울 캐피탈', '대한민국', {"squad":true,"unreleased":false,"person":"p29f2af0b","season":"2026"}],
     ['김진순', 'LB', 72, '서울 캐피탈', '대한민국', {"squad":true,"unreleased":false,"person":"pd703345b","season":"2026"}],
     ['구성운', 'GK', 69, '서울 캐피탈', '대한민국', {"squad":true,"unreleased":false,"person":"pa90ce7de","season":"2026"}],
-    ['문선믄', 'LW', 71, '서울 캐피탈', '대한민국', {"squad":true,"unreleased":false,"person":"pe6263f9b","season":"2026"}],
+    ['문선믄', 'LM', 71, '서울 캐피탈', '대한민국', {"squad":true,"unreleased":false,"person":"pe6263f9b","positions":["LM","LW","LB"],"season":"2026"}],
     ['강현문', 'GK', 69, '서울 캐피탈', '대한민국', {"squad":true,"unreleased":false,"person":"p1945cb78","season":"2026"}],
     ['로손', 'CB', 70, '서울 캐피탈', '스페인', {"squad":true,"unreleased":false,"person":"p04d2deed","season":"2026"}],
     ['박수일라', 'LB', 69, '서울 캐피탈', '대한민국', {"squad":true,"unreleased":false,"person":"pf3b8588c","season":"2026"}],
@@ -1671,13 +1671,13 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['야고 산티아곤', 'RW', 70, '엘체 프란히베르데', '스페인', {"squad":true,"unreleased":false,"person":"p342e44a7","season":"2026-27"}],
     ['마르크 아과돈', 'CM', 72, '엘체 프란히베르데', '스페인', {"squad":true,"unreleased":false,"person":"p4f6447d3","season":"2026-27"}],
     ['에세키엘 폰센', 'ST', 74, '엘체 프란히베르데', '아르헨티나', {"squad":true,"unreleased":false,"person":"p66a88533","season":"2026-27"}],
-    ['헤르만 발레란', 'LW', 70, '엘체 프란히베르데', '스페인', {"squad":true,"unreleased":false,"person":"pe62eabc3","season":"2026-27"}],
+    ['헤르만 발레란', 'LM', 70, '엘체 프란히베르데', '스페인', {"squad":true,"unreleased":false,"person":"pe62eabc3","positions":["LM","LW"],"season":"2026-27"}],
     ['곤살로 비야른', 'CM', 73, '엘체 프란히베르데', '스페인', {"squad":true,"unreleased":false,"person":"p7f555137","season":"2026-27"}],
     ['페르 니논', 'ST', 72, '엘체 프란히베르데', '스페인', {"squad":true,"unreleased":false,"person":"p5a6386e3","season":"2026-27"}],
     ['마르팀 네툰', 'CM', 71, '엘체 프란히베르데', '포르투갈', {"squad":true,"unreleased":false,"person":"p64f10469","season":"2026-27"}],
     ['호사르', 'RM', 71, '엘체 프란히베르데', '스페인', {"squad":true,"unreleased":false,"person":"p466811d5","season":"2026-27"}],
     ['그레이디 디앙가노', 'LW', 73, '엘체 프란히베르데', '콩고민주공화국', {"squad":true,"unreleased":false,"person":"p7083b128","season":"2026-27"}],
-    ['테테 모렌토', 'RW', 73, '엘체 프란히베르데', '스페인', {"squad":true,"unreleased":false,"person":"pf137dc75","season":"2026-27"}],
+    ['테테 모렌토', 'RM', 73, '엘체 프란히베르데', '스페인', {"squad":true,"unreleased":false,"person":"pf137dc75","positions":["RM","RW"],"season":"2026-27"}],
     ['루카스 세페단', 'LW', 73, '엘체 프란히베르데', '칠레', {"squad":true,"unreleased":false,"person":"p267a22ab","season":"2026-27"}],
     ['빅토르 추스타', 'CB', 72, '엘체 프란히베르데', '스페인', {"squad":true,"unreleased":false,"person":"p40ba12bc","season":"2026-27"}],
     ['아비엘 오소리온', 'ST', 69, '엘체 프란히베르데', '아르헨티나', {"squad":true,"unreleased":false,"person":"p117c2125","season":"2026-27"}],
@@ -1710,7 +1710,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['사바 사조노비', 'CB', 73, '헤타페 아술', '조지아', {"squad":true,"unreleased":false,"person":"pbfb31a3f","season":"2026-27"}],
     ['압델 압카른', 'CB', 73, '헤타페 아술', '모로코', {"squad":true,"unreleased":false,"person":"p2aa366c7","season":"2026-27"}],
     ['마리오 마르티노', 'CM', 71, '헤타페 아술', '스페인', {"squad":true,"unreleased":false,"person":"pdbcaacdf","season":"2026-27"}],
-    ['후안미르', 'LW', 74, '헤타페 아술', '스페인', {"squad":true,"unreleased":false,"person":"p4cfd1bbb","season":"2026-27"}],
+    ['후안미르', 'LM', 74, '헤타페 아술', '스페인', {"squad":true,"unreleased":false,"person":"p4cfd1bbb","positions":["LM","LW"],"season":"2026-27"}],
     ['네마냐 구델라', 'CDM', 75, '헤타페 아술', '세르비아', {"squad":true,"unreleased":false,"person":"peaaea255","season":"2026-27"}],
     ['마르틴 사트리아논', 'ST', 74, '헤타페 아술', '우루과이', {"squad":true,"unreleased":false,"person":"pd179442b","season":"2026-27"}],
     ['라몬 테라친', 'CM', 72, '헤타페 아술', '스페인', {"squad":true,"unreleased":false,"person":"pead7feed","season":"2026-27"}],
@@ -1728,7 +1728,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['아드리안 델란', 'CB', 71, '레반테 그라노타', '스페인', {"squad":true,"unreleased":false,"person":"p39127da7","season":"2026-27"}],
     ['우고 소텔론', 'CM', 71, '레반테 그라노타', '스페인', {"squad":true,"unreleased":false,"person":"pb5e34c79","season":"2026-27"}],
     ['다니 레케난', 'CM', 70, '레반테 그라노타', '스페인', {"squad":true,"unreleased":false,"person":"p933d2311","season":"2026-27"}],
-    ['로제르 브루겐', 'LW', 72, '레반테 그라노타', '스페인', {"squad":true,"unreleased":false,"person":"p58548cab","season":"2026-27"}],
+    ['로제르 브루겐', 'LM', 72, '레반테 그라노타', '스페인', {"squad":true,"unreleased":false,"person":"p58548cab","positions":["LM","LW"],"season":"2026-27"}],
     ['욘 안데르 올라사가스틴', 'CDM', 71, '레반테 그라노타', '스페인', {"squad":true,"unreleased":false,"person":"p0ad2ee01","season":"2026-27"}],
     ['이반 로메로스', 'ST', 72, '레반테 그라노타', '스페인', {"squad":true,"unreleased":false,"person":"pa9df1f95","season":"2026-27"}],
     ['매슈 라이어드', 'GK', 73, '레반테 그라노타', '호주', {"squad":true,"unreleased":false,"person":"p50cdce29","season":"2026-27"}],
@@ -1768,9 +1768,9 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['루카스 토론', 'CDM', 73, '오사수나 로하', '스페인', {"squad":true,"unreleased":false,"person":"p66e55479","season":"2026-27"}],
     ['이케르 무뇨노', 'CM', 71, '오사수나 로하', '스페인', {"squad":true,"unreleased":false,"person":"pf38297bf","season":"2026-27"}],
     ['라울 가르시안', 'ST', 72, '오사수나 로하', '스페인', {"squad":true,"unreleased":false,"person":"p5db032f7","season":"2026-27"}],
-    ['키케 바르한', 'LW', 73, '오사수나 로하', '스페인', {"squad":true,"unreleased":false,"person":"pe3d92919","season":"2026-27"}],
+    ['키케 바르한', 'LM', 73, '오사수나 로하', '스페인', {"squad":true,"unreleased":false,"person":"pe3d92919","positions":["LM","LW"],"season":"2026-27"}],
     ['아이토르 페르난데노', 'GK', 73, '오사수나 로하', '스페인', {"squad":true,"unreleased":false,"person":"p8770d50d","season":"2026-27"}],
-    ['루벤 가르시안', 'RW', 73, '오사수나 로하', '스페인', {"squad":true,"unreleased":false,"person":"p29819b27","season":"2026-27"}],
+    ['루벤 가르시안', 'RM', 73, '오사수나 로하', '스페인', {"squad":true,"unreleased":false,"person":"p29819b27","positions":["RM","RW"],"season":"2026-27"}],
     ['디에고 리콘', 'LB', 73, '오사수나 로하', '스페인', {"squad":true,"unreleased":false,"person":"p7f5f7f29","season":"2026-27"}],
     ['모이 고메노', 'CAM', 73, '오사수나 로하', '스페인', {"squad":true,"unreleased":false,"person":"p7efedf71","season":"2026-27"}],
     ['라울 모론', 'LW', 72, '오사수나 로하', '스페인', {"squad":true,"unreleased":false,"person":"p47603b4f","season":"2026-27"}],
@@ -1811,7 +1811,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['아우구스토 바탈란', 'GK', 73, '라요 프랑코', '아르헨티나', {"squad":true,"unreleased":false,"person":"p60333963","season":"2026-27"}],
     ['기오르기 치타이시빌린', 'CAM', 71, '라요 프랑코', '조지아', {"squad":true,"unreleased":false,"person":"p54f9a93f","season":"2026-27"}],
     ['아드리아 페드로산', 'LB', 73, '라요 프랑코', '스페인', {"squad":true,"unreleased":false,"person":"p49c42a4b","season":"2026-27"}],
-    ['알바로 가르시안', 'LW', 75, '라요 프랑코', '스페인', {"squad":true,"unreleased":false,"person":"pfd825235","season":"2026-27"}],
+    ['알바로 가르시안', 'LM', 75, '라요 프랑코', '스페인', {"squad":true,"unreleased":false,"person":"pfd825235","positions":["LM","LW"],"season":"2026-27"}],
     ['이반 발리운', 'RB', 73, '라요 프랑코', '알바니아', {"squad":true,"unreleased":false,"person":"p40317c29","season":"2026-27"}],
     ['프란 페레노', 'RW', 71, '라요 프랑코', '스페인', {"squad":true,"unreleased":false,"person":"p23505ed5","season":"2026-27"}],
     ['펠라요 페르난데노', 'CB', 69, '라요 프랑코', '스페인', {"squad":true,"unreleased":false,"person":"p7f62693b","season":"2026-27"}],
@@ -1824,7 +1824,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['이케르 로사단', 'LW', 73, '베티스 베르데', '스페인', {"squad":true,"unreleased":false,"person":"p08aea573","season":"2026-27"}],
     ['발렌틴 고메노', 'CB', 75, '베티스 베르데', '아르헨티나', {"squad":true,"unreleased":false,"person":"pb6ac20cb","season":"2026-27"}],
     ['주니오르 피르폰', 'LB', 73, '베티스 베르데', '도미니카공화국', {"squad":true,"unreleased":false,"person":"p881e4d9d","season":"2026-27"}],
-    ['아이토르 루이발라', 'RW', 74, '베티스 베르데', '스페인', {"squad":true,"unreleased":false,"person":"p76516c39","season":"2026-27"}],
+    ['아이토르 루이발라', 'RM', 74, '베티스 베르데', '스페인', {"squad":true,"unreleased":false,"person":"p76516c39","positions":["RM","RW","RB"],"season":"2026-27"}],
     ['카를로스 에스핀', 'ST', 68, '마드리드 블랑코', '스페인', {"squad":true,"unreleased":false,"person":"p1fe21b45","season":"2026-27"}],
     ['얀 디오망덴', 'RW', 72, '마드리드 블랑코', '코트디부아르', {"squad":true,"unreleased":false,"person":"p046ebdc0","season":"2026-27"}],
     ['욘 아람부룬', 'RB', 74, '도노스티 추리우르딘', '베네수엘라', {"squad":true,"unreleased":false,"person":"pb40cb78d","season":"2026-27"}],
@@ -1861,11 +1861,11 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['무크타르 디아카빈', 'CB', 74, '발렌시아 무르시엘', '기니', {"squad":true,"unreleased":false,"person":"p64252a0b","season":"2026-27"}],
     ['세사르 타레간', 'CB', 74, '발렌시아 무르시엘', '스페인', {"squad":true,"unreleased":false,"person":"p834fcb77","season":"2026-27"}],
     ['우마르 사디큰', 'ST', 73, '발렌시아 무르시엘', '나이지리아', {"squad":true,"unreleased":false,"person":"p970d3f37","season":"2026-27"}],
-    ['루이스 리오한', 'LW', 73, '발렌시아 무르시엘', '스페인', {"squad":true,"unreleased":false,"person":"pf7b81cdf","season":"2026-27"}],
+    ['루이스 리오한', 'LM', 73, '발렌시아 무르시엘', '스페인', {"squad":true,"unreleased":false,"person":"pf7b81cdf","positions":["LM","LW"],"season":"2026-27"}],
     ['유스틴 더 하손', 'RB', 70, '발렌시아 무르시엘', '네덜란드', {"squad":true,"unreleased":false,"person":"p9de6d71d","season":"2026-27"}],
     ['크리스티안 리베론', 'GK', 71, '발렌시아 무르시엘', '스페인', {"squad":true,"unreleased":false,"person":"pb392f793","season":"2026-27"}],
     ['알리우 디엥그', 'CDM', 72, '발렌시아 무르시엘', '말리', {"squad":true,"unreleased":false,"person":"p75a0758a","season":"2026-27"}],
-    ['디에고 로페노', 'RW', 74, '발렌시아 무르시엘', '스페인', {"squad":true,"unreleased":false,"person":"paf1d509b","season":"2026-27"}],
+    ['디에고 로페노', 'RM', 74, '발렌시아 무르시엘', '스페인', {"squad":true,"unreleased":false,"person":"paf1d509b","positions":["RM","RW"],"season":"2026-27"}],
     ['다니 라반', 'RW', 72, '발렌시아 무르시엘', '스페인', {"squad":true,"unreleased":false,"person":"p8dfca44b","season":"2026-27"}],
     ['디미트리 풀키엔', 'RB', 71, '발렌시아 무르시엘', '과들루프', {"squad":true,"unreleased":false,"person":"p5df4f011","season":"2026-27"}],
     ['헤수스 바스케노', 'LB', 72, '발렌시아 무르시엘', '스페인', {"squad":true,"unreleased":false,"person":"pcb332c59","season":"2026-27"}],
@@ -1958,7 +1958,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['삼손 바이돈', 'CB', 72, '랑스 상글리에', '오스트리아', {"squad":true,"unreleased":false,"person":"pe3a5bdb5","season":"2026-27"}],
     ['플로리앙 소토칸', 'RW', 75, '랑스 상글리에', '프랑스', {"squad":true,"unreleased":false,"person":"p50fa346e","season":"2026-27"}],
     ['야신 티트라윈', 'CDM', 71, '랑스 상글리에', '알제리', {"squad":true,"unreleased":false,"person":"p39952dfb","season":"2026-27"}],
-    ['토르강 아자른', 'LW', 74, '랑스 상글리에', '벨기에', {"squad":true,"unreleased":false,"person":"pd078c50c","season":"2026-27"}],
+    ['토르강 아자른', 'LM', 74, '랑스 상글리에', '벨기에', {"squad":true,"unreleased":false,"person":"pd078c50c","positions":["LM","LW"],"season":"2026-27"}],
     ['오종 에두아른', 'ST', 75, '랑스 상글리에', '프랑스', {"squad":true,"unreleased":false,"person":"pc654e126","season":"2026-27"}],
     ['조아네르 차베손', 'LB', 71, '랑스 상글리에', '에콰도르', {"squad":true,"unreleased":false,"person":"p0e2774d5","season":"2026-27"}],
     ['마티외 위돌라', 'LB', 71, '랑스 상글리에', '프랑스', {"squad":true,"unreleased":false,"person":"p1ab98c2d","season":"2026-27"}],
@@ -2039,7 +2039,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['고티에 앵드', 'RW', 72, '니스 애글롱', '프랑스', {"squad":true,"unreleased":false,"person":"pf1a3fb80","season":"2026-27"}],
     ['모르강 상송드', 'CM', 74, '니스 애글롱', '프랑스', {"squad":true,"unreleased":false,"person":"p7144bfe2","season":"2026-27"}],
     ['로랑 아베르젤라', 'CDM', 73, '니스 애글롱', '프랑스', {"squad":true,"unreleased":false,"person":"pc667565e","season":"2026-27"}],
-    ['이사크 얀손드', 'LW', 72, '니스 애글롱', '스웨덴', {"squad":true,"unreleased":false,"person":"p42c20a71","season":"2026-27"}],
+    ['이사크 얀손드', 'LM', 72, '니스 애글롱', '스웨덴', {"squad":true,"unreleased":false,"person":"p42c20a71","positions":["LM","LW"],"season":"2026-27"}],
     ['예반 디우픈', 'GK', 74, '니스 애글롱', '세네갈', {"squad":true,"unreleased":false,"person":"p904fa92d","season":"2026-27"}],
     ['닐스 은쿤쿤', 'LB', 74, '니스 애글롱', '프랑스', {"squad":true,"unreleased":false,"person":"p92c58c05","season":"2026-27"}],
     ['악셀 비첼라', 'CDM', 74, '니스 애글롱', '벨기에', {"squad":true,"unreleased":false,"person":"pc16c2970","season":"2026-27"}],
@@ -2081,9 +2081,9 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['아드리앵 토마송드', 'CM', 72, '렌 루즈누아', '프랑스', {"squad":true,"unreleased":false,"person":"pd7050c3d","season":"2026-27"}],
     ['알리두 세이둔', 'RB', 72, '렌 루즈누아', '가나', {"squad":true,"unreleased":false,"person":"p128810b3","season":"2026-27"}],
     ['마디 카마란', 'CDM', 71, '렌 루즈누아', '프랑스', {"squad":true,"unreleased":false,"person":"pc89ec549","season":"2026-27"}],
-    ['아르노 노르댕드', 'LW', 73, '렌 루즈누아', '프랑스', {"squad":true,"unreleased":false,"person":"pc6309d94","season":"2026-27"}],
+    ['아르노 노르댕드', 'LM', 73, '렌 루즈누아', '프랑스', {"squad":true,"unreleased":false,"person":"pc6309d94","positions":["LM","LW"],"season":"2026-27"}],
     ['이사 수마렌', 'LW', 70, '렌 루즈누아', '세네갈', {"squad":true,"unreleased":false,"person":"p1d07bef5","season":"2026-27"}],
-    ['프셰미스와프 프란코프스킨', 'RW', 74, '렌 루즈누아', '폴란드', {"squad":true,"unreleased":false,"person":"p89def70f","season":"2026-27"}],
+    ['프셰미스와프 프란코프스킨', 'RM', 74, '렌 루즈누아', '폴란드', {"squad":true,"unreleased":false,"person":"p89def70f","positions":["RM","RW","RB"],"season":"2026-27"}],
     ['제일란드 미첼라', 'CB', 72, '스트라스 알자스', '코스타리카', {"squad":true,"unreleased":false,"person":"p9f22ce5f","season":"2026-27"}],
     ['이스마엘 두쿠렌', 'CB', 74, '스트라스 알자스', '프랑스', {"squad":true,"unreleased":false,"person":"p40337ba5","season":"2026-27"}],
     ['샘 아모아메야운', 'RW', 71, '스트라스 알자스', '잉글랜드', {"squad":true,"unreleased":false,"person":"p03237305","season":"2026-27"}],
@@ -2108,7 +2108,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['얀 그보혼', 'LW', 75, '툴루즈 비올레', '프랑스', {"squad":true,"unreleased":false,"person":"p482beb9b","season":"2026-27"}],
     ['제이슨 러셀론', 'ST', 70, '툴루즈 비올레', '캐나다', {"squad":true,"unreleased":false,"person":"p977e307f","season":"2026-27"}],
     ['니코 시구른', 'CM', 71, '툴루즈 비올레', '캐나다', {"squad":true,"unreleased":false,"person":"pfd6ade4d","season":"2026-27"}],
-    ['아론 되눔드', 'RW', 73, '툴루즈 비올레', '노르웨이', {"squad":true,"unreleased":false,"person":"pa18815c7","season":"2026-27"}],
+    ['아론 되눔드', 'RM', 73, '툴루즈 비올레', '노르웨이', {"squad":true,"unreleased":false,"person":"pa18815c7","positions":["RM","RW"],"season":"2026-27"}],
     ['기욤 레스튼', 'GK', 75, '툴루즈 비올레', '프랑스', {"squad":true,"unreleased":false,"person":"p0e389755","season":"2026-27"}],
     ['아부 프랜시손', 'CDM', 72, '툴루즈 비올레', '가나', {"squad":true,"unreleased":false,"person":"pa7f6509b","season":"2026-27"}],
     ['마티스 아무군', 'CM', 70, '툴루즈 비올레', '프랑스', {"squad":true,"unreleased":false,"person":"pcffc50af","season":"2026-27"}],
@@ -2139,7 +2139,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['아리욘 이브라히모비츠', 'LW', 70, '아우크스 푸거', '독일', {"squad":true,"unreleased":false,"person":"pa551d1b7","season":"2026-27"}],
     ['네딜코 라브로비츠', 'GK', 69, '아우크스 푸거', '크로아티아', {"squad":true,"unreleased":false,"person":"p343bc7f3","season":"2026-27"}],
     ['마리우스 볼픈', 'RB', 72, '아우크스 푸거', '독일', {"squad":true,"unreleased":false,"person":"pe9b01e07","season":"2026-27"}],
-    ['안톤 카덴', 'RW', 69, '아우크스 푸거', '독일', {"squad":true,"unreleased":false,"person":"pde5891c7","season":"2026-27"}],
+    ['안톤 카덴', 'RM', 69, '아우크스 푸거', '독일', {"squad":true,"unreleased":false,"person":"pde5891c7","positions":["RM","RW"],"season":"2026-27"}],
     ['파비안 리더스', 'CAM', 73, '아우크스 푸거', '스위스', {"squad":true,"unreleased":false,"person":"pe69fda15","season":"2026-27"}],
     ['나타나엘 음부쿤', 'LW', 70, '아우크스 푸거', '콩고민주공화국', {"squad":true,"unreleased":false,"person":"p2b461e49","season":"2026-27"}],
     ['주마 바르', 'CB', 69, '아우크스 푸거', '시에라리온', {"squad":true,"unreleased":false,"person":"pc3b4764d","season":"2026-27"}],
@@ -2159,9 +2159,9 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['요시프 유라노비츠', 'RB', 72, '우니온 철강', '크로아티아', {"squad":true,"unreleased":false,"person":"p29112d4b","season":"2026-27"}],
     ['야니크 하베러스', 'CM', 71, '우니온 철강', '독일', {"squad":true,"unreleased":false,"person":"p4dfd0a03","season":"2026-27"}],
     ['미셸 아에비셔르', 'CM', 72, '우니온 철강', '스위스', {"squad":true,"unreleased":false,"person":"p566ca19b","season":"2026-27"}],
-    ['팀 스카르켄', 'RW', 69, '우니온 철강', '독일', {"squad":true,"unreleased":false,"person":"p677502a1","season":"2026-27"}],
+    ['팀 스카르켄', 'RM', 69, '우니온 철강', '독일', {"squad":true,"unreleased":false,"person":"p677502a1","positions":["RM","RW"],"season":"2026-27"}],
     ['안드레이 일리츠', 'ST', 72, '우니온 철강', '세르비아', {"squad":true,"unreleased":false,"person":"pcd8ee03d","season":"2026-27"}],
-    ['로베르트 스코운', 'LW', 72, '우니온 철강', '덴마크', {"squad":true,"unreleased":false,"person":"p049ba4bd","season":"2026-27"}],
+    ['로베르트 스코운', 'LM', 72, '우니온 철강', '덴마크', {"squad":true,"unreleased":false,"person":"p049ba4bd","positions":["LM","LW"],"season":"2026-27"}],
     ['마린 류비치츠', 'ST', 70, '우니온 철강', '크로아티아', {"squad":true,"unreleased":false,"person":"p8b0a37cb","season":"2026-27"}],
     ['크리스토퍼 트리멜라', 'RB', 68, '우니온 철강', '오스트리아', {"squad":true,"unreleased":false,"person":"pa38c41ef","season":"2026-27"}],
     ['에마뉘엘 라테 라튼', 'ST', 73, '우니온 철강', '코트디부아르', {"squad":true,"unreleased":false,"person":"pa41cf7b9","season":"2026-27"}],
@@ -2180,7 +2180,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['세너 리넌드', 'CDM', 73, '브레멘 그린', '벨기에', {"squad":true,"unreleased":false,"person":"pa09f89c7","season":"2026-27"}],
     ['루도비트 레이손', 'CM', 73, '브레멘 그린', '네덜란드', {"squad":true,"unreleased":false,"person":"pffb9b31d","season":"2026-27"}],
     ['무사 은디아옌', 'LB', 70, '브레멘 그린', '세네갈', {"squad":true,"unreleased":false,"person":"p19fbf1f7","season":"2026-27"}],
-    ['마르코 그륄라', 'LW', 72, '브레멘 그린', '오스트리아', {"squad":true,"unreleased":false,"person":"p7bbe4a29","season":"2026-27"}],
+    ['마르코 그륄라', 'LM', 72, '브레멘 그린', '오스트리아', {"squad":true,"unreleased":false,"person":"p7bbe4a29","positions":["LM","LW","LB"],"season":"2026-27"}],
     ['에렌 딩크친', 'CAM', 71, '브레멘 그린', '튀르키예', {"squad":true,"unreleased":false,"person":"p8aa4bd02","season":"2026-27"}],
     ['다비트 코브나츠킨', 'ST', 71, '브레멘 그린', '폴란드', {"squad":true,"unreleased":false,"person":"p01e0df5b","season":"2026-27"}],
     ['훌리안 말라티닌', 'CB', 70, '브레멘 그린', '아르헨티나', {"squad":true,"unreleased":false,"person":"pa9c37299","season":"2026-27"}],
@@ -2227,13 +2227,13 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['필리프 리엔하르튼', 'CB', 74, '프라이 검은숲', '오스트리아', {"squad":true,"unreleased":false,"person":"p1a18a097","season":"2026-27"}],
     ['안토니 융크', 'LB', 71, '프라이 검은숲', '독일', {"squad":true,"unreleased":false,"person":"p9097e9f0","season":"2026-27"}],
     ['파트리크 오스터하겐', 'CDM', 73, '프라이 검은숲', '독일', {"squad":true,"unreleased":false,"person":"p2b674b05","season":"2026-27"}],
-    ['데리 셰르한튼', 'LW', 72, '프라이 검은숲', '독일', {"squad":true,"unreleased":false,"person":"pc3330913","season":"2026-27"}],
+    ['데리 셰르한튼', 'LM', 72, '프라이 검은숲', '독일', {"squad":true,"unreleased":false,"person":"pc3330913","positions":["LM","LW"],"season":"2026-27"}],
     ['막시밀리안 에게슈타이느', 'CM', 75, '프라이 검은숲', '독일', {"squad":true,"unreleased":false,"person":"p9a301330","season":"2026-27"}],
     ['루카스 횔러스', 'ST', 72, '프라이 검은숲', '독일', {"squad":true,"unreleased":false,"person":"p059ce71d","season":"2026-27"}],
     ['스즈키 유이톤', 'CAM', 74, '프라이 검은숲', '일본', {"squad":true,"unreleased":false,"person":"pe3cea4db","season":"2026-27"}],
     ['야니크 엥겔하르튼', 'CM', 71, '프라이 검은숲', '독일', {"squad":true,"unreleased":false,"person":"ped7db348","season":"2026-27"}],
     ['루카스 퀴블러스', 'RB', 70, '프라이 검은숲', '독일', {"squad":true,"unreleased":false,"person":"p922df91b","season":"2026-27"}],
-    ['니클라스 베스텐', 'LW', 71, '프라이 검은숲', '독일', {"squad":true,"unreleased":false,"person":"p7ac7b501","season":"2026-27"}],
+    ['니클라스 베스텐', 'LM', 71, '프라이 검은숲', '독일', {"squad":true,"unreleased":false,"person":"p7ac7b501","positions":["LM","LW","LB"],"season":"2026-27"}],
     ['야마모토 리히톤', 'CM', 70, '프라이 검은숲', '일본', {"squad":true,"unreleased":false,"person":"pbe7c58f5","season":"2026-27"}],
     ['플로리안 뮐레르', 'GK', 72, '프라이 검은숲', '독일', {"squad":true,"unreleased":false,"person":"pde031617","season":"2026-27"}],
     ['시리아크 이리엔', 'RW', 72, '프라이 검은숲', '부르키나파소', {"squad":true,"unreleased":false,"person":"p4313e1dd","season":"2026-27"}],
@@ -2299,7 +2299,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['루카 로초시빌린', 'CB', 72, '쾰른 염소', '조지아', {"squad":true,"unreleased":false,"person":"p69d23951","season":"2026-27"}],
     ['테이스 달링안', 'ST', 74, '쾰른 염소', '네덜란드', {"squad":true,"unreleased":false,"person":"p76eb13a2","season":"2026-27"}],
     ['세바스티안 세불론센드', 'RB', 70, '쾰른 염소', '노르웨이', {"squad":true,"unreleased":false,"person":"pea9ab191","season":"2026-27"}],
-    ['얀 틸마느', 'RW', 71, '쾰른 염소', '독일', {"squad":true,"unreleased":false,"person":"p129d82b9","season":"2026-27"}],
+    ['얀 틸마느', 'RM', 71, '쾰른 염소', '독일', {"squad":true,"unreleased":false,"person":"p129d82b9","positions":["RM","RW"],"season":"2026-27"}],
     ['마리우스 뷜터스', 'ST', 72, '쾰른 염소', '독일', {"squad":true,"unreleased":false,"person":"pb521870b","season":"2026-27"}],
     ['라프 판덴베르흔', 'CB', 71, '쾰른 염소', '네덜란드', {"squad":true,"unreleased":false,"person":"p1609cb45","season":"2026-27"}],
     ['린톤 마이난', 'LW', 70, '쾰른 염소', '독일', {"squad":true,"unreleased":false,"person":"p2a6ae405","season":"2026-27"}],
@@ -2354,7 +2354,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['다비트 헤롤튼', 'LB', 70, '묀헨 망아지', '독일', {"squad":true,"unreleased":false,"person":"pec11df47","season":"2026-27"}],
     ['유힘 코노플랸', 'LB', 71, '묀헨 망아지', '우크라이나', {"squad":true,"unreleased":false,"person":"p11684d23","season":"2026-27"}],
     ['얀 올쇼브스킨', 'GK', 71, '묀헨 망아지', '독일', {"squad":true,"unreleased":false,"person":"pa2e8b0f3","season":"2026-27"}],
-    ['로빈 하큰', 'RW', 73, '묀헨 망아지', '독일', {"squad":true,"unreleased":false,"person":"pdba3bbbf","season":"2026-27"}],
+    ['로빈 하큰', 'RM', 73, '묀헨 망아지', '독일', {"squad":true,"unreleased":false,"person":"pdba3bbbf","positions":["RM","RW"],"season":"2026-27"}],
     ['루카스 울리흔', 'LB', 68, '묀헨 망아지', '독일', {"squad":true,"unreleased":false,"person":"p613bb7db","season":"2026-27"}],
     ['조 스캘린', 'RB', 74, '묀헨 망아지', '미국', {"squad":true,"unreleased":false,"person":"p5e5709af","season":"2026-27"}],
     ['후고 볼린드', 'CM', 68, '묀헨 망아지', '스웨덴', {"squad":true,"unreleased":false,"person":"pd6421d7f","season":"2026-27"}],
@@ -2493,7 +2493,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['자코모 칼론', 'CM', 68, '프로시노 지알로', '이탈리아', {"squad":true,"unreleased":false,"person":"p372964f1","season":"2026-27"}],
     ['기오르기 크베르나젠', 'LW', 70, '프로시노 지알로', '조지아', {"squad":true,"unreleased":false,"person":"p33026331","season":"2026-27"}],
     ['앤서니 오요논', 'RB', 70, '프로시노 지알로', '가봉', {"squad":true,"unreleased":false,"person":"p435f5ddf","season":"2026-27"}],
-    ['알레시오 제르비느', 'RW', 70, '프로시노 지알로', '이탈리아', {"squad":true,"unreleased":false,"person":"pc3f5ccf9","season":"2026-27"}],
+    ['알레시오 제르비느', 'RM', 70, '프로시노 지알로', '이탈리아', {"squad":true,"unreleased":false,"person":"pc3f5ccf9","positions":["RM","RW"],"season":"2026-27"}],
     ['케빈 아크포구만', 'CB', 71, '프로시노 지알로', '나이지리아', {"squad":true,"unreleased":false,"person":"pb68c6a3d","season":"2026-27"}],
     ['플로리안 그릴리츠', 'CDM', 72, '프로시노 지알로', '오스트리아', {"squad":true,"unreleased":false,"person":"pd38f844b","season":"2026-27"}],
     ['일라리오 몬테리신', 'CB', 69, '프로시노 지알로', '이탈리아', {"squad":true,"unreleased":false,"person":"p788ee377","season":"2026-27"}],
@@ -2773,7 +2773,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['케빈 샤도', 'LW', 79, '브렌트 벌', '독일', {"squad":true,"unreleased":false,"person":"p88f85753","season":"2026-27"}],
     ['이고르 치아고', 'ST', 80, '브렌트 벌', '브라질', {"squad":true,"unreleased":false,"person":"pdab7d25f","season":"2026-27"}],
     ['당고 와타로', 'RW', 78, '브렌트 벌', '부르키나파소', {"squad":true,"unreleased":false,"person":"p8a6f9218","season":"2026-27"}],
-    ['킨 루이스포토', 'LW', 76, '브렌트 벌', '잉글랜드', {"squad":true,"unreleased":false,"person":"p1a41d7c3","season":"2026-27"}],
+    ['킨 루이스포토', 'LM', 76, '브렌트 벌', '잉글랜드', {"squad":true,"unreleased":false,"person":"p1a41d7c3","positions":["LM","LW","LB"],"season":"2026-27"}],
     ['미켈레 디 그레고로', 'GK', 81, '본머스 체리', '이탈리아', {"squad":true,"unreleased":false,"person":"pa6906f83","season":"2026-27"}],
     ['훌리안 아라우조', 'RB', 76, '본머스 체리', '멕시코', {"squad":true,"unreleased":false,"person":"pf031ee6d","season":"2026-27"}],
     ['아드리앵 트뤼페로', 'LB', 78, '본머스 체리', '프랑스', {"squad":true,"unreleased":false,"person":"p01fa1a9e","season":"2026-27"}],
@@ -2785,7 +2785,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['알렉스 스코트', 'CM', 78, '본머스 체리', '잉글랜드', {"squad":true,"unreleased":false,"person":"p658b49bf","season":"2026-27"}],
     ['라이언 크리스토', 'CM', 78, '본머스 체리', '스코틀랜드', {"squad":true,"unreleased":false,"person":"p980c1de1","season":"2026-27"}],
     ['타일러 애덤손', 'CDM', 79, '본머스 체리', '미국', {"squad":true,"unreleased":false,"person":"p95726787","season":"2026-27"}],
-    ['마커스 태버니오', 'LW', 78, '본머스 체리', '잉글랜드', {"squad":true,"unreleased":false,"person":"p52fb5661","season":"2026-27"}],
+    ['마커스 태버니오', 'LM', 78, '본머스 체리', '잉글랜드', {"squad":true,"unreleased":false,"person":"p52fb5661","positions":["LM","LW"],"season":"2026-27"}],
     ['아민 아들로', 'LW', 78, '본머스 체리', '모로코', {"squad":true,"unreleased":false,"person":"p4acbeab1","season":"2026-27"}],
     ['에바닐손', 'ST', 81, '본머스 체리', '브라질', {"squad":true,"unreleased":false,"person":"p1d787886","season":"2026-27"}],
     ['벤 개넌독', 'RW', 77, '본머스 체리', '스코틀랜드', {"squad":true,"unreleased":false,"person":"p8fd258d1","season":"2026-27"}],
@@ -2829,7 +2829,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['셰이크 두쿠로', 'CDM', 77, '크리스탈 이글', '말리', {"squad":true,"unreleased":false,"person":"p90cf7e7f","season":"2026-27"}],
     ['이스마일라 사로', 'RW', 81, '크리스탈 이글', '세네갈', {"squad":true,"unreleased":false,"person":"p2e144fdd","season":"2026-27"}],
     ['예레미 피나', 'RW', 79, '크리스탈 이글', '스페인', {"squad":true,"unreleased":false,"person":"pbeff49f1","season":"2026-27"}],
-    ['드와이트 맥닐런', 'LW', 77, '크리스탈 이글', '잉글랜드', {"squad":true,"unreleased":false,"person":"p978e438a","season":"2026-27"}],
+    ['드와이트 맥닐런', 'LM', 77, '크리스탈 이글', '잉글랜드', {"squad":true,"unreleased":false,"person":"p978e438a","positions":["LM","LW"],"season":"2026-27"}],
     ['예르겐 스트란 라르손', 'ST', 80, '크리스탈 이글', '노르웨이', {"squad":true,"unreleased":false,"person":"p1101ac1b","season":"2026-27"}],
     ['다리오 오소리아', 'LW', 76, '크리스탈 이글', '칠레', {"squad":true,"unreleased":false,"person":"pd1b549b1","season":"2026-27"}],
     ['에반 게상드', 'ST', 77, '크리스탈 이글', '코트디부아르', {"squad":true,"unreleased":false,"person":"p54874668","season":"2026-27"}],
@@ -2861,13 +2861,13 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['타일러 디블린', 'RW', 76, '에버턴 토피', '잉글랜드', {"squad":true,"unreleased":false,"person":"p7a949a04","season":"2026-27"}],
     ['브레넌 존손', 'RW', 80, '에버턴 토피', '웨일스', {"squad":true,"unreleased":false,"person":"pc4677ef9","season":"2026-27"}],
     ['루차렐 헤이르트라위단', 'RB', 79, '에인트 라이트', '네덜란드', {"squad":true,"unreleased":false,"person":"p2e777587","season":"2026-27"}],
-    ['이반 페리시츠', 'LW', 76, '에인트 라이트', '크로아티아', {"squad":true,"unreleased":false,"person":"pd3377fdb","season":"2026-27"}],
+    ['이반 페리시츠', 'LM', 76, '에인트 라이트', '크로아티아', {"squad":true,"unreleased":false,"person":"pd3377fdb","positions":["LM","LW","LB"],"season":"2026-27"}],
     ['뤼번 판 보멀라', 'LW', 76, '에인트 라이트', '네덜란드', {"squad":true,"unreleased":false,"person":"p76ea2f9f","season":"2026-27"}],
     ['세르지뇨 데스튼', 'RB', 78, '에인트 라이트', '미국', {"squad":true,"unreleased":false,"person":"p8033a3d5","season":"2026-27"}],
     ['리카르도 페핀', 'ST', 78, '에인트 라이트', '미국', {"squad":true,"unreleased":false,"person":"p118e5fb3","season":"2026-27"}],
     ['파울 바너스', 'CAM', 78, '에인트 라이트', '오스트리아', {"squad":true,"unreleased":false,"person":"p3bc94e3f","season":"2026-27"}],
     ['알라산 플레안', 'ST', 76, '에인트 라이트', '프랑스', {"squad":true,"unreleased":false,"person":"p087247ff","season":"2026-27"}],
-    ['필리프 코스티츠', 'LW', 76, '에인트 라이트', '세르비아', {"squad":true,"unreleased":false,"person":"pba5275a1","season":"2026-27"}],
+    ['필리프 코스티츠', 'LM', 76, '에인트 라이트', '세르비아', {"squad":true,"unreleased":false,"person":"pba5275a1","positions":["LM","LW","LB"],"season":"2026-27"}],
     ['스벤 메이나르손', 'CAM', 76, '에인트 라이트', '네덜란드', {"squad":true,"unreleased":false,"person":"p4b1ccf75","season":"2026-27"}],
     ['예르디 스하우턴드', 'CDM', 78, '에인트 라이트', '네덜란드', {"squad":true,"unreleased":false,"person":"p85ced6d5","season":"2026-27"}],
     ['데니스 마느', 'RW', 78, '에인트 라이트', '루마니아', {"squad":true,"unreleased":false,"person":"p3cda419f","season":"2026-27"}],
@@ -2967,7 +2967,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['하비 반손', 'LW', 80, '뉴캐슬 매파이', '잉글랜드', {"squad":true,"unreleased":false,"person":"p6bb01847","season":"2026-27"}],
     ['말리크 티아운', 'CB', 80, '뉴캐슬 매파이', '독일', {"squad":true,"unreleased":false,"person":"p62b2c55b","season":"2026-27"}],
     ['안토니 엘랑간', 'RW', 81, '뉴캐슬 매파이', '스웨덴', {"squad":true,"unreleased":false,"person":"p45889d06","season":"2026-27"}],
-    ['제이컵 머핀', 'RW', 76, '뉴캐슬 매파이', '잉글랜드', {"squad":true,"unreleased":false,"person":"p13597024","season":"2026-27"}],
+    ['제이컵 머핀', 'RM', 76, '뉴캐슬 매파이', '잉글랜드', {"squad":true,"unreleased":false,"person":"p13597024","positions":["RM","RW"],"season":"2026-27"}],
     ['조 윌로큰', 'CM', 77, '뉴캐슬 매파이', '잉글랜드', {"squad":true,"unreleased":false,"person":"p5b9d0ffa","season":"2026-27"}],
     ['댄 버느', 'CB', 78, '뉴캐슬 매파이', '잉글랜드', {"squad":true,"unreleased":false,"person":"p80838093","season":"2026-27"}],
     ['아마르 데디츠', 'RB', 76, '뉴캐슬 매파이', '보스니아헤르체고비나', {"squad":true,"unreleased":false,"person":"pac574cf3","season":"2026-27"}],
@@ -3039,7 +3039,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['파블로 바리오노', 'CM', 81, '마드리드 로히', '스페인', {"squad":true,"unreleased":false,"person":"pe2c71121","season":"2026-27"}],
     ['마르코스 요렌토', 'CM', 80, '마드리드 로히', '스페인', {"squad":true,"unreleased":false,"person":"pee4ce88d","season":"2026-27"}],
     ['마르크 푸비요', 'RB', 76, '마드리드 로히', '스페인', {"squad":true,"unreleased":false,"person":"pdab87c07","season":"2026-27"}],
-    ['줄리아노 시메오나', 'RW', 80, '마드리드 로히', '아르헨티나', {"squad":true,"unreleased":false,"person":"pc399f303","season":"2026-27"}],
+    ['줄리아노 시메오나', 'RM', 80, '마드리드 로히', '아르헨티나', {"squad":true,"unreleased":false,"person":"pc399f303","positions":["RM","RW"],"season":"2026-27"}],
     ['모르텐 율마르', 'CDM', 81, '마드리드 로히', '덴마크', {"squad":true,"unreleased":false,"person":"pa9380a15","season":"2026-27"}],
     ['주앙 칸셀로', 'RB', 80, '카탈루냐 블라우', '포르투갈', {"squad":true,"unreleased":false,"person":"p49e52216","season":"2026-27"}],
     ['가브리엘 제주노', 'ST', 81, '카탈루냐 블라우', '브라질', {"squad":true,"unreleased":false,"person":"p34a14a01","season":"2026-27"}],
@@ -3068,7 +3068,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['안테 부디미른', 'ST', 77, '오사수나 로하', '크로아티아', {"squad":true,"unreleased":false,"person":"pba26e25b","season":"2026-27"}],
     ['세르히오 카날레노', 'CAM', 76, '산탄데르 베르디블랑', '스페인', {"squad":true,"unreleased":false,"person":"pb8c2581f","season":"2026-27"}],
     ['안드레이 라치운', 'RB', 77, '라요 프랑코', '루마니아', {"squad":true,"unreleased":false,"person":"pc1bda551","season":"2026-27"}],
-    ['이시 팔라손드', 'RW', 77, '라요 프랑코', '스페인', {"squad":true,"unreleased":false,"person":"p8da7023d","season":"2026-27"}],
+    ['이시 팔라손드', 'RM', 77, '라요 프랑코', '스페인', {"squad":true,"unreleased":false,"person":"p8da7023d","positions":["RM","RW"],"season":"2026-27"}],
     ['호르헤 데 프루토노', 'RW', 76, '라요 프랑코', '스페인', {"squad":true,"unreleased":false,"person":"pa505ceed","season":"2026-27"}],
     ['알바로 바예노', 'GK', 79, '베티스 베르데', '스페인', {"squad":true,"unreleased":false,"person":"pfc5c64cb","season":"2026-27"}],
     ['엑토르 베예리노', 'RB', 76, '베티스 베르데', '스페인', {"squad":true,"unreleased":false,"person":"pbe9ae458","season":"2026-27"}],
@@ -3079,7 +3079,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['압데 에살술린', 'LW', 80, '베티스 베르데', '모로코', {"squad":true,"unreleased":false,"person":"p0ba89998","season":"2026-27"}],
     ['프란 가르시안', 'LB', 78, '베티스 베르데', '스페인', {"squad":true,"unreleased":false,"person":"p12dbd707","season":"2026-27"}],
     ['알바로 피달곤', 'CM', 77, '베티스 베르데', '멕시코', {"squad":true,"unreleased":false,"person":"p22b801cb","season":"2026-27"}],
-    ['로드리고 리켈멘', 'RW', 77, '베티스 베르데', '스페인', {"squad":true,"unreleased":false,"person":"p722eb3a1","season":"2026-27"}],
+    ['로드리고 리켈멘', 'RM', 77, '베티스 베르데', '스페인', {"squad":true,"unreleased":false,"person":"p722eb3a1","positions":["RM","RW","LM"],"season":"2026-27"}],
     ['넬손 데오산', 'CM', 76, '베티스 베르데', '콜롬비아', {"squad":true,"unreleased":false,"person":"p3e81dc11","season":"2026-27"}],
     ['트로이 패러트', 'ST', 77, '베티스 베르데', '아일랜드', {"squad":true,"unreleased":false,"person":"p5969d630","season":"2026-27"}],
     ['조반니 로 셀손', 'CAM', 80, '베티스 베르데', '아르헨티나', {"squad":true,"unreleased":false,"person":"pcc1cc7ed","season":"2026-27"}],
@@ -3198,7 +3198,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['율리안 뤼에르손드', 'RB', 79, '도르트 옐로', '노르웨이', {"squad":true,"unreleased":false,"person":"pcbb6c829","season":"2026-27"}],
     ['노아 아투볼룬', 'GK', 78, '프랑크 이글', '독일', {"squad":true,"unreleased":false,"person":"pb0bf752f","season":"2026-27"}],
     ['로빈 코흔', 'CB', 78, '프랑크 이글', '독일', {"squad":true,"unreleased":false,"person":"p5838b847","season":"2026-27"}],
-    ['안스가르 크나우픈', 'RW', 76, '프랑크 이글', '독일', {"squad":true,"unreleased":false,"person":"p1af24c6f","season":"2026-27"}],
+    ['안스가르 크나우픈', 'RM', 76, '프랑크 이글', '독일', {"squad":true,"unreleased":false,"person":"p1af24c6f","positions":["RM","RW"],"season":"2026-27"}],
     ['파레스 샤이빈', 'CAM', 76, '프랑크 이글', '알제리', {"squad":true,"unreleased":false,"person":"p96f48ff3","season":"2026-27"}],
     ['요나탄 부르카르튼', 'ST', 80, '프랑크 이글', '독일', {"squad":true,"unreleased":false,"person":"p0b7c37b3","season":"2026-27"}],
     ['도안 리쓰르', 'RW', 80, '프랑크 이글', '일본', {"squad":true,"unreleased":false,"person":"p8be40487","season":"2026-27"}],
@@ -3232,13 +3232,13 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['재럴 콴산', 'CB', 79, '레버 아스피린', '잉글랜드', {"squad":true,"unreleased":false,"person":"pfd5fee8f","season":"2026-27"}],
     ['로이크 바덴', 'CB', 80, '레버 아스피린', '프랑스', {"squad":true,"unreleased":false,"person":"p5e0d6bc5","season":"2026-27"}],
     ['에키 페르난데손', 'CDM', 78, '레버 아스피린', '아르헨티나', {"squad":true,"unreleased":false,"person":"p3117158d","season":"2026-27"}],
-    ['요나스 호프마느', 'RW', 76, '레버 아스피린', '독일', {"squad":true,"unreleased":false,"person":"pc74d7e47","season":"2026-27"}],
+    ['요나스 호프마느', 'RM', 76, '레버 아스피린', '독일', {"squad":true,"unreleased":false,"person":"pc74d7e47","positions":["RM","RW","CAM"],"season":"2026-27"}],
     ['로베르트 안드리흔', 'CDM', 79, '레버 아스피린', '독일', {"squad":true,"unreleased":false,"person":"p9b653947","season":"2026-27"}],
     ['말리크 틸마느', 'CAM', 80, '레버 아스피린', '미국', {"squad":true,"unreleased":false,"person":"p2177bec9","season":"2026-27"}],
     ['마르탱 테리엔', 'LW', 78, '레버 아스피린', '프랑스', {"squad":true,"unreleased":false,"person":"p5c5f3ff0","season":"2026-27"}],
     ['에드몽 탑소반', 'CB', 81, '레버 아스피린', '부르키나파소', {"squad":true,"unreleased":false,"person":"p9a252307","season":"2026-27"}],
     ['파트리크 시큰', 'ST', 81, '레버 아스피린', '체코', {"squad":true,"unreleased":false,"person":"p3a326f9b","season":"2026-27"}],
-    ['루카스 바스케손', 'RW', 77, '레버 아스피린', '스페인', {"squad":true,"unreleased":false,"person":"p9c129d61","season":"2026-27"}],
+    ['루카스 바스케손', 'RM', 77, '레버 아스피린', '스페인', {"squad":true,"unreleased":false,"person":"p9c129d61","positions":["RM","RW","RB"],"season":"2026-27"}],
     ['무사 디아빈', 'LW', 80, '레버 아스피린', '프랑스', {"squad":true,"unreleased":false,"person":"p46bbf1a9","season":"2026-27"}],
     ['겔라 두엔', 'RB', 77, '레버 아스피린', '코트디부아르', {"squad":true,"unreleased":false,"person":"p74b6b5af","season":"2026-27"}],
     ['빅토르 보니페이손', 'ST', 78, '레버 아스피린', '나이지리아', {"squad":true,"unreleased":false,"person":"pc85f75c8","season":"2026-27"}],
@@ -3339,7 +3339,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['욘 루쿠민', 'CB', 79, '토리노 비앙코네로', '콜롬비아', {"squad":true,"unreleased":false,"person":"p39819997","season":"2026-27"}],
     ['닉 볼테마덴', 'ST', 81, '토리노 비앙코네로', '독일', {"squad":true,"unreleased":false,"person":"pe249ccac","season":"2026-27"}],
     ['파프 마타르 사른', 'CM', 78, '토리노 비앙코네로', '세네갈', {"squad":true,"unreleased":false,"person":"pd1b19c03","season":"2026-27"}],
-    ['니코 곤살레노', 'RW', 78, '토리노 비앙코네로', '아르헨티나', {"squad":true,"unreleased":false,"person":"pab1b2c97","season":"2026-27"}],
+    ['니코 곤살레노', 'RM', 78, '토리노 비앙코네로', '아르헨티나', {"squad":true,"unreleased":false,"person":"pab1b2c97","positions":["RM","RW"],"season":"2026-27"}],
     ['니콜로 로벨란', 'CDM', 78, '로마 비앙코셀레스테', '이탈리아', {"squad":true,"unreleased":false,"person":"p48f55a5f","season":"2026-27"}],
     ['안드레아 피나몬틴', 'ST', 76, '로마 비앙코셀레스테', '이탈리아', {"squad":true,"unreleased":false,"person":"p9e6d6a6f","season":"2026-27"}],
     ['마티아 자카닌', 'LW', 80, '로마 비앙코셀레스테', '이탈리아', {"squad":true,"unreleased":false,"person":"p4fd7fc6f","season":"2026-27"}],
@@ -3361,7 +3361,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['스트라히냐 파블로비츠', 'CB', 79, '밀라노 로소네로', '세르비아', {"squad":true,"unreleased":false,"person":"pba6e0147","season":"2026-27"}],
     ['마리오 힐란', 'CB', 77, '밀라노 로소네로', '스페인', {"squad":true,"unreleased":false,"person":"p2d2b91c1","season":"2026-27"}],
     ['마테오 가비안', 'CB', 77, '밀라노 로소네로', '이탈리아', {"squad":true,"unreleased":false,"person":"pc95756d7","season":"2026-27"}],
-    ['알렉시스 살레마커르손', 'RW', 76, '밀라노 로소네로', '벨기에', {"squad":true,"unreleased":false,"person":"p2c5deb9a","season":"2026-27"}],
+    ['알렉시스 살레마커르손', 'RM', 76, '밀라노 로소네로', '벨기에', {"squad":true,"unreleased":false,"person":"p2c5deb9a","positions":["RM","RW"],"season":"2026-27"}],
     ['유누스 무산', 'CM', 76, '밀라노 로소네로', '미국', {"squad":true,"unreleased":false,"person":"pe2a99a15","season":"2026-27"}],
     ['알렉스 메레튼', 'GK', 78, '나폴리 파르테노', '이탈리아', {"squad":true,"unreleased":false,"person":"pee094002","season":"2026-27"}],
     ['브누아 바디아실라', 'CB', 78, '나폴리 파르테노', '프랑스', {"squad":true,"unreleased":false,"person":"pcdf37ee1","season":"2026-27"}],
@@ -3370,7 +3370,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['마티아스 올리베란', 'LB', 78, '나폴리 파르테노', '우루과이', {"squad":true,"unreleased":false,"person":"p81ba9e93","season":"2026-27"}],
     ['라스무스 회일룬드', 'ST', 81, '나폴리 파르테노', '덴마크', {"squad":true,"unreleased":false,"person":"pfcab26f1","season":"2026-27"}],
     ['로렌초 루칸', 'ST', 78, '나폴리 파르테노', '이탈리아', {"squad":true,"unreleased":false,"person":"pb9872779","season":"2026-27"}],
-    ['마테오 폴리타논', 'RW', 79, '나폴리 파르테노', '이탈리아', {"squad":true,"unreleased":false,"person":"pd5ba9715","season":"2026-27"}],
+    ['마테오 폴리타논', 'RM', 79, '나폴리 파르테노', '이탈리아', {"squad":true,"unreleased":false,"person":"pd5ba9715","positions":["RM","RW"],"season":"2026-27"}],
     ['조반니 디 로렌촌', 'RB', 81, '나폴리 파르테노', '이탈리아', {"squad":true,"unreleased":false,"person":"p3489b373","season":"2026-27"}],
     ['삼 뵈케만', 'CB', 79, '나폴리 파르테노', '네덜란드', {"squad":true,"unreleased":false,"person":"p240bb47b","season":"2026-27"}],
     ['바냐 밀린코비치사비츠', 'GK', 78, '나폴리 파르테노', '세르비아', {"squad":true,"unreleased":false,"person":"pfe3a1df3","season":"2026-27"}],
@@ -11568,7 +11568,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "이희근",
     "nation": "대한민국",
     "birthYear": 1998,
-    "pos": "RW",
+    "pos": "RM",
     "club": "울산 호랑"
   },
   "ulsan-09": {
@@ -12513,7 +12513,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "킨 루이스포토",
     "nation": "잉글랜드",
     "birthYear": 2001,
-    "pos": "LW",
+    "pos": "LM",
     "club": "브렌트 벌"
   },
   "bre-28": {
@@ -12653,7 +12653,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "마커스 태버니오",
     "nation": "잉글랜드",
     "birthYear": 1999,
-    "pos": "LW",
+    "pos": "LM",
     "club": "본머스 체리"
   },
   "bou-20": {
@@ -13472,7 +13472,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "드와이트 맥닐런",
     "nation": "잉글랜드",
     "birthYear": 1999,
-    "pos": "LW",
+    "pos": "LM",
     "club": "크리스탈 이글"
   },
   "cry-24": {
@@ -15341,7 +15341,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "이반 페리시츠",
     "nation": "크로아티아",
     "birthYear": 1989,
-    "pos": "LW",
+    "pos": "LM",
     "club": "에인트 라이트"
   },
   "psv-06": {
@@ -15404,7 +15404,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "필리프 코스티츠",
     "nation": "세르비아",
     "birthYear": 1992,
-    "pos": "LW",
+    "pos": "LM",
     "club": "에인트 라이트"
   },
   "psv-15": {
@@ -18652,7 +18652,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "소르바 토머슨",
     "nation": "웨일스",
     "birthYear": 1999,
-    "pos": "RW",
+    "pos": "RM",
     "club": "헐 타이거"
   },
   "hul-08": {
@@ -19891,7 +19891,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "한지훈",
     "nation": "대한민국",
     "birthYear": 1988,
-    "pos": "RW",
+    "pos": "RM",
     "club": "부천 레드"
   },
   "buc-18": {
@@ -20388,7 +20388,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "고재헌",
     "nation": "대한민국",
     "birthYear": 1999,
-    "pos": "RW",
+    "pos": "RM",
     "club": "김천 상록"
   },
   "gim-08": {
@@ -20647,7 +20647,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "케이시 맥아티언",
     "nation": "아일랜드",
     "birthYear": 2001,
-    "pos": "RW",
+    "pos": "RM",
     "club": "입스위치 트랙터"
   },
   "ips-16": {
@@ -21032,7 +21032,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "이청욘",
     "nation": "대한민국",
     "birthYear": 1988,
-    "pos": "RW",
+    "pos": "RM",
     "club": "인천 유나이트"
   },
   "inc-22": {
@@ -21277,7 +21277,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "김승석",
     "nation": "대한민국",
     "birthYear": 1996,
-    "pos": "LW",
+    "pos": "LM",
     "club": "전북 모터스"
   },
   "jbk-11": {
@@ -21599,7 +21599,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "완델솔",
     "nation": "브라질",
     "birthYear": 1989,
-    "pos": "LW",
+    "pos": "LM",
     "club": "포항 스틸맨"
   },
   "poh-28": {
@@ -21718,7 +21718,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "문선믄",
     "nation": "대한민국",
     "birthYear": 1992,
-    "pos": "LW",
+    "pos": "LM",
     "club": "서울 캐피탈"
   },
   "seo-17": {
@@ -22425,7 +22425,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "제이컵 머핀",
     "nation": "잉글랜드",
     "birthYear": 1995,
-    "pos": "RW",
+    "pos": "RM",
     "club": "뉴캐슬 매파이"
   },
   "new-19": {
@@ -23510,7 +23510,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "줄리아노 시메오나",
     "nation": "아르헨티나",
     "birthYear": 2002,
-    "pos": "RW",
+    "pos": "RM",
     "club": "마드리드 로히"
   },
   "atm-19": {
@@ -24154,7 +24154,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "헤르만 발레란",
     "nation": "스페인",
     "birthYear": 2002,
-    "pos": "LW",
+    "pos": "LM",
     "club": "엘체 프란히베르데"
   },
   "elc-11": {
@@ -24196,7 +24196,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "테테 모렌토",
     "nation": "스페인",
     "birthYear": 1996,
-    "pos": "RW",
+    "pos": "RM",
     "club": "엘체 프란히베르데"
   },
   "elc-17": {
@@ -24476,7 +24476,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "후안미르",
     "nation": "스페인",
     "birthYear": 1993,
-    "pos": "LW",
+    "pos": "LM",
     "club": "헤타페 아술"
   },
   "get-08": {
@@ -24630,7 +24630,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "로제르 브루겐",
     "nation": "스페인",
     "birthYear": 1996,
-    "pos": "LW",
+    "pos": "LM",
     "club": "레반테 그라노타"
   },
   "lev-08": {
@@ -24987,7 +24987,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "키케 바르한",
     "nation": "스페인",
     "birthYear": 1997,
-    "pos": "LW",
+    "pos": "LM",
     "club": "오사수나 로하"
   },
   "osa-09": {
@@ -25001,7 +25001,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "루벤 가르시안",
     "nation": "스페인",
     "birthYear": 1993,
-    "pos": "RW",
+    "pos": "RM",
     "club": "오사수나 로하"
   },
   "osa-11": {
@@ -25302,7 +25302,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "이시 팔라손드",
     "nation": "스페인",
     "birthYear": 1994,
-    "pos": "RW",
+    "pos": "RM",
     "club": "라요 프랑코"
   },
   "ray-08": {
@@ -25358,7 +25358,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "알바로 가르시안",
     "nation": "스페인",
     "birthYear": 1992,
-    "pos": "LW",
+    "pos": "LM",
     "club": "라요 프랑코"
   },
   "ray-16": {
@@ -25533,7 +25533,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "로드리고 리켈멘",
     "nation": "스페인",
     "birthYear": 2000,
-    "pos": "RW",
+    "pos": "RM",
     "club": "베티스 베르데"
   },
   "bet-18": {
@@ -25582,7 +25582,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "아이토르 루이발라",
     "nation": "스페인",
     "birthYear": 1996,
-    "pos": "RW",
+    "pos": "RM",
     "club": "베티스 베르데"
   },
   "bet-25": {
@@ -26191,7 +26191,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "루이스 리오한",
     "nation": "스페인",
     "birthYear": 1993,
-    "pos": "LW",
+    "pos": "LM",
     "club": "발렌시아 무르시엘"
   },
   "val-12": {
@@ -26226,7 +26226,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "디에고 로페노",
     "nation": "스페인",
     "birthYear": 2002,
-    "pos": "RW",
+    "pos": "RM",
     "club": "발렌시아 무르시엘"
   },
   "val-17": {
@@ -27220,7 +27220,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "토르강 아자른",
     "nation": "벨기에",
     "birthYear": 1993,
-    "pos": "LW",
+    "pos": "LM",
     "club": "랑스 상글리에"
   },
   "len-10": {
@@ -28263,7 +28263,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "이사크 얀손드",
     "nation": "스웨덴",
     "birthYear": 2002,
-    "pos": "LW",
+    "pos": "LM",
     "club": "니스 애글롱"
   },
   "nic-12": {
@@ -28865,7 +28865,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "아르노 노르댕드",
     "nation": "프랑스",
     "birthYear": 1998,
-    "pos": "LW",
+    "pos": "LM",
     "club": "렌 루즈누아"
   },
   "ren-24": {
@@ -28879,7 +28879,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "프셰미스와프 프란코프스킨",
     "nation": "폴란드",
     "birthYear": 1995,
-    "pos": "RW",
+    "pos": "RM",
     "club": "렌 루즈누아"
   },
   "str-01": {
@@ -29124,7 +29124,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "아론 되눔드",
     "nation": "노르웨이",
     "birthYear": 1998,
-    "pos": "RW",
+    "pos": "RM",
     "club": "툴루즈 비올레"
   },
   "tou-13": {
@@ -29488,7 +29488,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "안톤 카덴",
     "nation": "독일",
     "birthYear": 2004,
-    "pos": "RW",
+    "pos": "RM",
     "club": "아우크스 푸거"
   },
   "aug-22": {
@@ -29642,7 +29642,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "팀 스카르켄",
     "nation": "독일",
     "birthYear": 1996,
-    "pos": "RW",
+    "pos": "RM",
     "club": "우니온 철강"
   },
   "uni-18": {
@@ -29656,7 +29656,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "로베르트 스코운",
     "nation": "덴마크",
     "birthYear": 1996,
-    "pos": "LW",
+    "pos": "LM",
     "club": "우니온 철강"
   },
   "uni-20": {
@@ -29810,7 +29810,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "마르코 그륄라",
     "nation": "오스트리아",
     "birthYear": 1998,
-    "pos": "LW",
+    "pos": "LM",
     "club": "브레멘 그린"
   },
   "bre2-16": {
@@ -30293,7 +30293,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "안스가르 크나우픈",
     "nation": "독일",
     "birthYear": 2002,
-    "pos": "RW",
+    "pos": "RM",
     "club": "프랑크 이글"
   },
   "fra-08": {
@@ -30454,7 +30454,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "데리 셰르한튼",
     "nation": "독일",
     "birthYear": 2002,
-    "pos": "LW",
+    "pos": "LM",
     "club": "프라이 검은숲"
   },
   "fri-06": {
@@ -30496,7 +30496,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "니클라스 베스텐",
     "nation": "독일",
     "birthYear": 1999,
-    "pos": "LW",
+    "pos": "LM",
     "club": "프라이 검은숲"
   },
   "fri-12": {
@@ -31105,7 +31105,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "얀 틸마느",
     "nation": "독일",
     "birthYear": 2002,
-    "pos": "RW",
+    "pos": "RM",
     "club": "쾰른 염소"
   },
   "kol-23": {
@@ -31378,7 +31378,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "요나스 호프마느",
     "nation": "독일",
     "birthYear": 1992,
-    "pos": "RW",
+    "pos": "RM",
     "club": "레버 아스피린"
   },
   "lev2-08": {
@@ -31434,7 +31434,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "루카스 바스케손",
     "nation": "스페인",
     "birthYear": 1991,
-    "pos": "RW",
+    "pos": "RM",
     "club": "레버 아스피린"
   },
   "lev2-16": {
@@ -31833,7 +31833,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "로빈 하큰",
     "nation": "독일",
     "birthYear": 1998,
-    "pos": "RW",
+    "pos": "RM",
     "club": "묀헨 망아지"
   },
   "bmg-22": {
@@ -33583,7 +33583,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "알레시오 제르비느",
     "nation": "이탈리아",
     "birthYear": 1999,
-    "pos": "RW",
+    "pos": "RM",
     "club": "프로시노 지알로"
   },
   "fro-17": {
@@ -34227,7 +34227,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "니코 곤살레노",
     "nation": "아르헨티나",
     "birthYear": 1998,
-    "pos": "RW",
+    "pos": "RM",
     "club": "토리노 비앙코네로"
   },
   "juv-28": {
@@ -34759,7 +34759,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "알렉시스 살레마커르손",
     "nation": "벨기에",
     "birthYear": 1999,
-    "pos": "RW",
+    "pos": "RM",
     "club": "밀라노 로소네로"
   },
   "mil-23": {
@@ -35088,7 +35088,7 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "name": "마테오 폴리타논",
     "nation": "이탈리아",
     "birthYear": 1993,
-    "pos": "RW",
+    "pos": "RM",
     "club": "나폴리 파르테노"
   },
   "nap-16": {

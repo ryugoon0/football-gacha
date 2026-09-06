@@ -8,10 +8,12 @@ import type { Card, PlayerDef } from './types'
 /**
  * 앨범 — the card collection with rewards (docs/ALBUM_PLAN.md).
  *
- * Registering a card costs nothing: a set counts the distinct players you own
- * right now, so selling a card also un-registers it. Each set pays once; the
- * claim is recorded on the server (album_claims), which re-checks the claim
- * against the cloud save before mailing the reward to the 선물함.
+ * Registering a card costs nothing: a set counts the distinct players you have
+ * ever held (the save's `collected` list, plus whatever is in hand), so selling
+ * or fusing a card never un-registers it (2026-09-06 — before that only the
+ * cards in hand counted). Each set pays once; the claim is recorded on the
+ * server (album_claims), which re-checks the claim against the cloud save
+ * before mailing the reward to the 선물함.
  *
  * Set definitions are derived from the roster here and pushed to the server
  * (album_sets) from the operator console, so the server can verify a claim
@@ -105,8 +107,9 @@ export function albumSets(): AlbumSet[] {
   return cached
 }
 
-export function ownedPlayerIds(cards: readonly Card[]): Set<string> {
-  return new Set(cards.map((card) => card.playerId))
+/** Every player the manager has ever held: the collection log plus the cards in hand (a save from before the log is still covered). */
+export function ownedPlayerIds(cards: readonly Card[], collected: readonly string[] = []): Set<string> {
+  return new Set([...collected, ...cards.map((card) => card.playerId)])
 }
 
 export interface AlbumProgress {
@@ -205,7 +208,7 @@ export const ALBUM_FAILURE_MESSAGE: Record<string, string> = {
   'not signed in': '로그인이 풀렸습니다.',
   'unknown set': '운영자가 이 앨범을 아직 열지 않았습니다. 잠시 뒤 다시 시도해 주세요.',
   'already claimed': '이미 받은 앨범 보상입니다.',
-  'not complete': '서버에 저장된 카드로는 아직 완성이 아닙니다. 잠시 뒤(저장이 올라간 뒤) 다시 시도해 주세요.',
+  'not complete': '서버에 저장된 보유 기록으로는 아직 완성이 아닙니다. 잠시 뒤(저장이 올라간 뒤) 다시 시도해 주세요.',
   'no save': '클라우드 저장이 아직 없습니다. 잠시 뒤 다시 시도해 주세요.',
   'not an operator': '운영자만 할 수 있습니다.',
 }

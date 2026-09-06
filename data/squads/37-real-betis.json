@@ -171,10 +171,11 @@
       "number": 17,
       "name": "로드리고 리켈멘",
       "real": "로드리고 리켈메",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "스페인",
       "birthYear": 2000,
-      "ovr": 77
+      "ovr": 77,
+      "positions": ["RM", "RW", "LM"]
     },
     {
       "key": "bet-18",
@@ -241,10 +242,11 @@
       "number": 24,
       "name": "아이토르 루이발라",
       "real": "아이토르 루이발",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "스페인",
       "birthYear": 1996,
-      "ovr": 74
+      "ovr": 74,
+      "positions": ["RM", "RW", "RB"]
     },
     {
       "key": "bet-25",

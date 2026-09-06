@@ -181,10 +181,11 @@
       "number": 23,
       "name": "제이컵 머핀",
       "real": "제이컵 머피",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "잉글랜드",
       "birthYear": 1995,
-      "ovr": 76
+      "ovr": 76,
+      "positions": ["RM", "RW"]
     },
     {
       "key": "new-19",

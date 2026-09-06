@@ -161,10 +161,11 @@
       "number": 27,
       "name": "문선믄",
       "real": "문선민",
-      "pos": "LW",
+      "pos": "LM",
       "nation": "대한민국",
       "birthYear": 1992,
-      "ovr": 71
+      "ovr": 71,
+      "positions": ["LM", "LW", "LB"]
     },
     {
       "key": "seo-17",

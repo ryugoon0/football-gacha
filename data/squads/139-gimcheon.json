@@ -71,10 +71,11 @@
       "number": 7,
       "name": "고재헌",
       "real": "고재현",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "대한민국",
       "birthYear": 1999,
-      "ovr": 71
+      "ovr": 71,
+      "positions": ["RM", "RW", "RB"]
     },
     {
       "key": "gim-08",

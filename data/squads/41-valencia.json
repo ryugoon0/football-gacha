@@ -111,10 +111,11 @@
       "number": 11,
       "name": "루이스 리오한",
       "real": "루이스 리오하",
-      "pos": "LW",
+      "pos": "LM",
       "nation": "스페인",
       "birthYear": 1993,
-      "ovr": 73
+      "ovr": 73,
+      "positions": ["LM", "LW"]
     },
     {
       "key": "val-12",
@@ -161,10 +162,11 @@
       "number": 16,
       "name": "디에고 로페노",
       "real": "디에고 로페스",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "스페인",
       "birthYear": 2002,
-      "ovr": 74
+      "ovr": 74,
+      "positions": ["RM", "RW"]
     },
     {
       "key": "val-17",

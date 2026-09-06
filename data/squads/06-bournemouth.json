@@ -24,7 +24,7 @@
     { "key": "bou-16", "number": 8, "name": "알렉스 스코트", "real": "알렉스 스콧", "pos": "CM", "nation": "잉글랜드", "birthYear": 2003, "ovr": 78 },
     { "key": "bou-17", "number": 10, "name": "라이언 크리스토", "real": "라이언 크리스티", "pos": "CM", "nation": "스코틀랜드", "birthYear": 1995, "ovr": 78 },
     { "key": "bou-18", "number": 12, "name": "타일러 애덤손", "real": "타일러 애덤스", "pos": "CDM", "nation": "미국", "birthYear": 1999, "ovr": 79 },
-    { "key": "bou-19", "number": 16, "name": "마커스 태버니오", "real": "마커스 태버니어", "pos": "LW", "nation": "잉글랜드", "birthYear": 1999, "ovr": 78 },
+    { "key": "bou-19", "number": 16, "name": "마커스 태버니오", "real": "마커스 태버니어", "pos": "LM", "nation": "잉글랜드", "birthYear": 1999, "ovr": 78, "positions": ["LM", "LW"] },
     { "key": "bou-20", "number": 21, "name": "아민 아들로", "real": "아민 아들리", "pos": "LW", "nation": "모로코", "birthYear": 2000, "ovr": 78 },
     { "key": "bou-21", "number": 27, "name": "알렉스 토토", "real": "알렉스 토트", "pos": "CM", "nation": "헝가리", "birthYear": 2005, "ovr": 70 },
     { "key": "bou-22", "number": 9, "name": "에바닐손", "real": "에바닐송", "pos": "ST", "nation": "브라질", "birthYear": 1999, "ovr": 81 },

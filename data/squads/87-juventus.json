@@ -271,10 +271,11 @@
       "number": 31,
       "name": "니코 곤살레노",
       "real": "니코 곤살레스",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "아르헨티나",
       "birthYear": 1998,
-      "ovr": 78
+      "ovr": 78,
+      "positions": ["RM", "RW"]
     },
     {
       "key": "juv-28",

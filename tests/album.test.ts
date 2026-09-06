@@ -33,6 +33,9 @@ describe('앨범 묶음', () => {
     const children = league.childIds.map((id) => sets.find((set) => set.id === id)!)
     // Own eleven of every club but one.
     const cards = children.slice(1).flatMap((child) => child.playerIds.slice(0, CLUB_REQUIRED).map((id) => cardOf(id)))
+    // A sold card stays registered: the collection log counts alongside the cards in hand.
+    expect(ownedPlayerIds([], ['x1', 'x2']).has('x1')).toBe(true)
+    expect(ownedPlayerIds([cardOf('y1')], ['x1']).size).toBe(2)
     const owned = ownedPlayerIds(cards)
     const partial = albumProgress(league, owned, sets)
     expect(partial.have).toBe(children.length - 1)

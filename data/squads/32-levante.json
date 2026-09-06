@@ -71,10 +71,11 @@
       "number": 7,
       "name": "로제르 브루겐",
       "real": "로제르 브루게",
-      "pos": "LW",
+      "pos": "LM",
       "nation": "스페인",
       "birthYear": 1996,
-      "ovr": 72
+      "ovr": 72,
+      "positions": ["LM", "LW"]
     },
     {
       "key": "lev-08",

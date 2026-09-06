@@ -101,10 +101,11 @@
       "number": 11,
       "name": "김승석",
       "real": "김승섭",
-      "pos": "LW",
+      "pos": "LM",
       "nation": "대한민국",
       "birthYear": 1996,
-      "ovr": 71
+      "ovr": 71,
+      "positions": ["LM", "LW"]
     },
     {
       "key": "jbk-11",

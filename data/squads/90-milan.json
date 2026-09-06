@@ -221,10 +221,11 @@
       "number": 56,
       "name": "알렉시스 살레마커르손",
       "real": "알렉시스 살레마커르스",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "벨기에",
       "birthYear": 1999,
-      "ovr": 76
+      "ovr": 76,
+      "positions": ["RM", "RW"]
     },
     {
       "key": "mil-23",

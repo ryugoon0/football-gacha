@@ -71,10 +71,11 @@
       "number": 7,
       "name": "요나스 호프마느",
       "real": "요나스 호프만",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "독일",
       "birthYear": 1992,
-      "ovr": 76
+      "ovr": 76,
+      "positions": ["RM", "RW", "CAM"]
     },
     {
       "key": "lev2-08",
@@ -151,10 +152,11 @@
       "number": 17,
       "name": "루카스 바스케손",
       "real": "루카스 바스케스",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "스페인",
       "birthYear": 1991,
-      "ovr": 77
+      "ovr": 77,
+      "positions": ["RM", "RW", "RB"]
     },
     {
       "key": "lev2-16",

@@ -231,10 +231,11 @@
       "number": 70,
       "name": "아르노 노르댕드",
       "real": "아르노 노르댕",
-      "pos": "LW",
+      "pos": "LM",
       "nation": "프랑스",
       "birthYear": 1998,
-      "ovr": 73
+      "ovr": 73,
+      "positions": ["LM", "LW"]
     },
     {
       "key": "ren-24",
@@ -251,10 +252,11 @@
       "number": 95,
       "name": "프셰미스와프 프란코프스킨",
       "real": "프셰미스와프 프란코프스키",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "폴란드",
       "birthYear": 1995,
-      "ovr": 74
+      "ovr": 74,
+      "positions": ["RM", "RW", "RB"]
     }
   ]
 }

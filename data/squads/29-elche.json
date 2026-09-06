@@ -101,10 +101,11 @@
       "number": 11,
       "name": "헤르만 발레란",
       "real": "헤르만 발레라",
-      "pos": "LW",
+      "pos": "LM",
       "nation": "스페인",
       "birthYear": 2002,
-      "ovr": 70
+      "ovr": 70,
+      "positions": ["LM", "LW"]
     },
     {
       "key": "elc-11",
@@ -161,10 +162,11 @@
       "number": 20,
       "name": "테테 모렌토",
       "real": "테테 모렌테",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "스페인",
       "birthYear": 1996,
-      "ovr": 73
+      "ovr": 73,
+      "positions": ["RM", "RW"]
     },
     {
       "key": "elc-17",

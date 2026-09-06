@@ -161,10 +161,11 @@
       "number": 24,
       "name": "알레시오 제르비느",
       "real": "알레시오 제르빈",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "이탈리아",
       "birthYear": 1999,
-      "ovr": 70
+      "ovr": 70,
+      "positions": ["RM", "RW"]
     },
     {
       "key": "fro-17",

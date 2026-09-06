@@ -211,10 +211,11 @@
       "number": 30,
       "name": "안톤 카덴",
       "real": "안톤 카데",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "독일",
       "birthYear": 2004,
-      "ovr": 69
+      "ovr": 69,
+      "positions": ["RM", "RW"]
     },
     {
       "key": "aug-22",

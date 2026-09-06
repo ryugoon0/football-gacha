@@ -181,10 +181,11 @@
       "number": 20,
       "name": "줄리아노 시메오나",
       "real": "줄리아노 시메오네",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "아르헨티나",
       "birthYear": 2002,
-      "ovr": 80
+      "ovr": 80,
+      "positions": ["RM", "RW"]
     },
     {
       "key": "atm-19",

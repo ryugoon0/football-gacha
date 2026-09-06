@@ -271,10 +271,11 @@
       "number": 77,
       "name": "완델솔",
       "real": "완델손",
-      "pos": "LW",
+      "pos": "LM",
       "nation": "브라질",
       "birthYear": 1989,
-      "ovr": 70
+      "ovr": 70,
+      "positions": ["LM", "LW", "LB"]
     },
     {
       "key": "poh-28",

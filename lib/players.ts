@@ -291,6 +291,8 @@ export const LEAGUES = Array.from(new Set(CLUBS.map((club) => club.league)))
  */
 export interface RosterExtras {
   stats?: Partial<Stats>
+  /** Playable positions pinned by the roster row (main first); otherwise drawn from the main position. */
+  positions?: Position[]
   hidden?: Partial<HiddenStats>
   /** Kept out of packs, market, fusion and shards until the card is approved. */
   unreleased?: boolean
@@ -477,7 +479,7 @@ export function buildPlayer(id: string, fix: PlayerOverride = PLAYER_OVERRIDES[i
     id,
     name,
     position: slot,
-    positions: fix.positions ?? buildPositions(id, slot, rarity),
+    positions: fix.positions ?? extras?.positions ?? buildPositions(id, slot, rarity),
     rarity,
     nation: nation ?? NATIONS[Math.floor(rng() * NATIONS.length)],
     club: club.name,

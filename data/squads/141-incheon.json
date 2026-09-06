@@ -211,10 +211,11 @@
       "number": 72,
       "name": "이청욘",
       "real": "이청용",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "대한민국",
       "birthYear": 1988,
-      "ovr": 70
+      "ovr": 70,
+      "positions": ["RM", "RW"]
     },
     {
       "key": "inc-22",

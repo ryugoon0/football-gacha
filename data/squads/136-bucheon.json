@@ -171,10 +171,11 @@
       "number": 22,
       "name": "한지훈",
       "real": "한지호",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "대한민국",
       "birthYear": 1988,
-      "ovr": 66
+      "ovr": 66,
+      "positions": ["RM", "RW"]
     },
     {
       "key": "buc-18",

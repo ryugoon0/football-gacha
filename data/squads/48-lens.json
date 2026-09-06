@@ -91,10 +91,11 @@
       "number": 9,
       "name": "토르강 아자른",
       "real": "토르강 아자르",
-      "pos": "LW",
+      "pos": "LM",
       "nation": "벨기에",
       "birthYear": 1993,
-      "ovr": 74
+      "ovr": 74,
+      "positions": ["LM", "LW"]
     },
     {
       "key": "len-10",

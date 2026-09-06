@@ -71,10 +71,11 @@
       "number": 7,
       "name": "이시 팔라손드",
       "real": "이시 팔라손",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "스페인",
       "birthYear": 1994,
-      "ovr": 77
+      "ovr": 77,
+      "positions": ["RM", "RW"]
     },
     {
       "key": "ray-08",
@@ -151,10 +152,11 @@
       "number": 18,
       "name": "알바로 가르시안",
       "real": "알바로 가르시아",
-      "pos": "LW",
+      "pos": "LM",
       "nation": "스페인",
       "birthYear": 1992,
-      "ovr": 75
+      "ovr": 75,
+      "positions": ["LM", "LW"]
     },
     {
       "key": "ray-16",

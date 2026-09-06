@@ -171,10 +171,11 @@
       "number": 21,
       "name": "팀 스카르켄",
       "real": "팀 스카르케",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "독일",
       "birthYear": 1996,
-      "ovr": 69
+      "ovr": 69,
+      "positions": ["RM", "RW"]
     },
     {
       "key": "uni-18",
@@ -191,10 +192,11 @@
       "number": 24,
       "name": "로베르트 스코운",
       "real": "로베르트 스코우",
-      "pos": "LW",
+      "pos": "LM",
       "nation": "덴마크",
       "birthYear": 1996,
-      "ovr": 72
+      "ovr": 72,
+      "positions": ["LM", "LW"]
     },
     {
       "key": "uni-20",

@@ -61,10 +61,11 @@
       "number": 8,
       "name": "이희근",
       "real": "이희균",
-      "pos": "RW",
+      "pos": "RM",
       "nation": "대한민국",
       "birthYear": 1998,
-      "ovr": 74
+      "ovr": 74,
+      "positions": ["RM", "RW"]
     },
     {
       "key": "ulsan-09",
