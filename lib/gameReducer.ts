@@ -45,6 +45,7 @@ import {
 } from './league'
 import { dailyMarket, type Listing } from './market'
 import { getPlayer, levelCap } from './players'
+import { applyWear, type WearRow } from './weeklyWear'
 import { autoFill } from './squad'
 import { costOf, releaseValue, type ShardOffer } from './shards'
 import { TOTAL_MATCHDAYS } from './schedule'
@@ -148,6 +149,7 @@ export type Action =
   /** Items the server granted (히든 카드 from a league week or cup final) reaching the save. */
   | { type: 'grantItems'; items: { id: ItemId; count: number }[] }
   | { type: 'grantCards'; playerIds: string[] }
+  | { type: 'applyWeeklyWear'; rows: WearRow[] }
   /** One item spent somewhere the server already accepted it (a 히든 카드 played before kick-off). */
   | { type: 'consumeItem'; id: ItemId }
   | { type: 'finishGuide' }
@@ -881,6 +883,14 @@ export function reducer(state: GameState, action: Action): GameState {
         cards: [...state.cards, ...ids.map((id) => newCard(id))],
         collected: Array.from(new Set([...state.collected, ...ids])),
       }
+    }
+
+    case 'applyWeeklyWear': {
+      // 경쟁 리그 legs: the server's ledger of who played in my settled
+      // fixtures, drained and rested here so the collection feels the week
+      // (lib/weeklyWear.ts). Nothing else changes — no exp, no injuries.
+      if (action.rows.length === 0) return state
+      return { ...state, cards: applyWear(state.cards, action.rows).cards }
     }
 
     case 'consumeItem': {

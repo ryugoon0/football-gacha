@@ -197,6 +197,7 @@ export interface SharedRatingLine {
   assists: number
 }
 export function ratingsOf(result: SharedReplayResult, seed: string): SharedRatingLine[]
+export function wearOf(snapshot: SharedSnapshot, result: SharedReplayResult): { side: SharedSide; starters: string[]; subs: string[] }[]
 export function mvpOf(result: SharedReplayResult, seed: string): SharedRatingLine | null
 export function disciplineOf(
   result: SharedReplayResult,

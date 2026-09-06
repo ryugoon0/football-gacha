@@ -15,6 +15,7 @@ import { loadTuning } from '../lib/configSync'
 import { todayKey, type MissionId } from '../lib/daily'
 import { FUSION_FEE, FUSION_SIZE, checkFusion, fusionResult } from '../lib/fusion'
 import { reducer, type MatchLineup, type RoundResult } from '../lib/gameReducer'
+import type { WearRow } from '../lib/weeklyWear'
 import type { Fixture } from '../lib/league'
 import { REFRESH_COST, rollListings, type Listing } from '../lib/market'
 import { exchangeResult, type ShardOffer } from '../lib/shards'
@@ -74,6 +75,8 @@ export interface GameApi {
   grantItems: (items: { id: ItemId; count: number }[]) => void
   /** Adds gifted cards (by player id) to the collection — used by the 선물함. */
   grantCards: (playerIds: string[]) => void
+  /** 경쟁 리그 legs — settled fixtures' wear lines from the server (lib/weeklyWear.ts). */
+  applyWeeklyWear: (rows: WearRow[]) => void
   consumeItem: (id: ItemId) => void
   finishGuide: () => void
   renameClub: (club: string) => void
@@ -206,6 +209,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       grantGold: (amount: number) => dispatch({ type: 'grantGold', amount }),
       grantItems: (items: { id: ItemId; count: number }[]) => dispatch({ type: 'grantItems', items }),
       grantCards: (playerIds: string[]) => dispatch({ type: 'grantCards', playerIds }),
+      applyWeeklyWear: (rows: WearRow[]) => dispatch({ type: 'applyWeeklyWear', rows }),
       consumeItem: (id: ItemId) => dispatch({ type: 'consumeItem', id }),
       finishGuide: () => dispatch({ type: 'finishGuide' }),
       renameClub: (club: string) => dispatch({ type: 'renameClub', club }),

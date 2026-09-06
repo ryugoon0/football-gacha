@@ -39,6 +39,7 @@ import {
   disciplineOf,
   mvpOf,
   ratingsOf,
+  wearOf,
   sheetsOf,
   clubSheetOf,
   weeklyAiSquad,
@@ -353,6 +354,15 @@ async function settleFromEngine(
         ? { slot: mvp.side === 'home' ? fixture.homeSlot : fixture.awaySlot, playerId: mvp.playerId, name: mvp.name, rating: mvp.rating }
         : null
     })(),
+    // Legs: who kicked off and who came on, per real manager — the client
+    // drains and rests cards from these when it next loads (lib/weeklyWear.ts).
+    p_wear: wearOf(engine.snapshot, replay)
+      .map((line) => ({
+        userId: line.side === 'home' ? (fixture.home.kind === 'user' ? fixture.home.userId : null) : fixture.away.kind === 'user' ? fixture.away.userId : null,
+        starters: line.starters,
+        subs: line.subs,
+      }))
+      .filter((line) => line.userId),
     // Every starter's mark — the week's 베스트 일레븐 and the ratings behind
     // the individual awards are picked from these at the week's close.
     p_ratings: ratingsOf(replay, engine.seed).map((line) => ({

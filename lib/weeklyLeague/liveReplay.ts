@@ -548,6 +548,33 @@ export function mvpOf(result: ReplayResult, seed: string): FixtureRatingLine | n
   )[0]
 }
 
+
+export interface WearLine {
+  side: LiveSide
+  /** Card uids that kicked off. */
+  starters: string[]
+  /** Card uids that came on during the match. */
+  subs: string[]
+}
+
+/**
+ * Who actually played, per side, for the fitness ledger (weekly_wear): the
+ * eleven that kicked off and anyone substituted on. Read from the material
+ * squads, so an AI side (empty material) yields nothing.
+ */
+export function wearOf(snapshot: LiveSnapshot, result: ReplayResult): WearLine[] {
+  const uidsOf = (squad: Squad | undefined) => (squad ? (Object.values(squad.slots).filter(Boolean) as string[]) : [])
+  const lines: WearLine[] = []
+  for (const side of ['home', 'away'] as LiveSide[]) {
+    const starters = uidsOf(snapshot[side]?.squad)
+    if (starters.length === 0) continue
+    const finalEleven = uidsOf(result[side]?.squad)
+    const subs = finalEleven.filter((uid) => !starters.includes(uid))
+    lines.push({ side, starters, subs })
+  }
+  return lines
+}
+
 /** What a viewer gets: the match as it stands, nothing private (no seed, no other side's plan). */
 export interface LivePublicState {
   minute: number

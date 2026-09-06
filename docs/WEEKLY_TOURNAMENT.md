@@ -365,6 +365,28 @@ localStorage에 남아 다시 뜨지 않는다.
   관리자 화면의 수동 생성 버튼(`WeeklyLeaguePanel`)은 자동 생성으로 대체돼
   필요할 때만 쓰는 보조 수단으로 남아 있습니다.
 
+## 체력 (2026-09-06 추가)
+
+경쟁 리그 경기는 세이브를 직접 고치지 않으므로, 정산이 세이브 밖의 원장에 "누가
+뛰었나"만 적는다(`weekly_wear`: user_id, fixture_id, starters[], subs[], applied_at).
+Edge Function `weekly-fixture-live`가 확정할 때 `wearOf(snapshot, replay)`로 킥오프
+11명과 교체 투입을 뽑아 `commit_weekly_fixture_result(p_wear)`에 넘긴다. AI 쪽은
+줄이 없다.
+
+클라이언트(`components/WeeklyWearSync.tsx` → `lib/weeklyWear.ts`)는 로그인·5분마다·
+탭 복귀 때 `applied_at is null`인 줄을 읽어 경기 순서대로 반영하고
+`ack_weekly_wear(ids)`로 잠근 뒤 바로 클라우드 저장한다. 반영 규칙은 경기당이며
+시간 회복은 없다(사용자 결정, 2026-09-06):
+
+| 노브 | 기본값 | 대상 |
+| --- | --- | --- |
+| `weeklyDrainStarter` | 6 | 킥오프 11명 |
+| `weeklyDrainSub` | 3 | 교체 투입 |
+| `weeklyRestRecover` | 8 | 그 경기에 뛰지 않은 모든 카드(벤치·보관함) |
+
+같은 11명으로 하루 15경기를 다 뛰면 90이 빠지도록 잡았다. 「내 경기」 상단에
+규칙이 현재 노브 값으로 보인다.
+
 ## 테스트 결과
 
 ```

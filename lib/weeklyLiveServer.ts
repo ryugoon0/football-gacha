@@ -24,6 +24,7 @@ export {
   disciplineOf,
   mvpOf,
   ratingsOf,
+  wearOf,
   sheetsOf,
 } from './weeklyLeague/liveReplay'
 export { clubSheetOf } from './weeklyLeague/clubSheet'

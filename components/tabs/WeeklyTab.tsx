@@ -31,6 +31,7 @@ import {
 } from '../../lib/weeklyLeague/rewards'
 import { CLUB_COUNT, TOURNAMENT_NAMES } from '../../lib/weeklyLeague/config'
 import { standings, type StandingsMatch, type StandingsResult } from '../../lib/weeklyLeague/standings'
+import { wearRates } from '../../lib/weeklyWear'
 
 /**
  * The player's own window into the weekly tournament — until now the only
@@ -497,6 +498,7 @@ export default function WeeklyTab() {
 
       {sub === 'mine' && (
         <>
+          <WearRule />
           {discipline.length > 0 && (
             <section className="panel p-3">
               <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400">징계</div>
@@ -1127,6 +1129,20 @@ function FixtureList({
           })}
         </div>
       )}
+    </section>
+  )
+}
+
+/** The fitness rule for the week, in the manager's own numbers (lib/weeklyWear.ts). */
+function WearRule() {
+  const rates = wearRates()
+  return (
+    <section className="panel p-3">
+      <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400">체력</div>
+      <p className="mt-1 text-[11px] text-slate-300">
+        내 경기가 정산될 때마다 선발 <b className="text-rose-200">−{rates.starter}</b>, 교체 투입 <b className="text-amber-200">−{rates.sub}</b>, 뛰지 않은 카드는{' '}
+        <b className="text-emerald-200">+{rates.rest}</b> 회복합니다. 접속하면 자동으로 반영됩니다. 시간이 지난다고 회복하지는 않으니 벤치와 보관함으로 로테이션을 돌리세요.
+      </p>
     </section>
   )
 }
