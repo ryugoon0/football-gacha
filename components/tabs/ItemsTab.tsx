@@ -140,7 +140,10 @@ export default function ItemsTab() {
       {side === 'shop' ? (
         <section className="panel p-4">
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">상점</h3>
+            <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">
+              상점
+              <a href="/odds" target="_blank" rel="noreferrer" className="ml-2 text-[10px] font-bold normal-case tracking-normal text-emerald-300 underline-offset-2 hover:underline">확률 안내</a>
+            </h3>
             <div className="flex shrink-0 items-center gap-1.5">
               <span className="text-[10px] font-bold uppercase tracking-wide text-slate-500">수량</span>
               {COUNTS.map((value) => (

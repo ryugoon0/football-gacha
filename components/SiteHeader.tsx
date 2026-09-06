@@ -1,13 +1,14 @@
 import Link from 'next/link'
 import { BRAND_MARK, BRAND_NAME } from '../lib/brand'
 
-type Section = 'home' | 'league' | 'cards' | 'clubs'
+type Section = 'home' | 'league' | 'cards' | 'clubs' | 'odds'
 
 const LINKS: { href: string; label: string; section: Section }[] = [
   { href: '/', label: '리그센터', section: 'home' },
   { href: '/clubs', label: '스카우트', section: 'clubs' },
   { href: '/cards', label: '선수 도감', section: 'cards' },
   { href: '/news', label: '소식', section: 'league' },
+  { href: '/odds', label: '확률 안내', section: 'odds' },
 ]
 
 export default function SiteHeader({ active = 'home' }: { active?: Section }) {

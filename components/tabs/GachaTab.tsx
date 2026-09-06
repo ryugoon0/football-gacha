@@ -366,7 +366,8 @@ export default function GachaTab() {
           ))}
         </div>
         <p className="mt-1.5 text-[11px] text-slate-500">
-          한 장을 뽑을 때 각 등급이 나올 확률입니다. 10연속의 보장 카드와 천장은 여기에 더해집니다.
+          한 장을 뽑을 때 각 등급이 나올 확률입니다. 10연속의 보장 카드와 천장은 여기에 더해집니다.{' '}
+          <a href="/odds" target="_blank" rel="noreferrer" className="font-bold text-emerald-300 underline-offset-2 hover:underline">확률 안내 전체 보기</a>
         </p>
 
         {error && <p className="mt-3 text-sm font-semibold text-rose-400">{error}</p>}
