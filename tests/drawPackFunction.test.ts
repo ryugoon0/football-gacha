@@ -23,7 +23,7 @@ const ok = (payload: unknown) =>
   new Response(JSON.stringify(payload), { status: 200, headers: { 'Content-Type': 'application/json' } })
 
 /** Answers each of the three calls the handler makes, in order. */
-function stubFetch(steps: { user?: unknown; economy?: unknown; commit?: unknown }) {
+function stubFetch(steps: { user?: unknown; economy?: unknown; commit?: unknown; saves?: unknown; fusion?: unknown }) {
   return vi.fn(async (input: string | URL | Request, init?: RequestInit) => {
     void init
     const href = String(input)
@@ -31,6 +31,8 @@ function stubFetch(steps: { user?: unknown; economy?: unknown; commit?: unknown 
       return steps.user === null ? new Response('no', { status: 401 }) : ok(steps.user ?? { id: 'u1' })
     }
     if (href.includes('/rest/v1/economy')) return ok(steps.economy ?? [{ pity: 3, seeded: true }])
+    if (href.includes('/rest/v1/saves')) return ok(steps.saves ?? [])
+    if (href.includes('/rpc/record_world_fusion')) return ok(steps.fusion ?? { ok: true, balance: 1 })
     if (href.includes('/rpc/commit_pull')) {
       return ok(steps.commit ?? { ok: true, balance: 2700, pity: 4, pull_id: 9 })
     }
@@ -133,6 +135,40 @@ describe('the pull function', () => {
     const response = await handle(new Request('https://fn/draw-pack', { method: 'OPTIONS' }), env)
     expect(response.status).toBe(200)
     expect(response.headers.get('Access-Control-Allow-Origin')).toBe('*')
+  })
+})
+
+describe('the 월드 pack and 월드 fusion', () => {
+  it('opens the 월드 pack only with a pack, and never for gold', async () => {
+    const refused = await run({}, post({ pack: 'world' }))
+    expect(refused.body.reason).toBe('pack not allowed')
+    const wrong = await run({}, post({ pack: 'premium', payWith: 'worldPack' }))
+    expect(wrong.body.reason).toBe('pack not allowed')
+    const spy = stubFetch({ commit: { ok: true, balance: 100, pity: 0, pull_id: 1, worldPacks: 0 } })
+    vi.stubGlobal('fetch', spy)
+    const body = await (await handle(post({ pack: 'world', payWith: 'worldPack' }), env)).json()
+    const call = spy.mock.calls.find((args) => String(args[0]).includes('commit_pull'))
+    vi.unstubAllGlobals()
+    expect(body.ok).toBe(true)
+    expect(['Live', 'World']).toContain(body.cards[0].rarity)
+    const sent = JSON.parse(String(call?.[1]?.body))
+    expect(sent.p_cost).toBe(0)
+    expect(sent.p_world_packs).toBe(1)
+  })
+
+  it('fuses three 월드 cards from the save into a pack and refuses anything else', async () => {
+    const { PLAYERS } = await import('../lib/players')
+    const world = PLAYERS.filter((p) => p.rarity === 'World').slice(0, 3)
+    const plat = PLAYERS.find((p) => p.rarity === 'Live')!
+    const saves = [{ data: { cards: [...world.map((p, i) => ({ uid: `w${i}`, playerId: p.id })), { uid: 'p0', playerId: plat.id }] } }]
+    const good = await run({ saves }, post({ action: 'fuse_world', uids: ['w0', 'w1', 'w2'] }))
+    expect(good.body).toMatchObject({ ok: true, worldPacks: 1 })
+    const notWorld = await run({ saves }, post({ action: 'fuse_world', uids: ['w0', 'w1', 'p0'] }))
+    expect(notWorld.body.reason).toBe('not world')
+    const missing = await run({ saves }, post({ action: 'fuse_world', uids: ['w0', 'w1', 'zz'] }))
+    expect(missing.body.reason).toBe('card not in save')
+    const two = await run({ saves }, post({ action: 'fuse_world', uids: ['w0', 'w1', 'w1'] }))
+    expect(two.body.reason).toBe('need three')
   })
 })
 

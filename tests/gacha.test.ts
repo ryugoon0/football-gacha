@@ -37,7 +37,7 @@ describe('roster', () => {
 describe('gacha rates', () => {
   it('rolls each pack close to its own published table', async () => {
     const { PACK_RATES } = await import('../lib/gacha')
-    for (const family of ['basic', 'premium'] as const) {
+    for (const family of ['basic', 'premium', 'world'] as const) {
       const rates = PACK_RATES[family]
       const rng = seededRandom(1234)
       const counts: Record<string, number> = {}
@@ -46,9 +46,9 @@ describe('gacha rates', () => {
         const rarity = rollRarity(rng, null, rates)
         counts[rarity] = (counts[rarity] ?? 0) + 1
       }
-      for (const rarity of RARITIES) {
-        const percent = ((counts[rarity] ?? 0) / runs) * 100
-        expect(Math.abs(percent - rates[rarity])).toBeLessThan(2)
+      for (const key of [...RARITIES, 'Limited'] as const) {
+        const percent = ((counts[key] ?? 0) / runs) * 100
+        expect(Math.abs(percent - (rates[key] ?? 0))).toBeLessThan(2)
       }
     }
   })
@@ -59,9 +59,29 @@ describe('gacha rates', () => {
       rates.Legend + rates.Live + rates.World
     expect(high(PACK_RATES.premium)).toBeGreaterThan(high(PACK_RATES.basic) * 3)
     for (const rates of Object.values(PACK_RATES)) {
-      const total = RARITIES.reduce((sum, rarity) => sum + rates[rarity], 0)
+      const total = RARITIES.reduce((sum, rarity) => sum + rates[rarity], 0) + (rates.Limited ?? 0)
       expect(total).toBeCloseTo(100)
     }
+    // 월드 comes out of the 월드 pack only.
+    expect(PACK_RATES.basic.World).toBe(0)
+    expect(PACK_RATES.premium.World).toBe(0)
+    expect(PACK_RATES.world.World).toBeGreaterThan(0)
+    expect(PACK_RATES.world.Live + PACK_RATES.world.World).toBeCloseTo(100)
+  })
+
+  it('opens a 리미티드 bucket in the premium table only while a window is open, out of 일반·실버·골드', async () => {
+    const { packRates } = await import('../lib/gacha')
+    const { LIMITED_SCHEDULE } = await import('../lib/limited')
+    const batch = LIMITED_SCHEDULE[0]
+    const before = packRates('premium', Date.parse(batch.from) - 1000)
+    const during = packRates('premium', Date.parse(batch.from) + 1000)
+    expect(before.Limited).toBeUndefined()
+    expect(during.Limited).toBeGreaterThan(0)
+    expect(during.Live).toBe(before.Live)
+    expect(during.Rare).toBeLessThan(before.Rare)
+    expect(during.Legend).toBeLessThan(before.Legend)
+    expect(during.Normal).toBeLessThan(before.Normal)
+    expect(packRates('basic', Date.parse(batch.from) + 1000).Limited).toBeUndefined()
   })
 
   it('always returns a known player', () => {
@@ -109,7 +129,7 @@ describe('packs and pity', () => {
 
   it('resets the counter as soon as a Legend appears', async () => {
     const { drawSession } = await import('../lib/gacha')
-    // 0.999 lands in the top (레전드) band of the basic table, which is above Legend.
+    // 0.999 lands in the top (플래티넘) band of the basic table, which is above Legend.
     const outcome = drawSession({ count: 1, pity: 12, rng: () => 0.999 })
     expect(outcome.pity).toBe(0)
   })
@@ -146,9 +166,11 @@ describe('packs and pity', () => {
 
   it('splits packs into a basic and a premium family', async () => {
     const { PACKS, packsOfFamily } = await import('../lib/gacha')
-    expect(PACKS).toHaveLength(4)
+    expect(PACKS).toHaveLength(5)
     expect(packsOfFamily('basic').map((pack) => pack.id)).toEqual(['basic', 'basicTen'])
     expect(packsOfFamily('premium').map((pack) => pack.id)).toEqual(['premium', 'premiumTen'])
+    expect(packsOfFamily('world').map((pack) => pack.id)).toEqual(['world'])
+    expect(packsOfFamily('world')[0].cost).toBe(0)
     for (const pack of packsOfFamily('premium')) {
       const cheaper = packsOfFamily('basic').find((item) => item.count === pack.count)!
       expect(pack.cost).toBeGreaterThan(cheaper.cost)
@@ -159,7 +181,7 @@ describe('packs and pity', () => {
     const { drawSession, featuredPlayer } = await import('../lib/gacha')
     const thisWeek = featuredPlayer('2026-08-31')
     expect(featuredPlayer('2026-08-31').id).toBe(thisWeek.id)
-    expect(['Legend', 'Live', 'World']).toContain(thisWeek.rarity)
+    expect(['Legend', 'Live']).toContain(thisWeek.rarity)
 
     const weeks = new Set(
       ['2026-08-31', '2026-09-07', '2026-09-14', '2026-09-21'].map(

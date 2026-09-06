@@ -6,6 +6,8 @@ import type { Card, PlayerDef, Rarity, Squad } from './types'
 
 /** Cards needed for one upgrade when the operator has not set a grade's own count. */
 export const FUSION_SIZE = 3
+/** 월드 cards fused into one 월드 스카우트팩 (a server balance — lib/serverDraw.ts fuseWorldOnServer). */
+export const WORLD_FUSION_SIZE = 3
 /** Gold charged on top of the cards. */
 export const FUSION_FEE = KNOBS.fusionFee.default
 
@@ -20,6 +22,8 @@ export function fusionSizeFor(from: Rarity): number {
       return tune('fusionSizeGold')
     case 'Live':
       return tune('fusionSizeLive')
+    case 'World':
+      return WORLD_FUSION_SIZE
     default:
       return FUSION_SIZE
   }
@@ -40,6 +44,8 @@ export interface FusionCheck {
   reason?: string
   from?: Rarity
   to?: Rarity
+  /** 월드 × 3: the result is a 월드 스카우트팩, not a card. */
+  worldPack?: boolean
 }
 
 export function checkFusion(
@@ -64,9 +70,16 @@ export function checkFusion(
   if (!from || rarities.some((rarity) => rarity !== from)) {
     return { ok: false, reason: '같은 등급끼리만 합성할 수 있습니다.' }
   }
+  const size = fusionSizeFor(from)
+  if (from === 'World') {
+    // Three 월드 cards make one 월드 스카우트팩; no gold on top — the cards are the price.
+    if (uids.length !== size) {
+      return { ok: false, reason: `월드 카드 ${size}장을 선택하세요 (지금 ${uids.length}장).`, from, worldPack: true }
+    }
+    return { ok: true, from, worldPack: true }
+  }
   const to = nextRarity(from)
   if (!to) return { ok: false, reason: '월드 등급은 더 올라갈 곳이 없습니다.', from }
-  const size = fusionSizeFor(from)
   if (uids.length !== size) {
     return { ok: false, reason: `같은 등급 카드 ${size}장을 선택하세요 (지금 ${uids.length}장).`, from, to }
   }

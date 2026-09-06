@@ -15,6 +15,7 @@ import { releaseValue, sellPrice, shardsFor } from '../../lib/shards'
 import { CAPACITY_STEP, MAX_CAPACITY, canExpand, expandCost } from '../../lib/vault'
 import type { Card, PlayerDef, PositionGroup, Rarity } from '../../lib/types'
 import { useGame } from '../GameProvider'
+import { WORLD_FUSION_MESSAGE } from '../../lib/serverDraw'
 import PlayerCard from '../PlayerCard'
 import PlayerDetail from '../PlayerDetail'
 import PlayerDetailModal from '../PlayerDetailModal'
@@ -119,7 +120,7 @@ function VaultPanel() {
 }
 
 export default function ClubTab() {
-  const { state, sell, toggleLock, trainCard, limitBreakCard, fuse, fuseMany, treatInjury, restoreCondition } = useGame()
+  const { state, sell, toggleLock, trainCard, limitBreakCard, fuse, fuseMany, fuseWorld, treatInjury, restoreCondition } = useGame()
   // 승급 합성 came back to everyone with 일괄 합성 (2026-09-06).
   const modes = MODES
   const [mode, setMode] = useState<Mode>('manage')
@@ -137,6 +138,7 @@ export default function ClubTab() {
   const [breakUid, setBreakUid] = useState<string | null>(null)
   const [fuseUids, setFuseUids] = useState<string[]>([])
   const [fused, setFused] = useState<PlayerDef | null>(null)
+  const [worldNotice, setWorldNotice] = useState<string | null>(null)
   const [bulkRarities, setBulkRarities] = useState<Rarity[]>(['Normal', 'Rare', 'Legend', 'Live'])
   const [bulkKeepGrown, setBulkKeepGrown] = useState(true)
   const [bulkResult, setBulkResult] = useState<PlayerDef[] | null>(null)
@@ -648,6 +650,7 @@ export default function ClubTab() {
             uids={fuseUids}
             check={checkFusion(state.cards, fuseUids, state.squad, state.gold)}
             result={fused}
+            worldNotice={worldNotice}
             size={(() => {
               const first = current0Rarity(fuseUids, state.cards)
               return first ? fusionSizeFor(first) : fusionSizeMax()
@@ -657,6 +660,19 @@ export default function ClubTab() {
               setFused(null)
             }}
             onFuse={() => {
+              const check = checkFusion(state.cards, fuseUids, state.squad, state.gold)
+              if (check.worldPack) {
+                if (!window.confirm('월드 카드 3장을 합쳐 월드 스카우트팩 1개를 만들까요? 카드는 사라집니다.')) return
+                void fuseWorld(fuseUids).then((result) => {
+                  if (result.ok) {
+                    setWorldNotice(`월드 스카우트팩 +1 (보유 ${result.balance}개) — 스카우트 탭 「월드 스카우트」에서 엽니다.`)
+                    setFuseUids([])
+                  } else {
+                    setWorldNotice(WORLD_FUSION_MESSAGE[result.reason] ?? '합성하지 못했습니다. 잠시 후 다시 시도해 주세요.')
+                  }
+                })
+                return
+              }
               const player = fuse(fuseUids)
               if (player) {
                 setFused(player)
@@ -1051,6 +1067,7 @@ function FusionPanel({
   uids,
   check,
   result,
+  worldNotice,
   size,
   onFuse,
   onClear,
@@ -1058,6 +1075,8 @@ function FusionPanel({
   uids: string[]
   check: ReturnType<typeof checkFusion>
   result: PlayerDef | null
+  /** What the last 월드 fusion said (a pack, or why not). */
+  worldNotice: string | null
   /** Cards needed for the grade being fused (the max of all grades until one is picked). */
   size: number
   onFuse: () => void
@@ -1068,7 +1087,7 @@ function FusionPanel({
       <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">골라서 합성</h3>
       <p className="mt-2 text-sm text-slate-400">
         같은 등급 카드 {size}장과 {FUSION_FEE}G로 한 단계 위 등급 카드 1장을 만듭니다. 장수는 등급마다 운영자 밸런스 탭에서 정합니다(기본 {FUSION_SIZE}장).
-        선발·벤치 카드는 사용할 수 없습니다.
+        월드 카드 3장은 월드 스카우트팩 1개가 됩니다(골드 없음). 선발·벤치 카드는 사용할 수 없습니다.
       </p>
 
       <div className="mt-3 flex gap-2">
@@ -1086,6 +1105,12 @@ function FusionPanel({
         ))}
       </div>
 
+      {check.worldPack && (
+        <div className="mt-3 rounded-lg bg-violet-400/10 p-3 text-center text-sm text-slate-200">
+          <span className="font-bold text-white">월드</span> × 3 → <span className="font-bold text-violet-200">월드 스카우트팩</span> 1개
+        </div>
+      )}
+      {worldNotice && <p className="mt-2 text-xs font-semibold text-violet-200">{worldNotice}</p>}
       {check.from && check.to && (
         <div className="mt-3 rounded-lg bg-white/5 p-3 text-center text-sm text-slate-300">
           <span className="font-bold text-white">{RARITY_STYLES[check.from].label}</span> ×{' '}
@@ -1103,7 +1128,7 @@ function FusionPanel({
           disabled={!check.ok}
           className="flex-1 rounded-lg btn-gold px-3 py-2 text-sm font-bold disabled:opacity-40"
         >
-          합성하기 ({FUSION_FEE}G)
+          {check.worldPack ? '월드 스카우트팩 만들기' : `합성하기 (${FUSION_FEE}G)`}
         </button>
         <button
           onClick={onClear}

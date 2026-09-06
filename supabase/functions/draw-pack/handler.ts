@@ -11,7 +11,7 @@
 // jsr:·npm:·esm.sh 중 무엇이 이 런타임에서 되는지는 배포해 봐야 알 수 있고,
 // 모듈을 못 불러오면 함수가 뜨지도 못한 채 "연결 실패"만 남깁니다. Deno에
 // 이미 있는 fetch로 REST를 직접 부르면 그 불확실성이 통째로 사라집니다.
-import { KNOB_KEYS, PACKS, PITY_LIMIT, drawSession, featuredPlayer, packOf, pickupWeekKey, setTuning } from './shared.js'
+import { KNOB_KEYS, PACKS, PITY_LIMIT, drawSession, featuredPlayer, getPlayer, packOf, pickupWeekKey, setTuning } from './shared.js'
 
 const GROUPS = ['GK', 'DF', 'MF', 'FW']
 
@@ -85,11 +85,42 @@ export async function handle(request: Request, env: Env): Promise<Response> {
     const user = (await whoami.json()) as { id?: string }
     if (!user?.id) return refuse('not signed in')
 
-    let body: { pack?: string; group?: string; probe?: boolean; payWith?: string } = {}
+    let body: { pack?: string; group?: string; probe?: boolean; payWith?: string; action?: string; uids?: unknown } = {}
     try {
       body = await request.json()
     } catch {
       // An empty body is fine; the defaults below cover it.
+    }
+
+    // service_role: the only key allowed to read the counter and settle a pull.
+    const server = { apikey: service, Authorization: `Bearer ${service}` }
+
+    // 월드 3장 합성 → 월드 스카우트팩 1개. The roster here says which cards are
+    // 월드; the RPC checks the save holds them and that none was used before.
+    if (body.action === 'fuse_world') {
+      const uids = Array.isArray(body.uids) ? [...new Set(body.uids.map(String))] : []
+      if (uids.length !== 3) return refuse('need three')
+      const saveRes = await fetch(`${url}/rest/v1/saves?user_id=eq.${user.id}&select=data`, { headers: server })
+      if (!saveRes.ok) return json({ ok: false, reason: 'save read failed' }, 500)
+      const saveRows = (await saveRes.json()) as { data?: { cards?: { uid?: string; playerId?: string }[] } }[]
+      const cards = Array.isArray(saveRows[0]?.data?.cards) ? saveRows[0]!.data!.cards! : []
+      const playerIds: string[] = []
+      for (const uid of uids) {
+        const card = cards.find((item) => item.uid === uid)
+        const player = card?.playerId ? getPlayer(card.playerId) : undefined
+        if (!card || !player) return refuse('card not in save')
+        if (player.rarity !== 'World') return refuse('not world')
+        playerIds.push(card.playerId as string)
+      }
+      const fused = await fetch(`${url}/rest/v1/rpc/record_world_fusion`, {
+        method: 'POST',
+        headers: { ...server, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ p_user: user.id, p_uids: uids, p_player_ids: playerIds }),
+      })
+      if (!fused.ok) return json({ ok: false, reason: 'fusion failed', detail: await fused.text() }, 500)
+      const outcome = (await fused.json()) as { ok?: boolean; reason?: string; balance?: number }
+      if (!outcome?.ok) return refuse(outcome?.reason ?? 'refused')
+      return json({ ok: true, worldPacks: outcome.balance ?? 0 })
     }
 
     // The odds are operator knobs (game_config); read them before the roll so
@@ -120,11 +151,16 @@ export async function handle(request: Request, env: Env): Promise<Response> {
     // the tickets in the same transaction as the log and the pity counter.
     const payWithTickets = body.payWith === 'ticket'
     if (payWithTickets && pack.family !== 'premium') return refuse('ticket not allowed')
+    // 월드 스카우트: only a 월드 스카우트팩 (world_packs balance) opens it, and it opens nothing else.
+    const payWithPacks = body.payWith === 'worldPack'
+    if (pack.family === 'world' && !payWithPacks) return refuse('pack not allowed')
+    if (payWithPacks && pack.family !== 'world') return refuse('pack not allowed')
+    // 조각: taken by the client from the save (like the 조각 교환소); the server records a free premium pull.
+    const payWithShards = body.payWith === 'shards'
+    if (payWithShards && pack.family !== 'premium') return refuse('ticket not allowed')
     const ticketCost = payWithTickets ? pack.count : 0
-    const goldCost = payWithTickets ? 0 : pack.cost
-
-    // service_role: the only key allowed to read the counter and settle a pull.
-    const server = { apikey: service, Authorization: `Bearer ${service}` }
+    const packCost = payWithPacks ? pack.count : 0
+    const goldCost = payWithTickets || payWithPacks || payWithShards ? 0 : pack.cost
 
     const economy = await fetch(
       `${url}/rest/v1/economy?user_id=eq.${user.id}&select=pity,seeded`,
@@ -186,6 +222,7 @@ export async function handle(request: Request, env: Env): Promise<Response> {
         p_pity_hit: outcome.pityHit,
         p_cards: cards,
         p_tickets: ticketCost,
+        p_world_packs: packCost,
       }),
     })
 
@@ -197,10 +234,11 @@ export async function handle(request: Request, env: Env): Promise<Response> {
       reason?: string
       balance?: number
       tickets?: number
+      worldPacks?: number
       pity?: number
       pull_id?: number
     }
-    if (!result?.ok) return refuse(result?.reason ?? 'refused', { balance: result?.balance, tickets: result?.tickets })
+    if (!result?.ok) return refuse(result?.reason ?? 'refused', { balance: result?.balance, tickets: result?.tickets, worldPacks: result?.worldPacks })
 
     return json({
       ok: true,
@@ -210,6 +248,7 @@ export async function handle(request: Request, env: Env): Promise<Response> {
       pityHit: outcome.pityHit,
       balance: result.balance,
       tickets: result.tickets,
+      worldPacks: result.worldPacks,
       pullId: result.pull_id,
     })
   } catch (error) {

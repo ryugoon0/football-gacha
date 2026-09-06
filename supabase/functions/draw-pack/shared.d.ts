@@ -8,7 +8,7 @@ export interface SharedPlayer {
 
 export interface SharedPack {
   id: string
-  family: 'basic' | 'premium'
+  family: 'basic' | 'premium' | 'world'
   count: number
   cost: number
   rates: Record<string, number>
@@ -21,6 +21,7 @@ export const PITY_LIMIT: number
 export const KNOB_KEYS: string[]
 export function setTuning(next: Partial<Record<string, number>>): void
 export function packOf(id: string): SharedPack
+export function getPlayer(id: string): SharedPlayer | undefined
 export function featuredPlayer(weekKey: string, nowMs?: number): SharedPlayer
 export function pickupWeekKey(now?: Date): string
 export function drawSession(options: {

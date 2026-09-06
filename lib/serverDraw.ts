@@ -20,6 +20,8 @@ export interface ServerDraw {
   balance: number
   /** 프리미엄 스카우트 티켓 left on the server after this pull, when the server reports it. */
   tickets?: number
+  /** 월드 스카우트팩 left on the server after this pull. */
+  worldPacks?: number
 }
 
 export type DrawFailure =
@@ -28,11 +30,18 @@ export type DrawFailure =
   | 'not enough gold'
   | 'not enough tickets'
   | 'ticket not allowed'
+  | 'not enough packs'
+  | 'pack not allowed'
   | 'not seeded'
   | 'unavailable'
 
-/** What pays for the pull: gold from the ledger, or 프리미엄 스카우트 티켓 from the server balance. */
-export type PayWith = 'gold' | 'ticket'
+/**
+ * What pays for the pull: gold from the ledger, 프리미엄 스카우트 티켓 or a 월드 스카우트팩
+ * from the server balances, or 조각 — which live in the save, so the client
+ * takes them and the server only records a free premium pull (the same trust
+ * the 조각 교환소 already runs on).
+ */
+export type PayWith = 'gold' | 'ticket' | 'worldPack' | 'shards'
 
 export function serverDrawAvailable(): boolean {
   return isSupabaseConfigured()
@@ -40,7 +49,7 @@ export function serverDrawAvailable(): boolean {
 
 type DrawResult = { ok: true; draw: ServerDraw } | { ok: false; reason: DrawFailure }
 
-const KNOWN: DrawFailure[] = ['not enough gold', 'not enough tickets', 'ticket not allowed', 'not seeded', 'not signed in']
+const KNOWN: DrawFailure[] = ['not enough gold', 'not enough tickets', 'ticket not allowed', 'not enough packs', 'pack not allowed', 'not seeded', 'not signed in']
 
 function known(reason: unknown): DrawFailure | null {
   return KNOWN.find((item) => item === reason) ?? null
@@ -125,6 +134,47 @@ export async function drawOnServer(
   return askServer(pack, group, payWith)
 }
 
+/** How many 월드 스카우트팩 this account holds on the server; null when it cannot be read. */
+export async function fetchWorldPacks(): Promise<number | null> {
+  const supabase = getSupabase()
+  if (!supabase) return null
+  const { data: session } = await supabase.auth.getSession()
+  const userId = session.session?.user.id
+  if (!userId) return null
+  const { data, error } = await supabase.from('world_packs').select('balance').eq('user_id', userId).maybeSingle()
+  if (error) return null
+  return Number((data as { balance?: number } | null)?.balance ?? 0)
+}
+
+export const WORLD_FUSION_MESSAGE: Record<string, string> = {
+  offline: '서버에 연결되지 않았습니다.',
+  unavailable: '서버에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요.',
+  'not signed in': '로그인이 풀렸습니다.',
+  'need three': '월드 카드 3장을 골라 주세요.',
+  'not world': '월드 카드만 합성할 수 있습니다.',
+  'no save': '클라우드 저장이 아직 없습니다. 잠시 뒤 다시 시도해 주세요.',
+  'card not in save': '서버에 저장된 카드와 다릅니다. 저장이 올라간 뒤 다시 시도해 주세요.',
+  'card already used': '이미 합성에 쓴 카드입니다.',
+}
+
+/** 월드 3장 → 월드 스카우트팩 1개. The server checks the cards against the cloud save and credits the pack balance. */
+export async function fuseWorldOnServer(uids: string[]): Promise<{ ok: true; balance: number } | { ok: false; reason: string }> {
+  const supabase = getSupabase()
+  if (!supabase) return { ok: false, reason: 'offline' }
+  try {
+    const { data, error } = await supabase.functions.invoke('draw-pack', { body: { action: 'fuse_world', uids } })
+    if (error) {
+      const dug = await reasonFromError(error)
+      return { ok: false, reason: dug.reason ?? 'unavailable' }
+    }
+    const body = data as { ok?: boolean; reason?: string; worldPacks?: number } | null
+    if (!body?.ok) return { ok: false, reason: body?.reason ?? 'unavailable' }
+    return { ok: true, balance: Number(body.worldPacks ?? 0) }
+  } catch {
+    return { ok: false, reason: 'unavailable' }
+  }
+}
+
 /** How many 프리미엄 스카우트 티켓 this account holds on the server; null when it cannot be read. */
 export async function fetchScoutTickets(): Promise<number | null> {
   const supabase = getSupabase()
@@ -143,6 +193,8 @@ export const DRAW_FAILURE_MESSAGE: Record<DrawFailure, string> = {
   'not enough gold': '골드가 부족합니다.',
   'not enough tickets': '프리미엄 스카우트 티켓이 부족합니다.',
   'ticket not allowed': '티켓은 프리미엄 스카우트에만 쓸 수 있습니다.',
+  'not enough packs': '월드 스카우트팩이 없습니다. 선물함이나 월드 카드 3장 합성으로 얻습니다.',
+  'pack not allowed': '월드 스카우트는 월드 스카우트팩으로만 열 수 있습니다.',
   'not seeded': '계정 준비가 아직 끝나지 않았습니다. 잠시 뒤 다시 시도해 주세요.',
   unavailable: '뽑기 서버에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요.',
 }

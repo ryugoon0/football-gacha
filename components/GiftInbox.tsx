@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { ITEMS } from '../lib/items'
-import { GIFT_FAILURE_MESSAGE, claimGifts, fetchMyGifts, giftItemLines, giftTickets, type GiftRow } from '../lib/gifts'
+import { GIFT_FAILURE_MESSAGE, claimGifts, fetchMyGifts, giftItemLines, giftTickets,
+  giftWorldPacks, type GiftRow } from '../lib/gifts'
 import { getPlayer } from '../lib/players'
 import { useGame } from './GameProvider'
 
@@ -129,6 +130,7 @@ export default function GiftInbox({ onClose, onChanged }: { onClose: () => void;
     const parts = [
       result.gold > 0 ? `${result.gold.toLocaleString('ko-KR')}G` : '',
       result.tickets > 0 ? `프리미엄 스카우트 티켓 ×${result.tickets}${result.ticketBalance !== null ? ` (보유 ${result.ticketBalance}장)` : ''}` : '',
+      result.worldPacks > 0 ? `월드 스카우트팩 ×${result.worldPacks}${result.worldPackBalance !== null ? ` (보유 ${result.worldPackBalance}개)` : ''}` : '',
       ...result.items.map((line) => `${ITEMS[line.id].name} ×${line.count}`),
       result.cards.length > 0 ? `선수 카드 ${result.cards.length}장` : '',
     ].filter(Boolean)
@@ -189,6 +191,7 @@ export default function GiftInbox({ onClose, onChanged }: { onClose: () => void;
 function GiftCard({ row, action }: { row: GiftRow; action: React.ReactNode }) {
   const items = giftItemLines(row.items)
   const tickets = giftTickets(row.items)
+  const worldPacks = giftWorldPacks(row.items)
   return (
     <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3">
       <div className="flex items-start justify-between gap-2">
@@ -209,6 +212,11 @@ function GiftCard({ row, action }: { row: GiftRow; action: React.ReactNode }) {
         {tickets > 0 && (
           <span className="rounded-lg bg-amber-400/20 px-2 py-1 text-[11px] font-bold text-amber-100" title="스카우트 화면에서 골드 대신 씁니다">
             🎟️ 프리미엄 스카우트 티켓 ×{tickets}
+          </span>
+        )}
+        {worldPacks > 0 && (
+          <span className="rounded-lg bg-violet-400/20 px-2 py-1 text-[11px] font-bold text-violet-100" title="스카우트 탭 월드 스카우트에서 엽니다">
+            🌍 월드 스카우트팩 ×{worldPacks}
           </span>
         )}
         {items.map((line) => (

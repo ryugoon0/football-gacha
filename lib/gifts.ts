@@ -67,6 +67,8 @@ export interface GiftRow {
  * pull server spends it, so a save cannot be edited to mint tickets.
  */
 export const TICKET_KEY = 'premiumTicket'
+/** 월드 스카우트팩 rides the same way — a server balance (world_packs), never an inventory item. */
+export const WORLD_PACK_KEY = 'worldPack'
 
 /** Items in a gift as the reducer wants them — unknown ids (and tickets) dropped here so the count shown matches what lands. */
 export function giftItemLines(items: Record<string, number> | null | undefined): { id: ItemId; count: number }[] {
@@ -77,6 +79,11 @@ export function giftItemLines(items: Record<string, number> | null | undefined):
 
 export function giftTickets(items: Record<string, number> | null | undefined): number {
   const count = Number(items?.[TICKET_KEY] ?? 0)
+  return Number.isFinite(count) && count > 0 ? Math.floor(count) : 0
+}
+
+export function giftWorldPacks(items: Record<string, number> | null | undefined): number {
+  const count = Number(items?.[WORLD_PACK_KEY] ?? 0)
   return Number.isFinite(count) && count > 0 ? Math.floor(count) : 0
 }
 
@@ -91,7 +98,7 @@ export async function fetchMyGifts(): Promise<GiftRow[]> {
 export async function claimGifts(
   inboxIds?: number[],
 ): Promise<
-  | { ok: true; count: number; gold: number; items: { id: ItemId; count: number }[]; cards: string[]; tickets: number; ticketBalance: number | null }
+  | { ok: true; count: number; gold: number; items: { id: ItemId; count: number }[]; cards: string[]; tickets: number; ticketBalance: number | null; worldPacks: number; worldPackBalance: number | null }
   | { ok: false; reason: string }
 > {
   const supabase = getSupabase()
@@ -99,7 +106,7 @@ export async function claimGifts(
   const { data, error } = await supabase.rpc('claim_gifts', { p_inbox_ids: inboxIds ?? null })
   if (error) return { ok: false, reason: 'unavailable' }
   const body = data as
-    | { ok?: boolean; reason?: string; count?: number; gold?: number; items?: Record<string, number>; cards?: unknown; tickets?: number; ticketBalance?: number }
+    | { ok?: boolean; reason?: string; count?: number; gold?: number; items?: Record<string, number>; cards?: unknown; tickets?: number; ticketBalance?: number; worldPacks?: number; worldPackBalance?: number }
     | null
   if (!body?.ok) return { ok: false, reason: body?.reason ?? 'unavailable' }
   return {
@@ -110,6 +117,8 @@ export async function claimGifts(
     cards: Array.isArray(body.cards) ? body.cards.map(String) : [],
     tickets: Number(body.tickets ?? 0),
     ticketBalance: typeof body.ticketBalance === 'number' ? body.ticketBalance : null,
+    worldPacks: Number(body.worldPacks ?? 0),
+    worldPackBalance: typeof body.worldPackBalance === 'number' ? body.worldPackBalance : null,
   }
 }
 

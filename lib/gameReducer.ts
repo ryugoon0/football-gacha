@@ -107,6 +107,10 @@ export type Action =
   | { type: 'limitBreak'; uid: string; materialUid: string }
   | { type: 'fuse'; uids: string[]; player: PlayerDef }
   | { type: 'fuseMany'; batches: { uids: string[]; player: PlayerDef }[] }
+  /** 월드 3장 합성 — the server credited the pack; the cards leave here. */
+  | { type: 'fuseWorld'; uids: string[] }
+  /** 조각으로 산 프리미엄 스카우트 — the server rolled the cards; the shards leave here. */
+  | { type: 'spendShards'; amount: number }
   | { type: 'assign'; slotId: string; uid: string }
   | { type: 'clearSlot'; slotId: string }
   | { type: 'assignBench'; index: number; uid: string }
@@ -435,6 +439,19 @@ export function reducer(state: GameState, action: Action): GameState {
         cards: [...next.cards, card],
         collected: Array.from(new Set([...state.collected, action.player.id])),
       }
+    }
+
+    case 'fuseWorld': {
+      if (state.cards.some((card) => action.uids.includes(card.uid) && card.locked)) return state
+      const check = checkFusion(state.cards, action.uids, state.squad, state.gold)
+      if (!check.ok || !check.worldPack) return state
+      return withoutCards(state, new Set(action.uids))
+    }
+
+    case 'spendShards': {
+      const amount = Math.max(0, Math.floor(action.amount))
+      if (amount === 0 || state.shards < amount) return state
+      return { ...state, shards: state.shards - amount }
     }
 
     case 'fuseMany': {

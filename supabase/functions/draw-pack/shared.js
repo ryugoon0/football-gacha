@@ -7600,9 +7600,25 @@ var PLAYERS_BY_RARITY = PLAYERS.reduce(
   },
   { Normal: [], Rare: [], Legend: [], Live: [], World: [] }
 );
+function getPlayer(id) {
+  return PLAYERS_BY_ID[id];
+}
 
 // lib/limited.ts
+var LIMITED_SCHEDULE = [
+  {
+    id: "2026-w37",
+    label: "9\uC6D4 1\uC8FC MOM",
+    note: "9\uC6D4 1\uC77C~7\uC77C \uC2E4\uC81C \uACBD\uAE30\uC758 \uB9E8 \uC624\uBE0C \uB354 \uB9E4\uCE58\uB4E4\uC774 \uADF8 \uC8FC \uD65C\uC57D \uB2A5\uB825\uCE58\uC758 \uB9AC\uBBF8\uD2F0\uB4DC \uCE74\uB4DC\uB85C \uB098\uC635\uB2C8\uB2E4. 9\uC6D4 8\uC77C(\uD654) \uC624\uD6C4 2\uC2DC\uBD80\uD130 \uC77C\uC8FC\uC77C\uB9CC \uD504\uB9AC\uBBF8\uC5C4 \uC2A4\uCE74\uC6B0\uD2B8\uC5D0\uC11C.",
+    teaseFrom: "2026-09-06T00:00:00+09:00",
+    from: "2026-09-08T14:00:00+09:00",
+    to: "2026-09-15T13:59:59+09:00"
+  }
+];
 var ms = (iso) => Date.parse(iso);
+function limitedWindowOpen(nowMs = Date.now()) {
+  return LIMITED_SCHEDULE.some((batch) => nowMs >= ms(batch.from) && nowMs <= ms(batch.to));
+}
 function limitedOpen(player, nowMs) {
   if (!player.limited) return true;
   return nowMs >= ms(player.limited.from) && nowMs <= ms(player.limited.to);
@@ -8059,15 +8075,6 @@ var KNOBS = {
     step: 0.05,
     group: "\uC2A4\uCE74\uC6B0\uD2B8"
   },
-  basicRateLegend: {
-    label: "\uC77C\uBC18 \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uC6D4\uB4DC \uD655\uB960(%)",
-    note: "\uD55C \uC7A5\uC744 \uBF51\uC744 \uB54C \uC774 \uB4F1\uAE09\uC774 \uB098\uC62C \uD655\uB960(%)\uC785\uB2C8\uB2E4.",
-    default: 0.15,
-    min: 0,
-    max: 5,
-    step: 0.05,
-    group: "\uC2A4\uCE74\uC6B0\uD2B8"
-  },
   premiumRateRare: {
     label: "\uD504\uB9AC\uBBF8\uC5C4 \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uC2E4\uBC84 \uD655\uB960(%)",
     note: "\uB098\uBA38\uC9C0\uAC00 \uC77C\uBC18 \uD655\uB960\uC774 \uB429\uB2C8\uB2E4.",
@@ -8095,14 +8102,33 @@ var KNOBS = {
     step: 0.5,
     group: "\uC2A4\uCE74\uC6B0\uD2B8"
   },
-  premiumRateLegend: {
-    label: "\uD504\uB9AC\uBBF8\uC5C4 \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uC6D4\uB4DC \uD655\uB960(%)",
-    note: "\uD55C \uC7A5\uC744 \uBF51\uC744 \uB54C \uC774 \uB4F1\uAE09\uC774 \uB098\uC62C \uD655\uB960(%)\uC785\uB2C8\uB2E4.",
-    default: 3,
+  premiumRateLimited: {
+    label: "\uB9AC\uBBF8\uD2F0\uB4DC \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uB9AC\uBBF8\uD2F0\uB4DC \uD655\uB960(%)",
+    note: "\uB9AC\uBBF8\uD2F0\uB4DC \uCE74\uB4DC\uAC00 \uC5F4\uB824 \uC788\uB294 \uB3D9\uC548 \uD504\uB9AC\uBBF8\uC5C4 \uC2A4\uCE74\uC6B0\uD2B8\uAC00 \uB9AC\uBBF8\uD2F0\uB4DC \uC2A4\uCE74\uC6B0\uD2B8\uB85C \uBC14\uB00C\uACE0, \uC774 \uD655\uB960\uB9CC\uD07C \uB9AC\uBBF8\uD2F0\uB4DC \uCE74\uB4DC\uAC00 \uB098\uC635\uB2C8\uB2E4. \uADF8\uB9CC\uD07C \uC77C\uBC18\xB7\uC2E4\uBC84\xB7\uACE8\uB4DC\uAC00 \uBE44\uC728\uB300\uB85C \uC904\uACE0 \uD50C\uB798\uD2F0\uB118\uC740 \uADF8\uB300\uB85C\uC785\uB2C8\uB2E4.",
+    default: 7,
     min: 0,
-    max: 20,
+    max: 40,
     step: 0.5,
     group: "\uC2A4\uCE74\uC6B0\uD2B8"
+  },
+  worldRateWorld: {
+    label: "\uC6D4\uB4DC \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uC6D4\uB4DC \uD655\uB960(%)",
+    note: "\uC6D4\uB4DC \uC2A4\uCE74\uC6B0\uD2B8\uD329(\uC120\uBB3C\xB7\uC6D4\uB4DC 3\uC7A5 \uD569\uC131)\uC5D0\uC11C \uC6D4\uB4DC \uCE74\uB4DC\uAC00 \uB098\uC62C \uD655\uB960\uC785\uB2C8\uB2E4. \uB098\uBA38\uC9C0\uB294 \uD50C\uB798\uD2F0\uB118\uC785\uB2C8\uB2E4. \uC6D4\uB4DC \uCE74\uB4DC\uB294 \uC774 \uD329\uC5D0\uC11C\uB9CC \uB098\uC635\uB2C8\uB2E4.",
+    default: 10,
+    min: 0,
+    max: 100,
+    step: 1,
+    group: "\uC2A4\uCE74\uC6B0\uD2B8"
+  },
+  premiumShardCost: {
+    label: "\uD504\uB9AC\uBBF8\uC5C4 \uC2A4\uCE74\uC6B0\uD2B8 1\uD68C \xB7 \uC870\uAC01 \uAC00\uACA9",
+    note: "\uC870\uAC01\uC73C\uB85C \uD504\uB9AC\uBBF8\uC5C4 \uC2A4\uCE74\uC6B0\uD2B8\uB97C \uC0B4 \uB54C \uD55C \uC7A5 \uAC12\uC785\uB2C8\uB2E4. 10\uC5F0\uC18D\uC740 \uC774 \uAC12\uC758 9\uBC30\uC785\uB2C8\uB2E4.",
+    default: 80,
+    min: 1,
+    max: 2e3,
+    step: 5,
+    group: "\uC2A4\uCE74\uC6B0\uD2B8",
+    integer: true
   },
   // 승급 합성에 드는 같은 등급 카드 장수. 유저에게는 지금 보이지 않는 기능이라
   // 운영자가 값을 잡아 두고 나중에 다시 열 때 쓴다.
@@ -8171,16 +8197,28 @@ function tune(key) {
 var DRAW_TEN_SIZE = 10;
 var PITY_LIMIT = 30;
 var PITY_RARITY = "Legend";
-function packRates(family) {
+var ROLL_KEYS = [...RARITIES, "Limited"];
+var round3 = (value) => Math.round(value * 1e3) / 1e3;
+function packRates(family, nowMs = Date.now()) {
+  if (family === "world") {
+    const world = Math.max(0, Math.min(100, tune("worldRateWorld")));
+    return { Normal: 0, Rare: 0, Legend: 0, Live: round3(100 - world), World: round3(world) };
+  }
   const rare = tune(family === "basic" ? "basicRateRare" : "premiumRateRare");
   const gold = tune(family === "basic" ? "basicRateGold" : "premiumRateGold");
   const live = tune(family === "basic" ? "basicRateLive" : "premiumRateLive");
-  const legend = tune(family === "basic" ? "basicRateLegend" : "premiumRateLegend");
-  const upper = rare + gold + live + legend;
+  const upper = rare + gold + live;
   const scale = upper > 100 ? 100 / upper : 1;
-  const round = (value) => Math.round(value * scale * 1e3) / 1e3;
-  const rates = { Normal: 0, Rare: round(rare), Legend: round(gold), Live: round(live), World: round(legend) };
-  rates.Normal = Math.max(0, Math.round((100 - rates.Rare - rates.Legend - rates.Live - rates.World) * 1e3) / 1e3);
+  const rates = { Normal: 0, Rare: round3(rare * scale), Legend: round3(gold * scale), Live: round3(live * scale), World: 0 };
+  const limited = family === "premium" && limitedWindowOpen(nowMs) ? Math.max(0, Math.min(100 - rates.Live, tune("premiumRateLimited"))) : 0;
+  if (limited > 0) {
+    const room = 100 - rates.Live;
+    const factor = room > 0 ? (room - limited) / room : 0;
+    rates.Rare = round3(rates.Rare * factor);
+    rates.Legend = round3(rates.Legend * factor);
+    rates.Limited = round3(limited);
+  }
+  rates.Normal = Math.max(0, round3(100 - rates.Rare - rates.Legend - rates.Live - rates.World - (rates.Limited ?? 0)));
   return rates;
 }
 var PACK_RATES = {
@@ -8189,6 +8227,9 @@ var PACK_RATES = {
   },
   get premium() {
     return packRates("premium");
+  },
+  get world() {
+    return packRates("world");
   }
 };
 var withRates = (pack) => Object.defineProperty({ ...pack }, "rates", { enumerable: true, get: () => packRates(pack.family) });
@@ -8226,6 +8267,14 @@ var PACKS = [
     cost: 10800,
     count: DRAW_TEN_SIZE,
     guarantee: "Legend"
+  }),
+  withRates({
+    id: "world",
+    family: "world",
+    name: "\uC6D4\uB4DC \uC2A4\uCE74\uC6B0\uD2B8",
+    description: "\uD50C\uB798\uD2F0\uB118 \uC544\uB2C8\uBA74 \uC6D4\uB4DC \xB7 \uC120\uBB3C\uC774\uB098 \uC6D4\uB4DC \uCE74\uB4DC 3\uC7A5 \uD569\uC131\uC73C\uB85C\uB9CC",
+    cost: 0,
+    count: 1
   })
 ];
 var DRAW_COST = PACKS[0].cost;
@@ -8236,42 +8285,57 @@ function packOf(id) {
 function packsOfFamily(family) {
   return PACKS.filter((pack) => pack.family === family);
 }
+function familyLabel(family, nowMs = Date.now()) {
+  if (family === "basic") return "\uC77C\uBC18 \uC2A4\uCE74\uC6B0\uD2B8";
+  if (family === "world") return "\uC6D4\uB4DC \uC2A4\uCE74\uC6B0\uD2B8";
+  return limitedWindowOpen(nowMs) ? "\uB9AC\uBBF8\uD2F0\uB4DC \uC2A4\uCE74\uC6B0\uD2B8" : "\uD504\uB9AC\uBBF8\uC5C4 \uC2A4\uCE74\uC6B0\uD2B8";
+}
+function packDisplayName(pack, nowMs = Date.now()) {
+  if (pack.family === "premium" && limitedWindowOpen(nowMs)) return pack.name.replace("\uD504\uB9AC\uBBF8\uC5C4", "\uB9AC\uBBF8\uD2F0\uB4DC");
+  return pack.name;
+}
 var rarityIndex = (rarity) => RARITIES.indexOf(rarity);
+var rankOf = (key) => key === "Limited" ? rarityIndex("Live") : rarityIndex(key);
 function rollRarity(rng = Math.random, minRarity, rates = PACK_RATES.basic) {
-  const total = RARITIES.reduce((sum, rarity) => sum + (rates[rarity] ?? 0), 0);
+  const total = ROLL_KEYS.reduce((sum, key) => sum + (rates[key] ?? 0), 0);
   const roll = rng() * total;
   let cumulative = 0;
   let rolled = "Normal";
-  for (const rarity of RARITIES) {
-    cumulative += rates[rarity] ?? 0;
+  for (const key of ROLL_KEYS) {
+    cumulative += rates[key] ?? 0;
     if (roll < cumulative) {
-      rolled = rarity;
+      rolled = key;
       break;
     }
   }
-  if (minRarity && rarityIndex(rolled) < rarityIndex(minRarity)) return minRarity;
+  if (minRarity && rankOf(rolled) < rarityIndex(minRarity)) return minRarity;
   return rolled;
 }
 function releasedPoolFor(rarity, nowMs = Date.now()) {
   let index = rarityIndex(rarity);
   while (index >= 0) {
-    const pool = PLAYERS_BY_RARITY[RARITIES[index]].filter((player) => limitedOpen(player, nowMs));
+    const pool = PLAYERS_BY_RARITY[RARITIES[index]].filter((player) => !player.limited);
     if (pool.length > 0) return pool;
     index -= 1;
   }
   return PLAYERS;
 }
-function poolFor(rarity, group, nowMs) {
-  const pool = releasedPoolFor(rarity, nowMs);
-  if (!group) return pool;
-  const filtered = pool.filter((player) => POSITION_GROUP[player.position] === group);
-  return filtered.length > 0 ? filtered : pool;
+function limitedPool(nowMs = Date.now()) {
+  return PLAYERS.filter((player) => Boolean(player.limited) && !player.unreleased && limitedOpen(player, nowMs));
 }
-function pick(rarity, rng, group, featured, nowMs) {
-  if (featured && featured.rarity === rarity && limitedOpen(featured, nowMs) && (!group || POSITION_GROUP[featured.position] === group)) {
-    if (rng() < 0.5) return featured;
+function poolFor(key, group, nowMs) {
+  const pool = key === "Limited" ? limitedPool(nowMs) : releasedPoolFor(key, nowMs);
+  const base = pool.length > 0 ? pool : releasedPoolFor("Live", nowMs);
+  if (!group) return base;
+  const filtered = base.filter((player) => POSITION_GROUP[player.position] === group);
+  return filtered.length > 0 ? filtered : base;
+}
+function pick(key, rng, group, featured, nowMs) {
+  if (featured && (!group || POSITION_GROUP[featured.position] === group)) {
+    const matches = featured.limited ? key === "Limited" && limitedOpen(featured, nowMs) : key === featured.rarity;
+    if (matches && rng() < 0.5) return featured;
   }
-  const pool = poolFor(rarity, group, nowMs);
+  const pool = poolFor(key, group, nowMs);
   return pool[Math.floor(rng() * pool.length)];
 }
 var PICKUP_OFFSET_MINUTES = 9 * 60;
@@ -8282,8 +8346,8 @@ function pickupWeekKey(now = /* @__PURE__ */ new Date()) {
   return shifted.toISOString().slice(0, 10);
 }
 function featuredPlayer(weekKey, nowMs = Date.now()) {
-  const limited = PLAYERS.filter((player) => player.limited && !player.unreleased && limitedOpen(player, nowMs));
-  const pool = limited.length > 0 ? limited : PLAYERS.filter((player) => ["Legend", "Live", "World"].includes(player.rarity) && !player.limited && !player.unreleased);
+  const limited = limitedPool(nowMs);
+  const pool = limited.length > 0 ? limited : PLAYERS.filter((player) => ["Legend", "Live"].includes(player.rarity) && !player.limited && !player.unreleased && !player.retired);
   const seed = weekKey.split("").reduce((hash, char) => hash * 31 + char.charCodeAt(0) >>> 0, 7);
   return pool[Math.floor(seededRandom(seed)() * pool.length)];
 }
@@ -8302,16 +8366,16 @@ function drawSession({
   let counter = pity;
   let pityHit = false;
   for (let i = 0; i < count; i++) {
-    let rarity;
+    let key;
     if (counter + 1 >= PITY_LIMIT) {
-      rarity = rollRarity(rng, PITY_RARITY, rates);
+      key = rollRarity(rng, PITY_RARITY, rates);
       pityHit = true;
     } else {
-      rarity = rollRarity(rng, minRarity, rates);
+      key = rollRarity(rng, minRarity, rates);
     }
-    if (rarityIndex(rarity) >= rarityIndex(PITY_RARITY)) counter = 0;
+    if (rankOf(key) >= rarityIndex(PITY_RARITY)) counter = 0;
     else counter += 1;
-    players.push(pick(rarity, rng, group, featured, nowMs));
+    players.push(pick(key, rng, group, featured, nowMs));
   }
   if (guarantee && !players.some((player) => rarityIndex(player.rarity) >= rarityIndex(guarantee))) {
     const index = Math.floor(rng() * players.length);
@@ -8342,11 +8406,16 @@ export {
   PICKUP_OFFSET_MINUTES,
   PITY_LIMIT,
   PITY_RARITY,
+  ROLL_KEYS,
   drawCost,
   drawMany,
   drawOne,
   drawSession,
+  familyLabel,
   featuredPlayer,
+  getPlayer,
+  limitedPool,
+  packDisplayName,
   packOf,
   packRates,
   packsOfFamily,

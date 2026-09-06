@@ -19,6 +19,7 @@ import type { WearRow } from '../lib/weeklyWear'
 import type { Fixture } from '../lib/league'
 import { REFRESH_COST, rollListings, type Listing } from '../lib/market'
 import { exchangeResult, type ShardOffer } from '../lib/shards'
+import { fuseWorldOnServer } from '../lib/serverDraw'
 import type { TacticSetup } from '../lib/tactics'
 import type { PhasedTactics } from '../lib/tactics/phases'
 import { clearSave, initialState, loadState, newCard, saveState } from '../lib/storage'
@@ -38,6 +39,10 @@ export interface GameApi {
   fuse: (uids: string[]) => PlayerDef | null
   /** 일괄 합성 — every batch at once; returns the cards made. */
   fuseMany: (batches: { uids: string[]; to: Rarity }[]) => PlayerDef[]
+  /** 월드 3장 → 월드 스카우트팩: asks the server, then drops the cards from the save. */
+  fuseWorld: (uids: string[]) => Promise<{ ok: true; balance: number } | { ok: false; reason: string }>
+  /** Takes 조각 out of the save (a premium pull paid with shards). */
+  spendShards: (amount: number) => void
   assign: (slotId: string, uid: string) => void
   clearSlot: (slotId: string) => void
   setFormation: (formation: FormationKey) => void
@@ -140,6 +145,12 @@ export function GameProvider({ children }: { children: ReactNode }) {
     return cards
   }, [])
 
+  const fuseWorld = useCallback(async (uids: string[]) => {
+    const result = await fuseWorldOnServer(uids)
+    if (result.ok) dispatch({ type: 'fuseWorld', uids })
+    return result
+  }, [])
+
   const fuseMany = useCallback((batches: { uids: string[]; to: Rarity }[]) => {
     const made = batches.map((batch) => ({ uids: batch.uids, player: fusionResult(batch.to) }))
     if (made.length > 0) dispatch({ type: 'fuseMany', batches: made })
@@ -168,6 +179,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
       addCards,
       fuse,
       fuseMany,
+      fuseWorld,
+      spendShards: (amount: number) => dispatch({ type: 'spendShards', amount }),
       exchangeShards: (offer: ShardOffer) => {
         if (state.shards < offer.cost) return null
         const player = exchangeResult(offer.rarity)
@@ -240,7 +253,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         dispatch({ type: 'reset' })
       },
     }),
-    [state, ready, account, addCards, fuse, fuseMany],
+    [state, ready, account, addCards, fuse, fuseMany, fuseWorld],
   )
 
   return <GameContext.Provider value={api}>{children}</GameContext.Provider>

@@ -52,8 +52,8 @@ describe('the item list', () => {
   it('gives every item a way to be bought and something to say about it', () => {
     for (const id of ITEM_IDS) {
       const item = ITEMS[id]
-      // 스카우트 지정권 (target 'pick') is gift-only and has no price at all.
-      if (item.target === 'pick') expect(item.gold === null && item.shards === null).toBe(true)
+      // 스카우트 지정권 (target 'pick') and the retired 조각 주머니 are gift-only: no price at all.
+      if (item.target === 'pick' || item.id === 'shardPouch') expect(item.gold === null && item.shards === null).toBe(true)
       else expect(item.gold !== null || item.shards !== null).toBe(true)
       expect(item.note.length).toBeGreaterThan(5)
       expect(['card', 'club', 'match', 'pick']).toContain(item.target)
@@ -299,15 +299,15 @@ describe('조각 교환소 비용', () => {
     expect(costOf('Legend')).toBe(120)
     expect(shardOffers().find((offer) => offer.rarity === 'Legend')?.cost).toBe(120)
     // 건드리지 않은 등급은 그대로다.
-    expect(costOf('World')).toBe(800)
+    expect(costOf('Live')).toBe(450)
     resetExchangeCosts()
   })
 
   it('공짜는 만들 수 없다', () => {
     // 0은 싼 값이 아니라 카드 무제한이다. 서버 범위도 1부터다.
     for (const offer of SHARD_OFFERS) expect(exchangeBounds(offer.cost).min).toBe(1)
-    setExchangeCosts({ [offerKey('World')]: 0 })
-    expect(costOf('World')).toBe(800)
+    setExchangeCosts({ [offerKey('Live')]: 0 })
+    expect(costOf('Live')).toBe(450)
     resetExchangeCosts()
   })
 

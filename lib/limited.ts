@@ -37,6 +37,11 @@ export const LIMITED_SCHEDULE: LimitedBatch[] = [
 
 const ms = (iso: string) => Date.parse(iso)
 
+/** Whether any 리미티드 batch is open now — the premium pack is sold as 리미티드 스카우트 then. */
+export function limitedWindowOpen(nowMs: number = Date.now()): boolean {
+  return LIMITED_SCHEDULE.some((batch) => nowMs >= ms(batch.from) && nowMs <= ms(batch.to))
+}
+
 /** Whether a card's window is open now. Cards without `limited` are always open. */
 export function limitedOpen(player: PlayerDef, nowMs: number): boolean {
   if (!player.limited) return true

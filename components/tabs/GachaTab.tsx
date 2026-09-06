@@ -7,18 +7,23 @@ import {
   PACK_RATES,
   PITY_LIMIT,
   drawSession,
+  familyLabel,
   featuredPlayer,
+  packDisplayName,
   packsOfFamily,
   type PackDef,
+  type RollKey,
   pickupWeekKey,
   type PackFamily,
 } from '../../lib/gacha'
+import { tune } from '../../lib/tuning'
 import { PLAYERS_BY_RARITY, getPlayer } from '../../lib/players'
 import { planReel, type ReelPlan } from '../../lib/scoutReel'
 import {
   DRAW_FAILURE_MESSAGE,
   drawOnServer,
   fetchScoutTickets,
+  fetchWorldPacks,
   lastDrawDetail,
   serverDrawAvailable,
   type PayWith,
@@ -51,7 +56,7 @@ type Drawn = { player: PlayerDef; isNew: boolean }
  * is how it is told.
  */
 export default function GachaTab() {
-  const { state, addCards, claimMission, exchangeShards } = useGame()
+  const { state, addCards, claimMission, exchangeShards, spendShards } = useGame()
   const [spinning, setSpinning] = useState(false)
   const [reel, setReel] = useState<Rarity>('Normal')
   const [results, setResults] = useState<Drawn[]>([])
@@ -67,6 +72,8 @@ export default function GachaTab() {
   const pauseTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   // 프리미엄 스카우트 티켓 — a server balance (gifts and rewards put it there); null until read.
   const [tickets, setTickets] = useState<number | null>(null)
+  // 월드 스카우트팩 — also a server balance (gifts and 월드 fusion put it there); null until read.
+  const [worldPacks, setWorldPacks] = useState<number | null>(null)
   // A result card tapped for its full numbers.
   const [inspecting, setInspecting] = useState<PlayerDef | null>(null)
 
@@ -80,6 +87,7 @@ export default function GachaTab() {
   useEffect(() => {
     if (!serverDrawAvailable()) return
     void fetchScoutTickets().then((balance) => setTickets(balance))
+    void fetchWorldPacks().then((balance) => setWorldPacks(balance))
   }, [])
 
   useEffect(() => {
@@ -123,11 +131,22 @@ export default function GachaTab() {
     )
   }
 
+  /** 조각으로 사는 프리미엄 스카우트: 1회는 노브값, 10연속은 그 9배. */
+  const shardCostOf = (pack: PackDef) => (pack.count >= 10 ? tune('premiumShardCost') * 9 : tune('premiumShardCost') * pack.count)
+
   const openPack = async (pack: PackDef, free = false, payWith: PayWith = 'gold') => {
-    const cost = free || payWith === 'ticket' ? 0 : pack.cost
+    const cost = free || payWith !== 'gold' ? 0 : pack.cost
     if (busy) return
     if (payWith === 'ticket' && (tickets ?? 0) < pack.count) {
       setError(`프리미엄 스카우트 티켓이 ${pack.count}장 필요합니다 (지금 ${tickets ?? 0}장).`)
+      return
+    }
+    if (payWith === 'worldPack' && (worldPacks ?? 0) < pack.count) {
+      setError('월드 스카우트팩이 없습니다. 선물함이나 월드 카드 3장 합성으로 얻습니다.')
+      return
+    }
+    if (payWith === 'shards' && state.shards < shardCostOf(pack)) {
+      setError(`조각이 ${shardCostOf(pack) - state.shards}개 부족합니다.`)
       return
     }
     if (state.gold < cost) {
@@ -178,6 +197,7 @@ export default function GachaTab() {
       pity = outcome.draw.pity
       pityHit = outcome.draw.pityHit
       if (typeof outcome.draw.tickets === 'number') setTickets(outcome.draw.tickets)
+      if (typeof outcome.draw.worldPacks === 'number') setWorldPacks(outcome.draw.worldPacks)
     } else {
       // No server configured means no account and no economy to protect.
       const outcome = drawSession({
@@ -196,10 +216,12 @@ export default function GachaTab() {
     // The cards are the player's the moment the server says so — the reveal
     // is only a reveal, and leaving the screen mid-spin must not lose them.
     addCards(players, { cost, free, pity })
+    // 조각 결제는 세이브에서 나간다 — 서버가 카드를 정한 뒤에.
+    if (payWith === 'shards') spendShards(shardCostOf(pack))
     const drawn = players.map((player) => ({ player, isNew: !owned.has(player.id) }))
     if (pityHit) setNotice('천장 도달! 골드 이상이 확정으로 나왔습니다.')
 
-    if (pack.family === 'premium') {
+    if (pack.family !== 'basic') {
       setSpinning(false)
       setQueue(drawn)
       startReel(drawn, 0)
@@ -226,6 +248,7 @@ export default function GachaTab() {
             <h2 className="text-xl font-bold text-white">스카우트</h2>
             <p className="text-sm text-slate-400">
               일반 스카우트는 바로 공개되고, 프리미엄 스카우트는 후보가 룰렛처럼 돌다 한 명에서 멈춥니다. 이번 주 픽업 선수는 확률이 두 배입니다.
+              월드 카드는 월드 스카우트에서만 나오고, 리미티드가 열린 주에는 프리미엄이 리미티드 스카우트로 바뀝니다.
             </p>
             <div className="mt-3 max-w-xs rounded-xl bg-white/5 p-3">
               <div className="flex items-center justify-between text-xs">
@@ -262,16 +285,23 @@ export default function GachaTab() {
         </div>
 
         <div className="mt-5 flex flex-wrap gap-2">
-          {(['basic', 'premium'] as PackFamily[]).map((key) => (
+          {(['basic', 'premium', 'world'] as PackFamily[]).map((key) => (
             <button
               key={key}
               onClick={() => setFamily(key)}
               disabled={busy}
               className={`rounded-lg px-4 py-2 text-sm font-bold transition disabled:opacity-60 ${
-                family === key ? (key === 'premium' ? 'btn-gold' : 'btn-primary') : 'btn-ghost'
+                family === key
+                  ? key === 'premium'
+                    ? 'btn-gold'
+                    : key === 'world'
+                      ? 'bg-violet-400 text-slate-900'
+                      : 'btn-primary'
+                  : 'btn-ghost'
               }`}
             >
-              {key === 'basic' ? '일반 스카우트' : '프리미엄 스카우트'}
+              {familyLabel(key)}
+              {key === 'world' && worldPacks !== null && <span className="ml-1.5 text-[11px] opacity-80">{worldPacks}개</span>}
             </button>
           ))}
           <button
@@ -314,7 +344,49 @@ export default function GachaTab() {
           </div>
         )}
 
-        <div className="mt-3 grid gap-2 sm:grid-cols-2">
+        {family === 'premium' && (
+          <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-sky-400/30 bg-sky-400/5 px-3 py-2">
+            <span className="text-xs text-slate-300">
+              🧩 조각 <b className="text-sky-200">{state.shards}</b>
+              <span className="ml-2 text-[10px] text-slate-500">방출로 모은 조각으로 프리미엄 스카우트를 엽니다</span>
+            </span>
+            <div className="flex gap-1.5">
+              {packsOfFamily('premium').map((pack) => (
+                <button
+                  key={`shards-${pack.id}`}
+                  onClick={() => openPack(pack, false, 'shards')}
+                  disabled={busy || state.shards < shardCostOf(pack) || !hasRoomFor(state.cards.length, state.capacity, pack.count)}
+                  className="rounded-lg bg-sky-500/80 px-3 py-1.5 text-[11px] font-black text-white disabled:opacity-40"
+                >
+                  조각 {shardCostOf(pack)}개로 {pack.count === 1 ? '1회' : '10연속'}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {family === 'world' && (
+          <div className="mt-3 rounded-xl border border-violet-400/40 bg-violet-400/10 p-4">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <div className="text-sm font-black text-white">월드 스카우트팩 <span className="text-violet-200">{worldPacks ?? '—'}개</span></div>
+                <p className="mt-1 text-[11px] leading-relaxed text-slate-400">
+                  팔지 않는 팩입니다. 선물함으로 받거나, 선수관리 → 승급 합성에서 월드 카드 3장을 합쳐 1개를 만듭니다.
+                  열면 플래티넘 아니면 월드 카드가 나오고, 월드 카드는 여기서만 나옵니다.
+                </p>
+              </div>
+              <button
+                onClick={() => openPack(packsOfFamily('world')[0], false, 'worldPack')}
+                disabled={busy || (worldPacks ?? 0) < 1 || !hasRoomFor(state.cards.length, state.capacity, 1)}
+                className="rounded-xl bg-violet-400 px-4 py-3 text-sm font-black text-slate-900 transition hover:bg-violet-300 disabled:opacity-40"
+              >
+                월드 스카우트 열기
+              </button>
+            </div>
+          </div>
+        )}
+
+        <div className={`mt-3 grid gap-2 sm:grid-cols-2 ${family === 'world' ? 'hidden' : ''}`}>
           {packsOfFamily(family).map((pack) => {
             // A ten pull needs ten free slots. Saying only "the vault is full"
             // when a single card still fits left the ten pull dead with no
@@ -335,7 +407,7 @@ export default function GachaTab() {
                     family === 'premium' ? 'btn-gold' : 'btn-primary'
                   }`}
                 >
-                  <span className="block">{pack.name}</span>
+                  <span className="block">{packDisplayName(pack)}</span>
                   <span className="block text-[11px] font-semibold opacity-70">
                     {pack.description} · {pack.cost.toLocaleString()}G
                   </span>
@@ -350,21 +422,31 @@ export default function GachaTab() {
           })}
         </div>
 
-        <div className="mt-3 grid grid-cols-5 gap-1.5">
-          {RARITIES.map((rarity) => (
-            <div
-              key={rarity}
-              className={`rounded-lg border px-2 py-1.5 text-center ${
-                family === 'premium' ? 'border-amber-400/40' : 'border-emerald-400/30'
-              }`}
-            >
-              <div className="text-[10px] font-bold text-slate-400">
-                {RARITY_STYLES[rarity].label}
-              </div>
-              <div className="text-sm font-black text-white">{PACK_RATES[family][rarity]}%</div>
+        {(() => {
+          const rates = PACK_RATES[family]
+          const keys: RollKey[] = [...RARITIES, ...((rates.Limited ?? 0) > 0 ? (['Limited'] as RollKey[]) : [])]
+          return (
+            <div className={`mt-3 grid gap-1.5 ${keys.length > 5 ? 'grid-cols-6' : 'grid-cols-5'}`}>
+              {keys.map((key) => (
+                <div
+                  key={key}
+                  className={`rounded-lg border px-2 py-1.5 text-center ${
+                    key === 'Limited'
+                      ? 'border-fuchsia-400/50'
+                      : family === 'premium'
+                        ? 'border-amber-400/40'
+                        : family === 'world'
+                          ? 'border-violet-400/40'
+                          : 'border-emerald-400/30'
+                  }`}
+                >
+                  <div className="text-[10px] font-bold text-slate-400">{key === 'Limited' ? '리미티드' : RARITY_STYLES[key].label}</div>
+                  <div className="text-sm font-black text-white">{rates[key] ?? 0}%</div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          )
+        })()}
         <p className="mt-1.5 text-[11px] text-slate-500">
           한 장을 뽑을 때 각 등급이 나올 확률입니다. 10연속의 보장 카드와 천장은 여기에 더해집니다.{' '}
           <a href="/odds" target="_blank" rel="noreferrer" className="font-bold text-emerald-300 underline-offset-2 hover:underline">확률 안내 전체 보기</a>
@@ -391,14 +473,14 @@ export default function GachaTab() {
                 </div>
               )}
               <p className="text-sm font-semibold text-slate-300">
-                {family === 'premium' ? '스카우트 명단을 받는 중...' : '선수를 찾는 중...'}
+                {family !== 'basic' ? '스카우트 명단을 받는 중...' : '선수를 찾는 중...'}
               </p>
             </div>
           ) : rolling && plan && current ? (
             <div className="space-y-3">
               <div className="flex items-center justify-between text-xs">
                 <span className="font-bold text-slate-300">
-                  프리미엄 스카우트 {queue.length > 1 ? `${reelAt + 1} / ${queue.length}` : ''}
+                  {familyLabel(family)} {queue.length > 1 ? `${reelAt + 1} / ${queue.length}` : ''}
                   {plan.special && <span className="ml-2 rounded bg-amber-400/20 px-1.5 py-0.5 text-[10px] font-black text-amber-200">골드 이상 확정</span>}
                 </span>
                 {queue.length > 1 && !fast && (

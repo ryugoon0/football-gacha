@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { LIMITED_SCHEDULE, formatKst } from '../lib/limited'
 import { PITY, exchangeRows, loadPublicOdds, oddsRows, packSummaries } from '../lib/odds'
 import { RARITY_STYLES } from '../lib/rarity'
+import { tune } from '../lib/tuning'
 
 /**
  * 확률 안내 — the odds of every paid or gold-priced random draw, readable
@@ -48,25 +49,29 @@ export default function OddsPage() {
               <tr className="text-left text-xs text-slate-500">
                 <th className="py-1.5 pr-3">등급</th>
                 <th className="py-1.5 pr-3 text-right">일반 스카우트</th>
-                <th className="py-1.5 text-right">프리미엄 스카우트</th>
+                <th className="py-1.5 pr-3 text-right">프리미엄 스카우트</th>
+                <th className="py-1.5 pr-3 text-right">리미티드 스카우트</th>
+                <th className="py-1.5 text-right">월드 스카우트</th>
               </tr>
             </thead>
             <tbody>
               {rows.map((row) => (
                 <tr key={row.rarity} className="border-t border-white/5">
                   <td className="py-1.5 pr-3 font-bold">
-                    <span className={`rounded px-1.5 py-0.5 text-xs ${RARITY_STYLES[row.rarity].chip ?? 'bg-white/10 text-slate-100'}`}>{row.label}</span>
+                    <span className={`rounded px-1.5 py-0.5 text-xs ${row.rarity === 'Limited' ? 'bg-fuchsia-400/20 text-fuchsia-100' : RARITY_STYLES[row.rarity].chip ?? 'bg-white/10 text-slate-100'}`}>{row.label}</span>
                   </td>
                   <td className="py-1.5 pr-3 text-right font-black tabular-nums text-white">{row.basic}%</td>
-                  <td className="py-1.5 text-right font-black tabular-nums text-white">{row.premium}%</td>
+                  <td className="py-1.5 pr-3 text-right font-black tabular-nums text-white">{row.premium}%</td>
+                  <td className="py-1.5 pr-3 text-right font-black tabular-nums text-white">{row.limitedPremium}%</td>
+                  <td className="py-1.5 text-right font-black tabular-nums text-white">{row.world}%</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
         <p className="mt-2 text-[11px] leading-relaxed text-slate-500">
-          같은 등급 안에서는 그 등급의 모든 현역 카드가 같은 확률로 나옵니다. 월드 카드는 프리미엄 스카우트에서만 나옵니다. 미공개·은퇴
-          카드는 풀에 없습니다.
+          같은 등급 안에서는 그 등급의 모든 현역 카드가 같은 확률로 나옵니다. 월드 카드는 월드 스카우트에서만 나옵니다. 리미티드 카드는
+          리미티드 스카우트의 「리미티드」 칸에서만 나오고, 플래티넘 칸에는 들어 있지 않습니다. 미공개·은퇴 카드는 풀에 없습니다.
         </p>
       </section>
 
@@ -107,8 +112,9 @@ export default function OddsPage() {
             확률 자체는 위 표와 같습니다).
           </li>
           <li>
-            <b className="text-white">리미티드 카드</b>: 기간 한정 카드가 열려 있으면 픽업 자리를 리미티드 카드가 차지합니다. 같은 등급이 나올 때 절반이 리미티드 카드
-            중 한 장입니다. 기간이 끝나면 풀에서 빠지고 받은 카드는 남습니다.
+            <b className="text-white">리미티드 스카우트</b>: 리미티드 카드가 열려 있는 동안 프리미엄 스카우트가 리미티드 스카우트로 바뀝니다. 가격·10연속 보장은 같고, 위 표의
+            「리미티드 스카우트」 열이 그 기간의 확률입니다(리미티드 몫만큼 일반·실버·골드가 비율대로 줄고 플래티넘은 그대로). 그 주 픽업은 리미티드 카드 중 하나이며,
+            리미티드가 나올 때 절반 확률로 픽업 카드입니다. 기간이 끝나면 풀에서 빠지고 받은 카드는 남습니다.
             {LIMITED_SCHEDULE.length > 0 && (
               <span className="text-slate-500">
                 {' '}
@@ -118,6 +124,13 @@ export default function OddsPage() {
           </li>
           <li>
             <b className="text-white">프리미엄 스카우트 티켓</b>: 티켓 1장은 프리미엄 스카우트 1회와 같은 확률·같은 규칙입니다. 상점에서 팔지 않고 선물·보상으로만 받습니다.
+          </li>
+          <li>
+            <b className="text-white">월드 스카우트</b>: 팔지 않습니다. 월드 스카우트팩은 선물이나 월드 카드 3장 합성으로만 생기고, 열면 위 표의 「월드 스카우트」 열대로
+            플래티넘 아니면 월드가 나옵니다. 월드 카드는 이 팩에서만 나옵니다.
+          </li>
+          <li>
+            <b className="text-white">조각으로 여는 프리미엄 스카우트</b>: 조각 {tune('premiumShardCost')}개(10연속 {tune('premiumShardCost') * 9}개)로 프리미엄(리미티드) 스카우트를 열 수 있고, 확률·보장·천장은 골드로 열 때와 같습니다.
           </li>
           <li>
             <b className="text-white">무료 스카우트</b>: 하루 한 번 무료 일반 스카우트는 유료와 같은 확률입니다.

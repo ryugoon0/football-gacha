@@ -22,7 +22,7 @@ export const SHARD_OFFERS: ShardOffer[] = [
   { rarity: 'Rare', cost: 60 },
   { rarity: 'Legend', cost: 220 },
   { rarity: 'Live', cost: 450 },
-  { rarity: 'World', cost: 800 },
+  // 월드 확정 교환은 2026-09-07 에 내렸다 — 월드 카드는 월드 스카우트팩에서만 나온다.
 ]
 
 export function shardsFor(card: Card): number {

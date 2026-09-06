@@ -374,3 +374,17 @@
   돌파 1당 훈련비 ×5를 골드로 돌려준 뒤 `GameState.notice`로 한 번 안내한다. 멱등이라 두 번 읽어도 두 번
   주지 않는다.
 - 검토표: https://claude.ai/code/artifact/71c88092-49ec-48de-8a56-22f7e98cda8a
+
+## 7. 스카우트 구조 개편 (2026-09-07)
+
+- **월드 스카우트팩**: 팔지 않는다. 서버 잔고(`world_packs`, 프리미엄 티켓과 같은 모양)이며 선물 수령
+  (`claim_gifts` items.worldPack)과 월드 3장 합성(draw-pack `fuse_world` → `record_world_fusion`, 쓴 uid 는
+  `world_fusions`에 남아 재사용 불가)이 올리고 `commit_pull(p_world_packs)`이 내린다. 확률은 노브
+  `worldRateWorld`(기본 10, 나머지 플래티넘). **월드 카드는 이 팩에서만** — 일반·프리미엄 표의 월드 확률과
+  조각 교환 「월드 확정」을 없앴다.
+- **리미티드 스카우트**: `limitedWindowOpen()` 동안 프리미엄 표에 `Limited` 칸(노브 `premiumRateLimited`, 기본 7)이
+  생기고 일반·실버·골드가 비율대로 줄어든다(플래티넘 유지). 리미티드 카드는 등급 풀에서 빠지고 이 칸에서만
+  나온다. 이름·설명은 `familyLabel()`/`packDisplayName()`이 바꾼다.
+- **조각 결제**: 프리미엄(리미티드) 1회 `premiumShardCost`(기본 80), 10연속 ×9. 조각은 세이브에 있으므로
+  클라이언트가 빼고 서버는 무료 프리미엄 뽑기로 기록한다 — 조각 교환소와 같은 신뢰 모델. 조각 주머니는 진열에서
+  내렸다(가격 null).

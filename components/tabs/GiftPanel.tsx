@@ -7,6 +7,7 @@ import {
   GIFT_FAILURE_MESSAGE,
   GIFT_TARGET_LABEL,
   TICKET_KEY,
+  WORLD_PACK_KEY,
   describeTarget,
   giftTickets,
   fetchGiftsForAdmin,
@@ -32,6 +33,7 @@ export default function GiftPanel() {
   const [gold, setGold] = useState(0)
   const [items, setItems] = useState<Partial<Record<ItemId, number>>>({})
   const [ticketCount, setTicketCount] = useState(0)
+  const [worldPackCount, setWorldPackCount] = useState(0)
   // Cards handed over as they are, by player id. A club's whole current squad in one click.
   const [cards, setCards] = useState<string[]>([])
   const [cardClub, setCardClub] = useState('')
@@ -94,20 +96,20 @@ export default function GiftPanel() {
 
   const itemLines = Object.entries(items).filter(([, count]) => (count ?? 0) > 0) as [ItemId, number][]
   const canSend =
-    title.trim().length > 0 && (gold > 0 || itemLines.length > 0 || ticketCount > 0 || cards.length > 0) && (kind !== 'users' || picked.length > 0) && !busy
+    title.trim().length > 0 && (gold > 0 || itemLines.length > 0 || ticketCount > 0 || worldPackCount > 0 || cards.length > 0) && (kind !== 'users' || picked.length > 0) && !busy
 
   const send = async () => {
     if (!canSend) return
     const summary = `${describeTarget(target)}${audience !== null ? ` (${audience}명)` : ''}에게 「${title.trim()}」 — ${gold > 0 ? `${gold.toLocaleString('ko-KR')}G` : ''}${
       ticketCount > 0 ? ` 프리미엄 티켓×${ticketCount}` : ''
-    }${cards.length > 0 ? ` 선수 카드 ${cards.length}장` : ''}${itemLines.length ? ` ${itemLines.map(([id, count]) => `${ITEMS[id].name}×${count}`).join(', ')}` : ''} 보낼까요?`
+    }${worldPackCount > 0 ? ` 월드 팩×${worldPackCount}` : ''}${cards.length > 0 ? ` 선수 카드 ${cards.length}장` : ''}${itemLines.length ? ` ${itemLines.map(([id, count]) => `${ITEMS[id].name}×${count}`).join(', ')}` : ''} 보낼까요?`
     if (!window.confirm(summary)) return
     setBusy(true)
     const result = await sendGift({
       title: title.trim(),
       message: message.trim(),
       gold,
-      items: { ...Object.fromEntries(itemLines), ...(ticketCount > 0 ? { [TICKET_KEY]: ticketCount } : {}) },
+      items: { ...Object.fromEntries(itemLines), ...(ticketCount > 0 ? { [TICKET_KEY]: ticketCount } : {}), ...(worldPackCount > 0 ? { [WORLD_PACK_KEY]: worldPackCount } : {}) },
       cards,
       target,
       expiresAt: expires ? new Date(expires).toISOString() : null,
@@ -178,6 +180,19 @@ export default function GiftPanel() {
             max={200}
             value={ticketCount}
             onChange={(event) => setTicketCount(Math.max(0, Math.min(200, Math.floor(Number(event.target.value) || 0))))}
+            className={`${field} mt-1 w-32 tabular-nums`}
+          />
+        </label>
+
+        <label className="block text-xs text-slate-400">
+          🌍 월드 스카우트팩 (개)
+          <span className="ml-2 text-[10px] text-slate-500">서버 잔고입니다 — 스카우트 탭 월드 스카우트에서 열고, 플래티넘 90% · 월드 10%</span>
+          <input
+            type="number"
+            min={0}
+            max={200}
+            value={worldPackCount}
+            onChange={(event) => setWorldPackCount(Math.max(0, Math.min(200, Math.floor(Number(event.target.value) || 0))))}
             className={`${field} mt-1 w-32 tabular-nums`}
           />
         </label>

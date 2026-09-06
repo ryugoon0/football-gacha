@@ -121,12 +121,12 @@ export const ITEMS: Record<ItemId, ItemDef> = {
   shardPouch: {
     id: 'shardPouch',
     name: '조각 주머니',
-    note: '카드 조각 120개를 얻습니다.',
+    note: '카드 조각 120개를 얻습니다. 상점에서 내렸고(2026-09-07) 갖고 있던 것은 그대로 쓸 수 있습니다.',
     target: 'club',
     icon: '🧧',
-    gold: 2000,
+    gold: null,
     shards: null,
-    dailyLimit: 3,
+    dailyLimit: null,
   },
   platinumPick: {
     id: 'platinumPick',

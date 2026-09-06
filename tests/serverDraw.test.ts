@@ -28,7 +28,7 @@ describe('the pick-up week is one shared decision', () => {
 describe('the odds the server will use', () => {
   it('every pack has a rate table that sums to 100', () => {
     for (const rates of Object.values(PACK_RATES)) {
-      const total = RARITIES.reduce((sum, rarity) => sum + rates[rarity], 0)
+      const total = RARITIES.reduce((sum, rarity) => sum + rates[rarity], 0) + (rates.Limited ?? 0)
       expect(total).toBeCloseTo(100, 6)
     }
   })
