@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { conditionFactor, isSidelined } from '../../lib/condition'
-import { FORMATIONS, FORMATION_KEYS } from '../../lib/formations'
+import { FORMATIONS, FORMATION_FAMILIES, familyOf } from '../../lib/formations'
 import { getPlayer } from '../../lib/players'
 import { BENCH_SIZE, positionFit, ratingInSlot } from '../../lib/squad'
 import { evaluateSquad, missingSlots } from '../../lib/squad'
@@ -187,18 +187,19 @@ export default function SquadTab() {
         </div>
       )}
       <section className="panel p-4">
-        <div className="mb-4 flex flex-wrap items-center gap-2">
-          {FORMATION_KEYS.map((key: FormationKey) => (
+        <div className="mb-2 flex flex-wrap items-center gap-2">
+          {FORMATION_FAMILIES.map((family) => (
             <button
-              key={key}
-              onClick={() => setFormation(key)}
+              key={family.family}
+              // Tapping a shape keeps the variant if the current one belongs to it; otherwise the family default.
+              onClick={() => setFormation(family.keys.includes(state.squad.formation) ? state.squad.formation : family.keys[0])}
               className={`rounded-lg px-3 py-1.5 text-sm font-bold transition ${
-                state.squad.formation === key
+                familyOf(state.squad.formation).family === family.family
                   ? 'btn-primary'
                   : 'btn-ghost'
               }`}
             >
-              {key}
+              {family.family}
             </button>
           ))}
           <div className="ml-auto flex items-center gap-1.5">
@@ -224,6 +225,22 @@ export default function SquadTab() {
             </button>
           </div>
         </div>
+        {familyOf(state.squad.formation).keys.length > 1 && (
+          <div className="mb-3 flex flex-wrap items-center gap-1.5">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">유형</span>
+            {familyOf(state.squad.formation).keys.map((key: FormationKey) => (
+              <button
+                key={key}
+                onClick={() => setFormation(key)}
+                className={`rounded-md px-2.5 py-1 text-xs font-bold transition ${
+                  state.squad.formation === key ? 'bg-emerald-500/25 text-emerald-100 ring-1 ring-emerald-400/50' : 'btn-ghost'
+                }`}
+              >
+                {FORMATIONS[key].variant}
+              </button>
+            ))}
+          </div>
+        )}
         <p className="mb-3 text-xs text-slate-400">{formation.description}</p>
 
         <div className="pitch relative mx-auto aspect-[3/4] w-full max-w-md rounded-xl border border-white/15">

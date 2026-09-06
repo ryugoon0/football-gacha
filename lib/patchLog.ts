@@ -34,6 +34,16 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-06-formation-variants',
+    date: '2026-09-06',
+    kind: 'feature',
+    title: '포메이션 13종 — 4-3-3 CAM·더블 볼란치·플랫, 4-4-2 다이아몬드, 4-2-4, 3-4-3 …',
+    detail: [
+      '스쿼드에서 4-3-3 같은 모양을 누르면 아래에 유형(CM CDM CM · CM CM CAM · CDM CDM CAM · CM CM CM)이 나와 고를 수 있습니다. 4-4-2는 플랫·다이아몬드·더블 볼란치, 4-2-3-1은 LM CAM RM·LW CAM RW, 3-5-2는 두 가지, 그리고 4-2-4와 3-4-3이 새로 생겼습니다.',
+      '같은 모양 안에서 유형을 바꾸면 선수 자리가 그대로 유지되고, 포지션이 바뀐 자리만 능력치가 달라집니다. 기존 포메이션은 각 모양의 첫 유형으로 그대로 남습니다.',
+    ],
+  },
+  {
     id: '2026-09-06-weekly-sidelined',
     date: '2026-09-06',
     kind: 'fix',

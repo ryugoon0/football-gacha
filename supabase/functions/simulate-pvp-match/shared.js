@@ -3,81 +3,158 @@
 
 // lib/formations.ts
 var gk = { id: "gk", position: "GK", x: 50, y: 9 };
+var back4 = [
+  { id: "d1", position: "LB", x: 10, y: 32 },
+  { id: "d2", position: "CB", x: 37, y: 30 },
+  { id: "d3", position: "CB", x: 63, y: 30 },
+  { id: "d4", position: "RB", x: 90, y: 32 }
+];
+var back3 = [
+  { id: "d2", position: "CB", x: 22, y: 31 },
+  { id: "d3", position: "CB", x: 50, y: 31 },
+  { id: "d4", position: "CB", x: 78, y: 31 }
+];
+var front3 = [
+  { id: "f1", position: "LW", x: 14, y: 80 },
+  { id: "f2", position: "ST", x: 50, y: 82 },
+  { id: "f3", position: "RW", x: 86, y: 80 }
+];
+var front2 = [
+  { id: "f1", position: "ST", x: 36, y: 82 },
+  { id: "f2", position: "ST", x: 64, y: 82 }
+];
+var formation = (key, family, variant, description, slots) => ({ key, family, variant, label: variant ? `${family} ${variant}` : family, description, slots });
 var FORMATIONS = {
-  "4-3-3": {
-    key: "4-3-3",
-    label: "4-3-3",
-    description: "\uCE21\uBA74 \uACF5\uACA9\uC5D0 \uD798\uC744 \uC2E3\uB294 \uAE30\uBCF8 \uC804\uC220",
-    slots: [
-      gk,
-      { id: "d1", position: "LB", x: 10, y: 32 },
-      { id: "d2", position: "CB", x: 37, y: 30 },
-      { id: "d3", position: "CB", x: 63, y: 30 },
-      { id: "d4", position: "RB", x: 90, y: 32 },
-      { id: "m1", position: "CM", x: 22, y: 56 },
-      { id: "m2", position: "CDM", x: 50, y: 48 },
-      { id: "m3", position: "CM", x: 78, y: 56 },
-      { id: "f1", position: "LW", x: 14, y: 80 },
-      { id: "f2", position: "ST", x: 50, y: 82 },
-      { id: "f3", position: "RW", x: 86, y: 80 }
-    ]
-  },
-  "4-4-2": {
-    key: "4-4-2",
-    label: "4-4-2",
-    description: "\uADE0\uD615 \uC7A1\uD78C \uB450 \uC904 \uC218\uBE44\uC640 \uD22C\uD1B1",
-    slots: [
-      gk,
-      { id: "d1", position: "LB", x: 10, y: 32 },
-      { id: "d2", position: "CB", x: 37, y: 30 },
-      { id: "d3", position: "CB", x: 63, y: 30 },
-      { id: "d4", position: "RB", x: 90, y: 32 },
-      { id: "m1", position: "LM", x: 10, y: 54 },
-      { id: "m2", position: "CM", x: 37, y: 50 },
-      { id: "m3", position: "CM", x: 63, y: 50 },
-      { id: "m4", position: "RM", x: 90, y: 54 },
-      { id: "f1", position: "ST", x: 36, y: 82 },
-      { id: "f2", position: "ST", x: 64, y: 82 }
-    ]
-  },
-  "4-2-3-1": {
-    key: "4-2-3-1",
-    label: "4-2-3-1",
-    description: "\uB450 \uBA85\uC758 \uC218\uBE44\uD615 \uBBF8\uB4DC\uD544\uB354\uB85C \uC911\uC6D0\uC744 \uC7A0\uADFC\uB2E4",
-    slots: [
-      gk,
-      { id: "d1", position: "LB", x: 10, y: 32 },
-      { id: "d2", position: "CB", x: 37, y: 30 },
-      { id: "d3", position: "CB", x: 63, y: 30 },
-      { id: "d4", position: "RB", x: 90, y: 32 },
-      { id: "m1", position: "CDM", x: 35, y: 48 },
-      { id: "m2", position: "CDM", x: 65, y: 48 },
-      { id: "m3", position: "LM", x: 12, y: 66 },
-      { id: "m4", position: "CAM", x: 50, y: 66 },
-      { id: "m5", position: "RM", x: 88, y: 66 },
-      { id: "f1", position: "ST", x: 50, y: 82 }
-    ]
-  },
-  "3-5-2": {
-    key: "3-5-2",
-    label: "3-5-2",
-    description: "\uC911\uC6D0 \uC22B\uC790\uB85C \uACBD\uAE30\uB97C \uC9C0\uBC30\uD558\uB294 \uC804\uC220",
-    slots: [
-      gk,
-      { id: "d2", position: "CB", x: 22, y: 31 },
-      { id: "d3", position: "CB", x: 50, y: 31 },
-      { id: "d4", position: "CB", x: 78, y: 31 },
-      { id: "m1", position: "LM", x: 10, y: 54 },
-      { id: "m2", position: "CM", x: 34, y: 48 },
-      { id: "m3", position: "CDM", x: 50, y: 40 },
-      { id: "m4", position: "CAM", x: 66, y: 58 },
-      { id: "m5", position: "RM", x: 90, y: 54 },
-      { id: "f1", position: "ST", x: 36, y: 82 },
-      { id: "f2", position: "ST", x: 64, y: 82 }
-    ]
-  }
+  "4-3-3": formation("4-3-3", "4-3-3", "CM CDM CM", "\uD55C \uBA85\uC774 \uB4A4\uB97C \uBC1B\uCE58\uACE0 \uB458\uC774 \uC624\uB974\uB0B4\uB9AC\uB294 \uAE30\uBCF8 4-3-3", [
+    gk,
+    ...back4,
+    { id: "m1", position: "CM", x: 22, y: 56 },
+    { id: "m2", position: "CDM", x: 50, y: 48 },
+    { id: "m3", position: "CM", x: 78, y: 56 },
+    ...front3
+  ]),
+  "4-3-3-cam": formation("4-3-3-cam", "4-3-3", "CM CM CAM", "\uC911\uC6D0 \uB458 \uC704\uC5D0 \uACF5\uACA9\uD615 \uBBF8\uB4DC\uD544\uB354\uB97C \uC138\uC6CC \uC2A4\uB9AC\uD1B1\uC744 \uC9C0\uC6D0\uD55C\uB2E4", [
+    gk,
+    ...back4,
+    { id: "m1", position: "CM", x: 28, y: 50 },
+    { id: "m3", position: "CM", x: 72, y: 50 },
+    { id: "m2", position: "CAM", x: 50, y: 66 },
+    ...front3
+  ]),
+  "4-3-3-2cdm": formation("4-3-3-2cdm", "4-3-3", "CDM CDM CAM", "\uB354\uBE14 \uBCFC\uB780\uCE58\uB85C \uB4A4\uB97C \uC7A0\uADF8\uACE0 \uACF5\uACA9\uD615 \uBBF8\uB4DC\uD544\uB354\uAC00 \uC5F0\uACB0\uD55C\uB2E4", [
+    gk,
+    ...back4,
+    { id: "m1", position: "CDM", x: 34, y: 46 },
+    { id: "m3", position: "CDM", x: 66, y: 46 },
+    { id: "m2", position: "CAM", x: 50, y: 66 },
+    ...front3
+  ]),
+  "4-3-3-flat": formation("4-3-3-flat", "4-3-3", "CM CM CM", "\uC138 \uBA85\uC774 \uD55C \uC904\uB85C \uC11C\uB294 \uD3C9\uD3C9\uD55C \uC911\uC6D0 \u2014 \uC810\uC720\uC5D0 \uAC15\uD558\uB2E4", [
+    gk,
+    ...back4,
+    { id: "m1", position: "CM", x: 24, y: 54 },
+    { id: "m2", position: "CM", x: 50, y: 54 },
+    { id: "m3", position: "CM", x: 76, y: 54 },
+    ...front3
+  ]),
+  "4-4-2": formation("4-4-2", "4-4-2", "LM CM CM RM", "\uADE0\uD615 \uC7A1\uD78C \uB450 \uC904 \uC218\uBE44\uC640 \uD22C\uD1B1", [
+    gk,
+    ...back4,
+    { id: "m1", position: "LM", x: 10, y: 54 },
+    { id: "m2", position: "CM", x: 37, y: 50 },
+    { id: "m3", position: "CM", x: 63, y: 50 },
+    { id: "m4", position: "RM", x: 90, y: 54 },
+    ...front2
+  ]),
+  "4-4-2-diamond": formation("4-4-2-diamond", "4-4-2", "\uB2E4\uC774\uC544\uBAAC\uB4DC", "\uCE21\uBA74\uC744 \uBC84\uB9AC\uACE0 \uC911\uC559\uC744 \uB9C8\uB984\uBAA8\uB85C \uCC44\uC6B4\uB2E4 \u2014 \uD22C\uD1B1\uACFC CAM\uC758 \uC0BC\uAC01\uD615", [
+    gk,
+    ...back4,
+    { id: "m2", position: "CDM", x: 50, y: 42 },
+    { id: "m1", position: "CM", x: 26, y: 54 },
+    { id: "m4", position: "CM", x: 74, y: 54 },
+    { id: "m3", position: "CAM", x: 50, y: 67 },
+    ...front2
+  ]),
+  "4-4-2-2cdm": formation("4-4-2-2cdm", "4-4-2", "LM CDM CDM RM", "\uC911\uC559 \uB458\uC774 \uC218\uBE44\uD615\uC73C\uB85C \uB0B4\uB824\uC549\uC544 \uCE21\uBA74 \uBBF8\uB4DC\uD544\uB354\uAC00 \uB113\uAC8C \uB6F4\uB2E4", [
+    gk,
+    ...back4,
+    { id: "m1", position: "LM", x: 10, y: 56 },
+    { id: "m2", position: "CDM", x: 37, y: 46 },
+    { id: "m3", position: "CDM", x: 63, y: 46 },
+    { id: "m4", position: "RM", x: 90, y: 56 },
+    ...front2
+  ]),
+  "4-2-3-1": formation("4-2-3-1", "4-2-3-1", "LM CAM RM", "\uB450 \uBA85\uC758 \uC218\uBE44\uD615 \uBBF8\uB4DC\uD544\uB354\uB85C \uC911\uC6D0\uC744 \uC7A0\uADFC\uB2E4", [
+    gk,
+    ...back4,
+    { id: "m1", position: "CDM", x: 35, y: 48 },
+    { id: "m2", position: "CDM", x: 65, y: 48 },
+    { id: "m3", position: "LM", x: 12, y: 66 },
+    { id: "m4", position: "CAM", x: 50, y: 66 },
+    { id: "m5", position: "RM", x: 88, y: 66 },
+    { id: "f1", position: "ST", x: 50, y: 82 }
+  ]),
+  "4-2-3-1-wide": formation("4-2-3-1-wide", "4-2-3-1", "LW CAM RW", "2\uC120\uC758 \uCE21\uBA74\uC744 \uC719\uC5B4\uB85C \uC138\uC6CC \uB192\uC774 \uC62C\uB9B0\uB2E4", [
+    gk,
+    ...back4,
+    { id: "m1", position: "CDM", x: 35, y: 48 },
+    { id: "m2", position: "CDM", x: 65, y: 48 },
+    { id: "m3", position: "LW", x: 12, y: 72 },
+    { id: "m4", position: "CAM", x: 50, y: 66 },
+    { id: "m5", position: "RW", x: 88, y: 72 },
+    { id: "f1", position: "ST", x: 50, y: 84 }
+  ]),
+  "4-2-4": formation("4-2-4", "4-2-4", "", "\uC911\uC6D0 \uB458\uB9CC \uB450\uACE0 \uC55E\uC5D0 \uB137 \u2014 \uACF5\uACA9\uC5D0 \uBAA8\uB4E0 \uAC83\uC744 \uAC74\uB2E4", [
+    gk,
+    ...back4,
+    { id: "m1", position: "CM", x: 35, y: 50 },
+    { id: "m2", position: "CM", x: 65, y: 50 },
+    { id: "f1", position: "LW", x: 12, y: 78 },
+    { id: "f2", position: "ST", x: 38, y: 84 },
+    { id: "f4", position: "ST", x: 62, y: 84 },
+    { id: "f3", position: "RW", x: 88, y: 78 }
+  ]),
+  "3-5-2": formation("3-5-2", "3-5-2", "CM CDM CAM", "\uC911\uC6D0 \uC22B\uC790\uB85C \uACBD\uAE30\uB97C \uC9C0\uBC30\uD558\uB294 \uC804\uC220", [
+    gk,
+    ...back3,
+    { id: "m1", position: "LM", x: 10, y: 54 },
+    { id: "m2", position: "CM", x: 34, y: 48 },
+    { id: "m3", position: "CDM", x: 50, y: 40 },
+    { id: "m4", position: "CAM", x: 66, y: 58 },
+    { id: "m5", position: "RM", x: 90, y: 54 },
+    ...front2
+  ]),
+  "3-5-2-2cdm": formation("3-5-2-2cdm", "3-5-2", "CDM CDM CAM", "\uC2A4\uB9AC\uBC31 \uC55E\uC5D0 \uB354\uBE14 \uBCFC\uB780\uCE58, \uADF8 \uC704\uC5D0 \uACF5\uACA9\uD615 \uBBF8\uB4DC\uD544\uB354", [
+    gk,
+    ...back3,
+    { id: "m1", position: "LM", x: 10, y: 56 },
+    { id: "m2", position: "CDM", x: 36, y: 44 },
+    { id: "m3", position: "CDM", x: 64, y: 44 },
+    { id: "m4", position: "CAM", x: 50, y: 64 },
+    { id: "m5", position: "RM", x: 90, y: 56 },
+    ...front2
+  ]),
+  "3-4-3": formation("3-4-3", "3-4-3", "", "\uC2A4\uB9AC\uBC31\uC5D0 \uC911\uC6D0 \uB137, \uC55E\uC5D0 \uC2A4\uB9AC\uD1B1 \u2014 \uCE21\uBA74 \uBBF8\uB4DC\uD544\uB354\uAC00 \uC624\uB974\uB0B4\uB9B0\uB2E4", [
+    gk,
+    ...back3,
+    { id: "m1", position: "LM", x: 10, y: 54 },
+    { id: "m2", position: "CM", x: 37, y: 50 },
+    { id: "m3", position: "CM", x: 63, y: 50 },
+    { id: "m4", position: "RM", x: 90, y: 54 },
+    ...front3
+  ])
 };
 var FORMATION_KEYS = Object.keys(FORMATIONS);
+var FORMATION_FAMILIES = (() => {
+  const families = [];
+  for (const key of FORMATION_KEYS) {
+    const family = FORMATIONS[key].family;
+    const entry = families.find((item) => item.family === family);
+    if (entry) entry.keys.push(key);
+    else families.push({ family, keys: [key] });
+  }
+  return families;
+})();
 
 // lib/tuning.ts
 var KNOBS = {
@@ -9754,8 +9831,8 @@ function missingSlots(evaluations) {
 }
 function evaluateSquad(cards, squad, division = BOTTOM_DIVISION) {
   const byUid = new Map(cards.map((card) => [card.uid, card]));
-  const formation = FORMATIONS[squad.formation] ?? FORMATIONS["4-3-3"];
-  const evaluations = formation.slots.map((slot) => {
+  const formation2 = FORMATIONS[squad.formation] ?? FORMATIONS["4-3-3"];
+  const evaluations = formation2.slots.map((slot) => {
     const uid = squad.slots[slot.id];
     const card = uid ? byUid.get(uid) ?? null : null;
     const player = card ? getPlayer(card.playerId) ?? null : null;

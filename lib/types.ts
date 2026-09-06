@@ -27,7 +27,20 @@ export type Position =
 
 export type PositionGroup = 'GK' | 'DF' | 'MF' | 'FW'
 
-export type FormationKey = '4-3-3' | '4-4-2' | '4-2-3-1' | '3-5-2'
+export type FormationKey =
+  | '4-3-3'
+  | '4-3-3-cam'
+  | '4-3-3-2cdm'
+  | '4-3-3-flat'
+  | '4-4-2'
+  | '4-4-2-diamond'
+  | '4-4-2-2cdm'
+  | '4-2-3-1'
+  | '4-2-3-1-wide'
+  | '4-2-4'
+  | '3-5-2'
+  | '3-5-2-2cdm'
+  | '3-4-3'
 
 export interface Stats {
   pac: number
