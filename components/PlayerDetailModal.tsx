@@ -43,6 +43,7 @@ export default function PlayerDetailModal({
   onTreat,
   onRecover,
   onSell,
+  onToggleLock,
 }: {
   card: Card
   player: PlayerDef
@@ -52,6 +53,8 @@ export default function PlayerDetailModal({
   onTreat: () => void
   onRecover: () => void
   onSell: () => void
+  /** Lock or unlock the card — absent when the screen cannot change it (another club's card). */
+  onToggleLock?: () => void
 }) {
   const [showSubs, setShowSubs] = useState(false)
   const [showMap, setShowMap] = useState(false)
@@ -186,12 +189,28 @@ export default function PlayerDetailModal({
             </div>
 
             <PlayerCareButtons card={card} gold={gold} onTreat={onTreat} onRecover={onRecover} />
-            <button
-              onClick={onSell}
-              className="w-full rounded-lg bg-rose-500/20 px-3 py-2 text-sm font-bold text-rose-200 transition hover:bg-rose-500/30"
-            >
-              방출 (+{sellPrice(card)}G · +{shardsFor(card)}조각)
-            </button>
+            {onToggleLock && (
+              <button
+                onClick={onToggleLock}
+                className={`w-full rounded-lg px-3 py-2 text-sm font-bold transition ${
+                  card.locked ? 'bg-amber-400/25 text-amber-100 hover:bg-amber-400/35' : 'bg-white/10 text-slate-200 hover:bg-white/20'
+                }`}
+              >
+                {card.locked ? '🔒 잠금 해제' : '🔓 카드 잠금 (방출·재료 사용 금지)'}
+              </button>
+            )}
+            {card.locked ? (
+              <p className="rounded-lg bg-white/5 px-3 py-2 text-[11px] text-slate-400">
+                잠긴 카드입니다. 방출·합성·훈련 재료·한계 돌파 재료로 쓸 수 없습니다.
+              </p>
+            ) : (
+              <button
+                onClick={onSell}
+                className="w-full rounded-lg bg-rose-500/20 px-3 py-2 text-sm font-bold text-rose-200 transition hover:bg-rose-500/30"
+              >
+                방출 (+{sellPrice(card)}G · +{shardsFor(card)}조각)
+              </button>
+            )}
             {inSquad && (
               <p className="text-[11px] font-semibold text-amber-400">
                 선발 또는 벤치에 있는 선수입니다.

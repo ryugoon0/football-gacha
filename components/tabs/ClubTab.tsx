@@ -230,7 +230,10 @@ export default function ClubTab() {
 
   const onCardClick = (card: Card) => {
     if (mode === 'manage') {
-      setSelectedUid(card.uid === selectedUid ? null : card.uid)
+      // One tap opens the card's popup with care, lock and release on it — the
+      // side panel is a long scroll away on a phone.
+      setSelectedUid(card.uid)
+      setDetailUid(card.uid)
       return
     }
     if (mode === 'release') {
@@ -631,6 +634,7 @@ export default function ClubTab() {
             setDetailUid(null)
             setSelectedUid(null)
           }}
+          onToggleLock={() => toggleLock(detailCard.card.uid)}
         />
       )}
 
