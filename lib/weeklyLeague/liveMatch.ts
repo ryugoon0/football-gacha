@@ -14,7 +14,8 @@
  * lib/weeklyLeagueServer.ts, same pattern as lib/serverMatch.ts.
  */
 import { buildLineup } from '../aiClub'
-import { applyAutoSubs } from '../autoSub'
+import { applyAutoSubs, clearSidelined } from '../autoSub'
+import { tune } from '../tuning'
 import { FORMATION_KEYS } from '../formations'
 import { evaluateSquad, type SquadRating } from '../squad'
 import { DEFAULT_TACTIC, type TacticSetup } from '../tactics'
@@ -131,8 +132,13 @@ export interface WeeklyRealSquadInput {
  * fixture the manager never opens still fields a sensible team.
  */
 export function kickoffSquadOf(input: WeeklyRealSquadInput): Squad {
-  if (input.autoSub === false) return input.squad
-  return applyAutoSubs(input.cards, input.squad, input.division).squad
+  // With automatic substitution off only the injured and suspended are
+  // swapped (a tired bar nobody is under); on, the tired go too.
+  const tiredBelow = input.autoSub === false ? -1 : tune('tiredSubThreshold')
+  const swapped = applyAutoSubs(input.cards, input.squad, input.division, (card) => card.condition, tiredBelow).squad
+  // Then nobody sidelined stays in the eighteen: starters the bench could not
+  // cover and the injured now on the bench are replaced from the collection.
+  return clearSidelined(input.cards, swapped, input.division).squad
 }
 
 /**

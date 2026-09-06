@@ -9964,6 +9964,119 @@ function applyAutoSubs(cards, squad, division, conditionOf = (card) => card.cond
   }
   return { squad: { ...squad, slots, bench }, subs };
 }
+var personOf = (player, playerId) => player?.person ?? playerId;
+function majorityClubOf(cards, squad) {
+  const byUid = new Map(cards.map((card) => [card.uid, card]));
+  const tally2 = /* @__PURE__ */ new Map();
+  for (const uid of Object.values(squad.slots)) {
+    const card = uid ? byUid.get(uid) : void 0;
+    const player = card ? getPlayer(card.playerId) : void 0;
+    if (!card || !player) continue;
+    const entry = tally2.get(player.club) ?? { count: 0, rating: 0 };
+    entry.count += 1;
+    entry.rating += ratingInSlot(player, card.level, player.position);
+    tally2.set(player.club, entry);
+  }
+  let best = null;
+  let bestKey = -1;
+  for (const [club, entry] of tally2) {
+    const key = entry.count * 1e4 + entry.rating;
+    if (key > bestKey) {
+      bestKey = key;
+      best = club;
+    }
+  }
+  return best;
+}
+function clearSidelined(cards, squad, division) {
+  const formation = FORMATIONS[squad.formation] ?? FORMATIONS["4-3-3"];
+  const byUid = new Map(cards.map((card) => [card.uid, card]));
+  const cap = lineupCapOf(division);
+  const slots = { ...squad.slots };
+  const bench = [...squad.bench];
+  const fills = [];
+  const inLineup = () => new Set([...Object.values(slots), ...bench].filter((uid) => Boolean(uid)));
+  const personsInLineup = () => {
+    const persons = /* @__PURE__ */ new Set();
+    for (const uid of inLineup()) {
+      const card = byUid.get(uid);
+      if (card) persons.add(personOf(getPlayer(card.playerId), card.playerId));
+    }
+    return persons;
+  };
+  const nameOf2 = (card) => card ? getPlayer(card.playerId)?.name ?? "\uC120\uC218" : "\uC120\uC218";
+  const pool = () => {
+    const taken = inLineup();
+    const persons = personsInLineup();
+    const out = [];
+    for (const card of cards) {
+      if (taken.has(card.uid) || isSidelined(card)) continue;
+      const player = getPlayer(card.playerId);
+      if (!player || persons.has(personOf(player, card.playerId))) continue;
+      out.push({ card, player });
+    }
+    return out;
+  };
+  let levelTotal = Object.values(slots).reduce((sum, uid) => sum + (uid ? byUid.get(uid)?.level ?? 0 : 0), 0);
+  for (const slot of formation.slots) {
+    const uid = slots[slot.id];
+    const starter = uid ? byUid.get(uid) : void 0;
+    if (!starter || !isSidelined(starter)) continue;
+    slots[slot.id] = null;
+    levelTotal -= starter.level;
+    const club2 = majorityClubOf(cards, { ...squad, slots });
+    let best = null;
+    let bestKey = -1;
+    for (const candidate of pool()) {
+      if (candidate.player.positions.includes("GK") !== (slot.position === "GK")) continue;
+      if (levelTotal + candidate.card.level > cap) continue;
+      const key = (candidate.card.condition >= SUB_READY_CONDITION ? 1e6 : 0) + (candidate.player.club === club2 ? 1e4 : 0) + ratingInSlot(candidate.player, candidate.card.level, slot.position);
+      if (key > bestKey) {
+        bestKey = key;
+        best = candidate;
+      }
+    }
+    if (best) {
+      slots[slot.id] = best.card.uid;
+      levelTotal += best.card.level;
+    }
+    fills.push({
+      slotId: slot.id,
+      benchIndex: null,
+      outUid: starter.uid,
+      inUid: best?.card.uid ?? null,
+      outName: nameOf2(starter),
+      inName: best ? nameOf2(best.card) : null
+    });
+  }
+  const club = majorityClubOf(cards, { ...squad, slots });
+  bench.forEach((uid, index) => {
+    const sitter = uid ? byUid.get(uid) : void 0;
+    if (!sitter || !isSidelined(sitter)) return;
+    bench[index] = null;
+    const wantsKeeper = getPlayer(sitter.playerId)?.positions.includes("GK") ?? false;
+    let best = null;
+    let bestKey = -1;
+    for (const candidate of pool()) {
+      const isKeeper = candidate.player.positions.includes("GK");
+      const key = (isKeeper === wantsKeeper ? 1e7 : 0) + (candidate.player.club === club ? 1e6 : 0) + (candidate.card.condition >= SUB_READY_CONDITION ? 1e5 : 0) + ratingInSlot(candidate.player, candidate.card.level, candidate.player.position);
+      if (key > bestKey) {
+        bestKey = key;
+        best = candidate;
+      }
+    }
+    if (best) bench[index] = best.card.uid;
+    fills.push({
+      slotId: null,
+      benchIndex: index,
+      outUid: sitter.uid,
+      inUid: best?.card.uid ?? null,
+      outName: nameOf2(sitter),
+      inName: best ? nameOf2(best.card) : null
+    });
+  });
+  return { squad: { ...squad, slots, bench }, fills };
+}
 
 // lib/weeklyLeague/liveMatch.ts
 function weeklyAiSquad(groupId, slot, targetRating) {
@@ -10005,8 +10118,9 @@ function starterAverageOf(rating) {
   return starters.reduce((total, item) => total + item.rating, 0) / starters.length;
 }
 function kickoffSquadOf(input) {
-  if (input.autoSub === false) return input.squad;
-  return applyAutoSubs(input.cards, input.squad, input.division).squad;
+  const tiredBelow = input.autoSub === false ? -1 : tune("tiredSubThreshold");
+  const swapped = applyAutoSubs(input.cards, input.squad, input.division, (card) => card.condition, tiredBelow).squad;
+  return clearSidelined(input.cards, swapped, input.division).squad;
 }
 function buildWeeklyMatchSetup(args) {
   const { groupId, home, away, homeInput, awayInput, neutralVenue, aiAnchor } = args;
