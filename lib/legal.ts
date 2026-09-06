@@ -19,7 +19,7 @@ export const OPERATOR = {
   representative: '유재혁',
   registration: '429-22-01537',
   mailOrder: '신고 준비 중',
-  address: '인천광역시 서구 이음2로 30, 603동 2103호 (당하동, 검단신도시 디에트르 더 펠리체)',
+  address: '인천광역시 검단구 이음1로 396',
   email: '[문의 이메일]',
   privacyOfficer: '유재혁 · [문의 이메일]',
 }
