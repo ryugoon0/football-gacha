@@ -31,6 +31,8 @@ var PLAYER_OVERRIDES = {
   "w138": { position: "LW", positions: ["LW", "LM", "RW", "RM", "CAM", "CM"] },
   // 월드 2007-08 맨체스 레즈 크리스티아누 호날도 — 사용자 지시: 주 RW, 양 측면 전부.
   "w124": { positions: ["RW", "LW", "LM", "RM"] },
+  // 맨체스 레즈 마테우스 쿠뉴 — 사용자 지시(2026-09-06): LW·ST 추가.
+  "lv140": { positions: ["CAM", "LW", "ST"] },
   "w03": { positions: ["CM", "CDM", "CAM"], stats: { pac: 87, sho: 97, pas: 98, dri: 94, def: 78, phy: 85 } },
   // 케빈 더브라
   "w04": { positions: ["CAM", "ST", "RW"], stats: { pac: 98, sho: 94, pas: 96, dri: 98, def: 63 }, hidden: { stamina: 10, consistency: 12 } },
