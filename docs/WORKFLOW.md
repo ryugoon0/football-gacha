@@ -65,3 +65,13 @@ rembg를 GPU로 돌리려면 `onnxruntime-gpu==1.20.1`(CUDA 12 계열).
 `CLAUDE.md`의 위임 규칙을 따른다. 요약하면: 단순·명확한 작업은 Claude가 직접, Codex는
 독립적인 두 번째 시각(리뷰·원인 분석)이나 이미지 생성처럼 실제 이득이 있을 때만.
 Codex 플러그인은 그 PC의 Codex CLI 로그인 상태를 쓰고, 이미지 생성은 ChatGPT 사용량 한도에 걸린다.
+
+## 도메인·메일 (2026-09-06)
+
+- 서비스 주소 `https://clubseason.kr` (www 포함). 도메인은 가비아(플로우 명의, 2029-09까지),
+  DNS 도 가비아: `A @ 76.76.21.21`, `CNAME www cname.vercel-dns.com`, 나머지는 하이웍스 MX·SPF.
+  Vercel 프로젝트 football-gacha 에 두 호스트가 붙어 있고 vercel.app 주소는 그대로 살아 있다.
+- 운영 메일 `support@clubseason.kr` — 가비아 하이웍스(메일 용량제 1). 발송 도구
+  `tools/mail/send.py`, 설정은 저장소 밖 `%USERPROFILE%\.clubseason\mail.env`(메일 전용 비밀번호).
+- Supabase Auth 의 Site URL·Redirect URL 은 대시보드에서 `https://clubseason.kr` 로 맞춘다
+  (Authentication → URL Configuration). CLI 로는 바꾸지 않는다.

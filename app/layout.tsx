@@ -6,6 +6,7 @@ import { BRAND_NAME } from '../lib/brand'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://clubseason.kr'),
   title: `${BRAND_NAME} — 축구 클럽 매니저`,
   description:
     '스쿼드를 만들고 리그를 오르며 같은 시즌을 함께하는 축구 클럽 매니저.',

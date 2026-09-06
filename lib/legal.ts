@@ -20,8 +20,8 @@ export const OPERATOR = {
   registration: '429-22-01537',
   mailOrder: '신고 준비 중',
   address: '인천광역시 검단구 이음1로 396',
-  email: '[문의 이메일]',
-  privacyOfficer: '유재혁 · [문의 이메일]',
+  email: 'support@clubseason.kr',
+  privacyOfficer: '유재혁 · support@clubseason.kr',
 }
 
 export interface LegalSection {
@@ -57,7 +57,7 @@ export const TERMS: LegalSection[] = [
     body: [
       '유료 상품의 가격과 내용은 결제 화면에 표시합니다. 미성년자의 결제는 법정대리인의 동의가 필요하며, 동의 없는 결제는 취소할 수 있습니다.',
       '구매한 재화를 쓰지 않았다면 구매일로부터 7일 안에 청약철회(환불)를 요청할 수 있습니다. 일부라도 사용한 재화, 이벤트·보상으로 받은 재화는 환불 대상이 아닙니다.',
-      '환불 요청과 결제 문의는 [문의 이메일]로 받습니다. 앱 마켓을 통한 결제는 해당 마켓의 환불 정책을 따릅니다.',
+      '환불 요청과 결제 문의는 support@clubseason.kr 로 받습니다. 앱 마켓을 통한 결제는 해당 마켓의 환불 정책을 따릅니다.',
     ],
   },
   {

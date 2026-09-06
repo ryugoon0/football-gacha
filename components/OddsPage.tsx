@@ -157,7 +157,7 @@ export default function OddsPage() {
           <li>경쟁 리그·이벤트·선물로 받는 카드와 골드는 확률이 아니라 정해진 보상입니다.</li>
           <li>승급 합성은 현재 유저 화면에서 제공하지 않습니다.</li>
         </ul>
-        <p className="mt-3 text-[11px] text-slate-500">문의: 게임 안 게시판 또는 운영자 공지에 안내된 채널.</p>
+        <p className="mt-3 text-[11px] text-slate-500">문의: support@clubseason.kr 또는 게임 안 게시판.</p>
       </section>
     </div>
   )
