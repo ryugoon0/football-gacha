@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { ITEMS } from '../lib/items'
 import { GIFT_FAILURE_MESSAGE, claimGifts, fetchMyGifts, giftItemLines, giftTickets, type GiftRow } from '../lib/gifts'
+import { getPlayer } from '../lib/players'
 import { useGame } from './GameProvider'
 
 const SEEN_KEY = 'football-gacha:gifts-seen'
@@ -101,7 +102,7 @@ const fmtDate = (iso: string) => new Date(iso).toLocaleString('ko-KR', { timeZon
  * screen adds it to the save.
  */
 export default function GiftInbox({ onClose, onChanged }: { onClose: () => void; onChanged?: () => void }) {
-  const { grantGold, grantItems, account } = useGame()
+  const { grantGold, grantItems, grantCards, account } = useGame()
   const [rows, setRows] = useState<GiftRow[] | null>(null)
   const [busy, setBusy] = useState(false)
   const [notice, setNotice] = useState<string | null>(null)
@@ -121,6 +122,7 @@ export default function GiftInbox({ onClose, onChanged }: { onClose: () => void;
     }
     if (result.gold > 0) grantGold(result.gold)
     if (result.items.length > 0) grantItems(result.items)
+    if (result.cards.length > 0) grantCards(result.cards)
     // The server has already recorded the gold; the save must follow at once,
     // not after the usual pause — a refresh in between would lose the claim.
     setTimeout(() => void account.saveNow(), 50)
@@ -128,6 +130,7 @@ export default function GiftInbox({ onClose, onChanged }: { onClose: () => void;
       result.gold > 0 ? `${result.gold.toLocaleString('ko-KR')}G` : '',
       result.tickets > 0 ? `프리미엄 스카우트 티켓 ×${result.tickets}${result.ticketBalance !== null ? ` (보유 ${result.ticketBalance}장)` : ''}` : '',
       ...result.items.map((line) => `${ITEMS[line.id].name} ×${line.count}`),
+      result.cards.length > 0 ? `선수 카드 ${result.cards.length}장` : '',
     ].filter(Boolean)
     setNotice(result.count === 0 ? '받을 선물이 없습니다.' : `${parts.join(' · ')}를 받았습니다.`)
     await load()
@@ -213,6 +216,12 @@ function GiftCard({ row, action }: { row: GiftRow; action: React.ReactNode }) {
             {ITEMS[line.id].icon} {ITEMS[line.id].name} ×{line.count}
           </span>
         ))}
+        {row.cards.length > 0 && (
+          <span className="rounded-lg bg-sky-400/20 px-2 py-1 text-[11px] font-bold text-sky-100" title={row.cards.map((id) => getPlayer(id)?.name ?? id).join(', ')}>
+            🃏 선수 카드 ×{row.cards.length}
+            {row.cards.length <= 3 ? ` (${row.cards.map((id) => getPlayer(id)?.name ?? id).join(', ')})` : ''}
+          </span>
+        )}
       </div>
     </div>
   )

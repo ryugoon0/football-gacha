@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { ITEMS, type ItemId } from '../../lib/items'
+import { PLAYERS, getPlayer } from '../../lib/players'
 import {
   GIFT_FAILURE_MESSAGE,
   GIFT_TARGET_LABEL,
@@ -31,6 +32,11 @@ export default function GiftPanel() {
   const [gold, setGold] = useState(0)
   const [items, setItems] = useState<Partial<Record<ItemId, number>>>({})
   const [ticketCount, setTicketCount] = useState(0)
+  // Cards handed over as they are, by player id. A club's whole current squad in one click.
+  const [cards, setCards] = useState<string[]>([])
+  const [cardClub, setCardClub] = useState('')
+  const [cardText, setCardText] = useState('')
+  const squadClubs = useMemo(() => [...new Set(PLAYERS.filter((p) => p.fromSquad && !p.unreleased && !p.limited && p.rarity !== 'World').map((p) => p.club))].sort((a, b) => a.localeCompare(b, 'ko')), [])
   const [kind, setKind] = useState<GiftTarget['kind']>('all')
   const [days, setDays] = useState(7)
   const [picked, setPicked] = useState<AdminUserRow[]>([])
@@ -88,13 +94,13 @@ export default function GiftPanel() {
 
   const itemLines = Object.entries(items).filter(([, count]) => (count ?? 0) > 0) as [ItemId, number][]
   const canSend =
-    title.trim().length > 0 && (gold > 0 || itemLines.length > 0 || ticketCount > 0) && (kind !== 'users' || picked.length > 0) && !busy
+    title.trim().length > 0 && (gold > 0 || itemLines.length > 0 || ticketCount > 0 || cards.length > 0) && (kind !== 'users' || picked.length > 0) && !busy
 
   const send = async () => {
     if (!canSend) return
     const summary = `${describeTarget(target)}${audience !== null ? ` (${audience}명)` : ''}에게 「${title.trim()}」 — ${gold > 0 ? `${gold.toLocaleString('ko-KR')}G` : ''}${
       ticketCount > 0 ? ` 프리미엄 티켓×${ticketCount}` : ''
-    }${itemLines.length ? ` ${itemLines.map(([id, count]) => `${ITEMS[id].name}×${count}`).join(', ')}` : ''} 보낼까요?`
+    }${cards.length > 0 ? ` 선수 카드 ${cards.length}장` : ''}${itemLines.length ? ` ${itemLines.map(([id, count]) => `${ITEMS[id].name}×${count}`).join(', ')}` : ''} 보낼까요?`
     if (!window.confirm(summary)) return
     setBusy(true)
     const result = await sendGift({
@@ -102,6 +108,7 @@ export default function GiftPanel() {
       message: message.trim(),
       gold,
       items: { ...Object.fromEntries(itemLines), ...(ticketCount > 0 ? { [TICKET_KEY]: ticketCount } : {}) },
+      cards,
       target,
       expiresAt: expires ? new Date(expires).toISOString() : null,
     })
@@ -116,6 +123,8 @@ export default function GiftPanel() {
     setGold(0)
     setItems({})
     setTicketCount(0)
+    setCards([])
+    setCardText('')
     setPicked([])
     void loadHistory()
   }
@@ -172,6 +181,57 @@ export default function GiftPanel() {
             className={`${field} mt-1 w-32 tabular-nums`}
           />
         </label>
+
+        <div>
+          <div className="text-xs text-slate-400">
+            🃏 선수 카드 <span className="ml-1 text-[10px] text-slate-500">카드 id 를 그대로 선물합니다. 같은 id 를 두 번 쓰면 두 장.</span>
+          </div>
+          <div className="mt-1 flex flex-wrap items-center gap-2">
+            <select value={cardClub} onChange={(event) => setCardClub(event.target.value)} className={`${field} w-56`}>
+              <option className="bg-slate-900 text-slate-100" value="">클럽 선택…</option>
+              {squadClubs.map((club) => (
+                <option className="bg-slate-900 text-slate-100" key={club} value={club}>
+                  {club}
+                </option>
+              ))}
+            </select>
+            <button
+              type="button"
+              disabled={!cardClub}
+              onClick={() => {
+                const ids = PLAYERS.filter((p) => p.fromSquad && !p.unreleased && !p.limited && p.rarity !== 'World' && p.club === cardClub).map((p) => p.id)
+                setCards((current) => [...current, ...ids])
+              }}
+              className="rounded-lg btn-ghost px-3 py-1.5 text-xs font-bold disabled:opacity-40"
+            >
+              이 클럽 현 스쿼드 한 장씩 추가
+            </button>
+            <input
+              value={cardText}
+              onChange={(event) => setCardText(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key !== 'Enter') return
+                event.preventDefault()
+                const ids = cardText.split(/[\s,]+/).map((v) => v.trim()).filter((v) => v && getPlayer(v))
+                setCards((current) => [...current, ...ids])
+                setCardText('')
+              }}
+              placeholder="카드 id 직접 입력 (쉼표·공백 구분, Enter)"
+              className={`${field} w-64`}
+            />
+            {cards.length > 0 && (
+              <button type="button" onClick={() => setCards([])} className="rounded-lg btn-ghost px-2.5 py-1.5 text-xs font-bold">
+                비우기
+              </button>
+            )}
+          </div>
+          {cards.length > 0 && (
+            <p className="mt-1 text-[11px] text-emerald-300">
+              {cards.length}장: {cards.slice(0, 12).map((id) => getPlayer(id)?.name ?? id).join(', ')}
+              {cards.length > 12 ? ' …' : ''}
+            </p>
+          )}
+        </div>
 
         <div>
           <div className="text-xs text-slate-400">아이템</div>
@@ -299,6 +359,7 @@ export default function GiftPanel() {
                 <div className="mt-0.5 text-slate-300">
                   {row.gold > 0 ? `${row.gold.toLocaleString('ko-KR')}G` : ''}
                   {giftTickets(row.items) > 0 ? ` 🎟️×${giftTickets(row.items)}` : ''}
+                  {(row.cards?.length ?? 0) > 0 ? ` 🃏×${row.cards!.length}` : ''}
                   {Object.entries(row.items ?? {})
                     .filter(([id, count]) => id in ITEMS && Number(count) > 0)
                     .map(([id, count]) => ` ${ITEMS[id as ItemId].name}×${count}`)

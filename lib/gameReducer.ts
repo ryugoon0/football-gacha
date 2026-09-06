@@ -147,6 +147,7 @@ export type Action =
   | { type: 'grantGold'; amount: number }
   /** Items the server granted (히든 카드 from a league week or cup final) reaching the save. */
   | { type: 'grantItems'; items: { id: ItemId; count: number }[] }
+  | { type: 'grantCards'; playerIds: string[] }
   /** One item spent somewhere the server already accepted it (a 히든 카드 played before kick-off). */
   | { type: 'consumeItem'; id: ItemId }
   | { type: 'finishGuide' }
@@ -868,6 +869,18 @@ export function reducer(state: GameState, action: Action): GameState {
         items[line.id] = Math.min(999, itemCount(items, line.id) + Math.floor(line.count))
       }
       return { ...state, items }
+    }
+
+    case 'grantCards': {
+      // Gifted cards land even past the vault cap — a gift that bounces is
+      // worse than a full vault, which only blocks the next scout until tidied.
+      const ids = action.playerIds.filter((id) => getPlayer(id)).slice(0, 200)
+      if (ids.length === 0) return state
+      return {
+        ...state,
+        cards: [...state.cards, ...ids.map((id) => newCard(id))],
+        collected: Array.from(new Set([...state.collected, ...ids])),
+      }
     }
 
     case 'consumeItem': {

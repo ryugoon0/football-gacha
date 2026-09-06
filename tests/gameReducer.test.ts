@@ -815,3 +815,15 @@ describe('bulk release', () => {
     expect(sellPrice(trained)).toBeGreaterThan(sellPrice(fresh))
   })
 })
+
+describe('gifted cards', () => {
+  it('adds one card per id, marks them collected, ignores unknown ids and allows going past the vault cap', () => {
+    const state = start()
+    const ids = [state.cards[0].playerId, state.cards[0].playerId, 'no-such-card']
+    const full = { ...state, capacity: state.cards.length }
+    const next = reducer(full, { type: 'grantCards', playerIds: ids })
+    expect(next.cards.length).toBe(full.cards.length + 2)
+    expect(next.collected).toContain(ids[0])
+    expect(reducer(full, { type: 'grantCards', playerIds: ['no-such-card'] })).toBe(full)
+  })
+})

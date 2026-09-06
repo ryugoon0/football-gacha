@@ -34,6 +34,13 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-06-gift-cards',
+    date: '2026-09-06',
+    kind: 'internal',
+    title: '운영자 선물에 선수 카드 — 클럽 현 스쿼드를 한 장씩 보낼 수 있다',
+    detail: ['선물 탭에서 클럽을 고르면 그 클럽 현 스쿼드가 한 장씩 담기고, 카드 id 를 직접 적어도 됩니다. 받는 쪽은 선물함에서 수령하면 선수관리에 들어갑니다(보관함 용량을 넘겨도 받습니다).'],
+  },
+  {
     id: '2026-09-06-one-person-once',
     date: '2026-09-06',
     kind: 'fix',

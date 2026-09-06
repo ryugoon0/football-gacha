@@ -72,6 +72,8 @@ export interface GameApi {
   claimMission: (id: MissionId) => void
   grantGold: (amount: number) => void
   grantItems: (items: { id: ItemId; count: number }[]) => void
+  /** Adds gifted cards (by player id) to the collection — used by the 선물함. */
+  grantCards: (playerIds: string[]) => void
   consumeItem: (id: ItemId) => void
   finishGuide: () => void
   renameClub: (club: string) => void
@@ -203,6 +205,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       claimMission: (id: MissionId) => dispatch({ type: 'claimMission', id }),
       grantGold: (amount: number) => dispatch({ type: 'grantGold', amount }),
       grantItems: (items: { id: ItemId; count: number }[]) => dispatch({ type: 'grantItems', items }),
+      grantCards: (playerIds: string[]) => dispatch({ type: 'grantCards', playerIds }),
       consumeItem: (id: ItemId) => dispatch({ type: 'consumeItem', id }),
       finishGuide: () => dispatch({ type: 'finishGuide' }),
       renameClub: (club: string) => dispatch({ type: 'renameClub', club }),

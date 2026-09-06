@@ -54,6 +54,8 @@ export interface GiftRow {
   message: string
   gold: number
   items: Record<string, number>
+  /** Card ids gifted outright; a repeated id is another copy. */
+  cards: string[]
   createdAt: string
   claimedAt: string | null
   expiresAt: string | null
@@ -83,13 +85,13 @@ export async function fetchMyGifts(): Promise<GiftRow[]> {
   if (!supabase) return []
   const { data, error } = await supabase.rpc('my_gifts')
   if (error || !Array.isArray(data)) return []
-  return (data as GiftRow[]).map((row) => ({ ...row, items: row.items && typeof row.items === 'object' ? row.items : {} }))
+  return (data as GiftRow[]).map((row) => ({ ...row, items: row.items && typeof row.items === 'object' ? row.items : {}, cards: Array.isArray(row.cards) ? row.cards.map(String) : [] }))
 }
 
 export async function claimGifts(
   inboxIds?: number[],
 ): Promise<
-  | { ok: true; count: number; gold: number; items: { id: ItemId; count: number }[]; tickets: number; ticketBalance: number | null }
+  | { ok: true; count: number; gold: number; items: { id: ItemId; count: number }[]; cards: string[]; tickets: number; ticketBalance: number | null }
   | { ok: false; reason: string }
 > {
   const supabase = getSupabase()
@@ -97,7 +99,7 @@ export async function claimGifts(
   const { data, error } = await supabase.rpc('claim_gifts', { p_inbox_ids: inboxIds ?? null })
   if (error) return { ok: false, reason: 'unavailable' }
   const body = data as
-    | { ok?: boolean; reason?: string; count?: number; gold?: number; items?: Record<string, number>; tickets?: number; ticketBalance?: number }
+    | { ok?: boolean; reason?: string; count?: number; gold?: number; items?: Record<string, number>; cards?: unknown; tickets?: number; ticketBalance?: number }
     | null
   if (!body?.ok) return { ok: false, reason: body?.reason ?? 'unavailable' }
   return {
@@ -105,6 +107,7 @@ export async function claimGifts(
     count: Number(body.count ?? 0),
     gold: Number(body.gold ?? 0),
     items: giftItemLines(body.items),
+    cards: Array.isArray(body.cards) ? body.cards.map(String) : [],
     tickets: Number(body.tickets ?? 0),
     ticketBalance: typeof body.ticketBalance === 'number' ? body.ticketBalance : null,
   }
@@ -144,6 +147,8 @@ export interface SendGiftInput {
   message: string
   gold: number
   items: Record<string, number>
+  /** Card ids to hand over as they are (lib/players.ts ids). */
+  cards?: string[]
   target: GiftTarget
   expiresAt?: string | null
 }
@@ -158,6 +163,7 @@ export async function sendGift(input: SendGiftInput): Promise<{ ok: true; giftId
     p_items: input.items,
     p_target: input.target,
     p_expires_at: input.expiresAt ?? null,
+    p_cards: input.cards ?? [],
   })
   if (error) return { ok: false, reason: error.message }
   const body = data as { ok?: boolean; reason?: string; giftId?: number; recipients?: number } | null
@@ -171,6 +177,7 @@ export interface AdminGiftRow {
   message: string
   gold: number
   items: Record<string, number>
+  cards?: string[]
   target: GiftTarget
   recipients: number
   claimed: number
