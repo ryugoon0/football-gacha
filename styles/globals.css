@@ -15,6 +15,20 @@
   --gold-soft: #fde68a;
 }
 
+/* Native <select> popups paint their own list: without this Windows Chrome
+   shows a white sheet with pale text. One rule for every dropdown in the game. */
+select {
+  color-scheme: dark;
+}
+select option,
+select optgroup {
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+select option:disabled {
+  color: #64748b;
+}
+
 html {
   font-family:
     'Pretendard Variable',
