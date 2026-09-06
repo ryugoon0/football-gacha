@@ -95,22 +95,31 @@ function ModernPlayerCard({
         </span>
       )}
 
-      <div className="flex gap-1 px-2 pt-2">
-        <div className="flex w-8 shrink-0 flex-col items-center leading-none">
-          <span className={`font-black ${dimensions.ovr}`}>{ovr}</span>
-          <span className="mt-0.5 text-[10px] font-bold">{player.position}</span>
-          {size !== 'sm' && (
-            <>
-              <span className="mt-1 h-px w-4 bg-current opacity-40" />
-              <span className="mt-1 text-[8px] font-semibold opacity-80">{player.nation}</span>
-            </>
-          )}
-          <span className="mt-0.5 rounded bg-black/25 px-1 text-[8px] font-bold text-white">
-            Lv.{level}
-          </span>
+      {size === 'sm' ? (
+        // On the pitch and the bench the face is what a manager recognises, so
+        // the portrait takes most of the small card and the numbers sit on top of it.
+        <div className="relative px-1 pt-1">
+          <PlayerAvatar player={player} className="mx-auto w-[46px] sm:w-[54px]" />
+          <div className="absolute left-1 top-1 flex flex-col items-start leading-none">
+            <span className={`font-black drop-shadow ${dimensions.ovr}`}>{ovr}</span>
+            <span className="text-[9px] font-bold drop-shadow">{player.position}</span>
+          </div>
+          <span className="absolute bottom-0 right-1 rounded bg-black/40 px-1 text-[8px] font-bold text-white">Lv.{level}</span>
         </div>
-        <PlayerAvatar player={player} className="min-w-0 flex-1" />
-      </div>
+      ) : (
+        <div className="flex gap-1 px-2 pt-2">
+          <div className="flex w-8 shrink-0 flex-col items-center leading-none">
+            <span className={`font-black ${dimensions.ovr}`}>{ovr}</span>
+            <span className="mt-0.5 text-[10px] font-bold">{player.position}</span>
+            <span className="mt-1 h-px w-4 bg-current opacity-40" />
+            <span className="mt-1 text-[8px] font-semibold opacity-80">{player.nation}</span>
+            <span className="mt-0.5 rounded bg-black/25 px-1 text-[8px] font-bold text-white">
+              Lv.{level}
+            </span>
+          </div>
+          <PlayerAvatar player={player} className="min-w-0 flex-1" />
+        </div>
+      )}
 
       {typeof condition === 'number' && (
         <div className="mx-2 mb-1 h-1 rounded-full bg-black/25">
