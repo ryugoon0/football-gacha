@@ -73,5 +73,7 @@ Codex 플러그인은 그 PC의 Codex CLI 로그인 상태를 쓰고, 이미지 
   Vercel 프로젝트 football-gacha 에 두 호스트가 붙어 있고 vercel.app 주소는 그대로 살아 있다.
 - 운영 메일 `support@clubseason.kr` — 가비아 하이웍스(메일 용량제 1). 발송 도구
   `tools/mail/send.py`, 설정은 저장소 밖 `%USERPROFILE%\.clubseason\mail.env`(메일 전용 비밀번호).
-- Supabase Auth 의 Site URL·Redirect URL 은 대시보드에서 `https://clubseason.kr` 로 맞춘다
-  (Authentication → URL Configuration). CLI 로는 바꾸지 않는다.
+- Supabase Auth(Site URL·Redirect URL·SMTP 발신)는 `supabase/config.toml` [auth] 절이 원본이고
+  `SMTP_PASS=<메일 전용 비밀번호> npx supabase config push` 로 반영한다. **주의**: config push 는
+  config.toml 에 없는 항목을 CLI 기본값으로 되돌리므로(이메일 확인 끄기, OTP 6자리 등), 운영 값을
+  전부 명시해 둔 지금 상태를 유지하고, 새 항목을 만질 때는 `--yes` 없이 먼저 diff 를 본다.

@@ -6,3 +6,42 @@ project_id = "mpndwtqvwmarkepxzhew"
 [db]
 # 원격 프로젝트의 버전에 맞춥니다. 로컬 개발에는 쓰지 않습니다.
 major_version = 15
+
+# Auth 설정 — `supabase config push` 로 운영 프로젝트에 반영한다(2026-09-06 도메인 연결).
+# SMTP 비밀번호는 저장소에 두지 않는다: 푸시할 때 SMTP_PASS 환경변수로 넘긴다
+# (%USERPROFILE%\.clubseason\mail.env 의 값).
+[auth]
+site_url = "https://clubseason.kr"
+additional_redirect_urls = [
+  "https://clubseason.kr/**",
+  "https://www.clubseason.kr/**",
+  "https://football-gacha.vercel.app/**",
+  "http://localhost:3000/**",
+]
+
+# 아래 값들은 운영 프로젝트의 현재 설정과 같다. config push 가 기본값으로 되돌리지 않도록 명시한다.
+[auth.mfa.totp]
+enroll_enabled = true
+verify_enabled = true
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = true
+enable_confirmations = true
+secure_password_change = false
+max_frequency = "1m0s"
+otp_length = 8
+otp_expiry = 3600
+
+[auth.email.smtp]
+enabled = true
+host = "smtps.hiworks.com"
+port = 465
+user = "support@clubseason.kr"
+pass = "env(SMTP_PASS)"
+admin_email = "support@clubseason.kr"
+sender_name = "Club Season"
+
+# storage: 운영 설정 그대로(벡터 버킷 꺼짐). config push 기본값이 켜 버리지 않도록 명시.
+[storage.vector]
+enabled = false
