@@ -140,6 +140,8 @@ export default function ClubTab() {
   const [fused, setFused] = useState<PlayerDef | null>(null)
   const [releaseUids, setReleaseUids] = useState<string[]>([])
   const [detailUid, setDetailUid] = useState<string | null>(null)
+  /** Set when one more material would only be wasted — the pick is refused and this says why. */
+  const [trainNotice, setTrainNotice] = useState<string | null>(null)
 
   const inUse = useMemo(
     () =>
@@ -267,6 +269,22 @@ export default function ClubTab() {
         resetPicks()
         return
       }
+      if (!materialUids.includes(card.uid) && selected) {
+        // Once the picked materials already fill the card to its ceiling (the
+        // limit with a full bar, or level 10), one more would be thrown away.
+        const picked = state.cards.filter((item) => materialUids.includes(item.uid))
+        const now = addExperience(selected.card, picked.reduce((sum, item) => sum + materialExp(item), 0))
+        const ceiling = now.card.level >= now.card.limit && now.card.exp >= expForLevel(now.card.level) - 1
+        if (ceiling) {
+          setTrainNotice(
+            now.card.limit >= levelCap(selected.player)
+              ? '지금 담은 재료로 이미 최대 레벨까지 찹니다. 더 넣으면 버려집니다.'
+              : `지금 담은 재료로 이미 한계(Lv.${now.card.limit})까지 가득 찹니다. 더 넣으면 버려지니 한계 돌파 뒤에 이어서 훈련하세요.`,
+          )
+          return
+        }
+      }
+      setTrainNotice(null)
       setMaterialUids((current) =>
         current.includes(card.uid)
           ? current.filter((uid) => uid !== card.uid)
@@ -545,11 +563,16 @@ export default function ClubTab() {
             target={selected}
             materials={state.cards.filter((card) => materialUids.includes(card.uid))}
             gold={state.gold}
-            onClear={() => setMaterialUids([])}
+            notice={trainNotice}
+            onClear={() => {
+              setMaterialUids([])
+              setTrainNotice(null)
+            }}
             onTrain={() => {
               if (!selected) return
               trainCard(selected.card.uid, materialUids)
               setMaterialUids([])
+              setTrainNotice(null)
             }}
           />
         ) : mode === 'break' ? (
@@ -737,12 +760,14 @@ function TrainPanel({
   target,
   materials,
   gold,
+  notice,
   onTrain,
   onClear,
 }: {
   target: { card: Card; player: PlayerDef } | null
   materials: Card[]
   gold: number
+  notice?: string | null
   onTrain: () => void
   onClear: () => void
 }) {
@@ -785,12 +810,25 @@ function TrainPanel({
           <span className="font-bold text-sky-300">+{exp} exp</span>
         </div>
         <div className="mt-1 flex justify-between">
-          <span>훈련 후</span>
+          <span>훈련 후 (예상)</span>
           <span className="font-bold text-emerald-300">
             Lv.{preview.card.level} ({preview.card.exp}/{expForLevel(preview.card.level)})
-            {preview.gained > 0 && ` (+${preview.gained})`}
+            {preview.gained > 0 && ` · ${preview.gained}레벨 상승`}
           </span>
         </div>
+        <div className="mt-1.5 h-1.5 rounded-full bg-white/10">
+          <div
+            className={`h-1.5 rounded-full ${preview.card.level >= preview.card.limit && preview.card.exp >= expForLevel(preview.card.level) - 1 ? 'bg-amber-400' : 'bg-emerald-400'}`}
+            style={{ width: `${Math.min(100, Math.round((preview.card.exp / expForLevel(preview.card.level)) * 100))}%` }}
+          />
+        </div>
+        {materials.length > 0 && (
+          <p className="mt-1 text-[11px] text-slate-500">
+            다음 레벨까지 {Math.max(0, expForLevel(preview.card.level) - preview.card.exp)} exp
+            {preview.card.level < preview.card.limit ? ' 더 필요' : ' (한계)'} · 재료 한 장이 보통 {materials.length > 0 ? Math.round(exp / materials.length) : 0} exp
+          </p>
+        )}
+        {notice && <p className="mt-2 text-xs font-semibold text-amber-300">{notice}</p>}
         {expFull ? (
           <p className="mt-2 text-xs font-semibold text-amber-400">
             한계 레벨에 경험치도 가득입니다. 같은 선수 카드로 한계 돌파를 하면 바로 다음 레벨이 됩니다.
