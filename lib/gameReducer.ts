@@ -227,8 +227,10 @@ function afterMatch(
   state: GameState,
   result: MatchResult,
   lineup: MatchLineup,
-  /** Friendlies cost condition but never cause an injury. */
+  /** PvP costs condition but never causes an injury. */
   allowInjuries = true,
+  /** 데일리 미니게임 sets this false: experience and ratings, no wear at all. */
+  wear = true,
 ): { cards: Card[]; ratings: PlayerRating[] } {
   const formation = FORMATIONS[lineup.squad.formation] ?? FORMATIONS['4-3-3']
   const byUid = new Map(state.cards.map((card) => [card.uid, card]))
@@ -249,12 +251,14 @@ function afterMatch(
     { assistUids: result.assistUids, yellowUids: result.yellowUids, redUids: result.redUids },
   )
   const grown = applyExperience(state.cards, ratings)
-  const worn = applyMatchWear(
-    grown.cards,
-    starters.map((starter) => starter.uid),
-    Math.random,
-    allowInjuries,
-  )
+  const worn = wear
+    ? applyMatchWear(
+        grown.cards,
+        starters.map((starter) => starter.uid),
+        Math.random,
+        allowInjuries,
+      )
+    : { cards: grown.cards, injuries: [] }
   // Bookings from this match: bans start, yellows pile up (friendlies excepted).
   const disciplined = allowInjuries ? applyDiscipline(worn.cards, result, Math.random) : worn.cards
   return {
@@ -630,15 +634,15 @@ export function reducer(state: GameState, action: Action): GameState {
     }
 
     case 'miniGame': {
-      // Friendlies never touch the league table; they pay gold and experience
-      // and cost condition, up to ten a day.
+      // 데일리 미니게임: never touches a table, pays gold and experience, and
+      // since 2026-09-06 costs no legs — ten a day from the 미니게임 tab.
       const daily = today(state)
       if ((daily.miniGames ?? 0) >= MINI_GAME_LIMIT) return state
 
       const { result, lineup } = action
-      // Who actually took the field decides wear, injuries and ratings.
+      // Who actually took the field decides the ratings.
       const played = { ...state, squad: lineup.squad }
-      const { cards, ratings } = afterMatch(played, result, lineup, false)
+      const { cards, ratings } = afterMatch(played, result, lineup, false, false)
 
       return {
         ...played,

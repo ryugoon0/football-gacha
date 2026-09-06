@@ -103,7 +103,7 @@ export default function RewardsPanel() {
 
               <tr className="bg-white/5">
                 <td colSpan={5} className="px-2 py-1 text-[11px] font-bold text-sky-300">
-                  캐주얼 모드 — 친선 (하루 {read('miniGameLimit')}판)
+                  미니게임 — 데일리 미니게임(친선, 하루 {read('miniGameLimit')}판)
                 </td>
               </tr>
               {divisions.map((division) => (

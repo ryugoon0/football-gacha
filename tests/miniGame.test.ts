@@ -95,12 +95,20 @@ describe('friendlies and the squad', () => {
     expect(state.cards.every((card) => card.injuredFor === 0)).toBe(true)
   })
 
-  it('still costs the starters condition', () => {
+  it('costs nobody any condition, on the pitch or off it (2026-09-06)', () => {
+    const start = { ...initialState(), daily: freshDaily(todayKey()) }
+    const next = play(start, 3)
+    for (const card of start.cards) {
+      expect(next.cards.find((item) => item.uid === card.uid)!.condition).toBe(card.condition)
+    }
+  })
+
+  it('still banks experience for the starters', () => {
     const start = { ...initialState(), daily: freshDaily(todayKey()) }
     const next = play(start, 3)
     const starterUid = Object.values(start.squad.slots).find(Boolean) as string
-    const before = start.cards.find((card) => card.uid === starterUid)!.condition
-    const after = next.cards.find((card) => card.uid === starterUid)!.condition
-    expect(after).toBeLessThan(before)
+    const before = start.cards.find((card) => card.uid === starterUid)!
+    const after = next.cards.find((card) => card.uid === starterUid)!
+    expect(after.level > before.level || after.exp > before.exp).toBe(true)
   })
 })

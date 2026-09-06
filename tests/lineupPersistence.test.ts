@@ -53,12 +53,12 @@ describe('the team sheet after a match', () => {
     expect(next.squad).toEqual(state.squad)
   })
 
-  it('still tires the players who actually took the field', () => {
+  it('still tires the players who actually took the field (PvP — friendlies no longer cost legs)', () => {
     const state = initialState()
     const { squad: swapped, benchUid } = withSub(state.squad)
 
     const next = reducer(state, {
-      type: 'miniGame',
+      type: 'pvpMatch',
       result: result(),
       lineup: { squad: swapped, subs: [] },
     })

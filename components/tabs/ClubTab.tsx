@@ -166,6 +166,31 @@ export default function ClubTab() {
     return { leagues: sorted(leagueSet), clubs: sorted(clubSet) }
   }, [state.cards, leagueFilter])
 
+  /**
+   * 한계 돌파 at a glance: the spare copies each player has (material — not
+   * fielded, not locked), and the cards that could be broken right now (a
+   * spare exists besides itself, and the cap is not yet the grade's ceiling).
+   */
+  const sparesByPlayer = useMemo(() => {
+    const map = new Map<string, string[]>()
+    for (const card of state.cards) {
+      if (inUse.has(card.uid) || card.locked === true) continue
+      map.set(card.playerId, [...(map.get(card.playerId) ?? []), card.uid])
+    }
+    return map
+  }, [state.cards, inUse])
+  const spareFor = (card: Card, except?: string | null) =>
+    (sparesByPlayer.get(card.playerId) ?? []).find((uid) => uid !== card.uid && uid !== except) ?? null
+  const breakable = useMemo(() => {
+    const set = new Set<string>()
+    for (const card of state.cards) {
+      const player = getPlayer(card.playerId)
+      if (!player || card.limit >= levelCap(player)) continue
+      if ((sparesByPlayer.get(card.playerId) ?? []).some((uid) => uid !== card.uid)) set.add(card.uid)
+    }
+    return set
+  }, [state.cards, sparesByPlayer])
+
   const rows = useMemo(() => {
     const rarityOrder = (rarity: Rarity) => RARITIES.indexOf(rarity)
     return state.cards
@@ -188,6 +213,11 @@ export default function ClubTab() {
       })
       .sort((a, b) => {
         const flip = sortDir === 'asc' ? -1 : 1
+        // 한계 돌파 before a target is picked: whoever can be broken floats up.
+        if (mode === 'break' && !selectedUid) {
+          const gap = (breakable.has(b.card.uid) ? 1 : 0) - (breakable.has(a.card.uid) ? 1 : 0)
+          if (gap !== 0) return gap
+        }
         if (sortKey === 'rarity') {
           const diff = rarityOrder(b.player.rarity) - rarityOrder(a.player.rarity)
           if (diff !== 0) return diff * flip
@@ -203,7 +233,7 @@ export default function ClubTab() {
         }
         return (b.ovr - a.ovr) * flip
       })
-  }, [state.cards, rarityFilter, groupFilter, leagueFilter, clubFilter, sortKey, sortDir, mode, selectedUid, inUse])
+  }, [state.cards, rarityFilter, groupFilter, leagueFilter, clubFilter, sortKey, sortDir, mode, selectedUid, inUse, breakable])
 
   const selected = rows.find((row) => row.card.uid === selectedUid) ?? null
   const detailCard = detailUid
@@ -226,6 +256,7 @@ export default function ClubTab() {
   // Neither a fielded card nor a locked one can be material or released.
   const untouchable = (card: Card) => inUse.has(card.uid) || card.locked === true
   const releasable = state.cards.filter((card) => !untouchable(card))
+
 
   /**
    * Cards whose player you already own another copy of. They are limit break
@@ -312,6 +343,8 @@ export default function ClubTab() {
     }
     setSelectedUid(card.uid)
     resetPicks()
+    // 한계 돌파: the first spare copy is the material unless the manager swaps it.
+    if (mode === 'break') setBreakUid(spareFor(card))
   }
 
   const isPicked = (card: Card) => {
@@ -471,12 +504,37 @@ export default function ClubTab() {
           </button>
         </div>
 
-        {mode === 'break' && selectedUid && (
+        {mode === 'break' && !selectedUid && (
           <p className="mb-2 text-[11px] text-slate-400">
-            {rows.length > 1
-              ? `돌파 재료로 쓸 수 있는 같은 선수 카드 ${rows.length - 1}장만 보입니다. 다른 선수를 돌파하려면 대상을 다시 고르세요.`
-              : '이 선수의 여분 카드가 없습니다(선발·벤치·잠긴 카드는 재료로 쓸 수 없음). 스카우트로 같은 선수를 한 장 더 얻어야 합니다.'}
+            여분 카드가 있어 지금 돌파할 수 있는 선수 {breakable.size}명이 맨 위에 「돌파 가능」으로 보입니다. 누르면 재료가 자동으로 잡힙니다.
           </p>
+        )}
+        {mode === 'break' && selected && (
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-violet-400/30 bg-violet-400/10 px-3 py-2">
+            <div className="text-xs text-slate-200">
+              <b className="text-white">{selected.player.name}</b> 한계 {selected.card.limit} →{' '}
+              {Math.min(levelCap(selected.player), selected.card.limit + 1)}
+              {selected.card.limit >= levelCap(selected.player) ? (
+                <span className="ml-2 text-amber-300">등급 상한입니다</span>
+              ) : breakUid ? (
+                <span className="ml-2 text-emerald-300">재료 1장 선택됨 · 남은 여분 {(sparesByPlayer.get(selected.card.playerId) ?? []).filter((uid) => uid !== selected.card.uid).length}장</span>
+              ) : (
+                <span className="ml-2 text-slate-400">여분 카드가 없습니다(선발·벤치·잠긴 카드는 재료 불가)</span>
+              )}
+            </div>
+            <button
+              onClick={() => {
+                if (!breakUid || selected.card.limit >= levelCap(selected.player)) return
+                const consumed = breakUid
+                limitBreakCard(selected.card.uid, consumed)
+                setBreakUid(spareFor(selected.card, consumed))
+              }}
+              disabled={!breakUid || selected.card.limit >= levelCap(selected.player)}
+              className="rounded-lg bg-violet-400 px-3 py-1.5 text-xs font-black text-slate-900 transition hover:bg-violet-300 disabled:opacity-40"
+            >
+              한계 돌파
+            </button>
+          </div>
         )}
         {rows.length === 0 ? (
           <p className="py-16 text-center text-sm text-slate-500">조건에 맞는 선수가 없습니다.</p>
@@ -502,6 +560,10 @@ export default function ClubTab() {
                 badge={
                   isTarget(card)
                     ? '대상'
+                    : mode === 'break' && selectedUid && breakUid === card.uid
+                      ? '재료'
+                      : mode === 'break' && !selectedUid && breakable.has(card.uid)
+                        ? '돌파 가능'
                     : inUse.has(card.uid)
                       ? Object.values(state.squad.slots).includes(card.uid)
                         ? '선발'
@@ -624,8 +686,9 @@ export default function ClubTab() {
             material={state.cards.find((card) => card.uid === breakUid) ?? null}
             onBreak={() => {
               if (!selected || !breakUid) return
-              limitBreakCard(selected.card.uid, breakUid)
-              setBreakUid(null)
+              const consumed = breakUid
+              limitBreakCard(selected.card.uid, consumed)
+              setBreakUid(spareFor(selected.card, consumed))
             }}
           />
         ) : !selected ? (
