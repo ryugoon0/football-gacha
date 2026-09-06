@@ -177,6 +177,14 @@ export default function ClubTab() {
       .filter((row) => groupFilter === 'all' || POSITION_GROUP[row.player.position] === groupFilter)
       .filter((row) => leagueFilter === 'all' || row.player.league === leagueFilter)
       .filter((row) => clubFilter === 'all' || row.player.club === clubFilter)
+      // 한계 돌파 with a target picked: only that player's spare copies (and the
+      // target itself) are worth showing — everything else is noise.
+      .filter((row) => {
+        if (mode !== 'break' || !selectedUid) return true
+        if (row.card.uid === selectedUid) return true
+        const target = state.cards.find((item) => item.uid === selectedUid)
+        return Boolean(target) && row.card.playerId === target!.playerId && !inUse.has(row.card.uid) && row.card.locked !== true
+      })
       .sort((a, b) => {
         const flip = sortDir === 'asc' ? -1 : 1
         if (sortKey === 'rarity') {
@@ -194,7 +202,7 @@ export default function ClubTab() {
         }
         return (b.ovr - a.ovr) * flip
       })
-  }, [state.cards, rarityFilter, groupFilter, leagueFilter, clubFilter, sortKey, sortDir])
+  }, [state.cards, rarityFilter, groupFilter, leagueFilter, clubFilter, sortKey, sortDir, mode, selectedUid, inUse])
 
   const selected = rows.find((row) => row.card.uid === selectedUid) ?? null
   const detailCard = detailUid
@@ -462,6 +470,13 @@ export default function ClubTab() {
           </button>
         </div>
 
+        {mode === 'break' && selectedUid && (
+          <p className="mb-2 text-[11px] text-slate-400">
+            {rows.length > 1
+              ? `돌파 재료로 쓸 수 있는 같은 선수 카드 ${rows.length - 1}장만 보입니다. 다른 선수를 돌파하려면 대상을 다시 고르세요.`
+              : '이 선수의 여분 카드가 없습니다(선발·벤치·잠긴 카드는 재료로 쓸 수 없음). 스카우트로 같은 선수를 한 장 더 얻어야 합니다.'}
+          </p>
+        )}
         {rows.length === 0 ? (
           <p className="py-16 text-center text-sm text-slate-500">조건에 맞는 선수가 없습니다.</p>
         ) : (
