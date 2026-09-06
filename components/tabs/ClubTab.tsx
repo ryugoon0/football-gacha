@@ -762,6 +762,9 @@ function TrainPanel({
   const preview = addExperience(target.card, exp)
   const atLimit = target.card.level >= target.card.limit
   const needed = expForLevel(target.card.level)
+  // At the limit the bar can still be filled to one short of the next level, so a
+  // limit break lands on a card that is ready to go up at once.
+  const expFull = atLimit && target.card.exp >= needed - 1
 
   return (
     <section className="space-y-3 panel p-4">
@@ -784,16 +787,20 @@ function TrainPanel({
         <div className="mt-1 flex justify-between">
           <span>훈련 후</span>
           <span className="font-bold text-emerald-300">
-            Lv.{preview.card.level}
+            Lv.{preview.card.level} ({preview.card.exp}/{expForLevel(preview.card.level)})
             {preview.gained > 0 && ` (+${preview.gained})`}
           </span>
         </div>
-        {atLimit && (
+        {expFull ? (
           <p className="mt-2 text-xs font-semibold text-amber-400">
-            한계 레벨입니다. 같은 선수 카드로 한계 돌파를 먼저 하세요.
+            한계 레벨에 경험치도 가득입니다. 같은 선수 카드로 한계 돌파를 하면 바로 다음 레벨이 됩니다.
           </p>
-        )}
-        {!atLimit && preview.wasted > 0 && (
+        ) : atLimit ? (
+          <p className="mt-2 text-xs text-slate-400">
+            한계 레벨입니다. 경험치는 {needed - 1}까지 미리 쌓아 둘 수 있고, 한계 돌파를 하면 바로 반영됩니다.
+          </p>
+        ) : null}
+        {!expFull && preview.wasted > 0 && (
           <p className="mt-2 text-xs text-slate-500">
             한계에 걸려 {preview.wasted} exp는 버려집니다.
           </p>
@@ -803,7 +810,7 @@ function TrainPanel({
       <div className="flex gap-2">
         <button
           onClick={onTrain}
-          disabled={materials.length === 0 || gold < fee || atLimit}
+          disabled={materials.length === 0 || gold < fee || expFull}
           className="flex-1 rounded-lg btn-gold px-3 py-2 text-sm font-bold disabled:opacity-40"
         >
           훈련하기 ({fee}G)
