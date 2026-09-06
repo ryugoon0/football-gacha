@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { drawSession, featuredPlayer, releasedPoolFor } from '../lib/gacha'
+import { drawSession, featuredPlayer, limitedPool, releasedPoolFor } from '../lib/gacha'
 import { LIMITED_SCHEDULE, limitedOpen, limitedPhase } from '../lib/limited'
 import { PLAYERS, PLAYERS_BY_RARITY } from '../lib/players'
 import { seededRandom } from '../lib/random'
@@ -38,10 +38,16 @@ describe('리미티드 windows', () => {
       expect(drawn.some((player) => player.limited)).toBe(false)
       expect(featuredPlayer('2026-09-07', now).limited).toBeUndefined()
     }
-    // During the window every limited card is drawable and the pick-up is one of them.
+    // During the window every limited card is drawable — through the 리미티드
+    // bucket only (2026-09-07): the 플래티넘 pool never holds them — and the
+    // pick-up is one of them.
     if (limitedCards.length > 0) {
-      const pool = releasedPoolFor('Live', during)
+      expect(releasedPoolFor('Live', during).some((player) => player.limited)).toBe(false)
+      const pool = limitedPool(during)
       for (const card of limitedCards) expect(pool.some((player) => player.id === card.id)).toBe(true)
+      const rng = seededRandom(9)
+      const drawn = drawSession({ count: 40, rates: { Normal: 0, Rare: 0, Legend: 0, Live: 0, World: 0, Limited: 100 }, rng, nowMs: during }).players
+      expect(drawn.every((player) => player.limited?.label === batch.label)).toBe(true)
       expect(featuredPlayer('2026-09-07', during).limited?.label).toBe(batch.label)
     }
   })
