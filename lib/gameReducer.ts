@@ -276,15 +276,23 @@ function dropOtherCopies(
   keepSlotId?: string,
   keepBenchIndex?: number,
 ): void {
+  // The same person behind a different card (a 월드 season card of a squad
+  // player, say) counts as a copy too — lib/personKey.ts.
+  const person = getPlayer(playerId)?.person ?? playerId
+  const samePerson = (uid: string) => {
+    const other = cards.find((card) => card.uid === uid)
+    if (!other) return false
+    return other.playerId === playerId || (getPlayer(other.playerId)?.person ?? other.playerId) === person
+  }
   for (const slotId of Object.keys(slots)) {
     if (slotId === keepSlotId) continue
     const uid = slots[slotId]
-    if (uid && cards.find((card) => card.uid === uid)?.playerId === playerId) slots[slotId] = null
+    if (uid && samePerson(uid)) slots[slotId] = null
   }
   for (let i = 0; i < bench.length; i++) {
     if (i === keepBenchIndex) continue
     const uid = bench[i]
-    if (uid && cards.find((card) => card.uid === uid)?.playerId === playerId) bench[i] = null
+    if (uid && samePerson(uid)) bench[i] = null
   }
 }
 

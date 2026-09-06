@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { FORMATIONS } from '../lib/formations'
 import { PLAYERS, PLAYERS_BY_RARITY, getPlayer } from '../lib/players'
-import { autoFill, evaluateSquad, positionFit, ratingInSlot } from '../lib/squad'
+import { autoFill, evaluateSquad, missingSlots, positionFit, ratingInSlot } from '../lib/squad'
 import { initialState } from '../lib/storage'
 import type { Card } from '../lib/types'
 
@@ -206,5 +206,43 @@ describe('auto fill', () => {
       (uid) => cards.find((c) => c.uid === uid)!.playerId,
     )
     expect(benchPlayerIds.filter((id) => id === bystander.id).length).toBeLessThanOrEqual(1)
+  })
+})
+
+describe('one person, many cards', () => {
+  it('shares a person key between a squad card and a 월드 season card of the same footballer', async () => {
+    const { PLAYERS: all } = await import('../lib/players')
+    const world = all.find((p) => p.id === 'w06')! // 2018-19 PSG season card
+    const twins = all.filter((p) => p.person === world.person && p.id !== world.id)
+    expect(twins.length).toBeGreaterThan(0)
+    expect(twins.some((p) => p.fromSquad)).toBe(true)
+    // Two Ronaldo season cards (Real 2013-14, United 2007-08) are one person too.
+    const ronaldoReal = all.find((p) => p.id === 'w05')!
+    const ronaldoUnited = all.find((p) => p.season === '2007-08' && p.club === '맨체스 레즈' && p.rarity === 'World')!
+    expect(ronaldoUnited.person).toBe(ronaldoReal.person)
+  })
+
+  it('never fields the same person twice — assigning the other card drops the first, auto-fill skips it, the gap check flags it', async () => {
+    const { PLAYERS: all } = await import('../lib/players')
+    const { reducer } = await import('../lib/gameReducer')
+    const world = all.find((p) => p.id === 'w06')!
+    const squadTwin = all.find((p) => p.person === world.person && p.fromSquad)!
+    const state = initialState()
+    const a: Card = { uid: 'twin-a', playerId: world.id, level: 1, limit: 2, condition: 100, injuredFor: 0, exp: 0 }
+    const b: Card = { uid: 'twin-b', playerId: squadTwin.id, level: 1, limit: 2, condition: 100, injuredFor: 0, exp: 0 }
+    const withBoth = { ...state, cards: [...state.cards, a, b] }
+    const slotIds = Object.keys(withBoth.squad.slots)
+    const first = reducer(withBoth, { type: 'assign', slotId: slotIds[9], uid: 'twin-a' })
+    const second = reducer(first, { type: 'assign', slotId: slotIds[10], uid: 'twin-b' })
+    expect(Object.values(second.squad.slots)).toContain('twin-b')
+    expect(Object.values(second.squad.slots)).not.toContain('twin-a')
+    expect(second.squad.bench).not.toContain('twin-a')
+
+    const forced = { ...withBoth, squad: { ...withBoth.squad, slots: { ...withBoth.squad.slots, [slotIds[9]]: 'twin-a', [slotIds[10]]: 'twin-b' } } }
+    expect(missingSlots(evaluateSquad(forced.cards, forced.squad).evaluations).duplicated.length).toBeGreaterThan(0)
+
+    const auto = autoFill(withBoth.cards, withBoth.squad)
+    const persons = [...Object.values(auto.slots), ...auto.bench].filter(Boolean).map((uid) => getPlayer(withBoth.cards.find((c) => c.uid === uid)!.playerId)!.person)
+    expect(new Set(persons).size).toBe(persons.length)
   })
 })

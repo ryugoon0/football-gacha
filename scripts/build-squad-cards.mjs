@@ -32,6 +32,20 @@ function rarityFor(ovr) {
 }
 
 const rows = { Normal: [], Rare: [], Legend: [], Live: [], World: [] }
+
+// 같은 실존 인물의 카드(현 스쿼드·월드 시즌·리미티드)가 한 라인업에 두 번 서지 않도록,
+// 실명의 FNV-1a 해시를 person 으로 붙인다. lib/personKey.ts 와 같은 알고리즘 — 이름은
+// 번들에 실리지 않고 해시만 실린다.
+function personKey(realName) {
+  let hash = 0x811c9dc5
+  const text = String(realName ?? '').normalize('NFC').trim()
+  for (let i = 0; i < text.length; i++) {
+    hash ^= text.charCodeAt(i)
+    hash = Math.imul(hash, 0x01000193) >>> 0
+  }
+  return 'p' + hash.toString(16).padStart(8, '0')
+}
+
 const realHints = {}
 const portraits = {}
 const meta = {}
@@ -64,7 +78,7 @@ for (const file of files) {
       if (numbers.has(p.number)) throw new Error(`${file}: 등번호 중복 ${p.number}`)
       numbers.add(p.number)
     }
-    const extras = { squad: true, unreleased: squad.pilot === true }
+    const extras = { squad: true, unreleased: squad.pilot === true, ...(p.real ? { person: personKey(p.real) } : {}) }
     if (p.stats) extras.stats = p.stats
     if (p.hidden) extras.hidden = p.hidden
     // The season the file describes ("2026-27 (2026-09-05 기준)" → "2026-27").
@@ -94,7 +108,7 @@ for (const file of worldFiles) {
     if (realHints[p.name] || takenNames.has(p.name)) throw new Error(`가명 중복: ${p.name} (${file})`)
     if (!p.key || !p.club || !p.season) throw new Error(`${file}: ${p.name} 에 key·club·season 이 필요합니다`)
     if (!clubs.some((c) => c.name === p.club)) clubs.push({ name: p.club, league: set.league })
-    const extras = { squad: true, rarity: 'World', season: p.season, unreleased: set.pilot === true }
+    const extras = { squad: true, rarity: 'World', season: p.season, unreleased: set.pilot === true, ...(p.real ? { person: personKey(p.real) } : {}) }
     if (p.stats) extras.stats = p.stats
     if (p.hidden) extras.hidden = p.hidden
     rows.World.push([p.name, p.pos, p.ovr, p.club, p.nation, extras])
@@ -125,6 +139,7 @@ for (const file of limitedFiles) {
       season: set.label,
       limited: { label: set.label, from: set.from, to: set.to, story: p.story },
       unreleased: set.pilot === true,
+      ...(p.real ? { person: personKey(p.real) } : {}),
     }
     if (p.stats) extras.stats = p.stats
     if (p.hidden) extras.hidden = p.hidden

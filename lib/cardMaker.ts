@@ -121,6 +121,7 @@ export function previewCard(draft: CardDraft): PlayerDef {
   const club = CLUBS.find((item) => item.name === draft.club) ?? CLUBS[0]
   return {
     id,
+    person: id,
     name: draft.name.trim() || '이름 없음',
     position: draft.position,
     positions: [draft.position],

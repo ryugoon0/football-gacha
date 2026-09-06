@@ -88,6 +88,12 @@ export interface PlayerDef {
    * and owned copies migrate to a squad card on load (lib/rosterMigration.ts).
    */
   retired?: boolean
+  /**
+   * The real person behind the card (lib/personKey.ts). Two cards with the
+   * same person — a squad card and a 월드 season card, say — cannot both be
+   * on one team sheet. Cards of unknown identity use their own id.
+   */
+  person: string
 }
 
 /** An owned copy of a player. Duplicates get their own uid. */

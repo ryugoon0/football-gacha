@@ -113,8 +113,9 @@ export function migrateCollection(cards: Card[], collected: string[], squad: Squ
     if (!uid) return null
     const card = byUid.get(uid)
     if (!card) return uid
-    if (seen.has(card.playerId)) return null
-    seen.add(card.playerId)
+    const person = getPlayer(card.playerId)?.person ?? card.playerId
+    if (seen.has(person)) return null
+    seen.add(person)
     return uid
   }
   const slots = Object.fromEntries(Object.entries(squad.slots).map(([slotId, uid]) => [slotId, keep(uid)]))

@@ -258,17 +258,18 @@ export const RETIRE_REPLACED_CLUBS = true
  * is still at that club (판 다이컨 → 리버풀 2026-27) is not here: that card is a
  * duplicate of the squad card and migrates to it.
  */
-export const LEGACY_WORLD: Record<string, { season: string; ovr?: number }> = {
+// `person` is personKey(실명) from lib/personKey.ts, precomputed so the name itself stays out of the bundle.
+export const LEGACY_WORLD: Record<string, { season: string; ovr?: number; person?: string }> = {
   // 케빈 더브라 — 맨체스터 시티 2015–2025 (현 나폴리). 2017-18: 100점 우승, 도움 16, 플레이메이커·클럽 올해의 선수.
-  w03: { season: '2017-18' },
+  w03: { season: '2017-18', person: 'p780082b7' },
   // 리오 메시아 — 바르셀로나 2004–2021 (현 인터 마이애미). 2011-12: 리그 50골(기록), 공식전 73골, 발롱도르.
-  w04: { season: '2011-12', ovr: 97 },
+  w04: { season: '2011-12', ovr: 97, person: 'p966e8fb1' },
   // 크리스 호날드 — 레알 마드리드 2009–2018 (현 알나스르). 2013-14: 리그 31골 피치치, 챔스 17골, 발롱도르.
-  w05: { season: '2013-14', ovr: 96 },
+  w05: { season: '2013-14', ovr: 96, person: 'pc003c491' },
   // 킬리안 음바피 — PSG 2017–2024 (현 레알 마드리드). 2018-19: 리그 33골 득점왕, 올해의 선수.
-  w06: { season: '2018-19' },
+  w06: { season: '2018-19', person: 'pceb3655f' },
   // 모 살라 — 리버풀 2017–2026 (2026-27 명단에 없음). 2017-18: 리그 32골 득점왕, PFA·FWA 올해의 선수.
-  lv06: { season: '2017-18', ovr: 93 },
+  lv06: { season: '2017-18', ovr: 93, person: 'pfca787c7' },
 }
 
 export const LEAGUE_OF_CLUB: Record<string, string> = CLUBS.reduce(
@@ -295,6 +296,8 @@ export interface RosterExtras {
   unreleased?: boolean
   /** A card built from a real squad (data/squads) — never retired by REPLACED_CLUBS. */
   squad?: boolean
+  /** Hash of the real person (lib/personKey.ts), so one person is fielded once whatever the card. */
+  person?: string
   /**
    * The grade the card plays at when it differs from the list it sits in. A
    * card's id is its place in a rarity list and cannot move, so a current
@@ -486,6 +489,7 @@ export function buildPlayer(id: string, fix: PlayerOverride = PLAYER_OVERRIDES[i
     unreleased: extras?.unreleased === true || retired ? true : undefined,
     fromSquad: extras?.squad ? true : undefined,
     retired: retired ? true : undefined,
+    person: extras?.person ?? LEGACY_WORLD[id]?.person ?? id,
     season: legacy?.season ?? extras?.season,
     limited: extras?.limited,
   }

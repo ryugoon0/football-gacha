@@ -38,6 +38,10 @@ export interface PlayerOverride {
 
 export const PLAYER_OVERRIDES: Record<string, PlayerOverride> = {
   'lv07': { positions: ['ST', 'LW'], stats: { pac: 95, phy: 96 }, hidden: { clutch: 10, consistency: 9 } }, // 엘링 홀란
+  // 월드 2010-11 맨체스 레즈 박치성 — 사용자 지시(2026-09-06): 주 포지션 LW, 양 측면·중앙까지 전부 소화.
+  'w138': { position: 'LW', positions: ['LW', 'LM', 'RW', 'RM', 'CAM', 'CM'] },
+  // 월드 2007-08 맨체스 레즈 크리스티아누 호날도 — 사용자 지시: 주 RW, 양 측면 전부.
+  'w124': { positions: ['RW', 'LW', 'LM', 'RM'] },
   'w03': { positions: ['CM', 'CDM', 'CAM'], stats: { pac: 87, sho: 97, pas: 98, dri: 94, def: 78, phy: 85 } }, // 케빈 더브라
   'w04': { positions: ['CAM', 'ST', 'RW'], stats: { pac: 98, sho: 94, pas: 96, dri: 98, def: 63 }, hidden: { stamina: 10, consistency: 12 } }, // 리오 메시아
   'w05': { positions: ['LW', 'ST'], stats: { pac: 98, sho: 98, def: 70, phy: 95 }, hidden: { clutch: 11, stamina: 11, consistency: 10 } }, // 크리스 호날드

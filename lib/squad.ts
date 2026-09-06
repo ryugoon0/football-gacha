@@ -81,8 +81,9 @@ export function missingSlots(evaluations: SlotEvaluation[]): {
     }
     if (item.injured) injured.push(item.slotPosition)
     if (item.player) {
-      if (seenPlayers.has(item.player.id)) duplicated.push(item.slotPosition)
-      seenPlayers.add(item.player.id)
+      // Same person, whichever card — a squad card and a 월드 card of one player clash.
+      if (seenPlayers.has(item.player.person)) duplicated.push(item.slotPosition)
+      seenPlayers.add(item.player.person)
     }
   }
   return { empty, injured, duplicated }
@@ -261,7 +262,9 @@ export function autoFill(cards: Card[], squad: Squad, division: number = BOTTOM_
   // still starts over a stronger stranger, but never in the wrong position.
   pairs.sort((a, b) => Number(a.out) - Number(b.out) || Number(b.preferred) - Number(a.preferred) || b.score - a.score)
 
+  // Keyed by person, not card id: one footballer starts once whichever of their cards it is.
   const uidToPlayerId = new Map(pool.map((card) => [card.uid, card.playerId]))
+  const uidToPerson = new Map(pool.map((card) => [card.uid, getPlayer(card.playerId)?.person ?? card.playerId]))
 
   const slots = emptySlots(formation.key)
   const takenSlots = new Set<string>()
@@ -272,14 +275,14 @@ export function autoFill(cards: Card[], squad: Squad, division: number = BOTTOM_
   let total = 0
 
   for (const pair of pairs) {
-    if (takenSlots.has(pair.slotId) || takenCards.has(pair.uid) || takenPlayers.has(uidToPlayerId.get(pair.uid)!)) {
+    if (takenSlots.has(pair.slotId) || takenCards.has(pair.uid) || takenPlayers.has(uidToPerson.get(pair.uid)!)) {
       continue
     }
     if (total + pair.level > cap) continue
     slots[pair.slotId] = pair.uid
     takenSlots.add(pair.slotId)
     takenCards.add(pair.uid)
-    takenPlayers.add(uidToPlayerId.get(pair.uid)!)
+    takenPlayers.add(uidToPerson.get(pair.uid)!)
     total += pair.level
   }
 
@@ -293,14 +296,14 @@ export function autoFill(cards: Card[], squad: Squad, division: number = BOTTOM_
         (pair) =>
           pair.slotId === slot.id &&
           !takenCards.has(pair.uid) &&
-          !takenPlayers.has(uidToPlayerId.get(pair.uid)!),
+          !takenPlayers.has(uidToPerson.get(pair.uid)!),
       )
       .sort((a, b) => a.level - b.level || b.score - a.score)
     const candidate = free.find((pair) => total + pair.level <= cap) ?? free[0]
     if (candidate) {
       slots[slot.id] = candidate.uid
       takenCards.add(candidate.uid)
-      takenPlayers.add(uidToPlayerId.get(candidate.uid)!)
+      takenPlayers.add(uidToPerson.get(candidate.uid)!)
       total += candidate.level
     }
   }
@@ -330,12 +333,12 @@ export function autoFill(cards: Card[], squad: Squad, division: number = BOTTOM_
   const bench: string[] = []
   const benchPlayers = new Set<string>()
   for (const card of pool
-    .filter((c) => !takenCards.has(c.uid) && !takenPlayers.has(c.playerId))
+    .filter((c) => !takenCards.has(c.uid) && !takenPlayers.has(uidToPerson.get(c.uid)!))
     .sort((a, b) => benchRank(b) - benchRank(a) || b.level - a.level)) {
     if (bench.length >= BENCH_SIZE) break
-    if (benchPlayers.has(card.playerId)) continue
+    if (benchPlayers.has(uidToPerson.get(card.uid)!)) continue
     bench.push(card.uid)
-    benchPlayers.add(card.playerId)
+    benchPlayers.add(uidToPerson.get(card.uid)!)
   }
 
   return {
