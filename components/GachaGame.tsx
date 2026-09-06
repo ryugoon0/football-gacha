@@ -28,6 +28,7 @@ import WeeklyTab from './tabs/WeeklyTab'
 import { BRAND_MARK, BRAND_NAME } from '../lib/brand'
 import ConsentGate from './ConsentGate'
 import WeeklyWearSync from './WeeklyWearSync'
+import SaveNoticePopup from './SaveNoticePopup'
 import { checkClubName, normalizeClubName } from '../lib/clubName'
 
 // 이적시장 was dropped from the bar (2026-09-05); 데일리 PvP moved under 미니게임.
@@ -265,6 +266,7 @@ function Shell() {
       )}
       {ready && <ConsentGate signedIn={account.status === 'signedIn'} />}
       {ready && <WeeklyWearSync enabled={account.status === 'signedIn'} />}
+      {ready && <SaveNoticePopup />}
 
       {showGuide && (
         <GuideOverlay

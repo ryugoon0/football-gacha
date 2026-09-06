@@ -83,6 +83,8 @@ export interface GameApi {
   applyWeeklyWear: (rows: WearRow[]) => void
   consumeItem: (id: ItemId) => void
   finishGuide: () => void
+  /** Closes the note the last load left (GameState.notice). */
+  dismissNotice: () => void
   renameClub: (club: string) => void
   expandVault: () => void
   reset: () => void
@@ -224,6 +226,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       applyWeeklyWear: (rows: WearRow[]) => dispatch({ type: 'applyWeeklyWear', rows }),
       consumeItem: (id: ItemId) => dispatch({ type: 'consumeItem', id }),
       finishGuide: () => dispatch({ type: 'finishGuide' }),
+      dismissNotice: () => dispatch({ type: 'dismissNotice' }),
       renameClub: (club: string) => dispatch({ type: 'renameClub', club }),
       expandVault: () => dispatch({ type: 'expandVault' }),
       reset: () => {

@@ -13,6 +13,7 @@ import { normalizePhased, phasedFrom } from './tactics/phases'
 import { BASE_CAPACITY, normalizeCapacity } from './vault'
 import { BENCH_SIZE } from './squad'
 import { migrateCollection } from './rosterMigration'
+import { applyLevelCaps, levelCapNotice } from './levelCapMigration'
 import type { Card, FormationKey, GameState, LineupBase, SavedLineup, Squad } from './types'
 
 /**
@@ -196,6 +197,14 @@ export function normalizeSave(value: unknown): GameState | null {
   state.cards = migrated.cards
   state.collected = migrated.collected
   state.squad = migrated.squad
+  // Level caps changed with the 2026-09-07 regrade: anything above its cap
+  // comes down here, paid back in gold, with a one-time note for the manager.
+  const capped = applyLevelCaps(state.cards)
+  state.cards = capped.cards
+  if (capped.refund > 0) {
+    state.gold = (Number.isFinite(state.gold) ? state.gold : 0) + capped.refund
+    state.notice = levelCapNotice(capped)
+  }
   const lineupBase = normalizeLineupBase(
     state.lineupBase && migrated.moved > 0
       ? { ...state.lineupBase, squad: migrateCollection(state.cards, [], normalizeSquad(state.lineupBase.squad)).squad }

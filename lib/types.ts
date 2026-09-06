@@ -227,6 +227,15 @@ export interface GameState {
   ga: number
   collected: string[]
   history: MatchSummary[]
+  /** A note the last load left for the manager (level-cap adjustments); shown once, then cleared. */
+  notice?: SaveNotice
+}
+
+export interface SaveNotice {
+  id: string
+  title: string
+  lines: string[]
+  gold?: number
 }
 
 /** 'note' is a manager's order landing (전술 변경·교체) — a line in the feed, not a play. */

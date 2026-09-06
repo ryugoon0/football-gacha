@@ -206,9 +206,9 @@ describe('levels and limits', () => {
     expect(pool.Legend.every((player) => [4, 5].includes(startLevel(player)))).toBe(true)
     expect(pool.Live.every((player) => [4, 5].includes(startLevel(player)))).toBe(true)
 
-    expect(levelCap(pool.Normal[0])).toBe(8)
-    expect(levelCap(pool.Rare[0])).toBe(9)
-    expect(levelCap(pool.Legend[0])).toBe(10)
+    expect(levelCap(pool.Normal[0])).toBe(7)
+    expect(levelCap(pool.Rare[0])).toBe(8)
+    expect(levelCap(pool.Legend[0])).toBe(9)
     expect(levelCap(pool.Live[0])).toBe(10)
     // 월드 is for past-season legends and may be empty until the first batch lands.
     if (pool.World.length > 0) expect(levelCap(pool.World[0])).toBe(10)
@@ -218,11 +218,11 @@ describe('levels and limits', () => {
     const { PLAYERS_BY_RARITY: pool, effectiveStats, keyStatsOf, levelCap } = await import(
       '../lib/players'
     )
-    const gold = pool.Legend[0]
-    const maxed = effectiveStats(gold, levelCap(gold))
-    for (const key of keyStatsOf(gold.position)) expect(maxed[key]).toBe(99)
+    const plat = pool.Live[0]
+    const maxed = effectiveStats(plat, levelCap(plat))
+    for (const key of keyStatsOf(plat.position)) expect(maxed[key]).toBe(99)
 
-    // 일반 카드는 상한이 8이라 99 근처에도 가지 못한다.
+    // 일반 카드는 상한이 7이라 99 근처에도 가지 못한다.
     const normal = pool.Normal[0]
     const normalMax = effectiveStats(normal, levelCap(normal))
     const normalKeys = keyStatsOf(normal.position)

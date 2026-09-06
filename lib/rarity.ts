@@ -111,9 +111,10 @@ interface RarityTier {
  * never catches a 월드 one even when both are fully trained.
  */
 export const RARITY_TIERS: Record<Rarity, RarityTier> = {
-  Normal: { startLevel: [2, 2], levelCap: 8 },
-  Rare: { startLevel: [3, 3], levelCap: 9 },
-  Legend: { startLevel: [4, 5], levelCap: MAX_LEVEL },
+  // 2026-09-07: 일반 7 · 실버 8 · 골드 9 · 플래티넘(리미티드 포함) 10 · 월드 10.
+  Normal: { startLevel: [2, 2], levelCap: 7 },
+  Rare: { startLevel: [3, 3], levelCap: 8 },
+  Legend: { startLevel: [4, 5], levelCap: 9 },
   Live: { startLevel: [4, 5], levelCap: MAX_LEVEL },
   World: { startLevel: [5, 5], levelCap: MAX_LEVEL },
 }

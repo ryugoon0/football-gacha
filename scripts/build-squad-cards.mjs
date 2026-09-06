@@ -23,6 +23,33 @@ import { join } from 'path'
  */
 const DIR = 'data/squads'
 
+// 등급 경계 (2026-09-07 확정): 플래티넘 85 · 골드 79 · 실버 72 · 일반 71 이하.
+// 클럽당 플래티넘은 OVR 순 5장까지, 넘치는 선수는 골드. 아래 rarityFor 는 카드 id 를
+// 정하는 목록 배치라 옛 경계 그대로 두고, 실제 등급은 extras.rarity 로 싣는다.
+const GRADE_PLAT = 85
+const GRADE_GOLD = 79
+const GRADE_SILVER = 72
+const PLAT_PER_CLUB = 5
+function gradeFor(ovr) {
+  if (ovr >= GRADE_PLAT) return 'Live'
+  if (ovr >= GRADE_GOLD) return 'Legend'
+  if (ovr >= GRADE_SILVER) return 'Rare'
+  return 'Normal'
+}
+function gradesForSquad(players) {
+  const grades = new Map()
+  let plats = 0
+  for (const p of [...players].sort((a, b) => b.ovr - a.ovr)) {
+    let grade = gradeFor(p.ovr)
+    if (grade === 'Live') {
+      plats += 1
+      if (plats > PLAT_PER_CLUB) grade = 'Legend'
+    }
+    grades.set(p, grade)
+  }
+  return grades
+}
+
 function rarityFor(ovr) {
   if (ovr >= 86) return 'World'
   if (ovr >= 82) return 'Live'
@@ -70,6 +97,7 @@ for (const file of files) {
   clubs.push({ name: squad.club, league: squad.league })
   if (squad.pilot !== true) replaced.push(squad.club)
   const numbers = new Set()
+  const grades = gradesForSquad(squad.players)
   for (const p of squad.players) {
     if (realHints[p.name]) throw new Error(`가명 중복: ${p.name} (${file})`)
     if (takenNames.has(p.name)) throw new Error(`가명 중복: ${p.name} (${file}) — ${takenNames.get(p.name)} 에 같은 이름이 있습니다`)
@@ -86,11 +114,10 @@ for (const file of files) {
     // The season the file describes ("2026-27 (2026-09-05 기준)" → "2026-27").
     const season = typeof squad.season === 'string' ? squad.season.split(' ')[0] : undefined
     if (season) extras.season = season
-    // A current player good enough for the World list stays in it (ids never
-    // move) but plays as 플래티넘: the World grade is for past-season legends
-    // (docs/CARD_GRADES_PLAN.md).
+    // The list a card sits in is its id and never moves; the grade it plays
+    // at is the new OVR ladder with the club cap (docs/CARD_GRADES_PLAN.md 6절).
     const list = rarityFor(p.ovr)
-    if (list === 'World') extras.rarity = 'Live'
+    extras.rarity = grades.get(p)
     rows[list].push([p.name, p.pos, p.ovr, squad.club, p.nation, extras])
     realHints[p.name] = `${p.real} (${squad.realClub}${p.number ? ` #${p.number}` : ''})`
     portraits[p.name] = p.key

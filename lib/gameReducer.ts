@@ -143,6 +143,7 @@ export type Action =
   | { type: 'treat'; uid: string }
   | { type: 'recover'; uid: string }
   | { type: 'careMany'; uids: string[]; treat: boolean; recover: boolean }
+  | { type: 'dismissNotice' }
   | { type: 'buyItem'; id: ItemId; currency: Currency; count: number }
   | { type: 'spendItemOnCard'; id: ItemId; uid: string }
   | { type: 'spendItemOnClub'; id: ItemId; listings?: Listing[] }
@@ -969,6 +970,9 @@ export function reducer(state: GameState, action: Action): GameState {
 
     case 'finishGuide':
       return { ...state, guideDone: true }
+
+    case 'dismissNotice':
+      return state.notice ? { ...state, notice: undefined } : state
 
     case 'expandVault': {
       if (!canExpand(state.capacity)) return state
