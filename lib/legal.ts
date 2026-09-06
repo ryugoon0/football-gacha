@@ -15,13 +15,13 @@ export const TERMS_VERSION = '2026-09-06'
 export const PRIVACY_VERSION = '2026-09-06'
 
 export const OPERATOR = {
-  name: '[사업자명 또는 운영자명]',
-  representative: '[대표자명]',
-  registration: '[사업자등록번호]',
-  mailOrder: '[통신판매업 신고번호]',
-  address: '[사업장 주소]',
+  name: '플로우',
+  representative: '유재혁',
+  registration: '429-22-01537',
+  mailOrder: '신고 준비 중',
+  address: '인천광역시 서구 이음2로 30, 603동 2103호 (당하동, 검단신도시 디에트르 더 펠리체)',
   email: '[문의 이메일]',
-  privacyOfficer: '[개인정보 보호책임자 이름 · 이메일]',
+  privacyOfficer: '유재혁 · [문의 이메일]',
 }
 
 export interface LegalSection {
