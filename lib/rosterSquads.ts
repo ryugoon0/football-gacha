@@ -3604,6 +3604,7 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['데코', 'CAM', 93, '포르투 드라강', '포르투갈', {"squad":true,"rarity":"World","season":"2003-04","unreleased":false,"hidden":{"clutch":10,"stamina":10,"bigMatch":12,"consistency":10}}],
     ['이동극', 'ST', 91, '전북 모터스', '대한민국', {"squad":true,"rarity":"World","season":"2009","unreleased":false,"hidden":{"clutch":11,"stamina":9,"bigMatch":10,"consistency":11}}],
     ['데야노', 'ST', 92, '서울 캐피탈', '몬테네그로', {"squad":true,"rarity":"World","season":"2012","unreleased":false,"hidden":{"clutch":11,"stamina":10,"bigMatch":10,"consistency":12}}],
+    ['박치성', 'RM', 90, '맨체스 레즈', '대한민국', {"squad":true,"rarity":"World","season":"2010-11","unreleased":false,"hidden":{"clutch":11,"stamina":12,"bigMatch":12,"consistency":10}}],
   ],
 }
 
@@ -7926,7 +7927,8 @@ export const SQUAD_REAL_HINTS: Record<string, string> = {
   "에우제비오": "에우제비우 (벤피카 1967-68)",
   "데코": "데쿠 (FC 포르투 2003-04)",
   "이동극": "이동국 (전북 현대 모터스 2009)",
-  "데야노": "데얀 다먀노비치 (FC 서울 2012)"
+  "데야노": "데얀 다먀노비치 (FC 서울 2012)",
+  "박치성": "박지성 (맨체스터 유나이티드 2010-11)"
 }
 
 /** 가명 → 초상 파일 키 (public/players/<key>.webp). */
@@ -11521,7 +11523,8 @@ export const SQUAD_PORTRAITS: Record<string, string> = {
   "에우제비오": "wld-12",
   "데코": "wld-13",
   "이동극": "wld-14",
-  "데야노": "wld-15"
+  "데야노": "wld-15",
+  "박치성": "wld-16"
 }
 
 /** 초상 생성 프롬프트용 속성. */
@@ -36522,5 +36525,12 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "birthYear": 1981,
     "pos": "ST",
     "club": "서울 캐피탈"
+  },
+  "wld-16": {
+    "name": "박치성",
+    "nation": "대한민국",
+    "birthYear": 1981,
+    "pos": "RM",
+    "club": "맨체스 레즈"
   }
 }

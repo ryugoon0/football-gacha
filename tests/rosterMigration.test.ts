@@ -19,24 +19,34 @@ describe('while retirement is switched off (test period)', () => {
 })
 
 describe.skipIf(!RETIRE_REPLACED_CLUBS)('retired cards move onto the real squads', () => {
-  it('retires only generated cards of clubs that have a published squad, never 퇴장감', () => {
+  it('retires every card that is not a real-squad card, except 퇴장감 and the legacy world legends', () => {
     expect(retired.length).toBeGreaterThan(100)
     for (const player of retired) {
       expect(player.fromSquad).toBeUndefined()
       expect(player.unreleased).toBe(true)
-      expect(PLAYERS.some((other) => other.fromSquad && other.club === player.club)).toBe(true)
     }
+    const kept = PLAYERS.filter((player) => !player.fromSquad && !player.retired)
+    expect(kept.map((player) => player.id).sort()).toEqual(['lv06', 'n1125', 'w03', 'w04', 'w05', 'w06'])
     expect(getPlayer('n1125')?.retired).toBeUndefined()
     expect(migrationTarget('n1125')).toBeNull()
   })
 
-  it('maps every retired card to a squad card of the same club and position group', () => {
+  it('maps every retired card to a squad card of the same club, or of the same league when the club has none', () => {
     for (const player of retired) {
       const target = migrationTarget(player.id)
       expect(target, player.id).not.toBeNull()
-      expect(target!.club).toBe(player.club)
       expect(target!.fromSquad).toBe(true)
       expect(POSITION_GROUP[target!.position]).toBe(POSITION_GROUP[player.position])
+      const clubHasSquad = PLAYERS.some((other) => other.fromSquad && !other.unreleased && other.club === player.club)
+      if (clubHasSquad) expect(target!.club).toBe(player.club)
+      else {
+        expect(target!.league).toBe(player.league)
+        // Across clubs the grade is kept whenever the league has such a card in that line.
+        const sameGradeExists = PLAYERS.some(
+          (other) => other.fromSquad && !other.unreleased && other.league === player.league && other.rarity === player.rarity && POSITION_GROUP[other.position] === POSITION_GROUP[player.position],
+        )
+        if (sameGradeExists) expect(target!.rarity, player.id).toBe(player.rarity)
+      }
     }
   })
 

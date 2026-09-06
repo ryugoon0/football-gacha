@@ -235,14 +235,18 @@ export const CLUBS: ClubDef[] = [
  * hand-written) cards for that club leave the packs so the club is not
  * fielded twice. Owners keep them. 「퇴장감」 is never retired (CLAUDE.md).
  */
-const REPLACED_CLUBS = new Set<string>(SQUAD_REPLACED_CLUBS)
+export const REPLACED_CLUBS = new Set<string>(SQUAD_REPLACED_CLUBS)
 const NEVER_RETIRED = new Set<string>(['n1125'])
 
 /**
- * Whether the older cards of a club with a published squad are retired (out
- * of the packs, owned copies migrated — lib/rosterMigration.ts). On since
- * 2026-09-05 by the user's decision: every card is brought to the present
- * day at once, test period or not. Kept as a switch so it can be paused.
+ * Whether every card that is not a real-squad card is retired (out of the
+ * packs, owned copies migrated — lib/rosterMigration.ts). On since 2026-09-05
+ * by the user's decision: every card is brought to the present day at once.
+ * Widened on 2026-09-06 from "clubs with a published squad" to the whole
+ * generated roster: a card that maps to no real player has no place next to
+ * 3,576 real ones, so the leftovers (old generated clubs, hand-written stars
+ * at a past club such as 박지승) go too. 퇴장감 and the LEGACY_WORLD legends stay.
+ * Kept as a switch so it can be paused.
  */
 export const RETIRE_REPLACED_CLUBS = true
 
@@ -465,7 +469,7 @@ export function buildPlayer(id: string, fix: PlayerOverride = PLAYER_OVERRIDES[i
   // to a stable draw from the id so the data is never half filled.
   const rng = seededRandom(hashString(id + name))
   const club = CLUBS.find((item) => item.name === clubName) ?? CLUBS[Math.floor(rng() * CLUBS.length)]
-  const retired = RETIRE_REPLACED_CLUBS && !extras?.squad && !legacy && REPLACED_CLUBS.has(club.name) && !NEVER_RETIRED.has(id)
+  const retired = RETIRE_REPLACED_CLUBS && !extras?.squad && !legacy && !NEVER_RETIRED.has(id)
   return {
     id,
     name,

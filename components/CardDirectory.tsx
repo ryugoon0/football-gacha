@@ -23,14 +23,20 @@ export default function CardDirectory() {
   const [limit, setLimit] = useState(PAGE_SIZE)
 
   const nations = useMemo(
-    () => Array.from(new Set(PLAYERS.map((player) => player.nation))).sort((a, b) => a.localeCompare(b, 'ko')),
+    () => Array.from(new Set(PLAYERS.filter((player) => !player.retired && !player.unreleased).map((player) => player.nation))).sort((a, b) => a.localeCompare(b, 'ko')),
     [],
   )
-  const clubs = useMemo(() => CLUBS.map((item) => item.name).sort((a, b) => a.localeCompare(b, 'ko')), [])
+  // Only clubs that still have cards in the game — old generated clubs whose cards were all retired drop out.
+  const clubs = useMemo(() => {
+    const live = new Set(PLAYERS.filter((player) => !player.retired && !player.unreleased).map((player) => player.club))
+    return CLUBS.map((item) => item.name).filter((name) => live.has(name)).sort((a, b) => a.localeCompare(b, 'ko'))
+  }, [])
 
   const matches = useMemo(() => {
     const term = query.trim().toLocaleLowerCase('ko-KR')
     return PLAYERS.filter((player) => {
+      // Retired generated cards and unreleased pilots are not part of the game any more.
+      if (player.retired || player.unreleased) return false
       if (term && !`${player.name} ${player.club} ${player.nation}`.toLocaleLowerCase('ko-KR').includes(term)) return false
       if (club !== 'all' && player.club !== club) return false
       if (league !== 'all' && player.league !== league) return false

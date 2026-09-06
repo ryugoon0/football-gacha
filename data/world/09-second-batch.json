@@ -1,0 +1,25 @@
+{
+  "league": "킹덤 리그",
+  "pilot": false,
+  "note": "월드 2차 — 사용자 요청(2026-09-06): 맨유 시절 박지성. 새 월드 카드는 항상 새 파일 뒤에 붙인다(id 가 목록 순서).",
+  "players": [
+    {
+      "key": "wld-16",
+      "name": "박치성",
+      "real": "박지성",
+      "realClub": "맨체스터 유나이티드",
+      "club": "맨체스 레즈",
+      "season": "2010-11",
+      "pos": "RM",
+      "nation": "대한민국",
+      "birthYear": 1981,
+      "ovr": 90,
+      "hidden": {
+        "clutch": 11,
+        "stamina": 12,
+        "bigMatch": 12,
+        "consistency": 10
+      }
+    }
+  ]
+}

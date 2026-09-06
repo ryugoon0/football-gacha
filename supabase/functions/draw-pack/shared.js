@@ -6536,7 +6536,8 @@ var SQUAD_ROSTER = {
     ["\uC5D0\uC6B0\uC81C\uBE44\uC624", "ST", 95, "\uB9AC\uC2A4\uBCF8 \uC544\uAE38\uB77C", "\uD3EC\uB974\uD22C\uAC08", { "squad": true, "rarity": "World", "season": "1967-68", "unreleased": false, "hidden": { "clutch": 12, "stamina": 10, "bigMatch": 12, "consistency": 11 } }],
     ["\uB370\uCF54", "CAM", 93, "\uD3EC\uB974\uD22C \uB4DC\uB77C\uAC15", "\uD3EC\uB974\uD22C\uAC08", { "squad": true, "rarity": "World", "season": "2003-04", "unreleased": false, "hidden": { "clutch": 10, "stamina": 10, "bigMatch": 12, "consistency": 10 } }],
     ["\uC774\uB3D9\uADF9", "ST", 91, "\uC804\uBD81 \uBAA8\uD130\uC2A4", "\uB300\uD55C\uBBFC\uAD6D", { "squad": true, "rarity": "World", "season": "2009", "unreleased": false, "hidden": { "clutch": 11, "stamina": 9, "bigMatch": 10, "consistency": 11 } }],
-    ["\uB370\uC57C\uB178", "ST", 92, "\uC11C\uC6B8 \uCE90\uD53C\uD0C8", "\uBAAC\uD14C\uB124\uADF8\uB85C", { "squad": true, "rarity": "World", "season": "2012", "unreleased": false, "hidden": { "clutch": 11, "stamina": 10, "bigMatch": 10, "consistency": 12 } }]
+    ["\uB370\uC57C\uB178", "ST", 92, "\uC11C\uC6B8 \uCE90\uD53C\uD0C8", "\uBAAC\uD14C\uB124\uADF8\uB85C", { "squad": true, "rarity": "World", "season": "2012", "unreleased": false, "hidden": { "clutch": 11, "stamina": 10, "bigMatch": 10, "consistency": 12 } }],
+    ["\uBC15\uCE58\uC131", "RM", 90, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uB300\uD55C\uBBFC\uAD6D", { "squad": true, "rarity": "World", "season": "2010-11", "unreleased": false, "hidden": { "clutch": 11, "stamina": 12, "bigMatch": 12, "consistency": 10 } }]
   ]
 };
 var SQUAD_CLUBS = [
@@ -7552,7 +7553,7 @@ function buildPlayer(id, fix = PLAYER_OVERRIDES[id] ?? {}) {
   };
   const rng = seededRandom(hashString(id + name));
   const club = CLUBS.find((item) => item.name === clubName) ?? CLUBS[Math.floor(rng() * CLUBS.length)];
-  const retired = RETIRE_REPLACED_CLUBS && !extras?.squad && !legacy && REPLACED_CLUBS.has(club.name) && !NEVER_RETIRED.has(id);
+  const retired = RETIRE_REPLACED_CLUBS && !extras?.squad && !legacy && !NEVER_RETIRED.has(id);
   return {
     id,
     name,
