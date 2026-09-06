@@ -8,6 +8,7 @@ import { evaluateSquad } from '../lib/squad'
 import { BUILD_REF, checkConnection, configStatus, getSupabase } from '../lib/supabase'
 import AssistantSettings from './AssistantSettings'
 import FacepackSettings from './FacepackSettings'
+import RenamePackSettings from './RenamePackSettings'
 import { useGame } from './GameProvider'
 
 /**
@@ -179,6 +180,7 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
             </div>
             <AssistantSettings />
             <FacepackSettings />
+            <RenamePackSettings />
             <section className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
               <div className="flex items-start justify-between gap-3">
                 <div>

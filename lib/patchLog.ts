@@ -34,6 +34,17 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-06-rename-pack',
+    date: '2026-09-06',
+    kind: 'feature',
+    title: '리네임팩 — 선수·클럽 이름을 내 기기에서만 내가 정한 대로',
+    detail: [
+      '계정 → 리네임팩에서 CSV·JSON 파일을 불러오면 선수 이름과 클럽 이름이 그 파일대로 바뀌어 보입니다. 페이스팩처럼 이 기기에만 저장되고 서버에는 올라가지 않으며 다른 감독에게는 보이지 않습니다.',
+      '「이름표 CSV 내려받기」로 모든 클럽·카드 목록을 받아 new 칸만 채워 다시 불러오면 됩니다. 한 줄씩 「카드id,새 이름」 「원래 클럽명,새 클럽명」으로 써도 읽힙니다.',
+      '경쟁 리그 기록처럼 서버가 이미 적어 둔 이름은 바뀌지 않습니다.',
+    ],
+  },
+  {
     id: '2026-09-06-squad-club-filters',
     date: '2026-09-06',
     kind: 'feature',

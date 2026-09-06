@@ -14,6 +14,7 @@ import { AdminProvider, useAdmin } from './useAdmin'
 import GuideOverlay from './GuideOverlay'
 import GiftInbox, { GiftArrivalPopup, useGiftCount } from './GiftInbox'
 import { LimitedTeaserPopup, useLimitedPhase } from './LimitedBanner'
+import { useRenamePackVersion } from '../lib/renamePack'
 import LoginScreen from './LoginScreen'
 import BoardTab from './tabs/BoardTab'
 import ClubTab from './tabs/ClubTab'
@@ -81,6 +82,8 @@ function Shell() {
   const [giftsOpen, setGiftsOpen] = useState(false)
   const gifts = useGiftCount(account.status === 'signedIn')
   const limited = useLimitedPhase()
+  // Loads this device's 리네임팩 and re-renders the whole shell when it changes.
+  useRenamePackVersion()
   const rating = useMemo(() => evaluateSquad(state.cards, state.squad), [state.cards, state.squad])
 
   const showGuide = helpOpen || (ready && !state.guideDone)

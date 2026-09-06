@@ -1,5 +1,6 @@
 import { LIMITED_SCHEDULE } from './limited'
 import { PLAYERS } from './players'
+import { originalClubOf } from './renamePack'
 import { getSupabase } from './supabase'
 import { tune, type KnobKey } from './tuning'
 import type { Card, PlayerDef } from './types'
@@ -43,19 +44,22 @@ export function isAlbumClubCard(player: PlayerDef): boolean {
 }
 
 export function buildAlbumSets(players: readonly PlayerDef[] = PLAYERS): AlbumSet[] {
-  const byClub = new Map<string, { league: string; ids: string[] }>()
+  // Keyed by the roster's own club name so a 리네임팩 (lib/renamePack.ts)
+  // changes what the album is called, never which album a claim belongs to.
+  const byClub = new Map<string, { league: string; display: string; ids: string[] }>()
   for (const player of players) {
     if (!isAlbumClubCard(player)) continue
-    const entry = byClub.get(player.club) ?? { league: player.league, ids: [] }
+    const club = originalClubOf(player)
+    const entry = byClub.get(club) ?? { league: player.league, display: player.club, ids: [] }
     entry.ids.push(player.id)
-    byClub.set(player.club, entry)
+    byClub.set(club, entry)
   }
   const clubs: AlbumSet[] = [...byClub.entries()]
     .sort((a, b) => a[1].league.localeCompare(b[1].league, 'ko') || a[0].localeCompare(b[0], 'ko'))
     .map(([club, entry]) => ({
       id: `club:${club}`,
       kind: 'club',
-      title: club,
+      title: entry.display,
       subtitle: entry.league,
       playerIds: entry.ids,
       required: Math.min(CLUB_REQUIRED, entry.ids.length),
