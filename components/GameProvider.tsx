@@ -30,6 +30,8 @@ export interface GameApi {
   addCards: (players: PlayerDef[], options?: AddCardsOptions) => Card[]
   exchangeShards: (offer: ShardOffer) => PlayerDef | null
   sell: (uids: string[]) => void
+  /** Locks or unlocks a card — a locked card cannot be sold, released, fused, or used as material. */
+  toggleLock: (uid: string) => void
   trainCard: (uid: string, materialUids: string[]) => void
   limitBreakCard: (uid: string, materialUid: string) => void
   fuse: (uids: string[]) => PlayerDef | null
@@ -151,6 +153,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         return player
       },
       sell: (uids: string[]) => dispatch({ type: 'sell', uids }),
+      toggleLock: (uid: string) => dispatch({ type: 'toggleLock', uid }),
       trainCard: (uid: string, materialUids: string[]) =>
         dispatch({ type: 'trainCard', uid, materialUids }),
       limitBreakCard: (uid: string, materialUid: string) =>

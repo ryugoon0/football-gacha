@@ -34,6 +34,16 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-06-card-lock',
+    date: '2026-09-06',
+    kind: 'feature',
+    title: '카드 잠금 — 아끼는 카드를 실수로 팔거나 재료로 쓰지 않게',
+    detail: [
+      '선수관리에서 카드를 고르면 상세에 「카드 잠금」 버튼이 있습니다. 잠긴 카드는 방출·일괄 방출·승급 합성·훈련 재료·한계 돌파 재료로 쓸 수 없고, 목록에 🔒가 붙습니다.',
+      '잠긴 카드도 경기에 나가고 훈련을 받을 수 있습니다. 같은 버튼으로 언제든 풉니다.',
+    ],
+  },
+  {
     id: '2026-09-06-retire-all-generated',
     date: '2026-09-06',
     kind: 'balance',

@@ -99,6 +99,7 @@ export type Action =
   | { type: 'addCards'; cards: Card[]; cost: number; free?: boolean; pity?: number }
   | { type: 'exchangeShards'; offer: ShardOffer; player: PlayerDef }
   | { type: 'sell'; uids: string[] }
+  | { type: 'toggleLock'; uid: string }
   | { type: 'trainCard'; uid: string; materialUids: string[] }
   | { type: 'limitBreak'; uid: string; materialUid: string }
   | { type: 'fuse'; uids: string[]; player: PlayerDef }
@@ -335,8 +336,18 @@ export function reducer(state: GameState, action: Action): GameState {
       }
     }
 
+    case 'toggleLock': {
+      if (!state.cards.some((card) => card.uid === action.uid)) return state
+      return {
+        ...state,
+        cards: state.cards.map((card) => (card.uid === action.uid ? { ...card, locked: card.locked ? undefined : true } : card)),
+      }
+    }
+
     case 'sell': {
-      const uids = new Set(action.uids)
+      // A locked card is never sold, even inside a bulk release.
+      const uids = new Set(action.uids.filter((uid) => !state.cards.find((card) => card.uid === uid)?.locked))
+      if (uids.size === 0) return state
       const released = state.cards.filter((card) => uids.has(card.uid))
       const { gold, shards } = releaseValue(released)
       const next = withoutCards(state, uids)
@@ -350,6 +361,7 @@ export function reducer(state: GameState, action: Action): GameState {
 
       const materials = state.cards.filter((card) => action.materialUids.includes(card.uid))
       if (materials.length !== action.materialUids.length) return state
+      if (materials.some((card) => card.locked)) return state
 
       const fee = trainingFee(target) * materials.length
       if (state.gold < fee) return state
@@ -371,6 +383,7 @@ export function reducer(state: GameState, action: Action): GameState {
       const target = state.cards.find((item) => item.uid === action.uid)
       const material = state.cards.find((item) => item.uid === action.materialUid)
       if (!target || !material || target.uid === material.uid) return state
+      if (material.locked) return state
       // Only a copy of the very same player can raise the ceiling.
       if (target.playerId !== material.playerId) return state
 
@@ -389,6 +402,7 @@ export function reducer(state: GameState, action: Action): GameState {
     }
 
     case 'fuse': {
+      if (state.cards.some((card) => action.uids.includes(card.uid) && card.locked)) return state
       const check = checkFusion(state.cards, action.uids, state.squad, state.gold)
       if (!check.ok) return state
       const next = withoutCards(state, new Set(action.uids))

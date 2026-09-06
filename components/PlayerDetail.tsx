@@ -30,6 +30,7 @@ export default function PlayerDetail({
   onTreat,
   onRecover,
   onSell,
+  onToggleLock,
 }: {
   card: Card
   player: PlayerDef
@@ -38,6 +39,7 @@ export default function PlayerDetail({
   onTreat: () => void
   onRecover: () => void
   onSell: () => void
+  onToggleLock?: () => void
 }) {
   const [showStats, setShowStats] = useState(true)
   const style = RARITY_STYLES[player.rarity]
@@ -178,12 +180,28 @@ export default function PlayerDetail({
 
       <PlayerCareButtons card={card} gold={gold} onTreat={onTreat} onRecover={onRecover} />
 
-      <button
-        onClick={onSell}
-        className="w-full rounded-lg bg-rose-500/20 px-3 py-2 text-sm font-bold text-rose-200 transition hover:bg-rose-500/30"
-      >
-        방출하기 (+{sellPrice(card)}G · +{shardsFor(card)}조각)
-      </button>
+      {onToggleLock && (
+        <button
+          onClick={onToggleLock}
+          className={`w-full rounded-lg px-3 py-2 text-sm font-bold transition ${
+            card.locked ? 'bg-amber-400/25 text-amber-100 hover:bg-amber-400/35' : 'bg-white/10 text-slate-200 hover:bg-white/20'
+          }`}
+        >
+          {card.locked ? '🔒 잠금 해제' : '🔓 카드 잠금'}
+        </button>
+      )}
+      {card.locked ? (
+        <p className="rounded-lg bg-white/5 px-3 py-2 text-xs text-slate-400">
+          잠긴 카드입니다. 방출·일괄 방출·합성·훈련 재료·한계 돌파 재료로 쓸 수 없습니다. 경기 출전과 훈련받기는 그대로입니다.
+        </p>
+      ) : (
+        <button
+          onClick={onSell}
+          className="w-full rounded-lg bg-rose-500/20 px-3 py-2 text-sm font-bold text-rose-200 transition hover:bg-rose-500/30"
+        >
+          방출하기 (+{sellPrice(card)}G · +{shardsFor(card)}조각)
+        </button>
+      )}
 
       {inSquad && (
         <p className="text-xs font-semibold text-amber-400">

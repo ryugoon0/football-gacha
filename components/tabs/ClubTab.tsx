@@ -119,7 +119,7 @@ function VaultPanel() {
 }
 
 export default function ClubTab() {
-  const { state, sell, trainCard, limitBreakCard, fuse, treatInjury, restoreCondition } = useGame()
+  const { state, sell, toggleLock, trainCard, limitBreakCard, fuse, treatInjury, restoreCondition } = useGame()
   // 승급 합성 is kept but off the players' screen for now (2026-09-05); operators still see it.
   const { isAdmin } = useIsAdmin()
   const modes = isAdmin ? MODES : MODES.filter((item) => item.id !== 'fuse')
@@ -212,7 +212,9 @@ export default function ClubTab() {
   }
 
   /** Cards that can be let go: anything not in the eleven or on the bench. */
-  const releasable = state.cards.filter((card) => !inUse.has(card.uid))
+  // Neither a fielded card nor a locked one can be material or released.
+  const untouchable = (card: Card) => inUse.has(card.uid) || card.locked === true
+  const releasable = state.cards.filter((card) => !untouchable(card))
 
   /**
    * Cards whose player you already own another copy of. They are limit break
@@ -230,7 +232,7 @@ export default function ClubTab() {
       return
     }
     if (mode === 'release') {
-      if (inUse.has(card.uid)) return
+      if (untouchable(card)) return
       setReleaseUids((current) =>
         current.includes(card.uid)
           ? current.filter((uid) => uid !== card.uid)
@@ -239,7 +241,7 @@ export default function ClubTab() {
       return
     }
     if (mode === 'fuse') {
-      if (inUse.has(card.uid)) return
+      if (untouchable(card)) return
       setFused(null)
       // The count needed depends on the grade of the first card picked.
       const firstRarity = current0Rarity(fuseUids, state.cards)
@@ -260,7 +262,7 @@ export default function ClubTab() {
     }
     if (mode === 'train') {
       // A card that cannot be material is a request to grow that player instead.
-      if (inUse.has(card.uid)) {
+      if (untouchable(card)) {
         setSelectedUid(card.uid)
         resetPicks()
         return
@@ -274,7 +276,7 @@ export default function ClubTab() {
     }
     // 한계 돌파: only a spare copy of the same player is material. Anything else
     // becomes the new target, so a starter can be picked without clearing first.
-    if (selected && card.playerId === selected.card.playerId && !inUse.has(card.uid)) {
+    if (selected && card.playerId === selected.card.playerId && !untouchable(card)) {
       setBreakUid((current) => (current === card.uid ? null : card.uid))
       return
     }
@@ -454,7 +456,7 @@ export default function ClubTab() {
                 selected={isPicked(card) || isTarget(card)}
                 dimmed={
                   mode !== 'manage' &&
-                  inUse.has(card.uid) &&
+                  untouchable(card) &&
                   !isTarget(card) &&
                   // Before a target is chosen, a starter is a perfectly good
                   // one — only grey it out once we are picking material.
@@ -467,9 +469,11 @@ export default function ClubTab() {
                       ? Object.values(state.squad.slots).includes(card.uid)
                         ? '선발'
                         : '벤치'
-                      : mode === 'release' && breakMaterial.has(card.uid)
-                        ? '돌파 재료'
-                        : undefined
+                      : card.locked
+                        ? '🔒 잠금'
+                        : mode === 'release' && breakMaterial.has(card.uid)
+                          ? '돌파 재료'
+                          : undefined
                 }
                 onClick={() => onCardClick(card)}
               />
@@ -584,6 +588,7 @@ export default function ClubTab() {
                 sell([selected.card.uid])
                 setSelectedUid(null)
               }}
+              onToggleLock={() => toggleLock(selected.card.uid)}
             />
           </div>
         )}

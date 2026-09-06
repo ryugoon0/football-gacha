@@ -180,6 +180,33 @@ describe('limit break', () => {
   })
 })
 
+describe('card lock', () => {
+  it('keeps a locked card out of sales, training material, limit breaks and fusion', () => {
+    const base = start()
+    const playerId = base.cards[0].playerId
+    const a = card('lock-a', playerId, 2)
+    const b = card('lock-b', playerId, 1)
+    const state: GameState = { ...base, cards: [...base.cards, a, b], gold: 100000 }
+    const locked = reducer(state, { type: 'toggleLock', uid: 'lock-b' })
+    expect(locked.cards.find((c) => c.uid === 'lock-b')?.locked).toBe(true)
+
+    // Selling skips the locked card but still sells the rest of the batch.
+    const sold = reducer(locked, { type: 'sell', uids: ['lock-a', 'lock-b'] })
+    expect(sold.cards.some((c) => c.uid === 'lock-b')).toBe(true)
+    expect(sold.cards.some((c) => c.uid === 'lock-a')).toBe(false)
+    expect(reducer(locked, { type: 'sell', uids: ['lock-b'] })).toBe(locked)
+
+    expect(reducer(locked, { type: 'trainCard', uid: 'lock-a', materialUids: ['lock-b'] })).toBe(locked)
+    expect(reducer(locked, { type: 'limitBreak', uid: 'lock-a', materialUid: 'lock-b' })).toBe(locked)
+    // The locked card itself can still be trained and broken through.
+    const trained = reducer(locked, { type: 'trainCard', uid: 'lock-b', materialUids: ['lock-a'] })
+    expect(trained).not.toBe(locked)
+
+    const unlocked = reducer(locked, { type: 'toggleLock', uid: 'lock-b' })
+    expect(unlocked.cards.find((c) => c.uid === 'lock-b')?.locked).toBeUndefined()
+  })
+})
+
 describe('selling', () => {
   it('pays out and empties the slot the player was in', () => {
     const state = start()

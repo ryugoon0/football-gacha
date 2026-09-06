@@ -107,6 +107,8 @@ export interface Card {
   suspendedFor?: number
   /** Yellow cards this season; four in a row cost a match and reset. */
   yellows?: number
+  /** Locked by the manager: cannot be sold, released, fused, or fed to another card. */
+  locked?: boolean
 }
 
 export interface Squad {

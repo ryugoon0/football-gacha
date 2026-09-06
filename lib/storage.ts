@@ -60,6 +60,9 @@ export function normalizeCards(cards: Card[]): Card[] {
       condition: typeof card.condition === 'number' ? card.condition : MAX_CONDITION,
       injuredFor: typeof card.injuredFor === 'number' ? card.injuredFor : 0,
       exp: typeof card.exp === 'number' ? card.exp : 0,
+      ...(typeof card.suspendedFor === 'number' ? { suspendedFor: card.suspendedFor } : {}),
+      ...(typeof card.yellows === 'number' ? { yellows: card.yellows } : {}),
+      ...(card.locked === true ? { locked: true } : {}),
     }
   })
 }
