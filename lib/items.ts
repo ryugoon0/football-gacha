@@ -20,6 +20,9 @@ export type ItemId =
   | 'friendlyTicket'
   | 'vaultPermit'
   | 'shardPouch'
+  // 스카우트 지정권 — 원하는 카드 한 장을 골라 받는다 (lib/pickTicket.ts). 상점에서 팔지 않고 선물·이벤트로만.
+  | 'platinumPick'
+  | 'livePick'
   // 히든 카드 — 경쟁 리그 경기 시작 전에 고르는 한 판짜리 조건부 능력치 카드 (lib/weeklyLeague/tacticCards.ts).
   | 'cardUnderdog'
   | 'cardEvenMatch'
@@ -34,8 +37,8 @@ export type ItemId =
   | 'cardLateLegs'
   | 'cardGoalmouth'
 
-/** What an item is used on. 'match' is played from the live screen before a weekly kick-off. */
-export type ItemTarget = 'card' | 'club' | 'match'
+/** What an item is used on. 'match' is played from the live screen before a weekly kick-off; 'pick' opens a card chooser. */
+export type ItemTarget = 'card' | 'club' | 'match' | 'pick'
 
 export interface ItemDef {
   id: ItemId
@@ -124,6 +127,26 @@ export const ITEMS: Record<ItemId, ItemDef> = {
     gold: 2000,
     shards: null,
     dailyLimit: 3,
+  },
+  platinumPick: {
+    id: 'platinumPick',
+    name: '플래티넘 스카우트 지정권',
+    note: '출시된 플래티넘 카드 가운데 원하는 선수 한 장을 골라 받습니다. 보관함이 가득 차도 들어옵니다. 상점에서는 팔지 않습니다.',
+    target: 'pick',
+    icon: '🎯',
+    gold: null,
+    shards: null,
+    dailyLimit: null,
+  },
+  livePick: {
+    id: 'livePick',
+    name: '라이브 스카우트 지정권',
+    note: '리미티드(라이브) 카드 가운데 원하는 선수 한 장을 골라 받습니다. 한 번 열렸던 주의 카드는 기간이 지나도 고를 수 있습니다. 상점에서는 팔지 않습니다.',
+    target: 'pick',
+    icon: '🎫',
+    gold: null,
+    shards: null,
+    dailyLimit: null,
   },
   cardUnderdog: {
     id: 'cardUnderdog',
@@ -348,9 +371,9 @@ export function isItemVisible(id: ItemId): boolean {
   return !hidden.has(id)
 }
 
-/** What the shop should show, in the catalogue's order. */
+/** What the shop should show, in the catalogue's order — gift-only items (no price at all) never sit on the shelf. */
 export function visibleItemIds(): ItemId[] {
-  return ITEM_IDS.filter(isItemVisible)
+  return ITEM_IDS.filter((id) => isItemVisible(id) && (ITEMS[id].gold !== null || ITEMS[id].shards !== null))
 }
 
 export function boughtToday(buys: Record<string, number> | undefined, id: ItemId): number {

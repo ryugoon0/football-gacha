@@ -175,9 +175,9 @@ export default function GiftPanel() {
           <input
             type="number"
             min={0}
-            max={99}
+            max={200}
             value={ticketCount}
-            onChange={(event) => setTicketCount(Math.max(0, Math.min(99, Math.floor(Number(event.target.value) || 0))))}
+            onChange={(event) => setTicketCount(Math.max(0, Math.min(200, Math.floor(Number(event.target.value) || 0))))}
             className={`${field} mt-1 w-32 tabular-nums`}
           />
         </label>
@@ -246,9 +246,9 @@ export default function GiftPanel() {
                   <input
                     type="number"
                     min={0}
-                    max={99}
+                    max={200}
                     value={count}
-                    onChange={(event) => setItems((current) => ({ ...current, [id]: Math.max(0, Math.min(99, Math.floor(Number(event.target.value) || 0))) }))}
+                    onChange={(event) => setItems((current) => ({ ...current, [id]: Math.max(0, Math.min(200, Math.floor(Number(event.target.value) || 0))) }))}
                     className="w-14 rounded bg-black/30 px-1.5 py-1 text-right text-xs text-white outline-none tabular-nums"
                   />
                 </div>

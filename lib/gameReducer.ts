@@ -47,6 +47,7 @@ import {
 import { dailyMarket, type Listing } from './market'
 import { getPlayer, levelCap } from './players'
 import { applyWear, type WearRow } from './weeklyWear'
+import { canPick } from './pickTicket'
 import { autoFill, lineupDivisionOf } from './squad'
 import { costOf, releaseValue, type ShardOffer } from './shards'
 import { TOTAL_MATCHDAYS } from './schedule'
@@ -148,6 +149,7 @@ export type Action =
   | { type: 'buyItem'; id: ItemId; currency: Currency; count: number }
   | { type: 'spendItemOnCard'; id: ItemId; uid: string }
   | { type: 'spendItemOnClub'; id: ItemId; listings?: Listing[] }
+  | { type: 'spendItemOnPick'; id: ItemId; playerId: string }
   | { type: 'claimMission'; id: MissionId }
   /** Gold the server already decided (weekly league rewards) reaching the save. */
   | { type: 'grantGold'; amount: number }
@@ -858,6 +860,19 @@ export function reducer(state: GameState, action: Action): GameState {
         }
         default:
           return state
+      }
+    }
+
+    case 'spendItemOnPick': {
+      // 스카우트 지정권: the named card lands (past the vault cap, like a gift)
+      // and one ticket goes. Only a card the ticket may name (lib/pickTicket.ts).
+      if (itemCount(state.items, action.id) <= 0) return state
+      if (!canPick(action.id, action.playerId)) return state
+      return {
+        ...state,
+        items: { ...state.items, [action.id]: itemCount(state.items, action.id) - 1 },
+        cards: [...state.cards, newCard(action.playerId)],
+        collected: Array.from(new Set([...state.collected, action.playerId])),
       }
     }
 

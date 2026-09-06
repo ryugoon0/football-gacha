@@ -52,9 +52,11 @@ describe('the item list', () => {
   it('gives every item a way to be bought and something to say about it', () => {
     for (const id of ITEM_IDS) {
       const item = ITEMS[id]
-      expect(item.gold !== null || item.shards !== null).toBe(true)
+      // 스카우트 지정권 (target 'pick') is gift-only and has no price at all.
+      if (item.target === 'pick') expect(item.gold === null && item.shards === null).toBe(true)
+      else expect(item.gold !== null || item.shards !== null).toBe(true)
       expect(item.note.length).toBeGreaterThan(5)
-      expect(['card', 'club', 'match']).toContain(item.target)
+      expect(['card', 'club', 'match', 'pick']).toContain(item.target)
     }
   })
 
@@ -231,7 +233,8 @@ describe('the operator moving a price', () => {
 describe('상점 진열 — 운영자가 물건을 내리는 것', () => {
   it('기본은 전부 판매 중이다', () => {
     resetItemVisibility()
-    expect(visibleItemIds()).toEqual(ITEM_IDS)
+    // Everything with a price is on the shelf; gift-only tickets never are.
+    expect(visibleItemIds()).toEqual(ITEM_IDS.filter((id) => ITEMS[id].gold !== null || ITEMS[id].shards !== null))
     for (const id of ITEM_IDS) expect(isItemVisible(id)).toBe(true)
   })
 

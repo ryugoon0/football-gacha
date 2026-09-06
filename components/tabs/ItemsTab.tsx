@@ -19,6 +19,7 @@ import { MAX_CONDITION } from '../../lib/condition'
 import { MAX_CAPACITY } from '../../lib/vault'
 import { useGame } from '../GameProvider'
 import PlayerCard from '../PlayerCard'
+import PickTicketPicker from '../PickTicketPicker'
 import TacticCardHelp from '../TacticCardHelp'
 
 const COUNTS = [1, 5, 10]
@@ -35,7 +36,7 @@ function Price({ item, currency }: { item: ItemDef; currency: Currency }) {
 }
 
 export default function ItemsTab() {
-  const { state, buyItem, spendItemOnCard, spendItemOnClub } = useGame()
+  const { state, buyItem, spendItemOnCard, spendItemOnClub, spendItemOnPick } = useGame()
   // The operator can take an item off the shelf without a deploy; anything
   // already bought stays in the bag below.
   const shelf = visibleItemIds()
@@ -249,12 +250,22 @@ export default function ItemsTab() {
                           }
                           className="shrink-0 whitespace-nowrap rounded-lg btn-primary px-3 py-1.5 text-[11px] font-black"
                         >
-                          {item.target === 'club' ? '사용' : picking === id ? '닫기' : '선수 고르기'}
+                          {item.target === 'club' ? '사용' : picking === id ? '닫기' : item.target === 'pick' ? '카드 고르기' : '선수 고르기'}
                         </button>
                       )}
                     </div>
 
-                    {picking === id && (
+                    {picking === id && item.target === 'pick' && (
+                      <PickTicketPicker
+                        id={id}
+                        onPick={(playerId) => {
+                          spendItemOnPick(id, playerId)
+                          setPicking(null)
+                          setNote(`${getPlayer(playerId)?.name ?? '선수'} 카드를 받았습니다. ${item.name} 1장을 썼습니다.`)
+                        }}
+                      />
+                    )}
+                    {picking === id && item.target !== 'pick' && (
                       <div className="mt-3">
                         {(() => {
                           // On a phone there is no hover, so a row of dimmed

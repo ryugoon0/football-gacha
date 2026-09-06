@@ -46,6 +46,8 @@ export interface GameApi {
   buyItem: (id: ItemId, currency: Currency, count: number) => void
   spendItemOnCard: (id: ItemId, uid: string) => void
   spendItemOnClub: (id: ItemId, listings?: Listing[]) => void
+  /** 스카우트 지정권: the named card lands and one ticket goes. */
+  spendItemOnPick: (id: ItemId, playerId: string) => void
   setAutoSub: (enabled: boolean) => void
   assignBench: (index: number, uid: string) => void
   clearBench: (index: number) => void
@@ -189,6 +191,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       spendItemOnCard: (id: ItemId, uid: string) => dispatch({ type: 'spendItemOnCard', id, uid }),
       spendItemOnClub: (id: ItemId, listings?: Listing[]) =>
         dispatch({ type: 'spendItemOnClub', id, listings }),
+      spendItemOnPick: (id: ItemId, playerId: string) => dispatch({ type: 'spendItemOnPick', id, playerId }),
       assignBench: (index: number, uid: string) => dispatch({ type: 'assignBench', index, uid }),
       clearBench: (index: number) => dispatch({ type: 'clearBench', index }),
       autoFillSquad: (preferClub?: string) => dispatch({ type: 'autoFill', preferClub }),
