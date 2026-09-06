@@ -17,6 +17,7 @@ import { SEASON_SCHEDULE, TOTAL_MATCHDAYS } from '../../lib/schedule'
 import { evaluateSquad, missingSlots } from '../../lib/squad'
 import { MAX_CAPACITY } from '../../lib/vault'
 import LockerRoomScene from '../LockerRoomScene'
+import EventCalendar from '../EventCalendar'
 import { useGame } from '../GameProvider'
 
 /** The room the manager walks into: today's job at a glance. */
@@ -70,6 +71,8 @@ export default function HomeTab({ onJump }: { onJump: (tab: string) => void }) {
           </p>
         </div>
       </section>
+
+      <EventCalendar onJump={onJump} />
 
       <section className="panel p-4">
         <div className="flex items-center justify-between gap-2">

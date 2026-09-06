@@ -34,6 +34,13 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-06-event-calendar',
+    date: '2026-09-06',
+    kind: 'feature',
+    title: '홈에 이벤트 캘린더 — 컵·마스터스·핫타임·리미티드·예측 마감을 날짜별로',
+    detail: ['홈 탭에 이번 주(2주 보기 가능) 일정이 날짜별로 보입니다. 항목을 누르면 해당 탭으로 갑니다.'],
+  },
+  {
     id: '2026-09-06-account-delete-board-moderation',
     date: '2026-09-06',
     kind: 'feature',
