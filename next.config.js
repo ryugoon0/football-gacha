@@ -25,6 +25,19 @@ const nextConfig = {
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }]
   },
+  // One address for everyone: the www host and the old vercel.app alias both
+  // send people to clubseason.kr (2026-09-06). The old alias is kept alive
+  // as a redirect rather than removed, so bookmarks, installed PWAs and mail
+  // links keep working. Preview deployments have other hostnames and are
+  // not touched.
+  async redirects() {
+    return ['www.clubseason.kr', 'football-gacha.vercel.app'].map((host) => ({
+      source: '/:path*',
+      has: [{ type: 'host', value: host }],
+      destination: 'https://clubseason.kr/:path*',
+      permanent: true,
+    }))
+  },
 }
 
 module.exports = nextConfig
