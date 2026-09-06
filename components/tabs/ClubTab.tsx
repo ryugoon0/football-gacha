@@ -19,11 +19,12 @@ import { useGame } from '../GameProvider'
 import PlayerCard from '../PlayerCard'
 import PlayerDetail from '../PlayerDetail'
 import PlayerDetailModal from '../PlayerDetailModal'
+import AlbumTab from './AlbumTab'
 
 type RarityFilter = Rarity | 'all'
 type GroupFilter = PositionGroup | 'all'
 type SortKey = 'ovr' | 'rarity' | 'level' | 'club' | 'league'
-type Mode = 'manage' | 'train' | 'break' | 'fuse' | 'release'
+type Mode = 'manage' | 'train' | 'break' | 'fuse' | 'release' | 'album'
 
 const GROUP_LABELS: Record<GroupFilter, string> = {
   all: '전체',
@@ -39,6 +40,7 @@ const MODES: { id: Mode; label: string }[] = [
   { id: 'break', label: '한계 돌파' },
   { id: 'fuse', label: '승급 합성' },
   { id: 'release', label: '일괄 방출' },
+  { id: 'album', label: '앨범' },
 ]
 
 /** What each mode actually does, in one line plus the rule that trips people up. */
@@ -62,6 +64,10 @@ const MODE_HELP: Record<Mode, { what: string; rule: string }> = {
   release: {
     what: '여러 명을 한 번에 내보내고 골드와 조각을 받습니다. 조각은 등급 확정 교환에 씁니다.',
     rule: '같은 선수 카드는 한계 돌파 재료이니, 남는 것만 내보내세요.',
+  },
+  album: {
+    what: '클럽별로 카드를 모아 앨범을 완성하면 보상을 받습니다. 갖고 있는 카드가 자동으로 등록됩니다.',
+    rule: '카드를 소모하지 않습니다. 팔면 등록도 풀립니다.',
   },
 }
 
@@ -285,27 +291,39 @@ export default function ClubTab() {
   const isTarget = (card: Card) =>
     mode !== 'fuse' && mode !== 'release' && card.uid === selectedUid
 
+  const modeBar = (
+    <div className="mb-4 flex flex-wrap gap-2">
+      {modes.map((item) => (
+        <button
+          key={item.id}
+          onClick={() => {
+            setMode(item.id)
+            resetPicks()
+          }}
+          className={`whitespace-nowrap rounded-lg px-2.5 py-1.5 text-[13px] font-bold transition sm:px-3 sm:text-sm ${
+            mode === item.id
+              ? 'btn-primary'
+              : 'btn-ghost'
+          }`}
+        >
+          {item.label}
+        </button>
+      ))}
+    </div>
+  )
+
+  if (mode === 'album') {
+    return (
+      <div className="space-y-4">
+        <section className="panel p-4">{modeBar}<AlbumTab /></section>
+      </div>
+    )
+  }
+
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
       <section className="panel p-4">
-        <div className="mb-4 flex flex-wrap gap-2">
-          {modes.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => {
-                setMode(item.id)
-                resetPicks()
-              }}
-              className={`whitespace-nowrap rounded-lg px-2.5 py-1.5 text-[13px] font-bold transition sm:px-3 sm:text-sm ${
-                mode === item.id
-                  ? 'btn-primary'
-                  : 'btn-ghost'
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
+        {modeBar}
 
         {mode === 'release' && (
           <div className="mb-3 flex flex-wrap items-center gap-2 rounded-lg bg-white/5 p-2">

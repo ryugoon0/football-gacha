@@ -18,6 +18,7 @@ import LaunchReadinessTab from './tabs/LaunchReadinessTab'
 import WeeklyTestMatchTab from './tabs/WeeklyTestMatchTab'
 import GiftPanel from './tabs/GiftPanel'
 import PredictionPanel from './tabs/PredictionPanel'
+import AlbumPanel from './tabs/AlbumPanel'
 
 const TABS = [
   { key: 'monitor', label: '모니터링' },
@@ -25,6 +26,7 @@ const TABS = [
   { key: 'rewards', label: '보상' },
   { key: 'gifts', label: '선물' },
   { key: 'predict', label: '예측' },
+  { key: 'album', label: '앨범' },
   { key: 'shop', label: '상점' },
   { key: 'league', label: '주간리그' },
   { key: 'launch', label: '내일 오픈' },
@@ -194,6 +196,7 @@ function Shell() {
         {tab === 'rewards' && <RewardsPanel />}
         {tab === 'gifts' && <GiftPanel />}
         {tab === 'predict' && <PredictionPanel />}
+        {tab === 'album' && <AlbumPanel />}
         {tab === 'shop' && <ShopPanel />}
         {tab === 'league' && <WeeklyLeagueTab />}
         {tab === 'launch' && <LaunchReadinessTab />}
