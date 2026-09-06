@@ -80,3 +80,77 @@ export function fusionResult(to: Rarity, rng: () => number = Math.random): Playe
   const pool = releasedPoolFor(to)
   return pool[Math.floor(rng() * pool.length)]
 }
+
+export interface BulkFusionGroup {
+  from: Rarity
+  to: Rarity
+  /** Cards one upgrade of this grade costs. */
+  size: number
+  /** Unlocked, out-of-squad cards of this grade the manager let the plan touch. */
+  eligible: number
+  batches: string[][]
+  /** Eligible cards left over after whole batches — never fused. */
+  leftover: number
+}
+
+export interface BulkFusionPlan {
+  groups: BulkFusionGroup[]
+  fusions: number
+  fee: number
+  feeTotal: number
+  /** Batches gold covers, in group order — the rest are dropped before dispatch. */
+  affordableFusions: number
+}
+
+/**
+ * Everything the manager did not protect, fused a grade at a time: locked
+ * cards and the eighteen never move, and by default neither does anything
+ * that has been trained (level 2+ or any exp) — those are the cards people
+ * regret losing. Within a grade the cheapest cards go first (lowest level,
+ * then exp), whole batches only, one pass — the cards a batch produces are
+ * not fused again in the same run.
+ */
+export function planBulkFusion(
+  cards: Card[],
+  squad: Squad,
+  gold: number,
+  options: { rarities?: Rarity[]; keepGrown?: boolean } = {},
+): BulkFusionPlan {
+  const keepGrown = options.keepGrown ?? true
+  const wanted = new Set(options.rarities ?? RARITIES)
+  const inUse = new Set([...Object.values(squad.slots), ...squad.bench].filter(Boolean) as string[])
+  const fee = tune('fusionFee')
+  const groups: BulkFusionGroup[] = []
+  for (const from of RARITIES) {
+    const to = nextRarity(from)
+    if (!to || !wanted.has(from)) continue
+    const size = fusionSizeFor(from)
+    const pool = cards
+      .filter((card) => {
+        if (card.locked || inUse.has(card.uid)) return false
+        if (keepGrown && (card.level > 1 || card.exp > 0)) return false
+        return getPlayer(card.playerId)?.rarity === from
+      })
+      .sort((a, b) => a.level - b.level || a.exp - b.exp || a.uid.localeCompare(b.uid))
+    const batches: string[][] = []
+    for (let index = 0; index + size <= pool.length; index += size) {
+      batches.push(pool.slice(index, index + size).map((card) => card.uid))
+    }
+    groups.push({ from, to, size, eligible: pool.length, batches, leftover: pool.length - batches.length * size })
+  }
+  const fusions = groups.reduce((total, group) => total + group.batches.length, 0)
+  const affordableFusions = fee > 0 ? Math.min(fusions, Math.floor(gold / fee)) : fusions
+  return { groups, fusions, fee, feeTotal: fusions * fee, affordableFusions }
+}
+
+/** The batches gold actually covers, in plan order. */
+export function affordableBatches(plan: BulkFusionPlan): { uids: string[]; to: Rarity }[] {
+  const out: { uids: string[]; to: Rarity }[] = []
+  for (const group of plan.groups) {
+    for (const uids of group.batches) {
+      if (out.length >= plan.affordableFusions) return out
+      out.push({ uids, to: group.to })
+    }
+  }
+  return out
+}

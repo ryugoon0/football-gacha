@@ -15,6 +15,7 @@ import {
 } from './daily'
 import { FORMATIONS, emptySlots } from './formations'
 import { FUSION_FEE, checkFusion } from './fusion'
+import { tune } from './tuning'
 import {
   ITEMS,
   applyToCard,
@@ -104,6 +105,7 @@ export type Action =
   | { type: 'trainCard'; uid: string; materialUids: string[] }
   | { type: 'limitBreak'; uid: string; materialUid: string }
   | { type: 'fuse'; uids: string[]; player: PlayerDef }
+  | { type: 'fuseMany'; batches: { uids: string[]; player: PlayerDef }[] }
   | { type: 'assign'; slotId: string; uid: string }
   | { type: 'clearSlot'; slotId: string }
   | { type: 'assignBench'; index: number; uid: string }
@@ -424,6 +426,27 @@ export function reducer(state: GameState, action: Action): GameState {
         cards: [...next.cards, card],
         collected: Array.from(new Set([...state.collected, action.player.id])),
       }
+    }
+
+    case 'fuseMany': {
+      // 일괄 합성: each batch is checked against the state the previous one
+      // left (gold shrinks, cards leave), and a batch that no longer passes is
+      // skipped rather than failing the run.
+      let next = state
+      const fee = tune('fusionFee')
+      for (const batch of action.batches) {
+        if (next.cards.some((card) => batch.uids.includes(card.uid) && card.locked)) continue
+        const check = checkFusion(next.cards, batch.uids, next.squad, next.gold)
+        if (!check.ok) continue
+        const without = withoutCards(next, new Set(batch.uids))
+        next = {
+          ...without,
+          gold: next.gold - fee,
+          cards: [...without.cards, newCard(batch.player.id)],
+          collected: Array.from(new Set([...next.collected, batch.player.id])),
+        }
+      }
+      return next
     }
 
     case 'assign': {

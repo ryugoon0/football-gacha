@@ -1,8 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { FUSION_FEE, FUSION_SIZE, checkFusion, fusionSizeFor, fusionSizeMax } from '../../lib/fusion'
-import { useIsAdmin } from '../useAdmin'
+import { FUSION_FEE, FUSION_SIZE, affordableBatches, checkFusion, fusionSizeFor, fusionSizeMax, planBulkFusion } from '../../lib/fusion'
 import { addExperience, expForLevel, materialExp, trainingFee } from '../../lib/growth'
 import {
   PLAYERS,
@@ -58,8 +57,8 @@ const MODE_HELP: Record<Mode, { what: string; rule: string }> = {
     rule: '돌파할 선수는 선발이어도 되지만, 재료는 같은 선수의 다른 카드여야 하고 선발·벤치는 쓸 수 없습니다.',
   },
   fuse: {
-    what: `같은 등급 카드 ${FUSION_SIZE}장과 ${FUSION_FEE.toLocaleString()}G로 한 단계 위 등급 카드 1장을 만듭니다.`,
-    rule: '어떤 선수가 나올지는 스카우트와 같습니다. 선발·벤치 카드는 재료로 쓸 수 없습니다.',
+    what: `같은 등급 카드 ${FUSION_SIZE}장과 ${FUSION_FEE.toLocaleString()}G로 한 단계 위 등급 카드 1장을 만듭니다. 「일괄 합성」은 잠그지 않은 카드를 등급별로 한꺼번에 올립니다.`,
+    rule: '어떤 선수가 나올지는 스카우트와 같습니다. 선발·벤치·잠금 카드는 재료로 쓰지 않고, 일괄 합성은 기본으로 키운 카드(레벨 2 이상·경험치 있음)도 건너뜁니다.',
   },
   release: {
     what: '여러 명을 한 번에 내보내고 골드와 조각을 받습니다. 조각은 등급 확정 교환에 씁니다.',
@@ -119,10 +118,9 @@ function VaultPanel() {
 }
 
 export default function ClubTab() {
-  const { state, sell, toggleLock, trainCard, limitBreakCard, fuse, treatInjury, restoreCondition } = useGame()
-  // 승급 합성 is kept but off the players' screen for now (2026-09-05); operators still see it.
-  const { isAdmin } = useIsAdmin()
-  const modes = isAdmin ? MODES : MODES.filter((item) => item.id !== 'fuse')
+  const { state, sell, toggleLock, trainCard, limitBreakCard, fuse, fuseMany, treatInjury, restoreCondition } = useGame()
+  // 승급 합성 came back to everyone with 일괄 합성 (2026-09-06).
+  const modes = MODES
   const [mode, setMode] = useState<Mode>('manage')
   const [rarityFilter, setRarityFilter] = useState<RarityFilter>('all')
   const [groupFilter, setGroupFilter] = useState<GroupFilter>('all')
@@ -138,6 +136,9 @@ export default function ClubTab() {
   const [breakUid, setBreakUid] = useState<string | null>(null)
   const [fuseUids, setFuseUids] = useState<string[]>([])
   const [fused, setFused] = useState<PlayerDef | null>(null)
+  const [bulkRarities, setBulkRarities] = useState<Rarity[]>(['Normal', 'Rare', 'Legend', 'Live'])
+  const [bulkKeepGrown, setBulkKeepGrown] = useState(true)
+  const [bulkResult, setBulkResult] = useState<PlayerDef[] | null>(null)
   const [releaseUids, setReleaseUids] = useState<string[]>([])
   const [detailUid, setDetailUid] = useState<string | null>(null)
   /** Set when one more material would only be wasted — the pick is refused and this says why. */
@@ -556,6 +557,29 @@ export default function ClubTab() {
             }}
           />
         ) : mode === 'fuse' ? (
+          <>
+          <BulkFusionPanel
+            plan={planBulkFusion(state.cards, state.squad, state.gold, { rarities: bulkRarities, keepGrown: bulkKeepGrown })}
+            rarities={bulkRarities}
+            keepGrown={bulkKeepGrown}
+            result={bulkResult}
+            onToggleRarity={(rarity) =>
+              setBulkRarities((current) => (current.includes(rarity) ? current.filter((item) => item !== rarity) : [...current, rarity]))
+            }
+            onKeepGrown={setBulkKeepGrown}
+            onRun={() => {
+              const plan = planBulkFusion(state.cards, state.squad, state.gold, { rarities: bulkRarities, keepGrown: bulkKeepGrown })
+              const batches = affordableBatches(plan)
+              if (batches.length === 0) return
+              const spent = batches.length * plan.fee
+              const lines = plan.groups
+                .filter((group) => group.batches.length > 0)
+                .map((group) => `${RARITY_STYLES[group.from].label} ${group.batches.length * group.size}장 → ${RARITY_STYLES[group.to].label} ${group.batches.length}장`)
+              if (!window.confirm(`${lines.join('\n')}\n\n비용 ${spent.toLocaleString()}G. 재료 카드는 사라집니다. 진행할까요?`)) return
+              setBulkResult(fuseMany(batches))
+              setFuseUids([])
+            }}
+          />
           <FusionPanel
             uids={fuseUids}
             check={checkFusion(state.cards, fuseUids, state.squad, state.gold)}
@@ -576,6 +600,7 @@ export default function ClubTab() {
               }
             }}
           />
+          </>
         ) : mode === 'train' ? (
           <TrainPanel
             target={selected}
@@ -975,7 +1000,7 @@ function FusionPanel({
 }) {
   return (
     <section className="panel p-4">
-      <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">승급 합성 <span className="ml-1 text-[10px] font-bold text-amber-300">운영자 전용 표시</span></h3>
+      <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">골라서 합성</h3>
       <p className="mt-2 text-sm text-slate-400">
         같은 등급 카드 {size}장과 {FUSION_FEE}G로 한 단계 위 등급 카드 1장을 만듭니다. 장수는 등급마다 운영자 밸런스 탭에서 정합니다(기본 {FUSION_SIZE}장).
         선발·벤치 카드는 사용할 수 없습니다.
@@ -1028,6 +1053,108 @@ function FusionPanel({
         <div className="card-pop mt-4 flex flex-col items-center gap-2">
           <span className="text-xs font-bold text-emerald-300">합성 성공!</span>
           <PlayerCard player={result} size="lg" />
+        </div>
+      )}
+    </section>
+  )
+}
+
+/** 일괄 합성 — what the plan would spend and make, grade by grade, before one tap does it. */
+function BulkFusionPanel({
+  plan,
+  rarities,
+  keepGrown,
+  result,
+  onToggleRarity,
+  onKeepGrown,
+  onRun,
+}: {
+  plan: ReturnType<typeof planBulkFusion>
+  rarities: Rarity[]
+  keepGrown: boolean
+  result: PlayerDef[] | null
+  onToggleRarity: (rarity: Rarity) => void
+  onKeepGrown: (value: boolean) => void
+  onRun: () => void
+}) {
+  const runnable = plan.affordableFusions
+  const madeByRarity = useMemo(() => {
+    const counts = new Map<Rarity, number>()
+    for (const player of result ?? []) counts.set(player.rarity, (counts.get(player.rarity) ?? 0) + 1)
+    return [...counts.entries()]
+  }, [result])
+  return (
+    <section className="panel p-4">
+      <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">일괄 합성</h3>
+      <p className="mt-2 text-xs text-slate-400">
+        잠그지 않은 카드를 등급별로 한꺼번에 한 단계 위로 올립니다. 선발·벤치 18명은 건드리지 않고, 남는 장수는 그대로 둡니다. 한 번에 한 단계만 — 만들어진 카드는 다시 합성하지 않습니다.
+      </p>
+      <div className="mt-3 flex flex-wrap items-center gap-1.5">
+        <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">등급</span>
+        {(['Normal', 'Rare', 'Legend', 'Live'] as Rarity[]).map((rarity) => (
+          <FilterChip key={rarity} active={rarities.includes(rarity)} onClick={() => onToggleRarity(rarity)}>
+            {RARITY_STYLES[rarity].label}
+          </FilterChip>
+        ))}
+      </div>
+      <label className="mt-2 flex items-center gap-2 text-xs text-slate-300">
+        <input type="checkbox" checked={keepGrown} onChange={(event) => onKeepGrown(event.target.checked)} className="accent-emerald-400" />
+        키운 카드(레벨 2 이상·경험치 있음)는 제외
+      </label>
+      <div className="mt-3 overflow-x-auto">
+        <table className="w-full text-xs">
+          <thead className="text-[10px] uppercase tracking-widest text-slate-500">
+            <tr>
+              <th className="py-1 text-left">등급</th>
+              <th className="py-1 text-right">대상</th>
+              <th className="py-1 text-right">합성</th>
+              <th className="py-1 text-right">결과</th>
+              <th className="py-1 text-right">남음</th>
+            </tr>
+          </thead>
+          <tbody className="text-slate-200 [font-variant-numeric:tabular-nums]">
+            {plan.groups.map((group) => (
+              <tr key={group.from} className="border-t border-white/5">
+                <td className="py-1 font-bold">{RARITY_STYLES[group.from].label}</td>
+                <td className="py-1 text-right">{group.eligible}장</td>
+                <td className="py-1 text-right">{group.batches.length}회 × {group.size}장</td>
+                <td className="py-1 text-right text-amber-200">{RARITY_STYLES[group.to].label} {group.batches.length}장</td>
+                <td className="py-1 text-right text-slate-400">{group.leftover}장</td>
+              </tr>
+            ))}
+            {plan.groups.length === 0 && (
+              <tr>
+                <td colSpan={5} className="py-2 text-center text-slate-500">등급을 고르세요.</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+      <div className="mt-3 flex items-center justify-between gap-3">
+        <div className="text-xs text-slate-400">
+          {plan.fusions > 0 ? (
+            <>
+              총 {plan.fusions}회 · {plan.feeTotal.toLocaleString()}G
+              {runnable < plan.fusions && <span className="ml-1 text-amber-300">(골드로는 {runnable}회까지)</span>}
+            </>
+          ) : (
+            '합성할 묶음이 없습니다.'
+          )}
+        </div>
+        <button onClick={onRun} disabled={runnable === 0} className="rounded-lg btn-gold px-3 py-2 text-sm font-bold disabled:opacity-40">
+          일괄 합성 ({(runnable * plan.fee).toLocaleString()}G)
+        </button>
+      </div>
+      {result && result.length > 0 && (
+        <div className="mt-4">
+          <div className="text-xs font-bold text-emerald-300">
+            합성 완료 — {madeByRarity.map(([rarity, count]) => `${RARITY_STYLES[rarity].label} ${count}장`).join(' · ')}
+          </div>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {result.map((player, index) => (
+              <PlayerCard key={`${player.id}-${index}`} player={player} size="sm" />
+            ))}
+          </div>
         </div>
       )}
     </section>

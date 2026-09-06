@@ -22,7 +22,7 @@ import { exchangeResult, type ShardOffer } from '../lib/shards'
 import type { TacticSetup } from '../lib/tactics'
 import type { PhasedTactics } from '../lib/tactics/phases'
 import { clearSave, initialState, loadState, newCard, saveState } from '../lib/storage'
-import type { Card, FormationKey, GameState, MatchResult, PlayerDef, Squad } from '../lib/types'
+import type { Card, FormationKey, GameState, MatchResult, PlayerDef, Rarity, Squad } from '../lib/types'
 import { useAccountSync, type AccountApi } from './useAccountSync'
 
 export interface GameApi {
@@ -36,6 +36,8 @@ export interface GameApi {
   trainCard: (uid: string, materialUids: string[]) => void
   limitBreakCard: (uid: string, materialUid: string) => void
   fuse: (uids: string[]) => PlayerDef | null
+  /** 일괄 합성 — every batch at once; returns the cards made. */
+  fuseMany: (batches: { uids: string[]; to: Rarity }[]) => PlayerDef[]
   assign: (slotId: string, uid: string) => void
   clearSlot: (slotId: string) => void
   setFormation: (formation: FormationKey) => void
@@ -130,6 +132,12 @@ export function GameProvider({ children }: { children: ReactNode }) {
     return cards
   }, [])
 
+  const fuseMany = useCallback((batches: { uids: string[]; to: Rarity }[]) => {
+    const made = batches.map((batch) => ({ uids: batch.uids, player: fusionResult(batch.to) }))
+    if (made.length > 0) dispatch({ type: 'fuseMany', batches: made })
+    return made.map((batch) => batch.player)
+  }, [])
+
   const fuse = useCallback(
     (uids: string[]) => {
       const check = checkFusion(state.cards, uids, state.squad, state.gold)
@@ -151,6 +159,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       account,
       addCards,
       fuse,
+      fuseMany,
       exchangeShards: (offer: ShardOffer) => {
         if (state.shards < offer.cost) return null
         const player = exchangeResult(offer.rarity)
@@ -219,7 +228,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         dispatch({ type: 'reset' })
       },
     }),
-    [state, ready, account, addCards, fuse],
+    [state, ready, account, addCards, fuse, fuseMany],
   )
 
   return <GameContext.Provider value={api}>{children}</GameContext.Provider>
