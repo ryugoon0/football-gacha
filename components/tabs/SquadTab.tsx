@@ -253,7 +253,7 @@ export default function SquadTab() {
                     condition={evaluation.card.condition}
                     injuredFor={evaluation.card.injuredFor}
                     suspendedFor={evaluation.card.suspendedFor ?? 0}
-                    badge={slot.position}
+                    slotPosition={slot.position}
                   />
                 ) : (
                   <span className="flex h-16 w-14 flex-col items-center justify-center rounded-xl border border-dashed border-white/40 bg-black/30 text-[10px] font-bold text-white/70">

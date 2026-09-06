@@ -3,7 +3,8 @@
 import { MAX_CONDITION } from '../lib/condition'
 import { tune } from '../lib/tuning'
 import { effectiveOvr } from '../lib/players'
-import type { PlayerDef, Rarity } from '../lib/types'
+import { ratingInSlot } from '../lib/squad'
+import type { PlayerDef, Position, Rarity } from '../lib/types'
 import PlayerAvatar from './PlayerAvatar'
 
 /**
@@ -68,6 +69,7 @@ export default function RetroPlayerCard({
   badge,
   onClick,
   className = '',
+  slotPosition,
 }: {
   player: PlayerDef
   level?: number
@@ -79,6 +81,7 @@ export default function RetroPlayerCard({
   badge?: string
   onClick?: () => void
   className?: string
+  slotPosition?: Position
 }) {
   const dimensions = SIZES[size]
   // The original only ever showed one card at a time, so the ring could ping,
@@ -134,7 +137,7 @@ export default function RetroPlayerCard({
 
       <div className={`relative z-20 truncate font-bold ${dimensions.name}`}>{player.name}</div>
       <div className={`relative z-20 truncate ${dimensions.meta}`}>
-        {size === 'sm' ? player.position : `Position: ${player.position}`}
+        {size === 'sm' ? (slotPosition ?? player.position) : `Position: ${slotPosition ?? player.position}`}
       </div>
       {size !== 'sm' && (
         <div className={`relative z-20 truncate font-semibold ${dimensions.meta}`}>
@@ -142,7 +145,7 @@ export default function RetroPlayerCard({
         </div>
       )}
       <div className={`relative z-20 font-black ${dimensions.ovr}`}>
-        {effectiveOvr(player, level)} · Lv.{level}
+        {slotPosition ? ratingInSlot(player, level, slotPosition) : effectiveOvr(player, level)} · Lv.{level}
       </div>
     </Wrapper>
   )

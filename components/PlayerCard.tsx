@@ -2,9 +2,10 @@
 
 import { MAX_CONDITION, TIRED_CONDITION } from '../lib/condition'
 import { GK_STAT_LABELS, STAT_LABELS, effectiveOvr, effectiveStats } from '../lib/players'
+import { ratingInSlot } from '../lib/squad'
 import { TRAITS, traitsOf } from '../lib/traits'
 import { RARITY_STYLES } from '../lib/rarity'
-import type { PlayerDef, Stats } from '../lib/types'
+import type { PlayerDef, Position, Stats } from '../lib/types'
 import PlayerAvatar from './PlayerAvatar'
 import RetroPlayerCard from './RetroPlayerCard'
 import { useCardStyle } from './CardStyle'
@@ -35,6 +36,12 @@ interface CardProps {
   injuredFor?: number
   suspendedFor?: number
   badge?: string
+  /**
+   * The slot the card is fielded in. When given, the card shows that position
+   * and the overall the player is worth there (a listed alternative costs a
+   * few points, an unlisted one far more) instead of the home position.
+   */
+  slotPosition?: Position
   onClick?: () => void
   className?: string
 }
@@ -58,13 +65,16 @@ function ModernPlayerCard({
   injuredFor = 0,
   suspendedFor = 0,
   badge,
+  slotPosition,
   onClick,
   className = '',
 }: CardProps) {
   const style = RARITY_STYLES[player.rarity]
   const dimensions = SIZES[size]
   const stats = effectiveStats(player, level)
-  const ovr = effectiveOvr(player, level)
+  const shownPosition = slotPosition ?? player.position
+  const ovr = slotPosition ? ratingInSlot(player, level, slotPosition) : effectiveOvr(player, level)
+  const offPosition = Boolean(slotPosition) && slotPosition !== player.position
   const labels = player.position === 'GK' ? GK_STAT_LABELS : STAT_LABELS
   const traits = size === 'lg' ? traitsOf(player) : []
   const Wrapper = onClick ? 'button' : 'div'
@@ -102,7 +112,7 @@ function ModernPlayerCard({
           <PlayerAvatar player={player} className="mx-auto w-[46px] sm:w-[54px]" />
           <div className="absolute left-1 top-1 flex flex-col items-start leading-none">
             <span className={`font-black drop-shadow ${dimensions.ovr}`}>{ovr}</span>
-            <span className="text-[9px] font-bold drop-shadow">{player.position}</span>
+            <span className={`text-[9px] font-bold drop-shadow ${offPosition ? 'opacity-80' : ''}`} title={offPosition ? `본 포지션 ${player.position}` : undefined}>{shownPosition}</span>
           </div>
           <span className="absolute bottom-0 right-1 rounded bg-black/40 px-1 text-[8px] font-bold text-white">Lv.{level}</span>
         </div>
@@ -110,7 +120,7 @@ function ModernPlayerCard({
         <div className="flex gap-1 px-2 pt-2">
           <div className="flex w-8 shrink-0 flex-col items-center leading-none">
             <span className={`font-black ${dimensions.ovr}`}>{ovr}</span>
-            <span className="mt-0.5 text-[10px] font-bold">{player.position}</span>
+            <span className="mt-0.5 text-[10px] font-bold">{shownPosition}</span>
             <span className="mt-1 h-px w-4 bg-current opacity-40" />
             <span className="mt-1 text-[8px] font-semibold opacity-80">{player.nation}</span>
             <span className="mt-0.5 rounded bg-black/25 px-1 text-[8px] font-bold text-white">
