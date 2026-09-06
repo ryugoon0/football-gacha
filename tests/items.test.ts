@@ -153,6 +153,15 @@ describe('using an item on a player', () => {
 })
 
 describe('using an item on the club', () => {
+  it('fills the whole squad\'s condition at once, and is not spent when nobody is tired', () => {
+    const tired: GameState = { ...rich(), items: { teamCondition: 1 }, cards: [card({ condition: 40 }), { ...card({ condition: 90 }), uid: 'b' }] }
+    const next = reducer(tired, { type: 'spendItemOnClub', id: 'teamCondition' })
+    expect(next.cards.every((c) => c.condition === MAX_CONDITION)).toBe(true)
+    expect(itemCount(next.items, 'teamCondition')).toBe(0)
+    const fresh: GameState = { ...rich(), items: { teamCondition: 1 }, cards: [card({ condition: MAX_CONDITION })] }
+    expect(reducer(fresh, { type: 'spendItemOnClub', id: 'teamCondition' })).toBe(fresh)
+  })
+
   it('adds a friendly to today, which the daily count then reflects', () => {
     const state: GameState = { ...rich(), items: { friendlyTicket: 1 } }
     const next = reducer(state, { type: 'spendItemOnClub', id: 'friendlyTicket' })

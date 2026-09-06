@@ -2,12 +2,16 @@
 
 import { useState } from 'react'
 import PvpTab from './PvpTab'
+import PredictionTab from './PredictionTab'
 
 /**
- * 미니게임 — small side modes next to the leagues. 데일리 PvP is the first;
- * more take their place in the same picker as they arrive.
+ * 미니게임 — small side modes next to the leagues. 데일리 PvP came first,
+ * 빅매치 예측 second; more take their place in the same picker as they arrive.
  */
-const GAMES = [{ key: 'pvp', label: '데일리 PvP', note: '다른 감독의 실제 스쿼드와 하루 몇 판, 시즌에 영향 없음' }] as const
+const GAMES = [
+  { key: 'pvp', label: '데일리 PvP', note: '다른 감독의 실제 스쿼드와 하루 몇 판, 시즌에 영향 없음' },
+  { key: 'predict', label: '빅매치 예측', note: '이번 주 빅매치 결과를 전부 맞히면 골드' },
+] as const
 
 type GameKey = (typeof GAMES)[number]['key']
 
@@ -29,10 +33,10 @@ export default function MiniGamesTab() {
               {item.label}
             </button>
           ))}
-          <span className="rounded-lg border border-dashed border-white/15 px-3 py-1.5 text-xs text-slate-500">다른 미니게임 준비 중</span>
         </div>
       </div>
       {game === 'pvp' && <PvpTab />}
+      {game === 'predict' && <PredictionTab />}
     </div>
   )
 }

@@ -16,6 +16,7 @@ export type ItemId =
   | 'drink'
   | 'energyFull'
   | 'medkit'
+  | 'teamCondition'
   | 'friendlyTicket'
   | 'vaultPermit'
   | 'shardPouch'
@@ -81,6 +82,16 @@ export const ITEMS: Record<ItemId, ItemDef> = {
     gold: 1500,
     shards: 80,
     dailyLimit: 3,
+  },
+  teamCondition: {
+    id: 'teamCondition',
+    name: '팀 컨디션 회복권',
+    note: '선수단 전원의 컨디션을 한 번에 가득 채웁니다. 경쟁 리그 킥오프 전에 쓰면 그 경기에 온전한 체력으로 나섭니다.',
+    target: 'club',
+    icon: '🔋',
+    gold: 2500,
+    shards: 150,
+    dailyLimit: 2,
   },
   // 이적시장 갱신권 (marketTicket) was retired with the market tab (2026-09-05);
   // normalizeInventory drops it from old saves.

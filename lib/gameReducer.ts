@@ -796,6 +796,11 @@ export function reducer(state: GameState, action: Action): GameState {
         }
         case 'shardPouch':
           return { ...state, items: spend, shards: state.shards + 120 }
+        case 'teamCondition': {
+          // Never spend one when nobody is tired.
+          if (state.cards.every((card) => card.condition >= MAX_CONDITION)) return state
+          return { ...state, items: spend, cards: state.cards.map((card) => ({ ...card, condition: MAX_CONDITION })) }
+        }
         default:
           return state
       }

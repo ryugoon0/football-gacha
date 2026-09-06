@@ -15,6 +15,7 @@ import {
   type ItemId,
 } from '../../lib/items'
 import { getPlayer } from '../../lib/players'
+import { MAX_CONDITION } from '../../lib/condition'
 import { MAX_CAPACITY } from '../../lib/vault'
 import { useGame } from '../GameProvider'
 import PlayerCard from '../PlayerCard'
@@ -74,6 +75,10 @@ export default function ItemsTab() {
   const spendOnClub = (id: ItemId) => {
     if (id === 'vaultPermit' && state.capacity >= MAX_CAPACITY) {
       setNote(`보관함은 ${MAX_CAPACITY}칸이 최대입니다.`)
+      return
+    }
+    if (id === 'teamCondition' && state.cards.every((card) => card.condition >= MAX_CONDITION)) {
+      setNote('선수단 전원이 이미 컨디션 100입니다.')
       return
     }
     spendItemOnClub(id)
