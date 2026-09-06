@@ -4,7 +4,7 @@
   "league": "코리아 리그",
   "season": "2026 (2026-08-19 기준)",
   "source": "en.wikipedia.org/wiki/Ulsan_HD_FC",
-  "pilot": true,
+  "pilot": false,
   "players": [
     {
       "key": "ulsan-01",
