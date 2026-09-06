@@ -397,9 +397,9 @@ export default function ClubTab() {
             aria-label="리그 필터"
             className="rounded-lg bg-white/5 px-3 py-1.5 text-sm font-semibold text-slate-200 outline-none [color-scheme:dark]"
           >
-            <option value="all">모든 리그</option>
+            <option className="bg-slate-900 text-slate-100" value="all">모든 리그</option>
             {leagues.map((league) => (
-              <option key={league} value={league}>
+              <option className="bg-slate-900 text-slate-100" key={league} value={league}>
                 {league}
               </option>
             ))}
@@ -410,9 +410,9 @@ export default function ClubTab() {
             aria-label="클럽 필터"
             className="rounded-lg bg-white/5 px-3 py-1.5 text-sm font-semibold text-slate-200 outline-none [color-scheme:dark]"
           >
-            <option value="all">모든 클럽</option>
+            <option className="bg-slate-900 text-slate-100" value="all">모든 클럽</option>
             {clubs.map((club) => (
-              <option key={club} value={club}>
+              <option className="bg-slate-900 text-slate-100" key={club} value={club}>
                 {club}
               </option>
             ))}
@@ -422,11 +422,11 @@ export default function ClubTab() {
             onChange={(event) => setSortKey(event.target.value as SortKey)}
             className="ml-auto rounded-lg bg-white/5 px-3 py-1.5 text-sm font-semibold text-slate-200 outline-none [color-scheme:dark]"
           >
-            <option value="ovr">전력순</option>
-            <option value="rarity">등급순</option>
-            <option value="level">레벨순</option>
-            <option value="club">같은 클럽끼리</option>
-            <option value="league">같은 리그끼리</option>
+            <option className="bg-slate-900 text-slate-100" value="ovr">전력순</option>
+            <option className="bg-slate-900 text-slate-100" value="rarity">등급순</option>
+            <option className="bg-slate-900 text-slate-100" value="level">레벨순</option>
+            <option className="bg-slate-900 text-slate-100" value="club">같은 클럽끼리</option>
+            <option className="bg-slate-900 text-slate-100" value="league">같은 리그끼리</option>
           </select>
           <button
             type="button"

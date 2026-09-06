@@ -197,9 +197,9 @@ export default function PredictionPanel() {
                         onChange={(e) => setResults((prev) => ({ ...prev, [view.round.id]: { ...(prev[view.round.id] ?? {}), [String(m.id)]: e.target.value as PredictionOutcome | '' } }))}
                         className="rounded-lg bg-slate-900 px-2 py-1 text-[11px] text-white"
                       >
-                        <option value="">결과 없음</option>
+                        <option className="bg-slate-900 text-slate-100" value="">결과 없음</option>
                         {OUTCOMES.map((o) => (
-                          <option key={o} value={o}>
+                          <option className="bg-slate-900 text-slate-100" key={o} value={o}>
                             {OUTCOME_LABEL[o]}
                           </option>
                         ))}

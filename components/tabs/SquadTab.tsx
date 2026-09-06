@@ -209,9 +209,9 @@ export default function SquadTab() {
               title="고른 클럽 선수를 먼저 채우고(포지션이 맞는 경우), 남는 자리는 전체에서 채웁니다"
               className="max-w-[150px] rounded-lg bg-white/5 px-2 py-1.5 text-xs font-semibold text-slate-200 outline-none [color-scheme:dark]"
             >
-              <option value="">전체 선수로</option>
+              <option className="bg-slate-900 text-slate-100" value="">전체 선수로</option>
               {ownedClubs.map(([club, count]) => (
-                <option key={club} value={club}>
+                <option className="bg-slate-900 text-slate-100" key={club} value={club}>
                   {club} ({count})
                 </option>
               ))}
@@ -539,9 +539,9 @@ export default function SquadTab() {
                 aria-label="후보 클럽 필터"
                 className="min-w-0 flex-1 rounded-lg bg-white/5 px-2 py-1.5 text-xs font-semibold text-slate-200 outline-none [color-scheme:dark]"
               >
-                <option value="">모든 클럽</option>
+                <option className="bg-slate-900 text-slate-100" value="">모든 클럽</option>
                 {ownedClubs.map(([club, count]) => (
-                  <option key={club} value={club}>
+                  <option className="bg-slate-900 text-slate-100" key={club} value={club}>
                     {club} ({count})
                   </option>
                 ))}

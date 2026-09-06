@@ -117,19 +117,29 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 p-4 sm:items-center">
-      <div className="rise-in w-full max-w-md panel-strong p-6 shadow-2xl">
-        <div className="mb-4 flex items-center justify-between">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 p-4 sm:items-center" onClick={onClose}>
+      {/* The panel has grown past a phone screen (assistant, facepack, rename pack …), so it
+          scrolls inside the viewport and the close button stays pinned at the top. */}
+      <div
+        className="rise-in flex max-h-[calc(100dvh-2rem)] w-full max-w-md flex-col panel-strong shadow-2xl"
+        onClick={(event) => event.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+      >
+        <div className="flex shrink-0 items-center justify-between border-b border-white/10 px-6 py-3">
           <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">
             계정
           </span>
           <button
             onClick={onClose}
-            className="text-xs font-bold text-slate-500 hover:text-slate-300"
+            aria-label="닫기"
+            className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-black text-slate-200 hover:bg-white/20"
           >
-            닫기
+            ✕ 닫기
           </button>
         </div>
+        <div className="min-h-0 flex-1 overflow-y-auto px-6 py-4">
+
 
         {!account.configured ? (
           <div className="space-y-3">
@@ -348,6 +358,7 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
             {account.notice}
           </p>
         )}
+        </div>
       </div>
     </div>
   )
