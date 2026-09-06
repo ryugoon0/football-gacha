@@ -9800,6 +9800,12 @@ var LINEUP_LEVEL_CAPS = {
 function lineupCapOf(division) {
   return LINEUP_LEVEL_CAPS[division] ?? LINEUP_LEVEL_CAPS[BOTTOM_DIVISION];
 }
+var TIER_CAP_DIVISION = [1, 2, 3, 4];
+function capDivisionOfTier(tier) {
+  const last = TIER_CAP_DIVISION.length - 1;
+  const index = Number.isInteger(tier) ? Math.max(0, Math.min(last, tier)) : last;
+  return TIER_CAP_DIVISION[index];
+}
 var OUT_OF_POSITION_FACTOR = KNOBS.outOfPositionFactor.default;
 var SUB_POSITION_PENALTY = 4;
 function positionFit(player, slotPosition) {
@@ -9934,6 +9940,7 @@ export {
   ENGINE_VERSION,
   KNOB_KEYS,
   MINI_GAME_REWARD,
+  capDivisionOfTier,
   evaluateSquad,
   lineupCapOf,
   matchReward,

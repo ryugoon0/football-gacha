@@ -12,6 +12,7 @@ import {
   ENGINE_VERSION,
   KNOB_KEYS,
   evaluateSquad,
+  capDivisionOfTier,
   matchReward,
   missingSlots,
   setTuning,
@@ -82,6 +83,7 @@ interface SaveShape {
   squad?: unknown
   club?: unknown
   season?: { division?: number }
+  weeklyTier?: number | null
   daily?: { pvpMatches?: number }
 }
 
@@ -160,12 +162,12 @@ export async function handle(request: Request, env: Env): Promise<Response> {
     const opponentCards = Array.isArray(opponentSave.cards) ? (opponentSave.cards as SharedCard[]) : []
     const opponentSquadData = isSquad(opponentSave.squad) ? opponentSave.squad : null
     if (!opponentSquadData) return refuse('opponent lineup not ready')
-    const opponentDivision = Number(opponentSave.season?.division)
     const opponentName = typeof opponentSave.club === 'string' && opponentSave.club
       ? opponentSave.club
       : '상대 클럽'
 
-    const rating = evaluateSquad(cards, body.squad, division)
+    // The level budget follows each manager's 경쟁 리그 tier (lib/squad.ts).
+    const rating = evaluateSquad(cards, body.squad, capDivisionOfTier(save.weeklyTier))
     const gaps = missingSlots(rating.evaluations)
     if (gaps.empty.length > 0 || gaps.injured.length > 0 || gaps.duplicated.length > 0) {
       return refuse('lineup not ready', { empty: gaps.empty, injured: gaps.injured, duplicated: gaps.duplicated })
@@ -174,11 +176,7 @@ export async function handle(request: Request, env: Env): Promise<Response> {
       return refuse('lineup over level cap', { levelTotal: rating.levelTotal, levelCap: rating.levelCap })
     }
 
-    const opponentRating = evaluateSquad(
-      opponentCards,
-      opponentSquadData,
-      Number.isFinite(opponentDivision) ? opponentDivision : division,
-    )
+    const opponentRating = evaluateSquad(opponentCards, opponentSquadData, capDivisionOfTier(opponentSave.weeklyTier))
 
     const setup = {
       team: rating,

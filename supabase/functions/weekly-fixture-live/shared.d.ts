@@ -168,6 +168,7 @@ export interface SharedSquadRatingLite {
 }
 export function evaluateSquad(cards: SharedCard[], squad: SharedSquad, division?: number): SharedSquadRatingLite
 export function starterAverageOf(rating: SharedSquadRatingLite): number
+export function capDivisionOfTier(tier: number | null | undefined): number
 export function weeklyAiAnchor(realStarterAverages: number[], tierAiBaseRating: number, topTierAiBaseRating: number): number | undefined
 
 export function runToEnd(setup: SharedMatchSetup, rng?: () => number): SharedLiveState

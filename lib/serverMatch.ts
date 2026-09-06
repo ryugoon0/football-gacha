@@ -8,7 +8,7 @@
  * code — no second implementation to drift out of sync.
  */
 export { ENGINE_VERSION, runToEnd, toResult, type MatchSetup } from './matchEngine'
-export { evaluateSquad, missingSlots, lineupCapOf, type SquadRating } from './squad'
+export { evaluateSquad, missingSlots, lineupCapOf, capDivisionOfTier, type SquadRating } from './squad'
 export { matchReward, MINI_GAME_REWARD } from './match'
 export { DEFAULT_TACTIC } from './tactics'
 export { setTuning, tune, KNOB_KEYS } from './tuning'

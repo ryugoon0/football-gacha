@@ -16,7 +16,7 @@ import {
   type PvpOpponentSquad,
   type PvpOpponentSummary,
 } from '../../lib/pvpMatch'
-import { evaluateSquad, missingSlots } from '../../lib/squad'
+import { evaluateSquad, lineupDivisionOf, missingSlots } from '../../lib/squad'
 import type { MatchResult } from '../../lib/types'
 import { planForMode } from '../../lib/tactics/mode'
 import { useTacticsMode } from '../TacticsMode'
@@ -36,7 +36,8 @@ export default function PvpTab() {
 
   const daily = state.daily
   const left = pvpMatchesLeft(daily)
-  const division = state.season.division
+  // Only the level budget is keyed here, and that follows the 경쟁 리그 tier.
+  const division = lineupDivisionOf(state)
 
   const runSearch = async (term: string) => {
     setQuery(term)

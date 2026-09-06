@@ -229,6 +229,12 @@ export interface GameState {
   history: MatchSummary[]
   /** A note the last load left for the manager (level-cap adjustments); shown once, then cleared. */
   notice?: SaveNotice
+  /**
+   * The 경쟁 리그 tier this manager plays in (0 top … 3 bottom), synced from the
+   * server on load; null before placement. It sets the squad level budget
+   * (lib/squad.ts lineupDivisionOf).
+   */
+  weeklyTier?: number | null
 }
 
 export interface SaveNotice {

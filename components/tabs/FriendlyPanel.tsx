@@ -5,7 +5,7 @@ import { applyAutoSubs } from '../../lib/autoSub'
 import { MINI_GAME_LIMIT, miniGamesLeft } from '../../lib/daily'
 import { friendlyOpponent } from '../../lib/league'
 import { MINI_GAME_REWARD, simulateMatch } from '../../lib/match'
-import { evaluateSquad, missingSlots } from '../../lib/squad'
+import { evaluateSquad, lineupDivisionOf, missingSlots } from '../../lib/squad'
 import { planForMode } from '../../lib/tactics/mode'
 import type { MatchResult } from '../../lib/types'
 import { useGame } from '../GameProvider'
@@ -24,13 +24,15 @@ export default function FriendlyPanel() {
   const [problem, setProblem] = useState<string | null>(null)
   const left = miniGamesLeft(state.daily)
   const division = state.season.division
+  // Opponent strength follows the casual division; the level budget follows the 경쟁 리그 tier.
+  const capDivision = lineupDivisionOf(state)
 
   const play = () => {
     if (left <= 0) return
     const auto = state.autoSub
-      ? applyAutoSubs(state.cards, state.squad, division)
+      ? applyAutoSubs(state.cards, state.squad, capDivision)
       : { squad: state.squad, subs: [] }
-    const lineup = evaluateSquad(state.cards, auto.squad, division)
+    const lineup = evaluateSquad(state.cards, auto.squad, capDivision)
     const gaps = missingSlots(lineup.evaluations)
     if (gaps.empty.length > 0 || gaps.injured.length > 0) {
       const parts = [

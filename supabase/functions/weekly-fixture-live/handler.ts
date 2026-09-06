@@ -24,6 +24,7 @@ import {
   TIERS,
   buildWeeklyMatchSetup,
   evaluateSquad,
+  capDivisionOfTier,
   getPlayer,
   kickoffSquadOf,
   starterAverageOf,
@@ -158,7 +159,7 @@ async function rpc<T>(url: string, server: ServerHeaders, name: string, body: un
  * rating, so the fixture still settles rather than hanging on a manager who
  * never set a squad.
  */
-async function realSideOf(url: string, server: ServerHeaders, userId: string): Promise<SharedRealSquadInput | null> {
+async function realSideOf(url: string, server: ServerHeaders, userId: string, capDivision: number): Promise<SharedRealSquadInput | null> {
   const res = await fetch(`${url}/rest/v1/saves?user_id=eq.${userId}&select=data`, { headers: server })
   if (!res.ok) return null
   const rows = (await res.json()) as { data?: SaveShape }[]
@@ -168,11 +169,11 @@ async function realSideOf(url: string, server: ServerHeaders, userId: string): P
   if (!isSquad(save.squad)) return null
   const filled = Object.values(save.squad.slots).filter(Boolean).length
   if (filled < 11) return null
-  const division = Number(save.season?.division)
+  // The level budget is the group's tier (lib/squad.ts capDivisionOfTier), not the casual division.
   return {
     cards,
     squad: save.squad,
-    division: Number.isFinite(division) && division >= 1 && division <= 5 ? division : 5,
+    division: capDivision,
     tactic: save.tactic && typeof save.tactic === 'object' ? save.tactic : undefined,
     plan: save.plan && typeof save.plan === 'object' ? save.plan : undefined,
     autoSub: save.autoSub !== false,
@@ -210,8 +211,7 @@ async function aiAnchorFor(url: string, server: ServerHeaders, groupId: number):
   for (const row of rows) {
     const save = row.data
     if (!save || !isSquad(save.squad) || !Array.isArray(save.cards)) continue
-    const division = Number(save.season?.division)
-    const rating = evaluateSquad(save.cards as SharedCard[], save.squad, Number.isFinite(division) ? division : 5)
+    const rating = evaluateSquad(save.cards as SharedCard[], save.squad, capDivisionOfTier(Number(group?.tier ?? 0)))
     const average = starterAverageOf(rating)
     if (average > 0) averages.push(average)
   }
@@ -250,9 +250,10 @@ function withBans(input: SharedRealSquadInput | null, banned: Set<string> | unde
 
 async function buildSnapshot(url: string, server: ServerHeaders, fixture: FixtureInfo): Promise<SharedSnapshot> {
   const hasAi = fixture.home.kind !== 'user' || fixture.away.kind !== 'user'
+  const capDivision = capDivisionOfTier(await tierOf(url, server, fixture.groupId))
   const [rawHome, rawAway, aiAnchor, bans] = await Promise.all([
-    fixture.home.kind === 'user' && fixture.home.userId ? realSideOf(url, server, fixture.home.userId) : null,
-    fixture.away.kind === 'user' && fixture.away.userId ? realSideOf(url, server, fixture.away.userId) : null,
+    fixture.home.kind === 'user' && fixture.home.userId ? realSideOf(url, server, fixture.home.userId, capDivision) : null,
+    fixture.away.kind === 'user' && fixture.away.userId ? realSideOf(url, server, fixture.away.userId, capDivision) : null,
     hasAi ? aiAnchorFor(url, server, fixture.groupId) : Promise.resolve(undefined),
     bansFor(url, server, fixture),
   ])
@@ -531,7 +532,7 @@ export async function handle(request: Request, env: Env): Promise<Response> {
       const target = rows.find((row) => row.slot === slot)
       if (!target) return refuse('not found')
       if (target.kind === 'user' && target.user_id) {
-        const input = await realSideOf(url, server, target.user_id)
+        const input = await realSideOf(url, server, target.user_id, capDivisionOfTier(await tierOf(url, server, groupId)))
         if (!input) return json({ ok: true, club: target.club_name, kind: 'user', sheet: null })
         // Tactics are the manager's own business: only they see their dials.
         const tactic = target.user_id === user.id ? input.tactic : null

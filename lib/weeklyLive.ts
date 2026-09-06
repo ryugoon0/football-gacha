@@ -401,3 +401,27 @@ export const LIVE_COMMAND_FAILURE_MESSAGE: Record<string, string> = {
   'card after kickoff': '히든 카드는 킥오프 전에만 쓸 수 있습니다.',
   'no such card': '그 히든 카드를 갖고 있지 않습니다. 상점에서 사거나 리그·컵 보상으로 얻을 수 있습니다.',
 }
+
+/**
+ * The tier of the group this manager currently sits in (0 top … 3 bottom), or
+ * null when not placed. Same query the 경쟁 리그 tab runs; the squad level
+ * budget follows it (lib/squad.ts lineupDivisionOf).
+ */
+export async function fetchMyWeeklyTier(): Promise<number | null> {
+  const supabase = getSupabase()
+  if (!supabase) return null
+  const { data: auth } = await supabase.auth.getUser()
+  const userId = auth.user?.id
+  if (!userId) return null
+  const { data, error } = await supabase
+    .from('weekly_league_members')
+    .select('group_id, weekly_league_groups(tier)')
+    .eq('user_id', userId)
+    .eq('kind', 'user')
+    .order('group_id', { ascending: false })
+    .limit(1)
+  if (error || !data || data.length === 0) return null
+  const row = data[0] as { weekly_league_groups: { tier: number } | { tier: number }[] | null }
+  const group = Array.isArray(row.weekly_league_groups) ? row.weekly_league_groups[0] : row.weekly_league_groups
+  return group && Number.isInteger(group.tier) ? group.tier : null
+}

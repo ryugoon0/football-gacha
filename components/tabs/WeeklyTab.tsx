@@ -106,7 +106,7 @@ function fmtKst(iso: string): string {
 }
 
 export default function WeeklyTab() {
-  const { account, grantGold, grantItems } = useGame()
+  const { account, grantGold, grantItems, setWeeklyTier } = useGame()
   const [rewards, setRewards] = useState<WeeklyRewardRow[]>([])
   const [claiming, setClaiming] = useState(false)
   const [claimNotice, setClaimNotice] = useState<string | null>(null)
@@ -177,6 +177,8 @@ export default function WeeklyTab() {
       weekId: group.week_id,
     }
     setMembership(nextMembership)
+    // The squad level budget follows this tier (lib/squad.ts lineupDivisionOf).
+    setWeeklyTier(group.tier)
 
     // Settle anything in this group whose kick-off has passed before reading
     // the table, so a manager never sees a stale "pending" for a match the
@@ -251,7 +253,7 @@ export default function WeeklyTab() {
     }
 
     setLoading(false)
-  }, [userId])
+  }, [userId, setWeeklyTier])
 
   useEffect(() => {
     void load()

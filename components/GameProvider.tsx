@@ -85,6 +85,8 @@ export interface GameApi {
   finishGuide: () => void
   /** Closes the note the last load left (GameState.notice). */
   dismissNotice: () => void
+  /** 경쟁 리그 tier from the server (0 top … 3 bottom, null before placement) — sets the squad level budget. */
+  setWeeklyTier: (tier: number | null) => void
   renameClub: (club: string) => void
   expandVault: () => void
   reset: () => void
@@ -227,6 +229,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       consumeItem: (id: ItemId) => dispatch({ type: 'consumeItem', id }),
       finishGuide: () => dispatch({ type: 'finishGuide' }),
       dismissNotice: () => dispatch({ type: 'dismissNotice' }),
+      setWeeklyTier: (tier: number | null) => dispatch({ type: 'setWeeklyTier', tier }),
       renameClub: (club: string) => dispatch({ type: 'renameClub', club }),
       expandVault: () => dispatch({ type: 'expandVault' }),
       reset: () => {

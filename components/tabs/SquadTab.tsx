@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { conditionFactor, isSidelined } from '../../lib/condition'
 import { FORMATIONS, FORMATION_FAMILIES, familyOf } from '../../lib/formations'
 import { getPlayer } from '../../lib/players'
-import { BENCH_SIZE, positionFit, ratingInSlot } from '../../lib/squad'
+import { BENCH_SIZE, lineupDivisionOf, positionFit, ratingInSlot } from '../../lib/squad'
 import { evaluateSquad, missingSlots } from '../../lib/squad'
 import { colorName } from '../../lib/teamColor'
 import { TRAITS, traitsOf } from '../../lib/traits'
@@ -41,6 +41,8 @@ export default function SquadTab() {
     restoreCondition,
     toggleLock,
   } = useGame()
+  // The level budget follows the 경쟁 리그 tier (lib/squad.ts lineupDivisionOf).
+  const capDivision = lineupDivisionOf(state)
   const [target, setTarget] = useState<Target | null>(null)
   // Looking a player up is not the same as picking one. Selecting a slot still
   // opens the swap list; this opens over it and changes nothing.
@@ -66,8 +68,8 @@ export default function SquadTab() {
 
   const formation = FORMATIONS[state.squad.formation] ?? FORMATIONS['4-3-3']
   const rating = useMemo(
-    () => evaluateSquad(state.cards, state.squad, state.season.division),
-    [state.cards, state.squad, state.season.division],
+    () => evaluateSquad(state.cards, state.squad, capDivision),
+    [state.cards, state.squad, capDivision],
   )
   const gaps = useMemo(() => missingSlots(rating.evaluations), [rating.evaluations])
 
@@ -353,7 +355,12 @@ export default function SquadTab() {
             >
               {rating.levelTotal}
             </span>
-            <span className="pb-1 text-sm text-slate-400">/ 상한 {rating.levelCap}</span>
+            <span className="pb-1 text-sm text-slate-400">
+              / 상한 {rating.levelCap}
+              <span className="ml-1 text-[11px] text-slate-500">
+                {state.weeklyTier == null ? '경쟁 리그 미배정(최하위 기준)' : `경쟁 리그 ${state.weeklyTier}등급 기준`}
+              </span>
+            </span>
           </div>
           <div className="mt-2 h-2 rounded-full bg-white/10">
             <div
@@ -362,8 +369,8 @@ export default function SquadTab() {
             />
           </div>
           <p className="mt-2 text-[11px] leading-relaxed text-slate-400">
-            선발 11명의 레벨 합이 상한을 넘으면 경기에 등록할 수 없습니다. 상위 리그로 올라갈수록
-            상한이 올라갑니다.
+            선발 11명의 레벨 합이 상한을 넘으면 경기에 등록할 수 없습니다. 상한은 경쟁 리그 등급이
+            정합니다(0등급 110 · 1등급 89 · 2등급 77 · 3등급 66). 승격하면 다음 주부터 올라갑니다.
           </p>
 
           {(gaps.empty.length > 0 || gaps.injured.length > 0 || gaps.duplicated.length > 0) && (

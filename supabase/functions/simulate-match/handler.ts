@@ -16,6 +16,7 @@ import {
   KNOB_KEYS,
   MINI_GAME_REWARD,
   evaluateSquad,
+  capDivisionOfTier,
   matchReward,
   missingSlots,
   setTuning,
@@ -170,7 +171,9 @@ export async function handle(request: Request, env: Env): Promise<Response> {
     // The one part of this request that is not taken on trust: the squad is
     // evaluated from cards this call just read from the save, not from
     // whatever rating the client might have sent along.
-    const rating = evaluateSquad(cards, body.squad, division)
+    // The level budget follows the 경쟁 리그 tier the save carries (lib/squad.ts).
+    const capDivision = capDivisionOfTier((save as { weeklyTier?: number | null }).weeklyTier)
+    const rating = evaluateSquad(cards, body.squad, capDivision)
     const gaps = missingSlots(rating.evaluations)
     if (gaps.empty.length > 0 || gaps.injured.length > 0 || gaps.duplicated.length > 0) {
       return refuse('lineup not ready', { empty: gaps.empty, injured: gaps.injured, duplicated: gaps.duplicated })

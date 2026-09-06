@@ -28,6 +28,31 @@ export function lineupCapOf(division: number): number {
   return LINEUP_LEVEL_CAPS[division] ?? LINEUP_LEVEL_CAPS[BOTTOM_DIVISION]
 }
 
+/**
+ * The level budget is set by the 경쟁 리그 tier, not the casual-mode division
+ * (2026-09-07). Tier 0 is the top and 3 the bottom (lib/weeklyLeague/config.ts
+ * TIERS); a manager not yet placed in a group plays under the bottom tier's
+ * budget. Each tier maps onto one of the cap rows above, so every function
+ * that takes a "division" for the cap keeps its signature — callers pass
+ * `lineupDivisionOf(state)` instead of the casual division.
+ */
+export const TIER_CAP_DIVISION: readonly number[] = [1, 2, 3, 4]
+
+export function capDivisionOfTier(tier: number | null | undefined): number {
+  const last = TIER_CAP_DIVISION.length - 1
+  const index = Number.isInteger(tier) ? Math.max(0, Math.min(last, tier as number)) : last
+  return TIER_CAP_DIVISION[index]
+}
+
+export function lineupCapOfTier(tier: number | null | undefined): number {
+  return lineupCapOf(capDivisionOfTier(tier))
+}
+
+/** The cap key for a save: its 경쟁 리그 tier, or the bottom tier before placement. */
+export function lineupDivisionOf(state: { weeklyTier?: number | null }): number {
+  return capDivisionOfTier(state.weeklyTier)
+}
+
 export type PositionFit = 'main' | 'sub' | 'out' | 'empty'
 
 /** Playing away from a listed position wrecks a player's rating. */
@@ -236,7 +261,7 @@ export interface AutoFillPreference {
   club?: string
 }
 
-export function autoFill(cards: Card[], squad: Squad, division: number = BOTTOM_DIVISION, prefer: AutoFillPreference = {}): Squad {
+export function autoFill(cards: Card[], squad: Squad, division: number = capDivisionOfTier(undefined), prefer: AutoFillPreference = {}): Squad {
   const formation = FORMATIONS[squad.formation] ?? FORMATIONS['4-3-3']
   const pool = usableCards(cards)
   const cap = lineupCapOf(division)

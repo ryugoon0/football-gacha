@@ -9,7 +9,7 @@ import { phasedFrom, type PhasedTactics } from '../lib/tactics/phases'
 import { EXAMPLE_PLANS } from '../lib/tactics/plans'
 import { profileFrom } from '../lib/tactics/profile'
 import type { MatchSetup } from '../lib/matchEngine'
-import { evaluateSquad } from '../lib/squad'
+import { evaluateSquad, lineupDivisionOf } from '../lib/squad'
 import { DEFAULT_TACTIC } from '../lib/tactics'
 import { useGame } from './GameProvider'
 
@@ -78,6 +78,7 @@ const record = (s: PlanSummary) => `${s.wins}-${s.draws}-${s.losses}`
 
 export default function TacticsCompare() {
   const { state } = useGame()
+  const capDivision = lineupDivisionOf(state)
   const [open, setOpen] = useState(false)
   const [left, setLeft] = useState('now-phased')
   const [right, setRight] = useState('now-sliders')
@@ -89,8 +90,8 @@ export default function TacticsCompare() {
   const nameOf = (key: string) => options.find((item) => item.key === key)?.label ?? key
 
   const rating = useMemo(
-    () => evaluateSquad(state.cards, state.squad, state.season.division),
-    [state.cards, state.squad, state.season.division],
+    () => evaluateSquad(state.cards, state.squad, capDivision),
+    [state.cards, state.squad, capDivision],
   )
 
   const run = () => {

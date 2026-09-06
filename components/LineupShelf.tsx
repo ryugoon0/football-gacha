@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { lineupDirty } from '../lib/gameReducer'
-import { evaluateSquad } from '../lib/squad'
+import { evaluateSquad, lineupDivisionOf } from '../lib/squad'
 import { tacticSummary, type TacticSetup } from '../lib/tactics'
 import type { PhasedTactics } from '../lib/tactics/phases'
 import type { Squad } from '../lib/types'
@@ -91,7 +91,7 @@ export default function LineupShelf({ slots, draft }: { slots: number; draft: Li
       </div>
       <div className="mt-2 space-y-1.5">
         {shelf.map((kept, index) => {
-          const overall = kept ? evaluateSquad(state.cards, kept.squad, state.season.division).overall : null
+          const overall = kept ? evaluateSquad(state.cards, kept.squad, lineupDivisionOf(state)).overall : null
           return (
             <div key={index} className="rounded-xl bg-white/5 px-3 py-2">
               {naming === index ? (

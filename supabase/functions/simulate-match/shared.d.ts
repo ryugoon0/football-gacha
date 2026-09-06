@@ -98,6 +98,7 @@ export function missingSlots(evaluations: SharedSlotEvaluation[]): {
 }
 
 export function lineupCapOf(division: number): number
+export function capDivisionOfTier(tier: number | null | undefined): number
 
 export function runToEnd(
   setup: SharedMatchSetup,

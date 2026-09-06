@@ -29,7 +29,7 @@ import {
 import { hashString, seededRandom } from '../../lib/random'
 import { SEASON_SCHEDULE, TOTAL_MATCHDAYS } from '../../lib/schedule'
 import { averageRating, seasonLeaders, type SeasonPlayerStat } from '../../lib/seasonStats'
-import { evaluateSquad, missingSlots } from '../../lib/squad'
+import { evaluateSquad, lineupDivisionOf, missingSlots } from '../../lib/squad'
 import type { MatchResult, Squad } from '../../lib/types'
 import { matchReward, matchSeed, simulateMatch } from '../../lib/match'
 import {
@@ -142,6 +142,8 @@ function MatchDay() {
   const { mode: tacticsMode } = useTacticsMode()
   const day = SEASON_SCHEDULE[state.matchday] ?? null
   const division = state.season.division
+  // Opponent strength and rewards follow the casual division; the level budget follows the 경쟁 리그 tier.
+  const capDivision = lineupDivisionOf(state)
 
   const [mode, setMode] = useState<'watch' | 'text'>('watch')
   const [liveSquad, setLiveSquad] = useState<Squad | null>(null)
@@ -177,8 +179,8 @@ function MatchDay() {
 
   const squadInPlay = liveSquad ?? state.squad
   const rating = useMemo(
-    () => evaluateSquad(state.cards, squadInPlay, division),
-    [state.cards, squadInPlay, division],
+    () => evaluateSquad(state.cards, squadInPlay, capDivision),
+    [state.cards, squadInPlay, capDivision],
   )
 
   // What the squad will look like once the queued substitutions go through —
@@ -188,8 +190,8 @@ function MatchDay() {
     [pendingSubs, squadInPlay],
   )
   const plannedRating = useMemo(
-    () => (pendingSubs.length ? evaluateSquad(state.cards, plannedSquad, division) : rating),
-    [pendingSubs.length, state.cards, plannedSquad, division, rating],
+    () => (pendingSubs.length ? evaluateSquad(state.cards, plannedSquad, capDivision) : rating),
+    [pendingSubs.length, state.cards, plannedSquad, capDivision, rating],
   )
   const shownTactic = pendingTactic ?? state.tactic
   const pendingCount = (pendingTactic ? 1 : 0) + pendingSubs.length
@@ -198,11 +200,11 @@ function MatchDay() {
   // lineup that would actually take the field.
   const readiness = useMemo(() => {
     const auto = state.autoSub
-      ? applyAutoSubs(state.cards, state.squad, division)
+      ? applyAutoSubs(state.cards, state.squad, capDivision)
       : { squad: state.squad, subs: [] }
-    const projected = evaluateSquad(state.cards, auto.squad, division)
+    const projected = evaluateSquad(state.cards, auto.squad, capDivision)
     return { ...missingSlots(projected.evaluations), overCap: projected.overCap }
-  }, [state.cards, state.squad, state.autoSub, division])
+  }, [state.cards, state.squad, state.autoSub, capDivision])
   const lineupReady =
     readiness.empty.length === 0 && readiness.injured.length === 0 && readiness.duplicated.length === 0
   const casualLeft = casualMatchesLeft(state.daily)
@@ -373,7 +375,7 @@ function MatchDay() {
       setNotice(`교체 인원을 모두 썼습니다 (${tune('subLimit')}명).`)
       return
     }
-    const auto = applyAutoSubs(state.cards, plannedSquad, division, conditionOf, tune('liveTired'), subsLeft)
+    const auto = applyAutoSubs(state.cards, plannedSquad, capDivision, conditionOf, tune('liveTired'), subsLeft)
     if (auto.subs.length === 0) {
       setNotice('지금 빼야 할 만큼 지친 선수가 없습니다.')
       return
@@ -381,7 +383,7 @@ function MatchDay() {
     setShowSubs(false)
 
     if (engine.canIntervene) {
-      const applied = applyAutoSubs(state.cards, squadInPlay, division, conditionOf, tune('liveTired'), subsLeft)
+      const applied = applyAutoSubs(state.cards, squadInPlay, capDivision, conditionOf, tune('liveTired'), subsLeft)
       setLiveSquad(applied.squad)
       setSubs((current) => [...current, ...applied.subs])
       setNotice(`지친 선수 ${applied.subs.length}명 교체 — ${applied.subs.map((sub) => `${sub.outName} → ${sub.inName}`).join(', ')}`)
@@ -406,7 +408,7 @@ function MatchDay() {
     if (engine.state.phase === 'kickoff') return
 
     if (subsLeft <= 0) return
-    const auto = applyAutoSubs(state.cards, plannedSquad, division, conditionOf, tune('liveTired'), subsLeft)
+    const auto = applyAutoSubs(state.cards, plannedSquad, capDivision, conditionOf, tune('liveTired'), subsLeft)
     if (auto.subs.length === 0) return
 
     setPendingSubs((current) => [
@@ -504,7 +506,7 @@ function MatchDay() {
     }
 
     const auto = state.autoSub
-      ? applyAutoSubs(state.cards, state.squad, division)
+      ? applyAutoSubs(state.cards, state.squad, capDivision)
       : { squad: state.squad, subs: [] }
     const venue = isCupDay ? 'neutral' : isHome ? 'home' : 'away'
 

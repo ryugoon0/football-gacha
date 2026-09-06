@@ -12,7 +12,7 @@ export { buildWeeklyMatchSetup, kickoffSquadOf, starterAverageOf, weeklyAiAnchor
 export { TIERS } from './weeklyLeague/config'
 export { rewardsForFixture } from './weeklyLeague/rewards'
 export { TACTIC_CARDS, isTacticCardId } from './weeklyLeague/tacticCards'
-export { evaluateSquad } from './squad'
+export { evaluateSquad, capDivisionOfTier } from './squad'
 export {
   LIVE_WINDOW_SECONDS,
   lineupViewOf,

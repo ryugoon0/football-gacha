@@ -47,7 +47,7 @@ import {
 import { dailyMarket, type Listing } from './market'
 import { getPlayer, levelCap } from './players'
 import { applyWear, type WearRow } from './weeklyWear'
-import { autoFill } from './squad'
+import { autoFill, lineupDivisionOf } from './squad'
 import { costOf, releaseValue, type ShardOffer } from './shards'
 import { TOTAL_MATCHDAYS } from './schedule'
 import type { TacticSetup } from './tactics'
@@ -144,6 +144,7 @@ export type Action =
   | { type: 'recover'; uid: string }
   | { type: 'careMany'; uids: string[]; treat: boolean; recover: boolean }
   | { type: 'dismissNotice' }
+  | { type: 'setWeeklyTier'; tier: number | null }
   | { type: 'buyItem'; id: ItemId; currency: Currency; count: number }
   | { type: 'spendItemOnCard'; id: ItemId; uid: string }
   | { type: 'spendItemOnClub'; id: ItemId; listings?: Listing[] }
@@ -540,7 +541,7 @@ export function reducer(state: GameState, action: Action): GameState {
       return { ...state, autoSub: action.enabled }
 
     case 'autoFill':
-      return { ...state, squad: autoFill(state.cards, state.squad, state.season.division, action.preferClub ? { club: action.preferClub } : {}) }
+      return { ...state, squad: autoFill(state.cards, state.squad, lineupDivisionOf(state), action.preferClub ? { club: action.preferClub } : {}) }
 
     case 'restoreLineup': {
       // Only cards still owned may stand; a kept lineup can name a card sold since.
@@ -973,6 +974,9 @@ export function reducer(state: GameState, action: Action): GameState {
 
     case 'dismissNotice':
       return state.notice ? { ...state, notice: undefined } : state
+
+    case 'setWeeklyTier':
+      return (state.weeklyTier ?? null) === action.tier ? state : { ...state, weeklyTier: action.tier }
 
     case 'expandVault': {
       if (!canExpand(state.capacity)) return state

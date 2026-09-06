@@ -14,7 +14,7 @@ import {
   type AssistantMode,
 } from '../lib/assistant'
 import { useAssistantHints } from '../lib/assistantHints'
-import { evaluateSquad, missingSlots } from '../lib/squad'
+import { evaluateSquad, lineupDivisionOf, missingSlots } from '../lib/squad'
 import { HOT_TIME_HOURS_KST, KST_OFFSET_MINUTES } from '../lib/weeklyLeague/config'
 import { useGame } from './GameProvider'
 
@@ -26,6 +26,7 @@ import { useGame } from './GameProvider'
  */
 export default function AssistantCard({ tab }: { tab: string }) {
   const { state } = useGame()
+  const capDivision = lineupDivisionOf(state)
   const [mode, setMode] = useState<AssistantMode>('open')
   const [quiet, setQuiet] = useState(false)
   const [hydrated, setHydrated] = useState(false)
@@ -42,10 +43,10 @@ export default function AssistantCard({ tab }: { tab: string }) {
   const id = assistantForTab(tab)
 
   const squadGaps = useMemo(() => {
-    const rating = evaluateSquad(state.cards, state.squad, state.season.division)
+    const rating = evaluateSquad(state.cards, state.squad, capDivision)
     const gaps = missingSlots(rating.evaluations)
     return { empty: gaps.empty.length, injured: gaps.injured.length }
-  }, [state.cards, state.squad, state.season.division])
+  }, [state.cards, state.squad, capDivision])
 
   // A once-a-minute tick so the kick-off countdown and the "just finished"
   // briefing move on without the user touching anything.

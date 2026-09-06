@@ -397,6 +397,15 @@ Edge Function `weekly-fixture-live`가 확정할 때 `wearOf(snapshot, replay)`�
 부상·정지만은 빠진다(지친 기준 −1). 출전정지는 handler의 `withBans`가 injuredFor≥1로
 표시하므로 같은 길을 탄다.
 
+## 스쿼드 레벨 상한 = 경쟁 리그 등급 (2026-09-07)
+
+선발 레벨 합 상한(`lineupCapOf`)의 키는 이제 캐주얼 디비전이 아니라 경쟁 리그 등급이다.
+`lib/squad.ts capDivisionOfTier(tier)`가 등급 0~3을 상한 행 1~4(110·89·77·66)에 대응시키고,
+클라이언트는 `GameState.weeklyTier`(접속 때 `WeeklyTierSync`, 경쟁 리그 탭 로드 때 동기화)로
+`lineupDivisionOf(state)`를 쓴다. 서버는 weekly-fixture-live가 그룹 tier로, simulate-match /
+simulate-pvp-match가 세이브의 `weeklyTier`로 같은 함수를 부른다. 미배정은 최하위 등급 기준.
+캐주얼 디비전은 상대 강도·보상에만 남는다.
+
 ## 테스트 결과
 
 ```

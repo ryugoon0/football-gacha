@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { summarize } from '../lib/cloudSave'
 import { publicLineupOf } from '../lib/publicClub'
-import { evaluateSquad } from '../lib/squad'
+import { evaluateSquad, lineupDivisionOf } from '../lib/squad'
 import { BUILD_REF, checkConnection, configStatus, getSupabase } from '../lib/supabase'
 import AssistantSettings from './AssistantSettings'
 import FacepackSettings from './FacepackSettings'
@@ -88,7 +88,7 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
 
     setPublishing(true)
     setPublicMessage(null)
-    const rating = evaluateSquad(state.cards, state.squad, state.season.division).overall
+    const rating = evaluateSquad(state.cards, state.squad, lineupDivisionOf(state)).overall
     const { data, error } = await client.rpc('set_public_club_squad', {
       p_visible: visible,
       p_club_name: state.club,
