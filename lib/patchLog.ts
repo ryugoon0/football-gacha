@@ -34,6 +34,16 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-06-terms-consent',
+    date: '2026-09-06',
+    kind: 'feature',
+    title: '이용약관·개인정보처리방침 — 가입 시 동의, 기존 계정은 첫 로그인 때 한 번',
+    detail: [
+      '이용약관(/terms)과 개인정보처리방침(/privacy)이 생겼습니다. 가입할 때 동의하고, 이미 가입한 분은 다음 로그인 때 한 번 동의 창이 뜹니다. 동의한 버전과 시각이 계정에 기록됩니다.',
+      '계정 창 아래에 약관·방침·확률 안내 링크가 있습니다.',
+    ],
+  },
+  {
     id: '2026-09-06-event-calendar',
     date: '2026-09-06',
     kind: 'feature',

@@ -267,6 +267,9 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
             </button>
             <BlockedUsers userId={account.user.id} />
             <DeleteAccount onDelete={account.deleteAccount} />
+            <p className="text-center text-[11px] text-slate-500">
+              <a href="/terms" target="_blank" rel="noreferrer" className="hover:text-slate-300">이용약관</a> · <a href="/privacy" target="_blank" rel="noreferrer" className="hover:text-slate-300">개인정보처리방침</a> · <a href="/odds" target="_blank" rel="noreferrer" className="hover:text-slate-300">확률 안내</a>
+            </p>
           </div>
         ) : (
           <form onSubmit={submit} className="space-y-3">
@@ -315,6 +318,26 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
               />
             </label>
 
+            {mode === 'signUp' && (
+              <div className="space-y-1.5 rounded-lg bg-white/5 p-2.5 text-[11px] text-slate-300">
+                <label className="flex items-start gap-2">
+                  <input type="checkbox" required className="mt-0.5" />
+                  <span>
+                    <a href="/terms" target="_blank" rel="noreferrer" className="font-bold text-emerald-300 underline-offset-2 hover:underline">이용약관</a>에 동의합니다 (필수)
+                  </span>
+                </label>
+                <label className="flex items-start gap-2">
+                  <input type="checkbox" required className="mt-0.5" />
+                  <span>
+                    <a href="/privacy" target="_blank" rel="noreferrer" className="font-bold text-emerald-300 underline-offset-2 hover:underline">개인정보처리방침</a>에 동의합니다 (필수)
+                  </span>
+                </label>
+                <label className="flex items-start gap-2">
+                  <input type="checkbox" required className="mt-0.5" />
+                  <span>만 14세 이상이거나 법정대리인의 동의를 받았습니다 (필수)</span>
+                </label>
+              </div>
+            )}
             <button
               type="submit"
               disabled={account.syncing}
