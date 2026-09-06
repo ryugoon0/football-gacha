@@ -72,6 +72,8 @@ export interface GameApi {
   refreshMarket: () => void
   treatInjury: (uid: string) => void
   restoreCondition: (uid: string) => void
+  /** 일괄 치료·회복 over the given cards, as far as gold reaches. */
+  careMany: (uids: string[], what: { treat: boolean; recover: boolean }) => void
   claimMission: (id: MissionId) => void
   grantGold: (amount: number) => void
   grantItems: (items: { id: ItemId; count: number }[]) => void
@@ -214,6 +216,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         }),
       treatInjury: (uid: string) => dispatch({ type: 'treat', uid }),
       restoreCondition: (uid: string) => dispatch({ type: 'recover', uid }),
+      careMany: (uids: string[], what: { treat: boolean; recover: boolean }) => dispatch({ type: 'careMany', uids, ...what }),
       claimMission: (id: MissionId) => dispatch({ type: 'claimMission', id }),
       grantGold: (amount: number) => dispatch({ type: 'grantGold', amount }),
       grantItems: (items: { id: ItemId; count: number }[]) => dispatch({ type: 'grantItems', items }),

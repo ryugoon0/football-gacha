@@ -142,6 +142,7 @@ export type Action =
   | { type: 'buy'; listing: Listing }
   | { type: 'treat'; uid: string }
   | { type: 'recover'; uid: string }
+  | { type: 'careMany'; uids: string[]; treat: boolean; recover: boolean }
   | { type: 'buyItem'; id: ItemId; currency: Currency; count: number }
   | { type: 'spendItemOnCard'; id: ItemId; uid: string }
   | { type: 'spendItemOnClub'; id: ItemId; listings?: Listing[] }
@@ -884,6 +885,34 @@ export function reducer(state: GameState, action: Action): GameState {
           item.uid === action.uid ? { ...item, condition: MAX_CONDITION } : item,
         ),
       }
+    }
+
+    case 'careMany': {
+      // 일괄 치료·회복: the same two rules as 'treat' and 'recover', card by
+      // card in the given order, stopping each kind where the gold runs out.
+      const wanted = new Set(action.uids)
+      let gold = state.gold
+      const cards = state.cards.map((card) => {
+        if (!wanted.has(card.uid)) return card
+        let next = card
+        if (action.treat && next.injuredFor > 0) {
+          const cost = treatmentCost(next)
+          if (gold >= cost) {
+            gold -= cost
+            next = { ...next, injuredFor: 0 }
+          }
+        }
+        if (action.recover && next.condition < MAX_CONDITION) {
+          const cost = recoveryCost(next)
+          if (gold >= cost) {
+            gold -= cost
+            next = { ...next, condition: MAX_CONDITION }
+          }
+        }
+        return next
+      })
+      if (gold === state.gold) return state
+      return { ...state, gold, cards }
     }
 
     case 'grantGold': {

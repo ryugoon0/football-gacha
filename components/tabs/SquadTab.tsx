@@ -16,6 +16,7 @@ import TacticsPanel from '../TacticsPanel'
 import PlayerCard from '../PlayerCard'
 import PlayerStatsModal from '../PlayerStatsModal'
 import TeamColorHelp from '../TeamColorHelp'
+import BulkCareButtons from '../BulkCareButtons'
 
 const FIT_RING: Record<string, string> = {
   main: 'ring-emerald-400',
@@ -36,6 +37,9 @@ export default function SquadTab() {
     clearBench,
     setFormation,
     autoFillSquad,
+    treatInjury,
+    restoreCondition,
+    toggleLock,
   } = useGame()
   const [target, setTarget] = useState<Target | null>(null)
   // Looking a player up is not the same as picking one. Selecting a slot still
@@ -187,6 +191,11 @@ export default function SquadTab() {
         </div>
       )}
       <section className="panel p-4">
+        <BulkCareButtons
+          uids={[...Object.values(state.squad.slots), ...state.squad.bench].filter((uid): uid is string => Boolean(uid))}
+          label="선발·벤치 18명"
+          className="mb-3"
+        />
         <div className="mb-2 flex flex-wrap items-center gap-2">
           {FORMATION_FAMILIES.map((family) => (
             <button
@@ -701,6 +710,12 @@ export default function SquadTab() {
           player={inspected.player}
           slot={targetPosition}
           onClose={() => setInspecting(null)}
+          care={{
+            gold: state.gold,
+            onTreat: () => treatInjury(inspected.card.uid),
+            onRecover: () => restoreCondition(inspected.card.uid),
+            onToggleLock: () => toggleLock(inspected.card.uid),
+          }}
         />
       )}
       {showColorHelp && <TeamColorHelp onClose={() => setShowColorHelp(false)} />}

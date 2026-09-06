@@ -12,6 +12,7 @@ import RealHintView from './RealHintView'
 import PlayerCard from './PlayerCard'
 import PositionMap from './PositionMap'
 import StatBreakdown from './StatBreakdown'
+import PlayerCareButtons from './PlayerCareButtons'
 
 /**
  * A player's full numbers, read only.
@@ -26,12 +27,15 @@ export default function PlayerStatsModal({
   player,
   slot,
   onClose,
+  care,
 }: {
   card: Card
   player: PlayerDef
   /** The position being filled, when opened from a slot rather than the bench. */
   slot?: Position
   onClose: () => void
+  /** Treat, recover and lock right here (2026-09-06) — the squad screen passes these; read-only views leave it out. */
+  care?: { gold: number; onTreat: () => void; onRecover: () => void; onToggleLock?: () => void }
 }) {
   const style = RARITY_STYLES[player.rarity]
   const traits = traitsOf(player)
@@ -96,6 +100,7 @@ export default function PlayerStatsModal({
               체력 {card.condition}
               {injured && ` · 부상 ${card.injuredFor}경기`}
             </p>
+            {card.locked && <p className="font-bold text-amber-200">🔒 잠긴 카드 — 방출·합성·재료로 쓰이지 않습니다</p>}
             {traits.length > 0 && (
               <div className="flex flex-wrap gap-1 pt-0.5">
                 {traits.map((id) => (
@@ -115,6 +120,19 @@ export default function PlayerStatsModal({
             )}
           </div>
         </div>
+        {care && (
+          <div className="mt-3 space-y-2">
+            <PlayerCareButtons card={card} gold={care.gold} onTreat={care.onTreat} onRecover={care.onRecover} />
+            {care.onToggleLock && (
+              <button
+                onClick={care.onToggleLock}
+                className="w-full rounded-lg bg-white/10 px-3 py-2 text-sm font-bold text-slate-100 transition hover:bg-white/15"
+              >
+                {card.locked ? '🔓 잠금 해제' : '🔒 카드 잠금'}
+              </button>
+            )}
+          </div>
+        )}
 
         <div className="mt-3 flex gap-1 border-b border-white/10">
           {(

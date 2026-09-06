@@ -125,3 +125,30 @@ export function applyMatchWear(
 
   return { cards: next, injuries }
 }
+
+export interface CareQuote {
+  /** Cards with an injury among `uids`, and the gold to treat them all. */
+  injured: number
+  treatCost: number
+  /** Cards under full condition among `uids`, and the gold to top them all up. */
+  tired: number
+  recoverCost: number
+}
+
+/** What treating every injury and topping up every card in `uids` would cost, for the bulk buttons. */
+export function careQuote(cards: Card[], uids: Iterable<string>): CareQuote {
+  const wanted = new Set(uids)
+  const quote: CareQuote = { injured: 0, treatCost: 0, tired: 0, recoverCost: 0 }
+  for (const card of cards) {
+    if (!wanted.has(card.uid)) continue
+    if (isInjured(card)) {
+      quote.injured += 1
+      quote.treatCost += treatmentCost(card)
+    }
+    if (card.condition < MAX_CONDITION) {
+      quote.tired += 1
+      quote.recoverCost += recoveryCost(card)
+    }
+  }
+  return quote
+}

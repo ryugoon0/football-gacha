@@ -19,6 +19,7 @@ import PlayerCard from '../PlayerCard'
 import PlayerDetail from '../PlayerDetail'
 import PlayerDetailModal from '../PlayerDetailModal'
 import AlbumTab from './AlbumTab'
+import BulkCareButtons from '../BulkCareButtons'
 
 type RarityFilter = Rarity | 'all'
 type GroupFilter = PositionGroup | 'all'
@@ -417,6 +418,7 @@ export default function ClubTab() {
           <p className="text-xs leading-relaxed text-slate-300">{MODE_HELP[mode].what}</p>
           <p className="mt-1 text-[11px] leading-relaxed text-slate-500">{MODE_HELP[mode].rule}</p>
         </div>
+        {mode === 'manage' && <BulkCareButtons uids={state.cards.map((card) => card.uid)} label="보유 카드 전부" className="mb-3" />}
 
         {(mode === 'train' || mode === 'break') && (
           <p className="mb-3 rounded-lg bg-emerald-400/10 p-2 text-xs font-semibold text-emerald-200">
