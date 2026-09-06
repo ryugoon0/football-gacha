@@ -1,5 +1,6 @@
 'use client'
 
+import { clearSave } from '../lib/storage'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   isSaveTooBig,
@@ -53,6 +54,8 @@ export interface AccountApi {
   recovering: boolean
   setNewPassword: (password: string) => Promise<void>
   signOut: () => Promise<void>
+  /** Deletes the account and everything stored under it on the server, then signs out. */
+  deleteAccount: () => Promise<{ ok: true } | { ok: false; reason: string }>
   resolveConflict: (choice: 'useLocal' | 'useCloud') => Promise<void>
   clearMessages: () => void
   /**
@@ -411,6 +414,20 @@ export function useAccountSync(
     setNotice('로그아웃했습니다. 진행 상황은 이 브라우저에 그대로 남아 있습니다.')
   }, [])
 
+  const deleteAccount = useCallback(async () => {
+    const supabase = getSupabase()
+    if (!supabase) return { ok: false as const, reason: 'offline' }
+    const { data, error } = await supabase.rpc('delete_my_account')
+    if (error) return { ok: false as const, reason: 'unavailable' }
+    const body = data as { ok?: boolean; reason?: string } | null
+    if (!body?.ok) return { ok: false as const, reason: body?.reason ?? 'unavailable' }
+    // The server side is gone; this browser's copy goes too, so nothing is left behind.
+    clearSave()
+    await supabase.auth.signOut()
+    setNotice('계정과 저장 데이터를 삭제했습니다.')
+    return { ok: true as const }
+  }, [])
+
   const resolveConflict = useCallback(
     async (choice: 'useLocal' | 'useCloud') => {
       if (!user) return
@@ -449,6 +466,7 @@ export function useAccountSync(
     setNewPassword,
     signIn,
     signOut,
+    deleteAccount,
     resolveConflict,
     clearMessages,
     saveNow,

@@ -38,3 +38,15 @@ describe('board rules', () => {
     expect(timeAgo('not a date', now)).toBe('')
   })
 })
+
+describe('욕설 필터', () => {
+  it('blocks obvious profanity even when spaced or dressed up, and leaves ordinary text alone', async () => {
+    const { containsProfanity, validatePost, validateComment, PROFANITY_MESSAGE } = await import('../lib/board')
+    expect(containsProfanity('진짜 시발 왜 이래')).toBe(true)
+    expect(containsProfanity('시 발')).toBe(true)
+    expect(containsProfanity('FUCK this')).toBe(true)
+    expect(containsProfanity('오늘 경기 정말 재밌었어요')).toBe(false)
+    expect(validateComment('병신같은 팀')).toBe(PROFANITY_MESSAGE)
+    expect(validatePost({ title: '좋은 경기', body: '수고했어요' })).toBeNull()
+  })
+})

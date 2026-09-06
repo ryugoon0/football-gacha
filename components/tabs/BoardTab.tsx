@@ -11,9 +11,15 @@ import {
   timeAgo,
   validateComment,
   validatePost,
+  REPORT_FAILURE_MESSAGE,
+  REPORT_REASONS,
+  blockUser,
+  fetchBlockedUsers,
+  reportContent,
   type Comment,
   type Post,
 } from '../../lib/board'
+import { useIsAdmin } from '../useAdmin'
 import { configStatus, friendlyError, getSupabase } from '../../lib/supabase'
 import { buildLabel } from '../../lib/build'
 import { useGame } from '../GameProvider'
@@ -65,6 +71,8 @@ export default function BoardTab() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [writing, setWriting] = useState(false)
+  /** People I blocked: their posts and comments stay out of my view. */
+  const [blocked, setBlocked] = useState<Set<string>>(new Set())
 
   const load = useCallback(async () => {
     const supabase = getSupabase()
@@ -73,6 +81,7 @@ export default function BoardTab() {
       return
     }
     setLoading(true)
+    void fetchBlockedUsers().then(setBlocked)
     const { data, error: queryError } = await supabase
       .from('posts')
       .select('id, user_id, nickname, title, body, created_at, notice, patch_ids')
@@ -86,6 +95,7 @@ export default function BoardTab() {
     }
     setError(null)
     setPosts(sortPosts((data ?? []).map((row) => toPost(row as PostRow))))
+    // (blocked authors are filtered at render time so a block applies without a reload)
   }, [])
 
   useEffect(() => {
@@ -115,7 +125,7 @@ export default function BoardTab() {
   }
 
   if (open) {
-    return <PostView post={open} onBack={() => setOpen(null)} onDeleted={() => {
+    return <PostView post={open} blocked={blocked} onBlocked={(id) => setBlocked((prev) => new Set([...prev, id]))} onBack={() => setOpen(null)} onDeleted={() => {
       setOpen(null)
       void load()
     }} />
@@ -168,7 +178,7 @@ export default function BoardTab() {
         </p>
       ) : (
         <ul className="divide-y divide-white/5">
-          {posts.map((post) => (
+          {posts.filter((post) => !blocked.has(post.userId)).map((post) => (
             <li key={post.id}>
               <button
                 onClick={() => setOpen(post)}
@@ -268,13 +278,42 @@ function PostForm({
 
 function PostView({
   post,
+  blocked,
+  onBlocked,
   onBack,
   onDeleted,
 }: {
   post: Post
+  blocked: Set<string>
+  onBlocked: (userId: string) => void
   onBack: () => void
   onDeleted: () => void
 }) {
+  const { isAdmin } = useIsAdmin()
+  const [reporting, setReporting] = useState<{ postId?: string; commentId?: string } | null>(null)
+  const [notice, setNotice] = useState<string | null>(null)
+
+  const report = async (reason: string) => {
+    if (!reporting) return
+    const result = await reportContent(reporting, reason)
+    setReporting(null)
+    setNotice(result.ok ? '신고를 접수했습니다. 운영자가 확인합니다.' : REPORT_FAILURE_MESSAGE[result.reason] ?? '신고를 보내지 못했습니다.')
+  }
+  const block = async (userId: string, nickname: string) => {
+    if (!account.user) return
+    if (!window.confirm(`${nickname}님을 차단할까요? 이 사람의 글과 댓글이 보이지 않게 됩니다. 계정 → 차단 목록에서 풀 수 있습니다.`)) return
+    if (await blockUser(account.user.id, userId)) {
+      onBlocked(userId)
+      setNotice(`${nickname}님을 차단했습니다.`)
+    }
+  }
+  const removeComment = async (id: string) => {
+    const supabase = getSupabase()
+    if (!supabase || !window.confirm('이 댓글을 지울까요?')) return
+    const { error: deleteError } = await supabase.from('comments').delete().eq('id', id)
+    if (deleteError) setError(friendlyError(deleteError.message))
+    else setComments((prev) => prev.filter((c) => c.id !== id))
+  }
   const { state, account } = useGame()
   const [comments, setComments] = useState<Comment[]>([])
   const [body, setBody] = useState('')
@@ -351,16 +390,44 @@ function PostView({
         >
           목록으로
         </button>
-        {mine && (
-          <button
-            onClick={remove}
-            disabled={busy}
-            className="whitespace-nowrap rounded-lg bg-rose-500/20 px-3 py-1.5 text-xs font-bold text-rose-200 hover:bg-rose-500/30 disabled:opacity-50"
-          >
-            삭제
-          </button>
-        )}
+        <div className="flex gap-1.5">
+          {!mine && account.status === 'signedIn' && !post.notice && (
+            <>
+              <button onClick={() => setReporting({ postId: post.id })} className="whitespace-nowrap rounded-lg bg-white/5 px-3 py-1.5 text-xs font-bold text-slate-300 hover:bg-white/10">
+                신고
+              </button>
+              <button onClick={() => void block(post.userId, post.nickname)} className="whitespace-nowrap rounded-lg bg-white/5 px-3 py-1.5 text-xs font-bold text-slate-300 hover:bg-white/10">
+                차단
+              </button>
+            </>
+          )}
+          {(mine || isAdmin) && (
+            <button
+              onClick={remove}
+              disabled={busy}
+              className="whitespace-nowrap rounded-lg bg-rose-500/20 px-3 py-1.5 text-xs font-bold text-rose-200 hover:bg-rose-500/30 disabled:opacity-50"
+            >
+              {mine ? '삭제' : '운영자 삭제'}
+            </button>
+          )}
+        </div>
       </div>
+      {reporting && (
+        <div className="mb-3 rounded-xl border border-amber-400/30 bg-amber-400/10 p-3">
+          <div className="text-[11px] font-bold text-amber-200">신고 사유를 골라 주세요</div>
+          <div className="mt-1.5 flex flex-wrap gap-1.5">
+            {REPORT_REASONS.map((reason) => (
+              <button key={reason} onClick={() => void report(reason)} className="rounded-lg bg-white/10 px-2.5 py-1 text-[11px] font-bold text-slate-100 hover:bg-white/20">
+                {reason}
+              </button>
+            ))}
+            <button onClick={() => setReporting(null)} className="rounded-lg px-2.5 py-1 text-[11px] font-bold text-slate-400 hover:text-white">
+              취소
+            </button>
+          </div>
+        </div>
+      )}
+      {notice && <p className="mb-3 text-[11px] font-semibold text-emerald-300">{notice}</p>}
 
       {post.notice && (
         <span className="mb-1 inline-block whitespace-nowrap rounded btn-primary px-1.5 py-0.5 text-[10px] font-black">
@@ -377,10 +444,25 @@ function PostView({
         댓글 {comments.length}
       </h3>
       <ul className="mt-2 space-y-2">
-        {comments.map((comment) => (
+        {comments.filter((comment) => !blocked.has(comment.userId)).map((comment) => (
           <li key={comment.id} className="rounded-lg bg-white/5 px-3 py-2">
-            <div className="text-[11px] font-bold text-slate-400">
-              {comment.nickname} · {timeAgo(comment.createdAt)}
+            <div className="flex items-center justify-between gap-2 text-[11px] font-bold text-slate-400">
+              <span>
+                {comment.nickname} · {timeAgo(comment.createdAt)}
+              </span>
+              {account.status === 'signedIn' && (
+                <span className="flex gap-1 text-[10px] font-bold">
+                  {comment.userId !== account.user?.id && (
+                    <>
+                      <button onClick={() => setReporting({ commentId: comment.id })} className="rounded px-1.5 py-0.5 text-slate-500 hover:bg-white/10 hover:text-slate-200">신고</button>
+                      <button onClick={() => void block(comment.userId, comment.nickname)} className="rounded px-1.5 py-0.5 text-slate-500 hover:bg-white/10 hover:text-slate-200">차단</button>
+                    </>
+                  )}
+                  {(comment.userId === account.user?.id || isAdmin) && (
+                    <button onClick={() => void removeComment(comment.id)} className="rounded px-1.5 py-0.5 text-rose-300/80 hover:bg-rose-500/20 hover:text-rose-200">삭제</button>
+                  )}
+                </span>
+              )}
             </div>
             <p className="mt-0.5 whitespace-pre-wrap text-sm text-slate-200">{comment.body}</p>
           </li>

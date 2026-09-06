@@ -10,6 +10,7 @@ import AssistantSettings from './AssistantSettings'
 import FacepackSettings from './FacepackSettings'
 import RenamePackSettings from './RenamePackSettings'
 import { useGame } from './GameProvider'
+import { fetchBlockedUsers, unblockUser } from '../lib/board'
 
 /**
  * Sign up, sign in, and the one question worth asking: which save wins when a
@@ -264,6 +265,8 @@ export default function AccountPanel({ onClose }: { onClose: () => void }) {
             >
               로그아웃
             </button>
+            <BlockedUsers userId={account.user.id} />
+            <DeleteAccount onDelete={account.deleteAccount} />
           </div>
         ) : (
           <form onSubmit={submit} className="space-y-3">
@@ -391,5 +394,81 @@ function SaveChoice({
         {summary.gold.toLocaleString()}G · {summary.record}
       </div>
     </button>
+  )
+}
+
+/** 탈퇴 — the account and every server record under it, confirmed by typing the word. */
+function DeleteAccount({ onDelete }: { onDelete: () => Promise<{ ok: true } | { ok: false; reason: string }> }) {
+  const [open, setOpen] = useState(false)
+  const [typed, setTyped] = useState('')
+  const [busy, setBusy] = useState(false)
+  const [message, setMessage] = useState<string | null>(null)
+  const armed = typed.trim() === '삭제'
+  const run = async () => {
+    if (!armed) return
+    setBusy(true)
+    const result = await onDelete()
+    setBusy(false)
+    if (!result.ok) {
+      setMessage(
+        result.reason === 'operator'
+          ? '운영자 계정은 여기서 삭제할 수 없습니다. 운영자 명단에서 먼저 빼야 합니다.'
+          : '삭제하지 못했습니다. 잠시 후 다시 시도해 주세요.',
+      )
+      return
+    }
+    window.location.reload()
+  }
+  return (
+    <div className="rounded-xl border border-rose-500/20 bg-rose-500/5 p-3">
+      {!open ? (
+        <button type="button" onClick={() => setOpen(true)} className="text-[11px] font-bold text-rose-300/80 hover:text-rose-200">
+          계정 삭제(탈퇴)
+        </button>
+      ) : (
+        <div className="space-y-2">
+          <p className="text-[11px] leading-relaxed text-rose-100">
+            계정과 서버에 저장된 모든 것(진행 상황, 카드, 골드, 티켓, 게시글, 경쟁 리그 기록)이 지워지고 되돌릴 수 없습니다. 이 브라우저의
+            저장본도 함께 지웁니다. 진행하려면 아래에 <b>삭제</b>라고 입력하세요.
+          </p>
+          <div className="flex gap-2">
+            <input value={typed} onChange={(event) => setTyped(event.target.value)} placeholder="삭제" className="min-w-0 flex-1 rounded-lg bg-white/5 px-3 py-2 text-sm text-white outline-none" />
+            <button type="button" onClick={() => void run()} disabled={!armed || busy} className="rounded-lg bg-rose-500/80 px-3 py-2 text-xs font-black text-white disabled:opacity-40">
+              {busy ? '삭제 중…' : '영구 삭제'}
+            </button>
+            <button type="button" onClick={() => { setOpen(false); setTyped(''); setMessage(null) }} className="rounded-lg btn-ghost px-3 py-2 text-xs font-bold">
+              취소
+            </button>
+          </div>
+          {message && <p className="text-[11px] font-semibold text-amber-300">{message}</p>}
+        </div>
+      )}
+    </div>
+  )
+}
+
+/** 차단 목록 — who this account has blocked on the board, with a way back. */
+function BlockedUsers({ userId }: { userId: string }) {
+  const [ids, setIds] = useState<string[] | null>(null)
+  const load = async () => setIds([...(await fetchBlockedUsers())])
+  useEffect(() => {
+    void load()
+  }, [])
+  if (!ids || ids.length === 0) return null
+  return (
+    <section className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
+      <h3 className="text-sm font-black text-white">차단한 사람 {ids.length}명</h3>
+      <p className="mt-1 text-[11px] text-slate-400">차단한 사람의 글과 댓글은 게시판에서 보이지 않습니다. 해제하면 다시 보입니다.</p>
+      <ul className="mt-2 space-y-1">
+        {ids.map((id) => (
+          <li key={id} className="flex items-center justify-between gap-2 rounded-lg bg-white/5 px-2.5 py-1.5 text-[11px]">
+            <span className="truncate font-mono text-slate-400">{id.slice(0, 8)}…</span>
+            <button type="button" onClick={() => void unblockUser(userId, id).then(load)} className="rounded btn-ghost px-2 py-1 text-[11px] font-bold">
+              차단 해제
+            </button>
+          </li>
+        ))}
+      </ul>
+    </section>
   )
 }
