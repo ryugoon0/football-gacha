@@ -132,6 +132,7 @@ export default function ClubTab() {
   const [leagueFilter, setLeagueFilter] = useState<string>('all')
   const [clubFilter, setClubFilter] = useState<string>('all')
   const [sortKey, setSortKey] = useState<SortKey>('ovr')
+  const [sortDir, setSortDir] = useState<'desc' | 'asc'>('desc')
   const [selectedUid, setSelectedUid] = useState<string | null>(null)
   const [materialUids, setMaterialUids] = useState<string[]>([])
   const [breakUid, setBreakUid] = useState<string | null>(null)
@@ -175,22 +176,23 @@ export default function ClubTab() {
       .filter((row) => leagueFilter === 'all' || row.player.league === leagueFilter)
       .filter((row) => clubFilter === 'all' || row.player.club === clubFilter)
       .sort((a, b) => {
+        const flip = sortDir === 'asc' ? -1 : 1
         if (sortKey === 'rarity') {
           const diff = rarityOrder(b.player.rarity) - rarityOrder(a.player.rarity)
-          if (diff !== 0) return diff
+          if (diff !== 0) return diff * flip
         }
-        if (sortKey === 'level' && a.card.level !== b.card.level) return b.card.level - a.card.level
+        if (sortKey === 'level' && a.card.level !== b.card.level) return (b.card.level - a.card.level) * flip
         // Same team or same league next to each other, so team colour
         // requirements ("같은 클럽 3명" etc.) are easy to check at a glance.
         if (sortKey === 'club' && a.player.club !== b.player.club) {
-          return a.player.club.localeCompare(b.player.club, 'ko')
+          return a.player.club.localeCompare(b.player.club, 'ko') * flip
         }
         if (sortKey === 'league' && a.player.league !== b.player.league) {
-          return a.player.league.localeCompare(b.player.league, 'ko')
+          return a.player.league.localeCompare(b.player.league, 'ko') * flip
         }
-        return b.ovr - a.ovr
+        return (b.ovr - a.ovr) * flip
       })
-  }, [state.cards, rarityFilter, groupFilter, leagueFilter, clubFilter, sortKey])
+  }, [state.cards, rarityFilter, groupFilter, leagueFilter, clubFilter, sortKey, sortDir])
 
   const selected = rows.find((row) => row.card.uid === selectedUid) ?? null
   const detailCard = detailUid
@@ -426,6 +428,15 @@ export default function ClubTab() {
             <option value="club">같은 클럽끼리</option>
             <option value="league">같은 리그끼리</option>
           </select>
+          <button
+            type="button"
+            onClick={() => setSortDir(sortDir === 'desc' ? 'asc' : 'desc')}
+            title={sortDir === 'desc' ? '내림차순 — 누르면 오름차순' : '오름차순 — 누르면 내림차순'}
+            aria-label="정렬 방향"
+            className="rounded-lg bg-white/5 px-3 py-1.5 text-sm font-bold text-slate-200 hover:bg-white/10"
+          >
+            {sortDir === 'desc' ? '↓ 내림' : '↑ 오름'}
+          </button>
         </div>
 
         {rows.length === 0 ? (

@@ -230,13 +230,19 @@ function usableCards(cards: Card[]): Card[] {
  * Rebuilds the whole line-up, giving every slot the best card available for it
  * while staying inside the division's level budget.
  */
-export function autoFill(cards: Card[], squad: Squad, division: number = BOTTOM_DIVISION): Squad {
+/** A club to build the eleven around — for a team colour, or just because the manager supports them. */
+export interface AutoFillPreference {
+  club?: string
+}
+
+export function autoFill(cards: Card[], squad: Squad, division: number = BOTTOM_DIVISION, prefer: AutoFillPreference = {}): Squad {
   const formation = FORMATIONS[squad.formation] ?? FORMATIONS['4-3-3']
   const pool = usableCards(cards)
   const cap = lineupCapOf(division)
+  const preferred = (player: PlayerDef) => Boolean(prefer.club) && player.club === prefer.club
 
   // Out of position is a penalty, not a ban: a full eleven beats an empty slot.
-  const pairs: { slotId: string; uid: string; level: number; score: number; out: boolean }[] = []
+  const pairs: { slotId: string; uid: string; level: number; score: number; out: boolean; preferred: boolean }[] = []
   for (const slot of formation.slots) {
     for (const card of pool) {
       const player = getPlayer(card.playerId)!
@@ -246,11 +252,14 @@ export function autoFill(cards: Card[], squad: Squad, division: number = BOTTOM_
         level: card.level,
         score: ratingInSlot(player, card.level, slot.position) * conditionFactor(card.condition),
         out: positionFit(player, slot.position) === 'out',
+        preferred: preferred(player),
       })
     }
   }
-  // Every proper fit is placed before anyone is asked to play out of position.
-  pairs.sort((a, b) => Number(a.out) - Number(b.out) || b.score - a.score)
+  // Every proper fit is placed before anyone is asked to play out of position;
+  // among proper fits the preferred club goes first, so a weaker club player
+  // still starts over a stronger stranger, but never in the wrong position.
+  pairs.sort((a, b) => Number(a.out) - Number(b.out) || Number(b.preferred) - Number(a.preferred) || b.score - a.score)
 
   const uidToPlayerId = new Map(pool.map((card) => [card.uid, card.playerId]))
 
@@ -312,7 +321,7 @@ export function autoFill(cards: Card[], squad: Squad, division: number = BOTTOM_
     for (const player of starterPlayers) counts.set(pick(player), (counts.get(pick(player)) ?? 0) + 1)
     return [...counts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? ''
   }
-  const mainClub = dominant((player) => player.club)
+  const mainClub = prefer.club ?? dominant((player) => player.club)
   const mainLeague = dominant((player) => player.league)
   const benchRank = (card: Card) => {
     const player = getPlayer(card.playerId)!

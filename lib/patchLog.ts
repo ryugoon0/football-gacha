@@ -34,6 +34,16 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-06-squad-club-filters',
+    date: '2026-09-06',
+    kind: 'feature',
+    title: '선수관리 정렬 방향 · 스쿼드 클럽 필터와 클럽 기준 자동 배치 (건의 반영)',
+    detail: [
+      '선수관리 탭 정렬 옆에 내림/오름 버튼이 생겨 전력·등급·레벨을 낮은 순으로도 볼 수 있습니다.',
+      '스쿼드 탭 후보 목록을 클럽으로 걸러 볼 수 있습니다. 자동 배치도 클럽을 고르면 그 클럽 선수를 먼저 채우고(포지션이 맞는 경우) 남는 자리를 전체에서 채워, 팀 컬러를 맞추기 쉬워졌습니다.',
+    ],
+  },
+  {
     id: '2026-09-06-album',
     date: '2026-09-06',
     kind: 'feature',

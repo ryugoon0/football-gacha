@@ -110,7 +110,7 @@ export type Action =
   | { type: 'setTactic'; tactic: TacticSetup }
   | { type: 'setPlan'; plan: PhasedTactics }
   | { type: 'setAutoSub'; enabled: boolean }
-  | { type: 'autoFill' }
+  | { type: 'autoFill'; preferClub?: string }
   /**
    * The whole working lineup at once — undoing unsaved edits, or loading a kept
    * lineup. `commit` also makes it the confirmed lineup (lineupBase).
@@ -486,7 +486,7 @@ export function reducer(state: GameState, action: Action): GameState {
       return { ...state, autoSub: action.enabled }
 
     case 'autoFill':
-      return { ...state, squad: autoFill(state.cards, state.squad, state.season.division) }
+      return { ...state, squad: autoFill(state.cards, state.squad, state.season.division, action.preferClub ? { club: action.preferClub } : {}) }
 
     case 'restoreLineup': {
       // Only cards still owned may stand; a kept lineup can name a card sold since.

@@ -44,7 +44,8 @@ export interface GameApi {
   setAutoSub: (enabled: boolean) => void
   assignBench: (index: number, uid: string) => void
   clearBench: (index: number) => void
-  autoFillSquad: () => void
+  /** Rebuilds the line-up; with a club, that club's players are placed first. */
+  autoFillSquad: (preferClub?: string) => void
   /** Replace the working lineup wholesale — undo, or load a kept lineup (`commit` confirms it too). */
   restoreLineup: (squad: Squad, tactic: TacticSetup, plan?: PhasedTactics, commit?: boolean) => void
   /** 저장: the working lineup becomes the confirmed one. */
@@ -167,7 +168,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         dispatch({ type: 'spendItemOnClub', id, listings }),
       assignBench: (index: number, uid: string) => dispatch({ type: 'assignBench', index, uid }),
       clearBench: (index: number) => dispatch({ type: 'clearBench', index }),
-      autoFillSquad: () => dispatch({ type: 'autoFill' }),
+      autoFillSquad: (preferClub?: string) => dispatch({ type: 'autoFill', preferClub }),
       restoreLineup: (squad: Squad, tactic: TacticSetup, plan?: PhasedTactics, commit?: boolean) =>
         dispatch({ type: 'restoreLineup', squad, tactic, plan, commit }),
       commitLineup: () => dispatch({ type: 'commitLineup' }),

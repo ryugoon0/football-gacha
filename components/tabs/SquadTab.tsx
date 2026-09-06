@@ -44,6 +44,18 @@ export default function SquadTab() {
   // Tapping an occupied slot asks first: swap the player, or look at them.
   const [choice, setChoice] = useState<{ target: Target; uid: string } | null>(null)
   const [showColorHelp, setShowColorHelp] = useState(false)
+  // Team filters: the club to build 자동 배치 around, and the club the candidate
+  // list is narrowed to. Both default to everyone.
+  const [autoClub, setAutoClub] = useState<string>('')
+  const [candidateClub, setCandidateClub] = useState<string>('')
+  const ownedClubs = useMemo(() => {
+    const counts = new Map<string, number>()
+    for (const card of state.cards) {
+      const player = getPlayer(card.playerId)
+      if (player) counts.set(player.club, (counts.get(player.club) ?? 0) + 1)
+    }
+    return [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'ko'))
+  }, [state.cards])
   // Edits here are a draft until 저장: leaving the tab without saving puts the
   // lineup back the way it was, so trying things out costs nothing.
   const draft = useLineupDraft()
@@ -88,6 +100,7 @@ export default function SquadTab() {
       .flatMap((card: Card) => {
         const player = getPlayer(card.playerId)
         if (!player) return []
+        if (candidateClub && player.club !== candidateClub) return []
         const position = targetPosition
         const score = position
           ? Math.round(ratingInSlot(player, card.level, position) * conditionFactor(card.condition))
@@ -111,7 +124,7 @@ export default function SquadTab() {
           Number(a.fit === 'out') - Number(b.fit === 'out') ||
           b.score - a.score,
       )
-  }, [target, targetPosition, state.cards, state.squad])
+  }, [target, targetPosition, state.cards, state.squad, candidateClub])
 
   const inspected = useMemo(() => {
     if (!inspecting) return null
@@ -188,12 +201,28 @@ export default function SquadTab() {
               {key}
             </button>
           ))}
-          <button
-            onClick={autoFillSquad}
-            className="ml-auto rounded-lg btn-ghost px-3 py-1.5 text-sm font-bold text-white"
-          >
-            자동 배치
-          </button>
+          <div className="ml-auto flex items-center gap-1.5">
+            <select
+              value={autoClub}
+              onChange={(event) => setAutoClub(event.target.value)}
+              aria-label="자동 배치 기준 클럽"
+              title="고른 클럽 선수를 먼저 채우고(포지션이 맞는 경우), 남는 자리는 전체에서 채웁니다"
+              className="max-w-[150px] rounded-lg bg-white/5 px-2 py-1.5 text-xs font-semibold text-slate-200 outline-none [color-scheme:dark]"
+            >
+              <option value="">전체 선수로</option>
+              {ownedClubs.map(([club, count]) => (
+                <option key={club} value={club}>
+                  {club} ({count})
+                </option>
+              ))}
+            </select>
+            <button
+              onClick={() => autoFillSquad(autoClub || undefined)}
+              className="rounded-lg btn-ghost px-3 py-1.5 text-sm font-bold text-white"
+            >
+              자동 배치
+            </button>
+          </div>
         </div>
         <p className="mb-3 text-xs text-slate-400">{formation.description}</p>
 
@@ -502,7 +531,29 @@ export default function SquadTab() {
               버튼을 누르면 세부 능력치를 볼 수 있습니다.
             </p>
           ) : (
-            <div className="scrollbar-thin mt-3 max-h-[70vh] space-y-1.5 overflow-y-auto pr-1">
+            <>
+            <div className="mt-3 flex items-center gap-2">
+              <select
+                value={candidateClub}
+                onChange={(event) => setCandidateClub(event.target.value)}
+                aria-label="후보 클럽 필터"
+                className="min-w-0 flex-1 rounded-lg bg-white/5 px-2 py-1.5 text-xs font-semibold text-slate-200 outline-none [color-scheme:dark]"
+              >
+                <option value="">모든 클럽</option>
+                {ownedClubs.map(([club, count]) => (
+                  <option key={club} value={club}>
+                    {club} ({count})
+                  </option>
+                ))}
+              </select>
+              {candidateClub && (
+                <button type="button" onClick={() => setCandidateClub('')} className="rounded-lg btn-ghost px-2 py-1.5 text-xs font-bold">
+                  해제
+                </button>
+              )}
+            </div>
+            {candidates.length === 0 && <p className="mt-3 text-xs text-slate-500">이 클럽에는 배치할 선수가 없습니다.</p>}
+            <div className="scrollbar-thin mt-2 max-h-[70vh] space-y-1.5 overflow-y-auto pr-1">
               {candidates.map(({ card, player, score, fit, inSquad, onBench }) => (
                 <div
                   key={card.uid}
@@ -575,6 +626,7 @@ export default function SquadTab() {
                 </div>
               ))}
             </div>
+            </>
           )}
         </section>
       </div>

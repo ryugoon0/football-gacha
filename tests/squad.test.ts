@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { FORMATIONS } from '../lib/formations'
-import { PLAYERS, PLAYERS_BY_RARITY } from '../lib/players'
+import { PLAYERS, PLAYERS_BY_RARITY, getPlayer } from '../lib/players'
 import { autoFill, evaluateSquad, positionFit, ratingInSlot } from '../lib/squad'
 import { initialState } from '../lib/storage'
 import type { Card } from '../lib/types'
@@ -87,6 +87,33 @@ describe('fitness', () => {
 })
 
 describe('auto fill', () => {
+  it('starts the preferred club first when asked, but never out of position', () => {
+    const state = initialState()
+    const clubs = new Map<string, number>()
+    for (const card of state.cards) {
+      const club = getPlayer(card.playerId)!.club
+      clubs.set(club, (clubs.get(club) ?? 0) + 1)
+    }
+    const club = [...clubs.entries()].sort((a, b) => b[1] - a[1])[0][0]
+    const plain = autoFill(state.cards, state.squad)
+    const preferred = autoFill(state.cards, state.squad, undefined, { club })
+    const clubCount = (squad: typeof plain) =>
+      [...Object.values(squad.slots), ...squad.bench].filter((uid): uid is string => Boolean(uid))
+        .filter((uid) => getPlayer(state.cards.find((c) => c.uid === uid)!.playerId)!.club === club).length
+    expect(clubCount(preferred)).toBeGreaterThanOrEqual(clubCount(plain))
+    // A proper fit from elsewhere still beats an out-of-position club player.
+    const formation = FORMATIONS[preferred.formation]
+    for (const slot of formation.slots) {
+      const uid = preferred.slots[slot.id]
+      if (!uid) continue
+      const player = getPlayer(state.cards.find((c) => c.uid === uid)!.playerId)!
+      if (positionFit(player, slot.position) === 'out') {
+        const fits = state.cards.some((c) => positionFit(getPlayer(c.playerId)!, slot.position) !== 'out' && !Object.values(preferred.slots).includes(c.uid))
+        expect(fits).toBe(false)
+      }
+    }
+  })
+
   it('fills the bench with the starters’ club before anyone stronger from elsewhere', () => {
     const state = initialState()
     const starters = autoFill(state.cards, state.squad)
