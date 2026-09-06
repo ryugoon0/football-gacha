@@ -108,7 +108,7 @@ export default function PredictionPanel() {
           <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400">빅매치 예측 라운드 만들기</h3>
           <p className="mt-0.5 text-[11px] leading-relaxed text-slate-500">
             유저는 마감 전까지 경기마다 홈 승·무·원정 승을 고르고, <b>전부 맞힌 사람만</b> 보상 골드를 선물함으로 받습니다.
-            클럽 이름은 게임 안 가명(맨체스 레즈, 카탈루냐 블라우 등)으로 적어 주세요 — 실명은 쓰지 않습니다.
+            실제 경기를 맞히는 퀴즈라 리그·클럽 이름은 실제 이름(프리미어리그, 리버풀 등)으로 적어도 됩니다. 로고·엠블럼은 쓰지 않습니다.
           </p>
         </div>
 
