@@ -34,6 +34,15 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-07-save-history',
+    date: '2026-09-07',
+    kind: 'internal',
+    title: '저장본 이력 — 서버가 세이브 이전 판을 보관, 운영자 탭 「저장본」에서 복원',
+    detail: [
+      '세이브가 갱신될 때 이전 판을 서버가 남깁니다(10분에 한 번, 자동 30개 · 하루 첫 판 14일 · 복원 직전 20개). 운영자 탭 「저장본」에서 유저를 찾아 시각·골드·카드 수를 보고 한 판으로 되돌릴 수 있습니다. 복원 뒤 유저는 새로고침하면 충돌 창에서 서버 판을 고릅니다.',
+    ],
+  },
+  {
     id: '2026-09-07-world-pack-shards',
     date: '2026-09-07',
     kind: 'balance',

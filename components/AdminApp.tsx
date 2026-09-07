@@ -20,6 +20,7 @@ import GiftPanel from './tabs/GiftPanel'
 import PredictionPanel from './tabs/PredictionPanel'
 import AlbumPanel from './tabs/AlbumPanel'
 import ReportsPanel from './tabs/ReportsPanel'
+import SaveHistoryPanel from './tabs/SaveHistoryPanel'
 
 const TABS = [
   { key: 'monitor', label: '모니터링' },
@@ -29,6 +30,7 @@ const TABS = [
   { key: 'predict', label: '예측' },
   { key: 'album', label: '앨범' },
   { key: 'reports', label: '신고' },
+  { key: 'saves', label: '저장본' },
   { key: 'shop', label: '상점' },
   { key: 'league', label: '주간리그' },
   { key: 'launch', label: '내일 오픈' },
@@ -200,6 +202,7 @@ function Shell() {
         {tab === 'predict' && <PredictionPanel />}
         {tab === 'album' && <AlbumPanel />}
         {tab === 'reports' && <ReportsPanel />}
+        {tab === 'saves' && <SaveHistoryPanel />}
         {tab === 'shop' && <ShopPanel />}
         {tab === 'league' && <WeeklyLeagueTab />}
         {tab === 'launch' && <LaunchReadinessTab />}

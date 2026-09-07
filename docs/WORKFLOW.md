@@ -77,3 +77,12 @@ Codex 플러그인은 그 PC의 Codex CLI 로그인 상태를 쓰고, 이미지 
   `SMTP_PASS=<메일 전용 비밀번호> npx supabase config push` 로 반영한다. **주의**: config push 는
   config.toml 에 없는 항목을 CLI 기본값으로 되돌리므로(이메일 확인 끄기, OTP 6자리 등), 운영 값을
   전부 명시해 둔 지금 상태를 유지하고, 새 항목을 만질 때는 `--yes` 없이 먼저 diff 를 본다.
+
+## 저장본 이력·복원 (2026-09-07)
+
+`saves` 갱신마다 트리거가 이전 판을 `save_history`에 남긴다(10분 간격, auto 30 · daily 14 · pre-restore/manual 20).
+운영자 탭 「저장본」(`components/tabs/SaveHistoryPanel.tsx`)에서 유저를 찾아 `admin_save_history`로 목록을 보고
+`admin_restore_save`로 되돌린다. 복원은 직전 판을 'pre-restore'로 남기고 `saves.revision`을 올리므로, 유저가
+다음 저장을 시도하면 revision 불일치 → 서버 판 재조회 → 진행도가 다르면 「충돌」 창. 복원 뒤에는 유저에게
+새로고침을 안내하고 충돌 창에서 서버 판을 고르게 한다. 되돌릴 수 없는 작업(일괄 합성 등) 전에 「지금 판 남기기」로
+수동 스냅샷을 남길 수도 있다.
