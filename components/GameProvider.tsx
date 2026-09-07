@@ -129,6 +129,27 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setReady(true)
   }, [])
 
+  // A screen left open past midnight used to keep yesterday's counters ("내일
+  // 다시") until something was tapped. Roll the day over every minute and
+  // whenever the tab comes back to the foreground; the reducer returns the
+  // same state when nothing changed, so this costs nothing on a normal day.
+  useEffect(() => {
+    if (!ready) return
+    const tick = () => {
+      dispatch({ type: 'refreshDaily' })
+      dispatch({ type: 'ensureMarket', date: todayKey() })
+    }
+    const timer = setInterval(tick, 60_000)
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') tick()
+    }
+    document.addEventListener('visibilitychange', onVisible)
+    return () => {
+      clearInterval(timer)
+      document.removeEventListener('visibilitychange', onVisible)
+    }
+  }, [ready])
+
   useEffect(() => {
     if (ready) saveState(state)
   }, [state, ready])

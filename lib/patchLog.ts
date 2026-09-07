@@ -34,6 +34,15 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-07-midnight-rollover',
+    date: '2026-09-07',
+    kind: 'fix',
+    title: '자정을 넘겨도 화면이 열려 있으면 「내일 다시」가 남던 문제',
+    detail: [
+      '하루 기준은 기기 시각 00:00입니다. 그런데 화면을 켜 둔 채 자정을 넘기면 접속 때만 날짜를 갱신해서 캐주얼 모드·친선·무료 스카우트 등이 아침에도 「내일 다시」로 보였습니다. 이제 1분마다, 그리고 화면을 다시 앞으로 가져올 때 날짜를 맞춥니다. 새로고침해도 즉시 풀립니다.',
+    ],
+  },
+  {
     id: '2026-09-07-limited-w37',
     date: '2026-09-07',
     kind: 'feature',
