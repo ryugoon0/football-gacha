@@ -15,6 +15,7 @@ import { releaseValue, sellPrice, shardsFor } from '../../lib/shards'
 import { CAPACITY_STEP, MAX_CAPACITY, canExpand, expandCost } from '../../lib/vault'
 import type { Card, PlayerDef, PositionGroup, Rarity } from '../../lib/types'
 import { useGame } from '../GameProvider'
+import { personOfCard } from '../../lib/gameReducer'
 import { WORLD_FUSION_MESSAGE } from '../../lib/serverDraw'
 import PlayerCard from '../PlayerCard'
 import PlayerDetail from '../PlayerDetail'
@@ -55,7 +56,7 @@ const MODE_HELP: Record<Mode, { what: string; rule: string }> = {
     rule: '키울 선수는 선발이어도 되지만, 재료로 넣는 카드는 선발·벤치에서 빼야 합니다. 레벨 한계까지만 오릅니다.',
   },
   break: {
-    what: '같은 선수 카드 1장을 소모해 레벨 한계를 1 올립니다. 한계가 막혀 훈련이 안 될 때 씁니다.',
+    what: '같은 선수 카드 1장을 소모해 레벨 한계를 1 올립니다. 정규·리미티드처럼 카드가 달라도 같은 선수면 재료가 됩니다.',
     rule: '돌파할 선수는 선발이어도 되지만, 재료는 같은 선수의 다른 카드여야 하고 선발·벤치는 쓸 수 없습니다.',
   },
   fuse: {
@@ -174,22 +175,25 @@ export default function ClubTab() {
    * fielded, not locked), and the cards that could be broken right now (a
    * spare exists besides itself, and the cap is not yet the grade's ceiling).
    */
+  // Keyed by person, not card id: a 리미티드 card and the regular card of the
+  // same footballer are material for each other (2026-09-07).
   const sparesByPlayer = useMemo(() => {
     const map = new Map<string, string[]>()
     for (const card of state.cards) {
       if (inUse.has(card.uid) || card.locked === true) continue
-      map.set(card.playerId, [...(map.get(card.playerId) ?? []), card.uid])
+      const person = personOfCard(card)
+      map.set(person, [...(map.get(person) ?? []), card.uid])
     }
     return map
   }, [state.cards, inUse])
   const spareFor = (card: Card, except?: string | null) =>
-    (sparesByPlayer.get(card.playerId) ?? []).find((uid) => uid !== card.uid && uid !== except) ?? null
+    (sparesByPlayer.get(personOfCard(card)) ?? []).find((uid) => uid !== card.uid && uid !== except) ?? null
   const breakable = useMemo(() => {
     const set = new Set<string>()
     for (const card of state.cards) {
       const player = getPlayer(card.playerId)
       if (!player || card.limit >= levelCap(player)) continue
-      if ((sparesByPlayer.get(card.playerId) ?? []).some((uid) => uid !== card.uid)) set.add(card.uid)
+      if ((sparesByPlayer.get(personOfCard(card)) ?? []).some((uid) => uid !== card.uid)) set.add(card.uid)
     }
     return set
   }, [state.cards, sparesByPlayer])
@@ -212,7 +216,7 @@ export default function ClubTab() {
         if (mode !== 'break' || !selectedUid) return true
         if (row.card.uid === selectedUid) return true
         const target = state.cards.find((item) => item.uid === selectedUid)
-        return Boolean(target) && row.card.playerId === target!.playerId && !inUse.has(row.card.uid) && row.card.locked !== true
+        return Boolean(target) && personOfCard(row.card) === personOfCard(target!) && !inUse.has(row.card.uid) && row.card.locked !== true
       })
       .sort((a, b) => {
         const flip = sortDir === 'asc' ? -1 : 1
@@ -267,7 +271,7 @@ export default function ClubTab() {
    */
   const breakMaterial = new Set(
     releasable
-      .filter((card) => state.cards.filter((item) => item.playerId === card.playerId).length > 1)
+      .filter((card) => state.cards.filter((item) => personOfCard(item) === personOfCard(card)).length > 1)
       .map((card) => card.uid),
   )
 
@@ -340,7 +344,7 @@ export default function ClubTab() {
     }
     // 한계 돌파: only a spare copy of the same player is material. Anything else
     // becomes the new target, so a starter can be picked without clearing first.
-    if (selected && card.playerId === selected.card.playerId && !untouchable(card)) {
+    if (selected && personOfCard(card) === personOfCard(selected.card) && !untouchable(card)) {
       setBreakUid((current) => (current === card.uid ? null : card.uid))
       return
     }
@@ -521,7 +525,7 @@ export default function ClubTab() {
               {selected.card.limit >= levelCap(selected.player) ? (
                 <span className="ml-2 text-amber-300">등급 상한입니다</span>
               ) : breakUid ? (
-                <span className="ml-2 text-emerald-300">재료 1장 선택됨 · 남은 여분 {(sparesByPlayer.get(selected.card.playerId) ?? []).filter((uid) => uid !== selected.card.uid).length}장</span>
+                <span className="ml-2 text-emerald-300">재료 1장 선택됨 · 남은 여분 {(sparesByPlayer.get(personOfCard(selected.card)) ?? []).filter((uid) => uid !== selected.card.uid).length}장</span>
               ) : (
                 <span className="ml-2 text-slate-400">여분 카드가 없습니다(선발·벤치·잠긴 카드는 재료 불가)</span>
               )}

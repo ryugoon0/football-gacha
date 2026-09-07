@@ -286,6 +286,11 @@ function afterMatch(
  * dropped outright rather than shuffled elsewhere, so the invariant holds
  * unconditionally instead of only for the one slot pair being edited.
  */
+/** The person behind a card (lib/personKey.ts); a card without a known person is its own. */
+export function personOfCard(card: { playerId: string }): string {
+  return getPlayer(card.playerId)?.person ?? card.playerId
+}
+
 function dropOtherCopies(
   cards: Card[],
   slots: Record<string, string | null>,
@@ -410,8 +415,9 @@ export function reducer(state: GameState, action: Action): GameState {
       const material = state.cards.find((item) => item.uid === action.materialUid)
       if (!target || !material || target.uid === material.uid) return state
       if (material.locked) return state
-      // Only a copy of the very same player can raise the ceiling.
-      if (target.playerId !== material.playerId) return state
+      // Only the same person can raise the ceiling — any card of them (regular,
+      // 리미티드, 월드 시즌) counts, the way the lineup counts a person once.
+      if (personOfCard(target) !== personOfCard(material)) return state
 
       const player = getPlayer(target.playerId)
       if (!player || target.limit >= levelCap(player)) return state

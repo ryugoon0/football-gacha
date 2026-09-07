@@ -76,6 +76,8 @@ function personKey(realName) {
 const realHints = {}
 const portraits = {}
 const meta = {}
+/** 가명 → 실명, for the same-person check the 리미티드 loader makes. */
+const squadRealByName = {}
 const clubs = []
 const replaced = []
 
@@ -120,6 +122,7 @@ for (const file of files) {
     extras.rarity = grades.get(p)
     rows[list].push([p.name, p.pos, p.ovr, squad.club, p.nation, extras])
     realHints[p.name] = `${p.real} (${squad.realClub}${p.number ? ` #${p.number}` : ''})`
+    squadRealByName[p.name] = p.real
     portraits[p.name] = p.key
     meta[p.key] = { name: p.name, nation: p.nation, birthYear: p.birthYear, pos: p.pos, club: squad.club }
   }
@@ -156,7 +159,10 @@ for (const file of limitedFiles) {
   const set = JSON.parse(readFileSync(join(LIMITED_DIR, file), 'utf8'))
   if (!set.label || !set.from || !set.to) throw new Error(`${file}: label·from·to 가 필요합니다`)
   for (const p of set.players) {
-    if (realHints[p.name] || takenNames.has(p.name)) throw new Error(`가명 중복: ${p.name} (${file})`)
+    // 리미티드 카드는 같은 인물의 정규 카드와 **같은 가명**을 쓴다(사용자 결정 2026-09-07).
+    // 다른 인물이 같은 가명을 쓰는 것만 막는다.
+    const samePerson = squadRealByName[p.name] !== undefined && squadRealByName[p.name] === p.real
+    if (!samePerson && (realHints[p.name] || takenNames.has(p.name))) throw new Error(`가명 중복: ${p.name} (${file})`)
     if (!p.key || !p.club) throw new Error(`${file}: ${p.name} 에 key·club 이 필요합니다`)
     if (!clubs.some((c) => c.name === p.club)) {
       if (!set.league) throw new Error(`${file}: 새 클럽 ${p.club} 에는 league 가 필요합니다`)
@@ -173,8 +179,9 @@ for (const file of limitedFiles) {
     if (p.stats) extras.stats = p.stats
     if (p.hidden) extras.hidden = p.hidden
     rows.Live.push([p.name, p.pos, p.ovr, p.club, p.nation, extras])
-    realHints[p.name] = `${p.real} (${p.realClub}, ${set.label} 리미티드)`
-    portraits[p.name] = p.key
+    // The regular card's hint and portrait key stay in charge of the shared name.
+    if (!realHints[p.name]) realHints[p.name] = `${p.real} (${p.realClub}, ${set.label} 리미티드)`
+    if (!portraits[p.name]) portraits[p.name] = p.key
     meta[p.key] = { name: p.name, nation: p.nation, birthYear: p.birthYear, pos: p.pos, club: p.club }
   }
 }

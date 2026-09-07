@@ -38,7 +38,7 @@ data/limited/2026-w37.json
 - 빌드(`scripts/build-squad-cards.mjs`)가 `data/limited/*.json` 을 읽어 `SQUAD_ROSTER.Live` 뒤에 붙인다.
   extras: `{ squad: true, rarity: 'Live', season: label, limited: { label, from, to, story } }`. id 는 파일·항목 순서라 새 주 파일은 항상 새 파일로 추가.
 - `PlayerDef.limited?: { from: string; to: string; story: string }` 추가.
-- 가명 규칙·실명 힌트는 스쿼드와 같다(`SQUAD_REAL_HINTS` 에 "실명 (클럽, 2026년 9월 2주 리미티드)").
+- **가명은 정규 카드와 같다**(사용자 결정 2026-09-07). 빌드는 같은 인물(`real`)이면 같은 이름을 허용하고, 실명 힌트·초상 키는 정규 카드 것을 그대로 쓴다. 같은 인물이라 정규 카드와 서로 한계 돌파 재료가 된다(`personOfCard`).
 - 명단은 서버 번들에 들어가므로 **커밋·배포가 곧 발행**이다(스쿼드와 같은 경로, CI 가 함수 재배포).
 
 ## 3. 풀 포함 규칙

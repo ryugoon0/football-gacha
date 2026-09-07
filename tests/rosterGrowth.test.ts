@@ -94,9 +94,17 @@ describe('the roster after the leagues were added', () => {
     }
   })
 
-  it('never repeats a player name', () => {
-    const names = PLAYERS.map((player) => player.name)
-    expect(new Set(names).size).toBe(names.length)
+  it('never gives two different people the same name', () => {
+    // The same person may hold several cards under one name (a 리미티드 card
+    // next to the regular card, 2026-09-07); two different people may not.
+    const byName = new Map<string, Set<string>>()
+    for (const player of PLAYERS) {
+      const persons = byName.get(player.name) ?? new Set<string>()
+      persons.add(player.person)
+      byName.set(player.name, persons)
+    }
+    for (const [name, persons] of byName) expect(persons.size, name).toBe(1)
+    expect(PLAYERS.some((player) => player.limited)).toBe(true)
   })
 
   it('gives every player a club that exists', () => {
