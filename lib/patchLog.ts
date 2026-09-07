@@ -34,6 +34,16 @@ export interface PatchEntry {
 
 export const PATCH_LOG: PatchEntry[] = [
   {
+    id: '2026-09-07-watch-hourly-limited-preview',
+    date: '2026-09-07',
+    kind: 'internal',
+    title: '의심 계정 1시간 점검 배치 · 운영자 리미티드 미리보기',
+    detail: [
+      '매시 정각 서버가 감시 목록을 읽어 신호 2개 이상(또는 저장 거부) 계정을 watch_alerts에 남기고, 운영자 탭 모니터링 「1시간 점검」에서 확인·닫기합니다. 신호가 늘면 다시 올라옵니다.',
+      '운영자 탭 「리미티드」에서 예고 중·진행 중·종료된 리미티드 배치의 카드를 전부 미리 볼 수 있습니다.',
+    ],
+  },
+  {
     id: '2026-09-07-save-history',
     date: '2026-09-07',
     kind: 'internal',

@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
-import { SIGNAL_LABELS, riskOf, type WatchRow } from '../../lib/monitor'
+import { SIGNAL_LABELS, ackWatchAlert, fetchWatchAlerts, fetchWatchLastRun, riskOf, runWatchCheckNow, type WatchAlert, type WatchRow } from '../../lib/monitor'
 import { friendlyError, getSupabase } from '../../lib/supabase'
 import { timeAgo } from '../../lib/board'
 import { buildLabel } from '../../lib/build'
@@ -43,6 +43,8 @@ export default function MonitorPanel() {
   const [loading, setLoading] = useState(true)
   const [probe, setProbe] = useState<string | null>(null)
   const [probing, setProbing] = useState(false)
+  const [alerts, setAlerts] = useState<WatchAlert[]>([])
+  const [lastRun, setLastRun] = useState<{ ranAt: string; total: number; fresh: number } | null>(null)
 
   const load = useCallback(async () => {
     const supabase = getSupabase()
@@ -63,6 +65,9 @@ export default function MonitorPanel() {
     setError(null)
     setRows((list.data ?? []) as WatchRow[])
     setHealth((stats.data ?? {}) as Health)
+    const [alertRows, run] = await Promise.all([fetchWatchAlerts(), fetchWatchLastRun()])
+    setAlerts(alertRows)
+    setLastRun(run)
   }, [])
 
   useEffect(() => {
@@ -124,6 +129,55 @@ export default function MonitorPanel() {
       )}
 
       {error && <p className="mt-3 text-[11px] font-semibold text-rose-400">{error}</p>}
+
+      <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.03] p-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400">1시간 점검 — 의심 계정</div>
+            <div className="mt-0.5 text-[11px] text-slate-500">
+              매시 정각 서버가 감시 목록을 읽어 신호 2개 이상(또는 저장 거부) 계정을 남깁니다. 신호가 늘면 확인 표시가 풀립니다.
+              {lastRun ? ` 마지막 점검 ${timeAgo(lastRun.ranAt)} · 대상 ${lastRun.total} · 새로 ${lastRun.fresh}` : ' 아직 점검 기록이 없습니다.'}
+            </div>
+          </div>
+          <button
+            onClick={async () => {
+              const result = await runWatchCheckNow()
+              if (result) await load()
+            }}
+            className="whitespace-nowrap rounded-lg bg-white/10 px-2.5 py-1.5 text-[11px] font-bold text-white"
+          >
+            지금 점검
+          </button>
+        </div>
+        {alerts.filter((a) => !a.acknowledged_at).length === 0 ? (
+          <p className="mt-2 text-[11px] text-slate-500">확인할 새 의심 계정이 없습니다.</p>
+        ) : (
+          <ul className="mt-2 space-y-1.5">
+            {alerts
+              .filter((a) => !a.acknowledged_at)
+              .map((a) => (
+                <li key={a.user_id} className={`flex flex-wrap items-center justify-between gap-2 rounded-lg border p-2 ${RISK_TONE[a.risk] ?? RISK_TONE.low}`}>
+                  <div className="min-w-0 text-[11px] text-slate-200">
+                    <span className={`mr-1.5 rounded px-1.5 py-0.5 text-[10px] font-black ${a.risk === 'high' ? 'bg-rose-500 text-white' : 'bg-amber-400 text-slate-900'}`}>{RISK_LABEL[a.risk]}</span>
+                    <b>{a.club || '(클럽 없음)'}</b> <span className="text-slate-400">{a.email}</span>
+                    <div className="mt-0.5 text-slate-400">
+                      {(a.kinds ?? []).map((k) => SIGNAL_LABELS[k] ?? k).join(' · ')} — {a.detail}
+                    </div>
+                    <div className="text-[10px] text-slate-500">처음 {timeAgo(a.first_seen)} · 최근 {timeAgo(a.last_seen)}</div>
+                  </div>
+                  <button
+                    onClick={async () => {
+                      if (await ackWatchAlert(a.user_id)) await load()
+                    }}
+                    className="rounded-lg bg-white/10 px-2.5 py-1 text-[11px] font-bold text-white hover:bg-white/20"
+                  >
+                    확인
+                  </button>
+                </li>
+              ))}
+          </ul>
+        )}
+      </div>
 
       {loading ? (
         <p className="mt-3 text-[11px] text-slate-500">불러오는 중...</p>

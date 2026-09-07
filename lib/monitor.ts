@@ -1,3 +1,5 @@
+import { getSupabase } from './supabase'
+
 /**
  * Reading the watchlist.
  *
@@ -37,4 +39,58 @@ export function riskOf(row: Pick<WatchRow, 'signals' | 'score' | 'kinds'>): Risk
   if (row.signals >= 3 || (rejected && row.signals >= 2)) return 'high'
   if (row.signals >= 2 || rejected) return 'medium'
   return 'low'
+}
+
+// ---------------------------------------------------------------------------
+// 1시간 점검 (watch_alerts) — the hourly batch's findings, kept until acknowledged.
+// ---------------------------------------------------------------------------
+
+export interface WatchAlert {
+  user_id: string
+  email: string | null
+  club: string | null
+  risk: Risk
+  signals: number
+  score: number
+  kinds: string[] | null
+  detail: string
+  first_seen: string
+  last_seen: string
+  acknowledged_at: string | null
+  last_run: string | null
+  last_run_total: number | null
+  last_run_fresh: number | null
+}
+
+export async function fetchWatchAlerts(): Promise<WatchAlert[]> {
+  const supabase = getSupabase()
+  if (!supabase) return []
+  const { data, error } = await supabase.rpc('admin_watch_alerts')
+  if (error || !Array.isArray(data)) return []
+  return data as WatchAlert[]
+}
+
+export async function fetchWatchLastRun(): Promise<{ ranAt: string; total: number; fresh: number } | null> {
+  const supabase = getSupabase()
+  if (!supabase) return null
+  const { data, error } = await supabase.rpc('admin_watch_last_run')
+  if (error || !data || typeof data !== 'object') return null
+  const body = data as { ranAt?: string; total?: number; fresh?: number }
+  return body.ranAt ? { ranAt: body.ranAt, total: Number(body.total ?? 0), fresh: Number(body.fresh ?? 0) } : null
+}
+
+export async function ackWatchAlert(userId: string): Promise<boolean> {
+  const supabase = getSupabase()
+  if (!supabase) return false
+  const { data, error } = await supabase.rpc('admin_ack_watch_alert', { p_user: userId })
+  return !error && Boolean((data as { ok?: boolean } | null)?.ok)
+}
+
+export async function runWatchCheckNow(): Promise<{ total: number; fresh: number } | null> {
+  const supabase = getSupabase()
+  if (!supabase) return null
+  const { data, error } = await supabase.rpc('admin_run_watch_check')
+  if (error) return null
+  const body = data as { ok?: boolean; total?: number; fresh?: number } | null
+  return body?.ok ? { total: Number(body.total ?? 0), fresh: Number(body.fresh ?? 0) } : null
 }
