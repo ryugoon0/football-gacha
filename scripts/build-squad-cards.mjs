@@ -158,7 +158,11 @@ const limitedFiles = existsSync(LIMITED_DIR) ? readdirSync(LIMITED_DIR).filter((
 for (const file of limitedFiles) {
   const set = JSON.parse(readFileSync(join(LIMITED_DIR, file), 'utf8'))
   if (!set.label || !set.from || !set.to) throw new Error(`${file}: label·from·to 가 필요합니다`)
+  // 같은 기간의 리미티드는 클럽당 1장 (사용자 결정 2026-09-07).
+  const limitedClubs = new Set()
   for (const p of set.players) {
+    if (limitedClubs.has(p.club)) throw new Error(`${file}: 리미티드는 같은 기간 한 클럽에 1장 — ${p.club} 중복`)
+    limitedClubs.add(p.club)
     // 리미티드 카드는 같은 인물의 정규 카드와 **같은 가명**을 쓴다(사용자 결정 2026-09-07).
     // 다른 인물이 같은 가명을 쓰는 것만 막는다.
     const samePerson = squadRealByName[p.name] !== undefined && squadRealByName[p.name] === p.real

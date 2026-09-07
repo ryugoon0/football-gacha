@@ -3541,7 +3541,6 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['케빈 더 브라위너스', 'CAM', 85, '나폴리 파르테노', '벨기에', {"squad":true,"unreleased":false,"person":"p780082b7","season":"2026-27","rarity":"Live"}],
     ['밀레 스빌라른', 'GK', 82, '로마 잘로로소', '세르비아', {"squad":true,"unreleased":false,"person":"p3950fc0f","season":"2026-27","rarity":"Legend"}],
     ['라민 야멀', 'RW', 92, '카탈루냐 블라우', '스페인', {"squad":true,"rarity":"Live","season":"9월 1주 MOM","limited":{"label":"9월 1주 MOM","from":"2026-09-08T14:00:00+09:00","to":"2026-09-15T13:59:59+09:00","story":"9/6 발렌시아 원정 0-5 대승, 2골"},"unreleased":false,"person":"pbd32c9cb","hidden":{"clutch":10,"bigMatch":11}}],
-    ['페르민 로페노', 'CAM', 88, '카탈루냐 블라우', '스페인', {"squad":true,"rarity":"Live","season":"9월 1주 MOM","limited":{"label":"9월 1주 MOM","from":"2026-09-08T14:00:00+09:00","to":"2026-09-15T13:59:59+09:00","story":"9/6 발렌시아 원정 0-5, 1골 2도움"},"unreleased":false,"person":"p1dae3bcf","hidden":{"clutch":9,"consistency":9}}],
     ['루카스 보옌', 'ST', 83, '알라베스 아술', '아르헨티나', {"squad":true,"rarity":"Live","season":"9월 1주 MOM","limited":{"label":"9월 1주 MOM","from":"2026-09-08T14:00:00+09:00","to":"2026-09-15T13:59:59+09:00","story":"9/6 오사수나전 5-2, 해트트릭"},"unreleased":false,"person":"pd78d8811","hidden":{"clutch":10,"bigMatch":8}}],
     ['마르틴 외데가르', 'CAM', 89, '북런던 건너스', '노르웨이', {"squad":true,"rarity":"Live","season":"9월 1주 MOM","limited":{"label":"9월 1주 MOM","from":"2026-09-08T14:00:00+09:00","to":"2026-09-15T13:59:59+09:00","story":"9/6 첼시전 2-1 역전승, 후반 5분 결승골"},"unreleased":false,"person":"p29b58657","hidden":{"clutch":10,"bigMatch":10}}],
     ['타이릭 미첼런', 'LB', 84, '크리스탈 이글', '잉글랜드', {"squad":true,"rarity":"Live","season":"9월 1주 MOM","limited":{"label":"9월 1주 MOM","from":"2026-09-08T14:00:00+09:00","to":"2026-09-15T13:59:59+09:00","story":"9/5 풀럼 원정 3-2 승, 왼쪽 풀백이 2골"},"unreleased":false,"person":"p05b494b0","hidden":{"clutch":9,"stamina":9}}],
@@ -3553,13 +3552,14 @@ export const SQUAD_ROSTER: Record<Rarity, RosterRow[]> = {
     ['라신 시나요콘', 'ST', 80, '파리 시테', '말리', {"squad":true,"rarity":"Live","season":"9월 1주 MOM","limited":{"label":"9월 1주 MOM","from":"2026-09-08T14:00:00+09:00","to":"2026-09-15T13:59:59+09:00","story":"9/6 마르세유 원정 3-2 승, 해트트릭"},"unreleased":false,"person":"p5a95b07f","hidden":{"clutch":10,"bigMatch":9}}],
     ['샘 아모아메야운', 'RW', 76, '스트라스 알자스', '잉글랜드', {"squad":true,"rarity":"Live","season":"9월 1주 MOM","limited":{"label":"9월 1주 MOM","from":"2026-09-08T14:00:00+09:00","to":"2026-09-15T13:59:59+09:00","story":"9/6 트루아 원정 6-2 승, 2골"},"unreleased":false,"person":"p03237305","hidden":{"clutch":8,"stamina":8}}],
     ['스타니스 이둠본', 'LW', 78, '모나코 루즈', '벨기에', {"squad":true,"rarity":"Live","season":"9월 1주 MOM","limited":{"label":"9월 1주 MOM","from":"2026-09-08T14:00:00+09:00","to":"2026-09-15T13:59:59+09:00","story":"9/4 파르크 데 프랭스 원정, PSG 상대 1-2 역전승 결승골"},"unreleased":false,"person":"p8dd5ec05","hidden":{"clutch":10,"bigMatch":9}}],
-    ['카이 하베르치', 'ST', 87, '북런던 건너스', '독일', {"squad":true,"rarity":"Live","season":"9월 1주 MOM","limited":{"label":"9월 1주 MOM","from":"2026-09-08T14:00:00+09:00","to":"2026-09-15T13:59:59+09:00","story":"9/6 첼시전 2-1, 동점골과 결승골을 만든 더미 플레이"},"unreleased":false,"person":"p60ff6713","hidden":{"clutch":9,"bigMatch":10}}],
     ['브라이언 음보모', 'RW', 88, '맨체스 레즈', '카메룬', {"squad":true,"rarity":"Live","season":"9월 1주 MOM","limited":{"label":"9월 1주 MOM","from":"2026-09-08T14:00:00+09:00","to":"2026-09-15T13:59:59+09:00","story":"9/6 에버턴 원정 2-2, 후반 시작 1분 감아차기 선제골"},"unreleased":false,"person":"p96ca9fe5","hidden":{"clutch":9,"bigMatch":9}}],
-    ['하피뇨', 'LW', 91, '카탈루냐 블라우', '브라질', {"squad":true,"rarity":"Live","season":"9월 1주 MOM","limited":{"label":"9월 1주 MOM","from":"2026-09-08T14:00:00+09:00","to":"2026-09-15T13:59:59+09:00","story":"9/6 발렌시아 원정 0-5, 득점 · 4라운드 기준 리그 득점 선두"},"unreleased":false,"person":"p9e2b7783","hidden":{"clutch":10,"consistency":10}}],
-    ['페드린', 'CM', 91, '카탈루냐 블라우', '스페인', {"squad":true,"rarity":"Live","season":"9월 1주 MOM","limited":{"label":"9월 1주 MOM","from":"2026-09-08T14:00:00+09:00","to":"2026-09-15T13:59:59+09:00","story":"9/6 발렌시아 원정 0-5, 중원 지휘와 득점"},"unreleased":false,"person":"pcc3de7b7","hidden":{"consistency":11,"bigMatch":10}}],
-    ['엔소 페르난데손', 'CM', 88, '맨체스 블루', '아르헨티나', {"squad":true,"rarity":"Live","season":"9월 1주 MOM","limited":{"label":"9월 1주 MOM","from":"2026-09-08T14:00:00+09:00","to":"2026-09-15T13:59:59+09:00","story":"9/5 코번트리전 1-0, 맨시티 데뷔전 중원 장악"},"unreleased":false,"person":"p294b9d71","hidden":{"consistency":10,"bigMatch":9}}],
     ['제임스 트래퍼든', 'GK', 82, '리즈 화이트', '잉글랜드', {"squad":true,"rarity":"Live","season":"9월 1주 MOM","limited":{"label":"9월 1주 MOM","from":"2026-09-08T14:00:00+09:00","to":"2026-09-15T13:59:59+09:00","story":"9/5 브라이턴 원정 1-1, 잇단 선방으로 승점 지킴"},"unreleased":false,"person":"pc1250009","hidden":{"clutch":10,"consistency":9}}],
     ['아민 구이린', 'ST', 84, '마르세유 올림피', '알제리', {"squad":true,"rarity":"Live","season":"9월 1주 MOM","limited":{"label":"9월 1주 MOM","from":"2026-09-08T14:00:00+09:00","to":"2026-09-15T13:59:59+09:00","story":"9/6 파리 FC전 2-3 패배 속 2골"},"unreleased":false,"person":"pe0c3e729","hidden":{"clutch":9,"bigMatch":9}}],
+    ['엘링 홀란드', 'ST', 93, '맨체스 블루', '노르웨이', {"squad":true,"rarity":"Live","season":"9월 1주 MOM","limited":{"label":"9월 1주 MOM","from":"2026-09-08T14:00:00+09:00","to":"2026-09-15T13:59:59+09:00","story":"9/5 코번트리전 1-0, 결승골"},"unreleased":false,"person":"p32106fe6","hidden":{"clutch":11,"bigMatch":10}}],
+    ['타이리크 조지오', 'LW', 76, '에버턴 토피', '잉글랜드', {"squad":true,"rarity":"Live","season":"9월 1주 MOM","limited":{"label":"9월 1주 MOM","from":"2026-09-08T14:00:00+09:00","to":"2026-09-15T13:59:59+09:00","story":"9/6 맨유전 2-2, 후반 38분 추격골"},"unreleased":false,"person":"pda29194b","hidden":{"clutch":9,"bigMatch":8}}],
+    ['마테오 폴리타논', 'RM', 83, '나폴리 파르테노', '이탈리아', {"squad":true,"rarity":"Live","season":"9월 1주 MOM","limited":{"label":"9월 1주 MOM","from":"2026-09-08T14:00:00+09:00","to":"2026-09-15T13:59:59+09:00","story":"9/5 인테르 원정 2-3, 선제골"},"unreleased":false,"person":"pd5ba9715","hidden":{"clutch":9,"bigMatch":9}}],
+    ['안토니오 라이몬돈', 'ST', 75, '프로시노 지알로', '이탈리아', {"squad":true,"rarity":"Live","season":"9월 1주 MOM","limited":{"label":"9월 1주 MOM","from":"2026-09-08T14:00:00+09:00","to":"2026-09-15T13:59:59+09:00","story":"9/6 베네치아전 3-2, 2골"},"unreleased":false,"person":"p31f8ab9b","hidden":{"clutch":9,"bigMatch":7}}],
+    ['에르메딘 데미로비츠', 'ST', 82, '슈투트 벤츠', '보스니아헤르체고비나', {"squad":true,"rarity":"Live","season":"9월 1주 MOM","limited":{"label":"9월 1주 MOM","from":"2026-09-08T14:00:00+09:00","to":"2026-09-15T13:59:59+09:00","story":"9/4 쾰른전 4-1, 득점"},"unreleased":false,"person":"p36536efd","hidden":{"clutch":8,"consistency":9}}],
   ],
   World: [
     ['브루노 페르난도', 'CAM', 88, '맨체스 레즈', '포르투갈', {"squad":true,"unreleased":false,"person":"p278e997f","season":"2026-27","rarity":"Live"}],
@@ -36561,13 +36561,6 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "pos": "RW",
     "club": "카탈루냐 블라우"
   },
-  "ltd-2637-02": {
-    "name": "페르민 로페노",
-    "nation": "스페인",
-    "birthYear": 2003,
-    "pos": "CAM",
-    "club": "카탈루냐 블라우"
-  },
   "ltd-2637-03": {
     "name": "루카스 보옌",
     "nation": "아르헨티나",
@@ -36645,40 +36638,12 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "pos": "LW",
     "club": "모나코 루즈"
   },
-  "ltd-2637-14": {
-    "name": "카이 하베르치",
-    "nation": "독일",
-    "birthYear": 1999,
-    "pos": "ST",
-    "club": "북런던 건너스"
-  },
   "ltd-2637-15": {
     "name": "브라이언 음보모",
     "nation": "카메룬",
     "birthYear": 1999,
     "pos": "RW",
     "club": "맨체스 레즈"
-  },
-  "ltd-2637-16": {
-    "name": "하피뇨",
-    "nation": "브라질",
-    "birthYear": 1996,
-    "pos": "LW",
-    "club": "카탈루냐 블라우"
-  },
-  "ltd-2637-17": {
-    "name": "페드린",
-    "nation": "스페인",
-    "birthYear": 2002,
-    "pos": "CM",
-    "club": "카탈루냐 블라우"
-  },
-  "ltd-2637-18": {
-    "name": "엔소 페르난데손",
-    "nation": "아르헨티나",
-    "birthYear": 2001,
-    "pos": "CM",
-    "club": "맨체스 블루"
   },
   "ltd-2637-19": {
     "name": "제임스 트래퍼든",
@@ -36693,5 +36658,40 @@ export const SQUAD_PORTRAIT_META: Record<string, { name: string; nation: string;
     "birthYear": 2000,
     "pos": "ST",
     "club": "마르세유 올림피"
+  },
+  "ltd-2637-21": {
+    "name": "엘링 홀란드",
+    "nation": "노르웨이",
+    "birthYear": 2000,
+    "pos": "ST",
+    "club": "맨체스 블루"
+  },
+  "ltd-2637-22": {
+    "name": "타이리크 조지오",
+    "nation": "잉글랜드",
+    "birthYear": 2006,
+    "pos": "LW",
+    "club": "에버턴 토피"
+  },
+  "ltd-2637-23": {
+    "name": "마테오 폴리타논",
+    "nation": "이탈리아",
+    "birthYear": 1993,
+    "pos": "RM",
+    "club": "나폴리 파르테노"
+  },
+  "ltd-2637-24": {
+    "name": "안토니오 라이몬돈",
+    "nation": "이탈리아",
+    "birthYear": 2004,
+    "pos": "ST",
+    "club": "프로시노 지알로"
+  },
+  "ltd-2637-25": {
+    "name": "에르메딘 데미로비츠",
+    "nation": "보스니아헤르체고비나",
+    "birthYear": 1998,
+    "pos": "ST",
+    "club": "슈투트 벤츠"
   }
 }
