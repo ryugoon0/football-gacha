@@ -153,11 +153,11 @@ export async function handle(request: Request, env: Env): Promise<Response> {
     if (payWithTickets && pack.family !== 'premium') return refuse('ticket not allowed')
     // 월드 스카우트: only a 월드 스카우트팩 (world_packs balance) opens it, and it opens nothing else.
     const payWithPacks = body.payWith === 'worldPack'
-    if (pack.family === 'world' && !payWithPacks) return refuse('pack not allowed')
-    if (payWithPacks && pack.family !== 'world') return refuse('pack not allowed')
-    // 조각: taken by the client from the save (like the 조각 교환소); the server records a free premium pull.
+    // 조각: taken by the client from the save (like the 조각 교환소); the server records a free pull.
     const payWithShards = body.payWith === 'shards'
-    if (payWithShards && pack.family !== 'premium') return refuse('ticket not allowed')
+    if (pack.family === 'world' && !payWithPacks && !payWithShards) return refuse('pack not allowed')
+    if (payWithPacks && pack.family !== 'world') return refuse('pack not allowed')
+    if (payWithShards && pack.family !== 'premium' && pack.family !== 'world') return refuse('ticket not allowed')
     const ticketCost = payWithTickets ? pack.count : 0
     const packCost = payWithPacks ? pack.count : 0
     const goldCost = payWithTickets || payWithPacks || payWithShards ? 0 : pack.cost

@@ -62,9 +62,10 @@ describe('gacha rates', () => {
       const total = RARITIES.reduce((sum, rarity) => sum + rates[rarity], 0) + (rates.Limited ?? 0)
       expect(total).toBeCloseTo(100)
     }
-    // 월드 comes out of the 월드 pack only.
+    // 월드: never from basic, a sliver from premium, the 월드 pack's own slice.
     expect(PACK_RATES.basic.World).toBe(0)
-    expect(PACK_RATES.premium.World).toBe(0)
+    expect(PACK_RATES.premium.World).toBeGreaterThan(0)
+    expect(PACK_RATES.premium.World).toBeLessThan(1)
     expect(PACK_RATES.world.World).toBeGreaterThan(0)
     expect(PACK_RATES.world.Live + PACK_RATES.world.World).toBeCloseTo(100)
   })

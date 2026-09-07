@@ -131,8 +131,9 @@ export default function GachaTab() {
     )
   }
 
-  /** 조각으로 사는 프리미엄 스카우트: 1회는 노브값, 10연속은 그 9배. */
-  const shardCostOf = (pack: PackDef) => (pack.count >= 10 ? tune('premiumShardCost') * 9 : tune('premiumShardCost') * pack.count)
+  /** 조각으로 사는 스카우트: 프리미엄 1회는 노브값(10연속은 9배), 월드 팩은 따로 노브. */
+  const shardCostOf = (pack: PackDef) =>
+    pack.family === 'world' ? tune('worldShardCost') : pack.count >= 10 ? tune('premiumShardCost') * 9 : tune('premiumShardCost') * pack.count
 
   const openPack = async (pack: PackDef, free = false, payWith: PayWith = 'gold') => {
     const cost = free || payWith !== 'gold' ? 0 : pack.cost
@@ -248,7 +249,7 @@ export default function GachaTab() {
             <h2 className="text-xl font-bold text-white">스카우트</h2>
             <p className="text-sm text-slate-400">
               일반 스카우트는 바로 공개되고, 프리미엄 스카우트는 후보가 룰렛처럼 돌다 한 명에서 멈춥니다. 이번 주 픽업 선수는 확률이 두 배입니다.
-              월드 카드는 월드 스카우트에서만 나오고, 리미티드가 열린 주에는 프리미엄이 리미티드 스카우트로 바뀝니다.
+              월드 카드는 월드 스카우트와 프리미엄(0.3%)에서 나오고, 리미티드가 열린 주에는 프리미엄이 리미티드 스카우트로 바뀝니다.
             </p>
             <div className="mt-3 max-w-xs rounded-xl bg-white/5 p-3">
               <div className="flex items-center justify-between text-xs">
@@ -371,17 +372,26 @@ export default function GachaTab() {
               <div>
                 <div className="text-sm font-black text-white">월드 스카우트팩 <span className="text-violet-200">{worldPacks ?? '—'}개</span></div>
                 <p className="mt-1 text-[11px] leading-relaxed text-slate-400">
-                  팔지 않는 팩입니다. 선물함으로 받거나, 선수관리 → 승급 합성에서 월드 카드 3장을 합쳐 1개를 만듭니다.
-                  열면 플래티넘 아니면 월드 카드가 나오고, 월드 카드는 여기서만 나옵니다.
+                  골드로는 팔지 않는 팩입니다. 선물함으로 받거나, 선수관리 → 승급 합성에서 월드 카드 3장을 합쳐 1개를 만들거나, 조각으로 바로 열 수 있습니다.
+                  열면 플래티넘 아니면 월드 카드가 나옵니다.
                 </p>
               </div>
-              <button
-                onClick={() => openPack(packsOfFamily('world')[0], false, 'worldPack')}
-                disabled={busy || (worldPacks ?? 0) < 1 || !hasRoomFor(state.cards.length, state.capacity, 1)}
-                className="rounded-xl bg-violet-400 px-4 py-3 text-sm font-black text-slate-900 transition hover:bg-violet-300 disabled:opacity-40"
-              >
-                월드 스카우트 열기
-              </button>
+              <div className="flex flex-col gap-1.5">
+                <button
+                  onClick={() => openPack(packsOfFamily('world')[0], false, 'worldPack')}
+                  disabled={busy || (worldPacks ?? 0) < 1 || !hasRoomFor(state.cards.length, state.capacity, 1)}
+                  className="rounded-xl bg-violet-400 px-4 py-3 text-sm font-black text-slate-900 transition hover:bg-violet-300 disabled:opacity-40"
+                >
+                  팩으로 열기 ({worldPacks ?? 0}개)
+                </button>
+                <button
+                  onClick={() => openPack(packsOfFamily('world')[0], false, 'shards')}
+                  disabled={busy || state.shards < shardCostOf(packsOfFamily('world')[0]) || !hasRoomFor(state.cards.length, state.capacity, 1)}
+                  className="rounded-xl bg-sky-500/80 px-4 py-2 text-xs font-black text-white transition hover:bg-sky-400 disabled:opacity-40"
+                >
+                  조각 {shardCostOf(packsOfFamily('world')[0])}개로 열기 (보유 {state.shards})
+                </button>
+              </div>
             </div>
           </div>
         )}

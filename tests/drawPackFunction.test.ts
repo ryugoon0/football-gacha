@@ -142,6 +142,8 @@ describe('the 월드 pack and 월드 fusion', () => {
   it('opens the 월드 pack only with a pack, and never for gold', async () => {
     const refused = await run({}, post({ pack: 'world' }))
     expect(refused.body.reason).toBe('pack not allowed')
+    const withShards = await run({ commit: { ok: true, balance: 100, pity: 0, pull_id: 2, worldPacks: 0 } }, post({ pack: 'world', payWith: 'shards' }))
+    expect(withShards.body.ok).toBe(true)
     const wrong = await run({}, post({ pack: 'premium', payWith: 'worldPack' }))
     expect(wrong.body.reason).toBe('pack not allowed')
     const spy = stubFetch({ commit: { ok: true, balance: 100, pity: 0, pull_id: 1, worldPacks: 0 } })

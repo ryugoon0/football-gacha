@@ -634,6 +634,25 @@ var KNOBS = {
     step: 0.5,
     group: "\uC2A4\uCE74\uC6B0\uD2B8"
   },
+  premiumRateWorld: {
+    label: "\uD504\uB9AC\uBBF8\uC5C4 \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uC6D4\uB4DC \uD655\uB960(%)",
+    note: "\uD504\uB9AC\uBBF8\uC5C4(\uB9AC\uBBF8\uD2F0\uB4DC) \uC2A4\uCE74\uC6B0\uD2B8\uC5D0\uC11C \uC6D4\uB4DC \uCE74\uB4DC\uAC00 \uB098\uC62C \uD655\uB960\uC785\uB2C8\uB2E4. \uC77C\uBC18 \uC2A4\uCE74\uC6B0\uD2B8\uC5D0\uC11C\uB294 \uB098\uC624\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4.",
+    default: 0.3,
+    min: 0,
+    max: 5,
+    step: 0.05,
+    group: "\uC2A4\uCE74\uC6B0\uD2B8"
+  },
+  worldShardCost: {
+    label: "\uC6D4\uB4DC \uC2A4\uCE74\uC6B0\uD2B8 1\uD68C \xB7 \uC870\uAC01 \uAC00\uACA9",
+    note: "\uC870\uAC01\uC73C\uB85C \uC6D4\uB4DC \uC2A4\uCE74\uC6B0\uD2B8\uD329\uC744 \uC5F4 \uB54C \uAC12\uC785\uB2C8\uB2E4(\uC120\uBB3C\xB7\uC6D4\uB4DC 3\uC7A5 \uD569\uC131 \uC678\uC758 \uC720\uC77C\uD55C \uAD6C\uB9E4 \uACBD\uB85C).",
+    default: 600,
+    min: 1,
+    max: 5e3,
+    step: 10,
+    group: "\uC2A4\uCE74\uC6B0\uD2B8",
+    integer: true
+  },
   premiumRateLimited: {
     label: "\uB9AC\uBBF8\uD2F0\uB4DC \uC2A4\uCE74\uC6B0\uD2B8 \xB7 \uB9AC\uBBF8\uD2F0\uB4DC \uD655\uB960(%)",
     note: "\uB9AC\uBBF8\uD2F0\uB4DC \uCE74\uB4DC\uAC00 \uC5F4\uB824 \uC788\uB294 \uB3D9\uC548 \uD504\uB9AC\uBBF8\uC5C4 \uC2A4\uCE74\uC6B0\uD2B8\uAC00 \uB9AC\uBBF8\uD2F0\uB4DC \uC2A4\uCE74\uC6B0\uD2B8\uB85C \uBC14\uB00C\uACE0, \uC774 \uD655\uB960\uB9CC\uD07C \uB9AC\uBBF8\uD2F0\uB4DC \uCE74\uB4DC\uAC00 \uB098\uC635\uB2C8\uB2E4. \uADF8\uB9CC\uD07C \uC77C\uBC18\xB7\uC2E4\uBC84\xB7\uACE8\uB4DC\uAC00 \uBE44\uC728\uB300\uB85C \uC904\uACE0 \uD50C\uB798\uD2F0\uB118\uC740 \uADF8\uB300\uB85C\uC785\uB2C8\uB2E4.",
@@ -7215,7 +7234,14 @@ var SQUAD_ROSTER = {
     ["\uD30C\uBE44\uC548 \uB9AC\uB354\uC2A4", "CAM", 78, "\uC544\uC6B0\uD06C\uC2A4 \uD478\uAC70", "\uC2A4\uC704\uC2A4", { "squad": true, "rarity": "Live", "season": "9\uC6D4 1\uC8FC MOM", "limited": { "label": "9\uC6D4 1\uC8FC MOM", "from": "2026-09-08T14:00:00+09:00", "to": "2026-09-15T13:59:59+09:00", "story": "9/6 \uD504\uB791\uD06C\uD478\uB974\uD2B8 \uC6D0\uC815 1-4 \uC5ED\uC804\uC2B9, \uD6C4\uBC18 44\uBD84 \uD504\uB9AC\uD0A5 \uACE8\uB85C \uB9C8\uBB34\uB9AC" }, "unreleased": false, "person": "pe69fda15", "hidden": { "clutch": 9, "bigMatch": 8 } }],
     ["\uB77C\uC2E0 \uC2DC\uB098\uC694\uCF58", "ST", 80, "\uD30C\uB9AC \uC2DC\uD14C", "\uB9D0\uB9AC", { "squad": true, "rarity": "Live", "season": "9\uC6D4 1\uC8FC MOM", "limited": { "label": "9\uC6D4 1\uC8FC MOM", "from": "2026-09-08T14:00:00+09:00", "to": "2026-09-15T13:59:59+09:00", "story": "9/6 \uB9C8\uB974\uC138\uC720 \uC6D0\uC815 3-2 \uC2B9, \uD574\uD2B8\uD2B8\uB9AD" }, "unreleased": false, "person": "p5a95b07f", "hidden": { "clutch": 10, "bigMatch": 9 } }],
     ["\uC0D8 \uC544\uBAA8\uC544\uBA54\uC57C\uC6B4", "RW", 76, "\uC2A4\uD2B8\uB77C\uC2A4 \uC54C\uC790\uC2A4", "\uC789\uAE00\uB79C\uB4DC", { "squad": true, "rarity": "Live", "season": "9\uC6D4 1\uC8FC MOM", "limited": { "label": "9\uC6D4 1\uC8FC MOM", "from": "2026-09-08T14:00:00+09:00", "to": "2026-09-15T13:59:59+09:00", "story": "9/6 \uD2B8\uB8E8\uC544 \uC6D0\uC815 6-2 \uC2B9, 2\uACE8" }, "unreleased": false, "person": "p03237305", "hidden": { "clutch": 8, "stamina": 8 } }],
-    ["\uC2A4\uD0C0\uB2C8\uC2A4 \uC774\uB460\uBCF8", "LW", 78, "\uBAA8\uB098\uCF54 \uB8E8\uC988", "\uBCA8\uAE30\uC5D0", { "squad": true, "rarity": "Live", "season": "9\uC6D4 1\uC8FC MOM", "limited": { "label": "9\uC6D4 1\uC8FC MOM", "from": "2026-09-08T14:00:00+09:00", "to": "2026-09-15T13:59:59+09:00", "story": "9/4 \uD30C\uB974\uD06C \uB370 \uD504\uB7AD\uC2A4 \uC6D0\uC815, PSG \uC0C1\uB300 1-2 \uC5ED\uC804\uC2B9 \uACB0\uC2B9\uACE8" }, "unreleased": false, "person": "p8dd5ec05", "hidden": { "clutch": 10, "bigMatch": 9 } }]
+    ["\uC2A4\uD0C0\uB2C8\uC2A4 \uC774\uB460\uBCF8", "LW", 78, "\uBAA8\uB098\uCF54 \uB8E8\uC988", "\uBCA8\uAE30\uC5D0", { "squad": true, "rarity": "Live", "season": "9\uC6D4 1\uC8FC MOM", "limited": { "label": "9\uC6D4 1\uC8FC MOM", "from": "2026-09-08T14:00:00+09:00", "to": "2026-09-15T13:59:59+09:00", "story": "9/4 \uD30C\uB974\uD06C \uB370 \uD504\uB7AD\uC2A4 \uC6D0\uC815, PSG \uC0C1\uB300 1-2 \uC5ED\uC804\uC2B9 \uACB0\uC2B9\uACE8" }, "unreleased": false, "person": "p8dd5ec05", "hidden": { "clutch": 10, "bigMatch": 9 } }],
+    ["\uCE74\uC774 \uD558\uBCA0\uB974\uCE58", "ST", 87, "\uBD81\uB7F0\uB358 \uAC74\uB108\uC2A4", "\uB3C5\uC77C", { "squad": true, "rarity": "Live", "season": "9\uC6D4 1\uC8FC MOM", "limited": { "label": "9\uC6D4 1\uC8FC MOM", "from": "2026-09-08T14:00:00+09:00", "to": "2026-09-15T13:59:59+09:00", "story": "9/6 \uCCBC\uC2DC\uC804 2-1, \uB3D9\uC810\uACE8\uACFC \uACB0\uC2B9\uACE8\uC744 \uB9CC\uB4E0 \uB354\uBBF8 \uD50C\uB808\uC774" }, "unreleased": false, "person": "p60ff6713", "hidden": { "clutch": 9, "bigMatch": 10 } }],
+    ["\uBE0C\uB77C\uC774\uC5B8 \uC74C\uBCF4\uBAA8", "RW", 88, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uCE74\uBA54\uB8EC", { "squad": true, "rarity": "Live", "season": "9\uC6D4 1\uC8FC MOM", "limited": { "label": "9\uC6D4 1\uC8FC MOM", "from": "2026-09-08T14:00:00+09:00", "to": "2026-09-15T13:59:59+09:00", "story": "9/6 \uC5D0\uBC84\uD134 \uC6D0\uC815 2-2, \uD6C4\uBC18 \uC2DC\uC791 1\uBD84 \uAC10\uC544\uCC28\uAE30 \uC120\uC81C\uACE8" }, "unreleased": false, "person": "p96ca9fe5", "hidden": { "clutch": 9, "bigMatch": 9 } }],
+    ["\uD558\uD53C\uB1E8", "LW", 91, "\uCE74\uD0C8\uB8E8\uB0D0 \uBE14\uB77C\uC6B0", "\uBE0C\uB77C\uC9C8", { "squad": true, "rarity": "Live", "season": "9\uC6D4 1\uC8FC MOM", "limited": { "label": "9\uC6D4 1\uC8FC MOM", "from": "2026-09-08T14:00:00+09:00", "to": "2026-09-15T13:59:59+09:00", "story": "9/6 \uBC1C\uB80C\uC2DC\uC544 \uC6D0\uC815 0-5, \uB4DD\uC810 \xB7 4\uB77C\uC6B4\uB4DC \uAE30\uC900 \uB9AC\uADF8 \uB4DD\uC810 \uC120\uB450" }, "unreleased": false, "person": "p9e2b7783", "hidden": { "clutch": 10, "consistency": 10 } }],
+    ["\uD398\uB4DC\uB9B0", "CM", 91, "\uCE74\uD0C8\uB8E8\uB0D0 \uBE14\uB77C\uC6B0", "\uC2A4\uD398\uC778", { "squad": true, "rarity": "Live", "season": "9\uC6D4 1\uC8FC MOM", "limited": { "label": "9\uC6D4 1\uC8FC MOM", "from": "2026-09-08T14:00:00+09:00", "to": "2026-09-15T13:59:59+09:00", "story": "9/6 \uBC1C\uB80C\uC2DC\uC544 \uC6D0\uC815 0-5, \uC911\uC6D0 \uC9C0\uD718\uC640 \uB4DD\uC810" }, "unreleased": false, "person": "pcc3de7b7", "hidden": { "consistency": 11, "bigMatch": 10 } }],
+    ["\uC5D4\uC18C \uD398\uB974\uB09C\uB370\uC190", "CM", 88, "\uB9E8\uCCB4\uC2A4 \uBE14\uB8E8", "\uC544\uB974\uD5E8\uD2F0\uB098", { "squad": true, "rarity": "Live", "season": "9\uC6D4 1\uC8FC MOM", "limited": { "label": "9\uC6D4 1\uC8FC MOM", "from": "2026-09-08T14:00:00+09:00", "to": "2026-09-15T13:59:59+09:00", "story": "9/5 \uCF54\uBC88\uD2B8\uB9AC\uC804 1-0, \uB9E8\uC2DC\uD2F0 \uB370\uBDD4\uC804 \uC911\uC6D0 \uC7A5\uC545" }, "unreleased": false, "person": "p294b9d71", "hidden": { "consistency": 10, "bigMatch": 9 } }],
+    ["\uC81C\uC784\uC2A4 \uD2B8\uB798\uD37C\uB4E0", "GK", 82, "\uB9AC\uC988 \uD654\uC774\uD2B8", "\uC789\uAE00\uB79C\uB4DC", { "squad": true, "rarity": "Live", "season": "9\uC6D4 1\uC8FC MOM", "limited": { "label": "9\uC6D4 1\uC8FC MOM", "from": "2026-09-08T14:00:00+09:00", "to": "2026-09-15T13:59:59+09:00", "story": "9/5 \uBE0C\uB77C\uC774\uD134 \uC6D0\uC815 1-1, \uC787\uB2E8 \uC120\uBC29\uC73C\uB85C \uC2B9\uC810 \uC9C0\uD0B4" }, "unreleased": false, "person": "pc1250009", "hidden": { "clutch": 10, "consistency": 9 } }],
+    ["\uC544\uBBFC \uAD6C\uC774\uB9B0", "ST", 84, "\uB9C8\uB974\uC138\uC720 \uC62C\uB9BC\uD53C", "\uC54C\uC81C\uB9AC", { "squad": true, "rarity": "Live", "season": "9\uC6D4 1\uC8FC MOM", "limited": { "label": "9\uC6D4 1\uC8FC MOM", "from": "2026-09-08T14:00:00+09:00", "to": "2026-09-15T13:59:59+09:00", "story": "9/6 \uD30C\uB9AC FC\uC804 2-3 \uD328\uBC30 \uC18D 2\uACE8" }, "unreleased": false, "person": "pe0c3e729", "hidden": { "clutch": 9, "bigMatch": 9 } }]
   ],
   World: [
     ["\uBE0C\uB8E8\uB178 \uD398\uB974\uB09C\uB3C4", "CAM", 88, "\uB9E8\uCCB4\uC2A4 \uB808\uC988", "\uD3EC\uB974\uD22C\uAC08", { "squad": true, "unreleased": false, "person": "p278e997f", "season": "2026-27", "rarity": "Live" }],

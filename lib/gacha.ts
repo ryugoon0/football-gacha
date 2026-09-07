@@ -18,11 +18,12 @@ export const PITY_RARITY: Rarity = 'Legend'
 
 /**
  * Three families (2026-09-07):
- *  - basic / premium — gold (premium also 프리미엄 티켓). 월드 never comes out
- *    of these; while a 리미티드 window is open the premium pack is sold as
- *    리미티드 스카우트 and gains a 리미티드 bucket.
- *  - world — 월드 스카우트: not sold. A pack is a server balance
- *    (world_packs) that a gift or fusing three 월드 cards credits; it rolls
+ *  - basic / premium — gold (premium also 프리미엄 티켓 or 조각). 월드 comes out
+ *    of premium at a sliver (premiumRateWorld, 0.3%), never out of basic; while
+ *    a 리미티드 window is open the premium pack is sold as 리미티드 스카우트 and
+ *    gains a 리미티드 bucket.
+ *  - world — 월드 스카우트: a server balance (world_packs) that a gift, fusing
+ *    three 월드 cards or 조각 (worldShardCost) credits/opens; it rolls
  *    플래티넘 or 월드 only.
  */
 export type PackFamily = 'basic' | 'premium' | 'world'
@@ -51,13 +52,14 @@ export function packRates(family: PackFamily, nowMs: number = Date.now()): Rates
   const rare = tune(family === 'basic' ? 'basicRateRare' : 'premiumRateRare')
   const gold = tune(family === 'basic' ? 'basicRateGold' : 'premiumRateGold')
   const live = tune(family === 'basic' ? 'basicRateLive' : 'premiumRateLive')
-  const upper = rare + gold + live
+  const world = family === 'premium' ? tune('premiumRateWorld') : 0
+  const upper = rare + gold + live + world
   // Should the knobs ever be pushed past 100 together, scale them back rather than roll on a broken table.
   const scale = upper > 100 ? 100 / upper : 1
-  const rates: Rates = { Normal: 0, Rare: round3(rare * scale), Legend: round3(gold * scale), Live: round3(live * scale), World: 0 }
-  const limited = family === 'premium' && limitedWindowOpen(nowMs) ? Math.max(0, Math.min(100 - rates.Live, tune('premiumRateLimited'))) : 0
+  const rates: Rates = { Normal: 0, Rare: round3(rare * scale), Legend: round3(gold * scale), Live: round3(live * scale), World: round3(world * scale) }
+  const limited = family === 'premium' && limitedWindowOpen(nowMs) ? Math.max(0, Math.min(100 - rates.Live - rates.World, tune('premiumRateLimited'))) : 0
   if (limited > 0) {
-    const room = 100 - rates.Live
+    const room = 100 - rates.Live - rates.World
     const factor = room > 0 ? (room - limited) / room : 0
     rates.Rare = round3(rates.Rare * factor)
     rates.Legend = round3(rates.Legend * factor)

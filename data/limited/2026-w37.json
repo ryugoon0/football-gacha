@@ -30,6 +30,20 @@
     { "key": "ltd-2637-12", "name": "샘 아모아메야운", "real": "샘 아모아메야우", "realClub": "RC 스트라스부르 알자스", "club": "스트라스 알자스", "pos": "RW", "nation": "잉글랜드", "birthYear": 2006, "ovr": 76,
       "story": "9/6 트루아 원정 6-2 승, 2골", "hidden": { "clutch": 8, "stamina": 8 } },
     { "key": "ltd-2637-13", "name": "스타니스 이둠본", "real": "스타니스 이둠보", "realClub": "AS 모나코", "club": "모나코 루즈", "pos": "LW", "nation": "벨기에", "birthYear": 2005, "ovr": 78,
-      "story": "9/4 파르크 데 프랭스 원정, PSG 상대 1-2 역전승 결승골", "hidden": { "clutch": 10, "bigMatch": 9 } }
+      "story": "9/4 파르크 데 프랭스 원정, PSG 상대 1-2 역전승 결승골", "hidden": { "clutch": 10, "bigMatch": 9 } },
+    { "key": "ltd-2637-14", "name": "카이 하베르치", "real": "카이 하베르츠", "realClub": "아스널", "club": "북런던 건너스", "pos": "ST", "nation": "독일", "birthYear": 1999, "ovr": 87,
+      "story": "9/6 첼시전 2-1, 동점골과 결승골을 만든 더미 플레이", "hidden": { "clutch": 9, "bigMatch": 10 } },
+    { "key": "ltd-2637-15", "name": "브라이언 음보모", "real": "브라이언 음뵈모", "realClub": "맨체스터 유나이티드", "club": "맨체스 레즈", "pos": "RW", "nation": "카메룬", "birthYear": 1999, "ovr": 88,
+      "story": "9/6 에버턴 원정 2-2, 후반 시작 1분 감아차기 선제골", "hidden": { "clutch": 9, "bigMatch": 9 } },
+    { "key": "ltd-2637-16", "name": "하피뇨", "real": "하피냐", "realClub": "FC 바르셀로나", "club": "카탈루냐 블라우", "pos": "LW", "nation": "브라질", "birthYear": 1996, "ovr": 91,
+      "story": "9/6 발렌시아 원정 0-5, 득점 · 4라운드 기준 리그 득점 선두", "hidden": { "clutch": 10, "consistency": 10 } },
+    { "key": "ltd-2637-17", "name": "페드린", "real": "페드리", "realClub": "FC 바르셀로나", "club": "카탈루냐 블라우", "pos": "CM", "nation": "스페인", "birthYear": 2002, "ovr": 91,
+      "story": "9/6 발렌시아 원정 0-5, 중원 지휘와 득점", "hidden": { "consistency": 11, "bigMatch": 10 } },
+    { "key": "ltd-2637-18", "name": "엔소 페르난데손", "real": "엔소 페르난데스", "realClub": "맨체스터 시티", "club": "맨체스 블루", "pos": "CM", "nation": "아르헨티나", "birthYear": 2001, "ovr": 88,
+      "story": "9/5 코번트리전 1-0, 맨시티 데뷔전 중원 장악", "hidden": { "consistency": 10, "bigMatch": 9 } },
+    { "key": "ltd-2637-19", "name": "제임스 트래퍼든", "real": "제임스 트래퍼드", "realClub": "리즈 유나이티드", "club": "리즈 화이트", "pos": "GK", "nation": "잉글랜드", "birthYear": 2002, "ovr": 82,
+      "story": "9/5 브라이턴 원정 1-1, 잇단 선방으로 승점 지킴", "hidden": { "clutch": 10, "consistency": 9 } },
+    { "key": "ltd-2637-20", "name": "아민 구이린", "real": "아민 구이리", "realClub": "올랭피크 마르세유", "club": "마르세유 올림피", "pos": "ST", "nation": "알제리", "birthYear": 2000, "ovr": 84,
+      "story": "9/6 파리 FC전 2-3 패배 속 2골", "hidden": { "clutch": 9, "bigMatch": 9 } }
   ]
 }

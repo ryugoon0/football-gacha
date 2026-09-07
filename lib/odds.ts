@@ -44,8 +44,8 @@ export function oddsRows(): OddsRow[] {
   const open = PACK_RATES.premium
   // The 리미티드 table, whether or not a window is open right now: the same
   // knob taken out of 일반·실버·골드 in proportion, 플래티넘 unchanged.
-  const limited = Math.max(0, Math.min(100 - open.Live, tune('premiumRateLimited')))
-  const room = 100 - open.Live
+  const limited = Math.max(0, Math.min(100 - open.Live - open.World, tune('premiumRateLimited')))
+  const room = 100 - open.Live - open.World
   const factor = room > 0 ? (room - limited) / room : 0
   const base = { Rare: open.Limited ? open.Rare : open.Rare * factor, Legend: open.Limited ? open.Legend : open.Legend * factor }
   const limitedTable: Record<RollKey, number> = {
@@ -53,15 +53,15 @@ export function oddsRows(): OddsRow[] {
     Rare: Math.round(base.Rare * 1000) / 1000,
     Legend: Math.round(base.Legend * 1000) / 1000,
     Live: open.Live,
-    World: 0,
+    World: open.World,
     Limited: Math.round(limited * 1000) / 1000,
   }
-  limitedTable.Normal = Math.max(0, Math.round((100 - limitedTable.Rare - limitedTable.Legend - limitedTable.Live - limitedTable.Limited) * 1000) / 1000)
+  limitedTable.Normal = Math.max(0, Math.round((100 - limitedTable.Rare - limitedTable.Legend - limitedTable.Live - limitedTable.World - limitedTable.Limited) * 1000) / 1000)
   const rows: OddsRow[] = [...RARITIES].reverse().map((rarity) => ({
     rarity,
     label: RARITY_STYLES[rarity].label,
     basic: PACK_RATES.basic[rarity],
-    premium: open.Limited ? Math.round(((rarity === 'Rare' ? open.Rare / factor : rarity === 'Legend' ? open.Legend / factor : rarity === 'Normal' ? 100 - open.Live - (open.Rare + open.Legend) / factor : open[rarity])) * 1000) / 1000 : open[rarity],
+    premium: open.Limited ? Math.round(((rarity === 'Rare' ? open.Rare / factor : rarity === 'Legend' ? open.Legend / factor : rarity === 'Normal' ? 100 - open.Live - open.World - (open.Rare + open.Legend) / factor : open[rarity])) * 1000) / 1000 : open[rarity],
     limitedPremium: limitedTable[rarity],
     world: PACK_RATES.world[rarity],
   }))
